@@ -6,25 +6,25 @@ export default class ContactForm extends React.Component{
     render() {
         return (
             <form className="contactForm">
-                <p> Name 
+                <p className="input-fields"> Name 
                     <br />
                     <span>
                         <input type="text" name="your-name" />
                     </span>
                 </p>
-                <p> Email 
+                <p className="input-fields"> Email 
                     <br />
                     <span>
                         <input type="text" name="your-email" />
                     </span>
                 </p>
-                <p> Subject 
+                <p className="input-fields"> Subject 
                     <br />
                     <span>
                         <input type="text" name="your-subject" />
                     </span>
                 </p>
-                <p> Message 
+                <p className="input-fields"> Message 
                     <br />
                     <span>
                         <textarea type="text" name="your-message" />
