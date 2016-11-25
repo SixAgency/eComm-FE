@@ -1,9 +1,31 @@
-import React from "react"
+import React from "react";
+import { connect } from "react-redux";
+import { toggleLoader } from "../../../actions/generalActions";
 
-export default class Home extends React.Component {
+const mapDispatchToProps = ((dispatch) => {
+    return {
+        toggleLoader: (toggle) => dispatch(toggleLoader(toggle))
+    };
+});
+
+class Biography extends React.Component {
+    static propTypes = {
+        toggleLoader: React.PropTypes.func.isRequired
+    }
+
+    componentDidMount() {
+        this.props.toggleLoader(false);
+    }
+
+    componentWillUnmount() {
+        this.props.toggleLoader(true);
+    }
+
     render() {
         return (
-            <h1>Biography</h1>
-        )
+            <h1>HOME PAGE</h1>
+        );
     }
 }
+
+export default connect(null, mapDispatchToProps)(Biography);

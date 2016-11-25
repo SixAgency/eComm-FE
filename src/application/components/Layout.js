@@ -1,15 +1,22 @@
-import React from "react"
-import Header from "./header/Header"
-import Footer from "./footer/Footer"
+import React from "react";
+import Header from "./header/Header";
+import Footer from "./footer/Footer";
+import Preloader from "./preloader/Preloader";
 
-export default class Layout extends React.Component {
+class Layout extends React.Component {
+    static propTypes = {
+        children: React.PropTypes.element.isRequired
+    }
     render() {
         return (
-        	<div>
-            <Header/>
-            {this.props.children}
-            <Footer/>
+            <div>
+                <Preloader />
+                <Header />
+                {this.props.children}
+                <Footer />
             </div>
-        )
+        );    
     }
 }
+
+export default Layout;
