@@ -8,7 +8,7 @@ const mapDispatchToProps = ((dispatch) => {
     };
 });
 
-class Biography extends React.Component {
+class MyAccount extends React.Component {
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
     }
@@ -25,9 +25,9 @@ class Biography extends React.Component {
 
     render() {
         return (
-            <h1>Biography</h1>
+            <h1>Account Page</h1>
         );
     }
 }
 
-export default connect(null, mapDispatchToProps)(Biography);
+export default connect(null, mapDispatchToProps)(MyAccount);

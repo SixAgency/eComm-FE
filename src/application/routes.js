@@ -5,11 +5,15 @@ import Layout from "./components/Layout";
 import Home from "./components/pages/home/Home";
 import Biography from "./components/pages/static/Biography";
 import Contact from "./components/pages/static/Contact";
+import MyAccount from "./components/pages/my_account/MyAccount";
+import ProductDetails from "./components/pages/catalog/ProductDetails";
 
 const routes = (
     <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="biography" component={Biography} />
+        <Route path="my-account" component={MyAccount} />
+        <Route path="product/:productSlug" component={ProductDetails} />
         <Route path="contact" component={Contact} />
     </Route>
 );

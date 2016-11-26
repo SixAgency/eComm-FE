@@ -1,13 +1,13 @@
-'use strict';
-
 var webpack = require("webpack"),
     path = require("path"),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    CleanWebpackPlugin = require('clean-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: ['webpack-hot-middleware/client?reload=true', path.join(__dirname, 'src/application.js')],
+    entry: [
+        'webpack-hot-middleware/client?reload=true', 
+        path.join(__dirname, 'src/application.js')
+    ],
     output: {
         path: path.join(__dirname, 'dist/'),
         filename: '[name].js',
@@ -21,12 +21,16 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     presets: ['react', 'es2015', 'stage-0'],
-                    plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
+                    plugins: [
+                        'react-html-attrs',
+                        'transform-class-properties',
+                        'transform-decorators-legacy'
+                    ],
                     compact: false
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.s?css$/,
                 loader: ExtractTextPlugin.extract('css!sass')
             },
             {
@@ -54,4 +58,4 @@ module.exports = {
             filename: 'index.html'
         })
     ]
-}
+};

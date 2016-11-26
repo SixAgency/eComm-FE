@@ -12,9 +12,11 @@ class Contact extends React.Component {
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
     }
-
+    // TODO - Remove the timeout - once we are connected to the API
     componentDidMount() {
-        this.props.toggleLoader(false);
+        setTimeout(function(){
+            this.props.toggleLoader(false);
+        }.bind(this), 1000);
     }
 
     componentWillUnmount() {

@@ -1,16 +1,20 @@
+import "./header.scss";
+
 import React from "react";
-import { Link } from "react-router";
+import Logo from "../logo/Logo";
+import Navigation from "../navigation/Navigation";
 
 class Header extends React.Component {
+    static propTypes = {
+        location: React.PropTypes.object.isRequired
+    }
     render() {
         return (
-            <div>
-                <h1>Header1</h1>
-                <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/contact">Contact</Link></li>
-                    <li><Link to="/biography">Biography</Link></li>
-                </ul>
+            <div id="header">
+                <Logo />
+                <div id="navigation">
+                    <Navigation location={this.props.location} />
+                </div>
             </div>
         );
     }

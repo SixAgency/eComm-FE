@@ -1,3 +1,5 @@
+import "./normalize.css";
+
 import React from "react";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
@@ -5,13 +7,14 @@ import Preloader from "./preloader/Preloader";
 
 class Layout extends React.Component {
     static propTypes = {
-        children: React.PropTypes.element.isRequired
+        children: React.PropTypes.element.isRequired,
+        location: React.PropTypes.object.isRequired
     }
     render() {
         return (
             <div>
                 <Preloader />
-                <Header />
+                <Header location={this.props.location} />
                 {this.props.children}
                 <Footer />
             </div>
