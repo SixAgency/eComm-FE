@@ -1,8 +1,8 @@
 import "./header.scss";
 
 import React from "react";
-import Logo from "../logo/Logo";
-import Navigation from "../navigation/Navigation";
+import Logo from "./logo/Logo";
+import Navigation from "./navigation/Navigation";
 
 class Header extends React.Component {
     static propTypes = {

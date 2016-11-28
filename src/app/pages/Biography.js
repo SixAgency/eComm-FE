@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toggleLoader } from "../../../actions/generalActions";
+import { toggleLoader } from "../actions/commonActions";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -8,7 +8,7 @@ const mapDispatchToProps = ((dispatch) => {
     };
 });
 
-class MyAccount extends React.Component {
+class Biography extends React.Component {
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
     }
@@ -25,9 +25,9 @@ class MyAccount extends React.Component {
 
     render() {
         return (
-            <h1>Account Page</h1>
+            <h1>Biography</h1>
         );
     }
 }
 
-export default connect(null, mapDispatchToProps)(MyAccount);
+export default connect(null, mapDispatchToProps)(Biography);

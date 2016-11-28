@@ -1,0 +1,15 @@
+.contact-page {
+    display: block;
+    background-color: rgb(254, 254, 254);
+    .page-wrapper {
+        display: table;
+        margin: 0 auto;
+        .form-wrapper {
+            display: table-cell;
+            width: 50%;
+            height: 100%;
+            padding: 5%;
+            margin: 0 auto;
+        }
+    }
+}
