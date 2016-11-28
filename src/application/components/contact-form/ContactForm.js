@@ -1,38 +1,19 @@
 import React from "react";
-import SubmitButton from "../submitButton/SubmitButton";
 import "./formStyle.scss";
 
 export default class ContactForm extends React.Component{
     render() {
         return (
-            <form className="contactForm">
-                <p className="input-fields"> Name 
-                    <br />
-                    <span>
-                        <input type="text" name="your-name" />
-                    </span>
-                </p>
-                <p className="input-fields"> Email 
-                    <br />
-                    <span>
-                        <input type="text" name="your-email" />
-                    </span>
-                </p>
-                <p className="input-fields"> Subject 
-                    <br />
-                    <span>
-                        <input type="text" name="your-subject" />
-                    </span>
-                </p>
-                <p className="input-fields"> Message 
-                    <br />
-                    <span>
-                        <textarea type="text" name="your-message" />
-                    </span>
-                </p>
-                <p>
-                    <SubmitButton />
-                </p>
+            <form className="contact-form">
+                <label className="field-names" for="name" > Name </label> <br />
+                <input className="input-fields" type="text" name="your-name" id="name" /> <br />
+                <label className="field-names" for="email" > Email </label><br />
+                <input className="input-fields" type="text" name="your-email" id="email" /> <br />
+                <label className="field-names" for="subject" > Subject </label><br />
+                <input className="input-fields" type="text" name="your-subject" id="subject" /> <br />
+                <label className="field-names" for="message" > Message </label> <br />
+                <textarea  rows="11" cols="40" className="input-fields" type="text" name="your-message" id="message" /> <br />
+                <input className="submit-button" value="Send" type="submit" />
             </form>
         );
     }

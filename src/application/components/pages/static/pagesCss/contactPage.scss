@@ -1,11 +1,18 @@
-.formWrapper {
-	background-color: rgb(254, 254, 254);
-	color: rgb(0, 0, 0);
-	text-align: left;
-	height: 100%;
-	width: 50%;
-	margin: 0 auto;
-	vertical-align: top;
-	padding-top: 3%;
-	padding-bottom: 3%;
+.contact-page {
+    background-color: rgb(254, 254, 254);
+    color: rgb(0, 0, 0);
+    text-align: left;
+    height: auto !important;
+    top: 0;
+    left: 0;
+    font-family: Georgia, serif;
+    font-size: 16px;
+    line-height: 22px;
+
+    .form-wrapper {
+        width: 50%;
+        height: 100%;
+        margin: 0 auto;
+        display: table;
+    }
 }
