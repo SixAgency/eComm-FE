@@ -46,9 +46,9 @@ class Navigation extends React.Component {
     render() {
         const { location } = this.props;
         const homeClass = location.pathname === "/" ? "active" : "";
-        const educationClass = location.pathname.match(/^\/education/) ? "active" : "";
+        const educationClass = location.pathname.match(/^\/product/) ? "active" : "";
         const biographyClass = location.pathname.match(/^\/biography/) ? "active" : "";
-        const myAccountClass = location.pathname.match(/^\/myaccount/) ? "active" : "";
+        const myAccountClass = location.pathname.match(/^\/my-account/) ? "active" : "";
         const contactClass = location.pathname.match(/^\/contact/) ? "active" : "";
         return (
             <ul className="navigation" ref={c => this.node = c} >

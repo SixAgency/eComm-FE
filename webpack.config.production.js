@@ -1,5 +1,3 @@
-'use strict';
-
 var webpack = require("webpack"),
     path = require("path"),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
@@ -28,7 +26,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.s?css$/,
                 loader: ExtractTextPlugin.extract('css!sass')
             },
             {
@@ -45,9 +43,9 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['dist'], {
-          root: path.join(__dirname),
-          verbose: true, 
-          dry: false
+            root: path.join(__dirname),
+            verbose: true, 
+            dry: false
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -62,4 +60,4 @@ module.exports = {
             filename: 'index.html'
         })
     ]
-}
+};
