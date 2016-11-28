@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toggleLoader } from "../../../actions/generalActions";
+import { toggleLoader } from "../actions/commonActions";
 
 const mapDispatchToProps = ((dispatch) => {
     return {

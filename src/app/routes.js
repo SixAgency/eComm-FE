@@ -2,11 +2,11 @@ import React from "react";
 import { IndexRoute, Route } from "react-router";
 
 import Layout from "./components/Layout";
-import Home from "./components/pages/home/Home";
-import Biography from "./components/pages/static/Biography";
-import Contact from "./components/pages/static/Contact";
-import MyAccount from "./components/pages/my_account/MyAccount";
-import ProductDetails from "./components/pages/catalog/ProductDetails";
+import Home from "./pages/Home";
+import Biography from "./pages/Biography";
+import Contact from "./pages/Contact";
+import MyAccount from "./pages/MyAccount";
+import ProductDetails from "./pages/ProductDetails";
 
 const routes = (
     <Route path="/" component={Layout}>

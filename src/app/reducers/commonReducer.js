@@ -7,9 +7,6 @@ export default function reducer(state={
         case "TOGGLE_LOADER": {
             return {...state, loading: action.payload};
         }
-        case "NAV_ITEM_HOVER": {
-            return {...state, currentStyles: action.payload};
-        }
     }
 
     return state;

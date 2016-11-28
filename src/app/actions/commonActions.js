@@ -3,9 +3,3 @@ export function toggleLoader(toggle) {
         dispatch({type: "TOGGLE_LOADER", payload: toggle});
     };
 }
-
-export function onNavItemHover(styles) {
-    return (
-        {type: "NAV_ITEM_HOVER", payload: styles}
-    );
-}

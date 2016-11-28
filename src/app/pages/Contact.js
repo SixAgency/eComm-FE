@@ -1,6 +1,9 @@
+import "../styles/pages.scss";
+
 import React from "react";
 import { connect } from "react-redux";
-import { toggleLoader } from "../../../actions/generalActions";
+import { toggleLoader } from "../actions/commonActions";
+import ContactForm from "../components/contact-form/ContactForm";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -8,7 +11,7 @@ const mapDispatchToProps = ((dispatch) => {
     };
 });
 
-class MyAccount extends React.Component {
+class Contact extends React.Component {
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
     }
@@ -25,9 +28,13 @@ class MyAccount extends React.Component {
 
     render() {
         return (
-            <h1>Account Page</h1>
+            <div className="contact-page">
+                <div className="form-wrapper">
+                    <ContactForm />
+                </div>
+            </div>
         );
     }
 }
 
-export default connect(null, mapDispatchToProps)(MyAccount);
+export default connect(null, mapDispatchToProps)(Contact);
