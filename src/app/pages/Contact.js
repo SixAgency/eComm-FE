@@ -3,7 +3,7 @@ import "../styles/pages.scss";
 import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
-import ContactForm from "../components/contact-form/ContactForm";
+import ContactForm from "../components/contact_form/ContactForm";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -29,8 +29,10 @@ class Contact extends React.Component {
     render() {
         return (
             <div className="contact-page">
-                <div className="form-wrapper">
-                    <ContactForm />
+                <div className="page-wrapper">
+                    <div className="form-wrapper">
+                        <ContactForm />
+                    </div>
                 </div>
             </div>
         );

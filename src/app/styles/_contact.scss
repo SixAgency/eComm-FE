@@ -1,18 +1,15 @@
 .contact-page {
+    display: block;
     background-color: rgb(254, 254, 254);
-    color: rgb(0, 0, 0);
-    text-align: left;
-    height: auto !important;
-    top: 0;
-    left: 0;
-    font-family: Georgia, serif;
-    font-size: 16px;
-    line-height: 22px;
-
-    .form-wrapper {
-        width: 50%;
-        height: 100%;
-        margin: 0 auto;
+    .page-wrapper {
         display: table;
+        margin: 0 auto;
+        .form-wrapper {
+            display: table-cell;
+            width: 50%;
+            height: 100%;
+            padding: 5%;
+            margin: 0 auto;
+        }
     }
 }
