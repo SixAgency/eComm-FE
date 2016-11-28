@@ -28,8 +28,10 @@ class Contact extends React.Component {
 
     render() {
         return (
-            <div className="formWrapper">
-                <ContactForm />
+            <div className="contact-page">
+                <div className="form-wrapper">
+                    <ContactForm />
+                </div>
             </div>
         );
     }

@@ -1,36 +1,50 @@
-.contactForm {
-    p {
-        padding-top: 10px;
-        margin: 0 auto;
-        display: table;
-        line-height: 22px;
-        font-size: 16px;
-        color: rgb(0, 0, 0);
-        text-align: left;
-        font-weight: 400;
-        width: 40%;
-        
+.contact-form {
+    padding-top: 6%;
+    padding-bottom: 5%;
+    display: table;
+    margin: 0 auto;
+    width: 36%;
 
-        input, textarea, select {
-            border: 1px solid #e9e9e9;
-            padding: 5px 10px;
-            display: block;
-            outline: none;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            resize: none;
-            overflow: auto;
-            color: #222;
-            background-color: #ffffff;
-            
-        }
+    .submit-button {
+        width: 200px;
+        background-color: rgb(111, 220, 225);
+        border: none;
+        height: 40px;
+        cursor: pointer;
+        margin: 0 auto;
+        -webkit-appearance: button;
+        color: #222;
     }
-    .input-fields input {
+
+    .input-fields {
+        margin-bottom: 10px;
+        border: 1px solid #e9e9e9;
+        padding: 5px 10px;
+        color: #222;
+        line-height: normal;
         width: 100%;
+    }
+    
+    .input-fields:focus {
+        outline: none;
+    }
+
+    .submit-button { 
+        font-family: Georgia, serif;
+        font-size: 16px;
+        line-height: normal;
+        display: block;
+        margin: 0 auto;
+    }
+
+    textarea {
+        font-family: Georgia, serif;
+        resize: vertical;
+        resize: none;
+    }
+
+    .contact-form > .input-fields::selection, .field-names::selection{
+        background-color: #29cbc8;
+        color: #fff85f;
     }
 }
