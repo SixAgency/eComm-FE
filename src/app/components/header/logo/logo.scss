@@ -1,13 +1,14 @@
 .logo-container {
-	.logo {
-		display: block;
-		width: 322px;
-		height: 40px;
-		img {
-			display: block;
-			width: 100%;
-			max-width: 100%;
-			height: auto;
-		}
-	}
+    .logo {
+        display: block;
+        width: 322px;
+        height: 40px;
+        background-image: url(logo_white.png);
+        background-size: 100%;
+    }
+    &.white {
+        .logo {
+            background-image: url(logo_black.png);
+        }
+    }
 }
