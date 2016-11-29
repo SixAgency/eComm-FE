@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
+import Testimonial from "../components/testimonial/Testimonial"
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -25,7 +26,10 @@ class Biography extends React.Component {
 
     render() {
         return (
-            <h1>Biography</h1>
+            <div className="biography-page">
+                <h1>Biography</h1>
+                <Testimonial />
+            </div>
         );
     }
 }
