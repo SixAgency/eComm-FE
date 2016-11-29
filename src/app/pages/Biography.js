@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
-import Testimonial from "../components/testimonial/Testimonial"
+import Testimonial from "../components/testimonial/Testimonial";
+import StickySection from "../components/sticky_section/StickySection";
+import heroImg from "../components/sticky_section/biography_main_banner.jpg";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -25,9 +27,16 @@ class Biography extends React.Component {
     }
 
     render() {
+        const sticky_bottom_copy = {
+            title: "About Kris Sorbie",
+            subtitle: "AWARD WINNING ARTISTIC DIRECTOR"
+        };
         return (
             <div className="biography-page">
-                <h1>Biography</h1>
+                <StickySection 
+                  main_banner={heroImg}
+                  bottom_copy={sticky_bottom_copy} 
+                />
                 <Testimonial />
             </div>
         );

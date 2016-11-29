@@ -48,5 +48,6 @@
                       transition: all 0.5s cubic-bezier(0.230, 1.000, 0.320, 1.000);
             }
         }
+        &.white { li a { color: #000000; } }
     }
 }

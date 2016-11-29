@@ -10,7 +10,7 @@ class Header extends React.Component {
     }
     render() {
         return (
-            <div id="header">
+            <div id="header" className="transparent">
                 <Logo />
                 <div id="navigation">
                     <Navigation location={this.props.location} />
