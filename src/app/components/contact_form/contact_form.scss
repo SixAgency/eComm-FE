@@ -56,4 +56,10 @@
         background-color: #29cbc8;
         color: #fff85f;
     }
+    @media all and (min-width: 320px) and (max-width: 767px) {
+        .field-names {
+            font-size: 13px;
+            line-height: 21px;
+        }
+    }
 }
