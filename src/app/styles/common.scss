@@ -3,3 +3,60 @@
     src: url(CanadaType-DidotDisplay-Bold.ttf);
     font-weight: normal;  
 }
+
+/*** Lobo ***/
+
+@font-face {
+    font-family: "lobo";
+    src:url("./lobo/lobo.eot");
+    src:url("./lobo/lobo.eot?#iefix") format("embedded-opentype"),
+    url("./lobo/lobo.woff") format("woff"),
+    url("./lobo/lobo.ttf") format("truetype"),
+    url("./lobo/lobo.svg#lobo") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before {
+    font-family: "lobo" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "lobo" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-facebook:before {
+    content: "X";
+}
+.icon-instagram:before {
+    content: "x";
+}
+.icon-twitter:before {
+    content: "\"";
+}
+.icon-pinterest:before {
+    content: "m";
+}
+.icon-linkedin:before {
+    content: "4";
+}
+
+/*** END Lobo ***/
