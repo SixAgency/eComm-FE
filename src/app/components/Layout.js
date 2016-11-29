@@ -1,4 +1,5 @@
 import "./normalize.css";
+import "../styles/common.scss";
 
 import React from "react";
 import Header from "./header/Header";

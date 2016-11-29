@@ -39,7 +39,7 @@ module.exports = {
                 loader: 'url-loader?limit=10000&name=[name].[ext]'
             },
             {
-                test: /.*\.(eot|svg|ttf|woff|woff2)$/,
+                test: /.*\.(eot|svg|ttf|woff(2)?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'file-loader?name=[name].[ext]'
             }
