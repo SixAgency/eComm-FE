@@ -1,0 +1,18 @@
+.credits {
+    padding-bottom: 30px;
+
+    p {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: rgb(34, 34, 34);
+        font-size: 13px;
+        text-align: center;
+    }
+    p::selection {
+        background-color: #29cbc8;
+        color: #d0ff00;
+    }
+
+}
+@media all and (max-width: 950px){
+    .credits { margin-top: 35px; }
+}
