@@ -1,0 +1,23 @@
+.error-container {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    padding: 25px 0;
+    font-weight: bold;
+    position: relative;
+    z-index: 102;
+    margin: 0;
+    box-sizing: border-box;
+    background: #EE1B78;
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        strong {
+            font-weight: 700;
+        }
+    }
+}
