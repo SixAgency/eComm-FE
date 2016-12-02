@@ -1,14 +1,29 @@
-.logo-container {
+// Logo Component
+.logo {
+    display: block;
+    width: 322px;
+    height: 40px;
+    background-image: url(logo_colored.png);
+    background-size: 100%;
+}
+// header specific
+.header {
+    &.colored .logo { background-image: url(logo_white.png) }
+    &.default .logo,
+    &.enabled .logo { background-image: url(logo_colored.png) }
+}
+
+//
+@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
     .logo {
-        display: block;
-        width: 322px;
-        height: 40px;
-        background-image: url(logo_white.png);
-        background-size: 100%;
+        background-image: url(logo_black.png);
     }
-    &.white {
-        .logo {
-            background-image: url(logo_black.png);
-        }
+    // header specific
+    .header {
+        &.colored .logo { background-image: url(logo_white.png) }
+        &.default .logo,
+        &.sticky .logo,
+        &.enabled .logo { background-image: url(logo_black.png) }
     }
 }
+

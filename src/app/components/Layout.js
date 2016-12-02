@@ -2,7 +2,7 @@ import "./normalize.css";
 import "../styles/common.scss";
 
 import React from "react";
-import Header from "./header/Header";
+import Header from "./header";
 import Footer from "./footer/Footer";
 import Preloader from "./preloader/Preloader";
 
@@ -19,7 +19,7 @@ class Layout extends React.Component {
                 {this.props.children}
                 <Footer />
             </div>
-        );    
+        );
     }
 }
 

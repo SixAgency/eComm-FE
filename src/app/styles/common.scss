@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'Diot';  
+    font-family: 'Diot';
     src: url(CanadaType-DidotDisplay-Bold.ttf);
-    font-weight: normal;  
+    font-weight: normal;
 }
 
 /*** Lobo ***/
@@ -57,6 +57,14 @@
 }
 .icon-linkedin:before {
     content: "4";
+}
+
+.blank-space {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background: #000000;
+    height: 700px;
 }
 
 /*** END Lobo ***/
