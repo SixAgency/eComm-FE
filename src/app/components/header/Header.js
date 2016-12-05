@@ -12,8 +12,11 @@ class Header extends React.PureComponent {
         stickyClass: PropTypes.string,
         navItems: PropTypes.array.isRequired,
         onHoverStart: PropTypes.func.isRequired,
-        onHoverEnd: PropTypes.func.isRequired
+        onHoverEnd: PropTypes.func.isRequired,
+        mobileNavOpen: PropTypes.func.isRequired,
+        navOpened: PropTypes.bool.isRequired
     }
+
     render() {
         return (
             <header
@@ -32,6 +35,12 @@ class Header extends React.PureComponent {
                 <div className="navigation-container">
                     <Navigation navItems={this.props.navItems} />
                 </div>
+                <span
+                  className={cx('menu', {'opened': this.props.navOpened})}
+                  onClick={this.props.mobileNavOpen}
+                >
+                    <i className="icon-menu" />
+                </span>
             </header>
         );
     }

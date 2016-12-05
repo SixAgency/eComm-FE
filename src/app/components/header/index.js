@@ -1,16 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
+import { toggleMobileNav } from "../../actions/commonActions";
 import { getHeaderProps } from "../../utils";
 
 const mapStateToProps = ((state) => {
-    return { heroHeight: state.heroHeight };
+    return {
+        heroHeight: state.heroHeight,
+        navOpened: state.navOpened
+    };
+});
+const mapDispatchToProps = ((dispatch) => {
+    return {
+        toggleMobileNav: (toggle) => dispatch(toggleMobileNav(toggle))
+    };
 });
 
 class HeaderWrapper extends React.Component {
     static propTypes = {
         heroHeight: React.PropTypes.number.isRequired,
-        location: React.PropTypes.object.isRequired
+        location: React.PropTypes.object.isRequired,
+        toggleMobileNav: React.PropTypes.func.isRequired,
+        navOpened: React.PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -55,18 +66,26 @@ class HeaderWrapper extends React.Component {
     }
 
     onHoverStart = () => {
-        clearTimeout(this.timeOut);
-        this.setState({
-            enabled: 'enabled'
-        });
+        if (window.outerWidth > 960 ) {
+            clearTimeout(this.timeOut);
+            this.setState({
+                enabled: 'enabled'
+            });
+        }
     }
 
     onHoverEnd = () => {
-        this.timeOut = setTimeout(function(){
-            this.setState({
-                enabled: null
-            });
-        }.bind(this), 555);
+        if (window.outerWidth > 960 ) {
+            this.timeOut = setTimeout(function(){
+                this.setState({
+                    enabled: null
+                });
+            }.bind(this), 555);
+        }
+    }
+
+    mobileNavOpen = () => {
+        this.props.toggleMobileNav(true);
     }
 
     render() {
@@ -77,9 +96,11 @@ class HeaderWrapper extends React.Component {
               onHoverEnd={this.onHoverEnd}
               hoverClass={this.state.enabled}
               stickyClass={this.state.stickyCls}
+              mobileNavOpen={this.mobileNavOpen}
+              navOpened={this.props.navOpened}
             />
         );
     }
 }
 
-export default connect(mapStateToProps)(HeaderWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWrapper);

@@ -9,3 +9,9 @@ export function setHeroHeight(height) {
         dispatch({type: "SET_HERO_HEIGHT", payload: height});
     };
 }
+
+export function toggleMobileNav(toggle) {
+    return function(dispatch) {
+        dispatch({type: "TOGGLE_MOBILE_NAV", payload: toggle});
+    };
+}

@@ -1,6 +1,7 @@
 export default function reducer(state={
     loading: true,
     heroHeight: 127,
+    navOpened: false,
     currentStyles: {}
 }, action) {
     switch (action.type) {
@@ -9,6 +10,9 @@ export default function reducer(state={
         }
         case "SET_HERO_HEIGHT": {
             return {...state, heroHeight: action.payload};
+        }
+        case "TOGGLE_MOBILE_NAV": {
+            return {...state, navOpened: action.payload};
         }
     }
 

@@ -42,7 +42,6 @@ class Home extends React.Component {
                   main_copy={sticky_top_copy}
                   bottom_copy={sticky_bottom_copy}
                 />
-                <div className="blank-space" />
             </div>
         );
     }
