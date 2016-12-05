@@ -1,21 +1,47 @@
 import "./header.scss";
 
-import React from "react";
+import React, { PropTypes } from "react";
+import cx from "classnames";
 import Logo from "./logo/Logo";
 import Navigation from "./navigation/Navigation";
 
-class Header extends React.Component {
+class Header extends React.PureComponent {
     static propTypes = {
-        location: React.PropTypes.object.isRequired
+        headerClass: PropTypes.string.isRequired,
+        hoverClass: PropTypes.string,
+        stickyClass: PropTypes.string,
+        navItems: PropTypes.array.isRequired,
+        onHoverStart: PropTypes.func.isRequired,
+        onHoverEnd: PropTypes.func.isRequired,
+        mobileNavOpen: PropTypes.func.isRequired,
+        navOpened: PropTypes.bool.isRequired
     }
+
     render() {
         return (
-            <div id="header" className="transparent">
-                <Logo />
-                <div id="navigation">
-                    <Navigation location={this.props.location} />
+            <header
+              className={cx(
+                'header',
+                this.props.headerClass,
+                this.props.hoverClass,
+                this.props.stickyClass
+              )}
+              onMouseEnter={this.props.onHoverStart}
+              onMouseLeave={this.props.onHoverEnd}
+            >
+                <div className="logo-container">
+                    <Logo />
                 </div>
-            </div>
+                <div className="navigation-container">
+                    <Navigation navItems={this.props.navItems} />
+                </div>
+                <span
+                  className={cx('menu', {'opened': this.props.navOpened})}
+                  onClick={this.props.mobileNavOpen}
+                >
+                    <i className="icon-menu" />
+                </span>
+            </header>
         );
     }
 }

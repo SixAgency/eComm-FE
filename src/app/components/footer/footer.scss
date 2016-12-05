@@ -1,4 +1,6 @@
 .footer {
+	position: relative;
+	z-index: 2;
     min-height: 100px;
     background: rgb(255, 255, 255);
     display: block;
@@ -7,5 +9,4 @@
     color: rgb(34, 34, 34);
     padding-bottom: 15px;
     padding-top: 15px;
-    z-index: 1;
 }

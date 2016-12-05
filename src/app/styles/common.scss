@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'Diot';  
+    font-family: 'Diot';
     src: url(CanadaType-DidotDisplay-Bold.ttf);
-    font-weight: normal;  
+    font-weight: normal;
 }
 
 /*** Lobo ***/
@@ -57,6 +57,33 @@
 }
 .icon-linkedin:before {
     content: "4";
+}
+
+.layout {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
+    -webkit-transition: right 0.555s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    -moz-transition: right 0.555s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    -o-transition: right 0.555s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    transition: right 0.555s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    &.opened {
+        right: 50%;
+    }
+}
+
+a,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-transition: color 0.2s ease-out;
+       -moz-transition: color 0.2s ease-out;
+        -ms-transition: color 0.2s ease-out;
+         -o-transition: color 0.2s ease-out;
+            transition: color 0.2s ease-out;
 }
 
 /*** END Lobo ***/

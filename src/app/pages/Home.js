@@ -36,11 +36,13 @@ class Home extends React.Component {
             title: "Shop Now"
         };
         return (
-            <StickySection 
-              main_banner={heroImg} 
-              main_copy={sticky_top_copy} 
-              bottom_copy={sticky_bottom_copy} 
-            />
+            <div className="homepage">
+                <StickySection
+                  main_banner={heroImg}
+                  main_copy={sticky_top_copy}
+                  bottom_copy={sticky_bottom_copy}
+                />
+            </div>
         );
     }
 }
