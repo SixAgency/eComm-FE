@@ -1,0 +1,125 @@
+.edit-wrapper {
+    padding: 150px 50px 150px 50px;
+    .form-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: 33px;
+        line-height: 38px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .form-subtitle {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        line-height: 24px;
+        font-weight: normal;
+        text-align: center;
+        margin-top: 15px;
+        color: #565656 ;
+    }
+    .form-container {
+        max-width: 580px;
+        margin: 45px auto 30px auto;
+    }
+    .edit-account-form {
+        color: rgb(34, 34, 34);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: center;
+        margin-top: 0px;
+        .row-left{ float: left; width: 48%; }
+        .row-right{ float: right; width: 48%; }
+        .input-wrapper {
+            text-align: left;
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 15px;
+            .field-names {
+                font-family: Georgia, serif;
+                font-size: 12px;
+                line-height: 12px;
+                color: #000000;
+                font-weight: 700;
+                text-transform: uppercase;
+                text-align: left;
+                @media screen and (max-width: 29.9999em){
+                    font-size: 10px;
+                    vertical-align: top;
+                }
+            }
+            .input-fields {
+                font-family: Georgia, serif;
+                background: #fff;
+                border: 1px solid #cfcfcf;
+                font-size: 12px;
+                height: 42px;
+                line-height: 42px;
+                font-weight: 500;
+                padding: 0 12px;
+                color: #2D2D2D;
+                display: block;
+                max-width: 580px;
+                width: 100%;
+                margin: 10px auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            .input-fields:focus { outline: none; }
+            @media (max-width: 767px) and (min-width: 320px){
+                .new-password-label {
+                    display: inline-block;
+                    height: 30px;
+                }
+            }
+        }
+        .current-pass { margin: 45px 0 -5px; }
+        .last-input-row { margin-top: 15px;}
+        .buttons-container {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-align: center;
+            color: rgb(86, 86, 86);
+            position: relative;
+            margin-top: 142px;
+            .save-changes {
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                background-color: #29cbc8;
+                width: auto;
+                font-size: 11px;
+                line-height: 61px;
+                font-weight: 800;
+                color: #000;
+                height: 61px;
+                padding: 0 60px;
+                text-transform: uppercase;
+                margin: 20px 7px 0px 3px;
+                border: none;
+                outline: none !important;
+                display: inline;
+            }
+            .my-account-cancel-button {
+                text-decoration: none;
+                height: 61px;
+                width: 87px;
+                line-height: 61px;
+                background-color: #29cbc8;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                font-weight: 800;
+                color: #000;
+                padding: 0 60px;
+                margin: 20px 0px 3px 0px;
+                display: inline-block;
+            }
+            .save-changes:hover, .my-account-cancel-button:hover {
+                color: #29cbc8;
+                background: #333;
+            }
+            @media (max-width: 767px) and (min-width: 320px){
+                .my-account-cancel-button, .save-changes {
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+}

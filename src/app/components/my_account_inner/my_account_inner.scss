@@ -1,0 +1,88 @@
+.account-wrapper {
+    font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+
+    .section-header {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 33px;
+        line-height: 38px;
+        color: rgb(34, 34, 34);
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0;
+    }
+    .my-account-user-text {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: rgb(86, 86, 86);
+        font-size: 17px;
+        line-height: 24px;
+        position: relative;
+        width: 60%;
+        padding: 0;
+        text-align: center;
+        margin: 15px auto 0 auto;
+        @media only screen and (max-width: 760px), (max-device-width: 1024px) 
+            and (min-device-width: 768px){
+                width: 100%;
+                font-size: 14px !important;
+                line-height: 23px !important;
+                position: relative;
+                margin: 15px auto 0 auto;
+                text-align: center;
+        }
+        a {
+            text-decoration: none;
+            border-bottom: 1px dotted #000;
+            color: rgb(86, 86, 86);
+        }
+        a:hover {
+            color: #000;
+            transition: color 0.2s linear;
+        }
+        a:active {
+            color: rgb(25, 112, 117);
+        }
+    }
+    .addresses-header {
+        margin: 50px 0 0 0;
+    }
+    .adresses-text {
+        display: block;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: normal;
+        line-height: 25px;
+        text-align: center;
+        color: #565656;
+    }
+    .addresses-container {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        max-width: 600px;
+        text-align: center;
+        margin: auto;
+        .address-wrapper {
+            margin-bottom: 35px;
+            .title {
+                text-decoration: none;
+                font-size: 17px;
+                line-height: 24px;
+                font-weight: 700;
+                border-bottom: 1px dotted #000;
+                margin: 0 10px;
+                color: #222;
+            }
+            p {
+                font-size: normal;
+                margin-top: 25px;
+            }
+            p:last-child {
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+*::selection {
+    background-color: #29cbc8;
+    color: #d0ff00;
+}
