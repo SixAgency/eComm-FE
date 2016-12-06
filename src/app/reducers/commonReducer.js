@@ -2,7 +2,8 @@ export default function reducer(state={
     loading: true,
     heroHeight: 127,
     navOpened: false,
-    currentStyles: {}
+    currentStyles: {},
+    products: []
 }, action) {
     switch (action.type) {
         case "TOGGLE_LOADER": {
@@ -13,6 +14,12 @@ export default function reducer(state={
         }
         case "TOGGLE_MOBILE_NAV": {
             return {...state, navOpened: action.payload};
+        }
+        case "FETCH_PRODUCTS": {
+            return {...state, products: action.payload.products};
+        }
+        case "FETCH_PRODUCTS_REJECTED": {
+            return {...state, error: action.payload};
         }
     }
 

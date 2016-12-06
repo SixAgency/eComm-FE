@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
 import heroImg from "../components/sticky_section/home_main_banner.jpg";
+import ProductsGrid from "../components/catalog/ProductsGrid";
 
 import StickySection from "../components/sticky_section/StickySection";
 
@@ -14,12 +15,6 @@ const mapDispatchToProps = ((dispatch) => {
 class Home extends React.Component {
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
-    }
-    // TODO - Remove the timeout - once we are connected to the API
-    componentDidMount() {
-        setTimeout(function(){
-            this.props.toggleLoader(false);
-        }.bind(this), 250);
     }
 
     componentWillUnmount() {
@@ -41,6 +36,9 @@ class Home extends React.Component {
                   main_banner={heroImg}
                   main_copy={sticky_top_copy}
                   bottom_copy={sticky_bottom_copy}
+                />
+                <ProductsGrid
+                  toggleLoader={this.props.toggleLoader}
                 />
             </div>
         );
