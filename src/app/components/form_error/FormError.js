@@ -8,7 +8,7 @@ class FormError extends React.Component {
     }
 
     mapError = () => {
-        let keyword = ''; 
+        let keyword = '';
         if (!this.props.loggedIn)
             keyword = 'Error: ';
         return keyword;
@@ -26,7 +26,7 @@ class FormError extends React.Component {
                                 <span key={err}>{err}</span>
                             </div>
                         );
-                    })  
+                    })
                 }
             </ul>
         );

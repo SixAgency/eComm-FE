@@ -4,6 +4,7 @@ import { toggleLoader } from "../actions/commonActions";
 import Testimonial from "../components/testimonial/Testimonial";
 import StickySection from "../components/sticky_section/StickySection";
 import heroImg from "../components/sticky_section/biography_main_banner.jpg";
+import BiographyModule from "../components/biography_module/BiographyModule";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -33,11 +34,14 @@ class Biography extends React.Component {
         };
         return (
             <div className="biography-page">
-                <StickySection 
+                <StickySection
                   main_banner={heroImg}
-                  bottom_copy={sticky_bottom_copy} 
+                  bottom_copy={sticky_bottom_copy}
                 />
                 <Testimonial />
+                <div className="grid-wrapper">
+                    <BiographyModule />
+                </div>
             </div>
         );
     }
