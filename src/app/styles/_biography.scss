@@ -1,0 +1,13 @@
+.grid-wrapper {
+	position: relative;
+    z-index: 10;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    overflow: hidden;
+
+    :nth-last-child(2) p {
+    	font-weight: normal !important;
+    }
+}
