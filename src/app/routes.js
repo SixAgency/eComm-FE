@@ -7,6 +7,7 @@ import Biography from "./pages/Biography";
 import Contact from "./pages/Contact";
 import MyAccount from "./pages/MyAccount";
 import ProductDetails from "./pages/ProductDetails";
+import NotFound from "./pages/NotFound";
 
 const routes = (
     <Route path="/" component={Layout}>
@@ -15,6 +16,7 @@ const routes = (
         <Route path="my-account" component={MyAccount} />
         <Route path="product/:productSlug" component={ProductDetails} />
         <Route path="contact" component={Contact} />
+        <Route path="404" component={NotFound} />
     </Route>
 );
 
