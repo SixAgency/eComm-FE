@@ -10,18 +10,19 @@ class GridElement extends React.Component {
 
     render() {
         const product = this.props.product;
+        const p_slug = "/product/"+product.slug;
         return (
             <div className="grid-elem-wrapper">
-                <Link to={product.slug}>
+                <Link to={p_slug}>
                     <img
                       className="grid-image"
                       src={product.master.images[0].large_url}
                     />
                 </Link>
                 <div className="item-hover">
-                    <Link to={product.slug} />
+                    <Link to={p_slug} />
                     <div className="item-meta">
-                        <Link to={product.slug}>
+                        <Link to={p_slug}>
                             <span className="price">
                                 <span className="amount">
                                     {product.display_price}
@@ -33,14 +34,14 @@ class GridElement extends React.Component {
                             <h5 className="item-cat">GIFTS</h5>
                         </Link>
                         <Link
-                          to={product.slug}
-                          className="view-button"
+                          to={p_slug}
+                          className="button view-button"
                         >
                             View
                         </Link>
                         <Link
-                          to={product.slug}
-                          className="select-amount"
+                          to={p_slug}
+                          className="button"
                         >
                             Select amount
                         </Link>
