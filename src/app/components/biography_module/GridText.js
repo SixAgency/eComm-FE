@@ -11,9 +11,11 @@ class GridText extends React.Component {
                 <div className="grid-text-wrapper">
                     <div className="grid-text">
                         <div className="text">
-                            {this.props.gridText.map( (paragraph) => {
+                            {this.props.gridText.map( (paragraph, index) => {
                                 return (
-                                    <p>{paragraph}</p>
+                                    <p key={index}>
+                                        {paragraph}
+                                    </p>
                                 );
                             })}
                         </div>

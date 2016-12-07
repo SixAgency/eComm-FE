@@ -135,65 +135,65 @@ export const biographyGrid = [
         gridImage: require('./images/krissorbie3-480x480.jpg'),
         gridText: []
     },
-    // {
-    //     id: 9,
-    //     isImage: true,
-    //     imagePath: './assets/kris3-480x480.jpg'
-    // },
-    // {
-    //     id: 10,
-    //     isImage: false,
-    //     textContent: [
-    //         '2003 NAHA',
-    //         'Master Hairstylist of the Year – Nominee',
-    //         '2002 NAHA',
-    //         'Master Hairstylist of the Year – Winner',
-    //         '2002 ABBIES',
-    //         'Best Salon Educational Program – Winner'
-    //     ]
-    // },
-    // {
-    //     id: 11,
-    //     isImage: true,
-    //     imagePath: './assets/kris2-480x480.jpg'
-    // },
-    // {
-    //     id: 12,
-    //     isImage: false,
-    //     textContent: [
-    //         '2001 NAHA',
-    //         'Master Hairstylist of the Year – Nominee',
-    //         '2000 HairColor USA',
-    //         'Most Inspirational Educator – Winner',
-    //         '1998 HairColor USA',
-    //         'Best Educator of the Year – Winner'
-    //     ]
-    // },
-    // {
-    //     id: 13,
-    //     isImage: true,
-    //     imagePath: './assets/kris6-480x480.jpg'
-    // },
-    // {
-    //     id: 14,
-    //     isImage: true,
-    //     imagePath: './assets/kris4-480x480.jpg'
-    // },
-    // {
-    //     id: 15,
-    //     isImage: false,
-    //     textContent: [
-    //         'Board Member for NAHA (North American Hairstylist Awards)',
-    //         'Judge for NAHA (North American Hairstylist Awards)',
-    //         'Judge for Dutch Hairdressing Awards',
-    //         'Most Inspirational Educator – Winner',
-    //         'Judge for Belgian Hairdressing Awards',
-    //         'Judge for Australian Hairdressing Awards'
-    //     ]
-    // },
-    // {
-    //     id: 14,
-    //     isImage: true,
-    //     imagePath: './assets/krismentorhour-480x480.jpg'
-    // }
+    {
+        id: 9,
+        gridImage: require('./images/kris3-480x480.jpg'),
+        gridText: []
+    },
+    {
+        id: 10,
+        gridImage: require('./images/homepagecolor-480x480.png'),
+        gridText: [
+            '2003 NAHA',
+            'Master Hairstylist of the Year – Nominee',
+            '2002 NAHA',
+            'Master Hairstylist of the Year – Winner',
+            '2002 ABBIES',
+            'Best Salon Educational Program – Winner'
+        ]
+    },
+    {
+        id: 11,
+        gridImage: require('./images/kris2-480x480.jpg'),
+        gridText: []
+    },
+    {
+        id: 12,
+        gridImage: require('./images/homepagecolor-480x480.png'),
+        gridText: [
+            '2001 NAHA',
+            'Master Hairstylist of the Year – Nominee',
+            '2000 HairColor USA',
+            'Most Inspirational Educator – Winner',
+            '1998 HairColor USA',
+            'Best Educator of the Year – Winner'
+        ]
+    },
+    {
+        id: 13,
+        gridImage: require('./images/kris6-480x480.jpg'),
+        gridText: []
+    },
+    {
+        id: 14,
+        gridImage: require('./images/kris4-480x480.jpg'),
+        gridText: []
+    },
+    {
+        id: 15,
+        gridImage: require('./images/homepagecolor-480x480.png'),
+        gridText: [
+            'Board Member for NAHA (North American Hairstylist Awards)',
+            'Judge for NAHA (North American Hairstylist Awards)',
+            'Judge for Dutch Hairdressing Awards',
+            'Most Inspirational Educator – Winner',
+            'Judge for Belgian Hairdressing Awards',
+            'Judge for Australian Hairdressing Awards'
+        ]
+    },
+    {
+        id: 16,
+        gridImage: require('./images/krismentorhour-480x480.jpg'),
+        gridText: []
+    }
 ];
