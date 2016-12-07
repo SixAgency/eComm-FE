@@ -48,7 +48,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist'], {
             root: path.join(__dirname),
-            verbose: true, 
+            verbose: true,
             dry: false
         }),
         new webpack.optimize.DedupePlugin(),
