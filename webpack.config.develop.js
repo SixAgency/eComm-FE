@@ -5,14 +5,17 @@ var webpack = require("webpack"),
 
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client?reload=true', 
+        'webpack-hot-middleware/client?reload=true',
         path.join(__dirname, 'src/app.js')
     ],
     output: {
         path: path.join(__dirname, 'dist/'),
         filename: '[name].js',
     },
-    resolve: { extensions: ['', '.js', '.jsx'] },
+    resolve: {
+        extensions: ['', '.js', '.jsx'],
+        root: path.join(__dirname, 'src/images')
+    },
     module: {
         loaders: [
             {
