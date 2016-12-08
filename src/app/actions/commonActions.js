@@ -23,7 +23,6 @@ export function getProducts() {
         const token = "3637b8b39f4a33a248c4f296436d49b0ad45f60ffaacdef1";
         axios.get("http://staging.ecomm.com/api/products?token="+token)
             .then((response) => {
-                // debugger;
                 dispatch({
                     type: "FETCH_PRODUCTS",
                     payload: response.data
@@ -31,6 +30,24 @@ export function getProducts() {
             })
         .catch((err) => {
             dispatch({type: "FETCH_PRODUCTS_REJECTED", payload: err});
+        });
+    };
+}
+
+export function getProduct(query) {
+    return function(dispatch) {
+        const token = "3637b8b39f4a33a248c4f296436d49b0ad45f60ffaacdef1";
+        axios.get("http://staging.ecomm.com/api/products/"+query
+            +"?token="+
+            token)
+            .then((response) => {
+                dispatch({
+                    type: "FETCH_PRODUCT",
+                    payload: response.data
+                });
+            })
+        .catch((err) => {
+            dispatch({type: "FETCH_PRODUCT_REJECTED", payload: err});
         });
     };
 }

@@ -10,7 +10,7 @@ export const navConsts = [
         title: "Education",
         slug: "/product/mentoring-program-day",
         h_class: "colored",
-        regex: RegExp(/^\/product\/mentoring-program-day\/?/)
+        regex: RegExp(/^\/product\/?/)
     },
     {
         id: 3,

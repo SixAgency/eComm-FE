@@ -1,0 +1,344 @@
+.product-details-wrapper {
+    position: relative;
+    width: 100%;
+    display: table;
+    padding-top: 127px;
+    z-index: 2;
+    .product-details-left,
+    .product-details-right {
+        float: left;
+        width: 50%;
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            display: block;
+            .product-image {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+    .product-details-right {
+        float: right;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        .product-content {
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 11%;
+            padding-right: 11%;
+            .summary-wrapper {
+                width: 90%;
+                margin: 0 auto;
+                position: relative;
+                .summary-top {
+                    padding-top: 180px;
+                    padding-bottom: 10px;
+                    margin-right: 140px;
+                    .price {
+                        position: absolute;
+                        top: 0;
+                        font-family: Georgia, serif;
+                        font-size: 31px;
+                        line-height: 31px;
+                        font-weight: 800;
+                        .old-price {
+                            display: block;
+                            font-size: 22px;
+                            line-height: 22px;
+                            color: #ccc;
+                            text-decoration: line-through;
+                        }
+                        .current-price {
+                            text-decoration: none;
+                        }
+                    }
+                    .title {
+                        font-family: Georgia, serif;
+                        font-size: 19px;
+                        line-height: 16px;
+                        margin: 0;
+                        margin-bottom: 15px;
+                        font-weight: 800;
+                        color: #202020;
+                    }
+                    .breadcrumb {
+                        font-family: Georgia, serif;
+                        font-size: 13px;
+                        line-height: 13px;
+                        font-weight: 800;
+                        color: #6c6c6c;
+                        margin: 5px 0 10px;
+                        a {
+                            color: #bdbdbd;
+                            text-transform: uppercase;
+                            &:hover {
+                                color: #6c6c6c;
+                            }
+                        }
+                        span {
+                            padding: 0 3px;
+                            color: #bdbdbd;
+                        }
+                    }
+                }
+                .summary-middle {
+                    .summary-tab {
+                        border-bottom: 1px solid #c7c7c7;
+                        &:first-child {
+                            border-top: 1px solid #c7c7c7;
+                            margin-top: 35px;
+                        }
+                        h3 {
+                            font-family: Georgia, serif;
+                            color: #878787;
+                            padding: 10px 0 12px;
+                            cursor: pointer;
+                            position: relative;
+                            margin: 0;
+                            font-size: 13px;
+                            font-weight: 700;
+                            line-height: 20px;
+                            &:after {
+                                content: "\f067";
+                                font-family: 'FontAwesome';
+                                position: absolute;
+                                top: 10px;
+                                right: 0;
+                                font-size: 14px;
+                                line-height: 14px;
+                                font-weight: 400;
+                                color: #ccc;
+                                padding: 5px 1px 0 0;
+                            }
+                            &:hover {
+                                &:after { color: #000000; }
+                                color: #000000;
+                            }
+                        }
+                        .content {
+                            font-size: 15px;
+                            line-height: 20px;
+                            font-weight: 700;
+                            text-align: justify;
+                            p {
+                                margin: 0;
+                                margin-bottom: 15px;
+                            }
+                            span {
+                                font-weight: 400;
+                            }
+                        }
+                        &.opened {
+                            h3:after {
+                                content: "\f068";
+                            }
+                        }
+                        &.closed {
+                            .content { display: none; }
+                        }
+                    }
+                }
+                .summary-bottom {
+                    font-family: Georgia, serif;
+                    font-size: 13px;
+                    line-height: 20px;
+                    font-weight: 700;
+                    margin-top: 40px;
+                    span {
+                        display: block;
+                        color: #878787;
+                        a {
+                            color: #262626;
+                            &:hover {
+                                color: #29cbc8;
+                            }
+                        }
+                    }
+                }
+                .cart {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 140px;
+                    .variant-wrapper {
+                        margin: 15px 0;
+                        h3 {
+                            font-family: Georgia, serif;
+                            font-size: 13px;
+                            line-height: 20px;
+                            font-weight: 700;
+                            margin: 0;
+                            margin-bottom: 15px;
+                            abbr {
+                                border: none;
+                                text-decoration: none;
+                            }
+                        }
+                        select {
+                            display: block;
+                            font-family: Georgia, serif;
+                            font-size: 13px;
+                            line-height: 20px;
+                            font-weight: 700;
+                            text-transform: none;
+                            border: 1px solid #e9e9e9;
+                            margin: 0;
+                            padding: 5px 10px;
+                            color: #222222;
+                        }
+                    }
+                    .quantity {
+                        position: relative;
+                        &:before,
+                        &:after {
+                            font-family: 'FontAwesome' !important;
+                            position: absolute;
+                            content: "\f067";
+                            font-size: 14px;
+                            line-height: 40px;
+                            width: 36px;
+                            height: 37px;
+                            font-weight: 400;
+                            text-align: center;
+                            right: 0;
+                            background: #E9EDEF;
+                        }
+                        &:before {
+                            content: "\f068";
+                            left: 0;
+                            right: auto;
+                        }
+                        input {
+                            background: transparent !important;
+                            color: #202020 !important;
+                            height: 37px;
+                            float: left;
+                            border: none;
+                            outline: none;
+                            margin-left: 1px;
+                            padding: 0;
+                            text-align: center;
+                            &::-webkit-outer-spin-button,
+                            &::-webkit-inner-spin-button {
+                               -webkit-appearance: none;
+                               margin: 0;
+                            }
+                        }
+                        input.minus,
+                        input.plus {
+                            width: 36px;
+                            font-size: 0;
+                            border: 3px solid transparent;
+                            position: relative;
+                            z-index: 9;
+                            &:hover {
+                                border-color: #000;
+                            }
+                        }
+                        input.minus {
+                            margin-left: 0;
+                        }
+                        input.qty {
+                            font-family: Georgia, serif;
+                            text-align: center;
+                            width: 66px;
+                            min-width: 50px;
+                            font-size: 17px;
+                            line-height: 17px;
+                            font-weight: 700;
+                            background: #E9EDEF !important;
+                            -webkit-appearance: textfield;
+                            -moz-appearance: textfield;
+                            appearance: textfield;
+                        }
+                    }
+                    .add-to-cart {
+                        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                        background-color: #29cbc8;
+                        outline: none !important;
+                        border: none !important;
+                        font-size: 13px;
+                        line-height: 13px;
+                        text-transform: uppercase;
+                        font-weight: 800;
+                        color: #202020;
+                        text-align: center;
+                        width: 140px;
+                        height: 50px;
+                        margin-top: 1px;
+                        -webkit-appearance: button;
+                        cursor: pointer;
+                        &:hover {
+                            color: #29cbc8;
+                            background-color: #333333;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-device-width: 1024px) and (min-device-width: 768px) and (orientation: landscape) {
+    .product-details-wrapper {
+        .product-details-right {
+            .product-content {
+                .summary-wrapper {
+                    .summary-top {
+                        .price {
+                            font-size: 15px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-device-width: 960px) {
+    .product-details-wrapper {
+        .product-details-left,
+        .product-details-right {
+            width: 100%;
+            float: none;
+        }
+        .product-details-right {
+            .product-content {
+                padding: 25px 0 40px;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+    .product-details-wrapper {
+        .product-details-left,
+        .product-details-right {
+            width: 100%;
+            float: none;
+            padding: 0;
+        }
+        .product-details-right {
+            .product-content {
+                .summary-wrapper {
+                    .summary-top {
+                        margin-right: 0px;
+                        padding-top: 80px;
+                    }
+                    .cart {
+                        position: relative;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 479px) and (min-width: 320px) {
+    .product-details-wrapper {
+        padding-top: 58px;
+    }
+}

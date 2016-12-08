@@ -82,3 +82,8 @@
         overflow: hidden;
     }
 }
+@media (max-width: 479px) and (min-width: 320px) {
+    .account-page {
+        padding-top: 58px;
+    }
+}

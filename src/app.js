@@ -8,5 +8,9 @@ import routes from "./app/routes";
 const app = document.getElementById('app');
 
 ReactDOM.render(<Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
+    <Router
+      onUpdate={() => window.scrollTo(0, 0)}
+      history={browserHistory}
+      routes={routes}
+    />
 </Provider>, app);
