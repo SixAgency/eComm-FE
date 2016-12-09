@@ -35,12 +35,12 @@ class CartForm extends React.Component {
                         <table className="cart-totals-contents">
                             <tbody>
                                 <tr className="cart-subtotal">
-                                    <th>Subtotal</th>
-                                    <td className="ammount"> $28.00 </td>
+                                    <th className="table-heads">Subtotal</th>
+                                    <td className="ammount data"> $28.00 </td>
                                 </tr>
                                 <tr className="cart-subtotal">
-                                    <th />
-                                    <td className="ammount">
+                                    <th className="table-heads" />
+                                    <td className="ammount data">
                                         <small>
                                             Note: Products may ship from various
                                             locations
@@ -48,8 +48,8 @@ class CartForm extends React.Component {
                                     </td>
                                 </tr>
                                 <tr className="shipping">
-                                    <th>Shipping</th>
-                                    <td>
+                                    <th className="table-heads">Shipping</th>
+                                    <td className="data">
                                         <p>
                                             Shipping costs will be calculated
                                             once you have provided your address.
@@ -71,8 +71,8 @@ class CartForm extends React.Component {
                                     </td>
                                 </tr>
                                 <tr className="order-total">
-                                    <th>Total</th>
-                                    <td className="total-price">
+                                    <th className="table-heads">Total</th>
+                                    <td className="total-price data">
                                         <strong>
                                             <span className="amount">
                                                 $28.00

@@ -87,3 +87,18 @@
     }
 }
 
+@media only screen and (max-device-width: 1024px) {
+    .calculator-form {
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+    .calculator-form {
+        .submit-container {
+            .calculator-button {
+                border-radius: 5px;
+            }
+        }
+    }
+}

@@ -24,7 +24,8 @@
             cellspacing: 0;
             text-align: left;
             border-collapse: collapse;
-            .cart-subtotal th, .shipping th {
+            th,
+            td {
                 font-size: 17px;
                 line-height: 16px;
                 font-weight: 700;
@@ -35,18 +36,13 @@
                 padding: 10px 14px 8px;
                 border-right: 1px solid #e9e9e9;
             }
-            .cart-subtotal td, .shipping td {
-                font-size: 17px;
-                line-height: 16px;
-                font-weight: 700;
-                width: 50%;
+            td {
+                text-align: center;
                 color: #3C3C3C;
-                min-height: 41px;
-                padding: 10px 14px 8px;
-                border-right: 1px solid #e9e9e9;
             }
             .cart-subtotal {
                 .ammount {
+                    text-align: left;
                     small {
                         font-size: 80%;
                     }
@@ -130,6 +126,57 @@
                 &:hover{
                     color: #29cbc8;
                     background: #333;
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-device-width: 1024px) {
+    .cart-form-wrapper {
+        .cart-form-contents {
+            .cart-totals-contents {
+                display: block;
+                tbody {
+                    display: block;
+                }
+                tr {
+                    display: block;
+                    th,
+                    td {
+                        display: block;
+                        width: 100%;
+                        text-align: center !important;
+                        box-sizing: border-box;
+                    }
+                    td { padding: 0; }
+                    &.shipping td .calc-title { text-align: center; }
+                    &.order-total {
+                        th, td {
+                            text-align: center !important;
+                        }
+                    }
+                }
+            }
+            .go-to-checkout-container {
+                font-size: 14px;
+                line-height: 23px;
+                .checkout-button {
+                    width: 265px !important;
+                    line-height: 55px;
+                    height: 55px;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 767px) and (min-width: 320px) {
+    .cart-form-wrapper {
+        .cart-form-contents {
+            .go-to-checkout-container {
+                .checkout-button {
+                    border-radius: 5px;
+                    padding: 0;
+                    width: 100% !important;
                 }
             }
         }

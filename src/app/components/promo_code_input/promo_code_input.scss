@@ -40,7 +40,35 @@
             font-weight: 700 !important;
         }
     }
+    .clearfix:after, .clearfix:before {
+        clear: both;
+        content: "";
+        display: table;
+    }
     @media (max-width: 767px) and (min-width: 320px){
+        padding: 0px 15px 0 15px;
+        .promo-code-body {
+            input {
+                right: -75.5%;
+            }
+            .coupon-button {
+                border-radius: 5px;
+            }
+        }
+    }
 
+    @media (max-width: 480px) and (min-width: 320px){
+        .promo-code-body {
+            input {
+                width: 100%;
+                margin: 4px 0px;
+                padding: 0px;
+                height: 28px;
+                text-align: center;
+            }
+            .coupon-button {
+                padding: 5px !important;
+            }
+        }
     }
 }
