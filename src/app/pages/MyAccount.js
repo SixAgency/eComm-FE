@@ -31,7 +31,7 @@ class MyAccount extends React.Component {
     }
 
     onLogIn(e){
-        e.preventDefault(); 
+        e.preventDefault();
         this.setState({
             loggedIn: true
         });
@@ -67,38 +67,38 @@ class MyAccount extends React.Component {
             <div className="account-page">
                 <PageHeader {...this.state} />
                 { this.state.formHasErrors ?
-                    <FormError {...this.state} /> : 
-                    '' 
+                    <FormError {...this.state} /> :
+                    ''
                 }
                 <section className="content-wrapper">
                     <div className="account-content">
                         { this.state.loggedIn ? '' :
                         <ul className="titles">
-                            <li 
+                            <li
                               onClick={this.handleChange.bind(this)}
-                              className={this.state.selected === 'login' ? 
-                              'opened' : 
+                              className={this.state.selected === 'login' ?
+                              'opened' :
                               ''}
                             >
                               login
                             </li>
-                            <li 
+                            <li
                               onClick={this.handleChange.bind(this)}
-                              className={this.state.selected === 'register' 
-                              ? 
-                              'opened' : 
+                              className={this.state.selected === 'register'
+                              ?
+                              'opened' :
                               ''}
                             >
                               register
                             </li>
                         </ul> }
-                        <div className={cx(this.state.className)} 
+                        <div className={cx(this.state.className)}
                           ref="content">
-                            { this.state.loggedIn ? 
-                                // <MyAccountInner /> : 
+                            { this.state.loggedIn ?
+                                // <MyAccountInner /> :
                                 <EditAccountForm /> :
-                                <AccountForm {...this.state} 
-                                  onLogIn={this.onLogIn.bind(this)} 
+                                <AccountForm {...this.state}
+                                  onLogIn={this.onLogIn.bind(this)}
                                 />
                             }
                         </div>

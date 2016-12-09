@@ -1,0 +1,47 @@
+.cta-message-wrapper {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    width: 100%;
+    font-size: 15px;
+    line-height: 25px;
+    color: #fff;
+    text-align: center;
+    padding: 25px 0;
+    background: #69FAC2;
+    font-weight: 700;
+    position: relative;
+    z-index: 12;
+    margin: 0;
+    box-sizing: border-box;
+    .button-forward {
+        background-color: #29cbc8;
+        font-family: Georgia, serif;
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 40px;
+        text-align: center;
+        color: #333;
+        text-transform: uppercase;
+        height: 40px;
+        display: inline-block;
+        padding: 0 17px;
+        margin-left: 30px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s ease-out;
+        &:hover{
+            background: #333;
+            color: #29cbc8;
+        }
+    }
+}
+@media (max-width: 767px) and (min-width: 320px){
+    .cta-message-wrapper {
+        padding: 30px 20px;
+        .button-forward {
+            display: block;
+            padding: 0;
+            margin: 0 0 10px;
+            border-radius: 5px;
+        }
+    }
+}

@@ -56,8 +56,8 @@ class PageHeader extends React.Component {
             <div className="header-wrapper">
                 { myLinks.map( (item) => {
                     return (
-                        <Link 
-                          className="inner-link" 
+                        <Link
+                          className="inner-link"
                           key={item.id}
                           to={item.link}
                           title={item.title}
@@ -66,6 +66,7 @@ class PageHeader extends React.Component {
                         </Link>
                     );
                 })}
+                {/* TODO - Update this with page path */}
                 <nav className="header-breadcrumb">
                     <a href="/"
                       className="breadcrumb-link">

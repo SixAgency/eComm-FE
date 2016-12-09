@@ -1,0 +1,31 @@
+.products-table-wrapper {
+    color: rgb(34, 34, 34);
+    display: block;
+    text-align: left;
+    font-family: Georgia, serif;
+    margin-top: 0;
+    .shop-cart-table {
+        border: none;
+        vertical-align: top;
+        margin-top: 100px;
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        border-spacing: 0;
+        thead { display: table-header-group; }
+        th {
+            font-size: 13px;
+            line-height: 17px;
+            min-height: 41px;
+            font-weight: 800;
+            padding: 10px 14px 8px;
+            text-transform: uppercase;
+            color: #565656;
+            vertical-align: top;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            &.product-name {
+                padding-left: 143px;
+            }
+        }
+    }
+}
