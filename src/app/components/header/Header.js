@@ -4,6 +4,7 @@ import React, { PropTypes } from "react";
 import cx from "classnames";
 import Logo from "./logo/Logo";
 import Navigation from "./navigation/Navigation";
+import MiniCart from "./cart/MiniCart";
 
 class Header extends React.PureComponent {
     static propTypes = {
@@ -41,6 +42,7 @@ class Header extends React.PureComponent {
                 >
                     <i className="icon-menu" />
                 </span>
+                <MiniCart />
             </header>
         );
     }
