@@ -51,3 +51,20 @@ export function getProduct(query) {
         });
     };
 }
+
+export function getCart() {
+    return function(dispatch) {
+        const token = "a2169dfff47ef681825af95b2a49772291777e01ea6b8985";
+        axios.get("http://staging.ecomm.com/api/v1/orders/R540018862"+
+            "?token="+token)
+            .then((response) => {
+                dispatch({
+                    type: "FETCH_CART",
+                    payload: response.data
+                });
+            })
+        .catch((err) => {
+            dispatch({type: "FETCH_CART_REJECTED", payload: err});
+        });
+    };
+}
