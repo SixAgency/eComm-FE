@@ -1,0 +1,137 @@
+.cart-form-wrapper {
+    margin-top: 0;
+    .cart-form-contents {
+        margin-top: 40px;
+        padding: 80px 50px;
+        min-height: 200px;
+        background: rgba(235, 235, 235, 0.75);
+        .cart-title {
+            font-size: 35px;
+            margin: 0;
+            line-height: 38px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: Georgia, serif;
+        }
+        .cart-subtitles {
+            display: none;
+        }
+        .cart-totals-contents {
+            margin: 50px auto;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border: none;
+            cellspacing: 0;
+            text-align: left;
+            border-collapse: collapse;
+            .cart-subtotal th, .shipping th {
+                font-size: 17px;
+                line-height: 16px;
+                font-weight: 700;
+                color: #000000;
+                width: 50%;
+                text-align: right;
+                min-height: 41px;
+                padding: 10px 14px 8px;
+                border-right: 1px solid #e9e9e9;
+            }
+            .cart-subtotal td, .shipping td {
+                font-size: 17px;
+                line-height: 16px;
+                font-weight: 700;
+                width: 50%;
+                color: #3C3C3C;
+                min-height: 41px;
+                padding: 10px 14px 8px;
+                border-right: 1px solid #e9e9e9;
+            }
+            .cart-subtotal {
+                .ammount {
+                    small {
+                        font-size: 80%;
+                    }
+                }
+            }
+            .shipping p {
+                font-size: 15px;
+                font-weight: normal;
+                line-height: 25px;
+                color: #565656;
+                margin: 0;
+            }
+            .shipping {
+                th { vertical-align: top; }
+                td {
+                    .calc-title {
+                        font-size: 12px;
+                        line-height: 12px;
+                        text-align: left;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        margin-bottom: -40px;
+                        color: rgb(60, 60, 60);
+                        margin: 50px 0 0 0;
+                        a {
+                            color: inherit;
+                            text-decoration: none;
+                            cursor: pointer;
+                            outline: none;
+                            -webkit-transition: color 0.2s ease-out;
+                            -moz-transition: color 0.2s ease-out;
+                            -ms-transition: color 0.2s ease-out;
+                            -o-transition: color 0.2s ease-out;
+                            transition: color 0.2s ease-out;
+                            &:active, &a:focus {
+                                color: rgb(25, 122, 117);
+                            }
+                        }
+                    }
+                }
+            }
+            .order-total {
+                th, td {
+                    text-align: right;
+                    min-height: 41px;
+                    padding: 30px 14px 8px;
+                    border-right: 1px solid #e9e9e9;
+                }
+                .total-price {
+                    text-align: left;
+                    color: #F1430E;
+                }
+            }
+        }
+        .paypal-container {
+            display: block;
+            margin: auto;
+            width: 153px;
+            height: 30px;
+            background-image: url("../../images/paypal.png");
+            background-size: contain;
+            cursor: pointer;
+        }
+        .go-to-checkout-container {
+            text-align: center;
+            .checkout-button {
+                font-size: 11px;
+                line-height: 61px;
+                font-weight: 800;
+                color: #000;
+                height: 61px;
+                padding: 0 60px;
+                text-transform: uppercase;
+                margin: 0 3px;
+                border: none;
+                outline: none;
+                display: inline;
+                margin-top: 20px;
+                background-color: #29cbc8;
+                cursor: pointer;
+                &:hover{
+                    color: #29cbc8;
+                    background: #333;
+                }
+            }
+        }
+    }
+}
