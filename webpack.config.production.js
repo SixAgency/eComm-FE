@@ -9,9 +9,11 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist/'),
         filename: '[name].js',
+        publicPath: '/'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        root: path.join(__dirname, 'src/images')
     },
     module: {
         loaders: [

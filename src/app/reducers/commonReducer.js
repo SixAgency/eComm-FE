@@ -3,7 +3,9 @@ export default function reducer(state={
     heroHeight: 127,
     navOpened: false,
     currentStyles: {},
-    products: []
+    products: [],
+    product: null,
+    cart: null
 }, action) {
     switch (action.type) {
         case "TOGGLE_LOADER": {
@@ -19,6 +21,18 @@ export default function reducer(state={
             return {...state, products: action.payload.products};
         }
         case "FETCH_PRODUCTS_REJECTED": {
+            return {...state, error: action.payload};
+        }
+        case "FETCH_PRODUCT": {
+            return {...state, product: action.payload, loading: false};
+        }
+        case "FETCH_PRODUCT_REJECTED": {
+            return {...state, error: action.payload};
+        }
+        case "FETCH_CART": {
+            return {...state, cart: action.payload};
+        }
+        case "FETCH_CART_REJECTED": {
             return {...state, error: action.payload};
         }
     }
