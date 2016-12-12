@@ -1,4 +1,9 @@
 .page {
+
+    /**************/
+    /*** BUTTONS **/
+    /**************/
+
     .button {
         border: none;
         outline: none;
@@ -8,6 +13,7 @@
         text-decoration: none;
         text-align: center;
         color: $black;
+        cursor: pointer;
         @include box-sizing(border-box);
         &:hover {
             background: $night;
@@ -40,12 +46,60 @@
         background: $dark_grey;
         color: $charcoal;
     }
+
+    /*************/
+    /*** INPUTS **/
+    /*************/
+
+    .input {
+        display: block;
+        width: 100%;
+        max-width: 580px;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid $light_grey;
+        background: $white;
+        font-family: inherit;
+        font-size: 12px;
+        line-height: 42px;
+        font-weight: 500;
+        color: $night_rider;
+        margin: 10px auto;
+        @include box-sizing(border-box);
+        &:focus {
+            outline: none;
+        }
+    }
+
+    /*************/
+    /*** LABELS **/
+    /*************/
+
+    .label {
+        font-size: 12px;
+        line-height: 12px;
+        font-weight: 700;
+        color: $black;
+        text-transform: uppercase;
+        text-align: left;
+        .required {
+            border: none;
+        }
+    }
 }
 
 @media (max-width: 767px) and (min-width: 320px) {
     .page {
         .button--submit {
             border-radius: 5px;
+        }
+    }
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+    .page {
+        .label {
+            font-size: 10px;
         }
     }
 }
