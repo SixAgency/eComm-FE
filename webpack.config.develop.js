@@ -35,7 +35,7 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                loader: ExtractTextPlugin.extract('css!sass!')
+                loader: ExtractTextPlugin.extract('css!sass')
             },
             {
                 test: /.*\.(gif|png|jpe?g|svg)$/i,

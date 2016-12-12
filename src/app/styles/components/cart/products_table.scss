@@ -1,0 +1,193 @@
+.products-table-wrapper {
+    color: rgb(34, 34, 34);
+    display: block;
+    text-align: left;
+    font-family: Georgia, serif;
+    margin-top: 0;
+    .shop-cart-table {
+        border: none;
+        vertical-align: top;
+        margin-top: 100px;
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        border-spacing: 0;
+        thead { display: table-header-group; }
+        th {
+            font-size: 13px;
+            line-height: 17px;
+            min-height: 41px;
+            font-weight: 800;
+            padding: 10px 14px 8px;
+            text-transform: uppercase;
+            color: #565656;
+            vertical-align: top;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            &.product-name {
+                padding-left: 143px;
+            }
+        }
+        .cart-item {
+            border: none;
+            vertical-align: top;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            td { padding: 0 14px 65px; }
+            .product-name {
+                font-size: 15px;
+                img {
+                    width: 100px;
+                    height: auto;
+                    float: left;
+                    margin: 0px 30px 0 0;
+                    vertical-align: middle;
+                    border: 0;
+                }
+                a {
+                    font-size: 13px;
+                    line-height: 17px;
+                    font-weight: 700;
+                    color: #000;
+                    -webkit-transition: color 0.2s ease-out;
+                    -moz-transition: color 0.2s ease-out;
+                    -ms-transition: color 0.2s ease-out;
+                    -o-transition: color 0.2s ease-out;
+                    transition: color 0.2s ease-out;
+                }
+                a:after {
+                    content: "";
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: #000;
+                    pointer-events: none;
+                    opacity: 0;
+                    -webkit-transform: translateY(7px);
+                    transform: translateY(7px);
+                    transition: -webkit-transform .1s cubic-bezier(0.55,.085,.68,.53),
+                        opacity .1s cubic-bezier(0.55,.085,.68,.53);
+                    transition: transform .1s cubic-bezier(0.55,.085,.68,.53),opacity .1s
+                        cubic-bezier(0.55,.085,.68,.53);
+                }
+                a:hover:after {
+                    opacity: 1;
+                    -webkit-transform: none;
+                    transform: none;
+                    background: #000;
+                    transition: -webkit-transform .2s
+                        cubic-bezier(0.25,.46,.45,.94),opacity 0s linear;
+                    transition: transform .2s cubic-bezier(0.25,.46,.45,.94),
+                        opacity 0s linear;
+                    transition-delay: 0s;
+                }
+            }
+            .product-price {
+                .amount {
+                    font-weight: 700;
+                    font-size: 17px;
+                    line-height: 17px;
+                }
+            }
+            .product-quantity {
+                width: 200px;
+                .quantity {
+                    position: relative;
+                    width: 140px;
+                    &:before, &:after {
+                        position: absolute;
+                        font-family: 'FontAwesome';
+                        content: "\f067";
+                        font-size: 10px;
+                        line-height: 28px;
+                        width: 36px;
+                        height: 26px;
+                        font-weight: 400;
+                        text-align: center;
+                        right: 0;
+                        background: #E9EDEF;
+                        cursor: pointer;
+                    }
+                    &:before {
+                        content: "\f068";
+                        left: 0;
+                        right: auto;
+                    }
+                    input {
+                        background: transparent;
+                        color: #202020;
+                        height: 26px;
+                        float: left;
+                        border: none;
+                        outline: none;
+                        margin-left: 1px;
+                        padding: 0;
+                        text-align: center;
+                        &::-webkit-outer-spin-button,
+                        &::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+                    }
+                    input.minus,
+                    input.plus {
+                        width: 36px;
+                        font-size: 0;
+                        border: 3px solid transparent;
+                        position: relative;
+                        z-index: 9;
+                        cursor: pointer;
+                        &:hover {
+                            border-color: #000;
+                        }
+                    }
+                    input.minus {
+                        margin-left: 0;
+                    }
+                    input.qty-text {
+                        font-family: Georgia, serif;
+                        text-align: center;
+                        width: 66px;
+                        min-width: 50px;
+                        font-size: 17px;
+                        line-height: 17px;
+                        font-weight: 700;
+                        background: #E9EDEF;
+                        -webkit-appearance: textfield;
+                        -moz-appearance: textfield;
+                        appearance: textfield;
+                    }
+                }
+            }
+            .product-subtotal {
+                .amount {
+                    font-size: 17px;
+                    line-height: 17px;
+                    font-weight: 800;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 767px) and (min-width: 320px){
+    .products-table-wrapper {
+        .shop-cart-table {
+            .cart-item {
+                margin-left: 5%;
+                .product-remove {
+                    left: 90%;
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px){
+    .products-table-wrapper {
+        .shop-cart-table {
+            .cart-item {
+                margin-left: 10%;
+            }
+        }
+    }
+}

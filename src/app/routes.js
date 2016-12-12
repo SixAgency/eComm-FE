@@ -17,8 +17,8 @@ const routes = (
         <Route path="my-account" component={MyAccount} />
         <Route path="product/:productSlug" component={ProductDetails} />
         <Route path="contact" component={Contact} />
-        <Route path="404" component={NotFound} />
         <Route path="cart" component={Cart} />
+        <Route path="*" component={NotFound} />
     </Route>
 );
 
