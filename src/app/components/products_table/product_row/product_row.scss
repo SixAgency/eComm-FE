@@ -66,16 +66,75 @@
             position: relative;
             width: 140px;
             &:before, &:after {
-                font-size: 14px;
-                line-height: 40px;
+                position: absolute;
+                font-family: 'FontAwesome';
+                content: "\f067";
+                font-size: 10px;
+                line-height: 28px;
                 width: 36px;
-                height: 37px;
+                height: 26px;
                 font-weight: 400;
                 text-align: center;
                 right: 0;
                 background: #E9EDEF;
-                position: absolute;
+                cursor: pointer;
             }
+            &:before {
+                content: "\f068";
+                left: 0;
+                right: auto;
+            }
+            input {
+                background: transparent;
+                color: #202020;
+                height: 26px;
+                float: left;
+                border: none;
+                outline: none;
+                margin-left: 1px;
+                padding: 0;
+                text-align: center;
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+            }
+            input.minus,
+            input.plus {
+                width: 36px;
+                font-size: 0;
+                border: 3px solid transparent;
+                position: relative;
+                z-index: 9;
+                cursor: pointer;
+                &:hover {
+                    border-color: #000;
+                }
+            }
+            input.minus {
+                margin-left: 0;
+            }
+            input.qty-text {
+                font-family: Georgia, serif;
+                text-align: center;
+                width: 66px;
+                min-width: 50px;
+                font-size: 17px;
+                line-height: 17px;
+                font-weight: 700;
+                background: #E9EDEF;
+                -webkit-appearance: textfield;
+                -moz-appearance: textfield;
+                appearance: textfield;
+            }
+        }
+    }
+    .product-subtotal {
+        .amount {
+            font-size: 17px;
+            line-height: 17px;
+            font-weight: 800;
         }
     }
 }

@@ -2,25 +2,32 @@ import React from "react";
 import "./product_row.scss";
 
 class ProductRow extends React.Component {
+
+    static propTypes = {
+        cart: React.PropTypes.object.isRequired
+    }
+
+    constructor(props){
+        super(props);
+    }
+
     render() {
-        let basePath = 'https://krissorbie.com/wp-content/uploads/';
-        let prodPath = '2015/12/product_combo-960x960-300x300-200x200.png';
-        let fullPath = basePath + prodPath;
+        const item = this.props.cart;
         return(
             <tr className="cart-item">
                 <td className="product-name">
                     <img
-                      src={fullPath}
+                      src={item.variant.images[0].large_url}
                       width="200"
                       height="200"
                     />
                     <a href="#">
-                        Brush and Comb Set
+                        {item.variant.name}
                     </a>
                 </td>
                 <td className="product-price">
                     <span className="amount">
-                        $18.00
+                        {item.variant.price} $
                     </span>
                 </td>
                 <td className="product-quantity">
@@ -42,7 +49,9 @@ class ProductRow extends React.Component {
                 </td>
                 <td className="product-subtotal">
                     <span className="amount">
-                        $18.00
+                        ${ (parseFloat(item.variant.price) *
+                        parseFloat(item.quantity)).
+                        toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}
                     </span>
                 </td>
                 <td className="product-remove">

@@ -1,21 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
+import { getCart } from "../actions/commonActions";
 import PageHeader from "../components/page_header/PageHeader";
 import CartCta from "../components/cart_cta/CartCta";
 import ProductsTable from "../components/products_table/ProductsTable";
 import PromoCodeInput from "../components/promo_code_input/PromoCodeInput";
 import CartForm from "../components/cart_form/CartForm";
 
+
+const mapStateToProps = ((state) => {
+    return {
+        cart: state.cart
+    };
+});
+
 const mapDispatchToProps = ((dispatch) => {
     return {
-        toggleLoader: (toggle) => dispatch(toggleLoader(toggle))
+        toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+        getCart: () => dispatch(getCart())
     };
 });
 
 class Cart extends React.Component {
     static propTypes = {
-        toggleLoader: React.PropTypes.func.isRequired
+        toggleLoader: React.PropTypes.func.isRequired,
+        cart: React.PropTypes.object,
+        getCart: React.PropTypes.func.isRequired
     }
 
     constructor(props){
@@ -49,6 +60,10 @@ class Cart extends React.Component {
 
 
     render() {
+        const cart = this.props.cart;
+        if (cart == null) {
+            return null;
+        }
         return (
             <div className="cart-page">
                 <PageHeader {...this.state} />
@@ -77,9 +92,9 @@ class Cart extends React.Component {
                               Your Cart
                             </h1>
                             <h3 className="cart-subtitle">
-                              number of products in your cart (dynamic)
+                                {cart.total_quantity} items in your cart
                             </h3>
-                            <ProductsTable />
+                            <ProductsTable cart={cart} />
                             <PromoCodeInput />
                             <CartForm />
                         </div>
@@ -90,4 +105,4 @@ class Cart extends React.Component {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
