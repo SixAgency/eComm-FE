@@ -2,8 +2,6 @@ import React from "react";
 import cx from "classnames";
 import { Link } from "react-router";
 
-import "./navigation.scss";
-
 class Navigation extends React.Component {
 
     static propTypes = {

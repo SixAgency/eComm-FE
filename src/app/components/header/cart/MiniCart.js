@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 import { getCart } from "../../../actions/commonActions";
-import "./mini_cart.scss";
-
 
 const mapStateToProps = ((state) => {
     return {

@@ -1,5 +1,4 @@
-import React from "react"
-import "./credits.scss";
+import React from "react";
 
 class Credits extends React.Component {
     render() {

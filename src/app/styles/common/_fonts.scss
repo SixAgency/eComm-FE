@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Diot';
-    src: url(CanadaType-DidotDisplay-Bold.ttf);
+    src: url(./common/CanadaType-DidotDisplay-Bold.ttf);
     font-weight: normal;
 }
 
@@ -8,23 +8,23 @@
 
 @font-face {
     font-family: "lobo";
-    src:url("./lobo/lobo.eot");
-    src:url("./lobo/lobo.eot?#iefix") format("embedded-opentype"),
-    url("./lobo/lobo.woff") format("woff"),
-    url("./lobo/lobo.ttf") format("truetype"),
-    url("./lobo/lobo.svg#lobo") format("svg");
+    src:url("./common/lobo/lobo.eot");
+    src:url("./common/lobo/lobo.eot?#iefix") format("embedded-opentype"),
+    url("./common/lobo/lobo.woff") format("woff"),
+    url("./common/lobo/lobo.ttf") format("truetype"),
+    url("./common/lobo/lobo.svg#lobo") format("svg");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
   font-family:'FontAwesome';
-  src:url('./fontawesome/fontawesome-webfont.eot');
-  src:url('./fontawesome/fontawesome-webfont.eot?#iefix')
-  format('embedded-opentype'),url('./fontawesome/fontawesome-webfont.woff2')
-  format('woff2'),url('./fontawesome/fontawesome-webfont.woff')
-  format('woff'),url('./fontawesome/fontawesome-webfont.ttf')
-  format('truetype'),url('./fontawesome/fontawesome-webfont.svg#fontawesomeregular')
+  src:url('./common/fontawesome/fontawesome-webfont.eot');
+  src:url('./common/fontawesome/fontawesome-webfont.eot?#iefix')
+  format('embedded-opentype'),url('./common/fontawesome/fontawesome-webfont.woff2')
+  format('woff2'),url('./common/fontawesome/fontawesome-webfont.woff')
+  format('woff'),url('./common/fontawesome/fontawesome-webfont.ttf')
+  format('truetype'),url('./common/fontawesome/fontawesome-webfont.svg#fontawesomeregular')
   format('svg');
   font-weight:normal;
   font-style:normal

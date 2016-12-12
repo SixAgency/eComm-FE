@@ -3,7 +3,6 @@ import Masonry from "react-masonry-component";
 import GridElement from "./GridElement";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/commonActions";
-import "./products_grid.scss";
 
 
 const mapStateToProps = ((state) => {

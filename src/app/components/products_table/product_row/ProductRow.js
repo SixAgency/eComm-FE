@@ -1,5 +1,4 @@
 import React from "react";
-import "./product_row.scss";
 
 class ProductRow extends React.Component {
 

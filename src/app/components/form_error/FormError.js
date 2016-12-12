@@ -1,5 +1,4 @@
 import React from "react";
-import "./form_error.scss";
 
 class FormError extends React.Component {
     static propTypes = {

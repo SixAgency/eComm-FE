@@ -1,5 +1,4 @@
 import React from "react";
-import "./cta_info.scss";
 
 class CtaInfo extends React.Component {
     static propTypes = {

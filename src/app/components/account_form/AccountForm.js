@@ -1,5 +1,4 @@
 import React from "react";
-import "./account_form.scss";
 
 class AccountForm extends React.Component {
     static propTypes = {
@@ -42,7 +41,7 @@ class AccountForm extends React.Component {
         if ( this.props.selected === 'login' ) {
             return (
                 <div className="input-wrapper helpers-wrapper">
-                    <label className="inline" 
+                    <label className="inline"
                       htmlFor="rememberme">
                         <input name="rememberme"
                           type="checkbox"
@@ -72,11 +71,11 @@ class AccountForm extends React.Component {
                 <h4 className="form-subtitle">
                     {content.formSubtitle}
                 </h4>
-                <form className="account-form" 
+                <form className="account-form"
                   onSubmit={this.props.onLogIn}
                 >
                     <div className="input-wrapper">
-                        <label className="field-names" 
+                        <label className="field-names"
                           htmlFor="username">
                             {content.firstInput}
                         </label>
@@ -86,7 +85,7 @@ class AccountForm extends React.Component {
                           id="username" />
                     </div>
                     <div className="input-wrapper">
-                        <label className="field-names" 
+                        <label className="field-names"
                           htmlFor="password">
                             {content.secondInput}
                         </label>
