@@ -1,5 +1,4 @@
 import React from "react";
-import "./shipping_calculator.scss";
 
 class ShippingCalculator extends React.Component {
     static propTypes = {

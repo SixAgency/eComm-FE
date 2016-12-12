@@ -1,4 +1,3 @@
-import "./mobile_nav.scss";
 import React from "react";
 import { Link } from "react-router";
 import { toggleMobileNav } from "../../actions/commonActions";

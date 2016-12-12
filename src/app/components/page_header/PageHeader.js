@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router";
-import "./page-header.scss";
-
 
 class PageHeader extends React.Component {
     static propTypes = {

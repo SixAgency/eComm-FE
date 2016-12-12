@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import "./preloader.scss";
 
 const mapStateToProps = ((state) => {
     return { loading: state.loading };

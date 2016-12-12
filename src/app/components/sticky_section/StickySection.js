@@ -1,4 +1,3 @@
-import "./sticky_section.scss";
 import React from "react";
 import { connect } from "react-redux";
 import { setHeroHeight } from "../../actions/commonActions";

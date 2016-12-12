@@ -1,5 +1,4 @@
-import "./normalize.css";
-import "../styles/common.scss";
+import "../styles/styles.scss";
 
 import React from "react";
 import Header from "./header";

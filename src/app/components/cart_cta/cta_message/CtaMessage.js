@@ -1,5 +1,4 @@
 import React from "react";
-import "./cta_message.scss";
 
 class CtaMessage extends React.Component {
     render() {

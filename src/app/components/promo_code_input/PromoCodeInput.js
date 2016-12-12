@@ -1,5 +1,4 @@
 import React from "react";
-import "./promo_code_input.scss";
 
 class PromoCodeInput extends React.Component{
     render() {

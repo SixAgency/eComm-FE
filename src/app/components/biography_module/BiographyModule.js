@@ -1,7 +1,6 @@
 import React from "react";
 import { biographyGrid } from "../../site_const";
 import GridText from "./GridText";
-import "./biography_module.scss";
 
 class BiographyModule extends React.Component {
     render() {

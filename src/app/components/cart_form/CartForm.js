@@ -1,5 +1,4 @@
 import React from "react";
-import "./cart_form.scss";
 import ShippingCalculator from "./shipping_calculator/ShippingCalculator";
 
 class CartForm extends React.Component {

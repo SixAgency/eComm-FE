@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router";
-import "./grid_element.scss";
 
 class GridElement extends React.Component {
 
