@@ -3,7 +3,7 @@ import React from "react";
 class CustomLabel extends React.Component {
     static propTypes = {
         classname: React.PropTypes.string.isRequired,
-        for: React.PropTypes.func.isRequired,
+        for: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         required: React.PropTypes.bool
     }

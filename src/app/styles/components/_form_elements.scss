@@ -50,7 +50,7 @@
     /*************/
     /*** INPUTS **/
     /*************/
-
+    .select,
     .input {
         display: block;
         width: 100%;
@@ -71,6 +71,15 @@
         }
     }
 
+    .select--variant {
+        font: inherit;
+        border: 1px solid #e9e9e9;
+        margin: 0;
+        padding: 5px 10px;
+        text-transform: none;
+        color: $nero;
+    }
+
     /*************/
     /*** LABELS **/
     /*************/
@@ -86,6 +95,8 @@
             border: none;
         }
     }
+
+
 }
 
 @media (max-width: 767px) and (min-width: 320px) {
