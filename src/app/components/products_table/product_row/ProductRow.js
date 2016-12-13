@@ -11,22 +11,22 @@ class ProductRow extends React.Component {
     }
 
     render() {
-        const item = this.props.cart;
+        const cart = this.props.cart;
         return(
             <tr className="cart-item">
                 <td className="product-name">
                     <img
-                      src={item.variant.images[0].large_url}
+                      src={cart.variant.images[0].large_url}
                       width="200"
                       height="200"
                     />
                     <a href="#">
-                        {item.variant.name}
+                        {cart.variant.name}
                     </a>
                 </td>
                 <td className="product-price">
                     <span className="amount">
-                        {item.variant.price} $
+                        {cart.variant.price} $
                     </span>
                 </td>
                 <td className="product-quantity">
@@ -48,9 +48,7 @@ class ProductRow extends React.Component {
                 </td>
                 <td className="product-subtotal">
                     <span className="amount">
-                        ${ (parseFloat(item.variant.price) *
-                        parseFloat(item.quantity)).
-                        toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}
+                        ${cart.total}
                     </span>
                 </td>
                 <td className="product-remove">

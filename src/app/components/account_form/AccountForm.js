@@ -1,4 +1,6 @@
 import React from "react";
+import Title from "../../components/text/Title";
+import Subtitle from "../../components/text/Subtitle";
 
 class AccountForm extends React.Component {
     static propTypes = {
@@ -65,12 +67,14 @@ class AccountForm extends React.Component {
         const passwordFields = this.setPasswordHelpers();
         return (
             <div className="account-wrapper login-wrapper">
-                <h2 className="form-title">
-                    {content.formTitle}
-                </h2>
-                <h4 className="form-subtitle">
-                    {content.formSubtitle}
-                </h4>
+                <Title
+                  classname={'form-title'}
+                  text={content.formTitle}
+                />
+                <Subtitle
+                  classname={'form-subtitle'}
+                  text={content.formSubtitle}
+                />
                 <form className="account-form"
                   onSubmit={this.props.onLogIn}
                 >
