@@ -47,9 +47,9 @@
         color: $charcoal;
     }
 
-    /*************/
-    /*** INPUTS **/
-    /*************/
+    /**********************/
+    /*** INPUTS & SELECT **/
+    /**********************/
     .select,
     .input {
         display: block;
@@ -95,8 +95,6 @@
             border: none;
         }
     }
-
-
 }
 
 @media (max-width: 767px) and (min-width: 320px) {
