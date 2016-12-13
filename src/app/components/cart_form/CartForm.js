@@ -3,6 +3,10 @@ import ShippingCalculator from "./shipping_calculator/ShippingCalculator";
 
 class CartForm extends React.Component {
 
+    static propTypes = {
+        cart: React.PropTypes.object.isRequired
+    }
+
     constructor(props){
         super(props);
         this.state = {
@@ -21,6 +25,7 @@ class CartForm extends React.Component {
     }
 
     render() {
+        const cart = this.props.cart;
         return (
             <div className="cart-form-wrapper">
                 <div className="cart-form-contents">
@@ -29,13 +34,15 @@ class CartForm extends React.Component {
                             Cart Totals
                         </h2>
                         <h3 className="cart-subtitles">
-                            You are ordering 2 items
+                            You are ordering {cart.total_quantity} items
                         </h3>
                         <table className="cart-totals-contents">
                             <tbody>
                                 <tr className="cart-subtotal">
                                     <th className="table-heads">Subtotal</th>
-                                    <td className="ammount data"> $28.00 </td>
+                                    <td className="ammount data">
+                                        ${cart.total}
+                                    </td>
                                 </tr>
                                 <tr className="cart-subtotal">
                                     <th className="table-heads" />
@@ -74,7 +81,7 @@ class CartForm extends React.Component {
                                     <td className="total-price data">
                                         <strong>
                                             <span className="amount">
-                                                $28.00
+                                                ${cart.total}
                                             </span>
                                         </strong>
                                     </td>

@@ -35,8 +35,8 @@
                     font-size: 16px;
                     line-height: 22px;
                     text-align: left;
-                    p { margin: 0px; }
-                    p:nth-child(even){
+                    span { display: block; margin: 0px; }
+                    span:nth-child(even){
                         font-weight: bold;
                     }
                 }

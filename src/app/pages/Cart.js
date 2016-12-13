@@ -7,6 +7,7 @@ import CartCta from "../components/cart_cta/CartCta";
 import ProductsTable from "../components/products_table/ProductsTable";
 import PromoCodeInput from "../components/promo_code_input/PromoCodeInput";
 import CartForm from "../components/cart_form/CartForm";
+import Title from "../components/text/Title";
 
 
 const mapStateToProps = ((state) => {
@@ -88,15 +89,16 @@ class Cart extends React.Component {
                                     />
                                 </p>
                             </form>
-                            <h1 className="cart-title">
-                              Your Cart
-                            </h1>
+                            <Title
+                              classname={'cart-title'}
+                              text={'Your Cart'}
+                            />
                             <h3 className="cart-subtitle">
                                 {cart.total_quantity} items in your cart
                             </h3>
                             <ProductsTable cart={cart} />
                             <PromoCodeInput />
-                            <CartForm />
+                            <CartForm cart={cart} />
                         </div>
                     </article>
                 </div>

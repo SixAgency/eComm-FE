@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
+import { notFoundText } from "../site_const";
+import Title from "../components/text/Title";
+import Subtitle from "../components/text/Subtitle";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -9,6 +12,7 @@ const mapDispatchToProps = ((dispatch) => {
 });
 
 class NotFound extends React.Component {
+
     static propTypes = {
         toggleLoader: React.PropTypes.func.isRequired
     }
@@ -30,14 +34,15 @@ class NotFound extends React.Component {
                     <div className="content">
                         <article>
                             <div className="content-body">
-                                <h2 className="error-title">
-                                    Uh oh! (404 Error)
-                                </h2>
+                                <Title
+                                  classname={notFoundText.titleClass}
+                                  text={notFoundText.title}
+                                />
                                 <div>
-                                    <h4 className="error-content">
-                                        We are really sorry but the page you
-                                        requested is missing :(
-                                    </h4>
+                                    <Subtitle
+                                      classname={notFoundText.subtitleClass}
+                                      text={notFoundText.subtitle}
+                                    />
                                 </div>
                                 {/* TODO: Update link */}
                                 <a href="#" className="go-back-btn" >

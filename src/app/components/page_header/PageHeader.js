@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import { pageHeaderLinks } from "../../site_const";
 
 class PageHeader extends React.Component {
     static propTypes = {
@@ -14,38 +15,10 @@ class PageHeader extends React.Component {
     }
 
     setLinks = () => {
-        var defaultLinks = [
-            {
-                id: 1,
-                name: 'Login / Register',
-                link: '#',
-                title: 'Login / Register'
-            }
-        ];
-        var loggedInLinks = [
-            {
-                id: 1,
-                name: 'My Account',
-                link: '/my-account/',
-                title: 'My Account'
-            },
-            {
-                id: 2,
-                name: 'Edit Account',
-                link: '/my-account/edit-account',
-                title: 'Edit Account'
-            },
-            {
-                id: 3,
-                name: 'Logout',
-                link: '#',
-                title: 'Logout'
-            }
-        ];
         if ( this.props.loggedIn ){
-            return [...loggedInLinks];
+            return [...pageHeaderLinks.loggedInLinks];
         }
-        return [...defaultLinks];
+        return [...pageHeaderLinks.defaultLinks];
     }
 
     render(){
