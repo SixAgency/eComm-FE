@@ -2,8 +2,8 @@ import React from "react";
 
 class Title extends React.Component {
     static propTypes = {
-        classname: React.PropTypes.string.isRequired,
-        text: React.PropTypes.func.isRequired
+        classname: React.PropTypes.string,
+        text: React.PropTypes.string.isRequired
     }
 
     render = () => {

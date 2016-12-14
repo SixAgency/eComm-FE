@@ -2,7 +2,7 @@ import React from "react";
 
 class Text extends React.Component {
     static propTypes = {
-        classname: React.PropTypes.string.isRequired,
+        classname: React.PropTypes.string,
         text: React.PropTypes.string.isRequired
     }
     createMarkup = () => {

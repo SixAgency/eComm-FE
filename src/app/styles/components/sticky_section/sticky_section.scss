@@ -11,7 +11,7 @@
         .sticky-content {
             position: relative;
             width: 100%;
-            .hero-image { 
+            .hero-image {
                 display: block;
                 width: 100%;
                 height: auto;
@@ -83,12 +83,12 @@
     }
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
     .sticky-wrapper {
         .sticky-container {
             .sticky-content {
                 .sticky-hero-text {
-                    h1, a { 
+                    h1, a {
                         font-size: 50px;
                         line-height: 50px;
                     }
@@ -108,25 +108,25 @@
                     // margin-left: 0px !important;
                 }
                 .sticky-hero-text {
-                    h1, a { 
+                    h1, a {
                         font-size: 36px;
                         line-height: 36px;
                     }
                 }
             }
         }
-    }  
+    }
 }
 @media (max-width: 767px) and (min-width: 320px) {
     .sticky-wrapper {
         .sticky-container {
             .sticky-content {
-                .hero-image { 
+                .hero-image {
                     width: 160%;
                     margin-left: -50%;
                 }
                 .sticky-hero-text {
-                    h1, a { 
+                    h1, a {
                         font-size: 24px;
                         line-height: 24px;
                     }
@@ -134,7 +134,7 @@
             }
         }
         .sticky-bottom-text {
-            h1 { 
+            h1 {
                 text-align: left;
                 padding-left: 13px;
                 font-size: 24px;
