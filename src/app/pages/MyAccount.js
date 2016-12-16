@@ -7,6 +7,7 @@ import MyAccountInner from "../components/my_account_inner/MyAccountInner";
 import EditAccountForm from "../components/edit_account_form/EditAccountForm";
 import FormError from "../components/form_error/FormError";
 import cx from "classnames";
+import axios from "axios";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -26,17 +27,61 @@ class MyAccount extends React.Component {
             loggedIn: false,
             className: 'contents',
             formHasErrors: false,
-            formErrorText: []
+            formErrorText: [],
+            username: '',
+            password: ''
         };
     }
 
-    onLogIn(e){
+    // handleErrors = (err) => {
+    //     // error handlig here
+    // }
+
+    handleUsername = (e) => {
+        this.setState({username: e.target.value});
+    }
+
+    handlePassword = (e) => {
+        this.setState({password: e.target.value});
+    }
+
+    handleLogin = (e) => {
         e.preventDefault();
-        this.setState({
-            loggedIn: true
-        });
+        const username = 'username';
+        const password = 'password';
+        if( (this.state.username === username) &&
+            (this.state.password === password) ){
+            this.setState({
+                loggedIn: true
+            });
+            // window.sessionStorage.setItem('username', username);
+        } else {
+            this.setState({
+                loggedIn: false
+            });
+        }
+        // const data = {
+        //     spree_user: {
+        //         email: this.state.username,
+        //         password: this.state.password,
+        //         remember_me: "0"
+        //     }
+        // };
+        //  let config = {
+        //     method: 'post',
+        //     baseURL: 'http://staging.ecomm.com',
+        //     url: '/login',
+        //     data: data,
+        //     headers: {'Content-Type': 'application/json'}
+        // };
+        // axios({config}).then( (resp) => {
+        //     console.log(resp);
+        // }).catch( (err) => {
+        //     console.log(err);
+        // });
 
     }
+
 
     // TODO - Remove the timeout - once we are connected to the API
     componentDidMount() {
@@ -95,10 +140,16 @@ class MyAccount extends React.Component {
                         <div className={cx(this.state.className)}
                           ref="content">
                             { this.state.loggedIn ?
-                                // <MyAccountInner /> :
-                                <EditAccountForm /> :
+                                <MyAccountInner /> :
+                                // <EditAccountForm /> :
                                 <AccountForm {...this.state}
-                                  onLogIn={this.onLogIn.bind(this)}
+                                  handleLogin={this.handleLogin.bind(this)}
+                                  handleUsername={
+                                        this.handleUsername.bind(this)
+                                    }
+                                  handlePassword={
+                                        this.handlePassword.bind(this)
+                                    }
                                 />
                             }
                         </div>

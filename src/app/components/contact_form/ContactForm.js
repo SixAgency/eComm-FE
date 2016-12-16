@@ -3,7 +3,9 @@ import React from "react";
 export default class ContactForm extends React.Component{
     render() {
         return (
-            <form className="contact-form">
+            <form className="contact-form"
+              method="POST"
+              action="/contact">
                 <div className="input-wrapper">
                     <label
                       className="field-names"
