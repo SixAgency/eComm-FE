@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { toggleLoader } from "../actions/commonActions";
 import ContactForm from "../components/contact_form/ContactForm";
+import axios from "axios";
 
 const mapDispatchToProps = ((dispatch) => {
     return {
@@ -18,6 +19,13 @@ class Contact extends React.Component {
         setTimeout(function(){
             this.props.toggleLoader(false);
         }.bind(this), 1000);
+        axios.post("/contact", {form: 'contact'})
+            .then((response) => {
+                console.log(response);
+            })
+        .catch((err) => {
+           console.log(err);
+        });
     }
 
     componentWillUnmount() {

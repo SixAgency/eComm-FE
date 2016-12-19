@@ -5,7 +5,9 @@ import Subtitle from "../../components/text/Subtitle";
 class AccountForm extends React.Component {
     static propTypes = {
         selected: React.PropTypes.string.isRequired,
-        onLogIn: React.PropTypes.func.isRequired
+        handleLogin: React.PropTypes.func.isRequired,
+        handleUsername: React.PropTypes.func.isRequired,
+        handlePassword: React.PropTypes.func.isRequired
     }
 
     constructor(props){
@@ -76,7 +78,7 @@ class AccountForm extends React.Component {
                   text={content.formSubtitle}
                 />
                 <form className="account-form"
-                  onSubmit={this.props.onLogIn}
+                  onSubmit={this.props.handleLogin}
                 >
                     <div className="input-wrapper">
                         <label className="field-names"
@@ -86,7 +88,8 @@ class AccountForm extends React.Component {
                         <input type="text"
                           className="input-fields"
                           name="username"
-                          id="username" />
+                          id="username"
+                          onChange={this.props.handleUsername.bind(this)} />
                     </div>
                     <div className="input-wrapper">
                         <label className="field-names"
@@ -96,13 +99,15 @@ class AccountForm extends React.Component {
                         <input type="password"
                           className="input-fields"
                           name="password"
-                          id="password" />
+                          id="password"
+                          onChange={this.props.handlePassword.bind(this)} />
                     </div>
                     <div className="input-wrapper button-wrapper">
                         <input type="submit"
                           className="account-button"
                           name="login"
-                          value={content.buttonText} />
+                          value={content.buttonText}
+                        />
                     </div>
                     {passwordFields}
                 </form>
