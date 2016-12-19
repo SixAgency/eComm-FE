@@ -17,6 +17,10 @@ export default {
   // Keep in mind, routes are evaluated in order
   children: [
     require('./home').default,
+    require('./biography').default,
+    require('./account').default,
+    require('./cart').default,
+    require('./contact').default,
     require('./notFound').default,
   ],
 
