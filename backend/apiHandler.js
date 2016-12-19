@@ -1,8 +1,8 @@
 const axios = require("axios");
 const token = "3637b8b39f4a33a248c4f296436d49b0ad45f60ffaacdef1";
 const request = require("request");
-// const http = require("http");
-// var querystring = require("querystring");
+const http = require("http");
+const querystring = require("querystring");
 
 module.exports = {
     // PRODUCTS
@@ -40,24 +40,24 @@ module.exports = {
     },
 
     // USERS
-    loginUser: function() {
-        let email = 'adrian.sarkany@clever-software-solutions.com';
-        let password = 'mareparola';
-        request.post({
-            headers: {'Content-Type': 'application/json'},
-            url: 'http://staging.ecomm.com/login',
-            body: {
-                'spree_user': {
-                    'email': email,
-                    'password': password,
-                    'remember_me': "0"
-                }
-            },
-            function(error, response, body){
-                console.log(body);
-            }
-        });
-    }
+    // loginUser: function() {
+    //     let email = 'adrian.sarkany@clever-software-solutions.com';
+    //     let password = 'mareparola';
+    //     request.post({
+    //         headers: {'Content-Type': 'application/json'},
+    //         url: 'http://staging.ecomm.com/login',
+    //         body: {
+    //             'spree_user': {
+    //                 'email': email,
+    //                 'password': password,
+    //                 'remember_me': "0"
+    //             }
+    //         },
+    //         function(error, response, body){
+    //             console.log(body);
+    //         }
+    //     });
+    // },
 
     // loginUser: function(req, res) {
     //     console.log(req.body);
@@ -105,31 +105,35 @@ module.exports = {
     //     }));
     // }
 
-    // loginUser: function(req, res) {
-    //     const {email, password} = req.body;
-    //     let data = querystring.stringify({
-    //         email: email,
-    //         password: password,
-    //         remember_me: "0"
-    //     });
+    loginUser: function(req) {
+        const {email, password} = req.body;
+        let data = querystring.stringify({
+            email: email,
+            password: password,
+            remember_me: "0"
+        });
 
-    //     let config = {
-    //         method: 'post',
-    //         url: 'http://staging.ecomm.com/login',
-    //         data: data,
-    //         responseType: 'application/json',
-    //         headers: {'Content-Type': 'application/json'}
-    //     };
+        let config = {
+            method: 'POST',
+            url: 'http://staging.ecomm.com/login',
+            data: data,
+            responseType: 'application/json',
+            headers: {'Content-Type': 'application/json'}
+        };
 
-    //     let request = http.request(config, function(res) {
-    //         res.setEncoding('utf8');
-    //         res.on('data', function(response) {
-    //             console.log(response);
-    //         });
-    //     });
+        let request = http.request(config, function(res) {
+            res.setEncoding('utf8');
+            res.on('data', function(body) {
+                console.log(body);
+            });
+        });
 
-    //     request.write(data);
-    //     request.end();
-    // }
+        request.on('error', function(e) {
+            console.log(e.message);
+        });
+
+        request.write(data);
+        request.end();
+    }
 
 };
