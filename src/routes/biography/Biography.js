@@ -2,6 +2,8 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Biography.css';
 import HeroBanner from '../../components/HeroBanner';
+import Paragraph from '../../components/Paragraph';
+import StaticGrid from '../../components/StaticGrid';
 import bioBanner from './biography_banner.jpg';
 
 class Biography extends React.Component {
@@ -17,6 +19,8 @@ class Biography extends React.Component {
           heroBanner={bioBanner}
           bottomText={bottomText}
         />
+        <Paragraph />
+        <StaticGrid />
       </section>
     );
   }

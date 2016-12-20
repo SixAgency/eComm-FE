@@ -72,7 +72,7 @@ class Product extends React.Component {
                     value="1"
                     title="Qty"
                     size="4"
-                    onChange={this.setValue}
+                    onChange={this.onChange}
                   />
                   <input type="button" defaultValue="+" className={cx(s.input, s.minus)} />
                 </div>

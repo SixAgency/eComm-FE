@@ -28,14 +28,13 @@ class HeroBanner extends React.Component {
     super(props);
     this.state = {
       transform: 'translate3d(0px, 0px, 0px)',
-      heroHeight: '',
+      heroHeight: '100vh',
     };
   }
 
   componentDidMount = () => {
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleImageLoad);
-    this.handleImageLoad();
   }
 
   componentWillUnmount = () => {
@@ -65,9 +64,9 @@ class HeroBanner extends React.Component {
         className={cx(s.herobanner, s[this.props.heroClass])}
         style={{ height: this.state.heroHeight }}
       >
-        <div className={s.container} ref={c => (this.node = c)}>
+        <div className={s.container}>
           <div className={s.content} style={{ transform: this.state.transform }}>
-            <img className={s.heroimage} src={heroBanner} ref={c => (this.node = c)} alt="Hero Banner" />
+            <img className={s.heroimage} src={heroBanner} ref={c => (this.node = c)} onLoad={this.handleImageLoad} alt="Hero Banner" />
             <div className={s.herotext}>
               <h1 className={s.title}>{heroText.title}</h1>
               <Link className={s.link} to={heroText.url}>{heroText.link}</Link>

@@ -1,0 +1,105 @@
+.staticgrid {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  .gridwrapper {
+    width: 100%;
+    list-style: none;
+    display: table;
+    padding: 0;
+    margin: 0;
+    .gridfour {
+      position: relative;
+      float: left;
+      width: 25%;
+      height: 25vw;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      .gtext {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        padding: 0 5%;
+        .text {
+          font-family: Georgia, Times, serif;
+          font-size: 16px;
+          line-height: 22px;
+          margin: 0;
+          font-weight: 400;
+          text-align: left;
+          color: #ffffff;
+        }
+        .text:nth-child(even){
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+.staticgridtext { background-image: url(./homepagecolor-480x480.png); }
+.staticgrid1 { background-image: url(./gallery1-1-480x480.jpg); }
+.staticgrid2 { background-image: url(./mentorship2-480x480.jpg); }
+.staticgrid3 { background-image: url(./kris5-480x480.jpg); }
+.staticgrid4 { background-image: url(./krissorbie3-480x480.jpg); }
+.staticgrid5 { background-image: url(./kris3-480x480.jpg); }
+.staticgrid6 { background-image: url(./kris2-480x480.jpg); }
+.staticgrid7 { background-image: url(./kris6-480x480.jpg); }
+.staticgrid8 { background-image: url(./kris4-480x480.jpg); }
+.staticgrid9 { background-image: url(./krismentorhour-480x480.jpg); }
+
+@media only screen and (max-device-width: 960px) and (min-device-width: 320px) {
+  .staticgrid {
+    .gridwrapper {
+      .gridfour {
+        width: 50%;
+        height: 50vw;
+        .gtext {
+          font-size: 15px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-device-width: 767px) and (min-device-width: 320px) {
+  .staticgrid {
+    .gridwrapper {
+      .gridfour {
+        width: 50%;
+        height: 50vw;
+        .gtext {
+          font-size: 14px;
+          line-height: 21px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+  .staticgrid {
+    .gridwrapper {
+      .gridfour {
+        display: block;
+        width: 100%;
+        height: 100vw;
+        float: none;
+        .gtext {
+          font-size: 13px;
+          line-height: 21px;
+        }
+      }
+      .staticgridtext { height: 50vw; }
+    }
+  }
+}
