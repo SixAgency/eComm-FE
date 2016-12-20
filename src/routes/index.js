@@ -21,9 +21,9 @@ export default {
     require('./account').default,
     require('./cart').default,
     require('./contact').default,
+    require('./product').default,
     require('./notFound').default,
   ],
-
   async action({ next }) {
     // Execute each child route until one of them return the result
     const route = await next();
