@@ -4,6 +4,8 @@ import fetch from '../core/fetch';
 const apiRouter = express.Router();
 const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';
 
+// TODO - parse data method
+
 // CART ROUTES
 apiRouter.get('/cart', (req, res) => {
   const url = `http://staging.ecomm.com/api/orders/R540018862?token=${token}`;
@@ -81,10 +83,44 @@ apiRouter.get('/logout', (req, res) => {
       .then((json) => (res.json(json))));
 });
 
-// TODO - register
+// register
+apiRouter.get('/signup', (req, res) => {
+  const data = {
+    spree_user: {
+      email: 'teeeest@example.com',
+      password: 'testpassword',
+      password_confirmation: 'testpassword',
+    },
+  };
+  fetch('http://staging.ecomm.com/signup',
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    },
+  ).then(
+    (resp) => (resp.json())
+    .then((json) => (res.json(json))))
+  .catch((err) => (err.json())
+    .then((json) => (res.json(json))));
+});
 
 // ADDRESES
 // certain address
 // http://staging.ecomm.com/api/v1/orders/1/addresses/1?token=a2169dfff47ef681825af95b2a49772291777e01ea6b8985
+
+
+// ORDERS
+// order details - needs order number
+apiRouter.get('/order-details', (req, res) => {
+  fetch(`http://staging.ecomm.com/api/orders/${req}?token=${token}`)
+    .then(
+      (resp) => (resp.json())
+      .then((json) => (res.json(json))))
+    .catch((err) => (err.json())
+      .then((json) => (res.json(json))));
+});
+
+// TODO - user orders
 
 export default apiRouter;
