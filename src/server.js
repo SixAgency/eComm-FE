@@ -21,11 +21,11 @@ import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
 import routes from './routes';
+import apiRoutes from './api/routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port } from './config';
 
 const app = express();
-
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -68,14 +68,8 @@ app.use(bodyParser.json());
 // );
 
 //
-// Register API middleware
-// -----------------------------------------------------------------------------
-// app.use('/graphql', expressGraphQL(req => ({
-//   schema,
-//   graphiql: process.env.NODE_ENV !== 'production',
-//   rootValue: { request: req },
-//   pretty: process.env.NODE_ENV !== 'production',
-// })));
+// Register API Endpoints
+app.use('/api', apiRoutes);
 
 //
 // Register server-side rendering middleware
