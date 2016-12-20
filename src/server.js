@@ -16,6 +16,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
+import Compression from 'compression';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -33,10 +34,12 @@ const app = express();
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
+app.use(Compression());
 //
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
-app.use(express.static(path.join(__dirname, 'public')));
+const oneDay = 24 * 60 * 60 * 1000;
+app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
