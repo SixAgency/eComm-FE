@@ -4,6 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './MobileNavigation.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
+import SocialMedia from '../SocialMedia';
 
 class MobileNavigation extends React.Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class MobileNavigation extends React.Component {
           <span className={s.hr} />
           <span className={s.vr} />
         </Link>
+        <SocialMedia socialClass={'socialmobile'} />
       </div>
     );
   }

@@ -5,15 +5,15 @@
  * Base styles
  * ========================================================================== */
 .layout {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
-	z-index: 100;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 
 .pagewrapper {
-	position: relative;
+  position: relative;
   top: 0;
   right: 0;
   width: 100%;
@@ -23,6 +23,6 @@
   transition: right 0.555s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 }
 .menuopen {
-	right: 50%;
+  right: 50%;
   width: 100%;
 }

@@ -1,23 +1,15 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Footer.css';
-import Link from '../Link';
+import SocialMedia from '../SocialMedia/SocialMedia';
 
 class Footer extends React.Component {
   render() {
     return (
-      <div className={s.root}>
-        Footer
-      </div>
+      <footer className={s.footer}>
+        <SocialMedia socialClass={'socialfooter'} />
+        <p className={s.credits}>© Kris Sorbie Inc. All rights reserved. 2016</p>
+      </footer>
     );
   }
 }

@@ -3,7 +3,8 @@ import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
-import setNavigation from '../../utils/utils';
+import { NAV } from '../../constants/AppConsts';
+// import setNavigation from '../../utils/utils';
 
 class Navigation extends React.Component {
 
@@ -53,14 +54,14 @@ class Navigation extends React.Component {
   }
 
   getActive = (item) => {
-    if (item.isActive) {
+    if ((this.props.activeSlug === item.slug)) {
       return s.active;
     }
     return null;
   }
 
   render() {
-    const navItems = setNavigation(this.props.activeSlug);
+    const navItems = [...NAV];
     return (
       <ul className={cx(s[this.props.navClass], s[this.props.menuOpen])} ref={c => (this.node = c)} role="navigation">
         {navItems.map((val, key) => (

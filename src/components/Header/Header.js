@@ -85,7 +85,12 @@ class Header extends React.Component {
     const cart = this.props.cartItems;
     return (
       <header
-        className={cx(s.header, s[this.props.headerClass], s[this.state.headerClass], s[this.state.stickyClass])}
+        className={cx(
+          s.header,
+          s[this.props.headerClass],
+          s[this.state.headerClass],
+          s[this.state.stickyClass],
+        )}
         onMouseEnter={this.onHoverStart}
         onMouseLeave={this.onHoverEnd}
       >
