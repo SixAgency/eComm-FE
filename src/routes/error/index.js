@@ -17,6 +17,7 @@ export default {
   action({ error }) {
     return {
       title: error.name,
+      headerClass: 'default',
       description: error.message,
       component: <ErrorPage error={error} />,
       status: error.status || 500,

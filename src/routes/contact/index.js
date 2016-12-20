@@ -8,9 +8,12 @@ export default {
   path: '/contact',
 
   async action() {
+    const cart = await fetch('/api/cart')
+      .then((resp) => (resp.json())
+        .then((json) => (json)));
     return {
       title: 'React Starter Kit',
-      component: <Layout><Contact /></Layout>,
+      component: <Layout headerClass={'colored'} activeSlug={'/contact'} cartItems={cart}><Contact /></Layout>,
     };
   },
 

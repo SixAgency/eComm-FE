@@ -31,7 +31,6 @@ export default {
     // Provide default values for title, description etc.
     route.title = `${route.title || 'Untitled Page'} - www.krissorbie.com`;
     route.description = route.description || '';
-
     return route;
   },
 

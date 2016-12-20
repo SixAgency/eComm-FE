@@ -8,9 +8,12 @@ export default {
   path: '/biography',
 
   async action() {
+    const cart = await fetch('/api/cart')
+      .then((resp) => (resp.json())
+        .then((json) => (json)));
     return {
       title: 'React Starter Kit',
-      component: <Layout><Biography /></Layout>,
+      component: <Layout headerClass={'default'} activeSlug={'/biography'} cartItems={cart}><Biography /></Layout>,
     };
   },
 

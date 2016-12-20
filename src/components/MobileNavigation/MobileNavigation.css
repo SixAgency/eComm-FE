@@ -1,0 +1,65 @@
+.mobilenav {
+  position: fixed;
+  display: table;
+  width: 50.5%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: #212121;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-transition: opacity 0.75s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  -moz-transition: opacity 0.75s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  -o-transition: opacity 0.75s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  transition: opacity 0.75s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  .closebtn {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 5%;
+    right: 5%;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    .hr, .vr {
+      position: absolute;
+      display: block;
+      width: 21px;
+      height: 2px;
+      background-color: rgb(77, 211, 218);
+      right: 13px;
+      top: 10px;
+      left: 1px;
+      -webkit-transition: height 0.150s ease-out;
+      -moz-transition: height 0.150s ease-out;
+      -ms-transition: height 0.150s ease-out;
+      -o-transition: height 0.150s ease-out;
+      transition: height 0.150s ease-out;
+    }
+    .vr {
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.menuopen {
+  z-index: 1010;
+  opacity: 1;
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+  .mobilenav {
+    .closebtn { right: 15px; }
+  }
+}
