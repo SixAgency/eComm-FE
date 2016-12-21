@@ -4,7 +4,8 @@ import cx from 'classnames';
 import s from './Layout.css';
 import Header from '../Header';
 import Footer from '../Footer';
-import MobileNavigation from '../MobileNavigation/MobileNavigation';
+import MobileNavigation from '../MobileNavigation';
+import Loader from '../Loader';
 
 class Layout extends React.Component {
 
@@ -13,6 +14,7 @@ class Layout extends React.Component {
     activeSlug: PropTypes.string.isRequired,
     cartItems: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
+    loaderClass: PropTypes.string,
   };
 
   constructor(props) {
@@ -53,6 +55,7 @@ class Layout extends React.Component {
           activeSlug={this.props.activeSlug}
           navClass={'mobilenavigation'}
         />
+        <Loader loaderClass={this.props.loaderClass} />
       </div>
     );
   }
