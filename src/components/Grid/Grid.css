@@ -16,7 +16,7 @@
 .gridthree {
   float: left;
   width: 33.3%;
-  height: 33.3vw;
+  height: 32vw;
 }
 @media only screen and (max-device-width: 768px) and (min-device-width: 320px) {
   .productsgrid {
