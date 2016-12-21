@@ -106,9 +106,17 @@ apiRouter.get('/signup', (req, res) => {
 });
 
 // ADDRESES
-// certain address
-// http://staging.ecomm.com/api/v1/orders/1/addresses/1?token=a2169dfff47ef681825af95b2a49772291777e01ea6b8985
-
+// order address
+apiRouter.get('/order-addres', (req, res) => {
+  const oId = req.param('orderId');
+  const aId = req.param('addressId');
+  fetch(`http://staging.ecomm.com/api/orders/${oId}/addresses/${aId}?token=${token}`)
+    .then(
+      (resp) => (resp.json())
+      .then((json) => (res.json(json))))
+    .catch((err) => (err.json())
+      .then((json) => (res.json(json))));
+});
 
 // ORDERS
 // order details - needs order number
