@@ -1,0 +1,6 @@
+{
+  "name": "ProductRow",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProductRow.js"
+}

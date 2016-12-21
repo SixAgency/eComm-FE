@@ -5,7 +5,7 @@ import Layout from '../../components/Layout';
 
 export default {
 
-  path: '/carts',
+  path: '/cart',
 
   async action() {
     const cart = await fetch('/api/cart')
@@ -13,7 +13,7 @@ export default {
         .then((json) => (json)));
     return {
       title: 'Cart',
-      component: <Layout headerClass={'colored'} activeSlug={'/shop'} cartItems={cart}><Cart /></Layout>,
+      component: <Layout headerClass={'default'} activeSlug={'/'} cartItems={cart}><Cart cartItems={cart} /></Layout>,
     };
   },
 
