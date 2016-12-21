@@ -13,7 +13,9 @@ export default {
         .then((json) => (json)));
     return {
       title: 'My Account',
-      component: <Layout headerClass={'colored'} activeSlug={'/my-account'} cartItems={cart}><Account /></Layout>,
+      component: <Layout headerClass={'colored'} activeSlug={'/my-account'} cartItems={cart}>
+        <Account />
+      </Layout>,
     };
   },
 
