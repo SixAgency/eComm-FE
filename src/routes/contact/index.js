@@ -12,7 +12,7 @@ export default {
       .then((resp) => (resp.json())
         .then((json) => (json)));
     return {
-      title: 'React Starter Kit',
+      title: 'Contact',
       component: <Layout headerClass={'colored'} activeSlug={'/contact'} cartItems={cart}><Contact /></Layout>,
     };
   },

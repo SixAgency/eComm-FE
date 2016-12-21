@@ -22,7 +22,8 @@ import runServer from './runServer';
 //   '/page/name/', // => build/public/page/name/index.html
 // ];
 const routes = [
-  '/',
+  '/biography',
+  '/contact',
   '/404', // https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/
 ];
 
@@ -30,11 +31,10 @@ async function render() {
   const server = await runServer();
 
   // add dynamic routes
-  // const products = await fetch(`http://${server.host}/api/products`).then(res => res.json());
-  // products.forEach(product => routes.push(
-  //   `/product/${product.uri}`,
-  //   `/product/${product.uri}/specs`
-  // ));
+  const products = await fetch(`http://${server.host}/api/products`).then(res => res.json());
+  products.forEach(product => routes.push(
+    `/product/${product.slug}`,
+  ));
 
   await Promise.all(routes.map(async (route, index) => {
     const url = `http://${server.host}${route}`;

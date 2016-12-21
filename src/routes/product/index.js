@@ -17,7 +17,7 @@ export default {
       .then((resp) => (resp.json())
         .then((json) => (json.products[0])));
     return {
-      title: 'React Starter Kit',
+      title: product.name || 'Shop',
       component: <Layout headerClass={'colored'} activeSlug={'/'} cartItems={cart}><Product product={product} /></Layout>,
     };
   },

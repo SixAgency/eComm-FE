@@ -29,7 +29,7 @@ export default {
     const route = await next();
 
     // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'} - www.krissorbie.com`;
+    route.title = `${route.title || 'Untitled Page'} - krissorbie`;
     route.description = route.description || '';
     return route;
   },

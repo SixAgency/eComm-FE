@@ -9,7 +9,7 @@ export default {
 
   async action() {
     return {
-      title: 'React Starter Kit',
+      title: 'My Account',
       component: <Layout headerClass={'colored'} activeSlug={'/my-account'}><Account /></Layout>,
     };
   },
