@@ -9,6 +9,7 @@ class Minicart extends React.Component {
     cartItems: PropTypes.object.isRequired,
     cartClass: PropTypes.string.isRequired,
   }
+
   render = () => {
     const cart = this.props.cartItems;
     return (
@@ -36,7 +37,8 @@ class Minicart extends React.Component {
                 </li>))}
             </ul>
             <p className={s.total}>
-              <strong>Subtotal:</strong><span className={s.amount}>{cart.display_item_total}</span>
+              <strong>Subtotal:</strong>
+              <span className={s.amount}>{cart.display_item_total}</span>
             </p>
             <p className={s.buttons}>
               <Link to="/cart" className={cx(s.button, s.view)}>View Cart</Link>

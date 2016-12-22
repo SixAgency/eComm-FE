@@ -6,7 +6,7 @@ import Link from '../Link';
 import { NAV } from '../../constants/AppConsts';
 // import setNavigation from '../../utils/utils';
 
-class Navigation extends React.PureComponent {
+class Navigation extends React.Component {
 
   static propTypes = {
     activeSlug: PropTypes.string.isRequired,
@@ -34,6 +34,7 @@ class Navigation extends React.PureComponent {
       display: 'block',
     };
     this.setState({ currentStyles });
+    event.preventDefault();
   }
 
   onHoverEnd = () => {

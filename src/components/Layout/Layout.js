@@ -5,7 +5,6 @@ import s from './Layout.css';
 import Header from '../Header';
 import Footer from '../Footer';
 import MobileNavigation from '../MobileNavigation';
-import Loader from '../Loader';
 
 class Layout extends React.Component {
 
@@ -21,7 +20,15 @@ class Layout extends React.Component {
     super(props);
     this.state = {
       menuOpen: '',
+      cart: this.props.cartItems,
+      opacity: { display: 'none' },
     };
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      opacity: { display: 'block' },
+    });
   }
 
   mobileNavOpen = () => {
@@ -37,7 +44,7 @@ class Layout extends React.Component {
 
   render() {
     return (
-      <div className={s.layout}>
+      <div className={s.layout} style={this.state.opacity}>
         <div className={cx(s.pagewrapper, s[this.state.menuOpen])}>
           <Header
             headerClass={this.props.headerClass}
@@ -55,7 +62,6 @@ class Layout extends React.Component {
           activeSlug={this.props.activeSlug}
           navClass={'mobilenavigation'}
         />
-        <Loader loaderClass={this.props.loaderClass} />
       </div>
     );
   }

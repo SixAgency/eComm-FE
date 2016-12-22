@@ -16,6 +16,7 @@ import queryString from 'query-string';
 import { createPath } from 'history/PathUtils';
 import history from './core/history';
 import App from './components/App';
+import Loader from './components/Loader';
 import { ErrorReporter, deepForceUpdate } from './core/devUtils';
 
 // Global (context) variables that can be easily accessed from any React component
@@ -130,11 +131,18 @@ async function onLocationChange(location) {
     // Traverses the list of routes in the order they are defined until
     // it finds the first route that matches provided URL path string
     // and whose action method returns anything other than `undefined`.
+    // Loading State
+    ReactDOM.render(
+      <App context={context}><Loader /></App>,
+      container,
+    );
+    const t2 = performance.now();
     const route = await UniversalRouter.resolve(routes, {
       path: location.pathname,
       query: queryString.parse(location.search),
     });
-
+    const t3 = performance.now();
+    console.log(`ROUTE: ${(t3 - t2)}  milliseconds.`); // eslint-disable-line no-console
     // Prevent multiple page renders during the routing process
     if (currentLocation.key !== location.key) {
       return;
@@ -144,12 +152,14 @@ async function onLocationChange(location) {
       history.replace(route.redirect);
       return;
     }
-
+    const t0 = performance.now();
     appInstance = ReactDOM.render(
       <App context={context}>{route.component}</App>,
       container,
       () => onRenderComplete(route, location),
     );
+    const t1 = performance.now();
+    console.log(`TIME: ${(t1 - t0)}  milliseconds.`); // eslint-disable-line no-console
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
 

@@ -11,7 +11,7 @@ class Loader extends React.Component {
 
   render() {
     return (
-      <div className={cx(s.loader, s.hidden, s[this.props.loaderClass])}>
+      <div className={cx(s.loader, s[this.props.loaderClass])}>
         <div className={s.loaderimage} />
         <div className={s.spinner} />
       </div>

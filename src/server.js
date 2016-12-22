@@ -17,7 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
-import Compression from 'compression';
+import compress from 'compression';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -28,6 +28,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port } from './config';
 
 const app = express();
+app.use(compress());
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -35,14 +36,9 @@ const app = express();
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
-// Set the session
-// TODO - REMOVE HARDCODED TOKEN & ADD A STORE
-app.use(Compression());
 //
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
-const oneDay = 24 * 60 * 60 * 1000;
-app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(session({
@@ -52,36 +48,12 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//
-// Authentication
-// -----------------------------------------------------------------------------
-// app.use(expressJwt({
-//   secret: auth.jwt.secret,
-//   credentialsRequired: false,
-//   getToken: req => req.cookies.id_token,
-// }));
-// app.use(passport.initialize());
-
-// if (process.env.NODE_ENV !== 'production') {
-//   app.enable('trust proxy');
-// }
-// app.get('/login/facebook',
-//   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
-// );
-// app.get('/login/facebook/return',
-//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-//   (req, res) => {
-//     const expiresIn = 60 * 60 * 24 * 180; // 180 days
-//     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-//     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-//     res.redirect('/');
-//   },
-// );
-
-//
 // Register API Endpoints
 app.use('/api', apiRoutes);
 
+// Assets
+const expiresIn = 7 * 24 * 60 * 60 * 1000;
+app.use('/assets', express.static(path.join(__dirname, 'public'), { maxAge: expiresIn }));
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
@@ -122,7 +94,7 @@ app.get('*', async (req, res, next) => {
       data.scripts.push(assets[route.chunk].js);
     }
 
-    const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
+    const html = ReactDOM.renderToString(<Html {...data} />);
     res.status(route.status || 200);
     res.send(`<!doctype html>${html}`);
   } catch (err) {

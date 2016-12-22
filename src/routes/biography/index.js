@@ -11,6 +11,7 @@ export default {
     const cart = await fetch('/api/cart', { credentials: 'same-origin' })
       .then((resp) => (resp.json())
         .then((json) => (json)));
+
     return {
       title: 'Biography',
       component: <Layout headerClass={'default'} activeSlug={'/biography'} cartItems={cart}><Biography /></Layout>,

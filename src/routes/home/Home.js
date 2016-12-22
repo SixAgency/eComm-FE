@@ -11,6 +11,10 @@ class Home extends React.Component {
     gridItems: PropTypes.array.isRequired,
   }
 
+  componentDidMount = () => {
+    console.log('asd');
+  };
+
   render() {
     const heroText = {
       title: 'Now available the NEW',

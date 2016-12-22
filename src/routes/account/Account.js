@@ -13,7 +13,7 @@ import Dashboard from '../../components/Dashboard';
 class Account extends React.Component {
   static propTypes = {
     logged: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
   }
 
   constructor(props) {
@@ -24,6 +24,10 @@ class Account extends React.Component {
       username: this.props.username,
     };
   }
+
+  componentDidMount = () => {
+    console.log('asd');
+  };
 
   onRegister = (data) => {
     console.log('register');
