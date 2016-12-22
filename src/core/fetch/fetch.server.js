@@ -9,7 +9,7 @@
 
 import Promise from 'bluebird';
 import fetch, { Request, Headers, Response } from 'node-fetch';
-import { host } from '../../config';
+import { host, api } from '../../config';
 
 fetch.Promise = Promise;
 Response.Promise = Promise;
@@ -26,8 +26,16 @@ function localUrl(url) {
   return `http://${host}${url}`;
 }
 
+function apiUrl(slug) {
+  return `${api}${slug}`;
+}
+
 function localFetch(url, options) {
   return fetch(localUrl(url), options);
 }
 
-export { localFetch as default, Request, Headers, Response };
+function apiFetch(slug, options) {
+  return fetch(apiUrl(slug), options);
+}
+
+export { localFetch as default, apiFetch, Request, Headers, Response };

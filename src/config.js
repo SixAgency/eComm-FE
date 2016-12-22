@@ -23,6 +23,8 @@ export const analytics = {
 
 };
 
+export const api = process.env.API_URL || 'http://staging.ecomm.com';
+
 // export const auth = {
 
 //   jwt: { secret: process.env.JWT_SECRET || 'React Starter Kit' },

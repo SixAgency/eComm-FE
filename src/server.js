@@ -12,6 +12,7 @@ import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import session from 'cookie-session';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
@@ -34,6 +35,8 @@ const app = express();
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
+// Set the session
+// TODO - REMOVE HARDCODED TOKEN & ADD A STORE
 app.use(Compression());
 //
 // Register Node.js middleware
@@ -41,6 +44,11 @@ app.use(Compression());
 const oneDay = 24 * 60 * 60 * 1000;
 app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 app.use(cookieParser());
+app.set('trust proxy', 1);
+app.use(session({
+  secret: 'key123456qwerty',
+  name: 'ecomm',
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

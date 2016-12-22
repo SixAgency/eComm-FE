@@ -8,7 +8,7 @@ export default {
   path: '/biography',
 
   async action() {
-    const cart = await fetch('/api/cart')
+    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
       .then((resp) => (resp.json())
         .then((json) => (json)));
     return {

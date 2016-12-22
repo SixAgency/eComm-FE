@@ -9,11 +9,11 @@ export default {
 
   async action() {
     // TODO - ERROR HANDLING
-    const cart = await fetch('/api/cart')
+    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
       .then((resp) => (resp.json())
         .then((json) => (json)));
     // TODO - ERROR HANDLING
-    const products = await fetch('/api/products')
+    const products = await fetch('/api/products', { credentials: 'same-origin' })
       .then((resp) => (resp.json())
         .then((json) => (json.products)));
     return {

@@ -1,10 +1,20 @@
 import express from 'express';
-import fetch from '../core/fetch';
+import fetch, { apiFetch } from '../core/fetch';
+import { userLogin, userRegister, userLogout, checkLogin } from './users';
 
 const apiRouter = express.Router();
 const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';
 
-// TODO - parse data method
+// USER ROUTES
+
+// login
+apiRouter.post('/login', (req, resp) => userLogin(req, resp));
+// register
+apiRouter.post('/register', (req, resp) => userRegister(req, resp));
+// logout
+apiRouter.get('/logout', (req, resp) => userLogout(req, resp));
+// check login
+apiRouter.get('/check', (req, resp) => checkLogin(req, resp));
 
 // CART ROUTES
 apiRouter.get('/cart', (req, res) => {
@@ -20,7 +30,8 @@ apiRouter.get('/cart', (req, res) => {
 // PRODUCTS ROUTES
 // all products
 apiRouter.get('/products', (req, res) => {
-  fetch(`http://staging.ecomm.com/api/products?token=${token}`)
+  const tok = req.session.token || token;
+  apiFetch(`/api/products?token=${tok}`)
     .then(
       (resp) => (resp.json())
       .then((json) => (res.json(json))))
@@ -46,63 +57,6 @@ apiRouter.get('/product-properties', (req, res) => {
       .then((json) => (res.json(json))))
     .catch((err) => (err.json())
       .then((json) => (res.json(json))));
-});
-
-
-// USER ROUTES
-// login
-apiRouter.get('/login', (req, res) => {
-  const data = {
-    spree_user: {
-      email: 'adrian.sarkany@clever-software-solutions.com',
-      password: 'mareparola',
-      remember_me: '0',
-    },
-  };
-  const url = 'http://staging.ecomm.com/login';
-  fetch(url,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
-    },
-  ).then(
-    (resp) => (resp.json())
-    .then((json) => (res.json(json))))
-  .catch((err) => (err.json())
-    .then((json) => (res.json(json))));
-});
-
-// logout
-apiRouter.get('/logout', (req, res) => {
-  fetch(`http://staging.ecomm.com/logout?token=${token}`)
-    .then(
-      (resp) => (resp.json())
-      .then((json) => (res.json(json))))
-    .catch((err) => (err.json())
-      .then((json) => (res.json(json))));
-});
-
-// register
-apiRouter.get('/signup', (req, res) => {
-  const data = {
-    spree_user: {
-      email: 'teeeest@example.com',
-      password: 'testpassword',
-      password_confirmation: 'testpassword',
-    },
-  };
-  fetch('http://staging.ecomm.com/signup',
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
-    },
-  ).then(
-    (resp) => (resp.json())
-    .then((json) => (res.json(json))))
-  .catch((err) => (err.json())
-    .then((json) => (res.json(json))));
 });
 
 // ADDRESES
