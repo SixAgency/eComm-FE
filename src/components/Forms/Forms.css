@@ -1,0 +1,160 @@
+.title {
+  font-family: Georgia, Times, serif;
+  font-size: 33px;
+  line-height: 38px;
+  font-weight: 700;
+  color: #222222;
+  margin: 0;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.subtitle {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: center;
+  margin-top: 15px;
+  color: #565656;
+}
+
+.form {
+  max-width: 580px;
+  margin: 30px auto 30px;
+  text-align: center;
+}
+
+.inputwrapper {
+  text-align: left;
+  margin: 15px 0 25px;
+}
+
+.buttonwrapper {
+  text-align: center;
+  margin: 15px 0 25px;
+}
+
+.label {
+  font-family: Georgia, Times, serif;
+  font-size: 12px;
+  line-height: 12px;
+  color: #000000;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: left;
+  .required {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-decoration: none;
+  }
+}
+.remember {
+  position: absolute;
+  margin: 0 auto;
+  left: 1%;
+  right: 1%;
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-top: -15px;
+  margin-left: -10px;
+}
+.input {
+  font-family: Georgia, Times, serif;
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  font-size: 12px;
+  height: 42px;
+  line-height: 42px;
+  font-weight: 500;
+  padding: 0 12px;
+  color: #2D2D2D;
+  display: block;
+  max-width: 580px;
+  width: 100%;
+  margin: 10px auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.checkbox {
+  font-family: Georgia, Times, serif;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  position: relative;
+  top: 2px;
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  font-size: 12px;
+  line-height: 42px;
+  font-weight: 500;
+  padding: 0 12px;
+  color: #2D2D2D;
+  max-width: 580px;
+  margin: 10px auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.submit {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 61px;
+  font-weight: 800;
+  color: #000;
+  height: 61px;
+  padding: 0 60px;
+  text-transform: uppercase;
+  margin: 0 3px;
+  border: none;
+  outline: none;
+  display: inline;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  -ms-appearance: button;
+  appearance: button;
+  box-sizing: border-box;
+  background-color: #29cbc8;
+  width: auto;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.submit:hover {
+  background-color: #333333;
+  color: #29cbc8;
+}
+.login {
+  margin-bottom: 25px;
+}
+
+.checkbox:focus,
+.input:focus {
+  outline: none;
+}
+
+/* Lost Password */
+.lostpassword {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  font-size: 14px;
+  line-height: 25px;
+  border-bottom: 1px dotted #565656;
+  padding-bottom: 1px;
+  color: #565656;
+  display: inline;
+  .lostlink {
+    color: #565656;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+  .submit { border-radius: 5px; }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+  .label { font-size: 10px; }
+}

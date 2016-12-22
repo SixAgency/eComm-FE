@@ -1,0 +1,6 @@
+{
+  "name": "ProductGridItem",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProductGridItem.js"
+}

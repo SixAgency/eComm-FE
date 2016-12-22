@@ -1,0 +1,157 @@
+.socialfooter {
+  margin-top: 25px;
+  .socialnav {
+    display: block;
+    width: 100%;
+    padding: 0 25%;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;
+    list-style-type: none;
+    .socialitem {
+        display: inline-block;
+        text-align: center;
+        margin-right: 30px;
+        line-height: 150px;
+        .sociallink {
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-size: 20px;
+          line-height: 20px;
+          font-weight: 600;
+          position: relative;
+          text-transform: uppercase;
+          text-decoration: none;
+          cursor: pointer;
+          transition: color 0.2s ease-out;
+          outline: none;
+          color: rgb(34, 34, 34);
+          .socialtext {
+            display: none;
+            font-family: "Helvetica-Neue", Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+          }
+        }
+        .sociallink:active { color: rgb(25, 122, 117); }
+        .sociallink:after {
+          content: "";
+          display: block;
+          height: 0;
+          -webkit-transform: translateY(7px);
+          transform: translateY(7px);
+          transition: -webkit-transform .1s cubic-bezier(0.55,.085,.68,.53),opacity .1s cubic-bezier(0.55,.085,.68,.53);
+          transition: transform .1s cubic-bezier(0.55,.085,.68,.53),opacity .1s cubic-bezier(0.55,.085,.68,.53);
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          right: 0;
+          height: 2px;
+          pointer-events: none;
+          opacity: 0;
+        }
+        .sociallink:hover:after {
+          opacity: 1;
+          -webkit-transform: none;
+          transform: none;
+          transition: -webkit-transform .2s cubic-bezier(0.25,.46,.45,.94),opacity 0s linear;
+          transition: transform .2s cubic-bezier(0.25,.46,.45,.94),opacity 0s linear;
+          transition-delay: 0s;
+        }
+        .facebook:after { background: #3b5998; }
+        .instagram:after { background: #3F729B; }
+        .twitter:after { background: #00aced; }
+        .pinterest:after { background: #cb2027; }
+        .linkedin:after { background: #3399CC; }
+    }
+    .socialitem:last-child { margin: 0; }
+  }
+}
+.socialicon:before {
+  font-family: "lobo" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.socialmobile {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  left: 1%;
+  bottom: 5%;
+  .socialnav {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    .socialitem {
+      display: inline-block;
+      padding: 0;
+      .sociallink {
+        display: block;
+        text-decoration: none;
+        color: #ffffff;
+        .socialtext { display: none; }
+        .socialicon {
+          display: block;
+          font-size: 17px;
+          text-indent: 0;
+          position: relative;
+          left: 0;
+          margin-right: 10px;
+          -webkit-transition: color 0.2s ease-out;
+          -moz-transition: color 0.2s ease-out;
+          -ms-transition: color 0.2s ease-out;
+          -o-transition: color 0.2s ease-out;
+          transition: color 0.2s ease-out;
+        }
+      }
+    }
+  }
+}
+.facebook {
+  .socialicon:before { content: "X"; }
+}
+.instagram {
+  .socialicon:before { content: "x"; }
+}
+.twitter {
+  .socialicon:before { content: '"'; }
+}
+.pinterest {
+  .socialicon:before { content: "m"; }
+}
+.linkedin {
+  .socialicon:before { content: "4"; }
+}
+ @media all and (min-width: 950px) and (max-width: 1000px) {
+  .socialfooter {
+    .socialnav {
+      .socialitem {
+        .sociallink {
+          i { display: none; }
+          .socialtext { display: inline-block; }
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: 950px){
+  .socialfooter {
+    .socialnav {
+      .socialitem {
+        display: block;
+        margin: 0;
+        .sociallink {
+          i { display: none; }
+          .socialtext { display: block; line-height: 30px; }
+        }
+      }
+    }
+  }
+}

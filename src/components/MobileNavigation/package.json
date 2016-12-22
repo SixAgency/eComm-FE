@@ -1,0 +1,6 @@
+{
+  "name": "MobileNavigation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MobileNavigation.js"
+}

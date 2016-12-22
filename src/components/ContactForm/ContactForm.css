@@ -1,0 +1,70 @@
+.cform {
+  position: relative;
+  width: 50%;
+  display: table;
+  margin: 0 auto;
+  z-index: 2;
+  .inputwrapper {
+    margin: 0 4px 10px 4px;
+  }
+  .inputwrapper:first-child, .inputwrapper:last-child {
+    margin-top: 10px;
+  }
+  .inputfields {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    padding: 5px 10px;
+    color: #222222;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: normal;
+  }
+  .fieldnames {
+    font-family: Georgia, serif;
+    color: #000000;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .submitbutton {
+    display: block;
+    width: 200px;
+    height: 40px;
+    margin: 0 auto;
+    background-color: rgb(111, 220, 225);
+    font-family: Georgia, serif;
+    font-size: 16px;
+    line-height: 22px;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+    -webkit-appearance: button;
+    color: #222222;
+  }
+  textarea.inputfields {
+    font-size: 13px;
+    line-height: 22px;
+    resize: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}
+.cform > .input-fields::selection, .fieldnames::selection {
+  background-color: #29cbc8;
+  color: #fff85f;
+}
+@media all and (min-width: 320px) and (max-width: 767px) {
+  .cform {
+    width: 90%;
+  }
+  .fieldnames {
+    font-size: 13px !important;
+    line-height: 21px !important;
+  }
+  .cform .submitbutton {
+    font-size: 15px;
+    height: 20%;
+    right: -75.5%;
+  }
+}

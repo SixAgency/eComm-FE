@@ -1,0 +1,205 @@
+.header {
+  position: absolute;
+  width: 100%;
+  height: 127px;
+  z-index: 1001;
+  top: 0;
+  border-top: 3px solid #000000;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
+}
+
+.default { background: transparent; }
+.colored { background: 
+  -webkit-linear-gradient(left,#19D9B0, #3DB4E5);
+}
+.enabled { background: #ffffff; }
+
+.logocontainer {
+  position: relative;
+  display: inline-block;
+  width: 322px;
+  height: 40px;
+  left: 3%;
+  top: 36px;
+  z-index: 1002;
+}
+
+.logo {
+  width: 322px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.default .logo { background-image: url(./logo_colored.png); }
+.colored .logo { background-image: url(./logo_white.png); }
+.sticky .logo,
+.enabled .logo { background-image: url(./logo_black.png); }
+
+.colored a { color: #ffffff; }
+.default a,
+.sticky a,
+.enabled a { color: #000000; }
+
+.hideheader {
+  top: -300px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  background: #ffffff;
+  -webkit-transition: top 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  -moz-transition: top 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  -o-transition: top 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  transition: top 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+}
+
+.cartholder {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  margin-right: 60px;
+  z-index: 1003;
+}
+
+.carticon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: url(./cart_x2.png) no-repeat transparent;
+  background-size: 92px 25px;
+  background-position: -41px 7px;
+  z-index: 99;
+}
+
+.cartquantity {
+  width: 40px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+}
+
+.quantity {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  font-size: 10px;
+  line-height: 19px;
+  color: #000;
+  font-weight: 700;
+  text-align: center;
+  position: absolute;
+  top: 21px;
+  right: 3px;
+  background-color: #29cbc8;
+}
+
+.cartdivider {
+  text-indent: -9999px;
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 45px;
+  width: 2px;
+  height: 25px;
+  background: url(./cart_x2.png) no-repeat;
+  background-size: 92px 25px;
+  background-position: -90px -1px;
+  z-index: 99;
+}
+
+.colored .carticon { background-position: -6px 7px; }
+.colored .cartdivider { background-position: 0px -1px; }
+.default .carticon { background-position: -41px 7px; }
+.default .cartdivider { background-position: -90px -1px; }
+.sticky .carticon { background-position: -41px 7px; }
+.sticky .cartdivider { background-position: -90px -1px; }
+.enabled .carticon { background-position: -41px 7px; }
+.enabled .cartdivider { background-position: -90px -1px; }
+
+.openbtn {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  z-index: 1000;
+  top: 48px;
+  right: 119px;
+  text-decoration: none;
+}
+.menuicon {
+  color: #000000;
+  font-size: 30px;
+}
+.menuicon:before {
+  content: "d";
+  font-family: "lobo";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.colored .menuicon { color: #ffffff; }
+.default .menuicon,
+.sticky .menuicon,
+.enabled .menuicon { color: #000000; }
+
+@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+  .colored .logo { background-image: url(./logo_white.png); }
+  .default .logo,
+  .sticky .logo,
+  .enabled .logo { background-image: url(./logo_black.png); }
+}
+
+@media only screen and (max-device-width: 768px) and (min-device-width: 320px) {
+  .header { border-top: 0; }
+  .menuopen { opacity: 0; }
+  .openbtn {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
+  .menuopen { opacity: 0; }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+  .cartholder {
+    height: 40px;
+    margin-right: 0px;
+    top: 35px;
+  }
+  .openbtn {
+    top: 40px;
+    right: 61px;
+  }
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+  .header { height: 58px; }
+  .cartholder { top: 8px; }
+  .logocontainer { top: 15px; }
+  .logocontainer,
+  .logo {
+    width: 200px;
+    height: 25px;
+  }
+  .openbtn {
+    top: 14px;
+    right: 60px;
+  }
+}

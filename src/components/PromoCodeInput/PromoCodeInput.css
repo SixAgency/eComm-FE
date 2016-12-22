@@ -1,0 +1,76 @@
+.pcodecontainer {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-top: -20px;
+  padding: 10px 70px 0 15px;
+  .pcodebody {
+    background: rgba(235, 235, 235, 0.35);
+    padding: 10px;
+    input {
+      border: 1px solid #e9e9e9;
+      margin: 0;
+      padding: 5px 10px;
+      color: #222;
+      line-height: normal;
+      outline: none;
+    }
+    .inputtext {
+      height: 28px;
+      margin-right: 10px;
+      font-size: 11px;
+    }
+    .couponbtn {
+      text-transform: uppercase;
+      font-size: 11px;
+      padding: 0px 20px;
+      height: 38px;
+      font-weight: 700;
+      background-color: #29cbc8;
+      cursor: pointer;
+    }
+    .couponbtn:hover {
+      color: #29cbc8;
+      background: #333;
+    }
+    .updatebtn {
+      float: right;
+      text-transform: uppercase;
+      font-size: 11px;
+      padding: 0 20px;
+      width: auto !important;
+      font-weight: 700 !important;
+    }
+  }
+  .clearfix:after, .clearfix:before {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 320px){
+  .pcodecontainer {
+    padding: 0px 15px 0 15px !important;
+  }
+  .pcodebody {
+    right: -75.5%;
+  }
+  .couponbtn {
+    padding: 5px !important;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 480px) and (min-width: 320px){
+  .pcodebody {
+    input {
+      width: 100%;
+      margin: 4px 0px !important;
+      padding: 0px !important;
+      height: 28px !important;
+      text-align: center;
+    }
+    .couponbtn {
+      padding: 5px !important;
+    }
+  }
+}

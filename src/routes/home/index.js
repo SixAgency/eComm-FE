@@ -1,0 +1,25 @@
+import React from 'react';
+import Home from './Home';
+import fetch from '../../core/fetch';
+import Layout from '../../components/Layout';
+
+export default {
+
+  path: '/',
+
+  async action() {
+    // TODO - ERROR HANDLING
+    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
+      .then((resp) => (resp.json())
+        .then((json) => (json)));
+    // TODO - ERROR HANDLING
+    const products = await fetch('/api/products', { credentials: 'same-origin' })
+      .then((resp) => (resp.json())
+        .then((json) => (json.products)));
+    return {
+      title: 'Shop',
+      component: <Layout headerClass={'default'} activeSlug={'/'} cartItems={cart}><Home gridItems={products} /></Layout>,
+    };
+  },
+
+};
