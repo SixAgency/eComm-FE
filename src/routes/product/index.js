@@ -7,18 +7,26 @@ export default {
 
   path: '/product/:slug',
 
-  async action() {
+  async action(context) {
+    const slug = context.params.slug;
     // TODO - ERROR HANDLING
-    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
+    const [cart, product] = await Promise.all([
+      fetch('/api/cart', { credentials: 'same-origin' })
       .then((resp) => (resp.json())
-        .then((json) => (json)));
-    // TODO - ERROR HANDLING
-    const product = await fetch('/api/products', { credentials: 'same-origin' })
+        .then((json) => (json))),
+      fetch(`/api/products/${slug}`, { credentials: 'same-origin' })
       .then((resp) => (resp.json())
-        .then((json) => (json.products[0])));
+        .then((json) => (json))),
+    ]);
+    if (cart && product) {
+      return {
+        title: product.name || 'Shop',
+        component: <Layout headerClass={'colored'} activeSlug={'/'} cartItems={cart}><Product product={product} /></Layout>,
+      };
+    }
     return {
-      title: product.name || 'Shop',
-      component: <Layout headerClass={'colored'} activeSlug={'/'} cartItems={cart}><Product product={product} /></Layout>,
+      title: 'Shop',
+      component: null,
     };
   },
 

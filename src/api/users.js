@@ -105,7 +105,6 @@ function userLogout(request, response) {
     {
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token,
       },
     })
   .then((data) => parseResponse(data))
