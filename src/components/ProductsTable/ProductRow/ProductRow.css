@@ -96,9 +96,12 @@
       float: left;
       border: none;
       outline: none;
-      margin-left: 1px;
+      margin-left: 0.8px;
       padding: 0;
       text-align: center;
+    }
+    .qtytext {
+      background: #E9EDEF !important;
     }
     .quantity input::-webkit-outer-spin-button,
     .quantity input::-webkit-inner-spin-button {
@@ -123,7 +126,7 @@
   .qtytext {
     font-family: Georgia, serif;
     text-align: center;
-    width: 66px;
+    width: 65px;
     min-width: 50px;
     font-size: 17px;
     line-height: 17px;
@@ -157,5 +160,56 @@
 (max-device-width: 1024px) and (min-device-width: 768px){
   .cartitem {
     margin-left: 10%;
+    display: block;
+    td {
+      display: block;
+      position: relative;
+    }
+    .productname {
+      display: block;
+      margin-bottom: 20px;
+    }
+    .productprice {
+      margin-top: -47px;
+    }
+    .productquantity {
+      margin-top: -20px;
+    }
+    .productprice::before {
+      content: 'Price';
+      top: -18px;
+      left: 120px;
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 800;
+      color: #565656;
+      text-transform: uppercase;
+      position: absolute;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+    .prodsubtotal {
+      display: block;
+    }
+    .prodsubtotal::before {
+      content: 'Total';
+      top: -18px;
+      left: 15px;
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 800;
+      color: #565656;
+      text-transform: uppercase;
+      position: absolute;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+    .prodremove {
+      position: absolute;
+      margin-top: -265px;
+      left: 80%;
+    }
   }
 }

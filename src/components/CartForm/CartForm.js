@@ -22,7 +22,7 @@ class CartForm extends React.Component {
     e.preventDefault();
     this.setState({
       showCalculator: !this.state.showCalculator,
-      className: this.state.showCalculator ? 'show' : 'hide',
+      className: !this.state.showCalculator ? 'show' : 'hide',
     });
   }
 
@@ -46,9 +46,9 @@ class CartForm extends React.Component {
                       ${cart.total}
                   </td>
                 </tr>
-                <tr className="cart-subtotal">
+                <tr className={s.csubtotals}>
                   <th className="table-heads" />
-                  <td className="ammount data">
+                  <td className={cx(s.ammout, s.data)}>
                     <small>
                       Note: Products may ship from various
                       locations
@@ -71,7 +71,7 @@ class CartForm extends React.Component {
                           Calculate Shipping
                       </a>
                     </h2>
-                    <h3 className="cart-subtitles">
+                    <h3 className={s.csubtitles}>
                         Based on your location
                     </h3>
                     <ShippingCalculator
@@ -92,13 +92,13 @@ class CartForm extends React.Component {
               </tbody>
             </table>
           </div>
-          <div className="paypal-container">
+          <div className={s.paypal}>
               &nbsp;
           </div>
-          <p className="go-to-checkout-container">
+          <p className={s.gotocheckout}>
             <input
               type="submit"
-              className="checkout-button"
+              className={s.checkoutbtn}
               name="proceed"
               value="Proceed to Checkout"
             />

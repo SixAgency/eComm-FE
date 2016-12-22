@@ -26,7 +26,7 @@ class Cart extends React.Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: this.state.showCouponFields ? 'show' : 'hide',
+      className: !this.state.showCouponFields ? 'show' : 'hide',
     });
   }
 

@@ -39,11 +39,8 @@ class ProductsTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { cart.line_items.map((item) => {
-              return (
-                <ProductRow cart={item} />
-              );
-            })}
+            { cart.line_items.map((item, index) => (<ProductRow cart={item} key={index} />),
+            )}
           </tbody>
         </table>
       </form>

@@ -29,3 +29,15 @@
     }
   }
 }
+
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px) {
+  .shopcarttable {
+    display: block;
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  }
+}
