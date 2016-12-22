@@ -21,22 +21,24 @@ class Layout extends React.Component {
     this.state = {
       menuOpen: '',
       cart: this.props.cartItems,
-      opacity: { display: 'none' },
+      opacity: { opacity: 0 },
     };
   }
 
   componentDidMount = () => {
     this.setState({
-      opacity: { display: 'block' },
+      opacity: { opacity: 1 },
     });
   }
 
-  mobileNavOpen = () => {
+  mobileNavOpen = (event) => {
+    event.preventDefault();
     this.setState({
       menuOpen: 'menuopen',
     });
   }
-  mobileNavClose = () => {
+  mobileNavClose = (event) => {
+    event.preventDefault();
     this.setState({
       menuOpen: '',
     });

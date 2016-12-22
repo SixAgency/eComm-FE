@@ -1,6 +1,6 @@
 import express from 'express';
 import fetch from '../core/fetch';
-import { userLogin, userRegister, userLogout, checkLogin } from './users';
+import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import getProducts from './products';
 
 const apiRouter = express.Router();
@@ -11,7 +11,7 @@ const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';
 // login
 apiRouter.post('/login', (req, resp) => userLogin(req, resp));
 // register
-apiRouter.post('/register', (req, resp) => userRegister(req, resp));
+apiRouter.post('/register', (req, resp) => userRegistration(req, resp));
 // logout
 apiRouter.get('/logout', (req, resp) => userLogout(req, resp));
 // check login

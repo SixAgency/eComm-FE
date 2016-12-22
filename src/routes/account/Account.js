@@ -25,12 +25,15 @@ class Account extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    console.log('asd');
-  };
-
   onRegister = (data) => {
-    console.log('register');
+    fetch('/api/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleAuth(json));
   }
 
   onLogin = (data) => {

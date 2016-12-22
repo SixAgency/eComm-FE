@@ -46,6 +46,7 @@ function parseResponse(response) {
     resp = { error: 'Server Error. Please try again.' };
     return Promise.reject(resp);
   }
+  console.log(response);
   resp = response.json();
   return Promise.resolve(resp);
 }
