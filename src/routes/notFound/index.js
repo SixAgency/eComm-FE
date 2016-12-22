@@ -9,6 +9,7 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
+import fetch from '../../core/fetch';
 import NotFound from './NotFound';
 
 const title = 'Page Not Found';
@@ -17,10 +18,20 @@ export default {
 
   path: '*',
 
-  action() {
+  // action() {
+  //   return {
+  //     title,
+  //     component: <Layout headerClass={'default'} activeSlug={'/'} cartItems={cart}><NotFound title={title} cartItems={cart} /></Layout>,
+  //     status: 404,
+  //   };
+  // },
+  async action() {
+    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
+      .then((resp) => (resp.json())
+        .then((json) => (json)));
     return {
       title,
-      component: <Layout headerClass={'default'} activeSlug={'/'}><NotFound title={title} /></Layout>,
+      component: <Layout headerClass={'default'} activeSlug={'/'} cartItems={cart}><NotFound title={title} cartItems={cart} /></Layout>,
       status: 404,
     };
   },
