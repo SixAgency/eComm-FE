@@ -53,7 +53,7 @@ app.use('/api', apiRoutes);
 
 // Assets
 const expiresIn = 7 * 24 * 60 * 60 * 1000;
-app.use('/assets', express.static(path.join(__dirname, 'public'), { maxAge: expiresIn }));
+app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: expiresIn }));
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
