@@ -1,0 +1,182 @@
+.tablewrpr {
+  max-width: 500px;
+  margin: 60px auto 30px;
+  text-align: center;
+}
+
+.table {
+  border: none;
+  width: 100%;
+  margin: 80px auto;
+  text-align: left;
+}
+
+.tableheads {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: left;
+  font-size: 11px;
+  line-height: 11px;
+  font-weight: 700;
+  color: #565656;
+  padding: 10px 14px 18px;
+}
+
+.td {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: #000;
+  position: relative;
+  vertical-align: top;
+  .qty {
+    position: absolute;
+    right: 0;
+    margin-right: 50px;
+    font-size: 13px;
+    line-height: 17px;
+    font-weight: 600;
+  }
+}
+
+.tdsmall { width: 40%; }
+.tdbig { width: 60%; }
+
+.infocontainer tr td { padding-top: 10px; }
+
+.amount {
+  color: #3C3C3C;
+  font-size: 17px;
+  line-height: 17px;
+  padding: 0 70px 15px 14px;
+}
+
+.total {
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 17px;
+  color: #F1430E;
+  padding-left: 14px;
+}
+
+.pname {
+  min-height: 41px;
+  font-size: 13px;
+  line-height: 17px;
+  padding: 0 70px 40px 14px;
+
+}
+
+.ptotal, .ptotal2 {
+  font-size: 17px;
+  line-height: 16px;
+  min-height: 41px;
+  padding-bottom: 40px;
+  padding: 0 14px 65px;
+}
+
+.psubtotal, .pshipping, .ptotal, .ptotal2 {
+  font-size: 17px;
+  line-height: 16px;
+  padding: 0 70px 15px 14px;
+  min-height: 41px;
+}
+
+.flatrate {
+  font-size: 17px;
+  line-height: 16px;
+  color: #3C3C3C;
+  padding-left: 14px;
+}
+
+.shippingcontents {
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 25px;
+  color: #565656;
+  margin: 0;
+}
+
+.billaddress, .shippaddress {
+  font-size: 16px;
+  line-height: 16px;
+  min-height: 41px;
+  color: #1adab1;
+}
+
+.billaddress {
+  padding: 0 70px 15px 14px;
+}
+
+.shippaddress {
+  padding: 0 0 15px 14px;
+}
+
+.shipaddr, .billaddr {
+  padding-top: 0px !important;
+  padding-left: 14px;
+  padding-bottom: 40px;
+}
+
+.adrcontainer {
+  color: #505050;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.changebilling, .changeshipping {
+  display: block;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  text-decoration: underline;
+  color: rgb(80, 80, 80);
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 760px), 
+(max-device-width: 1024px) and (min-device-width: 768px) {
+
+  .tableheads { display: none; }
+
+  .pname, .ptotal, .ptotal2 {
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+
+  .pname {
+    padding-bottom: 10px;
+    min-height: auto;
+  }
+  
+  .ptotal:before {
+    content: 'price';
+    display: block;
+    top: -18px;
+    left: 28%;
+    font-size: 11px;
+    line-height: 17px;
+    font-weight: 800;
+    color: #565656;
+    text-transform: uppercase;
+  }
+
+  .td {
+    .qty {
+      margin-right: 0px;
+      position: initial;
+    }
+  }
+
+  .infocontainer td {
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    span {
+      padding: 0;
+    }
+  }
+}

@@ -22,6 +22,7 @@ export default {
     require('./cart').default,
     require('./contact').default,
     require('./product').default,
+    require('./checkout').default,
     require('./notFound').default,
   ],
   async action({ next }) {
