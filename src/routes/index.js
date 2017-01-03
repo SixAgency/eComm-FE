@@ -23,6 +23,7 @@ export default {
     require('./contact').default,
     require('./product').default,
     require('./checkout').default,
+    require('./productCategory').default,
     require('./notFound').default,
   ],
   async action({ next }) {
