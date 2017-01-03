@@ -7,10 +7,10 @@ import homeBanner from './home_banner.jpg';
 
 class ProductCategory extends React.Component {
   static propTypes = {
-    products: React.PropTypes.object.isRequired,
+    products: React.PropTypes.array.isRequired,
   }
   render() {
-    const products = this.props.products.products;
+    const products = this.props.products;
     const bottomText = { subtitle: 'Shop Now' };
     return (
       <section className={s.page}>

@@ -108,14 +108,15 @@ const routes = {
       },
     },
     {
-      path: '/product-category/:category',
-      async action(context) {
-        const category = context.params.category;
-        console.log(category);
+      path: '/product-category',
+      async action() {
+        // const category = context.params.category;
+        // console.log(category);
         // TODO - ERROR HANDLING
         const products = await fetch('/api/products', { credentials: 'same-origin' })
           .then((resp) => (resp.json())
             .then((json) => (json.products)));
+        console.log(products);
         return {
           headerClass: 'default',
           activeSlug: '/',
