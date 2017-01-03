@@ -17,7 +17,6 @@ class CartForm extends React.Component {
     };
   }
 
-   // doesn't work on first click
   toggleCalculator = (e) => {
     e.preventDefault();
     this.setState({

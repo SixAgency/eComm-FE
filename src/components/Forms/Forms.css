@@ -25,9 +25,21 @@
   text-align: center;
 }
 
+.form2 { margin: 60px auto 30px; }
+
 .inputwrapper {
   text-align: left;
   margin: 15px 0 25px;
+}
+
+.inputleft {
+  width: 48%;
+  float: left;
+}
+
+.inputright {
+  width: 48%;
+  float: right;
 }
 
 .buttonwrapper {
@@ -76,6 +88,23 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.textarea {
+  font-family: Georgia, Times, serif;
+  background: #ffffff;
+  width: 100%;
+  max-width: 580px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  color: red;
+  border: 1px solid #cfcfcf;
+  font-size: 12px;
+  line-height: 42px;
+  font-weight: 500;
+  padding: 0 12px;
+  color: #2D2D2D;
+  resize: none;
 }
 
 .checkbox {
@@ -131,7 +160,8 @@
 }
 
 .checkbox:focus,
-.input:focus {
+.input:focus,
+.textarea:focus {
   outline: none;
 }
 
@@ -151,8 +181,109 @@
   }
 }
 
+/* TODO: Refactor */
+/* Checkout Form */
+.cformcontent {
+  margin-top: -70px;
+}
+
+.sformcontent {
+  margin-top: -35px;
+}
+
+
+/* Review Order */
+.paymentcontainer {
+  max-width: 500px;
+  margin: 60px auto 30px;
+  text-align: center;
+}
+
+.paymentmethod {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.paytitle {
+  color: #000;
+  text-transform: none;
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 0;
+  line-height: 16px;
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px dotted #000;
+}
+
+.active{
+  border-bottom-style: solid;
+}
+
+.paymentfields {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  p {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 25px;
+    max-width: 500px;
+    color: #565656;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.showForm {
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  max-height: 800px;
+  overflow: hidden;
+}
+
+.hideForm {
+  overflow: hidden;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
 @media (max-width: 767px) and (min-width: 320px) {
+  .cformcontent { margin-top: 0; }
   .submit { border-radius: 5px; }
+  .pcodebtn { padding: 0 25px; }
+  .paymentcontainer ul { padding-left: 0px; }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 479px) {

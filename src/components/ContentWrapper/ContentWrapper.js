@@ -32,6 +32,7 @@ class ContentWrapper extends React.Component {
                   className={cx(s.button, s[v.cname], s[this.props.isActive])}
                   onClick={this.props.clickTab}
                   title={v.title}
+                  id={v.id}
                 >
                   {v.name}
                 </button>

@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Cart.css';
 import CartCta from '../../components/CartCta/CartCta';
@@ -7,6 +6,7 @@ import Title from '../../components/Text/Title';
 import ProductsTable from '../../components/ProductsTable/ProductsTable';
 import PromoCodeInput from '../../components/PromoCodeInput/PromoCodeInput';
 import CartForm from '../../components/CartForm/CartForm';
+import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
 
 class Cart extends React.Component {
   static propTypes = {
@@ -21,7 +21,6 @@ class Cart extends React.Component {
     };
   }
 
-  // doesn't work on first click
   handleGiftcard = (e) => {
     e.preventDefault();
     this.setState({
@@ -38,25 +37,10 @@ class Cart extends React.Component {
         <div className={s.cartcontentwrpr}>
           <article className={s.cartbody}>
             <div>
-              <form
-                className={cx(s.gcform, s[this.state.className])}
-                method="post"
-              >
-                <p className={s.gcrow}>
-                  <input
-                    type="text"
-                    name="coupon-code"
-                    className={s.couponinput}
-                    placeholder="Gift card code"
-                    id="giftcard-code"
-                  />
-                  <input
-                    type="submit"
-                    className={s.couponsubmit}
-                    value="Apply gift card"
-                  />
-                </p>
-              </form>
+              <GiftCardInput
+                toggleGiftcard={this.handleGiftcard}
+                infoClass={this.state.className}
+              />
               <Title text={'Your Cart'} classname={'title'} />
               <h3 className={s.cartsubtitle}>
                 {cart.total_quantity} items in your cart

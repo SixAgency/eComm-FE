@@ -95,7 +95,7 @@ class Account extends React.Component {
   clickTab = (event) => {
     event.preventDefault();
     this.setState({
-      content: event.target.title,
+      content: event.target.id,
     });
   }
 
@@ -103,13 +103,15 @@ class Account extends React.Component {
     const contentTabs = this.state.logged ? [] : [
       {
         name: 'Login',
-        title: 'blogin',
+        title: 'Login',
         cname: 'login',
+        id: 'blogin',
       },
       {
         name: 'Register',
-        title: 'bregister',
+        title: 'Register',
         cname: 'register',
+        id: 'bregister',
       },
     ];
     return (

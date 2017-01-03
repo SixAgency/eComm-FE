@@ -1,10 +1,10 @@
 .infowrpr {
   background: -webkit-linear-gradient(left,#19D9B0, #3DB4E5);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  line-height: 25px;
+  color: rgb(0, 0, 0);
   width: 100%;
   text-align: center;
+  line-height: 25px;
   padding: 25px 0;
   font-weight: 700;
   margin: 0;
@@ -15,7 +15,15 @@
     cursor: pointer;
     transition: color 0.2s ease-out;
   }
-  .showgiftcard:visited, .showgiftcard:focus {
+  .showgiftcard:focus {
     color: rgb(25, 122, 117);
   }
+}
+
+.infocart {
+  font-size: 17px;
+}
+
+.infocheckout {
+  font-size: 15px;
 }

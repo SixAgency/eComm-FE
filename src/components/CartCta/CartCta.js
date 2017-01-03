@@ -14,7 +14,7 @@ class CartCta extends React.Component {
     return (
       <div>
         <CtaMessage />
-        <CtaInfo toggleGiftcard={this.props.toggleGiftcard} />
+        <CtaInfo toggleGiftcard={this.props.toggleGiftcard} infoClass={'infocart'} />
       </div>
     );
   }
