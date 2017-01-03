@@ -60,6 +60,7 @@
     text-decoration: none;
   }
 }
+
 .remember {
   position: absolute;
   margin: 0 auto;
@@ -71,6 +72,7 @@
   margin-top: -15px;
   margin-left: -10px;
 }
+
 .input {
   font-family: Georgia, Times, serif;
   background: #ffffff;
@@ -151,10 +153,12 @@
   margin-top: 20px;
   cursor: pointer;
 }
+
 .submit:hover {
   background-color: #333333;
   color: #29cbc8;
 }
+
 .login {
   margin-bottom: 25px;
 }
@@ -191,6 +195,28 @@
   margin-top: -35px;
 }
 
+.checkoutselect {
+  padding-top: 1px;
+  background: #fff;
+  border: 1px solid #cfcfcf;
+  font-size: 12px;
+  height: 42px;
+  line-height: 42px;
+  font-weight: 500;
+  padding: 0 12px;
+  color: #2D2D2D;
+  display: block;
+  max-width: 580px;
+  width: 100%;
+  margin: 10px auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.checkoutselect:focus {
+  outline: none;
+}
 
 /* Review Order */
 .paymentcontainer {

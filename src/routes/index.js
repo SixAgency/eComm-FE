@@ -10,6 +10,9 @@ import Checkout from './checkout/Checkout';
 import Product from './product/Product';
 import ProductCategory from './productCategory/ProductCategory';
 import Contact from './contact/Contact';
+import EditAccount from './editAccount/EditAccount';
+import EditShippingAddress from './editShippingAddress/EditShippingAddress';
+import EditBillingAddress from './editBillingAddress/EditBillingAddress';
 import NotFound from './notFound/NotFound';
 
 const routes = {
@@ -116,7 +119,6 @@ const routes = {
         const products = await fetch('/api/products', { credentials: 'same-origin' })
           .then((resp) => (resp.json())
             .then((json) => (json.products)));
-        console.log(products);
         return {
           headerClass: 'default',
           activeSlug: '/',
@@ -161,6 +163,48 @@ const routes = {
           },
         },
       ],
+    },
+    {
+      path: '/edit-account',
+      async action() {
+        const user = await fetch('/api/check', { credentials: 'same-origin' })
+          .then((resp) => (resp.json())
+            .then((json) => (json)));
+        return {
+          headerClass: 'colored',
+          activeSlug: '/',
+          title: 'Edit Account',
+          content: <EditAccount {...user} />,
+        };
+      },
+    },
+    {
+      path: '/edit-shipping-address',
+      async action() {
+        const user = await fetch('/api/check', { credentials: 'same-origin' })
+          .then((resp) => (resp.json())
+            .then((json) => (json)));
+        return {
+          headerClass: 'colored',
+          activeSlug: '/',
+          title: 'Edit Shipping Address',
+          content: <EditShippingAddress {...user} />,
+        };
+      },
+    },
+    {
+      path: '/edit-billing-address',
+      async action() {
+        const user = await fetch('/api/check', { credentials: 'same-origin' })
+          .then((resp) => (resp.json())
+            .then((json) => (json)));
+        return {
+          headerClass: 'colored',
+          activeSlug: '/',
+          title: 'Edit Billing Address',
+          content: <EditBillingAddress {...user} />,
+        };
+      },
     },
     {
       path: '*',
