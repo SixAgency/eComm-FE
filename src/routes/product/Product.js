@@ -40,7 +40,7 @@ class Product extends React.Component {
                 <nav className={s.breadcrumb}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
-                  <Link className={s.innerlink} to="/">{product.classifications[0].taxon.name}</Link>
+                  <Link className={s.innerlink} to="/product-category">{product.classifications[0].taxon.name}</Link>
                   <span className={s.divider}>&gt;</span>
                   {product.name}
                 </nav>
