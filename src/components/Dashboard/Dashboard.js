@@ -16,14 +16,14 @@ class Dashboard extends React.Component {
          <a href="" className={s.actions}> Sign out</a>).
          From your account dashboard you can view your recent orders, manage your
          shipping and billing addresses and
-          <a href="" className={s.actions}> edit your password and account details</a>.
+          <a href="/edit-account" className={s.actions}> edit your password and account details</a>.
         </p>
         <h1 className={s.title}>MY ADDRESSES</h1>
         <p className={s.info}>The following addresses will be used on the checkout page.</p>
         <div className={s.addressescont}>
           <div className={s.addresseswrpr}>
             <a
-              href=""
+              href="/edit-billing-address"
               className={s.options}
             >
               Edit billing address
@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
           </div>
           <div className={s.addresseswrpr}>
             <a
-              href=""
+              href="/edit-shipping-address"
               className={s.options}
             >
             Edit shipping address

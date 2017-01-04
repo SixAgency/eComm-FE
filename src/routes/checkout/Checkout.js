@@ -46,7 +46,14 @@ class Checkout extends React.Component {
     } else if (state === 'review') {
       return <ReviewOrder cartItems={this.props.cartItems} />;
     }
-    return <BillingForm />;
+    return (
+      <BillingForm
+        formTitle={'billing address'}
+        formSubtitle={'Fill in your details'}
+        buttonText={'proceed'}
+        selectClass={'checkoutselect'}
+      />
+    );
   }
 
   clickTab = (e) => {
