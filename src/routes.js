@@ -1,19 +1,19 @@
 import React from 'react';
-import fetch from '../core/fetch';
-import Layout from '../components/Layout';
+import fetch from './core/fetch';
+import Layout from './components/Layout';
 // Pages
-import Home from './home/Home';
-import Account from './account/Account';
-import Biography from './biography/Biography';
-import Cart from './cart/Cart';
-import Checkout from './checkout/Checkout';
-import Product from './product/Product';
-import ProductCategory from './productCategory/ProductCategory';
-import Contact from './contact/Contact';
-import EditAccount from './editAccount/EditAccount';
-import EditShippingAddress from './editShippingAddress/EditShippingAddress';
-import EditBillingAddress from './editBillingAddress/EditBillingAddress';
-import NotFound from './notFound/NotFound';
+import Home from './pages/home/Home';
+import Account from './pages/account/Account';
+import Biography from './pages/biography/Biography';
+import Cart from './pages/cart/Cart';
+import Checkout from './pages/checkout/Checkout';
+import Product from './pages/product/Product';
+import ProductCategory from './pages/productCategory/ProductCategory';
+import Contact from './pages/contact/Contact';
+import EditAccount from './pages/editAccount/EditAccount';
+import EditShippingAddress from './pages/editShippingAddress/EditShippingAddress';
+import EditBillingAddress from './pages/editBillingAddress/EditBillingAddress';
+import NotFound from './pages/notFound/NotFound';
 
 const routes = {
   path: '/',

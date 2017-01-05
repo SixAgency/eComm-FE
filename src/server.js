@@ -1,12 +1,3 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import 'babel-polyfill';
 import path from 'path';
 import express from 'express';
@@ -20,8 +11,8 @@ import PrettyError from 'pretty-error';
 import compress from 'compression';
 import App from './components/App';
 import Html from './components/Html';
-import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
-import errorPageStyle from './routes/error/ErrorPage.css';
+import { ErrorPageWithoutStyle } from './pages/error/ErrorPage';
+import errorPageStyle from './pages/error/ErrorPage.css';
 import routes from './routes';
 import apiRoutes from './api/routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
