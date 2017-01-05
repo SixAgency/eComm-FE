@@ -1,6 +1,6 @@
 {
-  "name": "Navigation",
+  "name": "PromoCodeInput",
   "version": "0.0.0",
   "private": true,
-  "main": "./Navigation.js"
+  "main": "./PromoCodeInput.js"
 }
