@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 // Pages
 import Home from './pages/home/Home';
 import Account from './pages/account/Account';
+import Dashboard from './pages/account/Dashboard';
 import Biography from './pages/biography/Biography';
 import Cart from './pages/cart/Cart';
 import Checkout from './pages/checkout/Checkout';
@@ -142,29 +143,33 @@ const routes = {
             const user = await fetch('/api/check', { credentials: 'same-origin' })
               .then((resp) => (resp.json())
                 .then((json) => (json)));
+            if (user.logged) {
+              return { redirect: '/my-account/dashboard' };
+            }
+            const clientSide = true;
             return {
               headerClass: 'colored',
               activeSlug: '/my-account',
               title: 'My Account',
-              content: <Account {...user} />,
+              content: <Account {...user} client={clientSide} />,
             };
           },
         },
         {
-          path: '/login',
-          action() {
+          path: '/dashboard',
+          async action() {
+            const user = await fetch('/api/check', { credentials: 'same-origin' })
+              .then((resp) => (resp.json())
+                .then((json) => (json)));
+            if (!user.logged) {
+              return { redirect: '/my-account' };
+            }
+            const clientSide = true;
             return {
+              headerClass: 'colored',
+              activeSlug: '/my-account',
               title: 'My Account',
-              content: 'Login',
-            };
-          },
-        },
-        {
-          path: '/register',
-          action() {
-            return {
-              title: 'My Account',
-              content: 'Register',
+              content: <Dashboard {...user} client={clientSide} />,
             };
           },
         },

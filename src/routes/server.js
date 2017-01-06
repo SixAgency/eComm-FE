@@ -19,8 +19,11 @@ import Product from '../pages/product/Product';
 import Biography from '../pages/biography/Biography';
 import Contact from '../pages/contact/Contact';
 import Account from '../pages/account/Account';
+import Dashboard from '../pages/account/Dashboard';
 import Cart from '../pages/cart/Cart';
 import Checkout from '../pages/checkout/Checkout';
+
+// import conslog from '../utils/dev';
 
 const siteRoutes = express.Router();
 
@@ -108,9 +111,12 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
   const params = {};
   handleRoutes(req, resp, next, params);
 });
-// Account Dashboard
+// Account - Login/Register
 siteRoutes.get('/my-account', (req, resp, next) => {
   const user = checkLogin(req);
+  if (user.logged) {
+    resp.redirect('/my-account/dashboard');
+  }
   const params = {
     title: 'My Account',
     description: '',
@@ -120,17 +126,22 @@ siteRoutes.get('/my-account', (req, resp, next) => {
   };
   handleRoutes(req, resp, next, params);
 });
-// Account Login
-siteRoutes.get('/my-account/login', (req, resp, next) => {
-  const params = {};
+// Account Dashboard
+siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
+  const user = checkLogin(req);
+  if (!user.logged) {
+    resp.redirect('/my-account');
+  }
+  const params = {
+    title: 'My Account',
+    description: '',
+    header: 'colored',
+    active: '/my-account',
+    content: <Dashboard {...user} />,
+  };
   handleRoutes(req, resp, next, params);
 });
-// Account Register
-siteRoutes.get('/my-account/register', (req, resp, next) => {
-  const params = {};
-  handleRoutes(req, resp, next, params);
-});
-// Account Register
+// Account Lost Password
 siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
   const params = {};
   handleRoutes(req, resp, next, params);
