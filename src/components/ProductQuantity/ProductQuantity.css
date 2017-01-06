@@ -1,0 +1,103 @@
+/* General Styles */
+.quantity {
+  position: relative;
+  .input {
+    background: transparent;
+    color: #202020;
+    float: left;
+    border: none;
+    outline: none;
+    padding: 0;
+    text-align: center;
+  }
+  .input::-webkit-outer-spin-button,
+  .input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .plus,
+  .minus {
+    width: 36px;
+    font-size: 0;
+    border: 3px solid transparent;
+    position: relative;
+    z-index: 9;
+  }
+  .plus:hover,
+  .minus:hover { border-color: #000000; cursor: pointer; }
+  .minus { margin-left: 0; }
+  .text {
+    font-family: Georgia, serif;
+    text-align: center;
+    min-width: 50px;
+/*    font-size: 17px;
+    line-height: 17px;*/
+    font-weight: 700;
+    background: #E9EDEF;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin-left: 1px;
+    width: 66px;
+  }
+}
+.quantity:before,
+.quantity:after {
+  font-family: 'FontAwesome' !important;
+  font-weight: 400;
+  position: absolute;
+  content: "\f067";
+  text-align: center;
+  right: 0;
+  background: #E9EDEF;
+  cursor: pointer;
+}
+.quantity:before {
+  content: "\f068";
+  left: 0;
+  right: auto;
+}
+/* Big Input styles (pdp) */
+.quantitybig {
+  .input {
+    height: 37px;
+  }
+  .text {
+    line-height: 17px;
+    font-size: 17px;
+  }
+}
+.quantitybig:before,
+.quantitybig:after {
+  font-size: 14px;
+  line-height: 40px;
+  width: 36px;
+  height: 37px;
+}
+/* Small Input styles (cart) */
+.quantitysmall {
+  position: relative;
+  width: 140px;
+}
+.quantitysmall {
+  .input {
+    height: 26px;
+  }
+  .text {
+    font-size: 15px;
+  }
+}
+.quantitysmall:before,
+.quantitysmall:after {
+  font-size: 10px;
+  line-height: 28px;
+  width: 36px;
+  height: 26px;
+}
+/* Media Queries */
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px){
+  .quantitysmall {
+    margin-top: -20px;
+  }
+}
