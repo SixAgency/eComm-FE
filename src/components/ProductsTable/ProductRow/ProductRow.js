@@ -1,6 +1,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './ProductRow.css';
+import ProductQuantity from '../../../components/ProductQuantity';
 
 class ProductRow extends React.Component {
   static propTypes = {
@@ -28,27 +29,7 @@ class ProductRow extends React.Component {
           </span>
         </td>
         <td className={s.productquantity}>
-          <div className={s.quantity}>
-            <input
-              type="button"
-              value="-"
-              className={s.minus}
-            />
-            <input
-              type="number"
-              step="1"
-              min="1"
-              max="9"
-              value="1"
-              title="Qty"
-              className={s.qtytext} size="4"
-            />
-            <input
-              type="button"
-              value="+"
-              className={s.plus}
-            />
-          </div>
+          <ProductQuantity sizingClass={'quantitysmall'} />
         </td>
         <td className={s.prodsubtotal}>
           <span className={s.samount}>

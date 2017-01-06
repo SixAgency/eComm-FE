@@ -4,6 +4,7 @@ import cx from 'classnames';
 import s from './Product.css';
 import Link from '../../components/Link';
 import RelatedProducts from '../../components/RelatedProducts';
+import ProductQuantity from '../../components/ProductQuantity';
 
 class Product extends React.Component {
 
@@ -13,10 +14,6 @@ class Product extends React.Component {
   }
 
   onSubmit = (event) => {
-    event.preventDefault();
-  }
-
-  onChange = (event) => {
     event.preventDefault();
   }
 
@@ -63,22 +60,7 @@ class Product extends React.Component {
                     <option value="long-4">Long</option>
                   </select>
                 </div>
-                <div className={s.quantity}>
-                  <input type="button" defaultValue="-" className={cx(s.input, s.minus)} />
-                  <input
-                    className={cx(s.input, s.text)}
-                    type="number"
-                    step="1"
-                    min="1"
-                    max="10"
-                    name="quantity"
-                    value="1"
-                    title="Qty"
-                    size="4"
-                    onChange={this.onChange}
-                  />
-                  <input type="button" defaultValue="+" className={cx(s.input, s.minus)} />
-                </div>
+                <ProductQuantity sizingClass={'quantitybig'} />
                 <button type="submit" className={s.addtocart}>Add to cart</button>
               </form>
               <div className={s.summarymiddle}>

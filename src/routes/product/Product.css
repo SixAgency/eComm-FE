@@ -146,7 +146,7 @@
           }
           .categorylink {
             text-decoration: none;
-            color: #262626; 
+            color: #262626;
           }
           .categorylink:hover { color: #29cbc8; }
         }
@@ -182,68 +182,6 @@
               color: #222222;
             }
           }
-          .quantity {
-            position: relative;
-            .input {
-              background: transparent;
-              color: #202020;
-              height: 37px;
-              float: left;
-              border: none;
-              outline: none;
-              margin-left: 1px;
-              padding: 0;
-              text-align: center;
-            }
-            .input::-webkit-outer-spin-button,
-            .input::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-            .plus,
-            .minus {
-              width: 36px;
-              font-size: 0;
-              border: 3px solid transparent;
-              position: relative;
-              z-index: 9;
-            }
-            .plus:hover,
-            .minus:hover { border-color: #000000; }
-            .minus { margin-left: 0; }
-            .text {
-              font-family: Georgia, serif;
-              text-align: center;
-              width: 66px;
-              min-width: 50px;
-              font-size: 17px;
-              line-height: 17px;
-              font-weight: 700;
-              background: #E9EDEF;
-              -webkit-appearance: textfield;
-              -moz-appearance: textfield;
-              appearance: textfield;
-            }
-          }
-          .quantity:before,
-          .quantity:after {
-            font-family: 'FontAwesome' !important;
-            position: absolute;
-            content: "\f067";
-            font-size: 14px;
-            line-height: 40px;
-            width: 36px;
-            height: 37px;
-            font-weight: 400;
-            text-align: center;
-            right: 0;
-            background: #E9EDEF;
-          }
-          .quantity:before {
-            content: "\f068";
-            left: 0;
-            right: auto;
-          }
         }
         .addtocart {
           font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -266,7 +204,7 @@
           color: #29cbc8;
           background-color: #333333;
         }
-      }       
+      }
     }
   }
 }
