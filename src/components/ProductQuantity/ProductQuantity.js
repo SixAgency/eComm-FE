@@ -12,7 +12,7 @@ class ProductQuantity extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: '5',
+      inputValue: '1',
     };
   }
 

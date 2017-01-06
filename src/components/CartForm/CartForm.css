@@ -172,7 +172,10 @@
 @media (max-width: 767px) and (min-width: 320px) {
   .cformwrpr {
     .gotocheckout {
-      .checkoutbtn { border-radius: 5px; padding: 0 40px;}
+      .checkoutbtn {
+        border-radius: 5px;
+        padding: 0 40px;
+      }
     }
   }
 }
@@ -180,7 +183,21 @@
 @media (max-width: 480px) and (min-width: 320px){
   .cformwrpr {
     .gotocheckout {
-      .checkoutbtn { border-radius: 5px; padding: 0 10px;}
+      .checkoutbtn {
+        border-radius: 5px;
+        padding: 0 10px;
+        width: 100%;
+      }
+    }
+  }
+}
+@media only screen and (max-device-width: 1024px) {
+  .cformwrpr {
+    .gotocheckout {
+      .checkoutbtn {
+        border-radius: 5px;
+        padding: 0 !important;
+      }
     }
   }
 }
