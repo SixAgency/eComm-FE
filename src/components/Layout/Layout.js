@@ -20,7 +20,6 @@ class Layout extends React.Component {
     super(props);
     this.state = {
       menuOpen: '',
-      cart: this.props.cartItems,
       opacity: { opacity: 0 },
     };
   }

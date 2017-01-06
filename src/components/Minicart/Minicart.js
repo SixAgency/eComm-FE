@@ -12,6 +12,21 @@ class Minicart extends React.Component {
 
   render = () => {
     const cart = this.props.cartItems;
+    // @TODO LOADING STATE FOR CART
+    if (!cart.isLoaded) {
+      return null;
+    }
+    if (cart.isEmpty) {
+      return (
+        <div className={cx(s.minicart, s[this.props.cartClass])}>
+          <div className={s.cartcontent}>
+            <p className={s.carttitle}>
+              <span className={s.count}>0</span> items in your cart
+            </p>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className={cx(s.minicart, s[this.props.cartClass])}>
         <div className={s.cartcontent}>

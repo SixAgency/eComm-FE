@@ -1,28 +1,37 @@
 import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import getProducts from './products';
-import getCart from './cart';
-import getOrderDetails from './orders';
+import { getOrder, getCart } from './orders';
 
-const apiRouter = express.Router();
+const apiRoutes = express.Router();
 
 // USER ROUTES
 
 // login
-apiRouter.post('/login', (req, resp) => userLogin(req, resp));
+apiRoutes.post('/login', (req, resp) => userLogin(req, resp));
 // register
-apiRouter.post('/register', (req, resp) => userRegistration(req, resp));
+apiRoutes.post('/register', (req, resp) => userRegistration(req, resp));
 // logout
-apiRouter.get('/logout', (req, resp) => userLogout(req, resp));
+apiRoutes.get('/logout', (req, resp) => userLogout(req, resp));
 // check login
-apiRouter.get('/check', (req, resp) => checkLogin(req, resp));
+apiRoutes.get('/check', (req, resp) => {
+  resp.json(checkLogin(req));
+});
 // Get all products
-apiRouter.get('/products', (req, resp) => getProducts(req, resp));
+apiRoutes.get('/products', (req, resp) => {
+  getProducts(req).then((data) => (resp.json(data)));
+});
 // Get product based on slug
-apiRouter.get('/products/:slug', (req, resp) => getProducts(req, resp));
+apiRoutes.get('/products/:slug', (req, resp) => {
+  getProducts(req).then((data) => (resp.json(data)));
+});
 // Get cart
-apiRouter.get('/cart', (req, resp) => getCart(req, resp));
+apiRoutes.get('/cart', (req, resp) => {
+  getCart(req).then((data) => (resp.json(data)));
+});
 // Get Order Details
-apiRouter.get('/order-details', (req, resp) => getOrderDetails(req, resp));
+apiRoutes.get('/order/:id', (req, resp) => {
+  getOrder(req).then((data) => (resp.json(data)));
+});
 
-export default apiRouter;
+export default apiRoutes;
