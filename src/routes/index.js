@@ -91,17 +91,20 @@ const routes = {
       async action(context) {
         const slug = context.params.slug;
         // TODO - ERROR HANDLING
-        const [product] = await Promise.all([
+        const [product, products] = await Promise.all([
           fetch(`/api/products/${slug}`, { credentials: 'same-origin' })
           .then((resp) => (resp.json())
             .then((json) => (json))),
+          fetch('/api/products', { credentials: 'same-origin' })
+          .then((resp) => (resp.json())
+            .then((json) => (json))),
         ]);
-        if (product) {
+        if (product && products) {
           return {
             headerClass: 'colored',
             activeSlug: '/',
             title: product.name || 'Shop',
-            content: <Product product={product} />,
+            content: <Product product={product} products={products} />,
           };
         }
         return {

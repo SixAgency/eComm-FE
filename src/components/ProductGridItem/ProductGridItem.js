@@ -7,6 +7,9 @@ import Link from '../Link';
 class ProductGridItem extends React.Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
+    priceclass: PropTypes.string,
+    nameclass: PropTypes.string,
+    catclass: PropTypes.string,
   }
 
   render() {
@@ -20,9 +23,11 @@ class ProductGridItem extends React.Component {
         <div className={s.itemhover}>
           <div className={s.itemmeta}>
             <Link className={s.plink} to={`/product/${product.slug}`}>
-              <span className={s.pprice}>{product.display_price}–{product.display_price}</span>
-              <h2 className={s.pname}>{product.name}</h2>
-              <h5 className={s.pcat}>GIFTS</h5>
+              <span className={cx(s.pprice, s[this.props.priceclass])}>
+                {product.display_price}–{product.display_price}
+              </span>
+              <h2 className={cx(s.pname, s[this.props.nameclass])}>{product.name}</h2>
+              <h5 className={cx(s.pcat, s[this.props.catclass])}>GIFTS</h5>
             </Link>
             <div className={s.buttons}>
               <Link className={cx(s.button, s.view)} to={`/product/${product.slug}`}>View</Link>
