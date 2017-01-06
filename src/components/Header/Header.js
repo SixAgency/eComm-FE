@@ -54,7 +54,7 @@ class Header extends React.Component {
   headerScroll = (event) => {
     if (window.outerWidth > 960) {
       let stickyClass = '';
-      const posCur = event.srcElement.body.scrollTop;
+      const posCur = window.scrollY;
       const heroSpacerH = window.innerHeight;
       // scroll down
       if ((posCur < this.posWas) && (posCur >= heroSpacerH)) {

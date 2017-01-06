@@ -1,0 +1,95 @@
+.stickywrpr {
+  background: #fff;
+  position: fixed;
+  z-index: 100001;
+  width: 100%;
+  height: 40px;
+  overflow: auto;
+  bottom: 0px;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.actionscontainer {
+  position: relative;
+  width: auto;
+  text-align: center;
+  margin: 0 auto;
+  top: auto;
+}
+
+.actions {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-decoration: none;
+}
+
+.gohomewrpr {
+  z-index: 10002;
+  width: 180px;
+  padding: 0;
+  margin: 0;
+  line-height: 40px;
+  text-align: center;
+  background-color: rgb(77, 211, 218);
+}
+
+.gohomelink {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
+  width: 180px;
+}
+
+.scrolltop {
+  position: absolute;
+  margin-right: 0;
+  text-align: center;
+  display: block;
+  right: 115px;
+  background-color: rgb(77, 211, 218);
+}
+
+.scrolltop:hover {
+  background-color: #222;
+}
+
+.iconup {
+  font-family: 'lobo' !important;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.iconup:before {
+  content: 'k';
+  font-family: "lobo" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hidesticky {
+  height: 0px;
+  -webkit-transition: height 0.5s linear;
+  -moz-transition: height 0.5s linear;
+  -ms-transition: height 0.5s linear;
+  -o-transition: height 0.5s linear;
+  transition: height 0.5s linear;
+  overflow: hidden;
+}
+
+.showsticky {
+  height: 40px;
+}
+
+@media (max-width: 767px) {
+  .gohomewrpr { display: none; }
+  .scrolltop { right: 0px !important; }
+}
