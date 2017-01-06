@@ -31,6 +31,18 @@ class Cart extends React.Component {
 
   render() {
     const cart = this.props.cartItems;
+    // @TODO - LOADING STATE
+    if (!cart.isLoaded) {
+      return null;
+    }
+    // @TODO - EMPTY CART
+    if (cart.isEmpty) {
+      return (
+        <section className={s.cartpage}>
+          Cart is Empty
+        </section>
+      );
+    }
     return (
       <div className={s.cartpage}>
         <CartCta toggleGiftcard={this.handleGiftcard} />

@@ -84,7 +84,7 @@ class Header extends React.Component {
   render() {
     const cart = this.props.cartItems;
     let quantity = 0;
-    if (cart) { quantity = cart.total_quantity; }
+    if (!cart.isEmpty && cart.isLoaded) { quantity = cart.total_quantity; }
     return (
       <header
         className={cx(

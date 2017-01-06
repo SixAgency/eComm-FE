@@ -112,7 +112,7 @@ function userLogout(request, response) {
   .catch((err) => handleError(err, response));
 }
 
-function checkLogin(request, response) {
+function checkLogin(request) {
   const { token, user } = request.session;
   let resp = {};
   if (token && user) {
@@ -123,7 +123,7 @@ function checkLogin(request, response) {
   } else {
     resp = { logged: false };
   }
-  response.json(resp);
+  return resp;
 }
 
 export { userLogin, userRegistration, userLogout, checkLogin };
