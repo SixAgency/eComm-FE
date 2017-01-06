@@ -107,3 +107,17 @@
     border-width: 15px;
   }
 }
+
+/* Additional classes for usage as related products */
+.rprice {
+  font-size: 22px !important;
+}
+.rname {
+  padding-top: 10px !important;
+  font-size: 15px !important;
+  line-height: 20px !important;
+}
+.rcat {
+  font-size: 15px !important;
+  line-height: 13px !important;
+}

@@ -3,11 +3,13 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Product.css';
 import Link from '../../components/Link';
+import RelatedProducts from '../../components/RelatedProducts';
 
 class Product extends React.Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
+    products: PropTypes.object.isRequired,
   }
 
   onSubmit = (event) => {
@@ -30,6 +32,7 @@ class Product extends React.Component {
               src={product.master.images[0].large_url}
               alt={product.name}
             />
+            <RelatedProducts products={this.props.products} />
           </div>
         </div>
         <div className={s.right}>

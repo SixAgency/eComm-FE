@@ -8,6 +8,9 @@ class Grid extends React.Component {
   static propTypes = {
     gridClass: PropTypes.string.isRequired,
     gridItems: PropTypes.array.isRequired,
+    priceclass: PropTypes.string,
+    nameclass: PropTypes.string,
+    catclass: PropTypes.string,
   }
 
   render() {
@@ -18,7 +21,12 @@ class Grid extends React.Component {
         <ul className={s.gridwrapper}>
           {products.map((v, k) => (
             <li key={k} className={s.gridthree}>
-              <ProductGridItem product={v} />
+              <ProductGridItem
+                product={v}
+                priceclass={this.props.priceclass}
+                nameclass={this.props.nameclass}
+                catclass={this.props.catclass}
+              />
             </li>
           ))}
         </ul>

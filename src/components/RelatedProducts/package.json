@@ -1,0 +1,6 @@
+{
+  "name": "RelatedProducts",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RelatedProducts.js"
+}
