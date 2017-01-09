@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import fetch from '../../../core/fetch';
-import Dashboard from './Dashboard';
+import Shipping from './Shipping';
 
 /* @TODO - Refactor - Use Redux */
-class DashboardWrapper extends React.Component {
+class ShippingWrapper extends React.Component {
   static propTypes = {
     client: PropTypes.bool,
     logged: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
+    shipping: PropTypes.object,
   }
 
   onLogout = (event) => {
@@ -20,6 +20,11 @@ class DashboardWrapper extends React.Component {
     .then((json) => this.handleLogout(json));
   }
 
+
+  onSubmit = () => {
+    console.log('submit');
+  }
+
   handleLogout = (data) => {
     if (data.error) {
       console.log('error');
@@ -29,11 +34,15 @@ class DashboardWrapper extends React.Component {
   }
 
   render() {
-    const { username } = this.props;
     return (
-      <Dashboard userName={username} loggedIn={this.props.logged} onLogout={this.onLogout} />
+      <Shipping
+        loggedIn={this.props.logged}
+        onSubmit={this.onSubmit}
+        onLogout={this.onLogout}
+        shippingAddress={this.props.shipping}
+      />
     );
   }
 }
 
-export default DashboardWrapper;
+export default ShippingWrapper;

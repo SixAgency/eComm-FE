@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import fetch from '../../../core/fetch';
-import Dashboard from './Dashboard';
+import Edit from './Edit';
 
 /* @TODO - Refactor - Use Redux */
-class DashboardWrapper extends React.Component {
+class EditWrapper extends React.Component {
   static propTypes = {
     client: PropTypes.bool,
     logged: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
   }
 
   onLogout = (event) => {
@@ -29,11 +28,10 @@ class DashboardWrapper extends React.Component {
   }
 
   render() {
-    const { username } = this.props;
     return (
-      <Dashboard userName={username} loggedIn={this.props.logged} onLogout={this.onLogout} />
+      <Edit loggedIn={this.props.logged} onLogout={this.onLogout} />
     );
   }
 }
 
-export default DashboardWrapper;
+export default EditWrapper;

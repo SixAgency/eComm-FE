@@ -103,7 +103,7 @@ FastClick.attach(document.body);
 const container = document.getElementById('app');
 let appInstance;
 let currentLocation = history.location;
-let routes = require('./routes').default;
+let routes = require('./routes/client').default;
 
 // Re-render the app when window.location changes
 async function onLocationChange(location) {
@@ -179,8 +179,8 @@ onLocationChange(currentLocation);
 
 // Enable Hot Module Replacement (HMR)
 if (module.hot) {
-  module.hot.accept('./routes', () => {
-    routes = require('./routes').default; // eslint-disable-line global-require
+  module.hot.accept('./routes/client', () => {
+    routes = require('./routes/client').default; // eslint-disable-line global-require
 
     if (appInstance) {
       try {

@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
               <div className={s.addresseswrpr}>
                 <Link
                   className={s.options}
-                  to="/my-account/edit-billing-address"
+                  to="/my-account/edit-address/billing"
                 >
                   Edit billing address
                 </Link>
@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
               <div className={s.addresseswrpr}>
                 <Link
                   className={s.options}
-                  to="/my-account/edit-shipping-address"
+                  to="/my-account/edit-address/shipping"
                 >
                 Edit shipping address
                 </Link>
