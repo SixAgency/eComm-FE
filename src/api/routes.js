@@ -1,7 +1,7 @@
 import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import getProducts from './products';
-import { getOrder, getCart } from './orders';
+import { getOrder, getCart, addToCart } from './orders';
 
 const apiRoutes = express.Router();
 
@@ -32,6 +32,12 @@ apiRoutes.get('/cart', (req, resp) => {
 // Get Order Details
 apiRoutes.get('/order/:id', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
+});
+// Add Item To Cart
+apiRoutes.post('/addtocart', (req, resp) => {
+  addToCart(req).then((data) => {
+    resp.json(data);
+  });
 });
 
 export default apiRoutes;

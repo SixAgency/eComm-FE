@@ -1,4 +1,7 @@
+import conslog from '../utils/dev';
+
 function parseResponse(data) {
+  conslog(data);
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {
     resp = { error: 'Server Error. Please try again.' };
@@ -13,12 +16,17 @@ function parseError(error) {
   return resp;
 }
 
-function parseCart(data) {
+function parseCart(data, req, callback) {
   // const resp = {};
+  const session = req.session;
   if (Object.getOwnPropertyNames(data).length > 0) {
+    session.orderNumber = data.number;
     return { ...data, isLoaded: true, isEmpty: false };
   }
-  return { ...data, isLoaded: true, isEmpty: true };
+  callback(req).then((resp) => {
+    session.orderNumber = resp.number;
+    return { ...data, isLoaded: true, isEmpty: true };
+  });
 }
 
 export { parseResponse, parseError, parseCart };
