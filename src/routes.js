@@ -22,6 +22,9 @@ const routes = {
       path: '/',
       async action() {
         // TODO - ERROR HANDLING
+        function createOrder() {
+          console.log('ajung aici');
+        }
         const products = await fetch('/api/products', { credentials: 'same-origin' })
           .then((resp) => (resp.json())
             .then((json) => (json.products)));
@@ -29,7 +32,7 @@ const routes = {
           headerClass: 'default',
           activeSlug: '/',
           title: 'Shop',
-          content: <Home gridItems={products} />,
+          content: <Home gridItems={products} createOrder={this.createOrder} />,
         };
       },
     },

@@ -1,4 +1,5 @@
 import { apiFetch } from '../core/fetch';
+import conslog from '../utils/dev';
 
 const LOGIN = '/login';
 const LOGOUT = '/logout';
@@ -15,12 +16,14 @@ function handleLogout(data, request, response) {
   const sess = request.session;
   sess.token = null;
   sess.user = null;
+  sess.orderNumber = null;
   response.json(resp);
 }
 
 function handleSignSignup(data, request, response) {
   let resp = {};
   const sess = request.session;
+  conslog(data);
   if (data.user) {
     const user = data.user.email.split('@')[0];
     resp = {
@@ -33,7 +36,7 @@ function handleSignSignup(data, request, response) {
   } else {
     resp = {
       error: true,
-      message: response.error,
+      message: data.error,
       status: 200,
     };
   }
@@ -61,7 +64,7 @@ function userLogin(request, response) {
       remember_me: request.body.remember,
     },
   };
-
+  conslog(user);
   apiFetch(LOGIN,
     {
       method: 'POST',

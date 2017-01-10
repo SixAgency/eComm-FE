@@ -1,0 +1,6 @@
+{
+  "name": "ProductAction",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProductAction.js"
+}
