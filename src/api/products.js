@@ -1,8 +1,8 @@
 import { apiFetch } from '../core/fetch';
 import { parseResponse, parseError } from './handlers';
+import { faketoken } from '../config';
 
 const PRODUCT = '/api/products';
-const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';
 
 // Get Products
 function getProducts(request) {
@@ -11,7 +11,7 @@ function getProducts(request) {
     {
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || token,
+        'X-Spree-Token': request.session.token || faketoken,
       },
     })
   .then((data) => parseResponse(data))
