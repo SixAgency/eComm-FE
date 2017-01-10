@@ -164,12 +164,19 @@ const routes = {
             if (!user.logged) {
               return { redirect: '/my-account' };
             }
+            const data = await fetch('/api/addresses', { credentials: 'same-origin' })
+              .then((resp) => (resp.json())
+                .then((json) => (json)));
+            const addresses = {
+              shippAddress: data.ship_address,
+              billAddress: data.bill_address,
+            };
             const clientSide = true;
             return {
               headerClass: 'colored',
               activeSlug: '/my-account',
               title: 'My Account',
-              content: <Dashboard {...user} client={clientSide} />,
+              content: <Dashboard {...user} client={clientSide} addresses={addresses} />,
             };
           },
         },

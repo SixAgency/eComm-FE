@@ -7,6 +7,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import getProducts from '../api/products';
 import { checkLogin } from '../api/users';
 import { getCart } from '../api/orders';
+import { getAddresses } from '../api/addresses';
 
 // Top Level Compontents
 import Layout from '../components/Layout';
@@ -151,15 +152,21 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
   if (!user.logged) {
     resp.redirect('/my-account');
   }
-  conslog(req.session.token);
-  const params = {
-    title: 'My Account',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <Dashboard {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
+  getAddresses(req).then((data) => {
+    conslog(data);
+    const addresses = {
+      shippAddress: data.ship_address,
+      billAddress: data.bill_address,
+    };
+    const params = {
+      title: 'My Account',
+      description: '',
+      header: 'colored',
+      active: '/my-account',
+      content: <Dashboard {...user} addresses={addresses} />,
+    };
+    handleRoutes(req, resp, next, params);
+  });
 });
 // Account - Edit
 siteRoutes.get('/my-account/edit-account', (req, resp, next) => {

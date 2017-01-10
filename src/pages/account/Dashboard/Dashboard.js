@@ -4,12 +4,14 @@ import s from './Dashboard.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import Link from '../../../components/Link';
+import Addresses from '../../../components/Addresses';
 
 class Dashboard extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     userName: PropTypes.string.isRequired,
     onLogout: PropTypes.func.isRequired,
+    addresses: PropTypes.object.isRequired,
   }
 
   render() {
@@ -26,28 +28,7 @@ class Dashboard extends React.Component {
              shipping and billing addresses and
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
-            <h1 className={s.title}>MY ADDRESSES</h1>
-            <p className={s.info}>The following addresses will be used on the checkout page.</p>
-            <div className={s.addressescont}>
-              <div className={s.addresseswrpr}>
-                <Link
-                  className={s.options}
-                  to="/my-account/edit-address/billing"
-                >
-                  Edit billing address
-                </Link>
-                <p className={s.optiontext}> Please set up your billing address </p>
-              </div>
-              <div className={s.addresseswrpr}>
-                <Link
-                  className={s.options}
-                  to="/my-account/edit-address/shipping"
-                >
-                Edit shipping address
-                </Link>
-                <p className={s.optiontext}> Please set up your shipping address </p>
-              </div>
-            </div>
+            <Addresses {...this.props.addresses} />
           </div>
         </ContentWrapper>
       </section>

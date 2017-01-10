@@ -21,8 +21,8 @@ class BillingWrapper extends React.Component {
   }
 
 
-  onSubmit = () => {
-    console.log('submit');
+  onSubmit = (address) => {
+    console.log(address);
   }
 
   handleLogout = (data) => {

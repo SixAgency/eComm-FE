@@ -8,6 +8,7 @@ class DashboardWrapper extends React.Component {
     client: PropTypes.bool,
     logged: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
+    addresses: PropTypes.object.isRequired,
   }
 
   onLogout = (event) => {
@@ -30,8 +31,14 @@ class DashboardWrapper extends React.Component {
 
   render() {
     const { username } = this.props;
+    console.log(this.props.addresses);
     return (
-      <Dashboard userName={username} loggedIn={this.props.logged} onLogout={this.onLogout} />
+      <Dashboard
+        userName={username}
+        loggedIn={this.props.logged}
+        onLogout={this.onLogout}
+        addresses={this.props.addresses}
+      />
     );
   }
 }
