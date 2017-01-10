@@ -18,7 +18,7 @@ class StickySection extends React.Component {
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('scroll', this.headerScroll);
+    window.removeEventListener('scroll', this.stickyScroll);
   }
 
   stickyScroll = () => {
