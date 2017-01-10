@@ -104,7 +104,7 @@ const routes = {
             headerClass: 'colored',
             activeSlug: '/',
             title: product.name || 'Shop',
-            content: <Product product={product} products={products} />,
+            content: <Product product={product} products={products.products} />,
           };
         }
         return {

@@ -10,7 +10,7 @@ class Product extends React.Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
-    products: PropTypes.object.isRequired,
+    products: PropTypes.array.isRequired,
   }
 
   onSubmit = (event) => {

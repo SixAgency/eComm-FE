@@ -98,7 +98,7 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/',
-      content: <Product product={data} />,
+      content: <Product product={data} products={Array(data)} />,
     };
     handleRoutes(req, resp, next, params);
   });

@@ -5,11 +5,11 @@ import Grid from '../Grid';
 
 class RelatedProducts extends React.Component {
   static propTypes = {
-    products: PropTypes.object.isRequired,
+    products: PropTypes.array.isRequired,
   }
 
   render() {
-    const products = this.props.products.products.slice(0, 3);
+    const products = this.props.products.slice(0, 3);
 
     return (
       <div className={s.relatedwrpr}>

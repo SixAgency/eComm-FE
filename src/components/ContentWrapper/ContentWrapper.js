@@ -10,7 +10,8 @@ class ContentWrapper extends React.Component {
     tabs: PropTypes.array,
     tabsClass: PropTypes.string,
     isActive: PropTypes.string,
-
+    wrprClass: PropTypes.string,
+    contentClass: PropTypes.string,
   }
 
   static defaultProps = {
@@ -23,8 +24,8 @@ class ContentWrapper extends React.Component {
   render() {
     const contentTabs = this.props.tabs;
     return (
-      <section className={s.wrapper}>
-        <div className={s.contentwrapper}>
+      <section className={cx(s.wrapper)}>
+        <div className={cx(s.contentwrapper, s[this.props.wrprClass])}>
           <ul className={cx(s.contenttabs, s[this.props.tabsClass])}>
             {contentTabs.map((v, k) => (
               <li key={k} className={s.tab}>
@@ -39,7 +40,7 @@ class ContentWrapper extends React.Component {
               </li>
             ))}
           </ul>
-          <div className={s.formwrapper}>{this.props.children}</div>
+          <div className={cx(s.formwrapper, s[this.props.contentClass])}>{this.props.children}</div>
         </div>
       </section>
     );

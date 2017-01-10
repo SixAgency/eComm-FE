@@ -1,0 +1,65 @@
+.page {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  padding-top: 127px;
+  .messagecontainer {
+    width: 100%;
+    font-size: 15px;
+    line-height: 25px;
+    color: #fff;
+    text-align: center;
+    padding: 25px 0;
+    background: #69FAC2;
+    font-weight: 700;
+    position: relative;
+    z-index: 102;
+    margin: 0;
+    box-sizing: border-box;
+    a {
+      outline: none;
+      text-decoration: none;
+      color: inherit;
+    }
+    a:active {
+      color: rgb(25, 122, 117);
+    }
+  }
+  .showmessage { display: block; }
+  .hidemessage { display: none; }
+  .eparagraph {
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 25px;
+    color: #565656;
+    text-align: center;
+    .gotoshop {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: block;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 11px;
+      line-height: 61px;
+      font-weight: 800;
+      color: #000;
+      text-transform: uppercase;
+      text-decoration: none;
+      background-color: #29cbc8;
+      margin: 20px 3px 0px 3px;
+      margin: 0 auto;
+      height: 61px;
+      border: none;
+      outline: none;
+      max-width: 230px;
+    }
+    .gotoshop:hover {
+      color: #29cbc8;
+      background: #000;
+    }
+  }
+  .actioncontainer { box-sizing: border-box; padding-top: 30px;  }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+  .gotoshop { border-radius: 5px; }
+}

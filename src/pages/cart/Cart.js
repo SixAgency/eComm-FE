@@ -7,6 +7,9 @@ import ProductsTable from '../../components/ProductsTable/ProductsTable';
 import PromoCodeInput from '../../components/PromoCodeInput/PromoCodeInput';
 import CartForm from '../../components/CartForm/CartForm';
 import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
+import Subnav from '../../components/Subnav';
+import ContentWrapper from '../../components/ContentWrapper';
+import EmptyCart from '../../components/EmptyCart';
 
 class Cart extends React.Component {
   static propTypes = {
@@ -15,10 +18,19 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: true,
+      logged: true,
       showCouponFields: false,
       className: 'hide',
     };
+  }
+
+  onLogout = () => {
+    fetch('/api/logout', {
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleLogout(json));
   }
 
   handleGiftcard = (e) => {
@@ -29,6 +41,7 @@ class Cart extends React.Component {
     });
   }
 
+
   render() {
     const cart = this.props.cartItems;
     // @TODO - LOADING STATE
@@ -38,31 +51,32 @@ class Cart extends React.Component {
     // @TODO - EMPTY CART
     if (cart.isEmpty) {
       return (
-        <section className={s.cartpage}>
-          Cart is Empty
-        </section>
+        <EmptyCart />
       );
     }
     return (
       <div className={s.cartpage}>
+        <Subnav isLogged={this.state.logged} onLogout={this.onLogout} />
         <CartCta toggleGiftcard={this.handleGiftcard} />
-        <div className={s.cartcontentwrpr}>
-          <article className={s.cartbody}>
-            <div>
-              <GiftCardInput
-                toggleGiftcard={this.handleGiftcard}
-                infoClass={this.state.className}
-              />
-              <Title text={'Your Cart'} classname={'title'} />
-              <h3 className={s.cartsubtitle}>
-                {cart.total_quantity} items in your cart
-              </h3>
-              <ProductsTable cart={cart} />
-              <PromoCodeInput />
-              <CartForm cart={cart} />
-            </div>
-          </article>
-        </div>
+        <ContentWrapper wrprClass={'cartwrpr'} contentClass={'contentwrpr'}>
+          <div className={s.cartcontentwrpr}>
+            <article className={s.cartbody}>
+              <div>
+                <GiftCardInput
+                  toggleGiftcard={this.handleGiftcard}
+                  infoClass={this.state.className}
+                />
+                <Title text={'Your Cart'} classname={'title'} />
+                <h3 className={s.cartsubtitle}>
+                  {cart.total_quantity} items in your cart
+                </h3>
+                <ProductsTable cart={cart} />
+                <PromoCodeInput />
+                <CartForm cart={cart} />
+              </div>
+            </article>
+          </div>
+        </ContentWrapper>
       </div>
     );
   }
