@@ -1,5 +1,6 @@
+import conslog from '../utils/dev';
+
 function parseResponse(data) {
-  // conslog(data);
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {
     resp = { error: 'Server Error. Please try again.' };

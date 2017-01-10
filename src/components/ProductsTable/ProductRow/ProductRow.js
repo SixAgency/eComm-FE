@@ -8,6 +8,27 @@ class ProductRow extends React.Component {
     cart: React.PropTypes.object.isRequired,
   }
 
+  removeItem = (event) => {
+    event.preventDefault();
+
+    const data = {
+      id: this.props.cart.id,
+    };
+
+    fetch('/api/removefromcart', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleSuccess(json));
+  }
+
+  handleSuccess = (data) => {
+    window.location.reload();
+  }
+
   render() {
     const cart = this.props.cart;
     return (
@@ -38,9 +59,10 @@ class ProductRow extends React.Component {
         </td>
         <td className={s.prodremove}>
           <a
-            href=""
+            href="/"
             className={s.remove}
             title="Remove this item"
+            onClick={this.removeItem}
           >
             ×
           </a>

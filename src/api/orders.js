@@ -81,5 +81,23 @@ function addToCart(request) {
   return response;
 }
 
+// Remove Item from Cart
+function removeFromCart(request) {
+  const id = request.body.id;
+  const orderNumber = request.session.orderNumber;
+  const response = apiFetch(`${ORDER}/${orderNumber}/line_items/${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => parseResponse(resp))
+  .then((resp) => (resp))
+  .catch((err) => parseError(err));
+  return response;
+}
+
 // TODO - user orders
-export { getOrder, getCart, addToCart, createOrder };
+export { getOrder, getCart, addToCart, createOrder, removeFromCart };

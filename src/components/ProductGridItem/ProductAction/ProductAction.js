@@ -8,7 +8,12 @@ class ProductAction extends React.Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
-    action: PropTypes.func,
+    action: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    link: '/',
+    action: () => (true),
   }
 
   render() {

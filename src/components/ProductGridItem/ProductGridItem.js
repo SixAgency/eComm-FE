@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import fetch from '../../core/fetch';
 import s from './ProductGridItem.css';
 import Link from '../Link';
 import ProductAction from './ProductAction';
@@ -13,8 +14,26 @@ class ProductGridItem extends React.Component {
     catclass: PropTypes.string,
   }
 
-  addToCart = () => {
-    console.log('added to cart');
+  addToCart = (event) => {
+    event.preventDefault();
+
+    const data = {
+      id: this.props.product.master.id,
+      quantity: 1,
+    };
+
+    fetch('/api/addtocart', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleSuccess(json));
+  }
+
+  handleSuccess = (data) => {
+    window.location.href = '/cart';
   }
 
   handleText = () => {
