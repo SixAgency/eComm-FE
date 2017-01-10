@@ -9,6 +9,10 @@ class Subnav extends React.Component {
     onLogout: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    onLogout: () => (true),
+  }
+
   getSubNavItems = () => {
     if (this.props.isLogged) {
       return [
