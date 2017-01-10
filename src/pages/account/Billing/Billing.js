@@ -18,6 +18,7 @@ class Billing extends React.Component {
 
   render() {
     const showEmailPhone = true;
+    console.log(this.props.billingAddress);
     const address = this.props.billingAddress || {
       firstname: '',
       lastname: '',
@@ -31,7 +32,7 @@ class Billing extends React.Component {
     };
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.onLogout} />
+        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ContentWrapper tabsClass={'hide'}>
           <AddressForm
             formTitle={'billing address'}

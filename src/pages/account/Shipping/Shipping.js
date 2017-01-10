@@ -17,9 +17,20 @@ class Shipping extends React.Component {
 
   render() {
     const showEmailPhone = false;
+    console.log(this.props.shippingAddress);
+    const address = this.props.shippingAddress || {
+      firstname: '',
+      lastname: '',
+      company: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state_id: 0,
+      zipcode: '',
+    };
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.onLogout} />
+        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ContentWrapper tabsClass={'hide'}>
           <AddressForm
             formTitle={'shipping address'}
@@ -27,6 +38,7 @@ class Shipping extends React.Component {
             showEmailPhone={showEmailPhone}
             buttonText={'save address'}
             selectClass={'checkoutselect'}
+            address={address}
             onSubmit={this.props.onSubmit}
           />
         </ContentWrapper>

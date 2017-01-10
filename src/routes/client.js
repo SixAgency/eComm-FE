@@ -229,11 +229,15 @@ const routes = {
                   return { redirect: '/my-account' };
                 }
                 const clientSide = true;
+                const data = await fetch('/api/addresses', { credentials: 'same-origin' })
+                  .then((resp) => (resp.json())
+                    .then((json) => (json)));
+                const address = data.ship_address;
                 return {
                   headerClass: 'colored',
                   activeSlug: '/',
                   title: 'Edit Shipping Address',
-                  content: <Shipping {...user} client={clientSide} />,
+                  content: <Shipping {...user} client={clientSide} shipping={address} />,
                 };
               },
             },
@@ -247,11 +251,15 @@ const routes = {
                   return { redirect: '/my-account' };
                 }
                 const clientSide = true;
+                const data = await fetch('/api/addresses', { credentials: 'same-origin' })
+                  .then((resp) => (resp.json())
+                    .then((json) => (json)));
+                const address = data.ship_address;
                 return {
                   headerClass: 'colored',
                   activeSlug: '/',
                   title: 'Edit Billing Address',
-                  content: <Billing {...user} client={clientSide} />,
+                  content: <Billing {...user} client={clientSide} billing={address} />,
                 };
               },
             },

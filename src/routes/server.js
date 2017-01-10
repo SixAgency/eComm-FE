@@ -153,7 +153,6 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
     resp.redirect('/my-account');
   }
   getAddresses(req).then((data) => {
-    conslog(data);
     const addresses = {
       shippAddress: data.ship_address,
       billAddress: data.bill_address,
@@ -204,14 +203,17 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
   if (!user.logged) {
     resp.redirect('/my-account');
   }
-  const params = {
-    title: 'Edit Shipping Address',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <Shipping {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
+  getAddresses(req).then((data) => {
+    const address = data.ship_address;
+    const params = {
+      title: 'Edit Shipping Address',
+      description: '',
+      header: 'colored',
+      active: '/my-account',
+      content: <Shipping {...user} address={address} />,
+    };
+    handleRoutes(req, resp, next, params);
+  });
 });
 // Account - Billing
 siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
@@ -219,14 +221,17 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
   if (!user.logged) {
     resp.redirect('/my-account');
   }
-  const params = {
-    title: 'Edit Billing Address',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <Billing {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
+  getAddresses(req).then((data) => {
+    const address = data.ship_address;
+    const params = {
+      title: 'Edit Billing Address',
+      description: '',
+      header: 'colored',
+      active: '/my-account',
+      content: <Billing {...user} address={address} />,
+    };
+    handleRoutes(req, resp, next, params);
+  });
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {

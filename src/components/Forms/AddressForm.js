@@ -12,7 +12,7 @@ class AddressForm extends React.Component {
     formSubtitle: PropTypes.string.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
     buttonText: PropTypes.string.isRequired,
-    emailAddress: PropTypes.string.isRequired,
+    emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
     address: PropTypes.object,
   }
