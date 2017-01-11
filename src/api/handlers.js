@@ -16,8 +16,8 @@ function parseError(error) {
 function parseCart(data, req) {
   // const resp = {};
   const session = req.session;
-  const isEmpty = data.total_quantity === 0;
   if (Object.getOwnPropertyNames(data).length > 0) {
+    const isEmpty = data.total_quantity < 1;
     session.orderNumber = data.number;
     return { ...data, isLoaded: true, isEmpty };
   }
@@ -25,7 +25,7 @@ function parseCart(data, req) {
   //   session.orderNumber = resp.number;
   //   return { ...data, isLoaded: true, isEmpty: true };
   // });
-  return { ...data, isLoaded: true, isEmpty };
+  return { ...data, isLoaded: true, isEmpty: true };
 }
 
 export { parseResponse, parseError, parseCart };

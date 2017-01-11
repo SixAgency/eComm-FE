@@ -215,7 +215,7 @@ const config = {
 
 const clientConfig = extend(true, {}, config, {
   entry: {
-    client: './client.js',
+    client: './client_update.js',
   },
 
   output: {
