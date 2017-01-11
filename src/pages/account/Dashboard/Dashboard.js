@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Dashboard.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
-import Link from '../../../components/Link';
 import Addresses from '../../../components/Addresses';
 
 class Dashboard extends React.Component {

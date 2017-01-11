@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Addresses.css';
-import Link from '../Link';
 
 class Addresses extends React.Component {
 

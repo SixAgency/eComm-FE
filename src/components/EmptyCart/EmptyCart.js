@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './EmptyCart.css';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
-import Link from '../Link';
 
 class EmptyCart extends React.Component {
   constructor(props) {

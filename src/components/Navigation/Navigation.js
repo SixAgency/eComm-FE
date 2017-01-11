@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
-import Link from '../Link';
 import { NAV } from '../../constants/AppConsts';
 // import setNavigation from '../../utils/utils';
 

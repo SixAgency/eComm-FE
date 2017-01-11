@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 import Layout from '../components/Layout';
 // Pages
-import HomeWrapper from '../pages/home';
+import HomeWrapper from '../pages/Home';
 import Biography from '../pages/biography/Biography';
 import Cart from '../pages/cart/Cart';
 import Checkout from '../pages/checkout/Checkout';

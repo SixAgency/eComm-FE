@@ -1,8 +1,5 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import LayoutContent from './LayoutContent';
-
-const mapStateToProps = ((state) => ({ headerProps: state.page.headerProps }));
 
 class Layout extends React.Component {
 
@@ -45,7 +42,6 @@ class Layout extends React.Component {
   }
 
   render() {
-    console.log(this.props.headerProps);
     const { headerClass, activeSlug } = this.props.headerProps;
     return (
       <LayoutContent
@@ -61,4 +57,4 @@ class Layout extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(Layout);
+export default Layout;

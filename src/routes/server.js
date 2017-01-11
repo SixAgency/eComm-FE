@@ -15,7 +15,7 @@ import App from '../components/App';
 import Html from '../components/Html';
 
 // Pages
-import Home from '../pages/home/Home';
+import HomeWrapper from '../pages/Home';
 import Product from '../pages/product/Product';
 import Biography from '../pages/biography/Biography';
 import Contact from '../pages/contact/Contact';
@@ -51,8 +51,12 @@ function handleRoutes(req, resp, next, params) {
     const data = { ...params };
     // Cart will be loaded async
     const cart = { isLoaded: false };
+    const headerProps = {
+      headerClass: data.header,
+      activeSlug: data.active,
+    }
     data.component = (
-      <Layout headerClass={data.header} activeSlug={data.active} cartItems={cart}>
+      <Layout headerProps={headerProps} cartItems={cart}>
         {data.content}
       </Layout>
     );
@@ -77,12 +81,16 @@ function handleRoutes(req, resp, next, params) {
 // Homepage
 siteRoutes.get('/', (req, resp, next) => {
   getProducts(req).then((data) => {
+    const gridItems = {
+      isLoaded: true,
+      products: data.products,
+    }
     const params = {
       title: 'Shop',
       description: '',
       header: 'default',
       active: '/',
-      content: <Home gridItems={data.products} />,
+      content: <HomeWrapper gridItems={gridItems} />,
     };
     handleRoutes(req, resp, next, params);
   });

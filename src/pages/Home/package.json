@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "HomeWrapper",
+  "main": "./HomeWrapperServer.js",
+  "browser": "./HomeWrapper.js"
+}

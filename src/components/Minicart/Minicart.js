@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Minicart.css';
-import Link from '../Link';
 
 class Minicart extends React.Component {
   static propTypes = {

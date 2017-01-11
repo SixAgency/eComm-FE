@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './SocialMedia.css';
-import Link from '../Link';
 import { SOCIAL_NAV } from '../../constants/AppConsts';
 
 class SocialMedia extends React.Component {
