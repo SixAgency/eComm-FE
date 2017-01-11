@@ -7,33 +7,9 @@ class ProductQuantity extends React.Component {
 
   static propTypes = {
     sizingClass: PropTypes.string,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputValue: '1',
-    };
-  }
-
-  subtract = () => {
-    let value = parseInt(this.state.inputValue, 10);
-    if (value >= 2 && value <= 10) {
-      value -= 1;
-      this.setState({
-        inputValue: value,
-      });
-    }
-  }
-
-  add = () => {
-    let value = parseInt(this.state.inputValue, 10);
-    if (value >= 1 && value < 10) {
-      value += 1;
-      this.setState({
-        inputValue: value,
-      });
-    }
+    addQuantity: PropTypes.func.isRequired,
+    substractQuantity: PropTypes.func.isRequired,
+    quantity: PropTypes.number.isRequired,
   }
 
   render() {
@@ -44,8 +20,7 @@ class ProductQuantity extends React.Component {
           type="button"
           defaultValue="-"
           size="4"
-          onClick={this.subtract}
-          onChange={() => {}}
+          onClick={this.props.substractQuantity}
         />
         <input
           className={cx(s.input, s.text)}
@@ -54,7 +29,7 @@ class ProductQuantity extends React.Component {
           min="1"
           max="10"
           name="quantity"
-          value={this.state.inputValue}
+          value={this.props.quantity}
           onChange={() => {}}
           title="Qty"
           size="4"
@@ -63,8 +38,7 @@ class ProductQuantity extends React.Component {
           className={cx(s.input, s.plus)}
           type="button"
           defaultValue="+"
-          onClick={this.add}
-          onChange={() => {}}
+          onClick={this.props.addQuantity}
         />
       </div>
     );

@@ -8,13 +8,38 @@ class ProductRow extends React.Component {
     cart: React.PropTypes.object.isRequired,
   }
 
+  removeItem = (event) => {
+    event.preventDefault();
+
+    const data = {
+      id: this.props.cart.id,
+    };
+
+    fetch('/api/removefromcart', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleSuccess(json));
+  }
+
+  handleSuccess = () => {
+    window.location.reload();
+  }
+
   render() {
     const cart = this.props.cart;
+    let image = '';
+    if (cart.variant.images.length > 0) {
+      image = cart.variant.images[0].small_url;
+    }
     return (
       <tr className={s.cartitem}>
         <td className={s.productname}>
           <img
-            src={cart.variant.images[0].large_url}
+            src={image}
             width="200"
             height="200"
             alt="product"
@@ -38,9 +63,10 @@ class ProductRow extends React.Component {
         </td>
         <td className={s.prodremove}>
           <a
-            href=""
+            href="/"
             className={s.remove}
             title="Remove this item"
+            onClick={this.removeItem}
           >
             ×
           </a>

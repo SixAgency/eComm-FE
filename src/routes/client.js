@@ -71,11 +71,14 @@ const routes = {
         const cart = await fetch('/api/cart', { credentials: 'same-origin' })
           .then((resp) => (resp.json())
             .then((json) => (json)));
+        const user = await fetch('/api/check', { credentials: 'same-origin' })
+          .then((resp) => (resp.json())
+            .then((json) => (json)));
         return {
           headerClass: 'default',
           activeSlug: '/',
           title: 'Cart',
-          content: <Cart cartItems={cart} />,
+          content: <Cart cartItems={cart} logged={user.logged} />,
         };
       },
     },
@@ -104,11 +107,12 @@ const routes = {
             .then((json) => (json))),
         ]);
         if (product && products) {
+          const related = products.products.slice(0, 3);
           return {
             headerClass: 'colored',
             activeSlug: '/',
             title: product.name || 'Shop',
-            content: <Product product={product} products={products} />,
+            content: <Product product={product} products={related} />,
           };
         }
         return {

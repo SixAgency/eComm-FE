@@ -35,21 +35,28 @@ class Minicart extends React.Component {
           </p>
           <div>
             <ul className={s.cartlist}>
-              { cart.line_items.map((item) => (
-                <li className={s.cartitem} key={item.id}>
-                  <Link className={s.plink} to={`product/${item.variant.slug}`}>
-                    <img
-                      className={s.pimage}
-                      src={item.variant.images[0].small_url}
-                      alt={item.variant.name}
-                    />
-                    <span className={s.pname}>{item.variant.name}</span>
-                    <span className={s.pprice}>
-                      Price: <span>{item.display_amount}</span>
-                    </span>
-                    <span className={s.pquantity}>Quantity: {item.quantity}</span>
-                  </Link>
-                </li>))}
+              { cart.line_items.map((item) => {
+                let image = '';
+                if (item.variant.images.length > 0) {
+                  image = item.variant.images[0].small_url;
+                }
+                return (
+                  <li className={s.cartitem} key={item.id}>
+                    <Link className={s.plink} to={`product/${item.variant.slug}`}>
+                      <img
+                        className={s.pimage}
+                        src={image}
+                        alt={item.variant.name}
+                      />
+                      <span className={s.pname}>{item.variant.name}</span>
+                      <span className={s.pprice}>
+                        Price: <span>{item.display_amount}</span>
+                      </span>
+                      <span className={s.pquantity}>Quantity: {item.quantity}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
             <p className={s.total}>
               <strong>Subtotal:</strong>
