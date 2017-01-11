@@ -1,0 +1,6 @@
+{
+  "name": "SingleVariant",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SingleVariant.js"
+}

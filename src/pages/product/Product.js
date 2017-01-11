@@ -5,6 +5,8 @@ import s from './Product.css';
 import Link from '../../components/Link';
 import RelatedProducts from '../../components/RelatedProducts';
 import ProductQuantity from '../../components/ProductQuantity';
+import SingleVariant from '../../components/SingleVariant';
+import MultiVariant from '../../components/MultiVariant';
 
 class Product extends React.Component {
 
@@ -13,13 +15,108 @@ class Product extends React.Component {
     products: PropTypes.array.isRequired,
   }
 
-  onSubmit = (event) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      quantity: 1,
+      variant_id: null,
+    };
+  }
+
+  componentWillMount = () => {
+    let variantId = null;
+    if (!this.props.product.has_variants) {
+      variantId = this.props.product.master.id;
+    }
+    if (this.props.product.has_variants && this.props.product.option_types.length === 1) {
+      variantId = this.props.product.variants[0].id;
+    }
+    if (this.props.product.has_variants && this.props.product.option_types.length === 2) {
+      const optionOne = this.props.product.variants[0].option_values[0].id;
+      const optionTwo = this.props.product.variants[0].option_values[1].id;
+      variantId = this.getVariantId(optionOne, optionTwo);
+    }
+    this.setState({
+      variant_id: variantId,
+    });
+  }
+
+  getVariantId = (one, two) => {
+    let id = null;
+    this.props.product.variants.map((item) => {
+      if ((item.option_values[0].id === one) &&
+        (item.option_values[1].id === two)) {
+        id = item.id;
+      }
+      return id;
+    });
+    return id;
+  }
+  // onSubmit = (event) => {
+  //   event.preventDefault();
+  //   const id = this.handleId;
+  //   const qty = this.handleQuantity;
+  //   console.log(id, qty);
+  // }
+
+  // handleQuantity = (event) => {
+  //   this.
+  // }
+
+  handleId = (event) => {
+    this.setState({
+      variant_id: parseInt(event.target.value, 10),
+    });
+  }
+
+  substract = () => {
+    let value = this.state.quantity;
+    if (value >= 2) {
+      value -= 1;
+      this.setState({
+        quantity: value,
+      });
+    }
+  }
+
+  add = () => {
+    let value = this.state.quantity;
+    value += 1;
+    this.setState({
+      quantity: value,
+    });
+  }
+
+  handleSuccess = (data) => {
+    window.location.href = '/cart';
+  }
+
+  addToCart = (event) => {
     event.preventDefault();
+    if (this.state.variant_id === null) {
+      console.log('ERRORR - PLEASE SELECT A VARIANT');
+      return;
+    }
+    const data = {
+      id: this.state.variant_id,
+      quantity: this.state.quantity,
+    };
+
+    fetch('/api/addtocart', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+    })
+    .then((resp) => (resp.json()))
+    .then((json) => this.handleSuccess(json));
   }
 
   render() {
+    console.log(this.state.quantity);
     const product = this.props.product;
-
+    // const selectHeadline = product.option_types[0].presentation;
+    console.log(this.state.variant_id);
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -50,17 +147,23 @@ class Product extends React.Component {
                   <span className={s.current}>{product.display_price}</span>
                 </div>
               </div>
-              <form className={s.cartform} onSubmit={this.formSubmit} >
-                <div className={s.variants}>
-                  <h3 className={s.vname}>Size<abbr className={s.required} title="required">*</abbr></h3>
-                  <select className={s.vselect} name="sizes">
-                    <option value="round-small-x2-1">Round Small (x2)</option>
-                    <option value="round-medium-2">Round Medium</option>
-                    <option value="round-large-3">Round Large</option>
-                    <option value="long-4">Long</option>
-                  </select>
-                </div>
-                <ProductQuantity sizingClass={'quantitybig'} />
+              <form className={s.cartform} onSubmit={this.addToCart} >
+                <SingleVariant
+                  variants={product.variants}
+                  hasVariants={product.has_variants}
+                  handleId={this.handleId}
+                />
+                {/* <MultiVariant
+                  variants={product.variants}
+                  hasVariants={product.has_variants}
+                  getVariantId={this.getVariantId}
+                /> */}
+                <ProductQuantity
+                  sizingClass={'quantitybig'}
+                  quantity={this.state.quantity}
+                  addQuantity={this.add}
+                  substractQuantity={this.substract}
+                />
                 <button type="submit" className={s.addtocart}>Add to cart</button>
               </form>
               <div className={s.summarymiddle}>

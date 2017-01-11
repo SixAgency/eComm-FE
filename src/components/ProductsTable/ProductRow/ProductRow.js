@@ -25,17 +25,21 @@ class ProductRow extends React.Component {
     .then((json) => this.handleSuccess(json));
   }
 
-  handleSuccess = (data) => {
+  handleSuccess = () => {
     window.location.reload();
   }
 
   render() {
     const cart = this.props.cart;
+    let image = '';
+    if (cart.variant.images.length > 0) {
+      image = cart.variant.images[0].small_url;
+    }
     return (
       <tr className={s.cartitem}>
         <td className={s.productname}>
           <img
-            src={cart.variant.images[0].large_url}
+            src={image}
             width="200"
             height="200"
             alt="product"

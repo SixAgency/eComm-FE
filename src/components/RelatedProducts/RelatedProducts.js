@@ -9,8 +9,8 @@ class RelatedProducts extends React.Component {
   }
 
   render() {
-    const products = this.props.products.slice(0, 3);
-
+    const products = this.props.products;
+    console.log(this.props.products);
     return (
       <div className={s.relatedwrpr}>
         <h2 className={s.relatedtitle}>You may also like...</h2>

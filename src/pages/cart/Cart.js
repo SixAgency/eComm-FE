@@ -14,11 +14,11 @@ import EmptyCart from '../../components/EmptyCart';
 class Cart extends React.Component {
   static propTypes = {
     cartItems: React.PropTypes.object.isRequired,
+    logged: React.PropTypes.bool.isRequired,
   }
   constructor(props) {
     super(props);
     this.state = {
-      logged: true,
       showCouponFields: false,
       className: 'hide',
     };
@@ -48,7 +48,7 @@ class Cart extends React.Component {
     if (!cart.isLoaded) {
       return null;
     }
-    // @TODO - EMPTY CART
+    // @TODO - EMPTY CART (send the id of the last removed product)
     if (cart.isEmpty) {
       return (
         <EmptyCart />
@@ -56,7 +56,7 @@ class Cart extends React.Component {
     }
     return (
       <div className={s.cartpage}>
-        <Subnav isLogged={this.state.logged} onLogout={this.onLogout} />
+        <Subnav isLogged={this.props.logged} onLogout={this.onLogout} />
         <CartCta toggleGiftcard={this.handleGiftcard} />
         <ContentWrapper wrprClass={'cartwrpr'} contentClass={'contentwrpr'}>
           <div className={s.cartcontentwrpr}>
