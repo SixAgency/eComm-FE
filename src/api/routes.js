@@ -9,14 +9,20 @@ const apiRoutes = express.Router();
 // USER ROUTES
 
 // login
-apiRoutes.post('/login', (req, resp) => userLogin(req, resp));
+apiRoutes.post('/login', (req, resp) => {
+  userLogin(req).then(data => resp.json(data));
+});
 // register
-apiRoutes.post('/register', (req, resp) => userRegistration(req, resp));
+apiRoutes.post('/register', (req, resp) => {
+  userRegistration(req).then(data => resp.json(data));
+});
 // logout
-apiRoutes.get('/logout', (req, resp) => userLogout(req, resp));
+apiRoutes.post('/logout', (req, resp) => {
+  userLogout(req).then(data => resp.json(data));
+});
 // check login
 apiRoutes.get('/check', (req, resp) => {
-  resp.json(checkLogin(req));
+  checkLogin(req).then(data => resp.json(data));
 });
 
 // PRODUCT ROUTES

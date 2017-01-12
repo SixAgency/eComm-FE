@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "CartWrapper",
+  "main": "./CartWrapperServer.js",
+  "browser": "./CartWrapper.js"
+}

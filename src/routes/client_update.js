@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 // Pages
 import HomeWrapper from '../pages/Home';
 import Biography from '../pages/biography/Biography';
-import Cart from '../pages/cart/Cart';
+import CartWrapper from '../pages/Cart';
 import Checkout from '../pages/checkout/Checkout';
 import Product from '../pages/product/Product';
 import ProductCategory from '../pages/productCategory/ProductCategory';
@@ -31,7 +31,7 @@ const routes = (
     <Route path="product/:slug" component={Product} />
     <Route path="product-category/:slug" component={ProductCategory} />
     <Route path="contact" component={Contact} />
-    <Route path="cart" component={Cart} />
+    <Route path="cart" component={CartWrapper} />
     <Route path="checkout" component={Checkout} />
     <Route path="*" component={NotFound} />
   </Route>

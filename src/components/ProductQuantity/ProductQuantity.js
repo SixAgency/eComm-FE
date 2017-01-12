@@ -8,7 +8,7 @@ class ProductQuantity extends React.Component {
   static propTypes = {
     sizingClass: PropTypes.string,
     addQuantity: PropTypes.func.isRequired,
-    substractQuantity: PropTypes.func.isRequired,
+    subQuantity: PropTypes.func.isRequired,
     quantity: PropTypes.number.isRequired,
   }
 
@@ -20,7 +20,7 @@ class ProductQuantity extends React.Component {
           type="button"
           defaultValue="-"
           size="4"
-          onClick={this.props.substractQuantity}
+          onClick={this.props.subQuantity}
         />
         <input
           className={cx(s.input, s.text)}

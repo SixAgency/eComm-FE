@@ -26,7 +26,6 @@ class Minicart extends React.Component {
         </div>
       );
     }
-    console.log(this.props.cartItems);
     return (
       <div className={cx(s.minicart, s[this.props.cartClass])}>
         <div className={s.cartcontent}>

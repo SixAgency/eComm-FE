@@ -3,6 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 
+import conslog from '../utils/dev';
+
 // Actions
 import getProducts from '../api/products';
 import { checkLogin } from '../api/users';
@@ -19,7 +21,7 @@ import HomeWrapper from '../pages/Home';
 import Product from '../pages/product/Product';
 import Biography from '../pages/biography/Biography';
 import Contact from '../pages/contact/Contact';
-import Cart from '../pages/cart/Cart';
+import CartWrapper from '../pages/Cart';
 import Checkout from '../pages/checkout/Checkout';
 // My Account
 import Account from '../pages/account/Account';
@@ -27,8 +29,6 @@ import Dashboard from '../pages/account/Dashboard';
 import Edit from '../pages/account/Edit';
 import Billing from '../pages/account/Billing';
 import Shipping from '../pages/account/Shipping';
-
-import conslog from '../utils/dev';
 
 const siteRoutes = express.Router();
 
@@ -243,16 +243,23 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {
-  getCart(req).then((data) => {
-    const params = {
-      title: 'Cart',
-      description: '',
-      header: 'default',
-      active: '/',
-      content: <Cart cartItems={data} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
+  Promise.all([
+    checkLogin(req).then(user => user.loggedIn),
+    getCart(req).then(cart => cart),
+  ])
+    .then((values) => {
+      const loggedIn = values[0];
+      const cart = values[1];
+      const params = {
+        title: 'Cart',
+        description: '',
+        header: 'default',
+        active: '/',
+        content: <CartWrapper cartItems={cart} loggedIn={loggedIn} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch(err => conslog(err));
 });
 // Checkout Page
 siteRoutes.get('/checkout', (req, resp, next) => {

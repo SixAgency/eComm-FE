@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './ProductsTable.css';
 import ProductRow from './ProductRow';
 
 class ProductsTable extends React.Component {
   static propTypes = {
-    cart: React.PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
+    removeItem: PropTypes.func.isRequired,
+    addQuantity: PropTypes.func.isRequired,
+    subQuantity: PropTypes.func.isRequired,
   }
 
   render() {
-    const cart = this.props.cart;
     return (
       <form
         method="post"
@@ -39,7 +41,15 @@ class ProductsTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { cart.line_items.map((item, index) => (<ProductRow cart={item} key={index} />),
+            { this.props.items.map((item, index) => (
+              <ProductRow
+                item={item}
+                key={index}
+                subQuantity={this.props.subQuantity}
+                addQuantity={this.props.addQuantity}
+                removeItem={this.props.removeItem}
+              />
+              ),
             )}
           </tbody>
         </table>

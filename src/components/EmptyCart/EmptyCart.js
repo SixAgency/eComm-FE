@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './EmptyCart.css';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
+import CtaMessage from '../../components/CartCta/CtaMessage';
 
 class EmptyCart extends React.Component {
+
+  static propTypes = {
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -27,21 +34,27 @@ class EmptyCart extends React.Component {
   render() {
     return (
       <section className={s.page}>
+        <CtaMessage
+          message={this.props.message}
+          isError={this.props.isError}
+        />
         <Subnav isLogged={this.state.logged} onLogout={this.onLogout} />
         <div className={cx(s.messagecontainer, s[this.state.showmessageclass])}>
           product removed.
           <a href=""> Undo?</a>
         </div>
         <ContentWrapper contentClass={'emptycartwrpr'}>
-          <p className={s.eparagraph}>Your cart is currently empty</p>
-          <p className={cx(s.eparagraph, s.actioncontainer)}>
-            <Link
-              to="/"
-              className={s.gotoshop}
-            >
-              Return to shop
-            </Link>
-          </p>
+          <div>
+            <p className={s.eparagraph}>Your cart is currently empty</p>
+            <p className={cx(s.eparagraph, s.actioncontainer)}>
+              <Link
+                to="/"
+                className={s.gotoshop}
+              >
+                Return to shop
+              </Link>
+            </p>
+          </div>
         </ContentWrapper>
       </section>
     );

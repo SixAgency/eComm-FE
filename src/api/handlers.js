@@ -29,4 +29,36 @@ function parseCart(data, req) {
   return resp;
 }
 
-export { parseResponse, parseError, parseCart };
+function handleLogout(data, request) {
+  const resp = { error: false, status: 200 };
+  // eslint-disable-next-line no-param-reassign
+  request.session = null;
+  return resp;
+}
+
+function handleAuth(data, request) {
+  let resp = {};
+  if (data.user) {
+    const user = data.user.email.split('@')[0];
+    resp = {
+      error: false,
+      userName: user,
+      emailAddress: data.user.email,
+      loggedIn: true,
+      status: 200,
+    };
+    request.session.token = data.user.spree_api_key; // eslint-disable-line no-param-reassign
+    request.session.userName = user; // eslint-disable-line no-param-reassign
+    request.session.emailAddress = data.user.email; // eslint-disable-line no-param-reassign
+    request.session.loggedIn = true; // eslint-disable-line no-param-reassign
+  } else {
+    resp = {
+      error: true,
+      message: data.error,
+      status: 200,
+    };
+  }
+  return resp;
+}
+
+export { parseResponse, parseError, parseCart, handleAuth, handleLogout };
