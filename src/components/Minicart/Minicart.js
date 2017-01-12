@@ -11,12 +11,11 @@ class Minicart extends React.Component {
   }
 
   render = () => {
-    const cart = this.props.cartItems;
-    // @TODO LOADING STATE FOR CART
-    if (!cart.isLoaded) {
+    const { isLoaded, isEmpty, cart } = this.props.cartItems;
+    if (!isLoaded) {
       return null;
     }
-    if (cart.isEmpty) {
+    if (isEmpty) {
       return (
         <div className={cx(s.minicart, s[this.props.cartClass])}>
           <div className={s.cartcontent}>
@@ -27,6 +26,7 @@ class Minicart extends React.Component {
         </div>
       );
     }
+    console.log(this.props.cartItems);
     return (
       <div className={cx(s.minicart, s[this.props.cartClass])}>
         <div className={s.cartcontent}>

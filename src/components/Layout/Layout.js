@@ -1,20 +1,31 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import LayoutContent from './LayoutContent';
+import { getCart } from '../../actions/order';
 
-const mapStateToProps = ((state) => ({ headerProps: state.page.headerProps }));
-
+const mapStateToProps = ((state) => (
+  {
+    headerProps: state.page.headerProps,
+    cartItems: state.cart.cartItems,
+  })
+);
+const mapDispatchToProps = ((dispatch) => (
+  {
+    getCart: () => dispatch(getCart()),
+  }
+));
 class Layout extends React.Component {
 
   static propTypes = {
+    getCart: PropTypes.func.isRequired,
     headerProps: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
   };
 
-  static defaultProps = {
-    cartItems: { isLoaded: false, isEmpty: true },
-  }
+  // static defaultProps = {
+  //   cartItems: { isLoaded: false, isEmpty: true, cart: {} },
+  // }
 
   constructor(props) {
     super(props);
@@ -22,6 +33,14 @@ class Layout extends React.Component {
       menuOpen: '',
       styles: { opacity: 0 },
     };
+  }
+
+  componentWillMount = () => {
+    if (this.props.cartItems.isLoaded) {
+      console.log('isLoaded');
+    } else {
+      this.props.getCart();
+    }
   }
 
   componentDidMount = () => {
@@ -45,8 +64,8 @@ class Layout extends React.Component {
   }
 
   render() {
-    console.log(this.props.headerProps);
     const { headerClass, activeSlug } = this.props.headerProps;
+    console.log(this.props.cartItems);
     return (
       <LayoutContent
         headerClass={headerClass}
@@ -61,4 +80,4 @@ class Layout extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -9,6 +9,7 @@ import ProductAction from './ProductAction';
 class ProductGridItem extends React.Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
@@ -22,18 +23,7 @@ class ProductGridItem extends React.Component {
       quantity: 1,
     };
 
-    fetch('/api/addtocart', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-    })
-    .then((resp) => (resp.json()))
-    .then((json) => this.handleSuccess(json));
-  }
-
-  handleSuccess = (data) => {
-    window.location.href = '/cart';
+    this.props.addToCart(data);
   }
 
   handleText = () => {

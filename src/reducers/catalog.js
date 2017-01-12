@@ -1,11 +1,16 @@
 export default function reducer(state = {
-  products: {
+  gridItems: {
     isLoaded: false,
+    products: [],
   },
+  error: '',
 }, action) {
   switch (action.type) {
-    case 'SET_PRODUCTS': {
-      return { ...state, products: action.payload };
+    case 'GET_PRODUCTS_SUCCESS': {
+      return { ...state, gridItems: { isLoaded: true, products: action.payload } };
+    }
+    case 'GET_PRODUCTS_ERROR': {
+      return { ...state, gridItems: { isLoaded: false, products: [] }, message: action.payload };
     }
     default: // do nothing
   }

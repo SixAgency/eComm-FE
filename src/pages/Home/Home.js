@@ -9,8 +9,11 @@ class Home extends React.Component {
 
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
   }
-
+  static defaultProps = {
+    addToCart: () => (true),
+  }
   render() {
     const heroText = {
       title: 'Now available the NEW',
@@ -30,6 +33,7 @@ class Home extends React.Component {
         <Grid
           gridClass={'productsgrid'}
           gridItems={this.props.gridItems}
+          addToCart={this.props.addToCart}
         />
       </section>
     );

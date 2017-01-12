@@ -8,6 +8,7 @@ class Grid extends React.Component {
   static propTypes = {
     gridClass: PropTypes.string.isRequired,
     gridItems: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
@@ -27,6 +28,7 @@ class Grid extends React.Component {
                 priceclass={this.props.priceclass}
                 nameclass={this.props.nameclass}
                 catclass={this.props.catclass}
+                addToCart={this.props.addToCart}
               />
             </li>
           ))}

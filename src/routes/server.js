@@ -50,7 +50,7 @@ function handleRoutes(req, resp, next, params) {
 
     const data = { ...params };
     // Cart will be loaded async
-    const cart = { isLoaded: false };
+    const cart = { isLoaded: false, isEmpty: true, cart: {} };
     const headerProps = {
       headerClass: data.header,
       activeSlug: data.active,

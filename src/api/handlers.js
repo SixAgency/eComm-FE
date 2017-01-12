@@ -1,3 +1,5 @@
+import conslog from '../utils/dev';
+
 function parseResponse(data) {
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {
@@ -14,18 +16,17 @@ function parseError(error) {
 }
 
 function parseCart(data, req) {
-  // const resp = {};
+  let resp = {};
   const session = req.session;
   if (Object.getOwnPropertyNames(data).length > 0) {
     const isEmpty = data.total_quantity < 1;
     session.orderNumber = data.number;
-    return { ...data, isLoaded: true, isEmpty };
+    resp = { isLoaded: true, isEmpty, cart: data };
+    return resp;
   }
-  // callback(req).then((resp) => {
-  //   session.orderNumber = resp.number;
-  //   return { ...data, isLoaded: true, isEmpty: true };
-  // });
-  return { ...data, isLoaded: true, isEmpty: true };
+  resp = { isLoaded: false, isEmpty: true, cart: {} };
+  conslog(resp);
+  return resp;
 }
 
 export { parseResponse, parseError, parseCart };
