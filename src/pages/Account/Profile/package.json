@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ProfileWrapper",
+  "main": "./ProfileWrapperServer.js",
+  "browser": "./ProfileWrapper.js"
+}

@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "CategoryWrapper",
+  "main": "./CategoryWrapperServer.js",
+  "browser": "./CategoryWrapper.js"
+}

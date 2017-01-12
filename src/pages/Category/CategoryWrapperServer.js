@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import Home from './Home';
+import Category from './Category';
 
-class HomeWrapper extends React.Component {
+class CategoryWrapper extends React.Component {
 
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
@@ -10,15 +10,14 @@ class HomeWrapper extends React.Component {
 
   static defaultProps = {
     gridItems: { isLoaded: false, products: [] },
-    addToCart: (item) => (item),
   }
 
   render() {
     console.log('server');
     return (
-      <Home gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
+      <Category gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
     );
   }
 }
 
-export default HomeWrapper;
+export default CategoryWrapper;

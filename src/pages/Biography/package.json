@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "BiographyWrapper",
+  "main": "./BiographyWrapperServer.js",
+  "browser": "./BiographyWrapper.js"
+}

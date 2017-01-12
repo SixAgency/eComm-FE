@@ -3,37 +3,37 @@ import { IndexRoute, Route } from 'react-router';
 import Layout from '../components/Layout';
 // Pages
 import HomeWrapper from '../pages/Home';
-import Biography from '../pages/biography/Biography';
+import BiographyWrapper from '../pages/Biography';
 import CartWrapper from '../pages/Cart';
-import Checkout from '../pages/checkout/Checkout';
-import Product from '../pages/product/Product';
-import ProductCategory from '../pages/productCategory/ProductCategory';
-import Contact from '../pages/contact/Contact';
-import NotFound from '../pages/notFound/NotFound';
+import CheckoutWrapper from '../pages/Checkout';
+import ProductWrapper from '../pages/Product';
+import CategoryWrapper from '../pages/Category';
+import ContactWrapper from '../pages/Contact';
+import NotFoundWrapper from '../pages/NotFound';
 // My Account
-import Account from '../pages/account/Account';
-import Dashboard from '../pages/account/Dashboard';
-import Edit from '../pages/account/Edit';
-import Billing from '../pages/account/Billing';
-import Shipping from '../pages/account/Shipping';
+import AccountWrapper from '../pages/Account/Account';
+import DashboardWrapper from '../pages/Account/Dashboard';
+import ProfileWrapper from '../pages/Account/Profile';
+import BillingWrapper from '../pages/Account/Billing';
+import ShippingWrapper from '../pages/Account/Shipping';
 
 const routes = (
   <Route path="/" component={Layout}>
     <IndexRoute component={HomeWrapper} />
-    <Route path="biography" component={Biography} />
-    <Route path="my-account" component={Account}>
-      <Route path="dashboard" component={Dashboard} />
-      <Route path="edit-account" component={Edit}>
-        <Route path="billing" component={Billing} />
-        <Route path="shipping" component={Shipping} />
+    <Route path="biography" component={BiographyWrapper} />
+    <Route path="my-account" component={AccountWrapper}>
+      <Route path="dashboard" component={DashboardWrapper} />
+      <Route path="edit-account" component={ProfileWrapper}>
+        <Route path="billing" component={BillingWrapper} />
+        <Route path="shipping" component={ShippingWrapper} />
       </Route>
     </Route>
-    <Route path="product/:slug" component={Product} />
-    <Route path="product-category/:slug" component={ProductCategory} />
-    <Route path="contact" component={Contact} />
+    <Route path="product/:slug" component={ProductWrapper} />
+    <Route path="product-category/:slug" component={CategoryWrapper} />
+    <Route path="contact" component={ContactWrapper} />
     <Route path="cart" component={CartWrapper} />
-    <Route path="checkout" component={Checkout} />
-    <Route path="*" component={NotFound} />
+    <Route path="checkout" component={CheckoutWrapper} />
+    <Route path="*" component={NotFoundWrapper} />
   </Route>
 );
 

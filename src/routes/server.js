@@ -18,17 +18,19 @@ import Html from '../components/Html';
 
 // Pages
 import HomeWrapper from '../pages/Home';
-import Product from '../pages/product/Product';
-import Biography from '../pages/biography/Biography';
-import Contact from '../pages/contact/Contact';
+import BiographyWrapper from '../pages/Biography';
 import CartWrapper from '../pages/Cart';
-import Checkout from '../pages/checkout/Checkout';
+import CheckoutWrapper from '../pages/Checkout';
+import ProductWrapper from '../pages/Product';
+import CategoryWrapper from '../pages/Category';
+import ContactWrapper from '../pages/Contact';
+import NotFoundWrapper from '../pages/NotFound';
 // My Account
-import Account from '../pages/account/Account';
-import Dashboard from '../pages/account/Dashboard';
-import Edit from '../pages/account/Edit';
-import Billing from '../pages/account/Billing';
-import Shipping from '../pages/account/Shipping';
+import AccountWrapper from '../pages/Account/Account';
+import DashboardWrapper from '../pages/Account/Dashboard';
+import ProfileWrapper from '../pages/Account/Profile';
+import BillingWrapper from '../pages/Account/Billing';
+import ShippingWrapper from '../pages/Account/Shipping';
 
 const siteRoutes = express.Router();
 
@@ -102,7 +104,7 @@ siteRoutes.get('/biography', (req, resp, next) => {
     description: '',
     header: 'default',
     active: '/biography',
-    content: <Biography />,
+    content: <BiographyWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });
@@ -114,7 +116,7 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/',
-      content: <Product product={data} products={Array(data)} />,
+      content: <ProductWrapper product={data} products={Array(data)} />,
     };
     handleRoutes(req, resp, next, params);
   });
@@ -135,7 +137,7 @@ siteRoutes.get('/my-account', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/my-account',
-    content: <Account {...user} />,
+    content: <AccountWrapper {...user} />,
   };
   handleRoutes(req, resp, next, params);
 });
@@ -150,7 +152,7 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/my-account',
-    content: <Account {...user} />,
+    content: <PasswordWrapper {...user} />,
   };
   handleRoutes(req, resp, next, params);
 });
@@ -170,7 +172,7 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <Dashboard {...user} addresses={addresses} />,
+      content: <DashboardWrapper {...user} addresses={addresses} />,
     };
     handleRoutes(req, resp, next, params);
   });
@@ -186,7 +188,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/my-account',
-    content: <Edit {...user} />,
+    content: <ProfileWrapper {...user} />,
   };
   handleRoutes(req, resp, next, params);
 });
@@ -201,7 +203,7 @@ siteRoutes.get('/my-account/edit-address', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/my-account',
-    content: <Edit {...user} />,
+    content: <ProfileWrapper {...user} />,
   };
   handleRoutes(req, resp, next, params);
 });
@@ -218,7 +220,7 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <Shipping {...user} address={address} />,
+      content: <ShippingWrapper {...user} address={address} />,
     };
     handleRoutes(req, resp, next, params);
   });
@@ -236,7 +238,7 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <Billing {...user} address={address} />,
+      content: <BillingWrapper {...user} address={address} />,
     };
     handleRoutes(req, resp, next, params);
   });
@@ -269,7 +271,7 @@ siteRoutes.get('/checkout', (req, resp, next) => {
       description: '',
       header: 'default',
       active: '/',
-      content: <Checkout cartItems={data} />,
+      content: <CheckoutWrapper cartItems={data} />,
     };
     handleRoutes(req, resp, next, params);
   });
@@ -281,7 +283,7 @@ siteRoutes.get('/contact', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/contact',
-    content: <Contact />,
+    content: <ContactWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });

@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "NotFoundWrapper",
+  "main": "./NotFoundWrapperServer.js",
+  "browser": "./NotFoundWrapper.js"
+}
