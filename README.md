@@ -13,6 +13,8 @@ nvm install 6.9.2
 ```
 ##### 3. Make sure you are using npm 4.0.5
 ```
+npm --version
+```
 ##### 4. Install npm modules
 ```
 npm install
