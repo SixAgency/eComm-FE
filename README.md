@@ -15,6 +15,11 @@ nvm install 6.9.2
 ```
 npm --version
 ```
+###### 3.1 If version isn't 4.0.5 install it
+```
+cd ~/.nvm/versions/node/v6.9.2/lib
+npm install npm@4.0.5
+```
 ##### 4. Install npm modules
 ```
 npm install
