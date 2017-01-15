@@ -6,7 +6,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import conslog from '../utils/dev';
 
 // Actions
-import getProducts from '../api/products';
+import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
 import { getCart } from '../api/orders';
 import { getAddresses } from '../api/addresses';
@@ -110,16 +110,33 @@ siteRoutes.get('/biography', (req, resp, next) => {
 });
 // Product Details Page
 siteRoutes.get('/product/:slug', (req, resp, next) => {
-  getProducts(req).then((data) => {
-    const params = {
-      title: data.name || 'Shop',
-      description: '',
-      header: 'colored',
-      active: '/',
-      content: <ProductWrapper product={data} products={Array(data)} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
+  Promise.all([
+    getProduct(req).then(product => product),
+    getProducts(req).then(products => products),
+  ])
+    .then((values) => {
+      // @TODO - check values, before assign values
+      const product = {
+        isLoaded: true,
+        product: values[0],
+      };
+      const gridRecs = {
+        isLoaded: true,
+        products: values[1].products.slice(0, 3),
+      }
+      const prodParams = {
+        slug: req.params.slug,
+      }
+      const params = {
+        title: product.name || 'Shop',
+        description: '',
+        header: 'colored',
+        active: '/',
+        content: <ProductWrapper product={product} gridRecs={gridRecs} params={prodParams} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch(err => conslog(err));
 });
 // Category Page
 siteRoutes.get('/product-category/:slug', (req, resp, next) => {
@@ -128,120 +145,161 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
 });
 // Account - Login/Register
 siteRoutes.get('/my-account', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (user.logged) {
-    resp.redirect('/my-account/dashboard');
-  }
-  const params = {
-    title: 'My Account',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <AccountWrapper {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
-});
-// Account Lost Password - @TODO
-siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (user.logged) {
-    resp.redirect('/my-account/dashboard');
-  }
-  const params = {
-    title: 'My Account',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <PasswordWrapper {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
-});
-// Account Dashboard
-siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (!user.logged) {
-    resp.redirect('/my-account');
-  }
-  getAddresses(req).then((data) => {
-    const addresses = {
-      shippAddress: data.ship_address,
-      billAddress: data.bill_address,
-    };
+  checkLogin(req).then((data) => {
+    if (data.loggedIn) {
+      resp.redirect('/my-account/dashboard');
+    }
     const params = {
       title: 'My Account',
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <DashboardWrapper {...user} addresses={addresses} />,
+      content: <AccountWrapper {...data} />,
     };
     handleRoutes(req, resp, next, params);
   });
+});
+// Account Lost Password - @TODO
+siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
+  checkLogin(req).then((data) => {
+    if (data.loggedIn) {
+      resp.redirect('/my-account/dashboard');
+    }
+    const params = {
+      title: 'My Account',
+      description: '',
+      header: 'colored',
+      active: '/my-account',
+      content: <PasswordWrapper {...data} />,
+    };
+    handleRoutes(req, resp, next, params);
+  });
+});
+// Account Dashboard
+siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
+  Promise.all([
+    checkLogin(req).then(user => user),
+    getAddresses(req).then(address => address),
+  ])
+    .then((values) => {
+      conslog(values);
+      const user = values[0];
+      const shipping = values[1].ship_address;
+      const billing = values[1].bill_address;
+      const addresses = {
+        shipping: {
+          isLoaded: true,
+          isEmpty: shipping === null,
+          address: shipping || {},
+        },
+        billing: {
+          isLoaded: true,
+          isEmpty: billing === null,
+          address: billing || {},
+        },
+      };
+      if (!user.loggedIn) {
+        resp.redirect('/my-account');
+      }
+      conslog(addresses);
+      const params = {
+        title: 'My Account',
+        description: '',
+        header: 'colored',
+        active: '/my-account',
+        content: <DashboardWrapper {...user} {...addresses} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch(err => conslog(err));
 });
 // Account - Edit
 siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (!user.logged) {
-    resp.redirect('/my-account');
-  }
-  const params = {
-    title: 'Edit Account',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <ProfileWrapper {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
-});
-// Account - Addresses
-siteRoutes.get('/my-account/edit-address', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (!user.logged) {
-    resp.redirect('/my-account');
-  }
-  const params = {
-    title: 'Edit Account',
-    description: '',
-    header: 'colored',
-    active: '/my-account',
-    content: <ProfileWrapper {...user} />,
-  };
-  handleRoutes(req, resp, next, params);
-});
-// Account - Shipping
-siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (!user.logged) {
-    resp.redirect('/my-account');
-  }
-  getAddresses(req).then((data) => {
-    const address = data.ship_address;
+  checkLogin(req).then((data) => {
+    if (!data.loggedIn) {
+      resp.redirect('/my-account');
+    }
     const params = {
-      title: 'Edit Shipping Address',
+      title: 'Edit Account',
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <ShippingWrapper {...user} address={address} />,
+      content: <ProfileWrapper {...data} />,
     };
     handleRoutes(req, resp, next, params);
   });
+});
+// Account - Addresses
+// siteRoutes.get('/my-account/edit-address', (req, resp, next) => {
+//   checkLogin(req).then((data) => {
+//     if (!data.loggedIn) {
+//       resp.redirect('/my-account');
+//     }
+//     const params = {
+//       title: 'Edit Account',
+//       description: '',
+//       header: 'colored',
+//       active: '/my-account',
+//       content: <ProfileWrapper {...data} />,
+//     };
+//     handleRoutes(req, resp, next, params);
+//   });
+// });
+// Account - Shipping
+siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
+  Promise.all([
+    checkLogin(req).then(user => user),
+    getAddresses(req).then(address => address),
+  ])
+    .then((values) => {
+      const user = values[0];
+      const shipping = values[1].ship_address;
+      const address = {
+        isLoaded: true,
+        isEmpty: shipping === null,
+        address: shipping || {},
+      }
+      if (!user.loggedIn) {
+        resp.redirect('/my-account');
+      }
+      const params = {
+        title: 'Edit Shipping Address',
+        description: '',
+        header: 'colored',
+        active: '/my-account',
+        content: <ShippingWrapper {...user} shipping={address} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch(err => conslog(err));
 });
 // Account - Billing
 siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
-  const user = checkLogin(req);
-  if (!user.logged) {
-    resp.redirect('/my-account');
-  }
-  getAddresses(req).then((data) => {
-    const address = data.ship_address;
-    const params = {
-      title: 'Edit Billing Address',
-      description: '',
-      header: 'colored',
-      active: '/my-account',
-      content: <BillingWrapper {...user} address={address} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
+  Promise.all([
+    checkLogin(req).then(user => user),
+    getAddresses(req).then(address => address),
+  ])
+    .then((values) => {
+      const user = values[0];
+      const billing = values[1].bill_address;
+      const address = {
+        isLoaded: true,
+        isEmpty: billing === null,
+        address: billing || {},
+      }
+      if (!user.loggedIn) {
+        resp.redirect('/my-account');
+      }
+      const params = {
+        title: 'Edit Billing Address',
+        description: '',
+        header: 'colored',
+        active: '/my-account',
+        content: <BillingWrapper {...user} billing={address} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch(err => conslog(err));
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {

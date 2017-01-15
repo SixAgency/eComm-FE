@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import Dashboard from './Dashboard';
 // Action
 import { onLogout } from '../../../actions/user';
@@ -9,6 +10,7 @@ import setHeaderProps from '../../../actions/page';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
+    userName: state.user.userName,
     shipping: state.address.shipping,
     billing: state.address.billing,
   }
@@ -28,9 +30,13 @@ class DashboardWrapper extends React.Component {
     billing: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    getAddress: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
+    if (!this.props.loggedIn) {
+      browserHistory.push('/my-account');
+    }
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account',
@@ -41,16 +47,21 @@ class DashboardWrapper extends React.Component {
     }
   }
 
+  onLogout = (event) => {
+    event.preventDefault();
+    this.props.onLogout();
+  }
+
   render() {
     const addresses = {
-      shippAddress: this.props.shipping.address,
-      billAddress: this.props.billing.address,
+      shippAddress: this.props.shipping,
+      billAddress: this.props.billing,
     }
     return (
       <Dashboard
         userName={this.props.userName}
         loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
+        onLogout={this.onLogout}
         addresses={addresses}
       />
     );

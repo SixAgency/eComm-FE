@@ -9,6 +9,7 @@ class DashboardWrapper extends React.Component {
     billing: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    getAddress: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

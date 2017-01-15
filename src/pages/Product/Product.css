@@ -150,33 +150,6 @@
           }
           .categorylink:hover { color: #29cbc8; }
         }
-        .cartform {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 140px;
-        }
-        .addtocart {
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          background-color: #29cbc8;
-          outline: none !important;
-          border: none !important;
-          font-size: 13px;
-          line-height: 13px;
-          text-transform: uppercase;
-          font-weight: 800;
-          color: #202020;
-          text-align: center;
-          width: 140px;
-          height: 50px;
-          margin-top: 1px;
-          -webkit-appearance: button;
-          cursor: pointer;
-        }
-        .addtocart:hover {
-          color: #29cbc8;
-          background-color: #333333;
-        }
       }
     }
   }
@@ -228,11 +201,6 @@
           .summarytop {
             margin-right: 0px;
             padding-top: 80px;
-          }
-          .cartform {
-            position: relative;
-            top: 0;
-            right: 0;
           }
         }
       }

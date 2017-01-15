@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Home from './Home';
 // Actions
 import setHeaderProps from '../../actions/page';
-import getProducts from '../../actions/catalog';
+import { getProducts } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (

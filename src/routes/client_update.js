@@ -21,9 +21,11 @@ const routes = (
   <Route path="/" component={Layout}>
     <IndexRoute component={HomeWrapper} />
     <Route path="biography" component={BiographyWrapper} />
-    <Route path="my-account" component={AccountWrapper}>
+    <Route path="my-account">
+      <IndexRoute component={AccountWrapper} />
       <Route path="dashboard" component={DashboardWrapper} />
-      <Route path="edit-account" component={ProfileWrapper}>
+      <Route path="edit-account" component={ProfileWrapper} />
+      <Route path="edit-address">
         <Route path="billing" component={BillingWrapper} />
         <Route path="shipping" component={ShippingWrapper} />
       </Route>

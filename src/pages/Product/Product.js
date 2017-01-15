@@ -4,9 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Product.css';
 import RelatedProducts from '../../components/RelatedProducts';
-import ProductQuantity from '../../components/ProductQuantity';
-import SingleVariant from '../../components/SingleVariant';
-import MultiVariant from '../../components/MultiVariant';
+import AddToCart from '../../components/AddToCart';
 
 class Product extends React.Component {
 
@@ -14,33 +12,13 @@ class Product extends React.Component {
     product: PropTypes.object.isRequired,
     gridRecs: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
-    addQuantity: PropTypes.func.isRequired,
-    subQuantity: PropTypes.func.isRequired,
-    selectVariant: PropTypes.func.isRequired,
-    selectVariants: PropTypes.func.isRequired,
-    quantity: PropTypes.number.isRequired,
-  }
-
-  getVariant = () => {
-    if (this.props.product.has_variants) {
-      if (this.props.product.option_types.length > 1) {
-        return (<SingleVariant
-          variants={this.props.product.variants}
-          action={this.props.selectVariant}
-        />);
-      }
-      if (this.props.product.option_types.length > 0) {
-        return (<MultiVariant
-          variants={this.props.product.variants}
-          action={this.props.selectVariants}
-        />);
-      }
-    }
-    return null;
   }
 
   render() {
-    const product = this.props.product;
+    const { isLoaded, product } = this.props.product;
+    if (!isLoaded) {
+      return null;
+    }
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -50,7 +28,7 @@ class Product extends React.Component {
               src={product.master.images[0].large_url}
               alt={product.name}
             />
-            <RelatedProducts gridRecs={this.props.gridRecs} />
+            <RelatedProducts gridRecs={this.props.gridRecs} addToCart={this.props.addToCart} />
           </div>
         </div>
         <div className={s.right}>
@@ -71,16 +49,7 @@ class Product extends React.Component {
                   <span className={s.current}>{product.display_price}</span>
                 </div>
               </div>
-              <form className={s.cartform} onSubmit={this.props.addToCart} >
-                { this.getVariant() }
-                <ProductQuantity
-                  sizingClass={'quantitybig'}
-                  quantity={this.props.quantity}
-                  addQuantity={this.props.addQuantity}
-                  substractQuantity={this.props.subQuantity}
-                />
-                <button type="submit" className={s.addtocart}>Add to cart</button>
-              </form>
+              <AddToCart onSubmit={this.props.addToCart} product={this.props.product} />
               <div className={s.summarymiddle}>
                 <div className={cx(s.summarytab, s.summaryopen)}>
                   <h3 className={s.summarytitle}>Description</h3>

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import LayoutContent from './LayoutContent';
 import { getCart } from '../../actions/order';
+import { checkLogin } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
   {
@@ -12,6 +13,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     getCart: () => dispatch(getCart()),
+    checkLogin: () => dispatch(checkLogin()),
   }
 ));
 class Layout extends React.Component {
@@ -36,6 +38,7 @@ class Layout extends React.Component {
   }
 
   componentWillMount = () => {
+    this.props.checkLogin();
     if (this.props.cartItems.isLoaded) {
       console.log('isLoaded');
     } else {

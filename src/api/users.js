@@ -41,7 +41,7 @@ function userRegistration(request) {
     },
   };
 
-  apiFetch(REGISTER,
+  return apiFetch(REGISTER,
     {
       method: 'POST',
       body: JSON.stringify(user),
@@ -56,7 +56,7 @@ function userRegistration(request) {
 
 // USER Logout
 function userLogout(request) {
-  apiFetch(LOGOUT,
+  return apiFetch(LOGOUT,
     {
       headers: {
         'Content-Type': 'application/json',

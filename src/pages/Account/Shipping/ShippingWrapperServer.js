@@ -23,12 +23,23 @@ class ShippinggWrapper extends React.Component {
   }
 
   render() {
+    const address = this.props.shipping.address || {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state_id: 0,
+      zipcode: '',
+    };
     return (
       <Shipping
         loggedIn={this.props.loggedIn}
         onSubmit={this.onSubmit}
         onLogout={this.props.onLogout}
-        shippingAddress={this.props.shipping.address}
+        shippingAddress={address}
       />
     );
   }

@@ -12,11 +12,11 @@ class AddressInputs extends React.Component {
     company: PropTypes.string,
     emailAddress: PropTypes.string,
     phoneNumber: PropTypes.string,
-    address1: PropTypes.string.isRequired,
-    address2: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-    state: PropTypes.number.isRequired,
-    zip: PropTypes.string.isRequired,
+    address1: PropTypes.string,
+    address2: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.number,
+    zip: PropTypes.string,
     onFirstNameUpdate: PropTypes.func.isRequired,
     onLastNameUpdate: PropTypes.func.isRequired,
     onCompanyUpdate: PropTypes.func.isRequired,
@@ -186,18 +186,12 @@ class AddressInputs extends React.Component {
           <select
             name="state"
             id="state"
+            value={this.props.state}
             className={s[this.props.selectClass]}
             onChange={this.props.onStateUpdate}
           >
             <option value={''}>Select an option...</option>
             {selections.map((state) => {
-              if (this.props.state === selections.id) {
-                return (
-                  <option value={state.id} key={state.id} selected>
-                    {state.name}
-                  </option>
-                );
-              }
               return (
                 <option value={state.id} key={state.id}>
                   {state.name}

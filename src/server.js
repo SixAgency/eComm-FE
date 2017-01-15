@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import compress from 'compression';
 import Html from './components/Html';
-import ErrorPage from './pages/Error/ErrorPage';
+import { ErrorPageWithoutStyle } from './pages/Error/ErrorPage';
 import errorPageStyle from './pages/Error/ErrorPage.css';
 import apiRoutes from './api/routes';
 import siteRoutes from './routes/server';
@@ -62,7 +62,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
       description={err.message}
       style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
     >
-      {ReactDOM.renderToString(<ErrorPage error={err} headerProps={headerProps} />)}
+      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} headerProps={headerProps} />)}
     </Html>,
   );
   res.status(err.status || 500);

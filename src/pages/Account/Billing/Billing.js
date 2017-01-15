@@ -12,24 +12,12 @@ class Billing extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // emailAddress: PropTypes.string.isRequired,
+    emailAddress: PropTypes.string.isRequired,
     billingAddress: PropTypes.object,
   }
 
   render() {
     const showEmailPhone = true;
-    console.log(this.props.billingAddress);
-    const address = this.props.billingAddress || {
-      firstname: '',
-      lastname: '',
-      company: '',
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state_id: 0,
-      zipcode: '',
-    };
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
@@ -40,8 +28,8 @@ class Billing extends React.Component {
             showEmailPhone={showEmailPhone}
             buttonText={'save address'}
             selectClass={'checkoutselect'}
-            emailAddress={'account@test.com'}
-            address={address}
+            emailAddress={this.props.emailAddress}
+            address={this.props.billingAddress}
             onSubmit={this.props.onSubmit}
           />
         </ContentWrapper>

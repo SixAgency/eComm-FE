@@ -18,7 +18,7 @@ class Subnav extends React.Component {
       return [
         {
           title: 'My Account',
-          link: '/my-account',
+          link: '/my-account/dashboard',
           action: () => (true),
         },
         {

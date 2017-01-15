@@ -1,0 +1,6 @@
+{
+  "name": "AddToCart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AddToCart.js"
+}

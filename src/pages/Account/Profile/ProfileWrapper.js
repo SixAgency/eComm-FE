@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import Profile from './Profile';
 // Action
 import { onLogout } from '../../../actions/user';
@@ -26,6 +27,17 @@ class ProfileWrapper extends React.Component {
   static defaultProps = {
     onLogout: () => (true),
     setHeaderProps: () => (true),
+  }
+
+  componentWillMount = () => {
+    if (!this.props.loggedIn) {
+      browserHistory.push('/my-account');
+    }
+    const props = {
+      headerClass: 'colored',
+      activeSlug: '/my-account',
+    };
+    this.props.setHeaderProps(props);
   }
 
   render() {

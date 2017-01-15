@@ -10,8 +10,9 @@ class Addresses extends React.Component {
     billAddress: PropTypes.object,
   }
 
-  listAddress = (address) => {
-    if (address) {
+  listAddress = (data) => {
+    const { isLoaded, isEmpty, address } = data;
+    if (isLoaded && !isEmpty) {
       return (
         <address className={s.optiontext}>
           <span className={s.block}>{address.firstname} {address.lastname}</span>

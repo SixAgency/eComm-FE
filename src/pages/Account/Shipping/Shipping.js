@@ -12,22 +12,12 @@ class Shipping extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    shippingAddress: PropTypes.object,
+    emailAddress: PropTypes.string.isRequired,
+    shippingAddress: PropTypes.object.isRequired,
   }
 
   render() {
-    const showEmailPhone = false;
-    console.log(this.props.shippingAddress);
-    const address = this.props.shippingAddress || {
-      firstname: '',
-      lastname: '',
-      company: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state_id: 0,
-      zipcode: '',
-    };
+    const showEmailPhone = true;
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
@@ -38,7 +28,8 @@ class Shipping extends React.Component {
             showEmailPhone={showEmailPhone}
             buttonText={'save address'}
             selectClass={'checkoutselect'}
-            address={address}
+            emailAddress={this.props.emailAddress}
+            address={this.props.shippingAddress}
             onSubmit={this.props.onSubmit}
           />
         </ContentWrapper>

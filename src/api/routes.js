@@ -1,8 +1,8 @@
 import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import getProducts from './products';
+import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart } from './orders';
-import { getAddresses } from './addresses';
+import { getAddresses, createAddress } from './addresses';
 
 const apiRoutes = express.Router();
 
@@ -32,8 +32,8 @@ apiRoutes.get('/products', (req, resp) => {
   getProducts(req).then((data) => (resp.json(data)));
 });
 // Get product based on slug
-apiRoutes.get('/products/:slug', (req, resp) => {
-  getProducts(req).then((data) => (resp.json(data)));
+apiRoutes.get('/product/:slug', (req, resp) => {
+  getProduct(req).then((data) => (resp.json(data)));
 });
 
 // ORDER & CART ROUTES
@@ -71,6 +71,11 @@ apiRoutes.post('/createorder', (req, resp) => {
 // Get User Addresses
 apiRoutes.get('/addresses', (req, resp) => {
   getAddresses(req).then((data) => (resp.json(data)));
+});
+
+// Add User Addresses
+apiRoutes.post('/addaddress', (req, resp) => {
+  createAddress(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import Account from './Account';
 // Action
 import { onLogin, onRegister } from '../../../actions/user';
@@ -62,6 +63,9 @@ class AccountWrapper extends React.Component {
         id: 'bregister',
       },
     ];
+    if (this.props.loggedIn) {
+      browserHistory.push('/my-account/dashboard');
+    }
     return (
       <Account
         contentTabs={contentTabs}
@@ -69,7 +73,7 @@ class AccountWrapper extends React.Component {
         content={this.state.content}
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
-        onRegister={this.props.onLogin}
+        onRegister={this.props.onRegister}
       />
     );
   }
