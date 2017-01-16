@@ -1,0 +1,6 @@
+{
+  "name": "ErrorDisplay",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ErrorDisplay.js"
+}

@@ -8,6 +8,8 @@ import ContentWrapper from '../../../components/ContentWrapper';
 import LoginForm from '../../../components/Forms/LoginForm';
 import RegForm from '../../../components/Forms/RegForm';
 
+import ErrorDisplay from '../../../components/ErrorDisplay';
+
 class Account extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
