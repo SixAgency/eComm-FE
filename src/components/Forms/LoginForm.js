@@ -16,6 +16,7 @@ class LoginForm extends React.Component {
       username: '',
       password: '',
       remember: '0',
+      hasErrors: false,
     };
   }
 

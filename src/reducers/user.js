@@ -3,15 +3,17 @@ export default function reducer(state = {
   emailAddress: '',
   loggedIn: false,
   message: '',
+  isError: false,
 }, action) {
   switch (action.type) {
     case 'LOGIN_SUCCESS': {
       const { userName, emailAddress, loggedIn } = action.payload;
-      const message = `Successfully loggedin as ${userName}`;
-      return { ...state, userName, emailAddress, loggedIn, message };
+      const isError = userName === undefined;
+      const message = isError ? 'Incorrect username or password.' : `Successfully loggedin as ${userName}`;
+      return { ...state, userName, emailAddress, loggedIn, message, isError };
     }
     case 'LOGIN_ERROR': {
-      return { ...state, userName: '', emailAddress: '', loggedIn: false };
+      return { ...state, userName: '', emailAddress: '', loggedIn: false, isError: true, message: action.payload };
     }
     case 'LOGOUT_SUCCESS': {
       const message = 'Logout success.';

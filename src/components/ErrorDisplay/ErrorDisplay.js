@@ -7,6 +7,7 @@ class ErrorDisplay extends React.Component {
   static propTypes = {
     message: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -17,12 +18,26 @@ class ErrorDisplay extends React.Component {
     };
   }
 
-  componentDidMount = () => {
-    const content = this.setContent();
-    this.setState({
-      backgroundClass: this.props.isError ? 'wrprpink' : 'wrprgreen',
-      content,
-    });
+  componentWillMount = () => {
+    if (this.props.isError) {
+      const content = this.setContent();
+      this.setState({
+        backgroundClass: this.props.isError ? 'wrprpink' : 'wrprgreen',
+        content,
+      });
+    } else {
+      this.setState({
+        backgroundClass: 'wrprhide',
+      });
+    }
+  }
+
+  componentWillUnmount = () => {
+    if (!this.props.isError) {
+      this.setState({
+        backgroundClass: 'wrprhide',
+      });
+    }
   }
 
   setContent = () => {

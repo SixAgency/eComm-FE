@@ -9,6 +9,8 @@ import setHeaderProps from '../../../actions/page';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
+    message: state.user.message,
+    isError: state.user.isError,
   }
 ));
 const mapDispatchToProps = ((dispatch) => (
@@ -24,6 +26,8 @@ class AccountWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
+    message: PropTypes.string,
+    isError: PropTypes.bool,
   }
 
   constructor(props) {
@@ -74,6 +78,8 @@ class AccountWrapper extends React.Component {
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
         onRegister={this.props.onRegister}
+        message={this.props.message}
+        isError={this.props.isError}
       />
     );
   }

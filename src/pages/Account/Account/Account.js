@@ -18,6 +18,8 @@ class Account extends React.Component {
     clickTab: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
+    message: PropTypes.string,
+    isError: PropTypes.bool,
   }
 
   getChildren = (state) => {
@@ -31,6 +33,11 @@ class Account extends React.Component {
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} />
+        <ErrorDisplay
+          message={[this.props.message]}
+          isError={this.props.isError}
+          loggedIn={this.props.loggedIn}
+        />
         <ContentWrapper tabs={this.props.contentTabs} tabsClass={'show'} clickTab={this.props.clickTab} isActive={this.props.content}>
           {this.getChildren(this.props.content)}
         </ContentWrapper>
