@@ -7,6 +7,7 @@ import RelatedProducts from '../../components/RelatedProducts';
 import ProductQuantity from '../../components/ProductQuantity';
 import SingleVariant from '../../components/SingleVariant';
 import MultiVariant from '../../components/MultiVariant';
+import SendGiftForm from '../../components/SendGiftForm';
 
 class Product extends React.Component {
 
