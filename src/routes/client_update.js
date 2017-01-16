@@ -16,6 +16,8 @@ import DashboardWrapper from '../pages/Account/Dashboard';
 import ProfileWrapper from '../pages/Account/Profile';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
+import LostPasswordWrapper from '../pages/Account/LostPassword';
+import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
 const routes = (
   <Route path="/" component={Layout}>
@@ -29,6 +31,8 @@ const routes = (
         <Route path="billing" component={BillingWrapper} />
         <Route path="shipping" component={ShippingWrapper} />
       </Route>
+      <Route path="lost-password" component={LostPasswordWrapper} />
+      <Route path="view-order" component={ViewOrderWrapper} />
     </Route>
     <Route path="product/:slug" component={ProductWrapper} />
     <Route path="product-category/:slug" component={CategoryWrapper} />

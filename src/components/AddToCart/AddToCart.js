@@ -4,6 +4,7 @@ import s from './AddToCart.css';
 import ProductQuantity from '../ProductQuantity';
 import SingleVariant from '../SingleVariant';
 import MultiVariant from '../MultiVariant';
+import SendGiftForm from '../../components/SendGiftForm';
 
 class CartCta extends React.Component {
 

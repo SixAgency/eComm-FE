@@ -31,6 +31,8 @@ import DashboardWrapper from '../pages/Account/Dashboard';
 import ProfileWrapper from '../pages/Account/Profile';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
+import LostPasswordWrapper from '../pages/Account/LostPassword';
+import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
 const siteRoutes = express.Router();
 
@@ -159,8 +161,8 @@ siteRoutes.get('/my-account', (req, resp, next) => {
     handleRoutes(req, resp, next, params);
   });
 });
-// Account Lost Password - @TODO
-siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
+// Account - View/Order
+siteRoutes.get('/my-account', (req, resp, next) => {
   checkLogin(req).then((data) => {
     if (data.loggedIn) {
       resp.redirect('/my-account/dashboard');
@@ -170,7 +172,23 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
       description: '',
       header: 'colored',
       active: '/my-account',
-      content: <PasswordWrapper {...data} />,
+      content: <LostPasswordWrapper {...data} />,
+    };
+    handleRoutes(req, resp, next, params);
+  });
+});
+// Account Lost Password - @TODO
+siteRoutes.get('/my-account/view-order', (req, resp, next) => {
+  checkLogin(req).then((data) => {
+    if (data.loggedIn) {
+      resp.redirect('/my-account/dashboard');
+    }
+    const params = {
+      title: 'My Account',
+      description: '',
+      header: 'colored',
+      active: '/my-account',
+      content: <ViewOrderWrapper {...data} />,
     };
     handleRoutes(req, resp, next, params);
   });
