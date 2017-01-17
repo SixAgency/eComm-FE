@@ -1,11 +1,43 @@
 import React, { PropTypes } from 'react';
-import fetch from '../../../core/fetch';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import LostPassword from './LostPassword';
+// Action
+import { onLogout } from '../../../actions/user';
+import { setHeaderProps, resetMessages } from '../../../actions/page';
 
-class LostPassWrapper extends React.Component {
+const mapStateToProps = ((state) => (
+  {
+    loggedIn: state.user.loggedIn,
+    message: state.page.message,
+    isError: state.page.isError,
+  }
+));
+const mapDispatchToProps = ((dispatch) => (
+  {
+    setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    resetMessages: () => dispatch(resetMessages()),
+    onLogout: (data) => dispatch(onLogout(data)),
+  }
+));
+class LostPasswordWrapper extends React.Component {
   static propTypes = {
-    client: PropTypes.bool,
-    logged: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    setHeaderProps: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+  }
+
+  componentWillMount = () => {
+    const props = {
+      headerClass: 'colored',
+      activeSlug: '/my-account',
+    };
+    this.props.setHeaderProps(props);
+  }
+
+  componentWillUnmount = () => {
+    this.props.resetMessages();
   }
 
   onSubmit = (event) => {
@@ -13,33 +45,18 @@ class LostPassWrapper extends React.Component {
     console.log('submited');
   }
 
-  onLogout = (event) => {
-    event.preventDefault();
-    fetch('/api/logout', {
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-    })
-    .then((resp) => (resp.json()))
-    .then((json) => this.handleLogout(json));
-  }
-
-  handleLogout = (data) => {
-    if (data.error) {
-      console.log('error');
-    } else {
-      window.location.href = '/my-account';
-    }
-  }
-
   render() {
+    if (this.props.loggedIn) {
+      browserHistory.push('/my-account/dashboard');
+    }
     return (
       <LostPassword
-        loggedIn={this.props.logged}
-        onLogout={this.onLogout}
+        loggedIn={this.props.loggedIn}
+        onLogout={this.props.onLogout}
         onSubmit={this.onSubmit}
       />
     );
   }
 }
 
-export default LostPassWrapper;
+export default connect(mapStateToProps, mapDispatchToProps)(LostPasswordWrapper);

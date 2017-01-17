@@ -7,6 +7,7 @@ class AccountWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
   }
@@ -57,7 +58,8 @@ class AccountWrapper extends React.Component {
         content={this.state.content}
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
-        onRegister={this.props.onLogin}
+        onRegister={this.props.onRegister}
+        onLogout={this.props.onLogout}
         isError={this.props.isError}
         message={this.props.message}
       />

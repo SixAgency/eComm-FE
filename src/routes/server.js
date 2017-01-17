@@ -32,7 +32,7 @@ import ProfileWrapper from '../pages/Account/Profile';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
-import ViewOrderWrapper from '../pages/Account/ViewOrder';
+// import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
 const siteRoutes = express.Router();
 
@@ -161,163 +161,185 @@ siteRoutes.get('/my-account', (req, resp, next) => {
     handleRoutes(req, resp, next, params);
   });
 });
-// Account - View/Order
-siteRoutes.get('/my-account', (req, resp, next) => {
+// Account - Lost Password
+siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
   checkLogin(req).then((data) => {
     if (data.loggedIn) {
       resp.redirect('/my-account/dashboard');
-    }
-    const params = {
-      title: 'My Account',
-      description: '',
-      header: 'colored',
-      active: '/my-account',
-      content: <LostPasswordWrapper {...data} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
-});
-// Account Lost Password - @TODO
-siteRoutes.get('/my-account/view-order', (req, resp, next) => {
-  checkLogin(req).then((data) => {
-    if (data.loggedIn) {
-      resp.redirect('/my-account/dashboard');
-    }
-    const params = {
-      title: 'My Account',
-      description: '',
-      header: 'colored',
-      active: '/my-account',
-      content: <ViewOrderWrapper {...data} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
-});
-// Account Dashboard
-siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
-  Promise.all([
-    checkLogin(req).then(user => user),
-    getAddresses(req).then(address => address),
-  ])
-    .then((values) => {
-      conslog(values);
-      const user = values[0];
-      const shipping = values[1].ship_address;
-      const billing = values[1].bill_address;
-      const addresses = {
-        shipping: {
-          isLoaded: true,
-          isEmpty: shipping === null,
-          address: shipping || {},
-        },
-        billing: {
-          isLoaded: true,
-          isEmpty: billing === null,
-          address: billing || {},
-        },
-      };
-      if (!user.loggedIn) {
-        resp.redirect('/my-account');
-      }
-      conslog(addresses);
+    } else {
       const params = {
         title: 'My Account',
         description: '',
         header: 'colored',
         active: '/my-account',
-        content: <DashboardWrapper {...user} {...addresses} />,
+        content: <LostPasswordWrapper {...data} />,
       };
       handleRoutes(req, resp, next, params);
-    })
-    .catch(err => conslog(err));
+    }
+  });
+});
+// Account - View/Order - @TODO, page, endpoint etc
+siteRoutes.get('/my-account/view-order', (req, resp) => {
+  checkLogin(req).then((data) => {
+    if (data.loggedIn) {
+      resp.redirect('/my-account/dashboard');
+    } else {
+      resp.redirect('/my-account');
+      // const params = {
+      //   title: 'My Account',
+      //   description: '',
+      //   header: 'colored',
+      //   active: '/my-account',
+      //   content: <ViewOrderWrapper {...data} />,
+      // };
+      // handleRoutes(req, resp, next, params);
+    }
+  });
+});
+// Account Dashboard
+siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
+  checkLogin(req)
+    .then((user) => {
+      if (!user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        let addresses = {
+          shipping: {
+            isLoaded: true,
+            isEmpty: true,
+            address: {},
+          },
+          billing: {
+            isLoaded: true,
+            isEmpty: true,
+            address: {},
+          },
+        };
+        const params = {
+          title: 'My Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+        };
+        getAddresses(req)
+          .then((address) => {
+            addresses = {
+              shipping: {
+                isLoaded: true,
+                isEmpty: address.ship_address == null,
+                address: address.ship_address || {},
+              },
+              billing: {
+                isLoaded: true,
+                isEmpty: address.bill_address == null,
+                address: address.bill_address || {},
+              },
+            };
+            params.content = <DashboardWrapper {...user} {...addresses} />;
+            handleRoutes(req, resp, next, params);
+          }).catch((err) => {
+            conslog(err);
+            params.content = <DashboardWrapper {...user} {...addresses} />;
+            handleRoutes(req, resp, next, params);
+          });
+      }
+    }).catch((err) => {
+      conslog(err);
+      resp.redirect('/my-account');
+    });
 });
 // Account - Edit
 siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
   checkLogin(req).then((data) => {
     if (!data.loggedIn) {
       resp.redirect('/my-account');
-    }
-    const params = {
-      title: 'Edit Account',
-      description: '',
-      header: 'colored',
-      active: '/my-account',
-      content: <ProfileWrapper {...data} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
-});
-// Account - Addresses
-// siteRoutes.get('/my-account/edit-address', (req, resp, next) => {
-//   checkLogin(req).then((data) => {
-//     if (!data.loggedIn) {
-//       resp.redirect('/my-account');
-//     }
-//     const params = {
-//       title: 'Edit Account',
-//       description: '',
-//       header: 'colored',
-//       active: '/my-account',
-//       content: <ProfileWrapper {...data} />,
-//     };
-//     handleRoutes(req, resp, next, params);
-//   });
-// });
-// Account - Shipping
-siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
-  Promise.all([
-    checkLogin(req).then(user => user),
-    getAddresses(req).then(address => address),
-  ])
-    .then((values) => {
-      const user = values[0];
-      const shipping = values[1].ship_address;
-      const address = {
-        isLoaded: true,
-        isEmpty: shipping === null,
-        address: shipping || {},
-      }
-      if (!user.loggedIn) {
-        resp.redirect('/my-account');
-      }
+    } else {
       const params = {
-        title: 'Edit Shipping Address',
+        title: 'Edit Account',
         description: '',
         header: 'colored',
         active: '/my-account',
-        content: <ShippingWrapper {...user} shipping={address} />,
+        content: <ProfileWrapper {...data} />,
       };
       handleRoutes(req, resp, next, params);
-    })
-    .catch(err => conslog(err));
+    }
+  });
+});
+// Account - Shipping
+siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
+  checkLogin(req)
+    .then((user) => {
+      if (!user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        let address = {
+          isLoaded: true,
+          isEmpty: true,
+          address: {},
+        };
+        const params = {
+          title: 'Edit Shipping Address',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+        };
+        getAddresses(req)
+          .then((data) => {
+            address = {
+              isLoaded: true,
+              isEmpty: data.ship_address === null,
+              address: data.ship_address || {},
+            }
+            params.content = <ShippingWrapper {...user} shipping={address} />;
+            handleRoutes(req, resp, next, params);
+          }).catch((err) => {
+            conslog(err);
+            params.content = <ShippingWrapper {...user} shipping={address} />;
+            handleRoutes(req, resp, next, params);
+          });
+      }
+    }).catch((err) => {
+      conslog(err);
+      resp.redirect('/my-account');
+    });
 });
 // Account - Billing
 siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
-  Promise.all([
-    checkLogin(req).then(user => user),
-    getAddresses(req).then(address => address),
-  ])
-    .then((values) => {
-      const user = values[0];
-      const billing = values[1].bill_address;
-      const address = {
-        isLoaded: true,
-        isEmpty: billing === null,
-        address: billing || {},
-      }
+  checkLogin(req)
+    .then((user) => {
       if (!user.loggedIn) {
         resp.redirect('/my-account');
+      } else {
+        let address = {
+          isLoaded: true,
+          isEmpty: true,
+          address: {},
+        };
+        const params = {
+          title: 'Edit Billing Address',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+        };
+        getAddresses(req)
+          .then((data) => {
+            address = {
+              isLoaded: true,
+              isEmpty: data.bill_address === null,
+              address: data.bill_address || {},
+            }
+            params.content = <BillingWrapper {...user} billing={address} />;
+            handleRoutes(req, resp, next, params);
+          }).catch((err) => {
+            conslog(err);
+            params.content = <BillingWrapper {...user} billing={address} />;
+            handleRoutes(req, resp, next, params);
+          });
       }
-      const params = {
-        title: 'Edit Billing Address',
-        description: '',
-        header: 'colored',
-        active: '/my-account',
-        content: <BillingWrapper {...user} billing={address} />,
-      };
-      handleRoutes(req, resp, next, params);
-    })
-    .catch(err => conslog(err));
+    }).catch((err) => {
+      conslog(err);
+      resp.redirect('/my-account');
+    });
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {
