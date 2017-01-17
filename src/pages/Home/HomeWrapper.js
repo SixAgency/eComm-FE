@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Home from './Home';
 // Actions
-import setHeaderProps from '../../actions/page';
+import { setHeaderProps, resetMessages } from '../../actions/page';
 import { getProducts } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
@@ -16,6 +16,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class HomeWrapper extends React.Component {

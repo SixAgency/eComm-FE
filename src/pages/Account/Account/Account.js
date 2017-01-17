@@ -17,28 +17,69 @@ class Account extends React.Component {
     contentTabs: PropTypes.array.isRequired,
     clickTab: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
-    message: PropTypes.string,
-    isError: PropTypes.bool,
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
+  }
+
+  handleError = (flag, data) => {
+    if(flag === true ){
+      return data;
+    }
+    return '';
+  }
+
+  // handleErrorDisplay = () => {
+  //   frontEndError = this.handleError();
+  //   if( this.state.message != null ) {
+  //     return(
+  //       <ErrorDisplay
+  //         message={this.props.message}
+  //         isError={this.props.isError}
+  //         loggedIn={this.props.loggedIn}
+  //       />
+  //     )
+  //   }else if(frontEndError != ''){
+  //     return(
+  //       <ErrorDisplay
+  //         message={frontEndError}
+  //         isError
+  //         loggedIn={this.props.loggedIn}
+  //       />
+  //     )
+  //   }
+  //   return '';
+  // }
+
+  handleErrorDisplay = () => {
+    frontEndError = this.handleError();
+    console.log(frontEndError);
   }
 
   getChildren = (state) => {
     if (state === 'bregister') {
       return <RegForm onRegister={this.props.onRegister} />;
     }
-    return <LoginForm onLogin={this.props.onLogin} />;
+    return <LoginForm onLogin={this.props.onLogin} handleError={this.handleError} />;
   }
 
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} />
-        <ErrorDisplay
-          message={[this.props.message]}
-          isError={this.props.isError}
-          loggedIn={this.props.loggedIn}
-        />
-        <ContentWrapper tabs={this.props.contentTabs} tabsClass={'show'} clickTab={this.props.clickTab} isActive={this.props.content}>
+        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+          <ErrorDisplay
+            message={this.props.message}
+            isError={this.props.isError}
+            loggedIn={this.props.loggedIn}
+          />
+          {this.handleErrorDisplay}
+        <ContentWrapper
+          tabs={this.props.contentTabs}
+          tabsClass={'show'}
+          clickTab={this.props.clickTab}
+          isActive={this.props.content}
+        >
           {this.getChildren(this.props.content)}
         </ContentWrapper>
       </section>

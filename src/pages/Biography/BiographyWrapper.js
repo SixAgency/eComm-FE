@@ -2,11 +2,12 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Biography from './Biography';
 // Actions
-import setHeaderProps from '../../actions/page';
+import { setHeaderProps, resetMessages } from '../../actions/page';
 
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class BiographyWrapper extends React.Component {

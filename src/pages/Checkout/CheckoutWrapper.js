@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Checkout from './Checkout';
 // Actions
-import setHeaderProps from '../../actions/page';
+import { setHeaderProps, resetMessages } from '../../actions/page';
 import { getCart } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
@@ -11,6 +11,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     getCart: () => dispatch(getCart()),
     onLogout: () => dispatch(onLogout()),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 const mapStateToProps = ((state) => (

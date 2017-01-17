@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
-import setHeaderProps from '../../../actions/page';
+import { setHeaderProps, resetMessages } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -20,6 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     onLogout: () => dispatch(onLogout()),
     getAddress: () => dispatch(getAddress()),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class DashboardWrapper extends React.Component {

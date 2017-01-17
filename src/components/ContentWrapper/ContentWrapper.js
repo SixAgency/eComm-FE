@@ -12,6 +12,8 @@ class ContentWrapper extends React.Component {
     isActive: PropTypes.string,
     wrprClass: PropTypes.string,
     contentClass: PropTypes.string,
+    isError: PropTypes.bool,
+    message: PropTypes.string,
   }
 
   static defaultProps = {

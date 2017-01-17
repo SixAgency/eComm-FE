@@ -8,6 +8,7 @@ class LoginForm extends React.Component {
 
   static propTypes = {
     onLogin: PropTypes.func.isRequired,
+    handleError: PropTypes.func,
   }
 
   constructor(props) {
@@ -23,6 +24,11 @@ class LoginForm extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     const data = this.state;
+    if(data.username === '') {
+      this.props.handleError(true, 'Username is required');
+    }else if (data.password === '') {
+      this.props.handleError(true, 'Password is required')
+    }
     this.props.onLogin(data);
   }
 

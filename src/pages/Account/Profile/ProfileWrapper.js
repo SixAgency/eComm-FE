@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Profile from './Profile';
 // Action
 import { onLogout } from '../../../actions/user';
-import setHeaderProps from '../../../actions/page';
+import { setHeaderProps, resetMessages } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -15,6 +15,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     onLogout: () => dispatch(onLogout()),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class ProfileWrapper extends React.Component {

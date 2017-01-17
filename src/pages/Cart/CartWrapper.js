@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
-import setHeaderProps from '../../actions/page';
+import { setHeaderProps, resetMessages } from '../../actions/page';
 import { getCart, removeItem } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
@@ -20,6 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     getCart: () => dispatch(getCart()),
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class CartWrapper extends React.Component {

@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import Account from './Account';
 // Action
-import { onLogin, onRegister } from '../../../actions/user';
-import setHeaderProps from '../../../actions/page';
+import { onLogin, onRegister, onLogout } from '../../../actions/user';
+import { setHeaderProps, resetMessages } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    message: state.user.message,
-    isError: state.user.isError,
+    message: state.page.message,
+    isError: state.page.isError,
   }
 ));
 const mapDispatchToProps = ((dispatch) => (
@@ -18,6 +18,8 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     onLogin: (data) => dispatch(onLogin(data)),
     onRegister: (data) => dispatch(onRegister(data)),
+    resetMessages: () => dispatch(resetMessages()),
+    onLogout: (data) => dispatch(onLogout(data)),
   }
 ));
 class AccountWrapper extends React.Component {
@@ -25,9 +27,11 @@ class AccountWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
     message: PropTypes.string,
     isError: PropTypes.bool,
+    resetMessages: PropTypes.func,
   }
 
   constructor(props) {
@@ -45,6 +49,10 @@ class AccountWrapper extends React.Component {
     this.props.setHeaderProps(props);
   }
 
+  componentWillUnmount = () => {
+    this.props.resetMessages();
+  }
+
   clickTab = (event) => {
     event.preventDefault();
     this.setState({
@@ -53,6 +61,7 @@ class AccountWrapper extends React.Component {
   }
 
   render() {
+    console.log('client');
     const contentTabs = [
       {
         name: 'Login',
@@ -77,6 +86,7 @@ class AccountWrapper extends React.Component {
         content={this.state.content}
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
+        onLogout={this.props.onLogout}
         onRegister={this.props.onRegister}
         message={this.props.message}
         isError={this.props.isError}

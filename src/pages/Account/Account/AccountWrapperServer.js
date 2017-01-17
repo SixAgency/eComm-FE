@@ -7,12 +7,17 @@ class AccountWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     setHeaderProps: () => (true),
     onLogin: (data) => (data),
+    onLogout: (data) => (data),
     onRegister: (data) => (data),
+    message: '',
+    isError: false,
   }
 
   constructor(props) {
@@ -30,6 +35,7 @@ class AccountWrapper extends React.Component {
   }
 
   render() {
+    console.log('server');
     const contentTabs = [
       {
         name: 'Login',
@@ -52,6 +58,8 @@ class AccountWrapper extends React.Component {
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
         onRegister={this.props.onLogin}
+        isError={this.props.isError}
+        message={this.props.message}
       />
     );
   }

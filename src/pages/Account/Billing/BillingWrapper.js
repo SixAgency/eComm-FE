@@ -5,7 +5,7 @@ import Billing from './Billing';
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress, addAddress } from '../../../actions/address';
-import setHeaderProps from '../../../actions/page';
+import { setHeaderProps, resetMessages } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -20,6 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     addAddress: (data) => dispatch(addAddress(data)),
     getAddress: () => dispatch(getAddress()),
+    resetMessages: () => dispatch(resetMessages()),
   }
 ));
 class BillingWrapper extends React.Component {

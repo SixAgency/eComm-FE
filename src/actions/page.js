@@ -4,4 +4,11 @@ function setHeaderProps(props) {
   };
 }
 
-export default setHeaderProps;
+function resetMessages() {
+  return (dispatch) => {
+    dispatch({ type: 'RESET_MESSAGES', payload: {} });
+  };
+}
+
+
+export { setHeaderProps, resetMessages };
