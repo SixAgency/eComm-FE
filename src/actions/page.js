@@ -10,5 +10,14 @@ function resetMessages() {
   };
 }
 
+function toggleLoader(toggle) {
+  return (dispatch) => {
+    dispatch({ type: 'TOGGLE_LOADER', payload: toggle });
+    // setTimeout(() => {
+    //   dispatch({ type: 'TOGGLE_LOADER', payload: toggle });
+    // }, 500);
+  };
+}
 
-export { setHeaderProps, resetMessages };
+
+export { setHeaderProps, resetMessages, toggleLoader };

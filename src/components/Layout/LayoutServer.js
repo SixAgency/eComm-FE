@@ -10,39 +10,15 @@ class Layout extends React.Component {
   };
 
   static defaultProps = {
-    cartItems: { isLoaded: false, isEmpty: true },
+    cartItems: { isLoaded: false, isEmpty: true, cart: {} },
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuOpen: '',
-      styles: { opacity: 0 },
-    };
-  }
-
-  componentDidMount = () => {
-    this.setState({
-      styles: { opacity: 1 },
-    });
-  }
-
-  mobileNavOpen = (event) => {
-    event.preventDefault();
-    this.setState({
-      menuOpen: 'menuopen',
-    });
-  }
-
-  mobileNavClose = (event) => {
-    event.preventDefault();
-    this.setState({
-      menuOpen: '',
-    });
-  }
+  mobileNavOpen = () => (true)
+  mobileNavClose = () => (true)
 
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;
+    const showLoader = true;
     return (
       <LayoutContent
         headerClass={headerClass}
@@ -50,8 +26,9 @@ class Layout extends React.Component {
         cartItems={this.props.cartItems}
         mobileNavOpen={this.mobileNavOpen}
         mobileNavClose={this.mobileNavClose}
-        menuOpen={this.state.menuOpen}
-        styles={this.state.styles}
+        showLoader={showLoader}
+        layoutStyles={{ opacity: 0 }}
+        menuOpen={''}
       >{this.props.children}</LayoutContent>
     );
   }

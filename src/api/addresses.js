@@ -28,7 +28,6 @@ function createAddress(request) {
     address: request.body.address,
     default_address_types: request.body.address_type,
   };
-  conslog(address);
   return apiFetch(ADDRESSES,
     {
       method: 'POST',

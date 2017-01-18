@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import LostPassword from './LostPassword';
 // Action
 import { onLogout } from '../../../actions/user';
-import { setHeaderProps, resetMessages } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -16,6 +16,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
     onLogout: (data) => dispatch(onLogout(data)),
   }
@@ -25,6 +26,7 @@ class LostPasswordWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
   }
 
@@ -36,8 +38,16 @@ class LostPasswordWrapper extends React.Component {
     this.props.setHeaderProps(props);
   }
 
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.props.toggleLoader(false);
+    }, 500);
+  }
+
   componentWillUnmount = () => {
+    console.log('remove');
     this.props.resetMessages();
+    this.props.toggleLoader(true);
   }
 
   onSubmit = (event) => {

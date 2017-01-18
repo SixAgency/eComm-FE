@@ -3,7 +3,9 @@ import conslog from '../utils/dev';
 function parseResponse(data) {
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {
-    resp = { error: 'Server Error. Please try again.' };
+    resp = {
+      error: 'Server Error. Please try again.',
+    };
     return Promise.reject(resp);
   }
   resp = data.json();
@@ -11,7 +13,11 @@ function parseResponse(data) {
 }
 
 function parseError(error) {
-  const resp = { data: { error }, status: 500 };
+  const resp = {
+    isError: true,
+    error,
+    status: 500,
+  };
   return resp;
 }
 
@@ -24,8 +30,7 @@ function parseCart(data, req) {
     resp = { isLoaded: true, isEmpty, cart: data };
     return resp;
   }
-  resp = { isLoaded: false, isEmpty: true, cart: {} };
-  conslog(resp);
+  resp = { isLoaded: true, isEmpty: true, cart: {} };
   return resp;
 }
 

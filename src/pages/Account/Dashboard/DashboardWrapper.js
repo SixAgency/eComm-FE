@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
-import { setHeaderProps, resetMessages } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -18,6 +18,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (props) => dispatch(toggleLoader(props)),
     onLogout: () => dispatch(onLogout()),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
@@ -31,6 +32,7 @@ class DashboardWrapper extends React.Component {
     billing: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
   }
 
@@ -46,6 +48,33 @@ class DashboardWrapper extends React.Component {
     if (!this.props.shipping.isLoaded && !this.props.billing.isLoaded) {
       this.props.getAddress();
     }
+  }
+
+  componentDidMount = () => {
+    const billingLoaded = this.props.billing.isLoaded;
+    const shippingLoaded = this.props.shipping.isLoaded;
+    if (billingLoaded && shippingLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    const billingLoaded = nextProps.billing.isLoaded;
+    const shippingLoaded = nextProps.shipping.isLoaded;
+    if (billingLoaded && shippingLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
+      // this.props.toggleLoader(false);
+    }
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
   }
 
   onLogout = (event) => {

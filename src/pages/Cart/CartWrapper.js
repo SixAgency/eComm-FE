@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
-import { setHeaderProps, resetMessages } from '../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, removeItem } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
@@ -17,6 +17,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getCart: () => dispatch(getCart()),
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
@@ -29,6 +30,7 @@ class CartWrapper extends React.Component {
     getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
@@ -54,6 +56,31 @@ class CartWrapper extends React.Component {
     } else {
       this.props.getCart();
     }
+  }
+
+  componentDidMount = () => {
+    const { isLoaded } = this.props.cartItems;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    const { isLoaded } = nextProps.cartItems;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
+      // this.props.toggleLoader(false);
+    }
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
   }
 
   handleGiftCard = (e) => {

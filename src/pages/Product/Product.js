@@ -10,7 +10,6 @@ class Product extends React.Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
-    gridRecs: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
   }
 
@@ -28,7 +27,7 @@ class Product extends React.Component {
               src={product.master.images[0].large_url}
               alt={product.name}
             />
-            <RelatedProducts gridRecs={this.props.gridRecs} addToCart={this.props.addToCart} />
+            <RelatedProducts gridRecs={product.recs} addToCart={this.props.addToCart} />
           </div>
         </div>
         <div className={s.right}>

@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Account from './Account';
 // Action
 import { onLogin, onRegister, onLogout } from '../../../actions/user';
-import { setHeaderProps, resetMessages } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -16,6 +16,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogin: (data) => dispatch(onLogin(data)),
     onRegister: (data) => dispatch(onRegister(data)),
     resetMessages: () => dispatch(resetMessages()),
@@ -26,6 +27,7 @@ class AccountWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
@@ -49,8 +51,16 @@ class AccountWrapper extends React.Component {
     this.props.setHeaderProps(props);
   }
 
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.props.toggleLoader(false);
+    }, 500);
+  }
+
   componentWillUnmount = () => {
+    console.log('remove');
     this.props.resetMessages();
+    this.props.toggleLoader(true);
   }
 
   clickTab = (event) => {

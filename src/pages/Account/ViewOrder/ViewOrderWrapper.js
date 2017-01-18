@@ -4,7 +4,7 @@ import ViewOrder from './ViewOrder';
 class ViewOrderWrapper extends React.Component {
   static propTypes = {
     client: PropTypes.bool,
-    logged: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
   }
 
   onLogout = (event) => {

@@ -19,8 +19,12 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
+function onChange() {
+  window.scrollTo(0, 0);
+};
+
 const routes = (
-  <Route path="/" component={Layout}>
+  <Route path="/" component={Layout} onChange={onChange}>
     <IndexRoute component={HomeWrapper} />
     <Route path="biography" component={BiographyWrapper} />
     <Route path="my-account">

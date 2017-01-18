@@ -112,20 +112,12 @@ siteRoutes.get('/biography', (req, resp, next) => {
 });
 // Product Details Page
 siteRoutes.get('/product/:slug', (req, resp, next) => {
-  Promise.all([
-    getProduct(req).then(product => product),
-    getProducts(req).then(products => products),
-  ])
-    .then((values) => {
-      // @TODO - check values, before assign values
+  getProduct(req)
+    .then((data) => {
       const product = {
         isLoaded: true,
-        product: values[0],
+        product: data,
       };
-      const gridRecs = {
-        isLoaded: true,
-        products: values[1].products.slice(0, 3),
-      }
       const prodParams = {
         slug: req.params.slug,
       }
@@ -134,11 +126,14 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
         description: '',
         header: 'colored',
         active: '/',
-        content: <ProductWrapper product={product} gridRecs={gridRecs} params={prodParams} />,
+        content: <ProductWrapper product={product} params={prodParams} />,
       };
       handleRoutes(req, resp, next, params);
     })
-    .catch(err => conslog(err));
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/404');
+    });
 });
 // Category Page
 siteRoutes.get('/product-category/:slug', (req, resp, next) => {
@@ -238,13 +233,13 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
             params.content = <DashboardWrapper {...user} {...addresses} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
-            conslog(err);
+            conslog('ERROR', err);
             params.content = <DashboardWrapper {...user} {...addresses} />;
             handleRoutes(req, resp, next, params);
           });
       }
     }).catch((err) => {
-      conslog(err);
+      conslog('ERROR', err);
       resp.redirect('/my-account');
     });
 });
@@ -293,13 +288,13 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
             params.content = <ShippingWrapper {...user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
-            conslog(err);
+            conslog('ERROR', err);
             params.content = <ShippingWrapper {...user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           });
       }
     }).catch((err) => {
-      conslog(err);
+      conslog('ERROR', err);
       resp.redirect('/my-account');
     });
 });
@@ -331,13 +326,13 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
             params.content = <BillingWrapper {...user} billing={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
-            conslog(err);
+            conslog('ERROR', err);
             params.content = <BillingWrapper {...user} billing={address} />;
             handleRoutes(req, resp, next, params);
           });
       }
     }).catch((err) => {
-      conslog(err);
+      conslog('ERROR', err);
       resp.redirect('/my-account');
     });
 });
@@ -359,7 +354,7 @@ siteRoutes.get('/cart', (req, resp, next) => {
       };
       handleRoutes(req, resp, next, params);
     })
-    .catch(err => conslog(err));
+    .catch(err => conslog('ERROR', err));
 });
 // Checkout Page
 siteRoutes.get('/checkout', (req, resp, next) => {

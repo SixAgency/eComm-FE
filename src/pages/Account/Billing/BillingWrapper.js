@@ -5,7 +5,7 @@ import Billing from './Billing';
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress, addAddress } from '../../../actions/address';
-import { setHeaderProps, resetMessages } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -17,6 +17,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
     addAddress: (data) => dispatch(addAddress(data)),
     getAddress: () => dispatch(getAddress()),
@@ -31,6 +32,7 @@ class BillingWrapper extends React.Component {
     addAddress: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
   }
 
@@ -46,6 +48,30 @@ class BillingWrapper extends React.Component {
     if (!this.props.billing.isLoaded) {
       this.props.getAddress();
     }
+  }
+
+  componentDidMount = () => {
+    const { isLoaded } = this.props.billing;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    const { isLoaded } = nextProps.billing;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
+    }
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
   }
 
   onSubmit = (address) => {

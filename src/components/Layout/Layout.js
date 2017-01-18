@@ -7,7 +7,9 @@ import { checkLogin } from '../../actions/user';
 const mapStateToProps = ((state) => (
   {
     headerProps: state.page.headerProps,
+    showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
+    // layoutStyles: state.page.layoutStyles,
   })
 );
 const mapDispatchToProps = ((dispatch) => (
@@ -22,18 +24,15 @@ class Layout extends React.Component {
     getCart: PropTypes.func.isRequired,
     headerProps: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
+    checkLogin: PropTypes.func.isRequired,
+    showLoader: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
   };
-
-  // static defaultProps = {
-  //   cartItems: { isLoaded: false, isEmpty: true, cart: {} },
-  // }
 
   constructor(props) {
     super(props);
     this.state = {
       menuOpen: '',
-      styles: { opacity: 0 },
     };
   }
 
@@ -44,12 +43,6 @@ class Layout extends React.Component {
     } else {
       this.props.getCart();
     }
-  }
-
-  componentDidMount = () => {
-    this.setState({
-      styles: { opacity: 1 },
-    });
   }
 
   mobileNavOpen = (event) => {
@@ -68,7 +61,6 @@ class Layout extends React.Component {
 
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;
-    console.log(this.props.cartItems);
     return (
       <LayoutContent
         headerClass={headerClass}
@@ -77,7 +69,8 @@ class Layout extends React.Component {
         mobileNavOpen={this.mobileNavOpen}
         mobileNavClose={this.mobileNavClose}
         menuOpen={this.state.menuOpen}
-        styles={this.state.styles}
+        layoutStyles={{ opacity: 1 }}
+        showLoader={this.props.showLoader}
       >{this.props.children}</LayoutContent>
     );
   }

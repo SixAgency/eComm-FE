@@ -2,21 +2,20 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Product from './Product';
 // Actions
-import { setHeaderProps, resetMessages } from '../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { addToCart } from '../../actions/order';
-import { getProduct, getProductRecs } from '../../actions/catalog';
+import { getProduct } from '../../actions/catalog';
 
 const mapStateToProps = ((state) => (
   {
-    gridRecs: state.catalog.gridRecs,
     product: state.catalog.product,
   }
 ));
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (props) => dispatch(toggleLoader(props)),
     addToCart: (item) => dispatch(addToCart(item)),
-    getProductRecs: () => dispatch(getProductRecs()),
     getProduct: (slug) => dispatch(getProduct(slug)),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -25,11 +24,10 @@ class ProductWrapper extends React.Component {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
-    getProductRecs: PropTypes.func.isRequired,
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
-    gridRecs: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
   }
 
@@ -47,23 +45,51 @@ class ProductWrapper extends React.Component {
       activeSlug: '/',
     };
     this.props.setHeaderProps(props);
-    if (!this.props.gridRecs.isLoaded) {
-      this.props.getProductRecs();
+    if (!this.props.product.isLoaded) {
+      this.props.getProduct(this.props.params.slug);
     }
   }
 
-  render() {
-    const slug = this.props.params.slug;
-    console.log(this.props.product.product);
-    if (slug) {
-      if (!this.props.product.isLoaded || this.props.product.product.slug !== slug) {
-        this.props.getProduct(slug);
+  componentDidMount = () => {
+    console.log('did');
+    const { isLoaded } = this.props.product;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    console.log(nextProps);
+    if (this.props.params.slug !== nextProps.params.slug) {
+      this.props.toggleLoader(true);
+      this.props.getProduct(nextProps.params.slug);
+    } else {
+      const { isLoaded } = nextProps.product;
+      const currentId = this.props.product.product.id;
+      const nextId = nextProps.product.product.id;
+      if (isLoaded && currentId !== nextId) {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 250);
       }
+    }
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
+  }
+
+  render() {
+    if (!this.props.product.isLoaded) {
+      return null;
     }
     return (
       <Product
         product={this.props.product}
-        gridRecs={this.props.gridRecs}
         addToCart={this.props.addToCart}
       />
     );

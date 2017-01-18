@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Profile from './Profile';
 // Action
 import { onLogout } from '../../../actions/user';
-import { setHeaderProps, resetMessages } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -14,6 +14,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -23,11 +24,7 @@ class ProfileWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    onLogout: () => (true),
-    setHeaderProps: () => (true),
+    toggleLoader: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -39,6 +36,17 @@ class ProfileWrapper extends React.Component {
       activeSlug: '/my-account',
     };
     this.props.setHeaderProps(props);
+  }
+
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.props.toggleLoader(false);
+    }, 500);
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
   }
 
   render() {

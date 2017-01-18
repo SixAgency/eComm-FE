@@ -3,6 +3,7 @@ export default function reducer(state = {
     headerClass: 'colored',
     activeSlug: '/',
   },
+  showLoader: true,
   isError: false,
   message: '',
 }, action) {
@@ -15,6 +16,9 @@ export default function reducer(state = {
     }
     case 'SET_MESSAGE': {
       return { ...state, isError: action.payload.isError, message: action.payload.message };
+    }
+    case 'TOGGLE_LOADER': {
+      return { ...state, showLoader: action.payload };
     }
     default: // do nothing
   }

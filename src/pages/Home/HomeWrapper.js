@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Home from './Home';
 // Actions
-import { setHeaderProps, resetMessages } from '../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getProducts } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
@@ -14,6 +14,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
@@ -25,6 +26,7 @@ class HomeWrapper extends React.Component {
     gridItems: PropTypes.object.isRequired,
     getProducts: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
   }
 
@@ -45,8 +47,32 @@ class HomeWrapper extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    const { isLoaded } = this.props.gridItems;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    const { isLoaded } = nextProps.gridItems;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
+      // this.props.toggleLoader(false);
+    }
+  }
+
+  componentWillUnmount = () => {
+    console.log('remove');
+    this.props.toggleLoader(true);
+  }
+
   render() {
-    console.log('client');
     return (
       <Home gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
     );
