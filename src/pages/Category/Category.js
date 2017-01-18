@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Category.css';
 import HeroBanner from '../../components/HeroBanner';
@@ -7,7 +7,8 @@ import homeBanner from './home_banner.jpg';
 
 class Category extends React.Component {
   static propTypes = {
-    gridItems: React.PropTypes.object.isRequired,
+    gridItems: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
   }
   render() {
     const bottomText = { subtitle: 'Shop Now' };
@@ -21,6 +22,7 @@ class Category extends React.Component {
         <Grid
           gridClass={'productsgrid'}
           gridItems={this.props.gridItems}
+          addToCart={this.props.addToCart}
         />
       </section>
     );

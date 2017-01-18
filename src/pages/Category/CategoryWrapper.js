@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Category from './Category';
 // Actions
-import { setHeaderProps, resetMessages } from '../../actions/page';
-import getProducts from '../../actions/catalog';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import { getProducts } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
@@ -14,6 +14,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
@@ -23,14 +24,11 @@ class CategoryWrapper extends React.Component {
 
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     getProducts: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    gridItems: { isLoaded: false, products: [] },
-    addToCart: (item) => (item),
+    params: PropTypes.object.isRequired,
   }
 
   componentWillMount = () => {
@@ -44,6 +42,35 @@ class CategoryWrapper extends React.Component {
     } else {
       this.props.getProducts();
     }
+  }
+
+  componentDidMount = () => {
+    const { isLoaded } = this.props.gridItems;
+    if (isLoaded) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next');
+    console.log(nextProps);
+    if (this.props.params.slug !== nextProps.params.slug) {
+      this.props.toggleLoader(true);
+      this.props.getProducts();
+    } else {
+      const { isLoaded } = nextProps.gridItems;
+      if (isLoaded) {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 250);
+      }
+    }
+  }
+
+  componentWillUnmount = () => {
+    this.props.toggleLoader(true);
   }
 
   render() {

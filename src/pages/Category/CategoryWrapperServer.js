@@ -6,10 +6,11 @@ class CategoryWrapper extends React.Component {
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    gridItems: { isLoaded: false, products: [] },
+    addToCart: () => (true),
   }
 
   render() {

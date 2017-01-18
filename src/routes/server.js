@@ -137,8 +137,37 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
 });
 // Category Page
 siteRoutes.get('/product-category/:slug', (req, resp, next) => {
-  const params = {};
-  handleRoutes(req, resp, next, params);
+  // const params = {
+  //   title: 'Archives',
+  //   description: '',
+  //   header: 'default',
+  //   active: '/',
+  //   content: <CategoryWrapper />,
+  // };
+  // handleRoutes(req, resp, next, params);
+  getProducts(req)
+    .then((data) => {
+      const products = {
+        isLoaded: true,
+        products: data.products,
+      };
+      const prodParams = {
+        slug: req.params.slug,
+      };
+      const params = {
+        // title: 'slug Archives',
+        title: `${prodParams.slug} Archives`,
+        description: '',
+        header: 'default',
+        active: '/',
+        content: <CategoryWrapper gridItems={products} params={prodParams} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/404');
+    });
 });
 // Account - Login/Register
 siteRoutes.get('/my-account', (req, resp, next) => {

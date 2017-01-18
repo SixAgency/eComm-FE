@@ -85,5 +85,6 @@ function getProduct(request) {
     .catch((err) => parseError(err));
 }
 
+// Get Products based on slug
 
 export { getProducts, getProduct };

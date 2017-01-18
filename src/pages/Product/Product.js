@@ -38,7 +38,7 @@ class Product extends React.Component {
                 <nav className={s.breadcrumb}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
-                  <Link className={s.innerlink} to="/product-category">{product.classifications[0].taxon.name}</Link>
+                  <Link className={s.innerlink} to={`/product-category/${product.slug}`}>{product.classifications[0].taxon.name}</Link>
                   <span className={s.divider}>&gt;</span>
                   {product.name}
                 </nav>
@@ -66,7 +66,7 @@ class Product extends React.Component {
               <div className={s.summarybottom}>
                 <span className={s.sku}>SKU:&nbsp;{product.master.sku}</span>
                 <span className={s.category}>Category:&nbsp;
-                  <Link to="/" className={s.categorylink}>{product.classifications[0].taxon.name}</Link>
+                  <Link to={`/product-category/${product.slug}`} className={s.categorylink}>{product.classifications[0].taxon.name}</Link>
                 </span>
               </div>
             </div>
