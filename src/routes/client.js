@@ -1,306 +1,76 @@
-// @TODO - Remove universal router - use React Router
-
 import React from 'react';
-import fetch from '../core/fetch';
+import { IndexRoute, Route } from 'react-router';
 import Layout from '../components/Layout';
 // Pages
-import Home from '../pages/home/Home';
-import Biography from '../pages/biography/Biography';
-import Cart from '../pages/cart/Cart';
-import Checkout from '../pages/checkout/Checkout';
-import Product from '../pages/product/Product';
-import ProductCategory from '../pages/productCategory/ProductCategory';
-import Contact from '../pages/contact/Contact';
-import NotFound from '../pages/notFound/NotFound';
+import HomeWrapper from '../pages/Home';
+import BiographyWrapper from '../pages/Biography';
+import CartWrapper from '../pages/Cart';
+import CheckoutWrapper from '../pages/Checkout';
+import ProductWrapper from '../pages/Product';
+import CategoryWrapper from '../pages/Category';
+import ContactWrapper from '../pages/Contact';
+import NotFoundWrapper from '../pages/NotFound';
 // My Account
-import Account from '../pages/account/Account';
-import Dashboard from '../pages/account/Dashboard';
-import Edit from '../pages/account/Edit';
-import Billing from '../pages/account/Billing';
-import Shipping from '../pages/account/Shipping';
+import AccountWrapper from '../pages/Account/Account';
+import DashboardWrapper from '../pages/Account/Dashboard';
+import ProfileWrapper from '../pages/Account/Profile';
+import BillingWrapper from '../pages/Account/Billing';
+import ShippingWrapper from '../pages/Account/Shipping';
+import LostPasswordWrapper from '../pages/Account/LostPassword';
+import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
-const routes = {
-  path: '/',
-  children: [
-    {
-      path: '/',
-      async action() {
-        // TODO - ERROR HANDLING
-        const products = await fetch('/api/products', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json.products)));
-        return {
-          headerClass: 'default',
-          activeSlug: '/',
-          title: 'Shop',
-          content: <Home gridItems={products} />,
-        };
-      },
-    },
-    {
-      path: '/biography',
-      action() {
-        return {
-          headerClass: 'default',
-          activeSlug: '/biography',
-          title: 'Biography',
-          content: <Biography />,
-        };
-      },
-    },
-    {
-      path: '/checkout',
-      async action() {
-        const user = await fetch('/api/check', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json)));
-        const cart = await fetch('/api/cart', { credentials: 'same-origin' })
-        .then((resp) => (resp.json())
-          .then((json) => (json)));
-        return {
-          headerClass: 'colored',
-          activeSlug: '/',
-          title: 'Checkout',
-          content: <Checkout {...user} cartItems={cart} />,
-        };
-      },
-    },
-    {
-      path: '/cart',
-      async action() {
-        const cart = await fetch('/api/cart', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json)));
-        const user = await fetch('/api/check', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json)));
-        return {
-          headerClass: 'default',
-          activeSlug: '/',
-          title: 'Cart',
-          content: <Cart cartItems={cart} logged={user.logged} />,
-        };
-      },
-    },
-    {
-      path: '/contact',
-      action() {
-        return {
-          headerClass: 'colored',
-          activeSlug: '/contact',
-          title: 'Contact',
-          content: <Contact />,
-        };
-      },
-    },
-    {
-      path: '/product/:slug',
-      async action(context) {
-        const slug = context.params.slug;
-        // TODO - ERROR HANDLING
-        const [product, products] = await Promise.all([
-          fetch(`/api/products/${slug}`, { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json))),
-          fetch('/api/products', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json))),
-        ]);
-        if (product && products) {
-          const related = products.products.slice(0, 3);
-          return {
-            headerClass: 'colored',
-            activeSlug: '/',
-            title: product.name || 'Shop',
-            content: <Product product={product} products={related} />,
-          };
-        }
-        return {
-          title: 'Shop',
-          content: null,
-        };
-      },
-    },
-    {
-      path: '/product-category',
-      async action() {
-        // const category = context.params.category;
-        // console.log(category);
-        // TODO - ERROR HANDLING
-        const products = await fetch('/api/products', { credentials: 'same-origin' })
-          .then((resp) => (resp.json())
-            .then((json) => (json.products)));
-        return {
-          headerClass: 'default',
-          activeSlug: '/',
-          title: 'Archives',
-          content: <ProductCategory products={products} />,
-        };
-      },
-    },
-    {
-      path: '/my-account',
-      children: [
-        {
-          path: '/',
-          async action() {
-            const user = await fetch('/api/check', { credentials: 'same-origin' })
-              .then((resp) => (resp.json())
-                .then((json) => (json)));
-            if (user.logged) {
-              return { redirect: '/my-account/dashboard' };
-            }
-            const clientSide = true;
-            return {
-              headerClass: 'colored',
-              activeSlug: '/my-account',
-              title: 'My Account',
-              content: <Account {...user} client={clientSide} />,
-            };
-          },
-        },
-        {
-          path: '/dashboard',
-          async action() {
-            const user = await fetch('/api/check', { credentials: 'same-origin' })
-              .then((resp) => (resp.json())
-                .then((json) => (json)));
-            if (!user.logged) {
-              return { redirect: '/my-account' };
-            }
-            const data = await fetch('/api/addresses', { credentials: 'same-origin' })
-              .then((resp) => (resp.json())
-                .then((json) => (json)));
-            const addresses = {
-              shippAddress: data.ship_address,
-              billAddress: data.bill_address,
-            };
-            const clientSide = true;
-            return {
-              headerClass: 'colored',
-              activeSlug: '/my-account',
-              title: 'My Account',
-              content: <Dashboard {...user} client={clientSide} addresses={addresses} />,
-            };
-          },
-        },
-        {
-          path: '/edit-account',
-          async action() {
-            const user = await fetch('/api/check', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-            if (!user.logged) {
-              return { redirect: '/my-account' };
-            }
-            const clientSide = true;
-            return {
-              headerClass: 'colored',
-              activeSlug: '/',
-              title: 'Edit Account',
-              content: <Edit {...user} client={clientSide} />,
-            };
-          },
-        },
-        {
-          path: '/edit-address',
-          children: [
-            {
-              path: '/',
-              async action() {
-                const user = await fetch('/api/check', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-                if (!user.logged) {
-                  return { redirect: '/my-account' };
-                }
-                const clientSide = true;
-                return {
-                  headerClass: 'colored',
-                  activeSlug: '/',
-                  title: 'My Account',
-                  content: <Edit {...user} client={clientSide} />,
-                };
-              },
-            },
-            {
-              path: '/shipping',
-              async action() {
-                const user = await fetch('/api/check', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-                if (!user.logged) {
-                  return { redirect: '/my-account' };
-                }
-                const clientSide = true;
-                const data = await fetch('/api/addresses', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-                const address = data.ship_address;
-                return {
-                  headerClass: 'colored',
-                  activeSlug: '/',
-                  title: 'Edit Shipping Address',
-                  content: <Shipping {...user} client={clientSide} shipping={address} />,
-                };
-              },
-            },
-            {
-              path: '/billing',
-              async action() {
-                const user = await fetch('/api/check', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-                if (!user.logged) {
-                  return { redirect: '/my-account' };
-                }
-                const clientSide = true;
-                const data = await fetch('/api/addresses', { credentials: 'same-origin' })
-                  .then((resp) => (resp.json())
-                    .then((json) => (json)));
-                const address = data.ship_address;
-                return {
-                  headerClass: 'colored',
-                  activeSlug: '/',
-                  title: 'Edit Billing Address',
-                  content: <Billing {...user} client={clientSide} billing={address} />,
-                };
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: '*',
-      action() {
-        const title = 'Page Not Found';
-        return {
-          headerClass: 'default',
-          activeSlug: '/',
-          title,
-          content: <NotFound title={title} />,
-          status: 404,
-        };
-      },
-    },
-  ],
-  async action({ next }) {
-    // Execute each child route until one of them return the result
-    const route = await next();
-    const cart = await fetch('/api/cart', { credentials: 'same-origin' })
-      .then((resp) => (resp.json())
-        .then((json) => (json)));
-    // Provide default values for title, description etc.
-    route.title = `${route.title || 'Untitled Page'} - krissorbie`;
-    route.description = route.description || '';
-    route.component = (
-      <Layout headerClass={route.headerClass} activeSlug={route.activeSlug} cartItems={cart}>
-        {route.content}
-      </Layout>
-    );
-    return route;
-  },
-};
+function onChange() {
+  window.scrollTo(0, 0);
+}
+
+// Function to update SEO tags.
+function updateTag(tagName, keyName, keyValue, attrName, attrValue) {
+  const node = document.head.querySelector(`${tagName}[${keyName}="${keyValue}"]`);
+  if (node && node.getAttribute(attrName) === attrValue) return;
+
+  // Remove and create a new tag in order to make it work with bookmarks in Safari
+  if (node) {
+    node.parentNode.removeChild(node);
+  }
+  if (typeof attrValue === 'string') {
+    const nextNode = document.createElement(tagName);
+    nextNode.setAttribute(keyName, keyValue);
+    nextNode.setAttribute(attrName, attrValue);
+    document.head.appendChild(nextNode);
+  }
+}
+function updateMeta(name, content) {
+  updateTag('meta', 'name', name, 'content', content);
+}
+function updateCustomMeta(property, content) { // eslint-disable-line no-unused-vars
+  updateTag('meta', 'property', property, 'content', content);
+}
+function updateLink(rel, href) { // eslint-disable-line no-unused-vars
+  updateTag('link', 'rel', rel, 'href', href);
+}
+
+const routes = (
+  <Route path="/" component={Layout} onChange={onChange}>
+    <IndexRoute component={HomeWrapper} />
+    <Route path="biography" component={BiographyWrapper} />
+    <Route path="my-account">
+      <IndexRoute component={AccountWrapper} />
+      <Route path="dashboard" component={DashboardWrapper} />
+      <Route path="edit-account" component={ProfileWrapper} />
+      <Route path="edit-address">
+        <Route path="billing" component={BillingWrapper} />
+        <Route path="shipping" component={ShippingWrapper} />
+      </Route>
+      <Route path="lost-password" component={LostPasswordWrapper} />
+      <Route path="view-order" component={ViewOrderWrapper} />
+    </Route>
+    <Route path="product/:slug" component={ProductWrapper} />
+    <Route path="product-category/:slug" component={CategoryWrapper} />
+    <Route path="contact" component={ContactWrapper} />
+    <Route path="cart" component={CartWrapper} />
+    <Route path="checkout" component={CheckoutWrapper} />
+    <Route path="*" component={NotFoundWrapper} />
+  </Route>
+);
 
 export default routes;
