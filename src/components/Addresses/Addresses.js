@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Addresses.css';
 
+import { STATES } from '../../constants/AppConsts';
+
 class Addresses extends React.Component {
 
   static propTypes = {
@@ -10,16 +12,28 @@ class Addresses extends React.Component {
     billAddress: PropTypes.object,
   }
 
+  getStateName = (id) => {
+    let name = '';
+    STATES.map((state) => {
+      if (state.id === id) {
+        name = state.abbr;
+      }
+      return true;
+    });
+    return name;
+  }
+
   listAddress = (data) => {
     const { isLoaded, isEmpty, address } = data;
     if (isLoaded && !isEmpty) {
+      const stateName = this.getStateName(address.state_id);
       return (
         <address className={s.optiontext}>
           <span className={s.block}>{address.firstname} {address.lastname}</span>
           <span className={s.block}>{address.company}</span>
           <span className={s.block}>{address.address1}</span>
           <span className={s.block}>{address.address2}</span>
-          <span className={s.block}>{address.city}, {address.state_name} {address.zipcode}</span>
+          <span className={s.block}>{address.city}, {stateName}, {address.zipcode}</span>
         </address>
       );
     }
