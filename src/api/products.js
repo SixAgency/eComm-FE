@@ -65,8 +65,8 @@ function getProduct(request) {
       },
     })
     .then((data) => parseResponse(data))
-    .then((data) => {
-      return getProductRecs(request)
+    .then((data) => (
+      getProductRecs(request)
         .then((recs) => {
           const response = { ...data, recs };
           return response;
@@ -80,8 +80,8 @@ function getProduct(request) {
           const response = { ...data, gridRecs };
           conslog('ERROR', response);
           return response;
-        });
-    })
+        })
+    ))
     .catch((err) => parseError(err));
 }
 
