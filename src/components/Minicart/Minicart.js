@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Minicart.css';
+import imagePlaceholder from './image_placeholder.png';
 
 class Minicart extends React.Component {
   static propTypes = {
@@ -35,9 +36,10 @@ class Minicart extends React.Component {
           <div>
             <ul className={s.cartlist}>
               { cart.line_items.map((item) => {
-                let image = '';
-                if (item.variant.images.length > 0) {
-                  image = item.variant.images[0].small_url;
+                const productImages = item.variant.images;
+                let image = imagePlaceholder;
+                if (productImages.length > 0 && productImages[0].small_url) {
+                  image = productImages[0].small_url;
                 }
                 return (
                   <li className={s.cartitem} key={item.id}>

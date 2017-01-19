@@ -5,6 +5,7 @@ import cx from 'classnames';
 import s from './Product.css';
 import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
+import imagePlaceholder from './image_placeholder.png';
 
 class Product extends React.Component {
 
@@ -18,13 +19,18 @@ class Product extends React.Component {
     if (!isLoaded) {
       return null;
     }
+    let image = imagePlaceholder;
+    const productImages = product.master.images;
+    if (productImages.length > 0 && productImages[0].large_url) {
+      image = productImages[0].large_url;
+    }
     return (
       <div className={s.page}>
         <div className={s.left}>
           <div className={s.container}>
             <img
               className={s.pimage}
-              src={product.master.images[0].large_url}
+              src={image}
               alt={product.name}
             />
             <RelatedProducts gridRecs={product.recs} addToCart={this.props.addToCart} />

@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
-import fetch from '../../core/fetch';
 import s from './ProductGridItem.css';
 import ProductAction from './ProductAction';
+import imagePlaceholder from './image_placeholder.png';
 
 class ProductGridItem extends React.Component {
   static propTypes = {
@@ -54,10 +54,15 @@ class ProductGridItem extends React.Component {
     const product = this.props.product;
     const actionProperties = this.handleText();
     const price = this.handlePricing();
+    const productImages = product.master.images;
+    let image = imagePlaceholder;
+    if (productImages.length > 0 && productImages[0].large_url) {
+      image = productImages[0].large_url;
+    }
     return (
       <div className={s.productgrid}>
         <Link className={s.plink} to={`/product/${product.slug}`}>
-          <img className={s.pimage} src={product.master.images[0].large_url} alt={product.name} />
+          <img className={s.pimage} src={image} alt={product.name} />
         </Link>
         <div className={s.itemhover}>
           <div className={s.itemmeta}>
