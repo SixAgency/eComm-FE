@@ -5,7 +5,7 @@ import cx from 'classnames';
 import s from './Product.css';
 import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
-import imagePlaceholder from './image_placeholder.png';
+import imagePlaceholder from './image_placeholder_large.png';
 
 class Product extends React.Component {
 
