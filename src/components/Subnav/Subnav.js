@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Subnav.css';
-import Link from '../Link';
 
 class Subnav extends React.Component {
   static propTypes = {
@@ -18,7 +18,7 @@ class Subnav extends React.Component {
       return [
         {
           title: 'My Account',
-          link: '/my-account',
+          link: '/my-account/dashboard',
           action: () => (true),
         },
         {

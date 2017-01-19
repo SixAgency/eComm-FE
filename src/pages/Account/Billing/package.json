@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "BillingWrapper",
+  "main": "./BillingWrapperServer.js",
+  "browser": "./BillingWrapper.js"
+}

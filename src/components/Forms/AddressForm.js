@@ -24,7 +24,7 @@ class AddressForm extends React.Component {
       lastname: this.props.address.lastname,
       company: this.props.address.company,
       phone: this.props.address.phone,
-      country: 232, /* US - always */
+      country_id: 232, /* US - always */
       address1: this.props.address.address1,
       address2: this.props.address.address2,
       city: this.props.address.city,

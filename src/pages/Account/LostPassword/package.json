@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "LostPasswordWrapper",
+  "main": "./LostPasswordWrapperServer.js",
+  "browser": "./LostPasswordWrapper.js"
+}

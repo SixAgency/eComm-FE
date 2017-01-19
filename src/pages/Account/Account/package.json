@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "AccountWrapper",
+  "main": "./AccountWrapperServer.js",
+  "browser": "./AccountWrapper.js"
+}

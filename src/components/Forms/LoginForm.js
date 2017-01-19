@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
-import Link from '../Link';
 
 class LoginForm extends React.Component {
 
   static propTypes = {
     onLogin: PropTypes.func.isRequired,
+    handleError: PropTypes.func,
   }
 
   constructor(props) {
@@ -16,12 +17,20 @@ class LoginForm extends React.Component {
       username: '',
       password: '',
       remember: '0',
+      hasErrors: false,
     };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
     const data = this.state;
+    if ((data.username === '') && (data.password === '')) {
+      this.props.handleError(true, 'Username is required');
+    } else if (data.username === '') {
+      this.props.handleError(true, 'Username is required');
+    } else if (data.password === '') {
+      this.props.handleError(true, 'Password is required');
+    }
     this.props.onLogin(data);
   }
 

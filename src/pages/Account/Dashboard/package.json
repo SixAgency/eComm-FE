@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "DashboardWrapper",
+  "main": "./DashboardWrapperServer.js",
+  "browser": "./DashboardWrapper.js"
+}

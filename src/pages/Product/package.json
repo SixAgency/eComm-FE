@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ProductWrapper",
+  "main": "./ProductWrapperServer.js",
+  "browser": "./ProductWrapper.js"
+}

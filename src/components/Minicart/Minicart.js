@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Minicart.css';
-import Link from '../Link';
 
 class Minicart extends React.Component {
   static propTypes = {
@@ -11,12 +11,11 @@ class Minicart extends React.Component {
   }
 
   render = () => {
-    const cart = this.props.cartItems;
-    // @TODO LOADING STATE FOR CART
-    if (!cart.isLoaded) {
+    const { isLoaded, isEmpty, cart } = this.props.cartItems;
+    if (!isLoaded) {
       return null;
     }
-    if (cart.isEmpty) {
+    if (isEmpty) {
       return (
         <div className={cx(s.minicart, s[this.props.cartClass])}>
           <div className={s.cartcontent}>

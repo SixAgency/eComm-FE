@@ -5,21 +5,24 @@ import Grid from '../Grid';
 
 class RelatedProducts extends React.Component {
   static propTypes = {
-    products: PropTypes.array.isRequired,
+    gridRecs: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
   }
 
   render() {
-    const products = this.props.products;
-    console.log(this.props.products);
+    if (!this.props.gridRecs.isLoaded) {
+      return null;
+    }
     return (
       <div className={s.relatedwrpr}>
         <h2 className={s.relatedtitle}>You may also like...</h2>
         <Grid
           gridClass={'productsgrid'}
-          gridItems={products}
+          gridItems={this.props.gridRecs}
           priceclass={'rprice'}
           nameclass={'rname'}
           catclass={'rcat'}
+          addToCart={this.props.addToCart}
         />
       </div>
     );

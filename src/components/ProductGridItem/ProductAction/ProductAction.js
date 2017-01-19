@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
-import Link from '../../Link';
 import s from './../ProductGridItem.css';
 
 class ProductAction extends React.Component {

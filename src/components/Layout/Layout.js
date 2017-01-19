@@ -1,33 +1,48 @@
 import React, { PropTypes } from 'react';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import cx from 'classnames';
-import s from './Layout.css';
-import Header from '../Header';
-import Footer from '../Footer';
-import MobileNavigation from '../MobileNavigation';
+import { connect } from 'react-redux';
+import LayoutContent from './LayoutContent';
+import { getCart } from '../../actions/order';
+import { checkLogin } from '../../actions/user';
 
+const mapStateToProps = ((state) => (
+  {
+    headerProps: state.page.headerProps,
+    showLoader: state.page.showLoader,
+    cartItems: state.cart.cartItems,
+    // layoutStyles: state.page.layoutStyles,
+  })
+);
+const mapDispatchToProps = ((dispatch) => (
+  {
+    getCart: () => dispatch(getCart()),
+    checkLogin: () => dispatch(checkLogin()),
+  }
+));
 class Layout extends React.Component {
 
   static propTypes = {
-    headerClass: PropTypes.string.isRequired,
-    activeSlug: PropTypes.string.isRequired,
+    getCart: PropTypes.func.isRequired,
+    headerProps: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
+    checkLogin: PropTypes.func.isRequired,
+    showLoader: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    loaderClass: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       menuOpen: '',
-      opacity: { opacity: 0 },
     };
   }
 
-  componentDidMount = () => {
-    this.setState({
-      opacity: { opacity: 1 },
-    });
+  componentWillMount = () => {
+    this.props.checkLogin();
+    if (this.props.cartItems.isLoaded) {
+      console.log('isLoaded');
+    } else {
+      this.props.getCart();
+    }
   }
 
   mobileNavOpen = (event) => {
@@ -36,6 +51,7 @@ class Layout extends React.Component {
       menuOpen: 'menuopen',
     });
   }
+
   mobileNavClose = (event) => {
     event.preventDefault();
     this.setState({
@@ -44,28 +60,20 @@ class Layout extends React.Component {
   }
 
   render() {
+    const { headerClass, activeSlug } = this.props.headerProps;
     return (
-      <div className={s.layout} style={this.state.opacity}>
-        <div className={cx(s.pagewrapper, s[this.state.menuOpen])}>
-          <Header
-            headerClass={this.props.headerClass}
-            activeSlug={this.props.activeSlug}
-            cartItems={this.props.cartItems}
-            menuOpen={this.state.menuOpen}
-            mobileNavOpen={this.mobileNavOpen}
-          />
-          {this.props.children}
-          <Footer />
-        </div>
-        <MobileNavigation
-          menuOpen={this.state.menuOpen}
-          mobileNavClose={this.mobileNavClose}
-          activeSlug={this.props.activeSlug}
-          navClass={'mobilenavigation'}
-        />
-      </div>
+      <LayoutContent
+        headerClass={headerClass}
+        activeSlug={activeSlug}
+        cartItems={this.props.cartItems}
+        mobileNavOpen={this.mobileNavOpen}
+        mobileNavClose={this.mobileNavClose}
+        menuOpen={this.state.menuOpen}
+        layoutStyles={{ opacity: 1 }}
+        showLoader={this.props.showLoader}
+      >{this.props.children}</LayoutContent>
     );
   }
 }
 
-export default withStyles(s)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

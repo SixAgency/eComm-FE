@@ -20,8 +20,6 @@ function createOrder(request) {
   .then((resp) => parseResponse(resp))
   .then((resp) => (resp))
   .catch((err) => parseError(err));
-  console.log('CREATE ORDER');
-  conslog(response);
   return response;
 }
 
@@ -42,7 +40,7 @@ function getOrder(request) {
 
 // Get Cart
 function getCart(request) {
-  conslog(request.session);
+  conslog('SESSION', request.session);
   const response = apiFetch(CART, {
     headers: {
       'Content-Type': 'application/json',

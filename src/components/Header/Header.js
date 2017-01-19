@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
-import Link from '../Link';
 import Navigation from '../Navigation';
 import Minicart from '../Minicart';
 
@@ -51,7 +51,7 @@ class Header extends React.Component {
     }
   }
 
-  headerScroll = (event) => {
+  headerScroll = () => {
     if (window.outerWidth > 960) {
       let stickyClass = '';
       const posCur = window.scrollY;
@@ -82,9 +82,9 @@ class Header extends React.Component {
   }
 
   render() {
-    const cart = this.props.cartItems;
+    const { isLoaded, isEmpty, cart } = this.props.cartItems;
     let quantity = 0;
-    if (!cart.isEmpty && cart.isLoaded) { quantity = cart.total_quantity; }
+    if (!isEmpty && isLoaded) { quantity = cart.total_quantity; }
     return (
       <header
         className={cx(
@@ -110,7 +110,7 @@ class Header extends React.Component {
         <div className={cx(s.cartholder, s[this.props.menuOpen])}>
           <div className={s.carticon} onMouseEnter={this.cartHover} onMouseLeave={this.cartHover}>
             <Link className={s.cartquantity} to="/cart"><span className={s.quantity}>{quantity}</span></Link>
-            <Minicart cartItems={cart} cartClass={this.state.cartClass} />
+            <Minicart cartItems={this.props.cartItems} cartClass={this.state.cartClass} />
           </div>
           <span className={s.cartdivider}>|</span>
         </div>

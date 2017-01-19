@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ContactWrapper",
+  "main": "./ContactWrapperServer.js",
+  "browser": "./ContactWrapper.js"
+}

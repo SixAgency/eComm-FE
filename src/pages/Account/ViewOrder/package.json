@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ViewOrderWrapper",
+  "main": "./ViewOrderWrapperServer.js",
+  "browser": "./ViewOrderWrapper.js"
+}
