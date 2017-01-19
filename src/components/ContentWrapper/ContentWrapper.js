@@ -14,6 +14,7 @@ class ContentWrapper extends React.Component {
     contentClass: PropTypes.string,
     isError: PropTypes.bool,
     message: PropTypes.string,
+    noPaddingClass: PropTypes.string,
   }
 
   static defaultProps = {
@@ -26,7 +27,7 @@ class ContentWrapper extends React.Component {
   render() {
     const contentTabs = this.props.tabs;
     return (
-      <section className={cx(s.wrapper)}>
+      <section className={cx(s.wrapper, s[this.props.noPaddingClass])}>
         <div className={cx(s.contentwrapper, s[this.props.wrprClass])}>
           <ul className={cx(s.contenttabs, s[this.props.tabsClass])}>
             {contentTabs.map((v, k) => (

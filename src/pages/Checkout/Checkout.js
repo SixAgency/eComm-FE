@@ -76,11 +76,19 @@ class Checkout extends React.Component {
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <CtaInfo toggleGiftcard={this.props.handleGiftcard} infoClass={'infocheckout'} />
         <section>
-          <GiftCardInput
-            toggleGiftcard={this.props.handleGiftcard}
-            infoClass={this.props.couponClass}
-          />
-          <ContentWrapper tabs={contentTabs} tabsClass={'show'} clickTab={this.props.clickTab} isActive={this.props.content}>
+          <div className={s.giftCardwrpr}>
+            <GiftCardInput
+              toggleGiftcard={this.props.handleGiftcard}
+              infoClass={this.props.couponClass}
+            />
+          </div>
+          <ContentWrapper
+            tabs={contentTabs}
+            tabsClass={'show'}
+            clickTab={this.props.clickTab}
+            isActive={this.props.content}
+            noPaddingClass={'wrprNoPadding'}
+          >
             {this.getChildren()}
           </ContentWrapper>
         </section>
