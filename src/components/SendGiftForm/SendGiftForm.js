@@ -18,14 +18,13 @@ class SendGiftForm extends React.Component {
             className={s.sgtext}
             htmlFor="recipient"
           >
-            {"Recipient's email"}
+            Recipient&#39;s email
           </label>
           <input
             className={s.inputfields}
             type="email"
             id="recipient"
             name="recipient"
-            required=""
           />
         </div>
         <div className={s.fieldswrpr}>
@@ -40,7 +39,6 @@ class SendGiftForm extends React.Component {
             type="email"
             id="sender"
             name="sender"
-            required=""
           />
         </div>
         <div className={s.textareawrpr}>

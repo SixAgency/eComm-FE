@@ -1,6 +1,5 @@
 import { apiFetch } from '../core/fetch';
 import { parseError, parseResponse } from './handlers';
-import conslog from '../utils/dev';
 
 const ADDRESSES = '/api/v1/addresses';
 const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';

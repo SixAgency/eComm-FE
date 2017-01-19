@@ -23,13 +23,6 @@ class Account extends React.Component {
     isError: PropTypes.bool.isRequired,
   }
 
-  handleError = (flag, data) => {
-    if(flag === true ){
-      return data;
-    }
-    return '';
-  }
-
   // handleErrorDisplay = () => {
   //   frontEndError = this.handleError();
   //   if( this.state.message != null ) {
@@ -52,11 +45,6 @@ class Account extends React.Component {
   //   return '';
   // }
 
-  handleErrorDisplay = () => {
-    frontEndError = this.handleError();
-    console.log(frontEndError);
-  }
-
   getChildren = (state) => {
     if (state === 'bregister') {
       return <RegForm onRegister={this.props.onRegister} />;
@@ -64,16 +52,29 @@ class Account extends React.Component {
     return <LoginForm onLogin={this.props.onLogin} handleError={this.handleError} />;
   }
 
+  handleError = (flag, data) => {
+    if (flag === true) {
+      return data;
+    }
+    return '';
+  }
+
+  // handleErrorDisplay = () => {
+  //   frontEndError = this.handleError();
+  //   console.log(frontEndError);
+  // }
+
+
   render() {
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
-          <ErrorDisplay
-            message={this.props.message}
-            isError={this.props.isError}
-            loggedIn={this.props.loggedIn}
-          />
-          {this.handleErrorDisplay}
+        <ErrorDisplay
+          message={this.props.message}
+          isError={this.props.isError}
+          loggedIn={this.props.loggedIn}
+        />
+        {this.handleErrorDisplay}
         <ContentWrapper
           tabs={this.props.contentTabs}
           tabsClass={'show'}

@@ -23,9 +23,9 @@ function userLogin(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then(resp => parseResponse(resp))
-  .then(resp => handleAuth(resp, request))
-  .catch(err => parseError(err));
+  .then((resp) => parseResponse(resp))
+  .then((resp) => handleAuth(resp, request))
+  .catch((err) => parseError(err));
 
   return response;
 }
@@ -49,9 +49,9 @@ function userRegistration(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then(resp => parseResponse(resp))
-  .then(resp => handleAuth(resp, request))
-  .catch(err => parseError(err));
+  .then((resp) => parseResponse(resp))
+  .then((resp) => handleAuth(resp, request))
+  .catch((err) => parseError(err));
 }
 
 // USER Logout
@@ -62,9 +62,9 @@ function userLogout(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then(data => parseResponse(data))
-  .then(data => handleLogout(data, request))
-  .catch(err => parseError(err));
+  .then((data) => parseResponse(data))
+  .then((data) => handleLogout(data, request))
+  .catch((err) => parseError(err));
 }
 
 // USER - Check if logged in

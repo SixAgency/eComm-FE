@@ -383,7 +383,7 @@ siteRoutes.get('/cart', (req, resp, next) => {
       };
       handleRoutes(req, resp, next, params);
     })
-    .catch(err => conslog('ERROR', err));
+    .catch((err) => conslog('ERROR', err));
 });
 // Checkout Page
 siteRoutes.get('/checkout', (req, resp, next) => {

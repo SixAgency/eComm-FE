@@ -4,10 +4,10 @@ import { browserHistory } from 'react-router';
 function getAddress() {
   return (dispatch) => {
     axios.get('/api/addresses')
-      .then(resp => {
+      .then((resp) => {
         dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: resp.data });
       })
-      .catch(err => dispatch({ type: 'GET_ADDRESS_ERROR', payload: err }));
+      .catch((err) => dispatch({ type: 'GET_ADDRESS_ERROR', payload: err }));
   };
 }
 

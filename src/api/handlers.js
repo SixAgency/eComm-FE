@@ -1,5 +1,3 @@
-import conslog from '../utils/dev';
-
 function parseResponse(data) {
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {

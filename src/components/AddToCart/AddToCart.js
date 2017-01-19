@@ -42,16 +42,20 @@ class CartCta extends React.Component {
     const { product } = this.props.product;
     if (product.has_variants) {
       if (product.option_types.length > 1) {
-        return (<MultiVariant
-          variants={product.variants}
-          action={this.setVariant}
-        />);
+        return (
+          <MultiVariant
+            variants={product.variants}
+            action={this.setVariant}
+          />
+        );
       }
       if (product.option_types.length > 0) {
-        return (<SingleVariant
-          variants={product.variants}
-          action={this.setVariant}
-        />);
+        return (
+          <SingleVariant
+            variants={product.variants}
+            action={this.setVariant}
+          />
+        );
       }
     }
     return null;
@@ -78,7 +82,7 @@ class CartCta extends React.Component {
   addToCart = (event) => {
     event.preventDefault();
     if (this.state.variant_id === null) {
-      console.log('ERRORR - PLEASE SELECT A VARIANT');
+      console.log('ERROR - PLEASE SELECT A VARIANT');
       return;
     }
     console.log(this.state.variant_id);
@@ -94,7 +98,7 @@ class CartCta extends React.Component {
       <form className={s.cartform} onSubmit={this.addToCart}>
         { this.getVariant() }
         <ProductQuantity
-          sizingClass={'quantitybig'}
+          sizingClass="quantitybig"
           quantity={this.state.quantity}
           addQuantity={this.addQuantity}
           subQuantity={this.subQuantity}

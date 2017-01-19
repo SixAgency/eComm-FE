@@ -10,19 +10,11 @@ class CtaMessage extends React.Component {
     isError: PropTypes.bool.isRequired,
   }
 
-  getWrapperClass = () => {
-    let className = 'green';
-    if (this.props.isError) {
-      className = 'red';
-    }
-    return className;
-  }
-
   render() {
     if (this.props.message === '') {
       return null;
     }
-    const wrapperClass = this.getWrapperClass();
+    const wrapperClass = this.props.isError ? 'red' : 'green';
     return (
       <div className={cx(s.messagewrpr, s[wrapperClass])}>
         <Link

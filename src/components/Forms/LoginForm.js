@@ -24,10 +24,12 @@ class LoginForm extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     const data = this.state;
-    if(data.username === '') {
+    if ((data.username === '') && (data.password === '')) {
       this.props.handleError(true, 'Username is required');
-    }else if (data.password === '') {
-      this.props.handleError(true, 'Password is required')
+    } else if (data.username === '') {
+      this.props.handleError(true, 'Username is required');
+    } else if (data.password === '') {
+      this.props.handleError(true, 'Password is required');
     }
     this.props.onLogin(data);
   }
