@@ -13,14 +13,10 @@ function addToCart(data) {
   return (dispatch) => {
     axios.post('/api/addtocart', data)
       .then((resp) => {
-        axios.get('/api/cart')
-          .then((cart) => {
-            dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data });
-            const response = { message: `“${resp.data.variant.name}” has been added to your cart.` };
-            dispatch({ type: 'ADD_CART_SUCCESS', payload: response });
-            browserHistory.push('/cart');
-          })
-          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
+        const response = { message: `“${resp.data.name}” has been added to your cart.` };
+        dispatch({ type: 'ADD_CART_SUCCESS', payload: response });
+        dispatch({ type: 'GET_CART_SUCCESS', payload: resp.data.cart });
+        browserHistory.push('/cart');
       })
       .catch((err) => {
         dispatch({ type: 'ADD_CART_ERROR', payload: err });
