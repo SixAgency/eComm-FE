@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './ProductRow.css';
 import ProductQuantity from '../../../components/ProductQuantity';
-import imagePlaceholder from './image_placeholder.png';
+import imagePlaceholder from './image_placeholder_small.png';
 
 class ProductRow extends React.Component {
   static propTypes = {
@@ -29,7 +29,7 @@ class ProductRow extends React.Component {
     const item = this.props.item;
     let image = imagePlaceholder;
     const productImages = item.variant.images;
-    if (productImages.length > 0 && productImage[0].small_url) {
+    if (productImages.length > 0 && productImages[0].small_url) {
       image = productImages[0].small_url;
     }
     const slug = `/product/${item.variant.slug}`;

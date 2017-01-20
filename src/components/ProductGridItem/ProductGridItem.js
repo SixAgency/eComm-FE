@@ -4,7 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './ProductGridItem.css';
 import ProductAction from './ProductAction';
-import imagePlaceholder from './image_placeholder.png';
+import imagePlaceholder from './image_placeholder_large.png';
 
 class ProductGridItem extends React.Component {
   static propTypes = {
