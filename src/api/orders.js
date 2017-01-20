@@ -64,7 +64,7 @@ function addToCart(request) {
   };
   conslog(item);
   const orderNumber = request.session.orderNumber;
-  const response = apiFetch(`${ORDER}/${orderNumber}/line_items`,
+  return apiFetch(`${ORDER}/${orderNumber}/line_items`,
     {
       method: 'POST',
       body: JSON.stringify(item),
@@ -74,9 +74,17 @@ function addToCart(request) {
       },
     })
   .then((resp) => parseResponse(resp))
-  .then((resp) => (resp))
+  .then((resp) => {
+    conslog('ADD CART', resp);
+    return getCart(request).then((cart) => {
+      const response = {
+        name: resp.variant.name,
+        cart,
+      };
+      return response;
+    });
+  })
   .catch((err) => parseError(err));
-  return response;
 }
 
 // Remove Item from Cart
