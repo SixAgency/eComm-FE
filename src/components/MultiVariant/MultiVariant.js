@@ -27,15 +27,11 @@ class MultiVariant extends React.Component {
     console.log(idOne);
     console.log(idTwo);
     console.log(this.props.variants);
-    let id = null;
-    this.props.variants.map((item) => {
-      if ((item.option_values[0].id === idOne) &&
-        (item.option_values[1].id === idTwo)) {
-        id = item.id;
-      }
-      return id;
-    });
-    return id;
+    const item = this.props.variants.find((variant) => (
+      variant.option_values[0].id === idOne &&
+        variant.option_values[1].id === idTwo
+    ));
+    return item.id || null;
   }
 
   changeVariantOne = (event) => {
@@ -61,7 +57,7 @@ class MultiVariant extends React.Component {
   formatVariants = () => {
     const arrayOne = [];
     const arrayTwo = [];
-    this.props.variants.map((item) => {
+    this.props.variants.forEach((item) => {
       const existsOne = arrayOne.filter((option) => (option.id === item.option_values[0].id));
       if (existsOne.length < 1) {
         arrayOne.push(item.option_values[0]);
@@ -70,7 +66,6 @@ class MultiVariant extends React.Component {
       if (existsTwo.length < 1) {
         arrayTwo.push(item.option_values[1]);
       }
-      return true;
     });
     return {
       one: arrayOne,
