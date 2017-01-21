@@ -6,14 +6,13 @@ class MultiVariant extends React.Component {
   static propTypes = {
     variants: PropTypes.array.isRequired,
     action: PropTypes.func.isRequired,
-
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      variantOne: null,
-      variantTwo: null,
+      variantOne: this.props.variants[0].option_values[0].id,
+      variantTwo: this.props.variants[0].option_values[1].id,
     };
   }
 

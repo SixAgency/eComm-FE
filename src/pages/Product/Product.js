@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
@@ -7,11 +7,10 @@ import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
 import imagePlaceholder from './image_placeholder_large.png';
 
-class Product extends React.Component {
-
+class Product extends Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
-    addToCart: PropTypes.func.isRequired,
+    onAddToCart: PropTypes.func.isRequired,
   }
 
   render() {
@@ -24,6 +23,7 @@ class Product extends React.Component {
     if (productImages.length > 0 && productImages[0].large_url) {
       image = productImages[0].large_url;
     }
+
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -33,7 +33,7 @@ class Product extends React.Component {
               src={image}
               alt={product.name}
             />
-            <RelatedProducts gridRecs={product.recs} addToCart={this.props.addToCart} />
+            <RelatedProducts gridRecs={product.recs} addToCart={this.props.onAddToCart} />
           </div>
         </div>
         <div className={s.right}>
@@ -50,11 +50,10 @@ class Product extends React.Component {
                 </nav>
                 <h1 className={s.pname}>{product.name}</h1>
                 <div className={s.price}>
-                  <span className={s.old}>{product.display_price}</span>
                   <span className={s.current}>{product.display_price}</span>
                 </div>
               </div>
-              <AddToCart onSubmit={this.props.addToCart} product={this.props.product} />
+              <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
               <div className={s.summarymiddle}>
                 <div className={cx(s.summarytab, s.summaryopen)}>
                   <h3 className={s.summarytitle}>Description</h3>

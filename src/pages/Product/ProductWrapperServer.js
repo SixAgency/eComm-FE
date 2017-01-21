@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component} from 'react';
 import Product from './Product';
 
-class ProductWrapper extends React.Component {
+class ProductWrapper extends Component {
 
   static propTypes = {
     addToCart: PropTypes.func.isRequired,
@@ -23,7 +23,7 @@ class ProductWrapper extends React.Component {
     return (
       <Product
         product={product}
-        addToCart={this.props.addToCart}
+        onAddToCart={this.props.addToCart}
       />
     );
   }
