@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import Contact from './Contact';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import sendContact from '../../actions/contact';
 
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
+    sendContact: () => dispatch(sendContact()),
   }
 ));
 class ContactWrapper extends React.Component {
@@ -16,6 +18,7 @@ class ContactWrapper extends React.Component {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
+    sendContact: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -40,7 +43,7 @@ class ContactWrapper extends React.Component {
   render() {
     console.log('client');
     return (
-      <Contact />
+      <Contact sendContact={this.props.sendContact} />
     );
   }
 }

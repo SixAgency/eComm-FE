@@ -9,12 +9,13 @@ class ContactWrapper extends React.Component {
 
   static defaultProps = {
     setHeaderProps: () => (true),
+    sendContact: () => (true),
   }
 
   render() {
     console.log('server');
     return (
-      <Contact />
+      <Contact {...this.props} />
     );
   }
 }

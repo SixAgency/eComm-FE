@@ -10,6 +10,7 @@ import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
 import { getCart } from '../api/orders';
 import { getAddresses } from '../api/addresses';
+import sendContact from '../api/contact.js';
 
 // Top Level Compontents
 import Layout from '../components/Layout';
