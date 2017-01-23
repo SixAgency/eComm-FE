@@ -1,3 +1,13 @@
+/**
+ * Set error/success messages - helper
+ * @param message: object
+ * @returns {{type: string, payload: object}}
+ */
+function setMessage(messages) {
+  console.info(messages); // eslint-disable-line no-console
+  return { type: 'SET_MESSAGES', payload: messages };
+}
+
 function setHeaderProps(props) {
   return (dispatch) => {
     dispatch({ type: 'SET_HEADER_PROPS', payload: props });
@@ -20,4 +30,4 @@ function toggleLoader(toggle) {
 }
 
 
-export { setHeaderProps, resetMessages, toggleLoader };
+export { setHeaderProps, resetMessages, toggleLoader, setMessage };

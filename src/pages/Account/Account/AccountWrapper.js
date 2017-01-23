@@ -9,7 +9,7 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    message: state.page.message,
+    messages: state.page.messages,
     isError: state.page.isError,
   }
 ));
@@ -31,9 +31,9 @@ class AccountWrapper extends React.Component {
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
-    message: PropTypes.string,
-    isError: PropTypes.bool,
-    resetMessages: PropTypes.func,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -44,61 +44,53 @@ class AccountWrapper extends React.Component {
   }
 
   componentWillMount = () => {
-    const props = {
-      headerClass: 'colored',
-      activeSlug: '/my-account',
-    };
-    this.props.setHeaderProps(props);
-  }
+    console.log('logged', this.props.loggedIn);
+    if (this.props.loggedIn) {
+      browserHistory.push('/my-account/dashboard');
+    } else {
+      const props = {
+        headerClass: 'colored',
+        activeSlug: '/my-account',
+      };
+      this.props.setHeaderProps(props);
+    }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.resetMessages();
     this.props.toggleLoader(true);
-  }
+  };
+
+  compomentWillReceiveProps = (nextProps) => {
+    console.log('here');
+    if (nextProps.loggedIn) {
+      browserHistory.push('/my-account/dashboard');
+    }
+  };
 
   clickTab = (event) => {
     event.preventDefault();
     this.setState({
       content: event.target.id,
     });
-  }
+  };
 
   render() {
-    console.log('client');
-    const contentTabs = [
-      {
-        name: 'Login',
-        title: 'Login',
-        cname: 'login',
-        id: 'blogin',
-      },
-      {
-        name: 'Register',
-        title: 'Register',
-        cname: 'register',
-        id: 'bregister',
-      },
-    ];
-    if (this.props.loggedIn) {
-      browserHistory.push('/my-account/dashboard');
-    }
     return (
       <Account
-        contentTabs={contentTabs}
         loggedIn={this.props.loggedIn}
         content={this.state.content}
         clickTab={this.clickTab}
         onLogin={this.props.onLogin}
         onLogout={this.props.onLogout}
         onRegister={this.props.onRegister}
-        message={this.props.message}
+        messages={this.props.messages}
         isError={this.props.isError}
       />
     );

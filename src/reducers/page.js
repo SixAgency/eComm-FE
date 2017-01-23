@@ -5,17 +5,17 @@ export default function reducer(state = {
   },
   showLoader: true,
   isError: false,
-  message: '',
+  messages: [],
 }, action) {
   switch (action.type) {
     case 'SET_HEADER_PROPS': {
       return { ...state, headerProps: action.payload };
     }
     case 'RESET_MESSAGES': {
-      return { ...state, isError: false, message: '' };
+      return { ...state, isError: false, messages: [] };
     }
-    case 'SET_MESSAGE': {
-      return { ...state, isError: action.payload.isError, message: action.payload.message };
+    case 'SET_MESSAGES': {
+      return { ...state, isError: action.payload.isError, messages: action.payload.messages };
     }
     case 'TOGGLE_LOADER': {
       return { ...state, showLoader: action.payload };

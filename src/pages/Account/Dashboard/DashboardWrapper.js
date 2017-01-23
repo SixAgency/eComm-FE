@@ -38,6 +38,7 @@ class DashboardWrapper extends React.Component {
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
+      console.log('step one');
       browserHistory.push('/my-account');
     }
     const props = {

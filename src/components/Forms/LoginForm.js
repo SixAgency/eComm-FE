@@ -8,35 +8,26 @@ class LoginForm extends React.Component {
 
   static propTypes = {
     onLogin: PropTypes.func.isRequired,
-    handleError: PropTypes.func,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
       remember: '0',
-      hasErrors: false,
     };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
     const data = this.state;
-    if ((data.username === '') && (data.password === '')) {
-      this.props.handleError(true, 'Username is required');
-    } else if (data.username === '') {
-      this.props.handleError(true, 'Username is required');
-    } else if (data.password === '') {
-      this.props.handleError(true, 'Password is required');
-    }
     this.props.onLogin(data);
   }
 
   onUserChange = (event) => {
     this.setState({
-      username: event.target.value,
+      email: event.target.value,
     });
   }
 
@@ -59,8 +50,8 @@ class LoginForm extends React.Component {
         <h2 className={s.subtitle}>Your login details</h2>
         <form className={cx(s.form, s.login)} onSubmit={this.onSubmit}>
           <div className={s.inputwrapper}>
-            <label className={s.label} htmlFor="username">Username or Email Address <abbr>*</abbr></label>
-            <input id="username" type="text" name="username" className={s.input} onChange={this.onUserChange} />
+            <label className={s.label} htmlFor="email">Email Address <abbr>*</abbr></label>
+            <input id="email" type="text" name="email" className={s.input} onChange={this.onUserChange} />
           </div>
           <div className={s.inputwrapper}>
             <label className={s.label} htmlFor="password">Password <abbr>*</abbr></label>

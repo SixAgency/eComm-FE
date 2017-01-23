@@ -13,6 +13,9 @@ export default function reducer(state = {
   isError: false,
 }, action) {
   switch (action.type) {
+    case 'SET_ADDRESSES': {
+      return { ...state, billing: action.payload.billing, shipping: action.payload.shipping };
+    }
     case 'GET_ADDRESS_SUCCESS': {
       console.log(action.payload);
       const billing = {

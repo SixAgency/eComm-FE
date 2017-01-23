@@ -8,6 +8,9 @@ export default function reducer(state = {
   isError: false,
 }, action) {
   switch (action.type) {
+    case 'RESET_CART': {
+      return { ...state, cartItems: action.payload };
+    }
     case 'GET_CART_SUCCESS': {
       return { ...state, cartItems: action.payload };
     }

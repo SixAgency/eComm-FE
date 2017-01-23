@@ -1,6 +1,28 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
+function resetAddresses() {
+  const data = {
+    billing: {
+      isEmpty: true,
+      address: {},
+    },
+    shipping: {
+      isEmpty: true,
+      address: {},
+    },
+  };
+  return { type: 'RESET_ADDRESSES', payload: data };
+}
+
+function setAddresses(billing, shipping) {
+  const addresses = {
+    billing: { ...billing, isLoaded: true },
+    shipping: { ...shipping, isLoaded: true },
+  };
+  return { type: 'SET_ADDRESSES', payload: addresses };
+}
+
 function getAddress() {
   return (dispatch) => {
     axios.get('/api/addresses')
@@ -32,4 +54,4 @@ function addAddress(data) {
   };
 }
 
-export { getAddress, addAddress };
+export { getAddress, addAddress, resetAddresses, setAddresses };

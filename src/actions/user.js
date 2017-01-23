@@ -1,59 +1,107 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import { checkResponse, forwardTo } from './handler';
+import { setMessage } from './page';
+import { getCart, resetCart } from './order';
+import { resetAddresses, setAddresses } from './address';
 
+/**
+ * Set User - helper
+ * @param user: object
+ * @returns {{type: string, payload: object}}
+ */
+function setUser(user) {
+  return { type: 'SET_USER', payload: user };
+}
+
+/**
+ * Checks if the user is logged in or not
+ * @returns {function(*)}
+ */
 function checkLogin() {
   return (dispatch) => {
     axios.get('/api/check')
-      .then((resp) => dispatch({ type: 'GET_USER_SUCCESS', payload: resp.data }))
-      .catch((err) => dispatch({ type: 'GET_USER_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        console.log('callback');
+        dispatch(setUser(response.data.user));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setUser({ loggedIn: false, username: '', email: '' }));
+      });
   };
 }
 
+/**
+ * Logout - reset cart, reset addresses
+ * @returns {function(*=)}
+ */
 function onLogout() {
   return (dispatch) => {
     axios.post('/api/logout', {})
-      .then((resp) => {
-        axios.get('/api/cart')
-          .then((cart) => dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data }))
-          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
-        dispatch({ type: 'LOGOUT_SUCCESS', payload: resp });
-        browserHistory.push('/my-account');
-        dispatch({ type: 'SET_MESSAGE', payload: { isError: false, message: '' } });
-      })
-      .catch((err) => dispatch({ type: 'LOGOUT_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        // Set the current user
+        dispatch(setUser(response.data.user));
+        // Reset the cart
+        dispatch(resetCart());
+        dispatch(resetAddresses());
+        forwardTo('my-account');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+      });
   };
 }
 
 function onLogin(data) {
   return (dispatch) => {
     axios.post('/api/login', data)
-      .then((resp) => {
-        if (resp.data.error) {
-          dispatch({ type: 'SET_MESSAGE', payload: { isError: true, message: resp.data.message } });
-        } else {
-          axios.get('/api/cart')
-            .then((cart) => dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data }))
-            .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
-          dispatch({ type: 'LOGIN_SUCCESS', payload: resp.data });
-          browserHistory.push('/my-account/dashboard');
-          dispatch({ type: 'SET_MESSAGE', payload: { isError: false, message: 'Login Success' } });
-        }
-      })
-      .catch((err) => dispatch({ type: 'LOGIN_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        // Reset the cart
+        dispatch(resetCart());
+        // Set the user
+        dispatch(setUser(response.data.user));
+        // Set billing and shipping addresses
+        dispatch(setAddresses(response.data.billing, response.data.shipping));
+        // Redirect to dashboard
+        forwardTo('my-account/dashboard');
+        // Get the user cart
+        getCart();
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+      });
   };
 }
 
 function onRegister(data) {
   return (dispatch) => {
     axios.post('/api/register', data)
-      .then((resp) => {
-        axios.get('/api/cart')
-          .then((cart) => dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data }))
-          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
-        dispatch({ type: 'REGISTRATION_SUCCESS', payload: resp.data });
-        browserHistory.push('/my-account/dashboard');
-      })
-      .catch((err) => dispatch({ type: 'REGISTRATION_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        // Reset the cart
+        dispatch(resetCart());
+        // Set the user
+        dispatch(setUser(response.data.user));
+        // Set billing and shipping addresses
+        dispatch(setAddresses(response.data.billing, response.data.shipping));
+        // Redirect to dashboard
+        forwardTo('my-account/dashboard');
+        // Get the user cart
+        getCart();
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+      });
   };
 }
 

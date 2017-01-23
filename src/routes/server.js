@@ -10,7 +10,6 @@ import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
 import { getCart } from '../api/orders';
 import { getAddresses } from '../api/addresses';
-import sendContact from '../api/contact.js';
 
 // Top Level Compontents
 import Layout from '../components/Layout';
@@ -139,14 +138,6 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
 });
 // Category Page
 siteRoutes.get('/product-category/:slug', (req, resp, next) => {
-  // const params = {
-  //   title: 'Archives',
-  //   description: '',
-  //   header: 'default',
-  //   active: '/',
-  //   content: <CategoryWrapper />,
-  // };
-  // handleRoutes(req, resp, next, params);
   getProducts(req)
     .then((data) => {
       const products = {
@@ -157,7 +148,6 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
         slug: req.params.slug,
       };
       const params = {
-        // title: 'slug Archives',
         title: `${prodParams.slug} Archives`,
         description: '',
         header: 'default',
@@ -173,24 +163,28 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
 });
 // Account - Login/Register
 siteRoutes.get('/my-account', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req).then((data) => {
-    if (data.loggedIn) {
+    if (data.user.loggedIn) {
       resp.redirect('/my-account/dashboard');
+    } else {
+      const messages = data.messages || [];
+      const params = {
+        title: 'My Account',
+        description: '',
+        header: 'colored',
+        active: '/my-account',
+        content: <AccountWrapper {...data.user} isError={data.isError} messages={messages} />,
+      };
+      handleRoutes(req, resp, next, params);
     }
-    const params = {
-      title: 'My Account',
-      description: '',
-      header: 'colored',
-      active: '/my-account',
-      content: <AccountWrapper {...data} />,
-    };
-    handleRoutes(req, resp, next, params);
   });
 });
 // Account - Lost Password
 siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req).then((data) => {
-    if (data.loggedIn) {
+    if (data.user.loggedIn) {
       resp.redirect('/my-account/dashboard');
     } else {
       const params = {
@@ -198,7 +192,7 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
         description: '',
         header: 'colored',
         active: '/my-account',
-        content: <LostPasswordWrapper {...data} />,
+        content: <LostPasswordWrapper {...data.user} />,
       };
       handleRoutes(req, resp, next, params);
     }
@@ -206,27 +200,22 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
 });
 // Account - View/Order - @TODO, page, endpoint etc
 siteRoutes.get('/my-account/view-order', (req, resp) => {
+  // @todo - check if isError and handle it
   checkLogin(req).then((data) => {
-    if (data.loggedIn) {
+    if (data.user.loggedIn) {
       resp.redirect('/my-account/dashboard');
     } else {
       resp.redirect('/my-account');
-      // const params = {
-      //   title: 'My Account',
-      //   description: '',
-      //   header: 'colored',
-      //   active: '/my-account',
-      //   content: <ViewOrderWrapper {...data} />,
-      // };
-      // handleRoutes(req, resp, next, params);
     }
   });
 });
 // Account Dashboard
 siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((user) => {
-      if (!user.loggedIn) {
+    .then((data) => {
+      conslog('DATA', data);
+      if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
         let addresses = {
@@ -247,7 +236,7 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
           header: 'colored',
           active: '/my-account',
         };
-        getAddresses(req)
+        return getAddresses(req)
           .then((address) => {
             addresses = {
               shipping: {
@@ -261,11 +250,11 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
                 address: address.bill_address || {},
               },
             };
-            params.content = <DashboardWrapper {...user} {...addresses} />;
+            params.content = <DashboardWrapper {...data.user} {...addresses} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
             conslog('ERROR', err);
-            params.content = <DashboardWrapper {...user} {...addresses} />;
+            params.content = <DashboardWrapper {...data.user} {...addresses} />;
             handleRoutes(req, resp, next, params);
           });
       }
@@ -276,8 +265,9 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
 });
 // Account - Edit
 siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req).then((data) => {
-    if (!data.loggedIn) {
+    if (!data.user.loggedIn) {
       resp.redirect('/my-account');
     } else {
       const params = {
@@ -285,7 +275,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
         description: '',
         header: 'colored',
         active: '/my-account',
-        content: <ProfileWrapper {...data} />,
+        content: <ProfileWrapper {...data.user} />,
       };
       handleRoutes(req, resp, next, params);
     }
@@ -293,9 +283,10 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
 });
 // Account - Shipping
 siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((user) => {
-      if (!user.loggedIn) {
+    .then((data) => {
+      if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
         let address = {
@@ -316,11 +307,11 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
               isEmpty: data.ship_address === null,
               address: data.ship_address || {},
             };
-            params.content = <ShippingWrapper {...user} shipping={address} />;
+            params.content = <ShippingWrapper {...data.user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
             conslog('ERROR', err);
-            params.content = <ShippingWrapper {...user} shipping={address} />;
+            params.content = <ShippingWrapper {...data.user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           });
       }
@@ -331,9 +322,10 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
 });
 // Account - Billing
 siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
+  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((user) => {
-      if (!user.loggedIn) {
+    .then((data) => {
+      if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
         let address = {
@@ -348,17 +340,17 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
           active: '/my-account',
         };
         getAddresses(req)
-          .then((data) => {
+          .then((addresses) => {
             address = {
               isLoaded: true,
-              isEmpty: data.bill_address === null,
-              address: data.bill_address || {},
+              isEmpty: addresses.bill_address === null,
+              address: addresses.bill_address || {},
             };
-            params.content = <BillingWrapper {...user} billing={address} />;
+            params.content = <BillingWrapper {...data.user} billing={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
             conslog('ERROR', err);
-            params.content = <BillingWrapper {...user} billing={address} />;
+            params.content = <BillingWrapper {...data.user} billing={address} />;
             handleRoutes(req, resp, next, params);
           });
       }
@@ -369,8 +361,9 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {
+  // @todo - check if isError and handle it
   Promise.all([
-    checkLogin(req).then(user => user.loggedIn),
+    checkLogin(req).then(data => data.user.loggedIn),
     getCart(req).then(cart => cart),
   ])
     .then((values) => {

@@ -6,6 +6,11 @@ export default function reducer(state = {
   isError: false,
 }, action) {
   switch (action.type) {
+    case 'SET_USER': {
+      const { userName, emailAddress, loggedIn } = action.payload;
+      console.log(action.payload);
+      return { ...state, userName, emailAddress, loggedIn };
+    }
     case 'LOGIN_SUCCESS': {
       const { userName, emailAddress, loggedIn } = action.payload;
       const isError = userName === undefined;
