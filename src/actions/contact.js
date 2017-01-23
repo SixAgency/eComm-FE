@@ -2,12 +2,12 @@ import axios from 'axios';
 
 function sendContact() {
   return (dispatch) => {
-    axios.post('/api/sendcontact')
+    axios.post('/api/contact')
     .then((resp) => {
-      console.log('RESP', resp);
+      dispatch({ type: 'SEND_CONTACT_SUCCESS', payload: resp.data });
     })
     .catch((err) => {
-      console.log('ERR', err);
+      dispatch({ type: 'SEND_CONTACT_ERROR', payload: err });
     });
   };
 }
