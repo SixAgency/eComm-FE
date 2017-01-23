@@ -1,7 +1,7 @@
 import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
-import { getOrder, getCart, addToCart, createOrder, removeFromCart } from './orders';
+import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCartItem } from './orders';
 import { getAddresses, createAddress } from './addresses';
 
 const apiRoutes = express.Router();
@@ -62,6 +62,13 @@ apiRoutes.post('/removefromcart', (req, resp) => {
 // Add Item To Cart
 apiRoutes.post('/createorder', (req, resp) => {
   createOrder(req).then((data) => {
+    resp.json(data);
+  });
+});
+
+// Update Item in Cart
+apiRoutes.post('/updatecartitem', (req, resp) => {
+  updateCartItem(req).then((data) => {
     resp.json(data);
   });
 });

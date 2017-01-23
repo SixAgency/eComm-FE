@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Cart.css';
 import CartCta from '../../components/CartCta/CartCta';
@@ -11,7 +11,7 @@ import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
 import EmptyCart from '../../components/EmptyCart';
 
-class Cart extends React.Component {
+class Cart extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
     handleGiftCard: PropTypes.func.isRequired,
@@ -23,6 +23,7 @@ class Cart extends React.Component {
     couponClass: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
+    updateCart: PropTypes.func.isRequired,
   }
 
   render() {
@@ -65,7 +66,7 @@ class Cart extends React.Component {
                   addQuantity={this.props.addQuantity}
                   subQuantity={this.props.subQuantity}
                 />
-                <PromoCodeInput />
+                <PromoCodeInput updateCart={this.props.updateCart} />
                 <CartForm cart={cart} />
               </div>
             </article>

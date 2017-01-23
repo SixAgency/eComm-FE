@@ -105,5 +105,24 @@ function removeFromCart(request) {
   return response;
 }
 
+// Update Item in Cart
+function updateCartItem(request) {
+  const id = request.body.id;
+  const quantity = request.body.quantity;
+  const orderNumber = request.session.orderNumber;
+  const response = apiFetch(`${ORDER}/${orderNumber}/line_items/${id}?line_item[quantity]=${quantity}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => parseResponse(resp))
+  .then((resp) => (resp))
+  .catch((err) => parseError(err));
+  return response;
+}
+
 // TODO - user orders
-export { getOrder, getCart, addToCart, createOrder, removeFromCart };
+export { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCartItem };

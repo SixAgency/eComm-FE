@@ -45,5 +45,23 @@ function removeItem(data) {
   };
 }
 
+function updateCartItem(data) {
+  return (dispatch) => {
+    axios.post('/api/updatecartitem', { id: data.id, quantity: data.quantity })
+      .then(() => {
+        axios.get('/api/cart')
+          .then((cart) => {
+            dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data });
+            dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.' } });
+            // browserHistory.push('/cart');
+          })
+          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
+      })
+      .catch((err) => {
+        dispatch({ type: 'UPDATE_CART_ERROR', payload: err });
+        // browserHistory.push('/cart');
+      });
+  };
+}
 
-export { getCart, addToCart, removeItem };
+export { getCart, addToCart, removeItem, updateCartItem };

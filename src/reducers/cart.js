@@ -34,6 +34,12 @@ export default function reducer(state = {
     case 'REMOVE_CART_ERROR': {
       return { ...state, message: action.payload.message, isError: true };
     }
+    case 'UPDATE_CART_SUCCESS': {
+      return { ...state, message: action.payload.message, isError: false };
+    }
+    case 'UPDATE_CART_ERROR': {
+      return { ...state, message: action.payload.message, isError: true };
+    }
     default: // do nothing
   }
 
