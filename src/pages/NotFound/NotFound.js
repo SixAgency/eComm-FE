@@ -6,7 +6,6 @@ import s from './NotFound.css';
 class NotFound extends React.Component {
 
   render() {
-    console.log('ajung aici');
     return (
       <section className={s.container}>
         <section className={s.cwrpr}>
