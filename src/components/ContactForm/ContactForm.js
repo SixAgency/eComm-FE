@@ -7,6 +7,8 @@ class ContactForm extends React.Component {
 
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
+    isSent: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -20,6 +22,8 @@ class ContactForm extends React.Component {
       emailError: 'hide',
       showErrorMessage: 'hide',
       hasErrors: false,
+      borderColor: '',
+      errorMessage: '',
     };
   }
 
@@ -48,16 +52,22 @@ class ContactForm extends React.Component {
         emailError: 'show',
         showErrorMessage: 'show',
         hasErrors: true,
+        borderColor: 'borderYellow',
+        errorMessage: 'One or more fields have an error. Please check and try again.',
       }, err);
     } else if (this.state.name === '') {
       this.setState({
-        nameErrorClass: 'show',
+        nameError: 'show',
         hasErrors: true,
+        borderColor: 'borderYellow',
+        errorMessage: 'One or more fields have an error. Please check and try again.',
       }, err);
     } else if (this.state.email === '') {
       this.setState({
         emailError: 'show',
         hasErrors: true,
+        borderColor: 'borderYellow',
+        errorMessage: 'One or more fields have an error. Please check and try again.',
       }, err);
     } else {
       this.setState({
@@ -80,6 +90,14 @@ class ContactForm extends React.Component {
   }
 
   render() {
+    const showErrorMessage =
+      this.state.hasErrors || this.props.message !== '' ? 'show' : 'hide';
+    let backendMessageClass;
+    if (this.props.isSent) {
+      backendMessageClass = this.props.message !== '' ? 'borderGreen' : '';
+    } else {
+      backendMessageClass = this.props.message !== '' ? 'borderYellow' : '';
+    }
     return (
       <div>
         <form className={s.cform} onSubmit={this.onSubmit}>
@@ -164,9 +182,13 @@ class ContactForm extends React.Component {
           </div>
         </form>
         <div
-          className={cx(s.errorMessage, s[this.state.showErrorMessage])}
+          className={cx(
+            s.errorMessage,
+            s[showErrorMessage],
+            s[this.state.borderColor || backendMessageClass],
+          )}
         >
-          One or more fields have an error. Please check and try again.
+          {this.state.errorMessage + this.props.message }
         </div>
       </div>
     );

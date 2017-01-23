@@ -5,6 +5,13 @@ import Contact from './Contact';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import sendContact from '../../actions/contact';
 
+const mapStateToProps = ((state) => (
+  {
+    isSent: state.contact.isSent,
+    message: state.contact.message,
+  }
+));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -19,6 +26,8 @@ class ContactWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     sendContact: PropTypes.func.isRequired,
+    isSent: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired,
   }
 
   componentWillMount = () => {
@@ -43,10 +52,14 @@ class ContactWrapper extends React.Component {
   render() {
     console.log('client');
     return (
-      <Contact sendContact={this.props.sendContact} />
+      <Contact
+        sendContact={this.props.sendContact}
+        isSent={this.props.isSent}
+        message={this.props.message}
+      />
     );
   }
 }
 
-export default connect(null, mapDispatchToProps)(ContactWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactWrapper);
 

@@ -5,6 +5,7 @@ import address from './address';
 import catalog from './catalog';
 import cart from './cart';
 import page from './page';
+import contact from './contact';
 
 export default combineReducers({
   user,
@@ -12,5 +13,6 @@ export default combineReducers({
   catalog,
   cart,
   page,
+  contact,
 });
 
