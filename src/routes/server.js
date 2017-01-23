@@ -58,7 +58,7 @@ function handleRoutes(req, resp, next, params) {
     const headerProps = {
       headerClass: data.header,
       activeSlug: data.active,
-    }
+    };
     data.component = (
       <Layout headerProps={headerProps} cartItems={cart}>
         {data.content}
@@ -88,7 +88,7 @@ siteRoutes.get('/', (req, resp, next) => {
     const gridItems = {
       isLoaded: true,
       products: data.products,
-    }
+    };
     const params = {
       title: 'Shop',
       description: '',
@@ -120,7 +120,7 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       };
       const prodParams = {
         slug: req.params.slug,
-      }
+      };
       const params = {
         title: product.name || 'Shop',
         description: '',
@@ -313,7 +313,7 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
               isLoaded: true,
               isEmpty: data.ship_address === null,
               address: data.ship_address || {},
-            }
+            };
             params.content = <ShippingWrapper {...user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
@@ -351,7 +351,7 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
               isLoaded: true,
               isEmpty: data.bill_address === null,
               address: data.bill_address || {},
-            }
+            };
             params.content = <BillingWrapper {...user} billing={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
@@ -406,6 +406,19 @@ siteRoutes.get('/contact', (req, resp, next) => {
     header: 'colored',
     active: '/contact',
     content: <ContactWrapper />,
+  };
+  handleRoutes(req, resp, next, params);
+});
+
+// 404 Page
+siteRoutes.get('*', (req, resp, next) => {
+  const params = {
+    title: 'Page not found',
+    description: '',
+    header: 'default',
+    active: '/',
+    status: '404',
+    content: <NotFoundWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });

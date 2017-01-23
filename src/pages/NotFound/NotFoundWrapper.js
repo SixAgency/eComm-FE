@@ -20,7 +20,7 @@ class NotFoundWrapper extends React.Component {
 
   componentWillMount = () => {
     const props = {
-      headerClass: 'colored',
+      headerClass: 'black',
       activeSlug: '/',
     };
     this.props.setHeaderProps(props);
