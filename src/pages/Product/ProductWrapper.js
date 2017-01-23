@@ -40,7 +40,6 @@ class ProductWrapper extends React.Component {
   }
 
   componentWillMount = () => {
-    console.log('asdasd');
     const props = {
       headerClass: 'colored',
       activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
