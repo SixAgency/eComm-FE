@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
           <div className={s.dashboard}>
             <h1 className={s.title}>YOUR ACCOUNT</h1>
             <p className={s.intro}>
-             Hello <b>{this.props.userName}</b> (not user?
+             Hello <b>{this.props.userName}</b> (not {this.props.userName}?
              <a href="/" className={s.actions} onClick={this.props.onLogout}> Sign out</a>).
              From your account dashboard you can view your recent orders, manage your
              shipping and billing addresses and

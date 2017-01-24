@@ -20,14 +20,14 @@ class Account extends React.Component {
     onRegister: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-  }
+  };
 
   getChildren = (state) => {
     if (state === 'bregister') {
       return <RegForm onRegister={this.props.onRegister} />;
     }
     return <LoginForm onLogin={this.props.onLogin} />;
-  }
+  };
 
   render() {
     const contentTabs = [
@@ -53,7 +53,7 @@ class Account extends React.Component {
         />
         <ContentWrapper
           tabs={contentTabs}
-          tabsClass={'show'}
+          tabsClass="account"
           clickTab={this.props.clickTab}
           isActive={this.props.content}
         >

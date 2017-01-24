@@ -27,6 +27,10 @@ class Cart extends Component {
 
   render() {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;
+    let cartText = 'items';
+    if (cart.total_quantity === 1) {
+      cartText = 'item';
+    }
 
     if (!isLoaded) {
       return null;
@@ -57,7 +61,7 @@ class Cart extends Component {
                 />
                 <Title text={'Your Cart'} classname={'title'} />
                 <h3 className={s.cartsubtitle}>
-                  {cart.total_quantity} items in your cart
+                  {cart.total_quantity} {cartText} in your cart
                 </h3>
                 <ProductsTable
                   items={cart.line_items}

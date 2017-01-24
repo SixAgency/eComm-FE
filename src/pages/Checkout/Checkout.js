@@ -4,8 +4,10 @@ import s from './Checkout.css';
 // Components
 import Subnav from '../../components/Subnav';
 import CtaInfo from '../../components/CartCta/CtaInfo';
+import ErrorDisplay from '../../components/ErrorDisplay';
 import ContentWrapper from '../../components/ContentWrapper';
 import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
+import LoginInput from '../../components/LoginInput/LoginInput';
 // Forms and inputs
 import BillingForm from '../../components/Forms/BillingForm';
 import ShippingAddress from '../../components/Forms/CheckoutSteps/ShippingAddress';
@@ -18,11 +20,16 @@ class Checkout extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     handleGiftcard: PropTypes.func.isRequired,
     couponClass: PropTypes.string.isRequired,
+    handleLogin: PropTypes.func.isRequired,
+    loginClass: PropTypes.string.isRequired,
     clickTab: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
   }
 
   getChildren = () => {
@@ -42,6 +49,13 @@ class Checkout extends React.Component {
         selectClass={'checkoutselect'}
       />
     );
+  }
+
+  handleError = (flag, data) => {
+    if (flag === true) {
+      return data;
+    }
+    return '';
   }
 
   render() {
@@ -71,10 +85,33 @@ class Checkout extends React.Component {
         id: 'review',
       },
     ];
+    let loginInput = (
+      <div className={s.loginwrpr}>
+        <LoginInput
+          onLogin={this.props.onLogin}
+          toggleLogin={this.props.handleLogin}
+          infoClass={this.props.loginClass}
+          handleError={this.handleError}
+        />
+      </div>
+    );
+    if (this.props.loggedIn) {
+      loginInput = '';
+    }
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
-        <CtaInfo toggleGiftcard={this.props.handleGiftcard} infoClass={'infocheckout'} />
+        <ErrorDisplay
+          message={this.props.message}
+          isError={this.props.isError}
+          loggedIn={this.props.loggedIn}
+        />
+        <CtaInfo
+          loggedIn={this.props.loggedIn}
+          toggleGiftcard={this.props.handleGiftcard}
+          toggleLogin={this.props.handleLogin}
+          infoClass={'infocheckout'}
+        />
         <section>
           <div className={s.giftCardwrpr}>
             <GiftCardInput
@@ -82,6 +119,7 @@ class Checkout extends React.Component {
               infoClass={this.props.couponClass}
             />
           </div>
+          {loginInput}
           <ContentWrapper
             tabs={contentTabs}
             tabsClass={'show'}

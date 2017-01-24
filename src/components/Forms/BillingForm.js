@@ -28,6 +28,8 @@ class BillingForm extends React.Component {
       town: '',
       state: '',
       zip: '',
+      createaccount: '0',
+      password: '',
     };
   }
 
@@ -43,12 +45,31 @@ class BillingForm extends React.Component {
       case 'town' : this.setState({ town: e.target.value }); break;
       case 'state' : this.setState({ state: e.target.value }); break;
       case 'zip' : this.setState({ zip: e.target.value }); break;
+      case 'createaccount' : this.setState({ createaccount: e.target.checked ? '1' : '0' }); break;
+      case 'password' : this.setState({ password: e.target.value }); break;
       default: // do nothing
     }
   }
 
   onSubmit = (e) => {
     e.preventDefault();
+  }
+
+  getRegisterClass = () => {
+    if (this.state.createaccount === '1') {
+      return '';
+    }
+    return 'disabled';
+  }
+
+  getButtonDisabled = () => {
+    if (this.state.createaccount === '1') {
+      if (this.state.password) {
+        return '';
+      }
+      return 'disabled';
+    }
+    return '';
   }
 
   render() {
@@ -140,7 +161,7 @@ class BillingForm extends React.Component {
             >
               Country <abbr>*</abbr>
             </label>
-            <strong>United States (US)</strong>
+            <strong className={s.country}>United States (US)</strong>
             <input
               id="country"
               type="hidden"
@@ -223,11 +244,47 @@ class BillingForm extends React.Component {
               onChange={this.onFieldsUpdate}
             />
           </div>
+          <div className={cx(s.inputwrapper, s.full)}>
+            <input
+              id="createaccount"
+              type="checkbox"
+              name="createaccount"
+              className={s.inputcheck}
+              onChange={this.onFieldsUpdate}
+            />
+            <label
+              className={s.label}
+              htmlFor="createaccount"
+            >
+              Create an account?
+            </label>
+          </div>
+          <div className={cx(s.submitregister, s[this.getRegisterClass()])}>
+            <p className={s.message}>
+              Create an account by entering the information below. If you are a returning customer
+              please login at the top of the page.
+            </p>
+            <div className={s.inputwrapper}>
+              <label
+                className={s.label}
+                htmlFor="password"
+              >
+                Account Password <abbr>*</abbr>
+              </label>
+              <input
+                id="password"
+                type="password"
+                className={s.input}
+                onChange={this.onFieldsUpdate}
+              />
+            </div>
+          </div>
           <div className={s.buttonwrapper}>
             <input
               className={s.submit}
               type="submit"
               value={this.props.buttonText}
+              disabled={this.getButtonDisabled()}
             />
           </div>
         </form>

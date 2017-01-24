@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './CartForm.css';
@@ -92,15 +93,32 @@ class CartForm extends React.Component {
             </table>
           </div>
           <div className={s.paypal}>
-              &nbsp;
+            &nbsp;
           </div>
+          <p className={s.message}>
+            Please note that you will be re-directed to the Paypal website to complete
+            your purchase.
+          </p>
           <p className={s.gotocheckout}>
-            <input
-              type="submit"
-              className={s.checkoutbtn}
-              name="proceed"
-              value="Proceed to Checkout"
-            />
+            <Link to="/checkout">
+              <input
+                type="submit"
+                className={s.checkoutbtn}
+                name="proceed"
+                value="Proceed to Checkout"
+              />
+            </Link>
+          </p>
+          <p className={s.message}>
+            Complete your purchase with your Krissorbie.com account or as a guest.
+          </p>
+          <p className={s.message}>
+            To set up an account, please click on the link below
+          </p>
+          <p className={s.login}>
+            <Link to="/my-account">
+              Login / Register
+            </Link>
           </p>
         </div>
       </div>

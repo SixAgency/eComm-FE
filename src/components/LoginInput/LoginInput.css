@@ -1,0 +1,155 @@
+.formcontent {
+	.message {
+    color: #222;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-size: 15px;
+    line-height: 25px;
+    padding: 0 150px 30px;
+    text-align: center;
+	}
+  form {
+    background-color: rgba(235, 235, 235, 0.75);
+    font-family: Georgia, serif;
+    padding: 60px 0;
+    .inputwrapper {
+      margin: 0 auto;
+      overflow: hidden;
+      max-width: 580px;
+      label {
+        color: #000;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .col {
+        width: 48%;
+        label {
+          line-height: 12px;
+        }
+        input {
+          box-sizing: border-box;
+          background-color: #fff;
+          border: 1px solid #cfcfcf;
+          font-family: Georgia, serif;
+          font-size: 12px;
+          line-height: 42px;
+          font-weight: 500;
+          padding: 0 12px;
+          margin: 10px auto;
+          width: 100%;
+        }
+      }
+      .left {
+        float: left;
+      }
+      .right {
+        float: right;
+        width: 48%;
+      }
+      .row {
+        float: left;
+        text-align: center;
+        width: 100%;
+        label {
+          display: inline-block;
+          line-height: 42px;
+        }
+        input[type="checkbox"] {
+          display: inline-block;
+          background-color: #fff;
+          border: 1px solid #cfcfcf;
+          outline: none;
+          line-height: 42px;
+          position: relative;
+          top: 2px;
+        }
+        .submit {
+          cursor: pointer;
+          display: block;
+          background-color: #29cbc8;
+          border: none;
+          outline: none;
+          color: #000;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-size: 11px;
+          font-weight: 800;
+          line-height: 61px;
+          text-transform: uppercase;
+          padding: 0 60px;
+          margin: 0 auto;
+          height: 61px;
+          transition: all 0.2s linear;
+          -webkit-transition: all 0.2s linear;
+          -moz-transition: all 0.2s linear;
+          -ms-transition: all 0.2s linear;
+          -o-transition: all 0.2s linear;
+        }
+        .submit:hover {
+          background-color: #333;
+          color: #29cbc8;
+          transition: all 0.2s linear;
+          -webkit-transition: all 0.2s linear;
+          -moz-transition: all 0.2s linear;
+          -ms-transition: all 0.2s linear;
+          -o-transition: all 0.2s linear;
+        }
+      }
+      .lostpass {
+        display: block;
+        float: left;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        a {
+          border-bottom: 1px dotted #565656;
+          color: #565656;
+          text-decoration: none;
+          padding-bottom: 1px;
+          transition: color 0.2s ease-out;
+          -webkit-transition: color 0.2s ease-out;
+          -moz-transition: color 0.2s ease-out;
+          -ms-transition: color 0.2s ease-out;
+          -o-transition: color 0.2s ease-out;
+        }
+        a:hover {
+          color: #222;
+          transition: color 0.2s ease-out;
+          -webkit-transition: color 0.2s ease-out;
+          -moz-transition: color 0.2s ease-out;
+          -ms-transition: color 0.2s ease-out;
+          -o-transition: color 0.2s ease-out;
+        }
+      }
+    }
+  }
+}
+.show {
+  margin-bottom: 50px;
+  max-height: 1200px;
+  overflow: hidden;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+}
+.hide {
+  overflow: hidden;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
