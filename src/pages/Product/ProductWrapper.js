@@ -90,7 +90,7 @@ class ProductWrapper extends React.Component {
     return (
       <Product
         product={this.props.product}
-        addToCart={this.props.addToCart}
+        onAddToCart={this.props.addToCart}
       />
     );
   }

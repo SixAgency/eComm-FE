@@ -45,6 +45,13 @@ class ProductRow extends React.Component {
           <Link to={slug}>
             {item.variant.name}
           </Link>
+          {item.variant.option_values &&
+            <p className={s.productvariant}>
+              {item.variant.option_values.map((opt, index) => (
+                <span key={`variant-${index}`}>{opt.option_type_presentation}: <strong>{opt.presentation}</strong> </span>
+              ))}
+            </p>
+          }
         </td>
         <td className={s.productprice}>
           <span className={s.priceamount}>
