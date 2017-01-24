@@ -25,6 +25,7 @@ import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
 import NotFoundWrapper from '../pages/NotFound';
+import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 // My Account
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
@@ -58,7 +59,7 @@ function handleRoutes(req, resp, next, params) {
     const headerProps = {
       headerClass: data.header,
       activeSlug: data.active,
-    }
+    };
     data.component = (
       <Layout headerProps={headerProps} cartItems={cart}>
         {data.content}
@@ -88,7 +89,7 @@ siteRoutes.get('/', (req, resp, next) => {
     const gridItems = {
       isLoaded: true,
       products: data.products,
-    }
+    };
     const params = {
       title: 'Shop',
       description: '',
@@ -120,7 +121,7 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       };
       const prodParams = {
         slug: req.params.slug,
-      }
+      };
       const params = {
         title: product.name || 'Shop',
         description: '',
@@ -313,7 +314,7 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
               isLoaded: true,
               isEmpty: data.ship_address === null,
               address: data.ship_address || {},
-            }
+            };
             params.content = <ShippingWrapper {...user} shipping={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
@@ -351,7 +352,7 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
               isLoaded: true,
               isEmpty: data.bill_address === null,
               address: data.bill_address || {},
-            }
+            };
             params.content = <BillingWrapper {...user} billing={address} />;
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
@@ -406,6 +407,18 @@ siteRoutes.get('/contact', (req, resp, next) => {
     header: 'colored',
     active: '/contact',
     content: <ContactWrapper />,
+  };
+  handleRoutes(req, resp, next, params);
+});
+
+// Error Page
+siteRoutes.get('/error', (req, resp, next) => {
+  const params = {
+    title: 'Error',
+    description: '',
+    header: 'default',
+    active: '',
+    content: <ErrorPageWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });
