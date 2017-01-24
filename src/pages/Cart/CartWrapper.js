@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart, removeItem, updateCartItem } from '../../actions/order';
+import { getCart, removeItem, updateCart } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
@@ -22,7 +22,7 @@ const mapDispatchToProps = ((dispatch) => (
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    updateCartItem: (item) => dispatch(updateCartItem(item)),
+    updateCart: (cart) => dispatch(updateCart(cart)),
   }
 ));
 class CartWrapper extends Component {
@@ -36,7 +36,7 @@ class CartWrapper extends Component {
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
-    updateCartItem: PropTypes.func.isRequired,
+    updateCart: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -102,8 +102,22 @@ class CartWrapper extends Component {
   }
 
   onUpdateCart = () => {
-    const { id, quantity } = this.props.cartItems.cart.line_items[0];
-    this.props.updateCartItem({ id, quantity });
+    const { cart } = this.props.cartItems;
+    const { line_items } = cart;
+    const items = {};
+    line_items.forEach((item, index) => {
+      items[index] = {
+        id: item.id,
+        quantity: item.quantity,
+      };
+    });
+    const data = {
+      id: cart.id,
+      order: {
+        line_items: items,
+      },
+    };
+    this.props.updateCart(data);
   }
 
   render() {

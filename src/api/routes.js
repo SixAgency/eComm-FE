@@ -1,7 +1,7 @@
 import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
-import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCartItem } from './orders';
+import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
 import { getAddresses, createAddress } from './addresses';
 
 const apiRoutes = express.Router();
@@ -39,9 +39,14 @@ apiRoutes.get('/product/:slug', (req, resp) => {
 // ORDER & CART ROUTES
 
 // Get cart
-apiRoutes.get('/cart', (req, resp) => {
-  getCart(req).then((data) => (resp.json(data)));
-});
+apiRoutes
+  .get('/cart', (req, resp) => {
+    getCart(req).then((data) => (resp.json(data)));
+  })
+  .put('/cart', (req, resp) => {
+    updateCart(req).then((data) => (resp.json(data)));
+  });
+
 // Get Order Details
 apiRoutes.get('/order/:id', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
@@ -66,12 +71,6 @@ apiRoutes.post('/createorder', (req, resp) => {
   });
 });
 
-// Update Item in Cart
-apiRoutes.post('/updatecartitem', (req, resp) => {
-  updateCartItem(req).then((data) => {
-    resp.json(data);
-  });
-});
 
 // ADDRESS ROUTES
 

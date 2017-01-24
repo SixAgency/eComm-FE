@@ -9,7 +9,7 @@ class CartWrapper extends Component {
     subQuantity: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    updateCartItem: PropTypes.func.isRequired,
+    updateCart: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
   }
@@ -23,7 +23,7 @@ class CartWrapper extends Component {
     removeItem: () => (true),
     addQuantity: () => (true),
     subQuantity: () => (true),
-    updateCartItem: () => (true),
+    updateCart: () => (true),
     isError: false,
     message: '',
   }
@@ -58,7 +58,7 @@ class CartWrapper extends Component {
         handleGiftCard={this.handleGiftCard}
         message={this.props.message}
         isError={this.props.isError}
-        updateCartItem={this.props.updateCartItem}
+        updateCart={this.props.updateCart}
       />
     );
   }

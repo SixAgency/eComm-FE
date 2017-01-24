@@ -45,23 +45,16 @@ function removeItem(data) {
   };
 }
 
-function updateCartItem(data) {
+function updateCart(data) {
   return (dispatch) => {
-    axios.post('/api/updatecartitem', { id: data.id, quantity: data.quantity })
-      .then(() => {
-        axios.get('/api/cart')
-          .then((cart) => {
-            dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data });
-            dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.' } });
-            // browserHistory.push('/cart');
-          })
-          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
+    axios.put('/api/cart', { data })
+      .then((resp) => {
+        dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.', cart: resp.data } });
       })
       .catch((err) => {
         dispatch({ type: 'UPDATE_CART_ERROR', payload: err });
-        // browserHistory.push('/cart');
       });
   };
 }
 
-export { getCart, addToCart, removeItem, updateCartItem };
+export { getCart, addToCart, removeItem, updateCart };
