@@ -1,31 +1,30 @@
 import { apiFetch } from '../core/fetch';
-import { parseError, parseResponse } from './handlers';
+import { setError, checkResponse, setAddressesResponse, setEditCreateAddressResponse } from './helpers/handlers';
+import { faketoken } from '../config';
+import conslog from '../utils/dev';
 
 const ADDRESSES = '/api/v1/addresses';
-const token = 'a2169dfff47ef681825af95b2a49772291777e01ea6b8985';
 
 // Get Addresses
 function getAddresses(request) {
-  const slug = request.params.slug || '';
-  const response = apiFetch(`${ADDRESSES}/${slug}`,
+  return apiFetch(ADDRESSES,
     {
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || token,
+        'X-Spree-Token': request.session.token || faketoken,
       },
     })
-  .then((data) => parseResponse(data))
-  .then((data) => (data))
-  .catch((err) => parseError(err));
-  return response;
+  .then((response) => checkResponse(response))
+  .then((data) => setAddressesResponse(data))
+  .catch((err) => setError(err));
 }
 
 // Create Address
 function createAddress(request) {
-  // TODO - ADD DATA VALIDATION
+  const type = request.body.address_type;
   const address = {
     address: request.body.address,
-    default_address_types: request.body.address_type,
+    default_address_types: [type],
   };
   return apiFetch(ADDRESSES,
     {
@@ -33,12 +32,33 @@ function createAddress(request) {
       body: JSON.stringify(address),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || token,
+        'X-Spree-Token': request.session.token || faketoken,
       },
     })
-  .then((resp) => parseResponse(resp))
-  .then((resp) => (resp))
-  .catch((err) => parseError(err));
+  .then((response) => checkResponse(response))
+  .then((data) => setEditCreateAddressResponse(data, type))
+  .catch((err) => setError(err));
 }
 
-export { getAddresses, createAddress };
+// Edit Address
+function updateAddress(request) {
+  const type = request.body.address_type;
+  const id = request.body.address.id;
+  const address = {
+    address: request.body.address,
+  };
+  return apiFetch(`${ADDRESSES}/${id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(address),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+    .then((response) => checkResponse(response))
+    .then((data) => setEditCreateAddressResponse(data, type))
+    .catch((err) => setError(err));
+}
+
+export { getAddresses, createAddress, updateAddress };

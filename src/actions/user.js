@@ -21,7 +21,6 @@ function checkLogin() {
   return (dispatch) => {
     axios.get('/api/check')
       .then((response) => checkResponse(response.data, () => {
-        console.log('callback');
         dispatch(setUser(response.data.user));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -57,6 +56,11 @@ function onLogout() {
   };
 }
 
+/**
+ * Login - Login with an existing account
+ * @param data
+ * @returns {function(*=)}
+ */
 function onLogin(data) {
   return (dispatch) => {
     axios.post('/api/login', data)
@@ -81,6 +85,11 @@ function onLogin(data) {
   };
 }
 
+/**
+ * Register - Create a user account
+ * @param data
+ * @returns {function(*=)}
+ */
 function onRegister(data) {
   return (dispatch) => {
     axios.post('/api/register', data)

@@ -1,6 +1,17 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import { checkResponse, forwardTo } from './handler';
+import { setMessage } from './page';
 
+/**
+ * Reset the addresses to initial state
+ * @returns {
+ *  { type: string,
+ *  payload: {
+ *    billing: {isEmpty: boolean, address: {}},
+ *    shipping: {isEmpty: boolean, address: {}}}
+ *  }
+ * }
+ */
 function resetAddresses() {
   const data = {
     billing: {
@@ -15,6 +26,12 @@ function resetAddresses() {
   return { type: 'RESET_ADDRESSES', payload: data };
 }
 
+/**
+ * Set billing and shipping addresses state to the given data
+ * @param billing
+ * @param shipping
+ * @returns {{type: string, payload: {billing: {isLoaded: boolean}, shipping: {isLoaded: boolean}}}}
+ */
 function setAddresses(billing, shipping) {
   const addresses = {
     billing: { ...billing, isLoaded: true },
@@ -23,35 +40,99 @@ function setAddresses(billing, shipping) {
   return { type: 'SET_ADDRESSES', payload: addresses };
 }
 
+/**
+ * Set billing or shipping address state based on type given
+ * @param address
+ * @param type
+ * @returns {{type: *, payload: {isLoaded: boolean}}}
+ */
+function setAddress(address, type) {
+  const data = { ...address, isLoaded: true };
+  return { type, payload: data };
+}
+
+/**
+ * Get user billing & shipping address
+ * @returns {function(*=)}
+ */
 function getAddress() {
   return (dispatch) => {
     axios.get('/api/addresses')
-      .then((resp) => {
-        dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: resp.data });
-      })
-      .catch((err) => dispatch({ type: 'GET_ADDRESS_ERROR', payload: err }));
-  };
-}
-
-function addAddress(data) {
-  return (dispatch) => {
-    axios.post('/api/addaddress', data)
-      .then((resp) => {
-        if (data.address_type[0] === 'bill_address') {
-          dispatch({ type: 'BILLING_ADD_SUCCESS', payload: resp.data });
-        } else {
-          dispatch({ type: 'SHIPPING_ADD_SUCCESS', payload: resp.data });
-        }
-        browserHistory.push('/my-account/dashboard');
-      })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setAddresses(response.data.billing, response.data.shipping));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
       .catch((err) => {
-        if (data.address_type[0] === 'bill_address') {
-          dispatch({ type: 'BILLING_ADD_ERROR', payload: err });
-        } else {
-          dispatch({ type: 'SHIPPING_ADD_ERROR', payload: err });
-        }
+        console.error('Error: ', err); // eslint-disable-line no-console
       });
   };
 }
 
-export { getAddress, addAddress, resetAddresses, setAddresses };
+/**
+ * Edit an existing address
+ * @param data
+ * @returns {function(*=)}
+ */
+function editAddress(data) {
+  return (dispatch) => {
+    axios.put('/api/addresses', data)
+      .then((response) => checkResponse(response.data, () => {
+        if (data.address_type === 'bill_address') {
+          dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+        } else {
+          dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
+        }
+        forwardTo('my-account/dashboard');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
+  };
+}
+
+/**
+ * Create an address
+ * @param data
+ * @returns {function(*=)}
+ */
+function createAddress(data) {
+  return (dispatch) => {
+    axios.post('/api/addresses', data)
+      .then((response) => checkResponse(response.data, () => {
+        if (data.address_type === 'bill_address') {
+          dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+        } else {
+          dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
+        }
+        forwardTo('my-account/dashboard');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
+  };
+}
+
+/**
+ * Edit & Create address entry
+ * data.address.id will decide where to go - edit/create
+ * @param data
+ * @returns {function(*=)}
+ */
+function createOrEditAddress(data) {
+  console.log(data);
+  if (data.address.id && (data.address.id !== 0)) {
+    console.log('here');
+    return editAddress(data);
+  }
+  const address = data;
+  delete address.id;
+  console.log('here2');
+  return createAddress(address);
+}
+
+export { getAddress, resetAddresses, setAddresses, createOrEditAddress };

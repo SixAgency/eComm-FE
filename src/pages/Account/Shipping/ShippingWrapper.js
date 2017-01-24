@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Shipping from './Shipping';
 // Action
 import { onLogout } from '../../../actions/user';
-import { getAddress, addAddress } from '../../../actions/address';
+import { getAddress, createOrEditAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
@@ -19,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     onLogout: () => dispatch(onLogout()),
-    addAddress: (data) => dispatch(addAddress(data)),
+    createOrEditAddress: (data) => dispatch(createOrEditAddress(data)),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -29,7 +29,7 @@ class ShippingWrapper extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     shipping: PropTypes.object.isRequired,
-    addAddress: PropTypes.func.isRequired,
+    createOrEditAddress: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
@@ -78,13 +78,14 @@ class ShippingWrapper extends React.Component {
     console.log(address);
     const data = {
       address,
-      address_type: ['ship_address'],
+      address_type: 'ship_address',
     }
-    this.props.addAddress(data);
+    this.props.createOrEditAddress(data);
   }
 
   render() {
     const address = this.props.shipping.address || {
+      id: 0,
       firstname: '',
       lastname: '',
       company: '',

@@ -1,5 +1,4 @@
 import Promise from 'bluebird';
-import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -19,12 +18,20 @@ function checkResponse(data) {
       error.status = 401;
       reject(error);
     }
-    if (data.status === 422 && data.error) {
-      resp = {
-        isError: true,
-        message: data.error,
-        status: 200,
-      };
+    if (data.status === 422) {
+      if (data.error) {
+        resp = {
+          isError: true,
+          message: data.error,
+          status: 200,
+        };
+      } else {
+        resp = {
+          isError: true,
+          message: 'The data entered is invalid. Please fix and try again.',
+          status: 200,
+        };
+      }
       resolve(resp);
     }
     try {
@@ -154,4 +161,58 @@ function setUserResponse(request) {
   });
 }
 
-export { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse };
+function setAddressesResponse(data) {
+  let resp;
+  if (!data.isError) {
+    resp = {
+      billing: setAddressResponse(data.bill_address),
+      shipping: setAddressResponse(data.ship_address),
+    };
+  } else {
+    resp = {
+      isError: true,
+      messages: [data.message],
+      billing: {
+        isEmpty: true,
+        address: {},
+      },
+      shipping: {
+        isEmpty: true,
+        address: {},
+      },
+    };
+  }
+  return resp;
+}
+
+function setEditCreateAddressResponse(data, type) {
+  let resp;
+  if (!data.isError && !data.errors) {
+    if (type === 'bill_address') {
+      resp = {
+        billing: setAddressResponse(data.address),
+      };
+    } else {
+      resp = {
+        shipping: setAddressResponse(data.address),
+      };
+    }
+  } else {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+    };
+  }
+  return resp;
+}
+
+export {
+  checkResponse,
+  setError,
+  setAuthResponse,
+  setLogoutResponse,
+  setUserResponse,
+  setAddressesResponse,
+  setEditCreateAddressResponse,
+};

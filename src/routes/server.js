@@ -214,7 +214,6 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
   // @todo - check if isError and handle it
   checkLogin(req)
     .then((data) => {
-      conslog('DATA', data);
       if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {

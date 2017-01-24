@@ -3,7 +3,7 @@ import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
-import { getAddresses, createAddress } from './addresses';
+import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
 // Helpers
 import { validateAuth } from './helpers/validators';
@@ -86,18 +86,18 @@ apiRoutes.post('/createorder', (req, resp) => {
   });
 });
 
-
-// ADDRESS ROUTES
-
-// Get User Addresses
-apiRoutes.get('/addresses', (req, resp) => {
-  getAddresses(req).then((data) => (resp.json(data)));
-});
-
-// Add User Addresses
-apiRoutes.post('/addaddress', (req, resp) => {
-  createAddress(req).then((data) => (resp.json(data)));
-});
+// ADDRESS ROUTES - GET, CREATE and UPDATE
+/* @TODO - add validation */
+apiRoutes
+  .get('/addresses', (req, resp) => {
+    getAddresses(req).then((data) => (resp.json(data)));
+  })
+  .post('/addresses', (req, resp) => {
+    createAddress(req).then((data) => (resp.json(data)));
+  })
+  .put('/addresses', (req, resp) => {
+    updateAddress(req).then((data) => (resp.json(data)));
+  });
 
 // Contact
 apiRoutes.post('/sendcontact', (req, resp) => {
