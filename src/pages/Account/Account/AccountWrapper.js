@@ -62,16 +62,16 @@ class AccountWrapper extends React.Component {
     }, 500);
   };
 
-  componentWillUnmount = () => {
-    this.props.resetMessages();
-    this.props.toggleLoader(true);
-  };
-
-  compomentWillReceiveProps = (nextProps) => {
-    console.log('here');
+  componentWillReceiveProps = (nextProps) => {
+    console.log('next', nextProps);
     if (nextProps.loggedIn) {
       browserHistory.push('/my-account/dashboard');
     }
+  };
+
+  componentWillUnmount = () => {
+    this.props.resetMessages();
+    this.props.toggleLoader(true);
   };
 
   clickTab = (event) => {
