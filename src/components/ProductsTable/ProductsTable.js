@@ -7,8 +7,8 @@ class ProductsTable extends React.Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     removeItem: PropTypes.func.isRequired,
-    addQuantity: PropTypes.func.isRequired,
-    subQuantity: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    cartItems: PropTypes.object.isRequired,
   }
 
   render() {
@@ -45,9 +45,9 @@ class ProductsTable extends React.Component {
               <ProductRow
                 item={item}
                 key={index}
-                subQuantity={this.props.subQuantity}
-                addQuantity={this.props.addQuantity}
                 removeItem={this.props.removeItem}
+                updateQuantity={this.props.updateQuantity}
+                cartItems={this.props.cartItems}
               />
               ),
             )}

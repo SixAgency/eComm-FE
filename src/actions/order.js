@@ -57,4 +57,10 @@ function updateCart(data) {
   };
 }
 
-export { getCart, addToCart, removeItem, updateCart };
+function updateQuantity(data) {
+  return (dispatch) => {
+    dispatch({ type: 'UPDATE_QTY_SUCCES', payload: data });
+  };
+}
+
+export { getCart, addToCart, removeItem, updateCart, updateQuantity };

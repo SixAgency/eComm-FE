@@ -16,14 +16,13 @@ class Cart extends Component {
     onLogout: PropTypes.func.isRequired,
     handleGiftCard: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
-    addQuantity: PropTypes.func.isRequired,
-    subQuantity: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     couponClass: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   render() {
@@ -63,8 +62,8 @@ class Cart extends Component {
                 <ProductsTable
                   items={cart.line_items}
                   removeItem={this.props.removeItem}
-                  addQuantity={this.props.addQuantity}
-                  subQuantity={this.props.subQuantity}
+                  updateQuantity={this.props.updateQuantity}
+                  cartItems={this.props.cartItems}
                 />
                 <PromoCodeInput updateCart={this.props.updateCart} />
                 <CartForm cart={cart} />

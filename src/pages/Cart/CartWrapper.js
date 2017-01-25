@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart, removeItem, updateCart } from '../../actions/order';
+import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
@@ -23,6 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     updateCart: (cart) => dispatch(updateCart(cart)),
+    updateQuantity: (cart) => dispatch(updateQuantity(cart)),
   }
 ));
 class CartWrapper extends Component {
@@ -37,6 +38,7 @@ class CartWrapper extends Component {
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -93,12 +95,9 @@ class CartWrapper extends Component {
     });
   }
 
-  addQuantity = (qty) => {
-    console.log(qty);
-  }
-
-  subQuantity = (qty) => {
-    console.log(qty);
+  updateQuantity = (updatedCartItems) => {
+    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
+    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
   }
 
   onUpdateCart = () => {
@@ -124,8 +123,7 @@ class CartWrapper extends Component {
     return (
       <Cart
         removeItem={this.props.removeItem}
-        addQuantity={this.addQuantity}
-        subQuantity={this.subQuantity}
+        updateQuantity={this.updateQuantity}
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
         couponClass={this.state.className}

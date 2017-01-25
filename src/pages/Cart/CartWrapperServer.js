@@ -12,6 +12,7 @@ class CartWrapper extends Component {
     updateCart: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   /*
@@ -24,6 +25,7 @@ class CartWrapper extends Component {
     addQuantity: () => (true),
     subQuantity: () => (true),
     updateCart: () => (true),
+    updateQuantity: () => (true),
     isError: false,
     message: '',
   }
