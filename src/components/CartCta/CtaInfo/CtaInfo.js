@@ -5,31 +5,27 @@ import s from './CtaInfo.css';
 
 class CtaInfo extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    toggleGiftcard: PropTypes.func.isRequired,
-    toggleLogin: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool,
+    toggleGiftcard: PropTypes.func,
+    toggleLogin: PropTypes.func,
     infoClass: PropTypes.string,
   }
 
   render() {
-    let login = (
-      <div className={cx(s.infowrpr, s[this.props.infoClass])}>
-        Returning customer? &nbsp;
-        <a
-          href=""
-          className={s.showlogin}
-          onClick={this.props.toggleLogin}
-        >
-          Click here to login
-        </a>
-      </div>
-    );
-    if (this.props.loggedIn) {
-      login = '';
-    }
     return (
       <div>
-        {login}
+        {!this.props.loggedIn &&
+          <div className={cx(s.infowrpr, s[this.props.infoClass])}>
+            Returning customer? &nbsp;
+            <a
+              href=""
+              className={s.showlogin}
+              onClick={this.props.toggleLogin}
+            >
+              Click here to login
+            </a>
+          </div>
+        }
         <div className={cx(s.infowrpr, s[this.props.infoClass])}>
           Do you have a gift card? &nbsp;
           <a

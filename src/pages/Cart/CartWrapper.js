@@ -4,7 +4,7 @@ import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
-import { onLogout } from '../../actions/user';
+import { onLogout, onLogin } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
   {
@@ -21,6 +21,7 @@ const mapDispatchToProps = ((dispatch) => (
     getCart: () => dispatch(getCart()),
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
+    onLogin: (data) => dispatch(onLogin(data)),
     resetMessages: () => dispatch(resetMessages()),
     updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
@@ -45,7 +46,9 @@ class CartWrapper extends Component {
     super(props);
     this.state = {
       showCouponFields: false,
-      className: 'hide',
+      couponClassName: 'hide',
+      showLoginFields: false,
+      loginClassName: 'hide',
     };
   }
 
@@ -91,7 +94,16 @@ class CartWrapper extends Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+    });
+  }
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    console.log('here');
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
     });
   }
 
@@ -126,9 +138,12 @@ class CartWrapper extends Component {
         updateQuantity={this.updateQuantity}
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
-        couponClass={this.state.className}
-        onLogout={this.props.onLogout}
         handleGiftCard={this.handleGiftCard}
+        couponClass={this.state.couponClassName}
+        handleLogin={this.handleLogin}
+        loginClass={this.state.loginClassName}
+        onLogout={this.props.onLogout}
+        onLogin={this.props.onLogin}
         message={this.props.message}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}

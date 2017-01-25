@@ -43,6 +43,7 @@ class Checkout extends React.Component {
     }
     return (
       <BillingForm
+        loggedIn={this.props.loggedIn}
         formTitle={'billing address'}
         formSubtitle={'Fill in your details'}
         buttonText={'proceed'}
@@ -85,19 +86,6 @@ class Checkout extends React.Component {
         id: 'review',
       },
     ];
-    let loginInput = (
-      <div className={s.loginwrpr}>
-        <LoginInput
-          onLogin={this.props.onLogin}
-          toggleLogin={this.props.handleLogin}
-          infoClass={this.props.loginClass}
-          handleError={this.handleError}
-        />
-      </div>
-    );
-    if (this.props.loggedIn) {
-      loginInput = '';
-    }
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
@@ -119,7 +107,16 @@ class Checkout extends React.Component {
               infoClass={this.props.couponClass}
             />
           </div>
-          {loginInput}
+          {!this.props.loggedIn &&
+            <div className={s.loginwrpr}>
+              <LoginInput
+                onLogin={this.props.onLogin}
+                toggleLogin={this.props.handleLogin}
+                infoClass={this.props.loginClass}
+                handleError={this.handleError}
+              />
+            </div>
+          }
           <ContentWrapper
             tabs={contentTabs}
             tabsClass={'show'}

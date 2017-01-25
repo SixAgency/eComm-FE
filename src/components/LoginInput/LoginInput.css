@@ -1,6 +1,6 @@
 .formcontent {
 	.message {
-    color: #222;
+    color: #222222;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: 15px;
     line-height: 25px;
@@ -16,7 +16,7 @@
       overflow: hidden;
       max-width: 580px;
       label {
-        color: #000;
+        color: #000000;
         font-size: 12px;
         font-weight: 700;
         text-transform: uppercase;
@@ -28,7 +28,7 @@
         }
         input {
           box-sizing: border-box;
-          background-color: #fff;
+          background-color: #ffffff;
           border: 1px solid #cfcfcf;
           font-family: Georgia, serif;
           font-size: 12px;
@@ -56,7 +56,7 @@
         }
         input[type="checkbox"] {
           display: inline-block;
-          background-color: #fff;
+          background-color: #ffffff;
           border: 1px solid #cfcfcf;
           outline: none;
           line-height: 42px;
@@ -69,7 +69,7 @@
           background-color: #29cbc8;
           border: none;
           outline: none;
-          color: #000;
+          color: #000000;
           font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
           font-size: 11px;
           font-weight: 800;
@@ -85,7 +85,7 @@
           -o-transition: all 0.2s linear;
         }
         .submit:hover {
-          background-color: #333;
+          background-color: #333333;
           color: #29cbc8;
           transition: all 0.2s linear;
           -webkit-transition: all 0.2s linear;
@@ -113,7 +113,7 @@
           -o-transition: color 0.2s ease-out;
         }
         a:hover {
-          color: #222;
+          color: #222222;
           transition: color 0.2s ease-out;
           -webkit-transition: color 0.2s ease-out;
           -moz-transition: color 0.2s ease-out;

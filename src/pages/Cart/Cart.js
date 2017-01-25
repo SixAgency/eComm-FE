@@ -7,6 +7,7 @@ import ProductsTable from '../../components/ProductsTable/ProductsTable';
 import PromoCodeInput from '../../components/PromoCodeInput/PromoCodeInput';
 import CartForm from '../../components/CartForm/CartForm';
 import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
+import LoginInput from '../../components/LoginInput/LoginInput';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
 import EmptyCart from '../../components/EmptyCart';
@@ -14,11 +15,14 @@ import EmptyCart from '../../components/EmptyCart';
 class Cart extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
+    handleLogin: PropTypes.func.isRequired,
     handleGiftCard: PropTypes.func.isRequired,
+    couponClass: PropTypes.string.isRequired,
+    loginClass: PropTypes.string.isRequired,
     removeItem: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    couponClass: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
@@ -27,11 +31,7 @@ class Cart extends Component {
 
   render() {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;
-    let cartText = 'items';
-    if (cart.total_quantity === 1) {
-      cartText = 'item';
-    }
-
+    const cartText = `item${cart.line_items && cart.line_items.length !== 1 ? 's' : ''}`;
     if (!isLoaded) {
       return null;
     }
@@ -47,6 +47,8 @@ class Cart extends Component {
       <div className={s.cartpage}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <CartCta
+          loggedIn={this.props.loggedIn}
+          toggleLogin={this.props.handleLogin}
           toggleGiftcard={this.props.handleGiftCard}
           message={this.props.message}
           isError={this.props.isError}
@@ -59,9 +61,19 @@ class Cart extends Component {
                   toggleGiftcard={this.props.handleGiftCard}
                   infoClass={this.props.couponClass}
                 />
+                {!this.props.loggedIn &&
+                  <div className={s.loginwrpr}>
+                    <LoginInput
+                      onLogin={this.props.onLogin}
+                      toggleLogin={this.props.handleLogin}
+                      infoClass={this.props.loginClass}
+                      handleError={this.handleError}
+                    />
+                  </div>
+                }
                 <Title text={'Your Cart'} classname={'title'} />
                 <h3 className={s.cartsubtitle}>
-                  {cart.total_quantity} {cartText} in your cart
+                  {cart.line_items ? cart.line_items.length : '0'} {cartText} in your cart
                 </h3>
                 <ProductsTable
                   items={cart.line_items}

@@ -240,7 +240,7 @@
 }
 .submit:disabled, .submit:disabled:hover {
   background: #cccccc;
-  color: #666;
+  color: #666666;
 }
 .submit:hover {
   background-color: #333333;

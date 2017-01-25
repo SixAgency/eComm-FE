@@ -6,7 +6,7 @@
     min-height: 200px;
     background: rgba(235, 235, 235, 0.75);
     .ctitle {
-      color: #222;
+      color: #222222;
       font-size: 35px;
       margin: 0;
       line-height: 38px;
@@ -141,7 +141,7 @@
       }
       .checkoutbtn:hover {
         color: #29cbc8;
-        background: #333;
+        background: #333333;
         transition: all 0.2s linear;
         -webkit-transition: all 0.2s linear;
         -moz-transition: all 0.2s linear;
@@ -150,7 +150,7 @@
       }
     }
     .login {
-      color: #222;
+      color: #222222;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       text-align: center;
       margin: 0;

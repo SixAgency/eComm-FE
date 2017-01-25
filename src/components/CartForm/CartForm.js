@@ -92,21 +92,14 @@ class CartForm extends React.Component {
               </tbody>
             </table>
           </div>
-          <div className={s.paypal}>
-            &nbsp;
-          </div>
+          <div className={s.paypal} />
           <p className={s.message}>
             Please note that you will be re-directed to the Paypal website to complete
             your purchase.
           </p>
           <p className={s.gotocheckout}>
             <Link to="/checkout">
-              <input
-                type="submit"
-                className={s.checkoutbtn}
-                name="proceed"
-                value="Proceed to Checkout"
-              />
+              <button className={s.checkoutbtn}>Proceed to Checkout</button>
             </Link>
           </p>
           <p className={s.message}>

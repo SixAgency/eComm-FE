@@ -103,7 +103,6 @@ class CheckoutWrapper extends React.Component {
 
   handleLogin = (e) => {
     e.preventDefault();
-    console.log('show login');
     this.setState({
       showLoginFields: !this.state.showLoginFields,
       loginClassName: !this.state.showLoginFields ? 'show' : 'hide',

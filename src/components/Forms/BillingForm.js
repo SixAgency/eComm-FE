@@ -7,6 +7,7 @@ import { SHIPPING_STATES } from '../../constants/AppConsts';
 class BillingForm extends React.Component {
 
   static propTypes = {
+    loggedIn: PropTypes.bool,
     formTitle: PropTypes.string,
     formSubtitle: PropTypes.string,
     showEmailPhone: PropTypes.string,
@@ -28,7 +29,7 @@ class BillingForm extends React.Component {
       town: '',
       state: '',
       zip: '',
-      createaccount: '0',
+      createaccount: false,
       password: '',
     };
   }
@@ -45,7 +46,7 @@ class BillingForm extends React.Component {
       case 'town' : this.setState({ town: e.target.value }); break;
       case 'state' : this.setState({ state: e.target.value }); break;
       case 'zip' : this.setState({ zip: e.target.value }); break;
-      case 'createaccount' : this.setState({ createaccount: e.target.checked ? '1' : '0' }); break;
+      case 'createaccount' : this.setState({ createaccount: e.target.checked ? true : false }); break;
       case 'password' : this.setState({ password: e.target.value }); break;
       default: // do nothing
     }
@@ -56,14 +57,14 @@ class BillingForm extends React.Component {
   }
 
   getRegisterClass = () => {
-    if (this.state.createaccount === '1') {
+    if (this.state.createaccount) {
       return '';
     }
     return 'disabled';
   }
 
   getButtonDisabled = () => {
-    if (this.state.createaccount === '1') {
+    if (this.state.createaccount) {
       if (this.state.password) {
         return '';
       }
@@ -244,41 +245,45 @@ class BillingForm extends React.Component {
               onChange={this.onFieldsUpdate}
             />
           </div>
-          <div className={cx(s.inputwrapper, s.full)}>
-            <input
-              id="createaccount"
-              type="checkbox"
-              name="createaccount"
-              className={s.inputcheck}
-              onChange={this.onFieldsUpdate}
-            />
-            <label
-              className={s.label}
-              htmlFor="createaccount"
-            >
-              Create an account?
-            </label>
-          </div>
-          <div className={cx(s.submitregister, s[this.getRegisterClass()])}>
-            <p className={s.message}>
-              Create an account by entering the information below. If you are a returning customer
-              please login at the top of the page.
-            </p>
-            <div className={s.inputwrapper}>
-              <label
-                className={s.label}
-                htmlFor="password"
-              >
-                Account Password <abbr>*</abbr>
-              </label>
-              <input
-                id="password"
-                type="password"
-                className={s.input}
-                onChange={this.onFieldsUpdate}
-              />
+          {!this.props.loggedIn &&
+            <div>
+              <div className={cx(s.inputwrapper, s.full)}>
+                <input
+                  id="createaccount"
+                  type="checkbox"
+                  name="createaccount"
+                  className={s.inputcheck}
+                  onChange={this.onFieldsUpdate}
+                />
+                <label
+                  className={s.label}
+                  htmlFor="createaccount"
+                >
+                  Create an account?
+                </label>
+              </div>
+              <div className={cx(s.submitregister, s[this.getRegisterClass()])}>
+                <p className={s.message}>
+                  Create an account by entering the information below. If you are a returning
+                  customer please login at the top of the page.
+                </p>
+                <div className={s.inputwrapper}>
+                  <label
+                    className={s.label}
+                    htmlFor="password"
+                  >
+                    Account Password <abbr>*</abbr>
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    className={s.input}
+                    onChange={this.onFieldsUpdate}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          }
           <div className={s.buttonwrapper}>
             <input
               className={s.submit}
