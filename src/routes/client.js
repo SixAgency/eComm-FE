@@ -10,6 +10,7 @@ import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
 import NotFoundWrapper from '../pages/NotFound';
+import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 // My Account
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
@@ -69,6 +70,7 @@ const routes = (
     <Route path="contact" component={ContactWrapper} />
     <Route path="cart" component={CartWrapper} />
     <Route path="checkout" component={CheckoutWrapper} />
+    <Route path="error" component={ErrorPageWrapper} />
     <Route path="*" component={NotFoundWrapper} />
   </Route>
 );

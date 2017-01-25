@@ -25,6 +25,7 @@ import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
 import NotFoundWrapper from '../pages/NotFound';
+import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 // My Account
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
@@ -406,6 +407,18 @@ siteRoutes.get('/contact', (req, resp, next) => {
     header: 'colored',
     active: '/contact',
     content: <ContactWrapper />,
+  };
+  handleRoutes(req, resp, next, params);
+});
+
+// Error Page
+siteRoutes.get('/error', (req, resp, next) => {
+  const params = {
+    title: 'Error',
+    description: '',
+    header: 'default',
+    active: '',
+    content: <ErrorPageWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });
