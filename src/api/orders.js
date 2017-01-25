@@ -8,17 +8,30 @@ const CART = '/api/v1/orders/current';
 
 // Create Order
 function createOrder(request) {
+  console.log('AM TRIMIS ASTA', request.session);
+  const order = {
+    order: {
+      line_items: [
+        {
+          variant_id: request.body.id,
+          quantity: request.body.quantity,
+        },
+      ],
+    },
+  };
   const response = apiFetch('/api/v1/orders',
     {
       method: 'POST',
-      body: JSON.stringify({}),
+      body: JSON.stringify(order),
       headers: {
         'Content-Type': 'application/json',
         'X-Spree-Token': request.session.token || faketoken,
       },
     })
   .then((resp) => parseResponse(resp))
-  .then((resp) => (resp))
+  .then((resp) => {
+    conslog('CREATE', resp);
+  })
   .catch((err) => parseError(err));
   return response;
 }
@@ -40,7 +53,7 @@ function getOrder(request) {
 
 // Get Cart
 function getCart(request) {
-  conslog('SESSION', request.session);
+  conslog('CART-SESSION', request.session);
   const response = apiFetch(CART, {
     headers: {
       'Content-Type': 'application/json',
@@ -55,15 +68,18 @@ function getCart(request) {
 
 // Add Item to Cart
 function addToCart(request) {
-  conslog(request.session);
+  conslog('ADD TO CART SESSION', request.session);
   const item = {
     line_item: {
       variant_id: request.body.id,
       quantity: request.body.quantity,
     },
   };
-  conslog(item);
-  const orderNumber = request.session.orderNumber;
+
+  const { orderNumber, loggedIn } = request.session;
+  if (loggedIn && !orderNumber) {
+    return createOrder(request);
+  }
   return apiFetch(`${ORDER}/${orderNumber}/line_items`,
     {
       method: 'POST',

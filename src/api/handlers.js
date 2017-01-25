@@ -1,4 +1,7 @@
+import conslog from '../utils/dev';
+
 function parseResponse(data) {
+  conslog('PARSE', data);
   let resp = {};
   if ((data.status === 404) || (data.status === 500)) {
     resp = {
@@ -28,6 +31,7 @@ function parseCart(data, req) {
     resp = { isLoaded: true, isEmpty, cart: data };
     return resp;
   }
+  session.orderNumber = null;
   resp = { isLoaded: true, isEmpty: true, cart: {} };
   return resp;
 }
@@ -54,6 +58,7 @@ function handleAuth(data, request) {
     request.session.userName = user; // eslint-disable-line no-param-reassign
     request.session.emailAddress = data.user.email; // eslint-disable-line no-param-reassign
     request.session.loggedIn = true; // eslint-disable-line no-param-reassign
+    request.session.orderNumber = null; // eslint-disable-line no-param-reassign
   } else {
     resp = {
       error: true,
@@ -61,6 +66,7 @@ function handleAuth(data, request) {
       status: 200,
     };
   }
+  conslog('USER-SESSION', request.session);
   return resp;
 }
 
