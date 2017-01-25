@@ -27,6 +27,15 @@ class Navigation extends React.Component {
     });
   }
 
+  componentDidUpdate = (prevProps) => {
+    // Reset the green line position to active navitem
+    if (this.props.activeSlug !== prevProps.activeSlug) {
+      this.setState({
+        currentStyles: this.getCurrentStyles(),
+      });
+    }
+  }
+
   onNavHover = (event) => {
     const currentStyles = {
       width: event.target.parentElement.offsetWidth,

@@ -423,4 +423,17 @@ siteRoutes.get('/error', (req, resp, next) => {
   handleRoutes(req, resp, next, params);
 });
 
+// 404 Page
+siteRoutes.get('*', (req, resp, next) => {
+  const params = {
+    title: 'Page not found',
+    description: '',
+    header: 'default',
+    active: '/',
+    status: '404',
+    content: <NotFoundWrapper />,
+  };
+  handleRoutes(req, resp, next, params);
+});
+
 export default siteRoutes;

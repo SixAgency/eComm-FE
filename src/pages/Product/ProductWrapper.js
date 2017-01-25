@@ -42,10 +42,12 @@ class ProductWrapper extends React.Component {
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/',
+      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
     };
     this.props.setHeaderProps(props);
     if (!this.props.product.isLoaded) {
+      this.props.getProduct(this.props.params.slug);
+    } else if (this.props.product.product.slug !== this.props.params.slug) {
       this.props.getProduct(this.props.params.slug);
     }
   }
@@ -53,7 +55,7 @@ class ProductWrapper extends React.Component {
   componentDidMount = () => {
     console.log('did');
     const { isLoaded } = this.props.product;
-    if (isLoaded) {
+    if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -71,6 +73,11 @@ class ProductWrapper extends React.Component {
       const currentId = this.props.product.product.id;
       const nextId = nextProps.product.product.id;
       if (isLoaded && currentId !== nextId) {
+        const props = {
+          headerClass: 'colored',
+          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
+        };
+        this.props.setHeaderProps(props);
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 250);
@@ -90,7 +97,7 @@ class ProductWrapper extends React.Component {
     return (
       <Product
         product={this.props.product}
-        addToCart={this.props.addToCart}
+        onAddToCart={this.props.addToCart}
       />
     );
   }

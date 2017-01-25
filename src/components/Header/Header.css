@@ -14,9 +14,8 @@
 }
 
 .default { background: transparent; }
-.colored { background: 
-  -webkit-linear-gradient(left,#19D9B0, #3DB4E5);
-}
+.colored { background: -webkit-linear-gradient(left,#19D9B0, #3DB4E5); }
+.black { background: #222; border-top: 3px solid #000; border-bottom: 3px solid #000; }
 .enabled { background: #ffffff; }
 
 .logocontainer {
@@ -38,11 +37,13 @@
 }
 
 .default .logo { background-image: url(./logo_colored.png); }
-.colored .logo { background-image: url(./logo_white.png); }
+.colored .logo,
+.black .logo { background-image: url(./logo_white.png); }
 .sticky .logo,
 .enabled .logo { background-image: url(./logo_black.png); }
 
-.colored a { color: #ffffff; }
+.colored a,
+.black a { color: #ffffff; }
 .default a,
 .sticky a,
 .enabled a { color: #000000; }
@@ -120,6 +121,7 @@
 
 .colored .carticon { background-position: -6px 7px; }
 .colored .cartdivider { background-position: 0px -1px; }
+.black .carticon {  background-position: -6px 7px; }
 .default .carticon { background-position: -41px 7px; }
 .default .cartdivider { background-position: -90px -1px; }
 .sticky .carticon { background-position: -41px 7px; }
