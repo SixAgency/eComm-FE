@@ -3,6 +3,7 @@ import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart } from './orders';
 import { getAddresses, createAddress } from './addresses';
+import sendContact from './contact';
 
 const apiRoutes = express.Router();
 
@@ -76,6 +77,11 @@ apiRoutes.get('/addresses', (req, resp) => {
 // Add User Addresses
 apiRoutes.post('/addaddress', (req, resp) => {
   createAddress(req).then((data) => (resp.json(data)));
+});
+
+// Contact
+apiRoutes.post('/sendcontact', (req, resp) => {
+  sendContact(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

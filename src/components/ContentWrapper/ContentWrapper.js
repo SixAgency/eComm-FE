@@ -15,6 +15,7 @@ class ContentWrapper extends React.Component {
     isError: PropTypes.bool,
     message: PropTypes.string,
     noPaddingClass: PropTypes.string,
+    isSent: PropTypes.bool,
   }
 
   static defaultProps = {
