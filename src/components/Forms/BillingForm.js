@@ -46,7 +46,7 @@ class BillingForm extends React.Component {
       case 'town' : this.setState({ town: e.target.value }); break;
       case 'state' : this.setState({ state: e.target.value }); break;
       case 'zip' : this.setState({ zip: e.target.value }); break;
-      case 'createaccount' : this.setState({ createaccount: e.target.checked ? true : false }); break;
+      case 'createaccount' : this.setState({ createaccount: e.target.checked }); break;
       case 'password' : this.setState({ password: e.target.value }); break;
       default: // do nothing
     }

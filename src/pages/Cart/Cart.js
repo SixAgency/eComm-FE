@@ -73,7 +73,7 @@ class Cart extends Component {
                 }
                 <Title text={'Your Cart'} classname={'title'} />
                 <h3 className={s.cartsubtitle}>
-                  {cart.line_items ? cart.line_items.length : '0'} {cartText} in your cart
+                  {cart.line_items.length} {cartText} in your cart
                 </h3>
                 <ProductsTable
                   items={cart.line_items}
