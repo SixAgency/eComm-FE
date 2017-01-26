@@ -44,7 +44,7 @@ class ReviewOrder extends React.Component {
     return (
       <div className={s.cformcontent}>
         <h1 className={s.title}>Review your order</h1>
-        <h2 className={s.subtitle}>{cart.total_quantity} items in your cart</h2>
+        <h2 className={s.subtitle}>{cart.line_items.length} items in your cart</h2>
         <ReviewOrderTbl cart={cart} />
         <div className={s.paymentcontainer}>
           <ul>
@@ -79,6 +79,12 @@ class ReviewOrder extends React.Component {
             </li>
           </ul>
           <div className={s.buttonwrapper}>
+            <p className={s.paymessage}>
+              After clicking on Continue to Payment you will see a pop up from our payment
+              processor. Enter your credit card here and click on the blue bar containing the
+              amount of your purchase. After you see the green checkmark, wait for the confirmation
+              screen to appear. Do not click on back or any other buttons during this process.
+            </p>
             <input className={s.submit} type="submit" value="Continue to Payment" />
           </div>
         </div>
