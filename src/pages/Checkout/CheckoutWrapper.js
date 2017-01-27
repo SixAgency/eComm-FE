@@ -4,13 +4,14 @@ import Checkout from './Checkout';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart } from '../../actions/order';
-import { onLogout } from '../../actions/user';
+import { onLogin, onLogout } from '../../actions/user';
 
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getCart: () => dispatch(getCart()),
+    onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -19,6 +20,8 @@ const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
+    message: state.page.message,
+    isError: state.page.isError,
   }
 ));
 class CheckoutWrapper extends React.Component {
@@ -28,8 +31,11 @@ class CheckoutWrapper extends React.Component {
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     getCart: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    message: PropTypes.string,
+    isError: PropTypes.bool,
   }
 
   constructor(props) {
@@ -37,7 +43,11 @@ class CheckoutWrapper extends React.Component {
     this.state = {
       content: 'billing',
       showCouponFields: false,
-      className: 'hide',
+      couponClassName: 'hide',
+      showLoginFields: false,
+      loginClassName: 'hide',
+      message: PropTypes.string,
+      isError: PropTypes.bool,
     };
   }
 
@@ -87,7 +97,15 @@ class CheckoutWrapper extends React.Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+    });
+  }
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
     });
   }
 
@@ -97,11 +115,16 @@ class CheckoutWrapper extends React.Component {
       <Checkout
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
+        onLogin={this.props.onLogin}
         onLogout={this.props.onLogout}
         handleGiftcard={this.handleGiftCard}
-        couponClass={this.state.className}
+        couponClass={this.state.couponClassName}
+        handleLogin={this.handleLogin}
+        loginClass={this.state.loginClassName}
         clickTab={this.clickTab}
         content={this.state.content}
+        message={this.props.message}
+        isError={this.props.isError}
       />
     );
   }

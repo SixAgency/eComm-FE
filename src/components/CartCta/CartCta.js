@@ -7,7 +7,9 @@ import CtaInfo from './CtaInfo/CtaInfo';
 class CartCta extends React.Component {
 
   static propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
     toggleGiftcard: PropTypes.func.isRequired,
+    toggleLogin: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
   }
@@ -19,7 +21,12 @@ class CartCta extends React.Component {
           message={this.props.message}
           isError={this.props.isError}
         />
-        <CtaInfo toggleGiftcard={this.props.toggleGiftcard} infoClass={'infocart'} />
+        <CtaInfo
+          loggedIn={this.props.loggedIn}
+          toggleGiftcard={this.props.toggleGiftcard}
+          toggleLogin={this.props.toggleLogin}
+          infoClass={'infocart'}
+        />
       </div>
     );
   }

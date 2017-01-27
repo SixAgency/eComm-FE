@@ -49,4 +49,8 @@
       }
     }
   }
+  ::selection {
+    background-color: #29cbc8;
+    color: #d0ff00;
+  }
 }

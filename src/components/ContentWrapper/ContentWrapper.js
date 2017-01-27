@@ -25,6 +25,13 @@ class ContentWrapper extends React.Component {
     clickTab: () => (true),
   }
 
+  getActive = (id) => {
+    if (id === this.props.isActive) {
+      return 'active';
+    }
+    return '';
+  }
+
   render() {
     const contentTabs = this.props.tabs;
     return (
@@ -34,7 +41,7 @@ class ContentWrapper extends React.Component {
             {contentTabs.map((v, k) => (
               <li key={k} className={s.tab}>
                 <button
-                  className={cx(s.button, s[v.cname], s[this.props.isActive])}
+                  className={cx(s.button, s[v.cname], s[this.getActive(v.id)])}
                   onClick={this.props.clickTab}
                   title={v.title}
                   id={v.id}

@@ -18,10 +18,11 @@
       margin: 0 auto;
       margin-bottom: 40px;
       .tab {
-        font-family: 'Helvetica Neue', Helvetica, Arial, serif;
         display: inline-block;
         margin: 0 3px;
         .button {
+          color: #bbbbbb;
+          font-family: 'Helvetica Neue', Helvetica, Arial, serif;
           height: 52px;
           font-size: 11px;
           line-height: 52px;
@@ -37,14 +38,35 @@
           -ms-appearance: button;
           appearance: button;
         }
-        .button:hover {
-          background: #f7f7f7;
+        .active {
+          background: #E9EDEF;
+          color: #222222;
         }
         .blogin.login,
         .bregister.register,
         .blogin.login:hover,
         .bregister.register:hover {
           background: #E9EDEF;
+        }
+      }
+    }
+    .account {
+      .tab {
+        .button {
+          color: #222222;
+          transition: background 0.2s linear;
+          -webkit-transition: background 0.2s linear;
+          -moz-transition: background 0.2s linear;
+          -ms-transition: background 0.2s linear;
+          -o-transition: background 0.2s linear;
+        }
+        .button:not(.active):hover {
+          background: #f7f7f7;
+          transition: background 0.2s linear;
+          -webkit-transition: background 0.2s linear;
+          -moz-transition: background 0.2s linear;
+          -ms-transition: background 0.2s linear;
+          -o-transition: background 0.2s linear;
         }
       }
     }
@@ -56,7 +78,7 @@
       position: relative;
       width: 100%;
       min-height: 200px;
-      padding: 150px 50px;
+      padding: 150px 80px 50px;
       margin: 0 auto;
       box-sizing: border-box;
       background: rgba(235, 235, 235, 0.75);
