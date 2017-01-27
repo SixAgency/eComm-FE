@@ -74,7 +74,7 @@ function onLogin(data) {
         // Redirect to dashboard
         forwardTo('my-account/dashboard');
         // Get the user cart
-        getCart();
+        dispatch(getCart());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -103,7 +103,7 @@ function onRegister(data) {
         // Redirect to dashboard
         forwardTo('my-account/dashboard');
         // Get the user cart
-        getCart();
+        dispatch(getCart());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))

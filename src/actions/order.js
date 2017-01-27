@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 function resetCart() {
   const data = {
     isEmpty: true,
-    isLoaded: false,
+    isLoaded: true,
     cart: {},
   };
   return { type: 'RESET_CART', payload: data };

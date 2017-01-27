@@ -63,6 +63,7 @@ function setUserSession(data, token, request) {
   request.session.loggedIn = data.loggedIn; // eslint-disable-line no-param-reassign
   request.session.username = data.userName; // eslint-disable-line no-param-reassign
   request.session.email = data.emailAddress; // eslint-disable-line no-param-reassign
+  request.session.orderNumber = null; // eslint-disable-line no-param-reassign
   return true;
 }
 

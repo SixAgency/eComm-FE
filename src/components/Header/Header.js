@@ -13,7 +13,8 @@ class Header extends React.Component {
     cartItems: PropTypes.object.isRequired,
     menuOpen: PropTypes.string.isRequired,
     mobileNavOpen: PropTypes.func.isRequired,
-  }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,15 +22,15 @@ class Header extends React.Component {
       stickyClass: '',
       cartClass: 'hide',
     };
-  }
+  };
 
   componentDidMount = () => {
     window.addEventListener('scroll', this.headerScroll);
-  }
+  };
 
   componentWillUnmount = () => {
     window.removeEventListener('scroll', this.headerScroll);
-  }
+  };
 
   onHoverStart = () => {
     if (window.outerWidth > 960) {
@@ -38,7 +39,7 @@ class Header extends React.Component {
         headerClass: 'enabled',
       });
     }
-  }
+  };
 
   onHoverEnd = () => {
     if (window.outerWidth > 960) {
@@ -49,7 +50,7 @@ class Header extends React.Component {
         });
       }, 555);
     }
-  }
+  };
 
   headerScroll = () => {
     if (window.outerWidth > 960) {
@@ -71,7 +72,7 @@ class Header extends React.Component {
       this.posWas = posCur;
       this.setState({ stickyClass });
     }
-  }
+  };
 
   cartHover = (event) => {
     let cartClass = 'hide';
@@ -79,7 +80,7 @@ class Header extends React.Component {
       cartClass = 'show';
     }
     this.setState({ cartClass });
-  }
+  };
 
   render() {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;

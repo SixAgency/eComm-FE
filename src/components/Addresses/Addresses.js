@@ -10,18 +10,12 @@ class Addresses extends React.Component {
   static propTypes = {
     shippAddress: PropTypes.object,
     billAddress: PropTypes.object,
-  }
+  };
 
   getStateName = (id) => {
-    let name = '';
-    STATES.map((state) => {
-      if (state.id === id) {
-        name = state.abbr;
-      }
-      return true;
-    });
-    return name;
-  }
+    const selected = STATES.find((state) => (state.id === id));
+    return selected.abbr || '';
+  };
 
   listAddress = (data) => {
     const { isLoaded, isEmpty, address } = data;
@@ -38,7 +32,7 @@ class Addresses extends React.Component {
       );
     }
     return (<p className={s.optiontext}> Please set up your billing address </p>);
-  }
+  };
 
   render() {
     return (
