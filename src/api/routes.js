@@ -1,9 +1,12 @@
 import express from 'express';
+// Actions
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
-import { getAddresses, createAddress } from './addresses';
+import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
+// Helpers
+import { validateAuth } from './helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -11,17 +14,28 @@ const apiRoutes = express.Router();
 
 // login
 apiRoutes.post('/login', (req, resp) => {
-  userLogin(req).then(data => resp.json(data));
+  // Check request data
+  const valid = validateAuth(req.body);
+  if (valid.isError) {
+    resp.json(valid);
+  } else {
+    userLogin(req).then(data => resp.json(data));
+  }
 });
 // register
 apiRoutes.post('/register', (req, resp) => {
-  userRegistration(req).then(data => resp.json(data));
+  const valid = validateAuth(req.body);
+  if (valid.isError) {
+    resp.json(valid);
+  } else {
+    userRegistration(req).then(data => resp.json(data));
+  }
 });
-// logout
+// // logout
 apiRoutes.post('/logout', (req, resp) => {
   userLogout(req).then(data => resp.json(data));
 });
-// check login
+// check user
 apiRoutes.get('/check', (req, resp) => {
   checkLogin(req).then(data => resp.json(data));
 });
@@ -72,18 +86,18 @@ apiRoutes.post('/createorder', (req, resp) => {
   });
 });
 
-
-// ADDRESS ROUTES
-
-// Get User Addresses
-apiRoutes.get('/addresses', (req, resp) => {
-  getAddresses(req).then((data) => (resp.json(data)));
-});
-
-// Add User Addresses
-apiRoutes.post('/addaddress', (req, resp) => {
-  createAddress(req).then((data) => (resp.json(data)));
-});
+// ADDRESS ROUTES - GET, CREATE and UPDATE
+/* @TODO - add validation */
+apiRoutes
+  .get('/addresses', (req, resp) => {
+    getAddresses(req).then((data) => (resp.json(data)));
+  })
+  .post('/addresses', (req, resp) => {
+    createAddress(req).then((data) => (resp.json(data)));
+  })
+  .put('/addresses', (req, resp) => {
+    updateAddress(req).then((data) => (resp.json(data)));
+  });
 
 // Contact
 apiRoutes.post('/sendcontact', (req, resp) => {

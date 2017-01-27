@@ -3,28 +3,36 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Addresses.css';
 
+import { STATES } from '../../constants/AppConsts';
+
 class Addresses extends React.Component {
 
   static propTypes = {
     shippAddress: PropTypes.object,
     billAddress: PropTypes.object,
-  }
+  };
+
+  getStateName = (id) => {
+    const selected = STATES.find((state) => (state.id === id));
+    return selected.abbr || '';
+  };
 
   listAddress = (data) => {
     const { isLoaded, isEmpty, address } = data;
     if (isLoaded && !isEmpty) {
+      const stateName = this.getStateName(address.state_id);
       return (
         <address className={s.optiontext}>
           <span className={s.block}>{address.firstname} {address.lastname}</span>
           <span className={s.block}>{address.company}</span>
           <span className={s.block}>{address.address1}</span>
           <span className={s.block}>{address.address2}</span>
-          <span className={s.block}>{address.city}, {address.state_name} {address.zipcode}</span>
+          <span className={s.block}>{address.city}, {stateName}, {address.zipcode}</span>
         </address>
       );
     }
     return (<p className={s.optiontext}> Please set up your billing address </p>);
-  }
+  };
 
   render() {
     return (

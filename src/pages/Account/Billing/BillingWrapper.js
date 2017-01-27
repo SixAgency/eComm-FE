@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import Billing from './Billing';
 // Action
 import { onLogout } from '../../../actions/user';
-import { getAddress, addAddress } from '../../../actions/address';
+import { getAddress, createOrEditAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
@@ -19,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    addAddress: (data) => dispatch(addAddress(data)),
+    createOrEditAddress: (data) => dispatch(createOrEditAddress(data)),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -29,7 +29,7 @@ class BillingWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     emailAddress: PropTypes.string.isRequired,
     billing: PropTypes.object.isRequired,
-    addAddress: PropTypes.func.isRequired,
+    createOrEditAddress: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
@@ -77,13 +77,14 @@ class BillingWrapper extends React.Component {
   onSubmit = (address) => {
     const data = {
       address,
-      address_type: ['bill_address'],
+      address_type: 'bill_address',
     }
-    this.props.addAddress(data);
+    this.props.createOrEditAddress(data);
   }
 
   render() {
     const address = this.props.billing.address || {
+      id: 0,
       firstname: '',
       lastname: '',
       company: '',

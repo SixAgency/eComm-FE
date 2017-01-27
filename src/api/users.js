@@ -1,21 +1,22 @@
 import { apiFetch } from '../core/fetch';
-import { parseError, parseResponse, handleAuth, handleLogout } from './handlers';
+// Helpers
+import { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse } from './helpers/handlers';
 
 const LOGIN = '/login';
 const LOGOUT = '/logout';
 const REGISTER = '/signup';
 
-// USER Login
+
+// Login
 function userLogin(request) {
-  // @TODO - add data validation
   const user = {
     spree_user: {
-      email: request.body.username,
+      email: request.body.email,
       password: request.body.password,
-      remember_me: request.body.remember,
+      remember_me: request.body.remember || 0,
     },
   };
-  const response = apiFetch(LOGIN,
+  return apiFetch(LOGIN,
     {
       method: 'POST',
       body: JSON.stringify(user),
@@ -23,16 +24,13 @@ function userLogin(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then((resp) => parseResponse(resp))
-  .then((resp) => handleAuth(resp, request))
-  .catch((err) => parseError(err));
-
-  return response;
+  .then((response) => checkResponse(response))
+  .then((data) => setAuthResponse(data, request))
+  .catch((err) => setError(err));
 }
 
-// USER Registration
+// Registration
 function userRegistration(request) {
-  // TODO - add data validation
   const user = {
     spree_user: {
       email: request.body.email,
@@ -40,7 +38,6 @@ function userRegistration(request) {
       password_confirmation: request.body.password,
     },
   };
-
   return apiFetch(REGISTER,
     {
       method: 'POST',
@@ -49,12 +46,12 @@ function userRegistration(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then((resp) => parseResponse(resp))
-  .then((resp) => handleAuth(resp, request))
-  .catch((err) => parseError(err));
+  .then((response) => checkResponse(response))
+  .then((data) => setAuthResponse(data, request))
+  .catch((err) => setError(err));
 }
 
-// USER Logout
+// Logout
 function userLogout(request) {
   return apiFetch(LOGOUT,
     {
@@ -62,32 +59,16 @@ function userLogout(request) {
         'Content-Type': 'application/json',
       },
     })
-  .then((data) => parseResponse(data))
-  .then((data) => handleLogout(data, request))
-  .catch((err) => parseError(err));
+  .then((resp) => checkResponse(resp))
+  .then(() => setLogoutResponse(request))
+  .catch((err) => setError(err));
 }
 
-// USER - Check if logged in
+// User Check based on session
 function checkLogin(request) {
-  const p1 = new Promise((resolve, reject) => {
-    try {
-      const { token, userName, emailAddress, loggedIn } = request.session;
-      let resp = {};
-      if (token && userName && emailAddress) {
-        resp = {
-          userName,
-          emailAddress,
-          loggedIn,
-        };
-      } else {
-        resp = { loggedIn: false };
-      }
-      resolve(resp);
-    } catch (err) {
-      reject(err);
-    }
-  }).then(resp => resp).catch(err => err);
-  return p1;
+  return setUserResponse(request)
+    .then(resp => resp)
+    .catch((err) => setError(err));
 }
 
 export { userLogin, userRegistration, userLogout, checkLogin };

@@ -38,6 +38,7 @@ class DashboardWrapper extends React.Component {
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
+      console.log('step one');
       browserHistory.push('/my-account');
     }
     const props = {
@@ -61,19 +62,16 @@ class DashboardWrapper extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next');
     const billingLoaded = nextProps.billing.isLoaded;
     const shippingLoaded = nextProps.shipping.isLoaded;
     if (billingLoaded && shippingLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
-      // this.props.toggleLoader(false);
     }
   }
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
   }
 

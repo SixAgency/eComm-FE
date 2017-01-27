@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
+function resetCart() {
+  const data = {
+    isEmpty: true,
+    isLoaded: true,
+    cart: {},
+  };
+  return { type: 'RESET_CART', payload: data };
+}
+
 function getCart() {
   return (dispatch) => {
     axios.get('/api/cart')
@@ -63,4 +72,4 @@ function updateQuantity(data) {
   };
 }
 
-export { getCart, addToCart, removeItem, updateCart, updateQuantity };
+export { getCart, addToCart, removeItem, updateCart, updateQuantity, resetCart };
