@@ -93,6 +93,9 @@
   line-height: 25px;
   color: #565656;
   margin: 0;
+  small:not(:last-of-type)::after {
+    content: ', ';
+  }
 }
 
 .billaddress, .shippaddress {

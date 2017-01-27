@@ -21,6 +21,9 @@ class ReviewOrderTbl extends React.Component {
 
   render() {
     const cart = this.props.cart;
+    const shipments = cart.shipments;
+    const adjustments = cart.adjustments;
+
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -48,24 +51,38 @@ class ReviewOrderTbl extends React.Component {
             <tr>
               <td className={cx(s.td, s.tdbig, s.psubtotal)}>Subtotal</td>
               <td className={cx(s.td, s.tdsmall)}>
-                <span className={s.amount}>$57.00</span>
+                <span className={s.amount}>${cart.item_total}</span>
               </td>
             </tr>
-            <tr>
-              <td className={cx(s.td, s.tdbig, s.pshipping)}>Shipping</td>
-              <td className={cx(s.td, s.tdsmall, s.flatrate)}>
-                Flat Rate: <span className={s.amount}>$6.95</span>
-                <input
-                  type="hidden"
-                  name="shippingmethod"
-                  id="shippingmethod"
-                  value="flatrate"
-                />
-                <p className={s.shippingcontents}>
-                  <small>Combs x2</small>
-                </p>
-              </td>
-            </tr>
+            {shipments.map((ship, index) => (
+              <tr>
+                <td className={cx(s.td, s.tdbig, s.pshipping)}>
+                  Shipping {index > 0 ? index + 1 : ''}
+                </td>
+                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
+                  {ship.shipping_rates[0].name}:
+                  <span className={s.amount}>${ship.shipping_rates[0].cost}</span>
+                  <p className={s.shippingcontents}>
+                    {ship.manifest.map((item) => (
+                      <small>{item.variant.name} x{item.quantity}</small>
+                      ),
+                    )}
+                  </p>
+                </td>
+              </tr>
+              ),
+            )}
+            {adjustments.map((adjust) => (
+              <tr>
+                <td className={cx(s.td, s.tdbig, s.pshipping)}>
+                  {adjust.label}
+                </td>
+                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
+                  ${adjust.amount}
+                </td>
+              </tr>
+              ),
+            )}
             <tr>
               <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
               <td className={cx(s.td, s.tdsmall)}>

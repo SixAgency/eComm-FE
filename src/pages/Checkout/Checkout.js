@@ -32,7 +32,7 @@ class Checkout extends React.Component {
     } else if (content === 'promocode') {
       return <PromoCode />;
     } else if (content === 'review') {
-      return <ReviewOrder cartItems={this.props.cartItems} />;
+      return <ReviewOrder cartItems={this.props.cartItems.cart} />;
     }
     return (
       <BillingForm
