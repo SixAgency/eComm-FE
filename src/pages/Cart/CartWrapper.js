@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart, removeItem } from '../../actions/order';
+import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
 import { onLogout } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
@@ -22,9 +22,11 @@ const mapDispatchToProps = ((dispatch) => (
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
+    updateCart: (cart) => dispatch(updateCart(cart)),
+    updateQuantity: (cart) => dispatch(updateQuantity(cart)),
   }
 ));
-class CartWrapper extends React.Component {
+class CartWrapper extends Component {
   static propTypes = {
     removeItem: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
@@ -35,6 +37,8 @@ class CartWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
+    updateCart: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -91,20 +95,35 @@ class CartWrapper extends React.Component {
     });
   }
 
-  addQuantity = (qty) => {
-    console.log(qty);
+  updateQuantity = (updatedCartItems) => {
+    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
+    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
   }
 
-  subQuantity = (qty) => {
-    console.log(qty);
+  onUpdateCart = () => {
+    const { cart } = this.props.cartItems;
+    const { line_items } = cart;
+    const items = {};
+    line_items.forEach((item, index) => {
+      items[index] = {
+        id: item.id,
+        quantity: item.quantity,
+      };
+    });
+    const data = {
+      id: cart.id,
+      order: {
+        line_items: items,
+      },
+    };
+    this.props.updateCart(data);
   }
 
   render() {
     return (
       <Cart
         removeItem={this.props.removeItem}
-        addQuantity={this.addQuantity}
-        subQuantity={this.subQuantity}
+        updateQuantity={this.updateQuantity}
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
         couponClass={this.state.className}
@@ -112,6 +131,7 @@ class CartWrapper extends React.Component {
         handleGiftCard={this.handleGiftCard}
         message={this.props.message}
         isError={this.props.isError}
+        updateCart={this.onUpdateCart}
       />
     );
   }

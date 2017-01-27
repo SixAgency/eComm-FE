@@ -9,8 +9,8 @@ class ProductRow extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
-    addQuantity: PropTypes.func.isRequired,
-    subQuantity: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    cartItems: PropTypes.object.isRequired,
   }
 
   removeItem = () => {
@@ -18,11 +18,17 @@ class ProductRow extends React.Component {
   }
 
   addQuantity = () => {
-    this.props.addQuantity(this.props.item.quantity);
+    const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
+      item.id === this.props.item.id ? { ...item, quantity: this.props.item.quantity + 1 } : item
+    ));
+    this.props.updateQuantity(updatedCartItems);
   }
 
   subQuantity = () => {
-    this.props.subQuantity(this.props.item.quantity);
+    const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
+      item.id === this.props.item.id ? { ...item, quantity: this.props.item.quantity - 1 } : item
+    ));
+    this.props.updateQuantity(updatedCartItems);
   }
 
   render() {
@@ -64,6 +70,7 @@ class ProductRow extends React.Component {
             addQuantity={this.addQuantity}
             subQuantity={this.subQuantity}
             quantity={item.quantity}
+            item={item}
           />
         </td>
         <td className={s.prodsubtotal}>

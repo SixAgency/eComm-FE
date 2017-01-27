@@ -10,6 +10,7 @@ class ProductQuantity extends React.Component {
     addQuantity: PropTypes.func.isRequired,
     subQuantity: PropTypes.func.isRequired,
     quantity: PropTypes.number.isRequired,
+    item: PropTypes.object.isRequired,
   }
 
   render() {

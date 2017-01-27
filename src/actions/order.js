@@ -45,5 +45,22 @@ function removeItem(data) {
   };
 }
 
+function updateCart(data) {
+  return (dispatch) => {
+    axios.put('/api/cart', { data })
+      .then((resp) => {
+        dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.', cart: resp.data } });
+      })
+      .catch((err) => {
+        dispatch({ type: 'UPDATE_CART_ERROR', payload: err });
+      });
+  };
+}
 
-export { getCart, addToCart, removeItem };
+function updateQuantity(data) {
+  return (dispatch) => {
+    dispatch({ type: 'UPDATE_QTY_SUCCES', payload: data });
+  };
+}
+
+export { getCart, addToCart, removeItem, updateCart, updateQuantity };

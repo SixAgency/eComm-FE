@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import Cart from './Cart';
 
-class CartWrapper extends React.Component {
+class CartWrapper extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
@@ -9,6 +9,10 @@ class CartWrapper extends React.Component {
     subQuantity: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    updateCart: PropTypes.func.isRequired,
+    message: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   /*
@@ -20,6 +24,8 @@ class CartWrapper extends React.Component {
     removeItem: () => (true),
     addQuantity: () => (true),
     subQuantity: () => (true),
+    updateCart: () => (true),
+    updateQuantity: () => (true),
     isError: false,
     message: '',
   }
@@ -54,6 +60,7 @@ class CartWrapper extends React.Component {
         handleGiftCard={this.handleGiftCard}
         message={this.props.message}
         isError={this.props.isError}
+        updateCart={this.props.updateCart}
       />
     );
   }

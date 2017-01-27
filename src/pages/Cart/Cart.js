@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Cart.css';
 import CartCta from '../../components/CartCta/CartCta';
@@ -11,18 +11,18 @@ import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
 import EmptyCart from '../../components/EmptyCart';
 
-class Cart extends React.Component {
+class Cart extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
     handleGiftCard: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
-    addQuantity: PropTypes.func.isRequired,
-    subQuantity: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     couponClass: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
+    updateCart: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
   }
 
   render() {
@@ -62,10 +62,10 @@ class Cart extends React.Component {
                 <ProductsTable
                   items={cart.line_items}
                   removeItem={this.props.removeItem}
-                  addQuantity={this.props.addQuantity}
-                  subQuantity={this.props.subQuantity}
+                  updateQuantity={this.props.updateQuantity}
+                  cartItems={this.props.cartItems}
                 />
-                <PromoCodeInput />
+                <PromoCodeInput updateCart={this.props.updateCart} />
                 <CartForm cart={cart} />
               </div>
             </article>

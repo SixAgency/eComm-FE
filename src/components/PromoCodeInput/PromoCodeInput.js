@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './PromoCodeInput.css';
 
-class PromoCodeInput extends React.Component {
+class PromoCodeInput extends Component {
+  static propTypes = {
+    updateCart: PropTypes.func.isRequired,
+  }
+
   render() {
     return (
       <div className={s.pcodecontainer}>
@@ -21,11 +25,12 @@ class PromoCodeInput extends React.Component {
             value="Promotional Code"
           />
           <input
-            type="submit"
+            type="button"
             className={cx(s.couponbtn, s.updatebtn)}
             id="update-button"
             name="update-cart"
             value="Update Cart"
+            onClick={this.props.updateCart}
           />
         </div>
       </div>

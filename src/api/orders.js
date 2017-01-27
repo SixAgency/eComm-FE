@@ -105,5 +105,24 @@ function removeFromCart(request) {
   return response;
 }
 
+// Update Cart
+function updateCart(request) {
+  const data = request.body.data;
+  const orderNumber = request.session.orderNumber;
+  const response = apiFetch(`${ORDER}/${orderNumber}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => parseResponse(resp))
+  .then((resp) => parseCart(resp, request))
+  .catch((err) => parseError(err));
+  return response;
+}
+
 // TODO - user orders
-export { getOrder, getCart, addToCart, createOrder, removeFromCart };
+export { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart };
