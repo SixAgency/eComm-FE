@@ -44,10 +44,10 @@ function updateTag(tagName, keyName, keyValue, attrName, attrValue) {
 function updateMeta(name, content) {
   updateTag('meta', 'name', name, 'content', content);
 }
-function updateCustomMeta(property, content) { // eslint-disable-line no-unused-vars
+function updateCustomMeta(property, content) {
   updateTag('meta', 'property', property, 'content', content);
 }
-function updateLink(rel, href) { // eslint-disable-line no-unused-vars
+function updateLink(rel, href) {
   updateTag('link', 'rel', rel, 'href', href);
 }
 

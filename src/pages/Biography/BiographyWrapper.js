@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import Biography from './Biography';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
