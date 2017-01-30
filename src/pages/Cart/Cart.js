@@ -82,7 +82,7 @@ class Cart extends Component {
                   cartItems={this.props.cartItems}
                 />
                 <PromoCodeInput updateCart={this.props.updateCart} />
-                <CartForm cart={cart} />
+                <CartForm cart={cart} loggedIn={this.props.loggedIn} />
               </div>
             </article>
           </div>
