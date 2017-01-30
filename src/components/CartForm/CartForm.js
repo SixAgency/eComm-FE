@@ -8,6 +8,7 @@ import ShippingCalculator from './ShippingCalculator';
 class CartForm extends React.Component {
   static propTypes = {
     cart: React.PropTypes.object.isRequired,
+    loggedIn: React.PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -105,14 +106,18 @@ class CartForm extends React.Component {
           <p className={s.message}>
             Complete your purchase with your Krissorbie.com account or as a guest.
           </p>
-          <p className={s.message}>
-            To set up an account, please click on the link below
-          </p>
-          <p className={s.login}>
-            <Link to="/my-account">
-              Login / Register
-            </Link>
-          </p>
+          {!this.props.loggedIn &&
+            <div>
+              <p className={s.message}>
+                To set up an account, please click on the link below
+              </p>
+              <p className={s.login}>
+                <Link to="/my-account">
+                  Login / Register
+                </Link>
+              </p>
+            </div>
+          }
         </div>
       </div>
     );
