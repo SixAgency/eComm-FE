@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-function sendContact() {
+
+function sendContact(data) {
   return (dispatch) => {
-    axios.post('/api/contact')
+    axios.post('/api/contact', data)
     .then(() => {
       dispatch({ type: 'SEND_CONTACT_SUCCESS', payload: 'Thank you for your message. It has been sent.' });
     })
