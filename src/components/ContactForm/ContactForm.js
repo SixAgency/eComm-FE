@@ -40,7 +40,7 @@ class ContactForm extends React.Component {
           message: this.state.message,
         };
         console.log(data);
-        this.props.sendContact();
+        this.props.sendContact(data);
       }
     });
   }

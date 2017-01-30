@@ -17,7 +17,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
-    sendContact: () => dispatch(sendContact()),
+    sendContact: (data) => dispatch(sendContact(data)),
   }
 ));
 class ContactWrapper extends React.Component {

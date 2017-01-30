@@ -100,7 +100,7 @@ apiRoutes
   });
 
 // Contact
-apiRoutes.post('/sendcontact', (req, resp) => {
+apiRoutes.post('/contact', (req, resp) => {
   sendContact(req).then((data) => (resp.json(data)));
 });
 
