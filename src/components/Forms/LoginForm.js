@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
+import { validateAuth } from '../../helpers/validators';
 
 class LoginForm extends React.Component {
 
@@ -21,8 +22,12 @@ class LoginForm extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const data = this.state;
-    this.props.onLogin(data);
+    const valid = validateAuth(this.state);
+    if (valid.isError) {
+      console.log(valid);
+    } else {
+      this.props.onLogin(this.state);
+    }
   }
 
   onUserChange = (event) => {

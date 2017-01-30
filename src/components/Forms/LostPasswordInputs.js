@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
+import { validateLostPassword } from '../../helpers/validators';
 
 class LostPasswordInputs extends React.Component {
 
@@ -12,12 +13,35 @@ class LostPasswordInputs extends React.Component {
     onSubmit: PropTypes.func,
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      authfield: '',
+    };
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const valid = validateLostPassword(this.state);
+    if (valid.isError) {
+      console.log(valid);
+    } else {
+      this.props.onSubmit(this.state);
+    }
+  }
+
+  handleAuthfield = (event) => {
+    this.setState({
+      authfield: event.target.value,
+    });
+  }
+
   render() {
     return (
       <div className={s.cformcontent2}>
         <h1 className={s.title}>{this.props.formTitle}</h1>
         <h2 className={cx(s.subtitle, s.subtitlesmall)}>{this.props.formSubtitle}</h2>
-        <form className={s.form} onSubmit={this.props.onSubmit} >
+        <form className={s.form} onSubmit={this.onSubmit} >
           <div className={s.inputwrapper2}>
             <label
               className={s.label}
@@ -28,6 +52,7 @@ class LostPasswordInputs extends React.Component {
             <input
               id="password"
               className={s.input}
+              onChange={this.handleAuthfield}
             />
           </div>
           <div className={s.buttonwrapper2}>

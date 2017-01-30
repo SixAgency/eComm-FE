@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './ContactForm.css';
+import { validateContactForm } from '../../helpers/validators';
 
 class ContactForm extends React.Component {
 
@@ -40,7 +41,12 @@ class ContactForm extends React.Component {
           message: this.state.message,
         };
         console.log(data);
-        this.props.sendContact(data);
+        const valid = validateContactForm(data);
+        if (valid.isError) {
+          console.log(valid);
+        } else {
+          this.props.sendContact();
+        }
       }
     });
   }

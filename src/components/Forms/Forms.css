@@ -181,6 +181,15 @@
   box-sizing: border-box;
 }
 
+.passworderror, .passwordhint {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: rgb(86, 86, 86);
+  text-align: left;
+}
+
+.passworderror { font-size: 15px; }
+.passwordhint { font-size: 12px; line-height: 15px; }
+
 .submitregister {
   float: left;
   text-align: left;
