@@ -9,6 +9,7 @@ import CheckoutWrapper from '../pages/Checkout';
 import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
+import ksMannequinHeadsWrapper from '../pages/ksMannequinHeads';
 import NotFoundWrapper from '../pages/NotFound';
 import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 // My Account
@@ -68,6 +69,7 @@ const routes = (
     <Route path="product/:slug" component={ProductWrapper} />
     <Route path="product-category/:slug" component={CategoryWrapper} />
     <Route path="contact" component={ContactWrapper} />
+    <Route path="ks-mannequin-heads" component={ksMannequinHeadsWrapper} />
     <Route path="cart" component={CartWrapper} />
     <Route path="checkout" component={CheckoutWrapper} />
     <Route path="error" component={ErrorPageWrapper} />
