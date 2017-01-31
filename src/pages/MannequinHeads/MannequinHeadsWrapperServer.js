@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import ksMannequinHeads from './ksMannequinHeads';
+import MannequinHeads from './MannequinHeads';
 
-class ksMannequinHeadsWrapper extends React.Component {
+class MannequinHeadsWrapper extends React.Component {
 
   static propTypes = {
     // setHeaderProps: PropTypes.func.isRequired,
@@ -17,10 +17,10 @@ class ksMannequinHeadsWrapper extends React.Component {
   render() {
     console.log('server');
     return (
-      <ksMannequinHeads {...this.props} />
+      <MannequinHeads {...this.props} />
     );
   }
 }
 
-export default ksMannequinHeadsWrapper;
+export default MannequinHeadsWrapper;
 

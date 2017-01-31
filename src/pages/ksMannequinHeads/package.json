@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "ksMannequinHeadsWrapper",
-  "main": "./ksMannequinHeadsWrapperServer.js",
-  "browser": "./ksMannequinHeadsWrapper.js"
-}

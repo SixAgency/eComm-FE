@@ -9,7 +9,7 @@ import CheckoutWrapper from '../pages/Checkout';
 import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
-import ksMannequinHeadsWrapper from '../pages/ksMannequinHeads';
+import MannequinHeadsWrapper from '../pages/MannequinHeads';
 import NotFoundWrapper from '../pages/NotFound';
 import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 // My Account
@@ -30,7 +30,7 @@ function updateTag(tagName, keyName, keyValue, attrName, attrValue) {
   const node = document.head.querySelector(`${tagName}[${keyName}="${keyValue}"]`);
   if (node && node.getAttribute(attrName) === attrValue) return;
 
-  // Remove and create a new tag in order to make it work with bookmarks in Safari
+  // Remove and create a new tag in order to make it work with bookmar in Safari
   if (node) {
     node.parentNode.removeChild(node);
   }
@@ -69,7 +69,7 @@ const routes = (
     <Route path="product/:slug" component={ProductWrapper} />
     <Route path="product-category/:slug" component={CategoryWrapper} />
     <Route path="contact" component={ContactWrapper} />
-    <Route path="ks-mannequin-heads" component={ksMannequinHeadsWrapper} />
+    <Route path="ks-mannequin-heads" component={MannequinHeadsWrapper} />
     <Route path="cart" component={CartWrapper} />
     <Route path="checkout" component={CheckoutWrapper} />
     <Route path="error" component={ErrorPageWrapper} />

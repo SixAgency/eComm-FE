@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import ksMannequinHeads from './ksMannequinHeads';
+import MannequinHeads from './MannequinHeads';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 // import sendContact from '../../actions/contact';
@@ -21,7 +21,7 @@ const mapDispatchToProps = ((dispatch) => (
   }
 ));
 
-class ksMannequinHeadsWrapper extends Component {
+class MannequinHeadsWrapper extends Component {
 
   static propTypes = {
     // setHeaderProps: PropTypes.func.isRequired,
@@ -53,10 +53,10 @@ class ksMannequinHeadsWrapper extends Component {
   render() {
     console.log('client');
     return (
-      <ksMannequinHeads />
+      <MannequinHeads />
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ksMannequinHeadsWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(MannequinHeadsWrapper);
 

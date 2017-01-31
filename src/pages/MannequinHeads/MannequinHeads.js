@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './ksMannequinHeads.css';
+import s from './MannequinHeads.css';
 
-class ksMannequinHeads extends Component {
+class MannequinHeads extends Component {
   static propTypes = {
   }
   render() {
@@ -15,4 +15,4 @@ class ksMannequinHeads extends Component {
   }
 }
 
-export default withStyles(s)(ksMannequinHeads);
+export default withStyles(s)(MannequinHeads);

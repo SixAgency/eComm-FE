@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "MannequinHeadsWrapper",
+  "main": "./MannequinHeadsWrapperServer.js",
+  "browser": "./MannequinHeadsWrapper.js"
+}
