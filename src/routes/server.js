@@ -25,7 +25,7 @@ import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
 import NotFoundWrapper from '../pages/NotFound';
-import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
+import ErrorPageWrapper from '../pages/Error';
 // My Account
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
@@ -410,7 +410,7 @@ siteRoutes.get('/error', (req, resp, next) => {
     title: 'Error',
     description: '',
     header: 'default',
-    active: '',
+    active: '/',
     content: <ErrorPageWrapper />,
   };
   handleRoutes(req, resp, next, params);
