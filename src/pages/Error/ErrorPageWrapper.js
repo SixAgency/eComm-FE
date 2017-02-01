@@ -2,17 +2,27 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import ErrorPage from './ErrorPage';
 // Actions
-import { toggleLoader } from '../../actions/page';
+import { setHeaderProps, toggleLoader } from '../../actions/page';
 
 const mapDispatchToProps = ((dispatch) => (
   {
+    setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
   }
 ));
 
 class ErrorPageWrapper extends React.Component {
   static propTypes = {
+    setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
+  }
+
+  componentWillMount = () => {
+    const props = {
+      headerClass: 'black',
+      activeSlug: '/',
+    };
+    this.props.setHeaderProps(props);
   }
 
   componentDidMount = () => {
@@ -32,4 +42,5 @@ class ErrorPageWrapper extends React.Component {
   }
 }
 
+// export default (ErrrorPageWrapper);
 export default connect(null, mapDispatchToProps)(ErrorPageWrapper);

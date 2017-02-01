@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ErrorPageWrapper",
+  "main": "./ErrorPageWrapperServer.js",
+  "browser": "./ErrorPageWrapper.js"
+}
