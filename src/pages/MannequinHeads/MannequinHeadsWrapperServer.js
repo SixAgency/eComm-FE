@@ -4,8 +4,6 @@ import MannequinHeads from './MannequinHeads';
 class MannequinHeadsWrapper extends React.Component {
 
   static defaultProps = {
-    setHeaderProps: () => (true),
-    getProducts: () => (true),
     products: [],
     addToCart: (item) => (item),
   }

@@ -30,7 +30,9 @@ class MannequinHeadsWrapper extends Component {
   }
 
   componentWillMount = () => {
-    this.props.getProducts();
+    if (this.props.products.length === 0) {
+      this.props.getProducts();
+    }
   }
 
   componentDidMount = () => {
