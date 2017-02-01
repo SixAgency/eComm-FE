@@ -10,6 +10,8 @@ class BillingWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     emailAddress: PropTypes.string.isRequired,
+    messages: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -42,6 +44,8 @@ class BillingWrapper extends React.Component {
         onLogout={this.props.onLogout}
         billingAddress={address}
         emailAddress={this.props.emailAddress}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

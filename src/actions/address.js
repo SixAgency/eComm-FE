@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
+import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
 /**
  * Reset the addresses to initial state
@@ -76,20 +77,25 @@ function getAddress() {
  */
 function editAddress(data) {
   return (dispatch) => {
-    axios.put('/api/addresses', data)
-      .then((response) => checkResponse(response.data, () => {
-        if (data.address_type === 'bill_address') {
-          dispatch(setAddress(response.data.billing, 'SET_BILLING'));
-        } else {
-          dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
-        }
-        forwardTo('my-account/dashboard');
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
+    const valid = validateMandatoryFieldsAddress(data.address);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.put('/api/addresses', data)
+        .then((response) => checkResponse(response.data, () => {
+          if (data.address_type === 'bill_address') {
+            dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+          } else {
+            dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
+          }
+          forwardTo('my-account/dashboard');
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
   };
 }
 
@@ -100,20 +106,25 @@ function editAddress(data) {
  */
 function createAddress(data) {
   return (dispatch) => {
-    axios.post('/api/addresses', data)
-      .then((response) => checkResponse(response.data, () => {
-        if (data.address_type === 'bill_address') {
-          dispatch(setAddress(response.data.billing, 'SET_BILLING'));
-        } else {
-          dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
-        }
-        forwardTo('my-account/dashboard');
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
+    const valid = validateMandatoryFieldsAddress(data.address);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/addresses', data)
+        .then((response) => checkResponse(response.data, () => {
+          if (data.address_type === 'bill_address') {
+            dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+          } else {
+            dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
+          }
+          forwardTo('my-account/dashboard');
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
   };
 }
 

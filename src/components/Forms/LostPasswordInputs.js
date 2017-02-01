@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
-import { validateLostPassword } from '../../helpers/validators';
 
 class LostPasswordInputs extends React.Component {
 
@@ -22,12 +21,7 @@ class LostPasswordInputs extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const valid = validateLostPassword(this.state);
-    if (valid.isError) {
-      console.log(valid);
-    } else {
-      this.props.onSubmit(this.state);
-    }
+    this.props.onSubmit(this.state);
   }
 
   handleAuthfield = (event) => {

@@ -10,6 +10,8 @@ class ShippinggWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     emailAddress: PropTypes.string.isRequired,
+    messages: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -42,6 +44,8 @@ class ShippinggWrapper extends React.Component {
         onLogout={this.props.onLogout}
         shippingAddress={address}
         emailAddress={this.props.emailAddress}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

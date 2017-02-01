@@ -43,23 +43,13 @@ function validateProduct(data) {
 // Validate Billing/Address Form
 function validateMandatoryFieldsAddress(data) {
   const messages = [];
-  const isString = /^[a-zA-Z ]*$/;
-  const isNumberString = /^[\w\s.-]*$/;
+  const isValidPhoneNumber = /^(\([0-9]{3}\)|[0-9]{3})[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
   if ((!data.firstname) || (!data.lastname) || (!data.phone) ||
     (!data.city) || (!data.state_id) || (!data.zipcode)) {
     messages.push('Please fill all the fields');
   }
-  if (!isNumberString.test(data.firstname)) {
-    messages.push('Invalid firstname');
-  }
-  if (!isString.test(data.lastname)) {
-    messages.push('Invalid lastname');
-  }
-  if (isNaN(Number(data.phone))) {
+  if (!isValidPhoneNumber.test(data.phone)) {
     messages.push('Invalid phone number');
-  }
-  if (!isString.test(data.city)) {
-    messages.push('Invalid city');
   }
   if (isNaN(Number(data.state_id))) {
     messages.push('Invalid state id');
@@ -79,20 +69,24 @@ function validateMandatoryFieldsAddress(data) {
 function validateAccountEdit(data) {
   const messages = [];
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
-  if ((!data.fname) || (!data.lname) || (!data.email) || (!data.password) || (!data.newpassword) ||
-    (!data.confirmnewpassword)) {
-    messages.push('Please fill all the fields');
+
+  if ((!data.fname) || (!data.lname) || (!data.email)) {
+    messages.push('Please fill all the required fields');
+    if ((data.password) || (data.newpassword) || (data.confirmnewpassword)) {
+      messages.push('Please fill all the password fields');
+      if (data.password !== data.newpassword) {
+        messages.push('Password fields do not match');
+      }
+    }
   }
   if (!isValidEmail.test(data.email)) {
     messages.push('You must enter a valid email address');
-  }
-  if (data.password !== data.newpassword) {
-    messages.push('Password fields do not match');
   }
   const resp = {
     isError: (messages.length > 0),
     messages,
   };
+
   return resp;
 }
 
@@ -131,7 +125,7 @@ function validateContactForm(data) {
 // Validate password strength
 function testPasswordStrength(data) {
   const messages = [];
-  if (data.length < 7) {
+  if (data.length < 8) {
     messages.push('The password should be at least eight characters long.');
   }
   const resp = {

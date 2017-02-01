@@ -106,7 +106,7 @@ apiRoutes
     getAddresses(req).then((data) => (resp.json(data)));
   })
   .post('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body);
+    const valid = validateMandatoryFieldsAddress(req.body.address);
     if (valid.isError) {
       resp.json(valid);
     } else {
@@ -114,7 +114,7 @@ apiRoutes
     }
   })
   .put('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body);
+    const valid = validateMandatoryFieldsAddress(req.body.address);
     if (valid.isError) {
       resp.json(valid);
     } else {

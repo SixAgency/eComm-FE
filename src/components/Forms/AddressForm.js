@@ -3,7 +3,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
 import AddressInputs from './AddressInputs';
-import { validateMandatoryFieldsAddress } from '../../helpers/validators';
 
 class AddressForm extends React.Component {
 
@@ -91,12 +90,7 @@ class AddressForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const valid = validateMandatoryFieldsAddress(this.state);
-    if (valid.isError) {
-      console.log(valid);
-    } else {
-      this.props.onSubmit(this.state);
-    }
+    this.props.onSubmit(this.state);
   }
 
   render() {

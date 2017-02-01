@@ -12,6 +12,8 @@ const mapStateToProps = ((state) => (
     emailAddress: state.user.emailAddress,
     loggedIn: state.user.loggedIn,
     shipping: state.address.shipping,
+    messages: state.page.messages,
+    isError: state.page.isError,
   }
 ));
 const mapDispatchToProps = ((dispatch) => (
@@ -34,6 +36,8 @@ class ShippingWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    messages: PropTypes.array,
+    isError: PropTypes.bool,
   }
 
   componentWillMount = () => {
@@ -79,7 +83,7 @@ class ShippingWrapper extends React.Component {
     const data = {
       address,
       address_type: 'ship_address',
-    }
+    };
     this.props.createOrEditAddress(data);
   }
 
@@ -103,6 +107,8 @@ class ShippingWrapper extends React.Component {
         onLogout={this.props.onLogout}
         emailAddress={this.props.emailAddress}
         shippingAddress={address}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }
