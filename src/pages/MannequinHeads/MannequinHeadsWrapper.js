@@ -2,42 +2,36 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import MannequinHeads from './MannequinHeads';
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-// import sendContact from '../../actions/contact';
+import { toggleLoader } from '../../actions/page';
+import getProducts from '../../actions/mannequinHeads';
+import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
-    // isSent: state.contact.isSent,
-    // message: state.contact.message,
+    products: state.mannequinHeads.products,
   }
 ));
 
 const mapDispatchToProps = ((dispatch) => (
   {
-    // setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    // resetMessages: () => dispatch(resetMessages()),
-    // sendContact: () => dispatch(sendContact()),
+    getProducts: () => dispatch(getProducts()),
+    addToCart: (item) => dispatch(addToCart(item)),
   }
 ));
 
 class MannequinHeadsWrapper extends Component {
 
   static propTypes = {
-    // setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    // sendContact: PropTypes.func.isRequired,
-    // isSent: PropTypes.bool.isRequired,
-    // message: PropTypes.string.isRequired,
+    products: PropTypes.array.isRequired,
+    getProducts: PropTypes.func.isRequired,
+    addToCart: PropTypes.func.isRequired,
   }
 
-  // componentWillMount = () => {
-  //   const props = {
-  //     // headerClass: 'colored',
-  //     // activeSlug: '/contact',
-  //   };
-  //   this.props.setHeaderProps(props);
-  // }
+  componentWillMount = () => {
+    this.props.getProducts();
+  }
 
   componentDidMount = () => {
     setTimeout(() => {
@@ -53,7 +47,7 @@ class MannequinHeadsWrapper extends Component {
   render() {
     console.log('client');
     return (
-      <MannequinHeads />
+      <MannequinHeads products={this.props.products} addToCart={this.props.addToCart} />
     );
   }
 }

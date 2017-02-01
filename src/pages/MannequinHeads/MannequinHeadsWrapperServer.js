@@ -1,17 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import MannequinHeads from './MannequinHeads';
 
 class MannequinHeadsWrapper extends React.Component {
 
-  static propTypes = {
-    // setHeaderProps: PropTypes.func.isRequired,
-  }
-
   static defaultProps = {
     setHeaderProps: () => (true),
-    sendksMannequinHeads: () => (true),
-    isSent: false,
-    message: '',
+    getProducts: () => (true),
+    products: [],
+    addToCart: (item) => (item),
   }
 
   render() {
