@@ -70,7 +70,6 @@ class ProductRow extends React.Component {
             addQuantity={this.addQuantity}
             subQuantity={this.subQuantity}
             quantity={item.quantity}
-            item={item}
           />
         </td>
         <td className={s.prodsubtotal}>
