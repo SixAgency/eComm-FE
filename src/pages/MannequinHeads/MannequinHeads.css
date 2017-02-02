@@ -1,0 +1,24 @@
+.mannequinheadspage {
+  position: relative;
+  z-index: 2;
+  display: block;
+  background-color: rgb(254, 254, 254);
+  width: 100%;
+  padding-top: 252px;
+  .pagewrapper {
+    display: table;
+    margin: 0 auto;
+    height: 655px !important;
+    width: 100%;
+
+    .title {
+      text-align: left;
+      font-size: 37px;
+      font-weight: 400;
+      line-height: 1.1em;
+      margin: 0;
+      margin-bottom: 15px;
+      color: #222222;
+    }
+  }
+}

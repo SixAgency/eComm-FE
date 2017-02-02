@@ -5,6 +5,7 @@ import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
+import getMannequinHeads from './mannequinHeads';
 // Helpers
 import { validateAuth } from './helpers/validators';
 
@@ -102,6 +103,11 @@ apiRoutes
 // Contact
 apiRoutes.post('/contact', (req, resp) => {
   sendContact(req).then((data) => (resp.json(data)));
+});
+
+// Mannequin heads page
+apiRoutes.get('/mannequinHeads', (req, resp) => {
+  getMannequinHeads(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

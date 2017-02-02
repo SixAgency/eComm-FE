@@ -24,6 +24,7 @@ import CheckoutWrapper from '../pages/Checkout';
 import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
+import MannequinHeadsWrapper from '../pages/MannequinHeads';
 import NotFoundWrapper from '../pages/NotFound';
 import ErrorPageWrapper from '../pages/Error';
 // My Account
@@ -400,6 +401,18 @@ siteRoutes.get('/contact', (req, resp, next) => {
     header: 'colored',
     active: '/contact',
     content: <ContactWrapper />,
+  };
+  handleRoutes(req, resp, next, params);
+});
+
+// ks Mannequin Heads Page
+siteRoutes.get('/ks-mannequin-heads', (req, resp, next) => {
+  const params = {
+    title: 'ks Mannequin Heads',
+    description: '',
+    header: 'default',
+    active: '/shop',
+    content: <MannequinHeadsWrapper />,
   };
   handleRoutes(req, resp, next, params);
 });

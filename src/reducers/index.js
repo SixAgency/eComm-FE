@@ -6,6 +6,7 @@ import catalog from './catalog';
 import cart from './cart';
 import page from './page';
 import contact from './contact';
+import mannequinHeads from './mannequinHeads';
 
 export default combineReducers({
   user,
@@ -14,5 +15,6 @@ export default combineReducers({
   cart,
   page,
   contact,
+  mannequinHeads,
 });
 
