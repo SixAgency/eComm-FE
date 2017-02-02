@@ -6,6 +6,27 @@ import s from './PromoCodeInput.css';
 class PromoCodeInput extends Component {
   static propTypes = {
     updateCart: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      coupon_code: '',
+    };
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.props.applyPromoCode(event.target.value);
+  }
+
+  handlePromoCode = (event) => {
+    event.preventDefault();
+    /* TODO: add validation */
+    this.setState({
+      coupon_code: event.target.value,
+    });
   }
 
   render() {
@@ -17,12 +38,14 @@ class PromoCodeInput extends Component {
             className={s.inputtext}
             id="coupon-code"
             placeholder="Promotional Code"
+            onChange={this.handlePromoCode}
           />
           <input
             type="submit"
             className={s.couponbtn}
             name="apply-coupon"
             value="Promotional Code"
+            onClick={this.onSubmit}
           />
           <input
             type="button"

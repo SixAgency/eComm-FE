@@ -13,6 +13,7 @@ class CartWrapper extends Component {
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   /*
@@ -26,6 +27,7 @@ class CartWrapper extends Component {
     subQuantity: () => (true),
     updateCart: () => (true),
     updateQuantity: () => (true),
+    applyPromoCode: () => (true),
     isError: false,
     message: '',
   }
@@ -60,6 +62,7 @@ class CartWrapper extends Component {
         handleGiftCard={this.handleGiftCard}
         message={this.props.message}
         isError={this.props.isError}
+        applyPromoCode={this.props.applyPromoCode}
         updateCart={this.props.updateCart}
       />
     );

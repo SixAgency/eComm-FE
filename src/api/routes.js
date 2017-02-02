@@ -2,7 +2,13 @@ import express from 'express';
 // Actions
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
-import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
+import { getOrder,
+  getCart,
+  addToCart,
+  createOrder,
+  removeFromCart,
+  updateCart,
+  applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
 import getMannequinHeads from './mannequinHeads';
@@ -83,6 +89,13 @@ apiRoutes.post('/removefromcart', (req, resp) => {
 // Add Item To Cart
 apiRoutes.post('/createorder', (req, resp) => {
   createOrder(req).then((data) => {
+    resp.json(data);
+  });
+});
+
+// Apply coupon code
+apiRoutes.put('/applycode', (req, resp) => {
+  applyCouponCode(req).then((data) => {
     resp.json(data);
   });
 });

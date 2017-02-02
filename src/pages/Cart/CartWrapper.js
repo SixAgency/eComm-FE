@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
+import { getCart, removeItem, updateCart, updateQuantity, applyPromoCode } from '../../actions/order';
 import { onLogout, onLogin } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
@@ -25,6 +25,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
+    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
   }
 ));
 class CartWrapper extends Component {
@@ -40,6 +41,7 @@ class CartWrapper extends Component {
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -147,6 +149,7 @@ class CartWrapper extends Component {
         message={this.props.message}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
+        applyPromoCode={this.props.applyPromoCode}
       />
     );
   }
