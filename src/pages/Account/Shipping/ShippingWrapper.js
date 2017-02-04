@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import Shipping from './Shipping';
+
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress, createOrEditAddress } from '../../../actions/address';
@@ -14,6 +17,7 @@ const mapStateToProps = ((state) => (
     shipping: state.address.shipping,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -24,7 +28,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class ShippingWrapper extends React.Component {
+
+class ShippingWrapper extends BasePageComponent {
   static propTypes = {
     emailAddress: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -79,7 +84,7 @@ class ShippingWrapper extends React.Component {
     const data = {
       address,
       address_type: 'ship_address',
-    }
+    };
     this.props.createOrEditAddress(data);
   }
 

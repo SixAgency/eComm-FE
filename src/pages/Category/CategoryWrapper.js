@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import capitalize from 'lodash.capitalize';
+
 import Category from './Category';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
@@ -11,6 +13,7 @@ const mapStateToProps = ((state) => (
     gridItems: state.catalog.gridItems,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -20,6 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
+
 class CategoryWrapper extends React.Component {
 
   static propTypes = {
@@ -29,6 +33,7 @@ class CategoryWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
   }
 
   componentWillMount = () => {
@@ -74,7 +79,7 @@ class CategoryWrapper extends React.Component {
   }
 
   render() {
-    console.log('client');
+    document.title = `${capitalize(this.props.params.slug)} Archives - krissorbie`;
     return (
       <Category gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
     );

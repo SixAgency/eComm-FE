@@ -308,11 +308,11 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
           active: '/my-account',
         };
         getAddresses(req)
-          .then((data) => {
+          .then((addresses) => {
             address = {
               isLoaded: true,
-              isEmpty: data.ship_address === null,
-              address: data.ship_address || {},
+              isEmpty: addresses.ship_address === null,
+              address: addresses.ship_address || {},
             };
             params.content = <ShippingWrapper {...data.user} shipping={address} />;
             handleRoutes(req, resp, next, params);
@@ -439,7 +439,7 @@ siteRoutes.get('/error', (req, resp, next) => {
 // 404 Page
 siteRoutes.get('*', (req, resp, next) => {
   const params = {
-    title: 'Page not found',
+    title: 'Page Not Found',
     description: '',
     header: 'default',
     active: '/',

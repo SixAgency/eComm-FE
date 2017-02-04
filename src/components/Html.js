@@ -4,8 +4,8 @@ import { analytics } from '../config';
 class Html extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    ogImage: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    ogImage: PropTypes.string,
     style: PropTypes.string,
     scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
     children: PropTypes.string,
@@ -19,18 +19,19 @@ class Html extends Component {
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <title>{`${title} - krissorbie`}</title>
-          {description && <meta name="description" content={description} />}
+          <meta name="description" content={description || '...'} />
+          <link rel="canonical" href="https://krissorbie.com/" />
           <meta property="og:locale" content="en_US" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={`${title} - krissorbie`} />
-          {description && <meta property="og:description" content={description} />}
+          <meta property="og:description" content={description || '...'} />
           {ogImage && <meta property="og:image" content={ogImage} />}
           {ogImage && <meta property="og:image:width" content="960" />}
           {ogImage && <meta property="og:image:height" content="960" />}
           <meta property="og:url" content="https://krissorbie.com/" />
           <meta property="og:site_name" content="krissorbie" />
           <meta name="twitter:card" content="summary" />
-          {description && <meta property="twitter:description" content={description} />}
+          <meta property="twitter:description" content={description || '...'} />
           {ogImage && <meta property="twitter:image" content={ogImage} />}
           <meta name="twitter:title" content={`${title} - krissorbie`} />
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />

@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import Home from './Home';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getProducts } from '../../actions/catalog';
@@ -11,6 +14,7 @@ const mapStateToProps = ((state) => (
     gridItems: state.catalog.gridItems,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -20,7 +24,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class HomeWrapper extends React.Component {
+
+class HomeWrapper extends BasePageComponent {
 
   static propTypes = {
     gridItems: PropTypes.object.isRequired,

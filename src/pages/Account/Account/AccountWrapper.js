@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import Account from './Account';
+
 // Action
 import { onLogin, onRegister, onLogout } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
@@ -13,6 +16,7 @@ const mapStateToProps = ((state) => (
     isError: state.page.isError,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -23,7 +27,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: (data) => dispatch(onLogout(data)),
   }
 ));
-class AccountWrapper extends React.Component {
+
+class AccountWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     setHeaderProps: PropTypes.func.isRequired,

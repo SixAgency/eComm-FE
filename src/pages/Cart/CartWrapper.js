@@ -1,6 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import Cart from './Cart';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
@@ -14,6 +17,7 @@ const mapStateToProps = ((state) => (
     isError: state.cart.isError,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -27,7 +31,8 @@ const mapDispatchToProps = ((dispatch) => (
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
   }
 ));
-class CartWrapper extends Component {
+
+class CartWrapper extends BasePageComponent {
   static propTypes = {
     removeItem: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,

@@ -1,6 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import MannequinHeads from './MannequinHeads';
+
 // Actions
 import { toggleLoader } from '../../actions/page';
 import getProducts from '../../actions/mannequinHeads';
@@ -20,7 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
   }
 ));
 
-class MannequinHeadsWrapper extends Component {
+class MannequinHeadsWrapper extends BasePageComponent {
 
   static propTypes = {
     toggleLoader: PropTypes.func.isRequired,

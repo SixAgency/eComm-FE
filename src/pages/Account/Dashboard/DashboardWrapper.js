@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import Dashboard from './Dashboard';
+
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
@@ -15,6 +18,7 @@ const mapStateToProps = ((state) => (
     billing: state.address.billing,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -24,7 +28,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class DashboardWrapper extends React.Component {
+
+class DashboardWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     userName: PropTypes.string.isRequired,
@@ -84,7 +89,8 @@ class DashboardWrapper extends React.Component {
     const addresses = {
       shippAddress: this.props.shipping,
       billAddress: this.props.billing,
-    }
+    };
+
     return (
       <Dashboard
         userName={this.props.userName}

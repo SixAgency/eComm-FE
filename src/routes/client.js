@@ -25,55 +25,29 @@ function onChange() {
   window.scrollTo(0, 0);
 }
 
-// Function to update SEO tags.
-function updateTag(tagName, keyName, keyValue, attrName, attrValue) {
-  const node = document.head.querySelector(`${tagName}[${keyName}="${keyValue}"]`);
-  if (node && node.getAttribute(attrName) === attrValue) return;
-
-  // Remove and create a new tag in order to make it work with bookmar in Safari
-  if (node) {
-    node.parentNode.removeChild(node);
-  }
-  if (typeof attrValue === 'string') {
-    const nextNode = document.createElement(tagName);
-    nextNode.setAttribute(keyName, keyValue);
-    nextNode.setAttribute(attrName, attrValue);
-    document.head.appendChild(nextNode);
-  }
-}
-function updateMeta(name, content) {
-  updateTag('meta', 'name', name, 'content', content);
-}
-function updateCustomMeta(property, content) {
-  updateTag('meta', 'property', property, 'content', content);
-}
-function updateLink(rel, href) {
-  updateTag('link', 'rel', rel, 'href', href);
-}
-
 const routes = (
   <Route path="/" component={Layout} onChange={onChange}>
-    <IndexRoute component={HomeWrapper} />
-    <Route path="biography" component={BiographyWrapper} />
+    <IndexRoute component={HomeWrapper} title="Shop" />
+    <Route path="biography" component={BiographyWrapper} title="Biography" />
     <Route path="my-account">
-      <IndexRoute component={AccountWrapper} />
-      <Route path="dashboard" component={DashboardWrapper} />
-      <Route path="edit-account" component={ProfileWrapper} />
+      <IndexRoute component={AccountWrapper} title="My Account" />
+      <Route path="dashboard" component={DashboardWrapper} title="My Account" />
+      <Route path="edit-account" component={ProfileWrapper} title="Edit Account" />
       <Route path="edit-address">
-        <Route path="billing" component={BillingWrapper} />
-        <Route path="shipping" component={ShippingWrapper} />
+        <Route path="billing" component={BillingWrapper} title="Edit Billing Address" />
+        <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" />
       </Route>
-      <Route path="lost-password" component={LostPasswordWrapper} />
-      <Route path="view-order" component={ViewOrderWrapper} />
+      <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
+      <Route path="view-order" component={ViewOrderWrapper} title="My Account" />
     </Route>
-    <Route path="product/:slug" component={ProductWrapper} />
+    <Route path="product/:slug" component={ProductWrapper} title="Category" />
     <Route path="product-category/:slug" component={CategoryWrapper} />
-    <Route path="contact" component={ContactWrapper} />
-    <Route path="ks-mannequin-heads" component={MannequinHeadsWrapper} />
-    <Route path="cart" component={CartWrapper} />
-    <Route path="checkout" component={CheckoutWrapper} />
-    <Route path="error" component={ErrorPageWrapper} />
-    <Route path="*" component={NotFoundWrapper} />
+    <Route path="contact" component={ContactWrapper} title="Contact" />
+    <Route path="ks-mannequin-heads" component={MannequinHeadsWrapper} title="ks Mannequin Heads" />
+    <Route path="cart" component={CartWrapper} title="Cart" />
+    <Route path="checkout" component={CheckoutWrapper} title="Checkout" />
+    <Route path="error" component={ErrorPageWrapper} title="Error" />
+    <Route path="*" component={NotFoundWrapper} title="Page Not Found" />
   </Route>
 );
 

@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import Profile from './Profile';
+
 // Action
 import { onLogout } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
@@ -11,6 +14,7 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -19,7 +23,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class ProfileWrapper extends React.Component {
+
+class ProfileWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,

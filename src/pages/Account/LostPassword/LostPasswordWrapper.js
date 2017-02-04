@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import LostPassword from './LostPassword';
+
 // Action
 import { onLogout } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
@@ -13,6 +16,7 @@ const mapStateToProps = ((state) => (
     isError: state.page.isError,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -21,7 +25,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: (data) => dispatch(onLogout(data)),
   }
 ));
-class LostPasswordWrapper extends React.Component {
+
+class LostPasswordWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,

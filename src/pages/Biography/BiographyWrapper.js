@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import BasePageComponent from '../BasePageComponent';
 import Biography from './Biography';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 
@@ -12,7 +14,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class BiographyWrapper extends React.Component {
+
+class BiographyWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
@@ -39,7 +42,6 @@ class BiographyWrapper extends React.Component {
   }
 
   render() {
-    console.log('client');
     return (
       <Biography />
     );

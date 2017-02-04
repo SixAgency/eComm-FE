@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
+import BasePageComponent from '../../BasePageComponent';
 import Billing from './Billing';
+
 // Action
 import { onLogout } from '../../../actions/user';
 import { getAddress, createOrEditAddress } from '../../../actions/address';
@@ -14,6 +17,7 @@ const mapStateToProps = ((state) => (
     billing: state.address.billing,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -24,7 +28,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class BillingWrapper extends React.Component {
+
+class BillingWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     emailAddress: PropTypes.string.isRequired,
@@ -78,7 +83,7 @@ class BillingWrapper extends React.Component {
     const data = {
       address,
       address_type: 'bill_address',
-    }
+    };
     this.props.createOrEditAddress(data);
   }
 

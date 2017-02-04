@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+
 import Product from './Product';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { addToCart } from '../../actions/order';
@@ -11,6 +13,7 @@ const mapStateToProps = ((state) => (
     product: state.catalog.product,
   }
 ));
+
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
@@ -20,7 +23,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class ProductWrapper extends React.Component {
+
+class ProductWrapper extends Component {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
@@ -94,6 +98,7 @@ class ProductWrapper extends React.Component {
     if (!this.props.product.isLoaded) {
       return null;
     }
+    document.title = `${this.props.product.product.name || 'Shop'} - krissorbie`;
     return (
       <Product
         product={this.props.product}

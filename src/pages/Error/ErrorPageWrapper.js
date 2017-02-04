@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import ErrorPage from './ErrorPage';
+
 // Actions
 import { setHeaderProps, toggleLoader } from '../../actions/page';
 
@@ -11,7 +14,7 @@ const mapDispatchToProps = ((dispatch) => (
   }
 ));
 
-class ErrorPageWrapper extends React.Component {
+class ErrorPageWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
