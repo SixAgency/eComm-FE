@@ -27,6 +27,7 @@ class Cart extends Component {
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   render() {
@@ -81,7 +82,10 @@ class Cart extends Component {
                   updateQuantity={this.props.updateQuantity}
                   cartItems={this.props.cartItems}
                 />
-                <PromoCodeInput updateCart={this.props.updateCart} />
+                <PromoCodeInput
+                  updateCart={this.props.updateCart}
+                  applyPromoCode={this.props.applyPromoCode}
+                />
                 <CartForm cart={cart} loggedIn={this.props.loggedIn} />
               </div>
             </article>

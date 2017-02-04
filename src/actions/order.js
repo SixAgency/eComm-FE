@@ -72,4 +72,16 @@ function updateQuantity(data) {
   };
 }
 
-export { getCart, addToCart, removeItem, updateCart, updateQuantity, resetCart };
+function applyPromoCode(data) {
+  return (dispatch) => {
+    axios.put('api/applycode', { data })
+      .then(() => {
+        dispatch({ type: 'APPLY_PROMO_CODE_SUCCESS', payload: { message: 'Code has been applied' } });
+      })
+      .catch((err) => {
+        dispatch({ type: 'APPLY_PROMO_CODE_ERROR', payload: err });
+      });
+  };
+}
+
+export { getCart, addToCart, removeItem, updateCart, updateQuantity, resetCart, applyPromoCode };

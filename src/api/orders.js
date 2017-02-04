@@ -124,5 +124,24 @@ function updateCart(request) {
   return response;
 }
 
+// Apply Coupon code
+function applyCouponCode(request) {
+  const data = request.body.data;
+  const orderNumber = request.session.orderNumber;
+  const response = apiFetch(`${ORDER}/${orderNumber}/apply_coupon_code`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => parseResponse(resp))
+  .then((resp) => (resp))
+  .catch((err) => parseError(err));
+  return response;
+}
+
 // TODO - user orders
-export { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart };
+export { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart, applyCouponCode };

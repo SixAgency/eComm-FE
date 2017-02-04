@@ -55,6 +55,12 @@ export default function reducer(state = {
         isError: false,
       };
     }
+    case 'APPLY_PROMO_CODE_SUCCESS': {
+      return { ...state, message: action.payload.message, isError: false };
+    }
+    case 'APPLY_PROMO_CODE_ERROR': {
+      return { ...state, message: action.payload.message, isError: true };
+    }
     default: // do nothing
   }
 
