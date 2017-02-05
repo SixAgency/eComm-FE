@@ -136,4 +136,20 @@ function onRegister(data) {
   };
 }
 
-export { onLogout, onLogin, onRegister, checkLogin };
+function getProfile() {
+  return (dispatch) => {
+    axios.get('/api/profile')
+      .then((resp) => dispatch({ type: 'GET_PROFILE_SUCCESS', payload: resp.data }))
+      .catch((err) => dispatch({ type: 'GET_PROFILE_ERROR', payload: err }));
+  };
+}
+
+function updateProfile(data) {
+  return (dispatch) => {
+    axios.post('/api/profile', data)
+      .then((resp) => dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: resp.data }))
+      .catch((err) => dispatch({ type: 'UPDATE_PROFILE_ERROR', payload: err }));
+  };
+}
+
+export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile };

@@ -1,7 +1,17 @@
 import express from 'express';
 // Actions
-import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import { getProducts, getProduct, getMannequinHeads, getProductsInCategory } from './products';
+import { userLogin,
+  userRegistration,
+  userLogout,
+  checkLogin,
+  getProfile,
+  updateProfile } from './users';
+import {
+  getProducts,
+  getProduct,
+  getMannequinHeads,
+  getProductsInCategory,
+} from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
 import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
@@ -36,7 +46,7 @@ apiRoutes.post('/register', (req, resp) => {
     userRegistration(req).then(data => resp.json(data));
   }
 });
-// // logout
+// logout
 apiRoutes.post('/logout', (req, resp) => {
   userLogout(req).then(data => resp.json(data));
 });
@@ -44,6 +54,15 @@ apiRoutes.post('/logout', (req, resp) => {
 apiRoutes.get('/check', (req, resp) => {
   checkLogin(req).then(data => resp.json(data));
 });
+
+// get profile
+apiRoutes
+  .get('/profile', (req, resp) => {
+    getProfile(req).then((data) => resp.json(data));
+  })
+  .post('/profile', (req, resp) => {
+    updateProfile(req).then((data) => resp.json(data));
+  });
 
 // PRODUCT ROUTES
 

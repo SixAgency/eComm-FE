@@ -52,6 +52,7 @@ class CartWrapper extends BasePageComponent {
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     getPayPalToken: PropTypes.func.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
@@ -152,6 +153,28 @@ class CartWrapper extends BasePageComponent {
     };
     this.props.updateCart(data);
   };
+
+  updateQuantity = (updatedCartItems) => {
+    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
+    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
+  }
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    console.log('here');
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+    });
+  }
+
+  handleGiftCard = (e) => {
+    e.preventDefault();
+    this.setState({
+      showCouponFields: !this.state.showCouponFields,
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+    });
+  }
 
   render() {
     return (

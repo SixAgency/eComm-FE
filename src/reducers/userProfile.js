@@ -1,11 +1,10 @@
 export default function reducer(state = {
-  userName: '',
-  emailAddress: '',
-  loggedIn: false,
+  profile: null,
+  loggedIn: true,
 }, action) {
   switch (action.type) {
-    case 'SET_USER': {
-      return { ...state, ...action.payload };
+    case 'GET_PROFILE_SUCCESS': {
+      return { ...state, profile: action.payload.profile };
     }
     default: // do nothing
   }

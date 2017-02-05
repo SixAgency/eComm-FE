@@ -6,12 +6,13 @@ import BasePageComponent from '../../BasePageComponent';
 import Profile from './Profile';
 
 // Action
-import { onLogout } from '../../../actions/user';
+import { onLogout, getProfile, updateProfile } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
-    loggedIn: state.user.loggedIn
+    loggedIn: state.userProfile.loggedIn,
+    profile: state.userProfile.profile
   }
 ));
 
@@ -20,9 +21,12 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    resetMessages: () => dispatch(resetMessages())
+    resetMessages: () => dispatch(resetMessages()),
+    getProfile: () => dispatch(getProfile()),
+    updateProfile: (data) => dispatch(updateProfile(data))
   }
 ));
+
 
 class ProfileWrapper extends BasePageComponent {
   static propTypes = {
@@ -30,7 +34,10 @@ class ProfileWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    route: PropTypes.object
+    route: PropTypes.object,
+    getProfile: PropTypes.func.isRequired,
+    updateProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired
   }
 
   componentWillMount = () => {
@@ -42,6 +49,9 @@ class ProfileWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
+    if (!this.props.profile) {
+      this.props.getProfile();
+    }
   }
 
   componentDidMount = () => {
@@ -58,8 +68,10 @@ class ProfileWrapper extends BasePageComponent {
   render() {
     return (
       <Profile
+        profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
+        onUpdateProfile={this.props.updateProfile}
         breadcrumbs={this.props.route.breadcrumbs}
       />
     );

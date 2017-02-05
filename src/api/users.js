@@ -1,11 +1,14 @@
 import { apiFetch } from '../core/fetch';
 // Helpers
 import { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse } from './helpers/handlers';
+import { parseProfile } from './handlers';
+import { faketoken } from '../config';
+import conslog from '../utils/dev';
 
 const LOGIN = '/login';
 const LOGOUT = '/logout';
 const REGISTER = '/signup';
-
+const PROFILE = '/api/v1/users';
 
 // Login
 function userLogin(request) {
@@ -71,4 +74,37 @@ function checkLogin(request) {
     .catch((err) => setError(err));
 }
 
-export { userLogin, userRegistration, userLogout, checkLogin };
+// Get User Profile
+function getProfile(request) {
+  return apiFetch(PROFILE,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (parseProfile(resp)))
+  .catch((err) => setError(err));
+}
+
+// Update User Profile
+function updateProfile(request) {
+  const profile = { ...request.body };
+  return apiFetch(PROFILE,
+    {
+      method: 'POST',
+      body: JSON.stringify(profile),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => {
+    conslog('UPDATE RESP', resp);
+    parseProfile(resp);
+  })
+  .catch((err) => setError(err));
+}
+export { userLogin, userRegistration, userLogout, checkLogin, getProfile, updateProfile };
