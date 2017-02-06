@@ -7,7 +7,7 @@ class ProductsTable extends React.Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     removeItem: PropTypes.func.isRequired,
-    updateQuantity: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func,
     cartItems: PropTypes.object.isRequired,
   }
 
