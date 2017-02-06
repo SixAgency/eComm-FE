@@ -9,7 +9,7 @@ class ProductRow extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
-    updateQuantity: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func,
     cartItems: PropTypes.object.isRequired,
   }
 

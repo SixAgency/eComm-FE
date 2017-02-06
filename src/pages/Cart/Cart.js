@@ -15,18 +15,18 @@ import EmptyCart from '../../components/EmptyCart';
 class Cart extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
-    onLogin: PropTypes.func.isRequired,
-    handleLogin: PropTypes.func.isRequired,
+    onLogin: PropTypes.func,
+    handleLogin: PropTypes.func,
     handleGiftCard: PropTypes.func.isRequired,
     couponClass: PropTypes.string.isRequired,
-    loginClass: PropTypes.string.isRequired,
+    loginClass: PropTypes.string,
     removeItem: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
-    updateQuantity: PropTypes.func.isRequired,
+    updateQuantity: PropTypes.func,
     applyPromoCode: PropTypes.func.isRequired,
   }
 
