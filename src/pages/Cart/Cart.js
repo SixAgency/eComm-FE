@@ -11,6 +11,7 @@ import LoginInput from '../../components/LoginInput/LoginInput';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
 import EmptyCart from '../../components/EmptyCart';
+import ErrorDisplay from '../../components/ErrorDisplay';
 
 class Cart extends Component {
   static propTypes = {
@@ -24,6 +25,7 @@ class Cart extends Component {
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
+    messages: PropTypes.array,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
@@ -47,6 +49,7 @@ class Cart extends Component {
     return (
       <div className={s.cartpage}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <CartCta
           loggedIn={this.props.loggedIn}
           toggleLogin={this.props.handleLogin}

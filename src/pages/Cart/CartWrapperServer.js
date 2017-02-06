@@ -11,6 +11,7 @@ class CartWrapper extends Component {
     loggedIn: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
+    messages: PropTypes.array,
     isError: PropTypes.bool.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
@@ -29,7 +30,7 @@ class CartWrapper extends Component {
     updateQuantity: () => (true),
     applyPromoCode: () => (true),
     isError: false,
-    message: '',
+    messages: '',
   }
 
   constructor(props) {
@@ -61,6 +62,7 @@ class CartWrapper extends Component {
         onLogout={this.props.onLogout}
         handleGiftCard={this.handleGiftCard}
         message={this.props.message}
+        messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
         updateCart={this.props.updateCart}

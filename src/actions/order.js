@@ -17,6 +17,13 @@ function setCart(cart) {
   return { type: 'SET_CART', payload: data };
 }
 
+function setCode() {
+  const data = {
+    message: 'Code has been applied',
+    isLoaded: true,
+  };
+  return { type: 'APPLY_PROMO_CODE_SUCCESS', payload: data };
+}
 
 function getCart() {
   return (dispatch) => {
@@ -38,7 +45,7 @@ function addToCart(data) {
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
-        const message = `${data.name} has been added to your cart.`;
+        const message = `${response.data.name} has been added to your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
         forwardTo('cart');
       }, () => {
@@ -53,12 +60,11 @@ function addToCart(data) {
 }
 
 function removeItem(data) {
-  console.log(data);
   return (dispatch) => {
     axios.post('/api/cart/remove', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
-        const message = `${data.name} has been removed from your cart.`;
+        const message = `${response.data.name} has been removed from your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
         forwardTo('cart');
       }, () => {
@@ -76,11 +82,17 @@ function removeItem(data) {
 function updateCart(data) {
   return (dispatch) => {
     axios.put('/api/cart', { data })
-      .then((resp) => {
-        dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.', cart: resp.data } });
-      })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data));
+        const message = 'Cart updated.';
+        dispatch(setMessage({ isError: false, messages: [message] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
       .catch((err) => {
-        dispatch({ type: 'UPDATE_CART_ERROR', payload: err });
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+        // dispatch(resetCart());
       });
   };
 }
@@ -95,10 +107,15 @@ function applyPromoCode(data) {
   return (dispatch) => {
     axios.put('api/applycode', { data })
       .then(() => {
-        dispatch({ type: 'APPLY_PROMO_CODE_SUCCESS', payload: { message: 'Code has been applied' } });
+        dispatch(setCode());
+        const message = 'Code has been applied.';
+        dispatch(setMessage({ isError: false, messages: [message] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: ['Something went wrong'] }));
       })
       .catch((err) => {
-        dispatch({ type: 'APPLY_PROMO_CODE_ERROR', payload: err });
+        console.log('Error', err); // esling-disable-line no-console
+        forwardTo('error');
       });
   };
 }

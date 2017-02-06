@@ -13,7 +13,7 @@ const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
-    message: state.cart.message,
+    messages: state.page.messages,
     isError: state.cart.isError,
   }
 ));
@@ -43,6 +43,7 @@ class CartWrapper extends BasePageComponent {
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
+    messages: PropTypes.array,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
@@ -152,6 +153,7 @@ class CartWrapper extends BasePageComponent {
         onLogout={this.props.onLogout}
         onLogin={this.props.onLogin}
         message={this.props.message}
+        messages={this.props.messages}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}
