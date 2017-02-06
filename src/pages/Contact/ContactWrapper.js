@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import Contact from './Contact';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import sendContact from '../../actions/contact';
@@ -20,7 +23,8 @@ const mapDispatchToProps = ((dispatch) => (
     sendContact: (data) => dispatch(sendContact(data)),
   }
 ));
-class ContactWrapper extends React.Component {
+
+class ContactWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,

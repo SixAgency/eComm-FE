@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import BasePageComponent from '../BasePageComponent';
 import NotFound from './NotFound';
+
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 
@@ -11,7 +14,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
-class NotFoundWrapper extends React.Component {
+class NotFoundWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,

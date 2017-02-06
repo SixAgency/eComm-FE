@@ -1,6 +1,8 @@
 import express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import capitalize from 'lodash.capitalize';
+
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 
 import conslog from '../utils/dev';
@@ -75,7 +77,6 @@ function handleRoutes(req, resp, next, params) {
     if (assets[params.chunk]) {
       data.scripts.push(assets[params.chunk].js);
     }
-
     const html = ReactDOM.renderToString(<Html {...data} />);
     resp.status(params.status || 200);
     resp.send(`<!doctype html>${html}`);
@@ -123,9 +124,15 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       const prodParams = {
         slug: req.params.slug,
       };
+      const { images } = data.master;
+      let ogImage = '';
+      if (images.length > 0 && images[0].large_url) {
+        ogImage = `https:${images[0].large_url}`;
+      }
       const params = {
-        title: product.name || 'Shop',
-        description: '',
+        title: data.name || 'Shop',
+        description: data.description || '',
+        ogImage,
         header: 'colored',
         active: '/',
         content: <ProductWrapper product={product} params={prodParams} />,
@@ -149,7 +156,7 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
         slug: req.params.slug,
       };
       const params = {
-        title: `${prodParams.slug} Archives`,
+        title: `${capitalize(prodParams.slug)} Archives`,
         description: '',
         header: 'default',
         active: '/',
@@ -301,11 +308,11 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
           active: '/my-account',
         };
         getAddresses(req)
-          .then((data) => {
+          .then((addresses) => {
             address = {
               isLoaded: true,
-              isEmpty: data.ship_address === null,
-              address: data.ship_address || {},
+              isEmpty: addresses.ship_address === null,
+              address: addresses.ship_address || {},
             };
             params.content = <ShippingWrapper {...data.user} shipping={address} />;
             handleRoutes(req, resp, next, params);
@@ -438,7 +445,7 @@ siteRoutes.get('/error', (req, resp, next) => {
 // 404 Page
 siteRoutes.get('*', (req, resp, next) => {
   const params = {
-    title: 'Page not found',
+    title: 'Page Not Found',
     description: '',
     header: 'default',
     active: '/',

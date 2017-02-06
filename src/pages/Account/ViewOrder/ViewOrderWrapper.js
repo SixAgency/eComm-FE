@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
+
+import BasePageComponent from '../../BasePageComponent';
 import ViewOrder from './ViewOrder';
 
-class ViewOrderWrapper extends React.Component {
+class ViewOrderWrapper extends BasePageComponent {
   static propTypes = {
     client: PropTypes.bool,
     loggedIn: PropTypes.bool.isRequired,
