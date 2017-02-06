@@ -26,6 +26,7 @@ class Shipping extends React.Component {
             formTitle={'shipping address'}
             formSubtitle={'Change your details'}
             showEmailPhone={showEmailPhone}
+            disableEmail
             buttonText={'save address'}
             selectClass={'checkoutselect'}
             emailAddress={this.props.emailAddress}

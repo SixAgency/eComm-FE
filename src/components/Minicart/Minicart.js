@@ -9,6 +9,7 @@ class Minicart extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     cartClass: PropTypes.string.isRequired,
+    toCheckout: PropTypes.func.isRequired,
   }
 
   render = () => {
@@ -31,7 +32,9 @@ class Minicart extends React.Component {
       <div className={cx(s.minicart, s[this.props.cartClass])}>
         <div className={s.cartcontent}>
           <p className={s.carttitle}>
-            <span className={s.count}>{cart.total_quantity}</span> items in your cart
+            <span className={s.count}>{cart.line_items.length}</span>
+            &nbsp; item {cart.line_items && cart.line_items.length > 1 ? 's' : ''}
+            in your cart
           </p>
           <div>
             <ul className={s.cartlist}>
@@ -65,7 +68,12 @@ class Minicart extends React.Component {
             </p>
             <p className={s.buttons}>
               <Link to="/cart" className={cx(s.button, s.view)}>View Cart</Link>
-              <Link to="/checkout" className={cx(s.button, s.checkout)}>Checkout</Link>
+              <button
+                className={cx(s.button, s.checkout)}
+                onClick={this.props.toCheckout}
+              >
+                Checkout
+              </button>
             </p>
           </div>
         </div>

@@ -55,6 +55,23 @@ export default function reducer(state = {
         isError: false,
       };
     }
+    case 'NEXT_CHECKOUT_SUCCESS': {
+      return {
+        ...state,
+        cartItems: action.payload,
+      };
+    }
+    case 'NEXT_CHECKOUT_ERROR': {
+      return { ...state,
+        cartItems: {
+          isLoaded: false,
+          isEmpty: true,
+          cart: {},
+        },
+        message: action.payload,
+        isError: true,
+      };
+    }
     default: // do nothing
   }
 

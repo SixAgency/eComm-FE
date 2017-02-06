@@ -4,9 +4,11 @@ import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct } from './products';
 import { getOrder, getCart, addToCart, createOrder, removeFromCart, updateCart } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
+import { checkoutNext, checkoutNextDelivery } from './checkouts';
 import sendContact from './contact';
 // Helpers
 import { validateAuth } from './helpers/validators';
+import conslog from '../utils/dev';
 
 const apiRoutes = express.Router();
 
@@ -102,6 +104,15 @@ apiRoutes
 // Contact
 apiRoutes.post('/contact', (req, resp) => {
   sendContact(req).then((data) => (resp.json(data)));
+});
+
+// Checkout
+apiRoutes.put('/checkoutnext', (req, resp) => {
+  checkoutNext(req).then((data) => (resp.json(data)));
+});
+
+apiRoutes.put('/checkoutnextdelivery', (req, resp) => {
+  checkoutNextDelivery(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

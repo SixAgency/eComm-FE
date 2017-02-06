@@ -19,6 +19,7 @@ class LayoutContent extends React.Component {
     menuOpen: PropTypes.string.isRequired,
     showLoader: PropTypes.bool.isRequired,
     layoutStyles: PropTypes.object.isRequired,
+    toCheckout: PropTypes.func.isRequired,
   };
 
   showLoader = () => {
@@ -39,6 +40,7 @@ class LayoutContent extends React.Component {
               cartItems={this.props.cartItems}
               menuOpen={this.props.menuOpen}
               mobileNavOpen={this.props.mobileNavOpen}
+              toCheckout={this.props.toCheckout}
             />
             {this.props.children}
             <Footer />

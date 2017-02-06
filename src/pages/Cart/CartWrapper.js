@@ -1,10 +1,12 @@
 import React, { PropTypes, Component } from 'react';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, removeItem, updateCart, updateQuantity } from '../../actions/order';
 import { onLogout, onLogin } from '../../actions/user';
+import { checkoutNext } from '../../actions/checkout';
 
 const mapStateToProps = ((state) => (
   {
@@ -25,6 +27,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
+    checkoutNext: () => dispatch(checkoutNext()),
   }
 ));
 class CartWrapper extends Component {
@@ -32,6 +35,7 @@ class CartWrapper extends Component {
     removeItem: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
@@ -40,6 +44,7 @@ class CartWrapper extends Component {
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -90,28 +95,6 @@ class CartWrapper extends Component {
     this.props.toggleLoader(true);
   }
 
-  handleGiftCard = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
-    });
-  }
-
-  handleLogin = (e) => {
-    e.preventDefault();
-    console.log('here');
-    this.setState({
-      showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
-    });
-  }
-
-  updateQuantity = (updatedCartItems) => {
-    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
-    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
-  }
-
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;
     const { line_items } = cart;
@@ -131,6 +114,36 @@ class CartWrapper extends Component {
     this.props.updateCart(data);
   }
 
+  toCheckout = () => {
+    const cart = this.props.cartItems.cart;
+    if (cart.state === 'cart') {
+      this.props.checkoutNext();
+    }
+    browserHistory.push('/checkout');
+  }
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    console.log('here');
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+    });
+  }
+
+  handleGiftCard = (e) => {
+    e.preventDefault();
+    this.setState({
+      showCouponFields: !this.state.showCouponFields,
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+    });
+  }
+
+  updateQuantity = (updatedCartItems) => {
+    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
+    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
+  }
+
   render() {
     return (
       <Cart
@@ -147,6 +160,7 @@ class CartWrapper extends Component {
         message={this.props.message}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
+        toCheckout={this.toCheckout}
       />
     );
   }

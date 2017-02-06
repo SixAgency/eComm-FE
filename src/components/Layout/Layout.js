@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import LayoutContent from './LayoutContent';
 import { getCart } from '../../actions/order';
 import { checkLogin } from '../../actions/user';
+import checkoutNext from '../../actions/checkout';
 
 const mapStateToProps = ((state) => (
   {
@@ -16,6 +18,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     getCart: () => dispatch(getCart()),
     checkLogin: () => dispatch(checkLogin()),
+    checkoutNext: () => dispatch(checkoutNext()),
   }
 ));
 class Layout extends React.Component {
@@ -27,6 +30,7 @@ class Layout extends React.Component {
     checkLogin: PropTypes.func.isRequired,
     showLoader: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -43,6 +47,14 @@ class Layout extends React.Component {
     } else {
       this.props.getCart();
     }
+  }
+
+  toCheckout = () => {
+    const cart = this.props.cartItems.cart;
+    if (cart.state === 'cart') {
+      this.props.checkoutNext();
+    }
+    browserHistory.push('/checkout');
   }
 
   mobileNavOpen = (event) => {
@@ -71,6 +83,7 @@ class Layout extends React.Component {
         menuOpen={this.state.menuOpen}
         layoutStyles={{ opacity: 1 }}
         showLoader={this.props.showLoader}
+        toCheckout={this.toCheckout}
       >{this.props.children}</LayoutContent>
     );
   }

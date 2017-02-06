@@ -382,6 +382,9 @@ siteRoutes.get('/cart', (req, resp, next) => {
 // Checkout Page
 siteRoutes.get('/checkout', (req, resp, next) => {
   getCart(req).then((data) => {
+    if (data.isEmpty || (!data.isEmpty && data.cart.state === 'cart')) {
+      resp.redirect('/cart');
+    }
     const params = {
       title: 'Checkout',
       description: '',

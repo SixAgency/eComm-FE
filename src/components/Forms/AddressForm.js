@@ -11,6 +11,7 @@ class AddressForm extends React.Component {
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
+    disableEmail: PropTypes.bool.isRequired,
     buttonText: PropTypes.string.isRequired,
     emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
@@ -120,6 +121,7 @@ class AddressForm extends React.Component {
             onStateUpdate={this.onStateUpdate}
             onZipUpdate={this.onZipUpdate}
             showEmailPhone={this.props.showEmailPhone}
+            disableEmail={this.props.disableEmail}
             selectClass={this.props.selectClass}
           />
           <div className={s.buttonwrapper}>

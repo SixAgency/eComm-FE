@@ -21,14 +21,14 @@
         display: inline-block;
         margin: 0 3px;
         .button {
-          color: #bbbbbb;
+          color: #222222;
           font-family: 'Helvetica Neue', Helvetica, Arial, serif;
           height: 52px;
           font-size: 11px;
           line-height: 52px;
           font-weight: 800;
           text-transform: uppercase;
-          background: transparent;
+          background: #E9EDEF;
           cursor: pointer;
           padding: 0 30px;
           border: 0;
@@ -38,9 +38,9 @@
           -ms-appearance: button;
           appearance: button;
         }
-        .active {
-          background: #E9EDEF;
-          color: #222222;
+        .button:disabled {
+          background: transparent;
+          color: #bbbbbb;
         }
         .blogin.login,
         .bregister.register,

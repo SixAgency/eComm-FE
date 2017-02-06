@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -48,6 +49,7 @@ function checkResponse(data) {
 
 // Error response
 function setError(data) {
+  conslog('error', data);
   const message = data.error || 'Server Error. Please contact your server administrator.';
   const resp = {
     isError: true,
@@ -208,6 +210,26 @@ function setEditCreateAddressResponse(data, type) {
   return resp;
 }
 
+function setCheckoutResponse(data) {
+  conslog('data', data);
+  let resp = {};
+  if (!data.isError) {
+    resp = {
+      isLoaded: true,
+      isEmpty: false,
+      cart: data,
+    };
+  } else {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+    };
+  }
+  conslog('1');
+  return resp;
+}
+
 export {
   checkResponse,
   setError,
@@ -216,4 +238,5 @@ export {
   setUserResponse,
   setAddressesResponse,
   setEditCreateAddressResponse,
+  setCheckoutResponse,
 };

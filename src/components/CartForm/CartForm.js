@@ -9,6 +9,7 @@ class CartForm extends React.Component {
   static propTypes = {
     cart: React.PropTypes.object.isRequired,
     loggedIn: React.PropTypes.bool.isRequired,
+    toCheckout: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -99,9 +100,12 @@ class CartForm extends React.Component {
             your purchase.
           </p>
           <p className={s.gotocheckout}>
-            <Link to="/checkout">
-              <button className={s.checkoutbtn}>Proceed to Checkout</button>
-            </Link>
+            <button
+              className={s.checkoutbtn}
+              onClick={this.props.toCheckout}
+            >
+                Proceed to Checkout
+            </button>
           </p>
           <p className={s.message}>
             Complete your purchase with your Krissorbie.com account or as a guest.

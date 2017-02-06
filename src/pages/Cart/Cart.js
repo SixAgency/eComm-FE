@@ -27,6 +27,7 @@ class Cart extends Component {
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    toCheckout: PropTypes.func.isRequired,
   }
 
   render() {
@@ -82,7 +83,11 @@ class Cart extends Component {
                   cartItems={this.props.cartItems}
                 />
                 <PromoCodeInput updateCart={this.props.updateCart} />
-                <CartForm cart={cart} loggedIn={this.props.loggedIn} />
+                <CartForm
+                  cart={cart}
+                  loggedIn={this.props.loggedIn}
+                  toCheckout={this.props.toCheckout}
+                />
               </div>
             </article>
           </div>

@@ -27,9 +27,9 @@ function serverError(error) {
 function checkResponse(data, success, error) {
   if (data.isError) {
     // Server Error - redirect to error page
-    // if (data.status === 500) {
-    //   // forwardTo('error');
-    // }
+    if (data.status === 500) {
+      forwardTo('error');
+    }
     // Session expired - reset user && redirect to login page
     if (data.status === 401) {
       forwardTo('my-account');

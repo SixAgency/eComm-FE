@@ -4,7 +4,9 @@ import Checkout from './Checkout';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart } from '../../actions/order';
+import { getAddress } from '../../actions/address';
 import { onLogin, onLogout } from '../../actions/user';
+import { checkoutNext, checkoutNextDelivery } from '../../actions/checkout';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -14,6 +16,9 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
+    getAddress: () => dispatch(getAddress()),
+    checkoutNext: () => dispatch(checkoutNext()),
+    checkoutNextDelivery: (data) => dispatch(checkoutNextDelivery(data)),
   }
 ));
 const mapStateToProps = ((state) => (
@@ -22,6 +27,8 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     message: state.page.message,
     isError: state.page.isError,
+    shipping: state.address.shipping,
+    billing: state.address.billing,
   }
 ));
 class CheckoutWrapper extends React.Component {
@@ -36,6 +43,11 @@ class CheckoutWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string,
     isError: PropTypes.bool,
+    shipping: PropTypes.object.isRequired,
+    billing: PropTypes.object.isRequired,
+    getAddress: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
+    checkoutNextDelivery: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -48,6 +60,8 @@ class CheckoutWrapper extends React.Component {
       loginClassName: 'hide',
       message: PropTypes.string,
       isError: PropTypes.bool,
+      billingAddress: {},
+      shippingAddress: {},
     };
   }
 
@@ -57,10 +71,11 @@ class CheckoutWrapper extends React.Component {
       activeSlug: '/my-account',
     };
     this.props.setHeaderProps(props);
-    if (this.props.cartItems.isLoaded) {
-      console.log(this.props.cartItems);
-    } else {
+    if (!this.props.cartItems.isLoaded) {
       this.props.getCart();
+    }
+    if (!this.props.shipping.isLoaded && !this.props.billing.isLoaded) {
+      this.props.getAddress();
     }
   }
 
@@ -84,6 +99,38 @@ class CheckoutWrapper extends React.Component {
   componentWillUnmount = () => {
     console.log('remove');
     this.props.toggleLoader(true);
+  }
+
+  nextCheckout = (address) => {
+    switch (this.state.content) {
+      case 'billing':
+        this.setState({
+          content: 'shipping',
+          billingAddress: address,
+        });
+        break;
+      case 'shipping':
+        if (address) {
+          this.setState({ shippingAddress: address });
+        } else {
+          this.setState({ shippingAddress: this.state.billingAddress });
+        }
+        this.setState({ content: 'promocode' }, () => {
+          const data = {
+            order: {
+              bill_address_attributes: this.state.billingAddress,
+              ship_address_attributes: this.state.shippingAddress,
+            },
+          };
+          this.props.checkoutNextDelivery(data);
+        });
+        break;
+      case 'promocode':
+        this.setState({ content: 'review' });
+        this.props.checkoutNext();
+        break;
+      default: // do nothing
+    }
   }
 
   clickTab = (e) => {
@@ -111,6 +158,11 @@ class CheckoutWrapper extends React.Component {
 
   render() {
     console.log('client');
+    const billing = this.props.billing;
+    const shipping = this.props.shipping;
+    if (!this.props.cartItems.isLoaded || !billing.isLoaded || !shipping.isLoaded) {
+      return null;
+    }
     return (
       <Checkout
         cartItems={this.props.cartItems}
@@ -125,6 +177,9 @@ class CheckoutWrapper extends React.Component {
         content={this.state.content}
         message={this.props.message}
         isError={this.props.isError}
+        billingAddress={this.props.billing.address}
+        shippingAddress={this.props.shipping.address}
+        nextCheckout={this.nextCheckout}
       />
     );
   }

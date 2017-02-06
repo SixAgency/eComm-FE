@@ -26,7 +26,9 @@ class AddressInputs extends React.Component {
     onCityUpdate: PropTypes.func.isRequired,
     onStateUpdate: PropTypes.func.isRequired,
     onZipUpdate: PropTypes.func.isRequired,
+    onEmailUpdate: PropTypes.func,
     showEmailPhone: PropTypes.bool.isRequired,
+    disableEmail: PropTypes.bool.isRequired,
     selectClass: PropTypes.string,
   }
 
@@ -47,7 +49,8 @@ class AddressInputs extends React.Component {
               name="email"
               value={this.props.emailAddress}
               className={s.input}
-              disabled
+              disabled={this.props.disableEmail}
+              onChange={this.props.onEmailUpdate}
             />
           </div>
           <div className={cx(s.inputwrapper, s.inputright)}>

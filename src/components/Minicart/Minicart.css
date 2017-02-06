@@ -105,6 +105,7 @@
   clear: both;
 }
 .button {
+  border: none;
   height: 60px;
   width: 50%;
   float: left;

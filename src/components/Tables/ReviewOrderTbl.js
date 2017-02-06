@@ -9,6 +9,16 @@ class ReviewOrderTbl extends React.Component {
     cart: PropTypes.object.isRequired,
   }
 
+  getProductName = (id) => {
+    let name = '';
+    this.props.cart.line_items.forEach((item) => {
+      if (item.variant_id === id) {
+        name = item.variant.name;
+      }
+    });
+    return name;
+  }
+
   handleShipping = (e) => {
     e.preventDefault();
     console.log('take me shipping');
@@ -18,6 +28,7 @@ class ReviewOrderTbl extends React.Component {
     e.preventDefault();
     console.log('take me billing');
   }
+
 
   render() {
     const cart = this.props.cart;
@@ -63,8 +74,9 @@ class ReviewOrderTbl extends React.Component {
                   {ship.shipping_rates[0].name}:
                   <span className={s.amount}>${ship.shipping_rates[0].cost}</span>
                   <p className={s.shippingcontents}>
-                    {ship.manifest.map((item) => (
-                      <small>{item.variant.name} x{item.quantity}</small>
+                    {ship.manifest.map((itemMan) => (
+                      <small>{this.getProductName(itemMan.variant_id)} x{itemMan.quantity}</small>
+                      // <small>{item.variant.name} x{item.quantity}</small>
                       ),
                     )}
                   </p>

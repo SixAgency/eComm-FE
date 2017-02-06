@@ -9,7 +9,7 @@ import ContentWrapper from '../../components/ContentWrapper';
 import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
 import LoginInput from '../../components/LoginInput/LoginInput';
 // Forms and inputs
-import BillingForm from '../../components/Forms/BillingForm';
+import BillingAddress from '../../components/Forms/CheckoutSteps/BillingAddress';
 import ShippingAddress from '../../components/Forms/CheckoutSteps/ShippingAddress';
 import PromoCode from '../../components/Forms/CheckoutSteps/PromoCode';
 import ReviewOrder from '../../components/Forms/CheckoutSteps/ReviewOrder';
@@ -30,24 +30,63 @@ class Checkout extends React.Component {
     content: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
+    billingAddress: PropTypes.object.isRequired,
+    shippingAddress: PropTypes.object.isRequired,
+    nextCheckout: PropTypes.func.isRequired,
   }
 
   getChildren = () => {
     const content = this.props.content;
+    const billingAddress = this.props.billingAddress || {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state_id: 0,
+      zipcode: '',
+      user_id: '',
+    };
+    const shippingAddress = this.props.shippingAddress || {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state_id: 0,
+      zipcode: '',
+      user_id: '',
+    };
     if (content === 'shipping') {
-      return <ShippingAddress />;
+      return (
+        <ShippingAddress
+          formTitle={'shipping address'}
+          formSubtitle={'Special Shipping Requests'}
+          selectClass={'checkoutselect'}
+          emailAddress={this.props.cartItems.cart.email || ''}
+          shippingAddress={shippingAddress}
+          nextCheckout={this.props.nextCheckout}
+        />
+      );
     } else if (content === 'promocode') {
-      return <PromoCode />;
+      return <PromoCode nextCheckout={this.props.nextCheckout} />;
     } else if (content === 'review') {
       return <ReviewOrder cartItems={this.props.cartItems.cart} />;
     }
     return (
-      <BillingForm
+      <BillingAddress
         loggedIn={this.props.loggedIn}
         formTitle={'billing address'}
         formSubtitle={'Fill in your details'}
         buttonText={'proceed'}
         selectClass={'checkoutselect'}
+        emailAddress={this.props.cartItems.cart.email || ''}
+        billingAddress={billingAddress}
+        nextCheckout={this.props.nextCheckout}
       />
     );
   }
