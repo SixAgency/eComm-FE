@@ -12,6 +12,8 @@ const mapStateToProps = ((state) => (
     emailAddress: state.user.emailAddress,
     loggedIn: state.user.loggedIn,
     billing: state.address.billing,
+    messages: state.page.messages,
+    isError: state.page.isError,
   }
 ));
 const mapDispatchToProps = ((dispatch) => (
@@ -34,6 +36,8 @@ class BillingWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    messages: PropTypes.array,
+    isError: PropTypes.bool,
   }
 
   componentWillMount = () => {
@@ -78,7 +82,7 @@ class BillingWrapper extends React.Component {
     const data = {
       address,
       address_type: 'bill_address',
-    }
+    };
     this.props.createOrEditAddress(data);
   }
 
@@ -102,6 +106,8 @@ class BillingWrapper extends React.Component {
         onLogout={this.props.onLogout}
         emailAddress={this.props.emailAddress}
         billingAddress={address}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

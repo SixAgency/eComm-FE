@@ -21,8 +21,7 @@ class LoginForm extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const data = this.state;
-    this.props.onLogin(data);
+    this.props.onLogin(this.state);
   }
 
   onUserChange = (event) => {

@@ -13,7 +13,10 @@ import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
 import getMannequinHeads from './mannequinHeads';
 // Helpers
-import { validateAuth } from './helpers/validators';
+import {
+  validateAuth,
+  validateMandatoryFieldsAddress,
+  validateContactForm } from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -73,13 +76,14 @@ apiRoutes
 apiRoutes.get('/order/:id', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
 });
+
 // Add Item To Cart
 apiRoutes.post('/addtocart', (req, resp) => {
   addToCart(req).then((data) => {
     resp.json(data);
   });
 });
-// Remove Item from Cart
+
 apiRoutes.post('/removefromcart', (req, resp) => {
   removeFromCart(req).then((data) => {
     resp.json(data);
@@ -101,21 +105,35 @@ apiRoutes.put('/applycode', (req, resp) => {
 });
 
 // ADDRESS ROUTES - GET, CREATE and UPDATE
-/* @TODO - add validation */
 apiRoutes
   .get('/addresses', (req, resp) => {
     getAddresses(req).then((data) => (resp.json(data)));
   })
   .post('/addresses', (req, resp) => {
-    createAddress(req).then((data) => (resp.json(data)));
+    const valid = validateMandatoryFieldsAddress(req.body.address);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      createAddress(req).then((data) => (resp.json(data)));
+    }
   })
   .put('/addresses', (req, resp) => {
-    updateAddress(req).then((data) => (resp.json(data)));
+    const valid = validateMandatoryFieldsAddress(req.body.address);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      updateAddress(req).then((data) => (resp.json(data)));
+    }
   });
 
 // Contact
 apiRoutes.post('/contact', (req, resp) => {
-  sendContact(req).then((data) => (resp.json(data)));
+  const valid = validateContactForm(req);
+  if (valid.isError) {
+    resp.json(valid);
+  } else {
+    sendContact(req).then((data) => (resp.json(data)));
+  }
 });
 
 // Mannequin heads page

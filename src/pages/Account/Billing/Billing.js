@@ -5,6 +5,7 @@ import s from './Billing.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import AddressForm from '../../../components/Forms/AddressForm';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class Billing extends React.Component {
 
@@ -14,6 +15,8 @@ class Billing extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     emailAddress: PropTypes.string.isRequired,
     billingAddress: PropTypes.object,
+    messages: PropTypes.array,
+    isError: PropTypes.bool,
   }
 
   render() {
@@ -21,6 +24,7 @@ class Billing extends React.Component {
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass={'hide'}>
           <AddressForm
             formTitle={'billing address'}

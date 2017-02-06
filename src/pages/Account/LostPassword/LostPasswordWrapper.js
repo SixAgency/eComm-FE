@@ -50,9 +50,8 @@ class LostPasswordWrapper extends React.Component {
     this.props.toggleLoader(true);
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
-    console.log('submited');
+  onSubmit = (data) => {
+    console.log(data);
   }
 
   render() {

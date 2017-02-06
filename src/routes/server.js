@@ -341,12 +341,18 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
         };
         getAddresses(req)
           .then((addresses) => {
+            const messages = data.messages || [];
             address = {
               isLoaded: true,
               isEmpty: addresses.bill_address === null,
               address: addresses.bill_address || {},
             };
-            params.content = <BillingWrapper {...data.user} billing={address} />;
+            params.content = (<BillingWrapper
+              {...data.user}
+              billing={address}
+              isError={data.isError}
+              messages={messages}
+            />);
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
             conslog('ERROR', err);

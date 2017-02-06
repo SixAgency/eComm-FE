@@ -3,6 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 import { getCart, resetCart } from './order';
 import { resetAddresses, setAddresses } from './address';
+import { validateAuth } from '../helpers/validators';
 
 /**
  * Set User - helper
@@ -63,25 +64,30 @@ function onLogout() {
  */
 function onLogin(data) {
   return (dispatch) => {
-    axios.post('/api/login', data)
-      .then((response) => checkResponse(response.data, () => {
-        // Reset the cart
-        dispatch(resetCart());
-        // Set the user
-        dispatch(setUser(response.data.user));
-        // Set billing and shipping addresses
-        dispatch(setAddresses(response.data.billing, response.data.shipping));
-        // Redirect to dashboard
-        forwardTo('my-account/dashboard');
-        // Get the user cart
-        dispatch(getCart());
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
-      });
+    const valid = validateAuth(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/login', data)
+        .then((response) => checkResponse(response.data, () => {
+          // Reset the cart
+          dispatch(resetCart());
+          // Set the user
+          dispatch(setUser(response.data.user));
+          // Set billing and shipping addresses
+          dispatch(setAddresses(response.data.billing, response.data.shipping));
+          // Redirect to dashboard
+          forwardTo('my-account/dashboard');
+          // Get the user cart
+          dispatch(getCart());
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+        });
+    }
   };
 }
 
@@ -92,25 +98,30 @@ function onLogin(data) {
  */
 function onRegister(data) {
   return (dispatch) => {
-    axios.post('/api/register', data)
-      .then((response) => checkResponse(response.data, () => {
-        // Reset the cart
-        dispatch(resetCart());
-        // Set the user
-        dispatch(setUser(response.data.user));
-        // Set billing and shipping addresses
-        dispatch(setAddresses(response.data.billing, response.data.shipping));
-        // Redirect to dashboard
-        forwardTo('my-account/dashboard');
-        // Get the user cart
-        dispatch(getCart());
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
-      });
+    const valid = validateAuth(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/register', data)
+        .then((response) => checkResponse(response.data, () => {
+          // Reset the cart
+          dispatch(resetCart());
+          // Set the user
+          dispatch(setUser(response.data.user));
+          // Set billing and shipping addresses
+          dispatch(setAddresses(response.data.billing, response.data.shipping));
+          // Redirect to dashboard
+          forwardTo('my-account/dashboard');
+          // Get the user cart
+          dispatch(getCart());
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+        });
+    }
   };
 }
 
