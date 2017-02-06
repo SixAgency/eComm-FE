@@ -11,8 +11,16 @@ export default function reducer(state = {
     case 'RESET_CART': {
       return { ...state, cartItems: action.payload };
     }
-    case 'GET_CART_SUCCESS': {
+    case 'SET_CART': {
       return { ...state, cartItems: action.payload };
+    }
+    case 'GET_CART_SUCCESS': {
+      const cartItems = {
+        isLoaded: true,
+        isEmpty: action.payload.isEmpty,
+        cart: action.payload.cart,
+      };
+      return { ...state, cartItems };
     }
     case 'GET_CART_ERROR': {
       return { ...state,
