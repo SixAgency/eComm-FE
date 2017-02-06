@@ -8,7 +8,6 @@ import sendContact from './contact';
 // Helpers
 import {
   validateAuth,
-  validateProduct,
   validateMandatoryFieldsAddress,
   validateContactForm } from '../helpers/validators';
 
@@ -70,27 +69,18 @@ apiRoutes
 apiRoutes.get('/order/:id', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
 });
+
 // Add Item To Cart
 apiRoutes.post('/addtocart', (req, resp) => {
-  const valid = validateProduct(req.body);
-  if (valid.isError) {
-    resp.json(valid);
-  } else {
-    addToCart(req).then((data) => {
-      resp.json(data);
-    });
-  }
+  addToCart(req).then((data) => {
+    resp.json(data);
+  });
 });
-// Remove Item from Cart
+
 apiRoutes.post('/removefromcart', (req, resp) => {
-  const valid = validateProduct(req.body);
-  if (valid.isError) {
-    resp.json(valid);
-  } else {
-    removeFromCart(req).then((data) => {
-      resp.json(data);
-    });
-  }
+  removeFromCart(req).then((data) => {
+    resp.json(data);
+  });
 });
 
 // Add Item To Cart

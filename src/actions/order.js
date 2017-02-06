@@ -21,16 +21,16 @@ function getCart() {
 function addToCart(data) {
   return (dispatch) => {
     axios.post('/api/addtocart', data)
-      .then((resp) => {
-        const response = { message: `“${resp.data.name}” has been added to your cart.` };
-        dispatch({ type: 'ADD_CART_SUCCESS', payload: response });
-        dispatch({ type: 'GET_CART_SUCCESS', payload: resp.data.cart });
-        browserHistory.push('/cart');
-      })
-      .catch((err) => {
-        dispatch({ type: 'ADD_CART_ERROR', payload: err });
-        browserHistory.push('/cart');
-      });
+    .then((resp) => {
+      const response = { message: `“${resp.data.name}” has been added to your cart.` };
+      dispatch({ type: 'ADD_CART_SUCCESS', payload: response });
+      dispatch({ type: 'GET_CART_SUCCESS', payload: resp.data.cart });
+      browserHistory.push('/cart');
+    })
+    .catch((err) => {
+      dispatch({ type: 'ADD_CART_ERROR', payload: err });
+      browserHistory.push('/cart');
+    });
   };
 }
 
