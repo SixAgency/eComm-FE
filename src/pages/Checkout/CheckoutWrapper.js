@@ -6,7 +6,7 @@ import Checkout from './Checkout';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart } from '../../actions/order';
+import { getCart, applyPromoCode } from '../../actions/order';
 import { onLogin, onLogout } from '../../actions/user';
 
 const mapDispatchToProps = ((dispatch) => (
@@ -17,6 +17,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
+    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
   }
 ));
 
@@ -41,6 +42,7 @@ class CheckoutWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     message: PropTypes.string,
     isError: PropTypes.bool,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -130,6 +132,7 @@ class CheckoutWrapper extends BasePageComponent {
         content={this.state.content}
         message={this.props.message}
         isError={this.props.isError}
+        applyPromoCode={this.props.applyPromoCode}
       />
     );
   }
