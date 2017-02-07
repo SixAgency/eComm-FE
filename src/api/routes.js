@@ -1,11 +1,10 @@
 import express from 'express';
 // Actions
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import { getProducts, getProduct } from './products';
+import { getProducts, getProduct, getMannequinHeads } from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
-import getMannequinHeads from './mannequinHeads';
 // Helpers
 import {
   validateAuth,
@@ -122,7 +121,7 @@ apiRoutes.post('/contact', (req, resp) => {
 });
 
 // Mannequin heads page
-apiRoutes.get('/mannequinHeads', (req, resp) => {
+apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
 });
 

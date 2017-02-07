@@ -87,20 +87,25 @@ function handleRoutes(req, resp, next, params) {
 
 // Homepage
 siteRoutes.get('/', (req, resp, next) => {
-  getProducts(req).then((data) => {
-    const gridItems = {
-      isLoaded: true,
-      products: data.products,
-    };
-    const params = {
-      title: 'Shop',
-      description: '',
-      header: 'default',
-      active: '/',
-      content: <HomeWrapper gridItems={gridItems} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
+  getProducts(req)
+    .then((data) => {
+      const gridItems = {
+        isLoaded: true,
+        ...data,
+      };
+      const params = {
+        title: 'Shop',
+        description: '',
+        header: 'default',
+        active: '/',
+        content: <HomeWrapper gridItems={gridItems} />,
+      };
+      handleRoutes(req, resp, next, params);
+    })
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Biography Page
 siteRoutes.get('/biography', (req, resp, next) => {
@@ -117,31 +122,39 @@ siteRoutes.get('/biography', (req, resp, next) => {
 siteRoutes.get('/product/:slug', (req, resp, next) => {
   getProduct(req)
     .then((data) => {
-      const product = {
-        isLoaded: true,
-        product: data,
-      };
-      const prodParams = {
-        slug: req.params.slug,
-      };
-      const { images } = data.master;
-      let ogImage = '';
-      if (images.length > 0 && images[0].large_url) {
-        ogImage = `https:${images[0].large_url}`;
+      if (data.isError) {
+        conslog('ERROR', data.messages);
+        resp.redirect('/error');
+      } else if (data.isEmpty) {
+        conslog('NOT FOUND', data);
+        resp.redirect('/404');
+      } else {
+        const product = {
+          isLoaded: true,
+          ...data,
+        };
+        const prodParams = {
+          slug: req.params.slug,
+        };
+        const { images } = product.product.master;
+        let ogImage = '';
+        if (images.length > 0 && images[0].large_url) {
+          ogImage = `https:${images[0].large_url}`;
+        }
+        const params = {
+          title: product.product.name || 'Shop',
+          description: product.product.description || '',
+          ogImage,
+          header: 'colored',
+          active: '/',
+          content: <ProductWrapper product={product} params={prodParams} />,
+        };
+        handleRoutes(req, resp, next, params);
       }
-      const params = {
-        title: data.name || 'Shop',
-        description: data.description || '',
-        ogImage,
-        header: 'colored',
-        active: '/',
-        content: <ProductWrapper product={product} params={prodParams} />,
-      };
-      handleRoutes(req, resp, next, params);
     })
     .catch((err) => {
       conslog('ERROR', err);
-      resp.redirect('/404');
+      resp.redirect('/500');
     });
 });
 // Category Page
@@ -150,7 +163,7 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
     .then((data) => {
       const products = {
         isLoaded: true,
-        products: data.products,
+        data,
       };
       const prodParams = {
         slug: req.params.slug,

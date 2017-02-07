@@ -3,6 +3,10 @@ export default function reducer(state = {
     isLoaded: false,
     products: [],
   },
+  mannequinHeads: {
+    isLoaded: false,
+    products: [],
+  },
   product: {
     isLoaded: false,
     product: {},
@@ -11,6 +15,9 @@ export default function reducer(state = {
   switch (action.type) {
     case 'SET_PRODUCTS': {
       return { ...state, gridItems: action.payload };
+    }
+    case 'SET_MANNEQUIN': {
+      return { ...state, mannequinHeads: action.payload };
     }
     case 'SET_PRODUCT': {
       return { ...state, product: action.payload };

@@ -25,11 +25,13 @@ function serverError(error) {
  * @returns {function(*)}
  */
 function checkResponse(data, success, error) {
+  console.log('here1');
   if (data.isError) {
+    console.log('here2');
     // Server Error - redirect to error page
-    // if (data.status === 500) {
-    //   // forwardTo('error');
-    // }
+    if (data.status === 500) {
+      forwardTo('error');
+    }
     // Session expired - reset user && redirect to login page
     if (data.status === 401) {
       forwardTo('my-account');
@@ -37,6 +39,7 @@ function checkResponse(data, success, error) {
     // Other error - display on the page
     error();
   } else {
+    console.log('here');
     //  Everything OK - move forward
     success();
   }

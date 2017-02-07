@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import { mannequinHeadsSlugs } from '../../config';
 import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
@@ -316,6 +317,93 @@ function setCouponResponse(data) {
   return resp;
 }
 
+/* PRODUCTS */
+
+/* Set Product Response */
+function setProductResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      product: data,
+    };
+  }
+  return resp;
+}
+
+/* Set Products Response */
+function setProductsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: data.products.length < 1,
+      products: data.products,
+    };
+  }
+  return resp;
+}
+
+/* Set Recommendations Response */
+function setRecsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+      isLoaded: true,
+      isEmpty: true,
+      products: [],
+    };
+  } else {
+    resp = {
+      isError: false,
+      isLoaded: true,
+      isEmpty: data.products.length < 1,
+      products: data.products.slice(0, 3),
+    };
+  }
+  return resp;
+}
+
+function setMannequinHeadsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    const products = data.products
+      .filter((product) => (mannequinHeadsSlugs.includes(product.slug)));
+    resp = {
+      isError: false,
+      isEmpty: products.length < 1,
+      products,
+    };
+  }
+  return resp;
+}
+
 
 export {
   checkResponse,
@@ -330,4 +418,8 @@ export {
   setCartResponse,
   setAddRemoveCartResponse,
   setCouponResponse,
+  setProductResponse,
+  setProductsResponse,
+  setRecsResponse,
+  setMannequinHeadsResponse,
 };

@@ -6,19 +6,18 @@ import Grid from '../../components/Grid';
 
 class MannequinHeads extends Component {
   static propTypes = {
-    products: PropTypes.array.isRequired,
+    products: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
-  }
+  };
 
   render() {
-    const { products } = this.props;
     return (
       <div className={s.mannequinheadspage}>
         <div className={s.pagewrapper}>
           <h2 className={s.title}>ks Mannequin Heads</h2>
           <Grid
             gridClass="productsgrid"
-            gridItems={{ products, isLoaded: true }}
+            gridItems={this.props.products}
             addToCart={this.props.addToCart}
           />
         </div>

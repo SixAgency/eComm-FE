@@ -1,7 +1,7 @@
 import { apiFetch } from '../core/fetch';
 // Helpers
 import { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse } from './helpers/handlers';
-import conslog from '../utils/dev';
+
 const LOGIN = '/login';
 const LOGOUT = '/logout';
 const REGISTER = '/signup';
