@@ -1,4 +1,6 @@
 import Promise from 'bluebird';
+import { mannequinHeadsSlugs } from '../../config';
+import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -48,7 +50,7 @@ function checkResponse(data) {
 
 // Error response
 function setError(data) {
-  const message = data.error || 'Server Error. Please contact your server administrator.';
+  const message = data.message || 'Server Error. Please contact your server administrator.';
   const resp = {
     isError: true,
     messages: [message],
@@ -108,7 +110,7 @@ function setAuthResponse(data, request) {
       shipping: setAddressResponse(data.ship_address),
     };
   } else {
-    const message = data.error || 'Server Error. Please contact your server administrator.';
+    const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
       messages: [message],
@@ -118,6 +120,7 @@ function setAuthResponse(data, request) {
   return resp;
 }
 
+// Set Logout response
 function setLogoutResponse(request) {
   clearSession(request);
   const resp = {
@@ -131,6 +134,7 @@ function setLogoutResponse(request) {
   return resp;
 }
 
+// Set Login Check response
 function setUserResponse(request) {
   return new Promise((resolve, reject) => {
     try {
@@ -162,6 +166,7 @@ function setUserResponse(request) {
   });
 }
 
+// Format User Addresses Response
 function setAddressesResponse(data) {
   let resp;
   if (!data.isError) {
@@ -186,6 +191,7 @@ function setAddressesResponse(data) {
   return resp;
 }
 
+// Format edit/create address response
 function setEditCreateAddressResponse(data, type) {
   let resp;
   if (!data.isError && !data.errors) {
@@ -208,6 +214,216 @@ function setEditCreateAddressResponse(data, type) {
   return resp;
 }
 
+// Format Order Response
+function setOrderResponse(data) {
+  let resp;
+  if (!data.isError) {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      order: data,
+    };
+  } else {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      order: {},
+    };
+  }
+  return resp;
+}
+
+// Format User Orders Response
+function setOrdersResponse(data) {
+  let resp;
+  if (!data.isError) {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      orders: data,
+    };
+  } else {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      orders: {},
+    };
+  }
+  return resp;
+}
+
+function setCartResponse(data, request, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      status: data.status,
+      cart: {},
+    };
+  } else if (Object.getOwnPropertyNames(data).length > 0) {
+    const isEmpty = data.total_quantity < 1;
+    resp = { isEmpty, cart: data };
+    request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
+    conslog('session', request.session);
+  } else {
+    conslog('callback');
+    return callback(request);
+  }
+  return resp;
+}
+
+function setAddRemoveCartResponse(data) {
+  let resp;
+  if (data.item.isError) {
+    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.item.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      name: data.item.name || data.item.variant.name,
+      cart: data.cart,
+    };
+  }
+  return resp;
+}
+
+function setCouponResponse(data) {
+  let resp;
+  conslog('resp', data);
+  if (data.item.isError) {
+    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.item.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      data,
+    };
+  }
+  return resp;
+}
+
+/* PRODUCTS */
+
+/* Set Product Response */
+function setProductResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      product: data,
+    };
+  }
+  return resp;
+}
+
+/* Set Products Response */
+function setProductsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: data.products.length === 0,
+      products: data.products,
+    };
+  }
+  return resp;
+}
+
+/* Set Recommendations Response */
+function setRecsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+      isLoaded: true,
+      isEmpty: true,
+      products: [],
+    };
+  } else {
+    resp = {
+      isError: false,
+      isLoaded: true,
+      isEmpty: data.products.length < 1,
+      products: data.products.slice(0, 3),
+    };
+  }
+  return resp;
+}
+
+function setMannequinHeadsResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    const products = data.products
+      .filter((product) => (mannequinHeadsSlugs.includes(product.slug)));
+    resp = {
+      isError: false,
+      isEmpty: products.length < 1,
+      products,
+    };
+  }
+  return resp;
+}
+
+/* CONTACT */
+function setContactResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      messages: ['Thank you. Your message has been submited.'],
+    };
+  }
+  return resp;
+}
+
+
 export {
   checkResponse,
   setError,
@@ -216,4 +432,14 @@ export {
   setUserResponse,
   setAddressesResponse,
   setEditCreateAddressResponse,
+  setOrderResponse,
+  setOrdersResponse,
+  setCartResponse,
+  setAddRemoveCartResponse,
+  setCouponResponse,
+  setProductResponse,
+  setProductsResponse,
+  setRecsResponse,
+  setMannequinHeadsResponse,
+  setContactResponse,
 };

@@ -93,13 +93,12 @@ function validateAccountEdit(data) {
 // Validate Contact Form
 function validateContactForm(data) {
   const messages = [];
-  const isString = /^[a-zA-Z]*$/;
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
-  const isNumberString = /^[a-zA-Z0-9_.-]*$/;
+  const isNumberString = /^[a-zA-Z0-9_. -]*$/;
   if ((!data.name) || (!data.email)) {
     messages.push('Please fill all required fields');
   }
-  if (!isString.test(data.name)) {
+  if (!isNumberString.test(data.name)) {
     messages.push('Invalid name field');
   }
   if (!isValidEmail.test(data.email)) {
@@ -119,6 +118,7 @@ function validateContactForm(data) {
     isError: (messages.length > 0),
     messages,
   };
+  console.log('RESP', resp);
   return resp;
 }
 

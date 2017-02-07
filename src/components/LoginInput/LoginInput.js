@@ -15,7 +15,7 @@ class LoginInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
       remember: '0',
       hasErrors: false,
@@ -38,7 +38,7 @@ class LoginInput extends React.Component {
 
   onUserChange = (event) => {
     this.setState({
-      username: event.target.value,
+      email: event.target.value,
     });
   }
 
@@ -64,8 +64,8 @@ class LoginInput extends React.Component {
         <form className={this.props.infoClass} onSubmit={this.onSubmit}>
           <div className={s.inputwrapper}>
             <p className={cx(s.col, s.left)}>
-              <label htmlFor="username">Username or Email <abbr>*</abbr></label>
-              <input id="username" type="text" name="username" onChange={this.onUserChange} />
+              <label htmlFor="email">Username or Email <abbr>*</abbr></label>
+              <input id="email" type="text" name="email" onChange={this.onUserChange} />
             </p>
             <p className={cx(s.col, s.right)}>
               <label htmlFor="password">Password <abbr>*</abbr></label>

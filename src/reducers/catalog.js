@@ -3,7 +3,7 @@ export default function reducer(state = {
     isLoaded: false,
     products: [],
   },
-  gridRecs: {
+  mannequinHeads: {
     isLoaded: false,
     products: [],
   },
@@ -11,26 +11,16 @@ export default function reducer(state = {
     isLoaded: false,
     product: {},
   },
-  message: '',
 }, action) {
   switch (action.type) {
-    case 'GET_PRODUCTS_SUCCESS': {
-      return { ...state, gridItems: { isLoaded: true, products: action.payload } };
+    case 'SET_PRODUCTS': {
+      return { ...state, gridItems: action.payload };
     }
-    case 'GET_PRODUCTS_ERROR': {
-      return { ...state, gridItems: { isLoaded: false, products: [] }, message: action.payload };
+    case 'SET_MANNEQUIN': {
+      return { ...state, mannequinHeads: action.payload };
     }
-    case 'GET_PRODUCT_SUCCESS': {
-      return { ...state, product: { isLoaded: true, product: action.payload } };
-    }
-    case 'GET_PRODUCT_ERROR': {
-      return { ...state, product: { isLoaded: false, product: {} }, message: action.payload };
-    }
-    case 'GET_RECS_SUCCESS': {
-      return { ...state, gridRecs: { isLoaded: true, products: action.payload } };
-    }
-    case 'GET_RECS_ERROR': {
-      return { ...state, gridRecs: { isLoaded: false, products: [] }, message: action.payload };
+    case 'SET_PRODUCT': {
+      return { ...state, product: action.payload };
     }
     default: // do nothing
   }

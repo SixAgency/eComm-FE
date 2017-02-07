@@ -11,7 +11,7 @@ class ContactWrapper extends React.Component {
     setHeaderProps: () => (true),
     sendContact: () => (true),
     isSent: false,
-    message: '',
+    messages: [],
   }
 
   render() {

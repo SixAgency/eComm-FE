@@ -1,17 +1,10 @@
 import express from 'express';
 // Actions
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import { getProducts, getProduct } from './products';
-import { getOrder,
-  getCart,
-  addToCart,
-  createOrder,
-  removeFromCart,
-  updateCart,
-  applyCouponCode } from './orders';
+import { getProducts, getProduct, getMannequinHeads } from './products';
+import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
 import sendContact from './contact';
-import getMannequinHeads from './mannequinHeads';
 // Helpers
 import {
   validateAuth,
@@ -68,8 +61,14 @@ apiRoutes
   .get('/cart', (req, resp) => {
     getCart(req).then((data) => (resp.json(data)));
   })
+  .post('/cart', (req, resp) => {
+    addToCart(req).then((data) => (resp.json(data)));
+  })
   .put('/cart', (req, resp) => {
     updateCart(req).then((data) => (resp.json(data)));
+  })
+  .post('/cart/remove', (req, resp) => {
+    removeFromCart(req).then((data) => (resp.json(data)));
   });
 
 // Get Order Details
@@ -77,24 +76,9 @@ apiRoutes.get('/order/:id', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
 });
 
-// Add Item To Cart
-apiRoutes.post('/addtocart', (req, resp) => {
-  addToCart(req).then((data) => {
-    resp.json(data);
-  });
-});
-
-apiRoutes.post('/removefromcart', (req, resp) => {
-  removeFromCart(req).then((data) => {
-    resp.json(data);
-  });
-});
-
-// Add Item To Cart
-apiRoutes.post('/createorder', (req, resp) => {
-  createOrder(req).then((data) => {
-    resp.json(data);
-  });
+// Get User Orders
+apiRoutes.get('/orders', (req, resp) => {
+  getOrders(req).then((data) => (resp.json(data)));
 });
 
 // Apply coupon code
@@ -128,16 +112,17 @@ apiRoutes
 
 // Contact
 apiRoutes.post('/contact', (req, resp) => {
-  const valid = validateContactForm(req);
+  const valid = validateContactForm(req.body.contact);
   if (valid.isError) {
     resp.json(valid);
   } else {
+    console.log('here ======================');
     sendContact(req).then((data) => (resp.json(data)));
   }
 });
 
 // Mannequin heads page
-apiRoutes.get('/mannequinHeads', (req, resp) => {
+apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
 });
 

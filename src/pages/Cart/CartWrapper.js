@@ -13,7 +13,7 @@ const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
-    message: state.cart.message,
+    messages: state.page.messages,
     isError: state.cart.isError,
   }
 ));
@@ -42,12 +42,12 @@ class CartWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -65,12 +65,10 @@ class CartWrapper extends BasePageComponent {
       activeSlug: '/',
     };
     this.props.setHeaderProps(props);
-    if (this.props.cartItems.isLoaded) {
-      console.log(this.props.cartItems);
-    } else {
+    if (!this.props.cartItems.isLoaded) {
       this.props.getCart();
     }
-  }
+  };
 
   componentDidMount = () => {
     const { isLoaded } = this.props.cartItems;
@@ -79,23 +77,20 @@ class CartWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next');
     const { isLoaded } = nextProps.cartItems;
     if (isLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
-      // this.props.toggleLoader(false);
     }
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
   handleGiftCard = (e) => {
     e.preventDefault();
@@ -103,21 +98,20 @@ class CartWrapper extends BasePageComponent {
       showCouponFields: !this.state.showCouponFields,
       couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
     });
-  }
+  };
 
   handleLogin = (e) => {
     e.preventDefault();
-    console.log('here');
     this.setState({
       showLoginFields: !this.state.showLoginFields,
       loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
     });
-  }
+  };
 
   updateQuantity = (updatedCartItems) => {
     const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
     this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
-  }
+  };
 
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;
@@ -136,7 +130,7 @@ class CartWrapper extends BasePageComponent {
       },
     };
     this.props.updateCart(data);
-  }
+  };
 
   render() {
     return (
@@ -151,7 +145,7 @@ class CartWrapper extends BasePageComponent {
         loginClass={this.state.loginClassName}
         onLogout={this.props.onLogout}
         onLogin={this.props.onLogin}
-        message={this.props.message}
+        messages={this.props.messages}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}

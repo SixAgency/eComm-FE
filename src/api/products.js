@@ -1,29 +1,19 @@
 import { apiFetch } from '../core/fetch';
-import { parseResponse, parseError } from './handlers';
+// Helpers
+import {
+  checkResponse,
+  setError,
+  setProductResponse,
+  setProductsResponse,
+  setRecsResponse,
+  setMannequinHeadsResponse,
+} from './helpers/handlers';
 import { faketoken } from '../config';
 
-import conslog from '../utils/dev';
-
-const PRODUCT = '/api/products';
+const PRODUCT = '/api/v1/products';
 
 // Get Products
 function getProducts(request) {
-  const response = apiFetch(`${PRODUCT}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
-  .then((data) => parseResponse(data))
-  .then((data) => (data))
-  .catch((err) => parseError(err));
-  return response;
-}
-
-// Get Product Recs
-// @TODO - update when we have an endpoint
-function getProductRecs(request) {
   return apiFetch(`${PRODUCT}`,
     {
       headers: {
@@ -31,26 +21,44 @@ function getProductRecs(request) {
         'X-Spree-Token': request.session.token || faketoken,
       },
     })
-    .then((data) => parseResponse(data))
-    .then((data) => {
-      let response;
-      if (data.isError) {
-        response = {
-          isLoaded: true,
-          isEmpty: true,
-          products: [],
-        };
-      } else {
-        const empty = data.products.length < 1;
-        response = {
-          isLoaded: true,
-          isEmpty: empty,
-          products: data.products.slice(0, 3),
-        };
-      }
-      return response;
+  .then((response) => checkResponse(response))
+  .then((data) => setProductsResponse(data))
+  .catch((err) => setError(err));
+}
+
+// Get Product Recs
+// @TODO - update when we have an endpoint
+function getProductRecs(request, product) {
+  return apiFetch(`${PRODUCT}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
     })
-    .catch((err) => parseError(err));
+    .then((response) => checkResponse(response))
+    .then((data) => setRecsResponse(data, product))
+    .catch((err) => setError(err));
+}
+
+// Add product recs to the product feed
+function setProductRecs(data, request, callback) {
+  const response = data;
+  return getProductRecs(request)
+    .then((recs) => {
+      response.recs = recs;
+      return callback(response);
+    })
+    .catch((err) => {
+      response.recs = {
+        isError: true,
+        messages: err,
+        isLoaded: true,
+        isEmpty: true,
+        products: [],
+      };
+      return callback(response);
+    });
 }
 
 // Get Product
@@ -64,27 +72,24 @@ function getProduct(request) {
         'X-Spree-Token': request.session.token || faketoken,
       },
     })
-    .then((data) => parseResponse(data))
-    .then((data) => (
-      getProductRecs(request)
-        .then((recs) => {
-          const response = { ...data, recs };
-          return response;
-        }).catch((err) => {
-          conslog('ERROR', err);
-          const gridRecs = {
-            isLoaded: true,
-            isEmpty: true,
-            products: {},
-          };
-          const response = { ...data, gridRecs };
-          conslog('ERROR', response);
-          return response;
-        })
-    ))
-    .catch((err) => parseError(err));
+    .then((response) => checkResponse(response))
+    .then((data) => setProductRecs(data, request, setProductResponse))
+    .catch((err) => setError(err));
+}
+
+// Get Mannequin heads
+function getMannequinHeads(request) {
+  return apiFetch(`${PRODUCT}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Spree-Token': request.session.token || faketoken,
+    },
+  })
+    .then((response) => checkResponse(response))
+    .then((data) => setMannequinHeadsResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Get Products based on slug
 
-export { getProducts, getProduct };
+export { getProducts, getProduct, getMannequinHeads };

@@ -5,12 +5,12 @@ import cx from 'classnames';
 import s from './EmptyCart.css';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
-import CtaMessage from '../../components/CartCta/CtaMessage';
+import ErrorDisplay from '../../components/ErrorDisplay';
 
 class EmptyCart extends React.Component {
 
   static propTypes = {
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
   }
 
@@ -34,10 +34,7 @@ class EmptyCart extends React.Component {
   render() {
     return (
       <section className={s.page}>
-        <CtaMessage
-          message={this.props.message}
-          isError={this.props.isError}
-        />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <Subnav isLogged={this.state.logged} onLogout={this.onLogout} />
         <div className={cx(s.messagecontainer, s[this.state.showmessageclass])}>
           product removed.

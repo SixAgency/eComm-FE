@@ -9,12 +9,12 @@ class HomeWrapper extends React.Component {
   }
 
   static defaultProps = {
-    gridItems: { isLoaded: false, products: [] },
+    // gridItems: { isLoaded: false, products: [] },
     addToCart: (item) => (item),
   }
 
   render() {
-    console.log('server');
+    // console.log(this.props.gridItems);
     return (
       <Home gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
     );

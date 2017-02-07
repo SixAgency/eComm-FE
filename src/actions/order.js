@@ -1,85 +1,147 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import { checkResponse, forwardTo } from './handler';
+import { setMessage } from './page';
 
+/**
+ * Helper - Empty Cart
+ * @returns {{type: string, payload: {isEmpty: boolean, isLoaded: boolean, cart: {}}}}
+ */
 function resetCart() {
   const data = {
     isEmpty: true,
     isLoaded: true,
     cart: {},
   };
-  return { type: 'RESET_CART', payload: data };
+  return { type: 'SET_CART', payload: data };
 }
 
+/**
+ * Set Cart
+ * @param cart
+ * @returns {{type: string, payload: *}}
+ */
+function setCart(cart) {
+  const data = { ...cart, isLoaded: true };
+  return { type: 'SET_CART', payload: data };
+}
+
+/**
+ * Set line items quantity
+ * @param data
+ * @returns {function(*)}
+ */
+function updateQuantity(data) {
+  return (dispatch) => {
+    dispatch(setCart(data));
+  };
+}
+
+/**
+ * Get the user cart
+ * @returns {function(*=)}
+ */
 function getCart() {
   return (dispatch) => {
     axios.get('/api/cart')
-      .then((resp) => dispatch({ type: 'GET_CART_SUCCESS', payload: resp.data }))
-      .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
-  };
-}
-
-function addToCart(data) {
-  return (dispatch) => {
-    axios.post('/api/addtocart', data)
-    .then((resp) => {
-      const response = { message: `“${resp.data.name}” has been added to your cart.` };
-      dispatch({ type: 'ADD_CART_SUCCESS', payload: response });
-      dispatch({ type: 'GET_CART_SUCCESS', payload: resp.data.cart });
-      browserHistory.push('/cart');
-    })
-    .catch((err) => {
-      dispatch({ type: 'ADD_CART_ERROR', payload: err });
-      browserHistory.push('/cart');
-    });
-  };
-}
-
-function removeItem(data) {
-  return (dispatch) => {
-    axios.post('/api/removefromcart', { id: data.id })
-      .then(() => {
-        axios.get('/api/cart')
-          .then((cart) => {
-            dispatch({ type: 'GET_CART_SUCCESS', payload: cart.data });
-            const response = { message: `“${data.name}” has been removed from your cart.` };
-            dispatch({ type: 'REMOVE_CART_SUCCESS', payload: response });
-            browserHistory.push('/cart');
-          })
-          .catch((err) => dispatch({ type: 'GET_CART_ERROR', payload: err }));
-      })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
       .catch((err) => {
-        dispatch({ type: 'REMOVE_CART_ERROR', payload: err });
-        browserHistory.push('/cart');
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(resetCart());
       });
   };
 }
 
+/**
+ * Add item to cart
+ * @param data
+ * @returns {function(*=)}
+ */
+function addToCart(data) {
+  return (dispatch) => {
+    axios.post('/api/cart', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data.cart));
+        const message = `${response.data.name} has been added to your cart.`;
+        dispatch(setMessage({ isError: false, messages: [message] }));
+        forwardTo('cart');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        forwardTo('cart');
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
+/**
+ * Remove item from the cart
+ * @param data
+ * @returns {function(*=)}
+ */
+function removeItem(data) {
+  return (dispatch) => {
+    axios.post('/api/cart/remove', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data.cart));
+        const message = `${response.data.name} has been removed from your cart.`;
+        dispatch(setMessage({ isError: false, messages: [message] }));
+        forwardTo('cart');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        forwardTo('cart');
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
+/**
+ * Update Cart
+ * @param data
+ * @returns {function(*=)}
+ */
 function updateCart(data) {
   return (dispatch) => {
     axios.put('/api/cart', { data })
-      .then((resp) => {
-        dispatch({ type: 'UPDATE_CART_SUCCESS', payload: { message: 'Cart updated.', cart: resp.data } });
-      })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data));
+        const message = 'Cart updated.';
+        dispatch(setMessage({ isError: false, messages: [message] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
       .catch((err) => {
-        dispatch({ type: 'UPDATE_CART_ERROR', payload: err });
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
       });
   };
 }
 
-function updateQuantity(data) {
-  return (dispatch) => {
-    dispatch({ type: 'UPDATE_QTY_SUCCES', payload: data });
-  };
-}
-
+/**
+ * Apply promo code
+ * @param data
+ * @returns {function(*)}
+ */
 function applyPromoCode(data) {
   return (dispatch) => {
     axios.put('api/applycode', { data })
-      .then(() => {
-        dispatch({ type: 'APPLY_PROMO_CODE_SUCCESS', payload: { message: 'Code has been applied' } });
-      })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
+      }, () => {
+        const message = response.data.messages || 'Something went wrong.';
+        dispatch(setMessage({ isError: true, messages: [message] }));
+      }))
       .catch((err) => {
-        dispatch({ type: 'APPLY_PROMO_CODE_ERROR', payload: err });
+        console.error('Error', err); // eslint-disable-line no-console
+        forwardTo('error');
       });
   };
 }

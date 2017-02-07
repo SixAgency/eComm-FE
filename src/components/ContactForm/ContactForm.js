@@ -9,8 +9,8 @@ class ContactForm extends React.Component {
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
-  }
+    messages: PropTypes.array.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -35,21 +35,17 @@ class ContactForm extends React.Component {
         console.log('Form has errors');
       } else {
         const data = {
-          name: this.state.name,
-          email: this.state.email,
-          subject: this.state.subject,
-          message: this.state.message,
+          contact: {
+            name: this.state.name,
+            email: this.state.email,
+            subject: this.state.subject,
+            message: this.state.message,
+          },
         };
-        console.log(data);
-        const valid = validateContactForm(data);
-        if (valid.isError) {
-          console.log(valid);
-        } else {
-          this.props.sendContact();
-        }
+        this.props.sendContact(data);
       }
     });
-  }
+  };
 
   errorHandling = (err) => {
     if (this.state.name === '' && this.state.email === '') {
@@ -83,7 +79,7 @@ class ContactForm extends React.Component {
         hasErrors: false,
       }, err);
     }
-  }
+  };
 
   handleFields = (e) => {
     switch (e.target.id) {
@@ -93,16 +89,16 @@ class ContactForm extends React.Component {
       case 'message': this.setState({ message: e.target.value }); break;
       default: // do nothing
     }
-  }
+  };
 
   render() {
     const showErrorMessage =
-      this.state.hasErrors || this.props.message !== '' ? 'show' : 'hide';
+      (this.state.hasErrors || this.props.messages !== '') ? 'show' : 'hide';
     let backendMessageClass;
     if (this.props.isSent) {
-      backendMessageClass = this.props.message !== '' ? 'borderGreen' : '';
+      backendMessageClass = this.props.messages !== '' ? 'borderGreen' : '';
     } else {
-      backendMessageClass = this.props.message !== '' ? 'borderYellow' : '';
+      backendMessageClass = this.props.messages.length !== 0 ? 'borderYellow' : '';
     }
     return (
       <div>
@@ -194,7 +190,7 @@ class ContactForm extends React.Component {
             s[this.state.borderColor || backendMessageClass],
           )}
         >
-          {this.state.errorMessage + this.props.message }
+          {this.state.errorMessage + this.props.messages }
         </div>
       </div>
     );

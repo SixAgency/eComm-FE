@@ -4,13 +4,14 @@ import Cart from './Cart';
 class CartWrapper extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
     addQuantity: PropTypes.func.isRequired,
     subQuantity: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
@@ -22,6 +23,7 @@ class CartWrapper extends Component {
   */
   static defaultProps = {
     onLogout: () => (true),
+    onLogin: () => (true),
     removeItem: () => (true),
     addQuantity: () => (true),
     subQuantity: () => (true),
@@ -29,14 +31,16 @@ class CartWrapper extends Component {
     updateQuantity: () => (true),
     applyPromoCode: () => (true),
     isError: false,
-    message: '',
+    messages: [],
   }
 
   constructor(props) {
     super(props);
     this.state = {
       showCouponFields: false,
+      showLoginFields: false,
       className: 'hide',
+      loginClassName: 'hide',
     };
   }
 
@@ -46,7 +50,15 @@ class CartWrapper extends Component {
       showCouponFields: !this.state.showCouponFields,
       className: !this.state.showCouponFields ? 'show' : 'hide',
     });
-  }
+  };
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+    });
+  };
 
 
   render() {
@@ -58,12 +70,16 @@ class CartWrapper extends Component {
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
         couponClass={this.state.className}
+        handleLogin={this.handleLogin}
+        loginClass={this.state.loginClassName}
         onLogout={this.props.onLogout}
+        onLogin={this.props.onLogin}
         handleGiftCard={this.handleGiftCard}
-        message={this.props.message}
+        messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
         updateCart={this.props.updateCart}
+        updateQuantity={this.props.updateQuantity}
       />
     );
   }
