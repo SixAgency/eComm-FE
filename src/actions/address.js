@@ -16,15 +16,22 @@ import { validateMandatoryFieldsAddress } from '../helpers/validators';
 function resetAddresses() {
   const data = {
     billing: {
+      isLoaded: false,
       isEmpty: true,
       address: {},
     },
     shipping: {
+      isLoaded: false,
+      isEmpty: true,
+      address: {},
+    },
+    addresses: {
+      isLoaded: false,
       isEmpty: true,
       address: {},
     },
   };
-  return { type: 'RESET_ADDRESSES', payload: data };
+  return { type: 'SET_ADDRESSES', payload: data };
 }
 
 /**
@@ -33,10 +40,11 @@ function resetAddresses() {
  * @param shipping
  * @returns {{type: string, payload: {billing: {isLoaded: boolean}, shipping: {isLoaded: boolean}}}}
  */
-function setAddresses(billing, shipping) {
+function setAddresses(billing, shipping, alladdresses) {
   const addresses = {
     billing: { ...billing, isLoaded: true },
     shipping: { ...shipping, isLoaded: true },
+    addresses: alladdresses,
   };
   return { type: 'SET_ADDRESSES', payload: addresses };
 }
@@ -60,7 +68,11 @@ function getAddress() {
   return (dispatch) => {
     axios.get('/api/addresses')
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setAddresses(response.data.billing, response.data.shipping));
+        dispatch(setAddresses(
+          response.data.billing,
+          response.data.shipping,
+          response.data.addresses,
+        ));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -135,14 +147,11 @@ function createAddress(data) {
  * @returns {function(*=)}
  */
 function createOrEditAddress(data) {
-  console.log(data);
   if (data.address.id && (data.address.id !== 0)) {
-    console.log('here');
     return editAddress(data);
   }
   const address = data;
   delete address.id;
-  console.log('here2');
   return createAddress(address);
 }
 
