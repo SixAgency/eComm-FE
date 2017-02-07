@@ -386,7 +386,7 @@ function setRecsResponse(data) {
 function setMannequinHeadsResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
       messages: [message],
@@ -399,6 +399,25 @@ function setMannequinHeadsResponse(data) {
       isError: false,
       isEmpty: products.length < 1,
       products,
+    };
+  }
+  return resp;
+}
+
+/* CONTACT */
+function setContactResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+    }
+  } else {
+    resp = {
+      isError: false,
+      messages: ['Your contact has been submited.'],
     };
   }
   return resp;
@@ -422,4 +441,5 @@ export {
   setProductsResponse,
   setRecsResponse,
   setMannequinHeadsResponse,
+  setContactResponse,
 };

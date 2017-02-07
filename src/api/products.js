@@ -10,7 +10,7 @@ import {
 } from './helpers/handlers';
 import { faketoken } from '../config';
 
-const PRODUCT = '/api/products';
+const PRODUCT = '/api/v1/products';
 
 // Get Products
 function getProducts(request) {

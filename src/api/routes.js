@@ -112,10 +112,11 @@ apiRoutes
 
 // Contact
 apiRoutes.post('/contact', (req, resp) => {
-  const valid = validateContactForm(req);
+  const valid = validateContactForm(req.body.contact);
   if (valid.isError) {
     resp.json(valid);
   } else {
+    console.log('here ======================');
     sendContact(req).then((data) => (resp.json(data)));
   }
 });

@@ -85,10 +85,20 @@ function handleRoutes(req, resp, next, params) {
   }
 }
 
+// Handle Error
+function handleError(data, resp, callback) {
+  if (data.isError) {
+    conslog('error', data.messages);
+    resp.redirect('/error');
+  } else {
+    callback();
+  }
+}
+
 // Homepage
 siteRoutes.get('/', (req, resp, next) => {
   getProducts(req)
-    .then((data) => {
+    .then((data) => handleError(data, resp, () => {
       const gridItems = {
         isLoaded: true,
         ...data,
@@ -101,7 +111,7 @@ siteRoutes.get('/', (req, resp, next) => {
         content: <HomeWrapper gridItems={gridItems} />,
       };
       handleRoutes(req, resp, next, params);
-    })
+    }))
     .catch((err) => {
       conslog('ERROR', err);
       resp.redirect('/error');
@@ -121,11 +131,8 @@ siteRoutes.get('/biography', (req, resp, next) => {
 // Product Details Page
 siteRoutes.get('/product/:slug', (req, resp, next) => {
   getProduct(req)
-    .then((data) => {
-      if (data.isError) {
-        conslog('ERROR', data.messages);
-        resp.redirect('/error');
-      } else if (data.isEmpty) {
+    .then((data) => handleError(data, resp, () => {
+      if (data.isEmpty) {
         conslog('NOT FOUND', data);
         resp.redirect('/404');
       } else {
@@ -151,19 +158,19 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
         };
         handleRoutes(req, resp, next, params);
       }
-    })
+    }))
     .catch((err) => {
       conslog('ERROR', err);
-      resp.redirect('/500');
+      resp.redirect('/error');
     });
 });
 // Category Page
 siteRoutes.get('/product-category/:slug', (req, resp, next) => {
   getProducts(req)
-    .then((data) => {
+    .then((data) => handleError(data, resp, () => {
       const products = {
         isLoaded: true,
-        data,
+        ...data,
       };
       const prodParams = {
         slug: req.params.slug,
@@ -176,7 +183,7 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
         content: <CategoryWrapper gridItems={products} params={prodParams} />,
       };
       handleRoutes(req, resp, next, params);
-    })
+    }))
     .catch((err) => {
       conslog('ERROR', err);
       resp.redirect('/404');
@@ -184,57 +191,68 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
 });
 // Account - Login/Register
 siteRoutes.get('/my-account', (req, resp, next) => {
-  // @todo - check if isError and handle it
-  checkLogin(req).then((data) => {
-    if (data.user.loggedIn) {
-      resp.redirect('/my-account/dashboard');
-    } else {
-      const messages = data.messages || [];
-      const params = {
-        title: 'My Account',
-        description: '',
-        header: 'colored',
-        active: '/my-account',
-        content: <AccountWrapper {...data.user} isError={data.isError} messages={messages} />,
-      };
-      handleRoutes(req, resp, next, params);
-    }
-  });
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (data.user.loggedIn) {
+        resp.redirect('/my-account/dashboard');
+      } else {
+        const messages = data.messages || [];
+        const params = {
+          title: 'My Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+          content: <AccountWrapper {...data.user} isError={data.isError} messages={messages} />,
+        };
+        handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Account - Lost Password
 siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
-  // @todo - check if isError and handle it
-  checkLogin(req).then((data) => {
-    if (data.user.loggedIn) {
-      resp.redirect('/my-account/dashboard');
-    } else {
-      const params = {
-        title: 'My Account',
-        description: '',
-        header: 'colored',
-        active: '/my-account',
-        content: <LostPasswordWrapper {...data.user} />,
-      };
-      handleRoutes(req, resp, next, params);
-    }
-  });
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (data.user.loggedIn) {
+        resp.redirect('/my-account/dashboard');
+      } else {
+        const params = {
+          title: 'My Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+          content: <LostPasswordWrapper {...data.user} />,
+        };
+        handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/500');
+    });
 });
 // Account - View/Order - @TODO, page, endpoint etc
 siteRoutes.get('/my-account/view-order', (req, resp) => {
-  // @todo - check if isError and handle it
-  checkLogin(req).then((data) => {
-    if (data.user.loggedIn) {
-      resp.redirect('/my-account/dashboard');
-    } else {
-      resp.redirect('/my-account');
-    }
-  });
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (data.user.loggedIn) {
+        resp.redirect('/my-account/dashboard');
+      } else {
+        resp.redirect('/my-account');
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Account Dashboard
 siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
-  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((data) => {
+    .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
@@ -278,34 +296,38 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
             handleRoutes(req, resp, next, params);
           });
       }
-    }).catch((err) => {
+    }))
+    .catch((err) => {
       conslog('ERROR', err);
-      resp.redirect('/my-account');
+      resp.redirect('/error');
     });
 });
 // Account - Edit
 siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
-  // @todo - check if isError and handle it
-  checkLogin(req).then((data) => {
-    if (!data.user.loggedIn) {
-      resp.redirect('/my-account');
-    } else {
-      const params = {
-        title: 'Edit Account',
-        description: '',
-        header: 'colored',
-        active: '/my-account',
-        content: <ProfileWrapper {...data.user} />,
-      };
-      handleRoutes(req, resp, next, params);
-    }
-  });
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (!data.user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        const params = {
+          title: 'Edit Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+          content: <ProfileWrapper {...data.user} />,
+        };
+        handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Account - Shipping
 siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
-  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((data) => {
+    .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
@@ -335,16 +357,16 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
             handleRoutes(req, resp, next, params);
           });
       }
-    }).catch((err) => {
+    }))
+    .catch((err) => {
       conslog('ERROR', err);
-      resp.redirect('/my-account');
+      resp.redirect('/error');
     });
 });
 // Account - Billing
 siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
-  // @todo - check if isError and handle it
   checkLogin(req)
-    .then((data) => {
+    .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
         resp.redirect('/my-account');
       } else {
@@ -374,50 +396,61 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
               messages={messages}
             />);
             handleRoutes(req, resp, next, params);
-          }).catch((err) => {
+          })
+          .catch((err) => {
             conslog('ERROR', err);
             params.content = <BillingWrapper {...data.user} billing={address} />;
             handleRoutes(req, resp, next, params);
           });
       }
-    }).catch((err) => {
+    }))
+    .catch((err) => {
       conslog('ERROR', err);
-      resp.redirect('/my-account');
+      resp.redirect('/error');
     });
 });
 // Cart Page
 siteRoutes.get('/cart', (req, resp, next) => {
-  // @todo - check if isError and handle it
-  Promise.all([
-    checkLogin(req).then(data => data.user.loggedIn),
-    getCart(req).then(cart => cart),
-  ])
-    .then((values) => {
-      const loggedIn = values[0];
-      const cart = values[1];
-      const params = {
-        title: 'Cart',
-        description: '',
-        header: 'default',
-        active: '/',
-        content: <CartWrapper cartItems={cart} loggedIn={loggedIn} />,
-      };
-      handleRoutes(req, resp, next, params);
-    })
-    .catch((err) => conslog('ERROR', err));
+  checkLogin(req)
+    .then((user) => handleError(user, resp, () => {
+      getCart(req)
+        .then((cart) => handleError(cart, resp, () => {
+          const params = {
+            title: 'Cart',
+            description: '',
+            header: 'default',
+            active: '/',
+            content: <CartWrapper cartItems={cart} loggedIn={user.user.loggedIn} />,
+          };
+          handleRoutes(req, resp, next, params);
+        }))
+        .catch((err) => {
+          conslog('ERROR', err);
+          resp.redirect('/error');
+        });
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Checkout Page
 siteRoutes.get('/checkout', (req, resp, next) => {
-  getCart(req).then((data) => {
-    const params = {
-      title: 'Checkout',
-      description: '',
-      header: 'default',
-      active: '/',
-      content: <CheckoutWrapper cartItems={data} />,
-    };
-    handleRoutes(req, resp, next, params);
-  });
+  getCart(req)
+    .then((data) => handleError(data, resp, () => {
+      const params = {
+        title: 'Checkout',
+        description: '',
+        header: 'default',
+        active: '/',
+        content: <CheckoutWrapper cartItems={data} />,
+      };
+      handleRoutes(req, resp, next, params);
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
 });
 // Contact Page
 siteRoutes.get('/contact', (req, resp, next) => {

@@ -92,7 +92,6 @@ function validateAccountEdit(data) {
 
 // Validate Contact Form
 function validateContactForm(data) {
-  console.log('VALIDATION DATA', data);
   const messages = [];
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
   const isNumberString = /^[a-zA-Z0-9_. -]*$/;
@@ -119,6 +118,7 @@ function validateContactForm(data) {
     isError: (messages.length > 0),
     messages,
   };
+  console.log('RESP', resp);
   return resp;
 }
 

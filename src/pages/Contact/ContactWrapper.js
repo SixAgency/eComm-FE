@@ -55,7 +55,6 @@ class ContactWrapper extends BasePageComponent {
   }
 
   render() {
-    console.log('client');
     return (
       <Contact
         sendContact={this.props.sendContact}

@@ -8,7 +8,8 @@ class Contact extends React.Component {
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
-  }
+  };
+
   render() {
     return (
       <div className={s.contactpage}>

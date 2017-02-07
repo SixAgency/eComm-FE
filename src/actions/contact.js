@@ -1,33 +1,31 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
+import { validateContactForm } from '../helpers/validators';
 
 /**
-* Helper - Send Contact
-* @returns {{type: string, payload: {isLoaded: boolean, message: array}}}
-*/
-function setContact() {
-  const data = {
-    isLoaded: true,
-    message: 'Thank you for your message. It has been sent.',
-  };
-  return { type: 'SEND_CONTACT_SUCCES', payload: data };
-}
-
+ * Send contact data
+ * @param data
+ * @returns {function(*=)}
+ */
 function sendContact(data) {
+  console.log('data', data);
   return (dispatch) => {
-    axios.post('/api/contact', data)
-      .then((response) => checkResponse(response.data, () => {
-        console.log('RESPONSE HERE', response);
-        dispatch(setContact());
-        dispatch(setMessage({ isError: false, messages: data.message }));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
-      }))
-      .catch((err) => {
-        console.error('Error', err);
-        forwardTo('error');
-      });
+    const valid = validateContactForm(data.contact);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/contact', data)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setMessage({ isError: false, messages: response.data.messages }));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: [response.data.messages] }));
+        }))
+        .catch((err) => {
+          console.error('Error', err);
+          forwardTo('error');
+        });
+    }
   };
 }
 

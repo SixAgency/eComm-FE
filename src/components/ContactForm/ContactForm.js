@@ -10,7 +10,7 @@ class ContactForm extends React.Component {
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -35,21 +35,17 @@ class ContactForm extends React.Component {
         console.log('Form has errors');
       } else {
         const data = {
-          name: this.state.name,
-          email: this.state.email,
-          subject: this.state.subject,
-          message: this.state.message,
+          contact: {
+            name: this.state.name,
+            email: this.state.email,
+            subject: this.state.subject,
+            message: this.state.message,
+          },
         };
-        console.log(data);
-        const valid = validateContactForm(data);
-        if (valid.isError) {
-          console.log(valid);
-        } else {
-          this.props.sendContact();
-        }
+        this.props.sendContact(data);
       }
     });
-  }
+  };
 
   errorHandling = (err) => {
     if (this.state.name === '' && this.state.email === '') {
@@ -83,7 +79,7 @@ class ContactForm extends React.Component {
         hasErrors: false,
       }, err);
     }
-  }
+  };
 
   handleFields = (e) => {
     switch (e.target.id) {
@@ -93,7 +89,7 @@ class ContactForm extends React.Component {
       case 'message': this.setState({ message: e.target.value }); break;
       default: // do nothing
     }
-  }
+  };
 
   render() {
     const showErrorMessage =
@@ -102,7 +98,6 @@ class ContactForm extends React.Component {
     if (this.props.isSent) {
       backendMessageClass = this.props.messages !== '' ? 'borderGreen' : '';
     } else {
-      // backendMessageClass = this.props.messages !== '' ? 'borderYellow' : '';
       backendMessageClass = this.props.messages.length !== 0 ? 'borderYellow' : '';
     }
     return (
@@ -196,7 +191,6 @@ class ContactForm extends React.Component {
           )}
         >
           {this.state.errorMessage + this.props.messages }
-          {console.log('MESSAGE', this.props.messages)}
         </div>
       </div>
     );
