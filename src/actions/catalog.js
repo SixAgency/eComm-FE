@@ -2,51 +2,69 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 
+/**
+ * Update products from Redux store
+ * @param products
+ * @returns {{type: string, payload: {isLoaded: boolean, products: *}}}
+ */
 function setProducts(products) {
   const data = {
     isLoaded: true,
     products,
   };
-  return { type: 'GET_PRODUCTS_SUCCESS', payload: data.products };
+  return { type: 'SET_PRODUCTS', payload: data };
 }
 
+/**
+ * Update the product from Redux store
+ * @param product
+ * @returns {{type: string, payload: {isLoaded: boolean, product: *}}}
+ */
+function setProduct(product) {
+  const data = {
+    isLoaded: true,
+    product,
+  };
+  return { type: 'SET_PRODUCT', payload: data };
+}
+
+/**
+ * Get Products
+ * @returns {function(*=)}
+ */
 function getProducts() {
   return (dispatch) => {
     axios.get('/api/products')
-      .then((resp) => {
-        // dispatch({ type: 'GET_PRODUCTS_SUCCESS', payload: resp.data.products });
-        dispatch(setProducts(resp.data.products));
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setProducts(response.data.products));
       }, () => {
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong'] }));
-      })
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
       .catch((err) => {
-        console.log('Error', err); // eslint-disable-line no-console
+        console.error('Error', err); // eslint-disable-line no-console
         forwardTo('error');
       });
   };
 }
 
-function getProductRecs() {
-  return (dispatch) => {
-    axios.get('/api/products')
-      .then((resp) => {
-        dispatch({ type: 'GET_RECS_SUCCESS', payload: resp.data.products.slice(0, 3) });
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong'] }));
-      })
-      .catch((err) => {
-        console.log('Error', err); // eslint-disable-line no-console
-        forwardTo('error');
-      });
-  };
-}
-
+/**
+ * Get product
+ * @param slug
+ * @returns {function(*=)}
+ */
 function getProduct(slug) {
   return (dispatch) => {
     axios.get(`/api/product/${slug}`)
-      .then((resp) => dispatch({ type: 'GET_PRODUCT_SUCCESS', payload: resp.data }))
-      .catch((err) => dispatch({ type: 'GET_PRODUCT_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setProduct(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
   };
 }
 
-export { getProducts, getProduct, getProductRecs };
+export { getProducts, getProduct };

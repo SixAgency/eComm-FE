@@ -141,7 +141,7 @@ function applyPromoCode(data) {
         dispatch(setMessage({ isError: true, messages: [message] }));
       }))
       .catch((err) => {
-        console.log('Error', err); // esling-disable-line no-console
+        console.error('Error', err); // eslint-disable-line no-console
         forwardTo('error');
       });
   };
