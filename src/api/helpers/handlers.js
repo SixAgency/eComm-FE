@@ -352,7 +352,7 @@ function setProductsResponse(data) {
   } else {
     resp = {
       isError: false,
-      isEmpty: data.products.length < 1,
+      isEmpty: data.products.length === 0,
       products: data.products,
     };
   }
@@ -413,11 +413,11 @@ function setContactResponse(data) {
       isError: true,
       messages: [message],
       status: data.status,
-    }
+    };
   } else {
     resp = {
       isError: false,
-      messages: ['Your contact has been submited.'],
+      messages: ['Thank you. Your message has been submited.'],
     };
   }
   return resp;

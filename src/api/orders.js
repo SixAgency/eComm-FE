@@ -21,7 +21,7 @@ function getOrder(request) {
   return apiFetch(`${ORDER}/${number}`, {
     headers: {
       'Content-Type': 'application/json',
-      'X-Spree-Token': request.session.token || '6d452a09b38e5488562d51706c16986fd2493a33758b9b67',
+      'X-Spree-Token': request.session.token || faketoken,
     },
   })
   .then((response) => checkResponse(response))

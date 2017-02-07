@@ -21,8 +21,7 @@ function resetCart() {
  * @returns {{type: string, payload: *}}
  */
 function setCart(cart) {
-  const data = cart;
-  data.isLoaded = true;
+  const data = { ...cart, isLoaded: true };
   return { type: 'SET_CART', payload: data };
 }
 

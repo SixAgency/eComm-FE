@@ -93,7 +93,7 @@ class ContactForm extends React.Component {
 
   render() {
     const showErrorMessage =
-      this.state.hasErrors || this.props.messages !== '' ? 'show' : 'hide';
+      (this.state.hasErrors || this.props.messages !== '') ? 'show' : 'hide';
     let backendMessageClass;
     if (this.props.isSent) {
       backendMessageClass = this.props.messages !== '' ? 'borderGreen' : '';
