@@ -3,7 +3,6 @@ import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
-  conslog('err', data);
   return new Promise((resolve, reject) => {
     let resp;
     if ((data.status === 400) ||
@@ -50,7 +49,6 @@ function checkResponse(data) {
 
 // Error response
 function setError(data) {
-  conslog('error', data);
   const message = data.message || 'Server Error. Please contact your server administrator.';
   const resp = {
     isError: true,
@@ -96,7 +94,6 @@ function setAddressResponse(data) {
 // Modidify login/register response
 function setAuthResponse(data, request) {
   let resp;
-  conslog('User', data);
   if (!data.isError && data.user) {
     const user = {
       userName: data.user.email.split('@')[0],
@@ -170,7 +167,6 @@ function setUserResponse(request) {
 
 // Format User Addresses Response
 function setAddressesResponse(data) {
-  conslog('Address', data);
   let resp;
   if (!data.isError) {
     resp = {

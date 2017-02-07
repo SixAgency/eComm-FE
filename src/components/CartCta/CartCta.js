@@ -9,9 +9,6 @@ class CartCta extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     toggleGiftcard: PropTypes.func.isRequired,
     toggleLogin: PropTypes.func.isRequired,
-    // message: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    isError: PropTypes.bool.isRequired,
   }
 
   render() {

@@ -10,8 +10,6 @@ import {
   setCouponResponse,
 } from './helpers/handlers';
 
-import conslog from '../utils/dev';
-
 import { faketoken } from '../config';
 
 const ORDER = '/api/v1/orders';
@@ -20,7 +18,6 @@ const CART = '/api/v1/orders/current';
 // Get Order Details
 function getOrder(request) {
   const number = request.params.id;
-  conslog('SESSION', request.session);
   return apiFetch(`${ORDER}/${number}`, {
     headers: {
       'Content-Type': 'application/json',

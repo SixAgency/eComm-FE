@@ -24,8 +24,7 @@ class Cart extends Component {
     removeItem: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
@@ -41,7 +40,7 @@ class Cart extends Component {
     if (isEmpty) {
       return (
         <EmptyCart
-          message={this.props.message}
+          messages={this.props.messages}
           isError={this.props.isError}
         />
       );
@@ -54,8 +53,6 @@ class Cart extends Component {
           loggedIn={this.props.loggedIn}
           toggleLogin={this.props.handleLogin}
           toggleGiftcard={this.props.handleGiftCard}
-          message={this.props.message}
-          isError={this.props.isError}
         />
         <ContentWrapper wrprClass={'cartwrpr'} contentClass={'contentwrpr'}>
           <div className={s.cartcontentwrpr}>
