@@ -9,7 +9,7 @@ class ContactForm extends React.Component {
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
   }
 
   constructor(props) {
@@ -97,12 +97,13 @@ class ContactForm extends React.Component {
 
   render() {
     const showErrorMessage =
-      this.state.hasErrors || this.props.message !== '' ? 'show' : 'hide';
+      this.state.hasErrors || this.props.messages !== '' ? 'show' : 'hide';
     let backendMessageClass;
     if (this.props.isSent) {
-      backendMessageClass = this.props.message !== '' ? 'borderGreen' : '';
+      backendMessageClass = this.props.messages !== '' ? 'borderGreen' : '';
     } else {
-      backendMessageClass = this.props.message !== '' ? 'borderYellow' : '';
+      // backendMessageClass = this.props.messages !== '' ? 'borderYellow' : '';
+      backendMessageClass = this.props.messages.length !== 0 ? 'borderYellow' : '';
     }
     return (
       <div>
@@ -194,7 +195,8 @@ class ContactForm extends React.Component {
             s[this.state.borderColor || backendMessageClass],
           )}
         >
-          {this.state.errorMessage + this.props.message }
+          {this.state.errorMessage + this.props.messages }
+          {console.log('MESSAGE', this.props.messages)}
         </div>
       </div>
     );

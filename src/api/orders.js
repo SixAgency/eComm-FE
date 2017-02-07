@@ -126,7 +126,6 @@ function removeFromCart(request) {
     })
   .then((response) => checkResponse(response))
   .then((data) => {
-    console.log('REMOVE DATA', data);
     const item = data;
     item.name = name;
     return getCartCallback(data, request, setAddRemoveCartResponse);

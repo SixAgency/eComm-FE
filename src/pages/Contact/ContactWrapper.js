@@ -12,6 +12,7 @@ const mapStateToProps = ((state) => (
   {
     isSent: state.contact.isSent,
     message: state.contact.message,
+    messages: state.page.messages,
   }
 ));
 
@@ -31,7 +32,7 @@ class ContactWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
   }
 
   componentWillMount = () => {
@@ -60,6 +61,7 @@ class ContactWrapper extends BasePageComponent {
         sendContact={this.props.sendContact}
         isSent={this.props.isSent}
         message={this.props.message}
+        messages={this.props.messages}
       />
     );
   }

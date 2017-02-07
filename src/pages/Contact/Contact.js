@@ -7,7 +7,7 @@ class Contact extends React.Component {
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
     isSent: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
   }
   render() {
     return (
@@ -17,7 +17,7 @@ class Contact extends React.Component {
             <ContactForm
               sendContact={this.props.sendContact}
               isSent={this.props.isSent}
-              message={this.props.message}
+              messages={this.props.messages}
             />
           </div>
         </div>
