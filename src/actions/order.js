@@ -2,29 +2,45 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 
+/**
+ * Helper - Empty Cart
+ * @returns {{type: string, payload: {isEmpty: boolean, isLoaded: boolean, cart: {}}}}
+ */
 function resetCart() {
   const data = {
     isEmpty: true,
     isLoaded: true,
     cart: {},
   };
-  return { type: 'RESET_CART', payload: data };
+  return { type: 'SET_CART', payload: data };
 }
 
+/**
+ * Set Cart
+ * @param cart
+ * @returns {{type: string, payload: *}}
+ */
 function setCart(cart) {
   const data = cart;
   data.isLoaded = true;
   return { type: 'SET_CART', payload: data };
 }
 
-function setCode() {
-  const data = {
-    message: 'Code has been applied',
-    isLoaded: true,
+/**
+ * Set line items quantity
+ * @param data
+ * @returns {function(*)}
+ */
+function updateQuantity(data) {
+  return (dispatch) => {
+    dispatch(setCart(data));
   };
-  return { type: 'APPLY_PROMO_CODE_SUCCESS', payload: data };
 }
 
+/**
+ * Get the user cart
+ * @returns {function(*=)}
+ */
 function getCart() {
   return (dispatch) => {
     axios.get('/api/cart')
@@ -40,6 +56,11 @@ function getCart() {
   };
 }
 
+/**
+ * Add item to cart
+ * @param data
+ * @returns {function(*=)}
+ */
 function addToCart(data) {
   return (dispatch) => {
     axios.post('/api/cart', data)
@@ -59,6 +80,11 @@ function addToCart(data) {
   };
 }
 
+/**
+ * Remove item from the cart
+ * @param data
+ * @returns {function(*=)}
+ */
 function removeItem(data) {
   return (dispatch) => {
     axios.post('/api/cart/remove', data)
@@ -74,11 +100,15 @@ function removeItem(data) {
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
-        // dispatch(resetCart());
       });
   };
 }
 
+/**
+ * Update Cart
+ * @param data
+ * @returns {function(*=)}
+ */
 function updateCart(data) {
   return (dispatch) => {
     axios.put('/api/cart', { data })
@@ -92,27 +122,24 @@ function updateCart(data) {
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
-        // dispatch(resetCart());
       });
   };
 }
 
-function updateQuantity(data) {
-  return (dispatch) => {
-    dispatch({ type: 'UPDATE_QTY_SUCCES', payload: data });
-  };
-}
-
+/**
+ * Apply promo code
+ * @param data
+ * @returns {function(*)}
+ */
 function applyPromoCode(data) {
   return (dispatch) => {
     axios.put('api/applycode', { data })
-      .then(() => {
-        dispatch(setCode());
-        const message = 'Code has been applied.';
-        dispatch(setMessage({ isError: false, messages: [message] }));
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
       }, () => {
-        dispatch(setMessage({ isError: true, messages: ['Something went wrong'] }));
-      })
+        const message = response.data.messages || 'Something went wrong.';
+        dispatch(setMessage({ isError: true, messages: [message] }));
+      }))
       .catch((err) => {
         console.log('Error', err); // esling-disable-line no-console
         forwardTo('error');
