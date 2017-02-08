@@ -1,0 +1,117 @@
+import React, { Component, PropTypes } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './PayPalButton.css';
+import token from './token.js';
+
+const braintree = require('braintree-web');
+
+class PayPalButton extends Component {
+
+  static propTypes = {
+    paypalObj: PropTypes.object.isRequired,
+    checkoutPayPal: PropTypes.func.isRequired,
+    cart: PropTypes.object.isRequired,
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialized: false,
+      checkout: null,
+    };
+  }
+
+  componentDidMount = () => {
+    if (braintree && !this.state.initialized && !this.props.paypalObj.isEmpty) {
+      this.setState({
+        initialized: true,
+      }, () => {
+        braintree.client.create({
+          authorization: this.props.paypalObj.tokens.client_token,
+        }, (clientErr, clientInstance) => {
+          braintree.paypal.create({
+            client: clientInstance,
+          }, (err, paypalInstance) => {
+            this.setState({
+              checkout: paypalInstance,
+            });
+          });
+        });
+      });
+    }
+  };
+
+  onSubmit = () => {
+    const paypalInstance = this.state.checkout;
+    paypalInstance.tokenize({
+      flow: 'checkout', // Required
+      amount: 10.00, // Required
+      currency: 'USD', // Required
+      locale: 'en_US',
+      enableShippingAddress: false,
+    }, (err, tokenizationPayload) => {
+      if (!err) {
+        const data = this.setRequestData(tokenizationPayload);
+        console.log('data', data);
+        this.props.checkoutPayPal(data);
+      }
+    });
+  };
+
+  setRequestData = (payload) => {
+    const data = {
+      order: {
+        line_items_attributes: this.formatLineItems(),
+        coupon_code: '',
+        email: payload.details.email,
+        // ship_address: this.setAddress(payload, 'shipping'),
+        // bill_address: this.setAddress(payload, 'billing'),
+      },
+      paypal: {
+        payment_method_id: this.props.paypalObj.tokens.payment_method_id.toString(),
+        payment_method_nonce: payload.nonce,
+      },
+      checkout: 'true',
+    };
+
+    return data;
+  };
+
+  // setAddress = (data, type) => {
+  //   console.log('data', data);
+  //   let address = data.details.bill_address;
+  //   if (type === 'shipping') {
+  //     address = data.details.shipp_address;
+  //   }
+  //   address.firstname = data.details.firstName;
+  //   address.lastname = data.details.lastName;
+  //   address.country = data.details.countryCode;
+  //   address.phone = data.details.phone;
+  //   console.log(type);
+  //   console.log(address);
+  //   return address;
+  // };
+
+  formatLineItems = () => {
+    const data = {};
+    this.props.cart.line_items.forEach((value, key) => {
+      // console.log('value',value);
+      // console.log('key', key);
+      data[key] = {
+        quantity: value.quantity.toString(),
+        id: value.id.toString(),
+      };
+    });
+    return data;
+  };
+
+  render() {
+    if (!this.state.initialized) {
+      return null;
+    }
+    return (
+      <button className={s.paypal} onClick={this.onSubmit} />
+    );
+  }
+}
+
+export default withStyles(s)(PayPalButton);

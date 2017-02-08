@@ -7,6 +7,7 @@ import cart from './cart';
 import page from './page';
 import contact from './contact';
 import orders from './orders';
+import checkout from './checkout';
 
 export default combineReducers({
   user,
@@ -16,5 +17,6 @@ export default combineReducers({
   page,
   contact,
   orders,
+  checkout,
 });
 

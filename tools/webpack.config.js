@@ -22,6 +22,7 @@ const config = {
   },
 
   module: {
+    noParse: ['braintree-web'],
     loaders: [
       {
         test: /\.jsx?$/,

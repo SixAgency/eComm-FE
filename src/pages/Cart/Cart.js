@@ -29,7 +29,10 @@ class Cart extends Component {
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-  }
+    paypalObj: PropTypes.object.isRequired,
+    checkoutPayPal: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
+  };
 
   render() {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;
@@ -86,7 +89,13 @@ class Cart extends Component {
                   updateCart={this.props.updateCart}
                   applyPromoCode={this.props.applyPromoCode}
                 />
-                <CartForm cart={cart} loggedIn={this.props.loggedIn} />
+                <CartForm
+                  cart={cart}
+                  loggedIn={this.props.loggedIn}
+                  paypalObj={this.props.paypalObj}
+                  checkoutPayPal={this.props.checkoutPayPal}
+                  checkoutNext={this.props.checkoutNext}
+                />
               </div>
             </article>
           </div>

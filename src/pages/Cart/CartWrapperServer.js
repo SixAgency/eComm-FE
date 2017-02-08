@@ -15,7 +15,10 @@ class CartWrapper extends Component {
     isError: PropTypes.bool.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-  }
+    paypalObj: PropTypes.object.isRequired,
+    checkoutPayPal: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
+  };
 
   /*
     * Set default action for server side renderring.
@@ -30,9 +33,12 @@ class CartWrapper extends Component {
     updateCart: () => (true),
     updateQuantity: () => (true),
     applyPromoCode: () => (true),
+    checkoutPayPal: () => (true),
+    checkoutNext: () => (true),
+    paypalObj: {},
     isError: false,
     messages: [],
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -80,6 +86,9 @@ class CartWrapper extends Component {
         applyPromoCode={this.props.applyPromoCode}
         updateCart={this.props.updateCart}
         updateQuantity={this.props.updateQuantity}
+        paypalObj={this.props.paypalObj}
+        checkoutPayPal={this.props.checkoutPayPal}
+        checkoutNext={this.props.checkoutNext}
       />
     );
   }

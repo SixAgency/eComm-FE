@@ -4,6 +4,8 @@ import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct, getMannequinHeads } from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress } from './addresses';
+import { getBraintreeTokens, checkoutPayPal, checkoutNext } from './checkout';
+
 import sendContact from './contact';
 // Helpers
 import {
@@ -124,6 +126,14 @@ apiRoutes.post('/contact', (req, resp) => {
 // Mannequin heads page
 apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
+});
+
+apiRoutes.get('/checkout/braintree', (req, resp) => {
+  getBraintreeTokens(req).then((data) => (resp.json(data)));
+}).post('/checkout/paypal', (req, resp) => {
+  checkoutPayPal(req).then((data) => (resp.json(data)));
+}).post('/checkout/next', (req, resp) => {
+  checkoutNext(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

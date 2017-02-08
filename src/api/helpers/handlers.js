@@ -434,6 +434,27 @@ function setContactResponse(data) {
   return resp;
 }
 
+/* CHECKOUT */
+
+function setBraintreeResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      tokens: data,
+    };
+  }
+  return resp;
+}
 
 export {
   checkResponse,
@@ -453,4 +474,5 @@ export {
   setRecsResponse,
   setMannequinHeadsResponse,
   setContactResponse,
+  setBraintreeResponse,
 };

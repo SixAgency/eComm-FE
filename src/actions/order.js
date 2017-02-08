@@ -208,7 +208,9 @@ export {
   updateCart,
   updateQuantity,
   resetCart,
+  setCart,
   applyPromoCode,
   getOrder,
   getAllOrders,
 };
+
