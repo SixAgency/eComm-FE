@@ -32,6 +32,13 @@ class ContentWrapper extends React.Component {
     return '';
   }
 
+  getDisabled = (id) => {
+    if (id === this.props.isActive) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const contentTabs = this.props.tabs;
     return (
@@ -45,6 +52,7 @@ class ContentWrapper extends React.Component {
                   onClick={this.props.clickTab}
                   title={v.title}
                   id={v.id}
+                  disabled={this.getDisabled(v.id)}
                 >
                   {v.name}
                 </button>
