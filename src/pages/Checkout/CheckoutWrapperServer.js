@@ -9,12 +9,14 @@ class CheckoutWrapper extends React.Component {
     getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     setHeaderProps: () => (true),
     getCart: () => (true),
     onLogout: () => (true),
+    applyPromoCode: () => (true),
   }
 
   constructor(props) {
@@ -52,6 +54,7 @@ class CheckoutWrapper extends React.Component {
         couponClass={this.state.className}
         clickTab={this.clickTab}
         content={this.state.content}
+        applyPromoCode={this.props.applyPromoCode}
       />
     );
   }

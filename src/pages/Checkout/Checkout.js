@@ -28,8 +28,9 @@ class Checkout extends React.Component {
     loginClass: PropTypes.string.isRequired,
     clickTab: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
     isError: PropTypes.bool.isRequired,
+    applyPromoCode: PropTypes.func.isRequired,
   }
 
   getChildren = () => {
@@ -37,7 +38,7 @@ class Checkout extends React.Component {
     if (content === 'shipping') {
       return <ShippingAddress />;
     } else if (content === 'promocode') {
-      return <PromoCode />;
+      return <PromoCode applyPromoCode={this.props.applyPromoCode} />;
     } else if (content === 'review') {
       return <ReviewOrder cartItems={this.props.cartItems.cart} />;
     }
