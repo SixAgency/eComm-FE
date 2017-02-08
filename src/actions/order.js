@@ -45,6 +45,18 @@ function setOrder(order) {
 }
 
 /**
+* Helper - Set orders
+* @returns {{type: string, payload: {}}}
+*/
+function setOrders(orders) {
+  const data = {
+    isLoaded: true,
+    ...orders,
+  };
+  return { type: 'GET_ORDERS', payload: data };
+}
+
+/**
  * Get the user cart
  * @returns {function(*=)}
  */
@@ -169,6 +181,25 @@ function applyPromoCode(data) {
   };
 }
 
+/** Get all orders
+* @param data
+* @returns
+*/
+function getAllOrders(data) {
+  return (dispatch) => {
+    axios.get('api/orders', { data })``
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setOrders(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   getCart,
   addToCart,
@@ -178,4 +209,5 @@ export {
   resetCart,
   applyPromoCode,
   getOrder,
+  getAllOrders,
 };

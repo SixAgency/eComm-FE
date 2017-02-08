@@ -9,7 +9,6 @@ import { validateContactForm } from '../helpers/validators';
  * @returns {function(*=)}
  */
 function sendContact(data) {
-  console.log('data', data);
   return (dispatch) => {
     const valid = validateContactForm(data.contact);
     if (valid.isError) {

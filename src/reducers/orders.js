@@ -10,6 +10,9 @@ export default function reducer(state = {
     case 'SET_ORDER': {
       return { ...state, order: action.payload };
     }
+    case 'GET_ORDERS': {
+      return { ...state, orders: action.payload };
+    }
     default: // do nothing
   }
 

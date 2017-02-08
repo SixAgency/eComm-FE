@@ -67,22 +67,6 @@
   }
 }
 
-.errorMessage {
-  font-family: Georgia, serif;
-  color: rgb(0, 0, 0);
-  text-align: center;
-  box-sizing: border-box;
-  display: inline-block;
-  width: 52%;
-  margin: 0 auto;
-  margin-top: 38px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-.borderYellow { border: 2px solid #f7e700; }
-.borderGreen { border: 2px solid #398f14; }
-
 .hide {display: none;}
 .show {display: block;}
 

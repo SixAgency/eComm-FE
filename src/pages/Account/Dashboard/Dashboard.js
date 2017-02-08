@@ -5,6 +5,7 @@ import s from './Dashboard.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import Addresses from '../../../components/Addresses';
+import OrderHistory from '../../../components/OrderHistory';
 
 class Dashboard extends React.Component {
   static propTypes = {
@@ -28,6 +29,8 @@ class Dashboard extends React.Component {
              shipping and billing addresses and
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
+            <h1 className={s.title}>RECENT ORDERS</h1>
+            <OrderHistory />
             <Addresses {...this.props.addresses} />
           </div>
         </ContentWrapper>
