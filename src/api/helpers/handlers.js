@@ -169,10 +169,16 @@ function setUserResponse(request) {
 // Format User Addresses Response
 function setAddressesResponse(data) {
   let resp;
+  conslog('DATA', data);
   if (!data.isError) {
     resp = {
       billing: setAddressResponse(data.bill_address),
       shipping: setAddressResponse(data.ship_address),
+      addresses: {
+        isLoaded: true,
+        isEmpty: data.owner_address.length === 0,
+        addresses: data.owner_address,
+      },
     };
   } else {
     resp = {
@@ -185,6 +191,11 @@ function setAddressesResponse(data) {
       shipping: {
         isEmpty: true,
         address: {},
+      },
+      addresses: {
+        isLoaded: true,
+        isEmpty: true,
+        addresses: [],
       },
     };
   }

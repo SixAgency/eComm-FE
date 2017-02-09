@@ -74,8 +74,13 @@ function onLogin(data) {
           dispatch(resetCart());
           // Set the user
           dispatch(setUser(response.data.user));
+          const addresses = {
+            isLoaded: false,
+            isEmpty: true,
+            addresses: [],
+          };
           // Set billing and shipping addresses
-          dispatch(setAddresses(response.data.billing, response.data.shipping));
+          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
           // Redirect to dashboard
           forwardTo('my-account/dashboard');
           // Get the user cart
@@ -108,8 +113,13 @@ function onRegister(data) {
           dispatch(resetCart());
           // Set the user
           dispatch(setUser(response.data.user));
+          const addresses = {
+            isLoaded: false,
+            isEmpty: true,
+            addresses: [],
+          };
           // Set billing and shipping addresses
-          dispatch(setAddresses(response.data.billing, response.data.shipping));
+          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
           // Redirect to dashboard
           forwardTo('my-account/dashboard');
           // Get the user cart

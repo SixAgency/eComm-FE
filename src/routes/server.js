@@ -468,14 +468,63 @@ siteRoutes.get('/cart', (req, resp, next) => {
 siteRoutes.get('/checkout', (req, resp, next) => {
   getCart(req)
     .then((data) => handleError(data, resp, () => {
+      let addresses = {
+        shipping: {
+          isLoaded: true,
+          isEmpty: true,
+          address: {},
+        },
+        billing: {
+          isLoaded: true,
+          isEmpty: true,
+          address: {},
+        },
+        addresses: {
+          isLoaded: true,
+          isEmpty: true,
+          addresses: [],
+        },
+      };
       const params = {
         title: 'Checkout',
         description: '',
         header: 'default',
         active: '/',
-        content: <CheckoutWrapper cartItems={data} />,
       };
-      handleRoutes(req, resp, next, params);
+      getAddresses(req)
+        .then((address) => {
+          // conslog('ADDRESS', address);
+          addresses = {
+            shipping: {
+              isLoaded: true,
+              isEmpty: address.ship_address == null,
+              address: address.ship_address || {},
+            },
+            billing: {
+              isLoaded: true,
+              isEmpty: address.bill_address == null,
+              address: address.bill_address || {},
+            },
+            addresses: {
+              isLoaded: true,
+              isEmpty: address.owner_address == null,
+              addresses: address.owner_address,
+            },
+          };
+          params.content = <CheckoutWrapper cartItems={data} {...addresses} />;
+          handleRoutes(req, resp, next, params);
+        }).catch((err) => {
+          conslog('ERROR', err);
+          resp.redirect('/error');
+        });
+      // const params = {
+      //   title: 'Checkout',
+      //   description: '',
+      //   header: 'default',
+      //   active: '/',
+      //   content: <CheckoutWrapper cartItems={data} />,
+      // };
+      // handleRoutes(req, resp, next, params);
     }))
     .catch((err) => {
       conslog('ERROR', err);

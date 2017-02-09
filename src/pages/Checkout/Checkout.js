@@ -9,7 +9,8 @@ import ContentWrapper from '../../components/ContentWrapper';
 import GiftCardInput from '../../components/GiftCardInput/GiftCardInput';
 import LoginInput from '../../components/LoginInput/LoginInput';
 // Forms and inputs
-import BillingForm from '../../components/Forms/BillingForm';
+import Address from '../../components/Forms/CheckoutSteps/Address';
+// import BillingForm from '../../components/Forms/BillingForm';
 import ShippingAddress from '../../components/Forms/CheckoutSteps/ShippingAddress';
 import PromoCode from '../../components/Forms/CheckoutSteps/PromoCode';
 import ReviewOrder from '../../components/Forms/CheckoutSteps/ReviewOrder';
@@ -27,28 +28,44 @@ class Checkout extends React.Component {
     handleLogin: PropTypes.func.isRequired,
     loginClass: PropTypes.string.isRequired,
     clickTab: PropTypes.func.isRequired,
+    nextTab: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
     message: PropTypes.string,
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    billingAddress: PropTypes.object.isRequired,
+    shippingAddress: PropTypes.object.isRequired,
+    addresses: PropTypes.array.isRequired,
   }
 
   getChildren = () => {
     const content = this.props.content;
     if (content === 'shipping') {
-      return <ShippingAddress />;
+      return (
+        <Address
+          loggedIn={this.props.loggedIn}
+          formTitle={'shipping address'}
+          formSubtitle={'Select your shipping address'}
+          address={this.props.shippingAddress}
+          addresses={this.props.addresses}
+          nextTab={this.props.nextTab}
+          notes
+        />
+      );
     } else if (content === 'promocode') {
       return <PromoCode applyPromoCode={this.props.applyPromoCode} />;
     } else if (content === 'review') {
       return <ReviewOrder cartItems={this.props.cartItems.cart} />;
     }
     return (
-      <BillingForm
+      <Address
         loggedIn={this.props.loggedIn}
         formTitle={'billing address'}
-        formSubtitle={'Fill in your details'}
-        buttonText={'proceed'}
-        selectClass={'checkoutselect'}
+        formSubtitle={'Select your billing address'}
+        address={this.props.billingAddress}
+        addresses={this.props.addresses}
+        nextTab={this.props.nextTab}
+        notes={false}
       />
     );
   }

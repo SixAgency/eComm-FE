@@ -9,10 +9,20 @@ export default function reducer(state = {
     isEmpty: true,
     address: {},
   },
+  addresses: {
+    isLoaded: false,
+    isEmpty: true,
+    addresses: [],
+  },
 }, action) {
   switch (action.type) {
     case 'SET_ADDRESSES': {
-      return { ...state, billing: action.payload.billing, shipping: action.payload.shipping };
+      return {
+        ...state,
+        billing: action.payload.billing,
+        shipping: action.payload.shipping,
+        addresses: action.payload.addresses
+      };
     }
     case 'SET_BILLING': {
       return { ...state, billing: action.payload };

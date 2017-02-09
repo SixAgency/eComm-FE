@@ -8,6 +8,7 @@ import Checkout from './Checkout';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, applyPromoCode } from '../../actions/order';
 import { onLogin, onLogout } from '../../actions/user';
+import { getAddress } from '../../actions/address';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -18,6 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
+    getAddress: () => dispatch(getAddress()),
   }
 ));
 
@@ -27,6 +29,9 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     message: state.page.message,
     isError: state.page.isError,
+    shipping: state.address.shipping,
+    billing: state.address.billing,
+    addresses: state.address.addresses,
   }
 ));
 
@@ -43,6 +48,10 @@ class CheckoutWrapper extends BasePageComponent {
     message: PropTypes.string,
     isError: PropTypes.bool,
     applyPromoCode: PropTypes.func.isRequired,
+    shipping: PropTypes.object.isRequired,
+    billing: PropTypes.object.isRequired,
+    addressess: PropTypes.object.isRequired,
+    getAddress: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -69,6 +78,12 @@ class CheckoutWrapper extends BasePageComponent {
     } else {
       this.props.getCart();
     }
+    const billing = this.props.billing;
+    const shipping = this.props.shipping;
+    const addresses = this.props.addresses;
+    if (!shipping.isLoaded && !billing.isLoaded && !addresses.isLoaded) {
+      this.props.getAddress();
+    }
   }
 
   componentDidMount = () => {
@@ -91,6 +106,21 @@ class CheckoutWrapper extends BasePageComponent {
   componentWillUnmount = () => {
     console.log('remove');
     this.props.toggleLoader(true);
+  }
+
+  nextTab = () => {
+    switch (this.state.content) {
+      case 'billing':
+        this.setState({ content: 'shipping' });
+        break;
+      case 'shipping':
+        this.setState({ content: 'promocode' });
+        break;
+      case 'promocode':
+        this.setState({ content: 'review' });
+        break;
+      default: // do nothing
+    }
   }
 
   clickTab = (e) => {
@@ -117,7 +147,13 @@ class CheckoutWrapper extends BasePageComponent {
   }
 
   render() {
-    console.log('client');
+    if (!this.props.cartItems.isLoaded) {
+      return null;
+    }
+    const addresses = this.props.addresses;
+    if (!this.props.billing.isLoaded && !this.props.shipping.isLoaded && !addresses.isLoaded) {
+      return null;
+    }
     return (
       <Checkout
         cartItems={this.props.cartItems}
@@ -129,10 +165,14 @@ class CheckoutWrapper extends BasePageComponent {
         handleLogin={this.handleLogin}
         loginClass={this.state.loginClassName}
         clickTab={this.clickTab}
+        nextTab={this.nextTab}
         content={this.state.content}
         message={this.props.message}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
+        billingAddress={this.props.billing.address}
+        shippingAddress={this.props.shipping.address}
+        addresses={this.props.addresses.addresses}
       />
     );
   }
