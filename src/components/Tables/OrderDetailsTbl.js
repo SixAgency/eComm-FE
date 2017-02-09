@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Tables.css';
 
 class OrderDetailsTbl extends React.Component {
+  static propTypes = {
+    order: PropTypes.object.isRequired,
+  }
+
   render() {
+    const order = this.props.order;
+    const products = order.line_items;
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -15,36 +22,37 @@ class OrderDetailsTbl extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {/* TODO: Map those in a sepparate component */}
-            <tr className={s.orderItem}>
-              <td className={s.productname}>
-                <a href="">ks Color Head</a>
-                <strong className={s.productqty}>× 1</strong>
-              </td>
-              <td className={s.producttotal}>
-                <span className={s.amount}>
-                  $79.00
-                </span>
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={s.productname}>
-                <a href="">ks Color Head</a>
-                <strong className={s.productqty}>× 1</strong>
-              </td>
-              <td className={s.producttotal}>
-                <span className={s.amount}>
-                  $79.00
-                </span>
-              </td>
-            </tr>
-            {/* end mapping */}
+            { products.map((item) => {
+              const slug = `/product/${item.variant.slug}`;
+              return (
+                <tr className={s.orderItem}>
+                  <td className={s.productname}>
+                    <Link to={slug}>{item.variant.name}</Link>
+                    {item.variant.option_values &&
+                      <p className={s.productvariant}>
+                        {item.variant.option_values.map((option) => (
+                          <span>{option.option_type_presentation}:&nbsp;
+                            <strong>{option.presentation} </strong>
+                          </span>
+                        ))}
+                      </p>
+                    }
+                    <strong className={s.productqty}>× {item.quantity}</strong>
+                  </td>
+                  <td className={s.producttotal}>
+                    <span className={s.amount}>
+                      {item.display_amount}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Subtotal:
               </td>
               <td className={s.orderdetails}>
-                $97.00
+                {order.item_total}
               </td>
             </tr>
             <tr className={s.orderItem}>

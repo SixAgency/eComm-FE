@@ -12,6 +12,25 @@ class ViewOrder extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
+    order: PropTypes.object.isRequired,
+  }
+
+  getMonth = (number) => {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[number];
   }
 
   listAddress = (address) => {
@@ -30,17 +49,25 @@ class ViewOrder extends React.Component {
   }
 
   render() {
+    const order = this.props.order;
+    const orderDate = new Date(order.created_at);
+    const shipment = order.shipments[0];
+    console.log('ORDER', order);
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ContentWrapper tabsClass={'hide'}>
           <p className={s.orderInfo}>
-            Order <mark className="order-number">
-              order number</mark> was placed on <mark className="order-date">
-              order date</mark> and is currently <mark className="order-sts">order status</mark>.
+            Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
+            <mark className="order-date">
+              {this.getMonth(orderDate.getMonth())} {orderDate.getDay()}, {orderDate.getFullYear()}
+            </mark>
+            &nbsp;and is currently <mark className={s.orderstatus}>
+              {shipment && shipment.state}
+            </mark>.
           </p>
           <h2 className={s.title}>Order Details</h2>
-          <OrderDetailsTbl />
+          <OrderDetailsTbl order={this.props.order} />
           <h2 className={s.title}>Customer Details</h2>
           <CustomerDetailsTbl />
           <div className={s.addressescontainer}>

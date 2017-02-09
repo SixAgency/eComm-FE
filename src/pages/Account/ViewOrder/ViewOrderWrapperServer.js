@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ViewOrder from './ViewOrder';
 
 class ViewOrderWrapper extends React.Component {
   static propTypes = {
-
+    order: PropTypes.object.isRequired,
   }
 
   render() {
     return (
-      <ViewOrder />
+      <ViewOrder order={this.props.order.order} />
     );
   }
 }

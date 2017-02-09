@@ -158,6 +158,7 @@
       font-size: 13px;
       line-height: 17px;
       font-weight: 700;
+      text-transform: uppercase;
       color: #000;
       position: relative;
     }
@@ -213,9 +214,16 @@
   }
 
   .productname .productqty {
+    top: 0;
     right: 0;
     margin-right: 50px;
     position: absolute;
+  }
+
+  .productvariant {
+    font-size: 11px;
+    font-weight: normal;
+    text-transform: uppercase;
   }
 
   .producttotal {
