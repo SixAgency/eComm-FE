@@ -36,6 +36,14 @@ function updateQuantity(data) {
   };
 }
 
+function setOrder(order) {
+  const data = {
+    isLoaded: true,
+    ...order,
+  };
+  return { type: 'SET_ORDER', payload: data };
+}
+
 /**
  * Get the user cart
  * @returns {function(*=)}
@@ -51,6 +59,21 @@ function getCart() {
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
         dispatch(resetCart());
+      });
+  };
+}
+
+function getOrder(number) {
+  return (dispatch) => {
+    axios.get(`/api/order/${number}`)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setOrder(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error', err);
+        forwardTo('error');
       });
   };
 }
@@ -146,4 +169,13 @@ function applyPromoCode(data) {
   };
 }
 
-export { getCart, addToCart, removeItem, updateCart, updateQuantity, resetCart, applyPromoCode };
+export {
+  getCart,
+  addToCart,
+  removeItem,
+  updateCart,
+  updateQuantity,
+  resetCart,
+  applyPromoCode,
+  getOrder,
+};

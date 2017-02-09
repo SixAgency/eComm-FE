@@ -20,11 +20,15 @@
     text-align: center;
     margin: 50px 0 0 0;
   }
+  .orderstatus {
+    text-transform: capitalize;
+  }
   .addressescontainer {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     max-width: 600px;
     text-align: center;
     margin: auto;
+    padding-bottom: 100px;
     .optiontext {
       font-style: normal;
       font-size: 16px;
@@ -33,5 +37,9 @@
       height: auto;
       .block { display: block; }
     }
+  }
+  ::selection {
+    background-color: #29cbc8;
+    color: #d0ff00;
   }
 }

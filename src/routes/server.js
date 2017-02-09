@@ -10,7 +10,7 @@ import conslog from '../utils/dev';
 // Actions
 import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
-import { getCart } from '../api/orders';
+import { getCart, getOrder } from '../api/orders';
 import { getAddresses } from '../api/addresses';
 
 // Top Level Compontents
@@ -36,7 +36,7 @@ import ProfileWrapper from '../pages/Account/Profile';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
-// import ViewOrderWrapper from '../pages/Account/ViewOrder';
+import ViewOrderWrapper from '../pages/Account/ViewOrder';
 
 const siteRoutes = express.Router();
 
@@ -235,11 +235,37 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
     });
 });
 // Account - View/Order - @TODO, page, endpoint etc
-siteRoutes.get('/my-account/view-order', (req, resp) => {
+siteRoutes.get('/my-account/view-order/:number', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (data.user.loggedIn) {
-        resp.redirect('/my-account/dashboard');
+        getOrder(req)
+          .then((orderData) => handleError(orderData, resp, () => {
+            if (orderData.isEmpty) {
+              conslog('NOT FOUND', orderData);
+              resp.redirect('/404');
+            } else {
+              const order = {
+                isLoaded: true,
+                ...orderData,
+              };
+              const orderParams = {
+                number: req.params.number,
+              };
+              const params = {
+                title: 'My Account',
+                description: '',
+                header: 'colored',
+                active: '/my-account',
+                content: <ViewOrderWrapper order={order} params={orderParams} />,
+              };
+              handleRoutes(req, resp, next, params);
+            }
+          }))
+          .catch((err) => {
+            conslog('ERROR', err);
+            resp.redirect('/error');
+          });
       } else {
         resp.redirect('/my-account');
       }

@@ -17,7 +17,7 @@ const CART = '/api/v1/orders/current';
 
 // Get Order Details
 function getOrder(request) {
-  const number = request.params.id;
+  const number = request.params.number;
   return apiFetch(`${ORDER}/${number}`, {
     headers: {
       'Content-Type': 'application/json',

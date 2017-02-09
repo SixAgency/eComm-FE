@@ -12,6 +12,25 @@ class ViewOrder extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
+    order: PropTypes.object.isRequired,
+  }
+
+  getMonth = (number) => {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[number];
   }
 
   listAddress = (address) => {
@@ -30,33 +49,48 @@ class ViewOrder extends React.Component {
   }
 
   render() {
+    const order = this.props.order;
+    const orderDate = new Date(order.created_at);
+    const shipment = order.shipments[0];
+    const billingAddress = order.bill_address;
+    const shippingAddress = order.ship_address;
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ContentWrapper tabsClass={'hide'}>
           <p className={s.orderInfo}>
-            Order <mark className="order-number">
-              order number</mark> was placed on <mark className="order-date">
-              order date</mark> and is currently <mark className="order-sts">order status</mark>.
+            Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
+            <mark className="order-date">
+              {this.getMonth(orderDate.getMonth())} {orderDate.getDay()}, {orderDate.getFullYear()}
+            </mark>
+            &nbsp;and is currently <mark className={s.orderstatus}>
+              {shipment ? shipment.state : 'Processing'}
+            </mark>.
           </p>
           <h2 className={s.title}>Order Details</h2>
-          <OrderDetailsTbl />
+          <OrderDetailsTbl order={this.props.order} />
           <h2 className={s.title}>Customer Details</h2>
-          <CustomerDetailsTbl />
+          <CustomerDetailsTbl order={this.props.order} />
           <div className={s.addressescontainer}>
             <address className={s.optiontext}>
-              <span className={s.block}>{'Levente Csordas'}</span>
-              <span className={s.block}>{'Glendale, 10075'}</span>
-              <span className={s.block}>{'7th Avenue'}</span>
-              <span className={s.block}>{'New York'}, {'NY'} {'10001'} </span>
+              <span className={s.block}>{billingAddress.full_name}</span>
+              <span className={s.block}>{billingAddress.address1}</span>
+              {billingAddress.address2 &&
+                <span className={s.block}>{billingAddress.address2}</span>
+              }
+              <span className={s.block}>
+                {billingAddress.city}, {billingAddress.state_text} {billingAddress.zipcode}
+              </span>
             </address>
-          </div>
-          <div className={s.addressescontainer}>
             <address className={s.optiontext}>
-              <span className={s.block}>{'Levente Csordas'}</span>
-              <span className={s.block}>{'Glendale, 10075'}</span>
-              <span className={s.block}>{'7th Avenue'}</span>
-              <span className={s.block}>{'New York'}, {'NY'} {'10001'} </span>
+              <span className={s.block}>{shippingAddress.full_name}</span>
+              <span className={s.block}>{shippingAddress.address1}</span>
+              {shippingAddress.address2 &&
+                <span className={s.block}>{shippingAddress.address2}</span>
+              }
+              <span className={s.block}>
+                {shippingAddress.city}, {shippingAddress.state_text} {shippingAddress.zipcode}
+              </span>
             </address>
           </div>
         </ContentWrapper>

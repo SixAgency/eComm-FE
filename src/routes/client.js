@@ -38,7 +38,7 @@ const routes = (
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" />
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
-      <Route path="view-order" component={ViewOrderWrapper} title="My Account" />
+      <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />
     </Route>
     <Route path="product/:slug" component={ProductWrapper} title="Category" />
     <Route path="product-category/:slug" component={CategoryWrapper} />

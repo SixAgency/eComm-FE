@@ -72,7 +72,7 @@ apiRoutes
   });
 
 // Get Order Details
-apiRoutes.get('/order/:id', (req, resp) => {
+apiRoutes.get('/order/:number', (req, resp) => {
   getOrder(req).then((data) => (resp.json(data)));
 });
 

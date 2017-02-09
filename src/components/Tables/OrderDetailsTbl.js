@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Tables.css';
 
 class OrderDetailsTbl extends React.Component {
+  static propTypes = {
+    order: PropTypes.object.isRequired,
+  }
+
   render() {
+    const order = this.props.order;
+    const products = order.line_items;
+    const shipment = order.shipments[0];
+    const payment = order.payments[0];
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -15,68 +24,75 @@ class OrderDetailsTbl extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {/* TODO: Map those in a sepparate component */}
-            <tr className={s.orderItem}>
-              <td className={s.productname}>
-                <a href="">ks Color Head</a>
-                <strong className={s.productqty}>× 1</strong>
-              </td>
-              <td className={s.producttotal}>
-                <span className={s.amount}>
-                  $79.00
-                </span>
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={s.productname}>
-                <a href="">ks Color Head</a>
-                <strong className={s.productqty}>× 1</strong>
-              </td>
-              <td className={s.producttotal}>
-                <span className={s.amount}>
-                  $79.00
-                </span>
-              </td>
-            </tr>
-            {/* end mapping */}
+            { products.map((item) => {
+              const slug = `/product/${item.variant.slug}`;
+              return (
+                <tr className={s.orderItem}>
+                  <td className={s.productname}>
+                    <Link to={slug}>{item.variant.name}</Link>
+                    {item.variant.option_values &&
+                      <p className={s.productvariant}>
+                        {item.variant.option_values.map((option) => (
+                          <span>{option.option_type_presentation}:&nbsp;
+                            <strong>{option.presentation} </strong>
+                          </span>
+                        ))}
+                      </p>
+                    }
+                    <strong className={s.productqty}>× {item.quantity}</strong>
+                  </td>
+                  <td className={s.producttotal}>
+                    <span className={s.amount}>
+                      {item.display_amount}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Subtotal:
               </td>
               <td className={s.orderdetails}>
-                $97.00
+                {order.item_total}
               </td>
             </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Shipping
-              </td>
-              <td className={s.orderdetails}>
-                $15.81 via Ground (UPS), Flat Rate
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                New York State Tax:
-              </td>
-              <td className={s.orderdetails}>
-                $8.61
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Payment Method:
-              </td>
-              <td className={s.orderdetails}>
-                PayPal Express Checkout
-              </td>
-            </tr>
+            {shipment &&
+              <tr className={s.orderItem}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  Shipping
+                </td>
+                <td className={s.orderdetails}>
+                  {shipment.selected_shipping_rate.cost} via {shipment.selected_shipping_rate.name}
+                </td>
+              </tr>
+            }
+            {shipment && shipment.adjustments && shipment.adjustments.map((adjust) => (
+              <tr className={s.orderItems}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  {adjust.label}
+                </td>
+                <td className={s.orderdetails}>
+                  {adjust.amount}
+                </td>
+              </tr>
+            ))}
+            {payment &&
+              <tr className={s.orderItem}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  Payment Method:
+                </td>
+                <td className={s.orderdetails}>
+                  {payment.payment_method.name}
+                </td>
+              </tr>
+            }
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Total:
               </td>
               <td className={s.orderdetails}>
-                $121.42
+                {order.total}
               </td>
             </tr>
           </tbody>
