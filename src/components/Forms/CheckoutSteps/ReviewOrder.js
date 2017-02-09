@@ -7,7 +7,7 @@ import ReviewOrderTbl from '../../Tables/ReviewOrderTbl';
 class ReviewOrder extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -27,7 +27,7 @@ class ReviewOrder extends React.Component {
       cardTitleClass: 'active',
       ppTitleClass: '',
     });
-  }
+  };
 
   clickPaypal = (e) => {
     e.preventDefault(e);
@@ -37,10 +37,10 @@ class ReviewOrder extends React.Component {
       ppTitleClass: 'active',
       cardTitleClass: '',
     });
-  }
+  };
 
   render() {
-    const cart = this.props.cartItems;
+    const { cart } = this.props.cartItems;
     return (
       <div className={s.cformcontent}>
         <h1 className={s.title}>Review your order</h1>

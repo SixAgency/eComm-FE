@@ -28,7 +28,7 @@ class AddressInputs extends React.Component {
     onZipUpdate: PropTypes.func.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
     selectClass: PropTypes.string,
-  }
+  };
 
   showPhoneEmail = () => {
     if (this.props.showEmailPhone) {
@@ -70,7 +70,7 @@ class AddressInputs extends React.Component {
       );
     }
     return null;
-  }
+  };
 
   render() {
     const selections = [...STATES];

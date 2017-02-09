@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "CheckoutWrapper",
-  "main": "./CheckoutWrapperServer.js",
-  "browser": "./CheckoutWrapper.js"
-}

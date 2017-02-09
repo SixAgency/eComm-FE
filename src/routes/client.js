@@ -1,11 +1,10 @@
 import React from 'react';
-import { IndexRoute, Route } from 'react-router';
+import { IndexRoute, IndexRedirect, Route } from 'react-router';
 import Layout from '../components/Layout';
 // Pages
 import HomeWrapper from '../pages/Home';
 import BiographyWrapper from '../pages/Biography';
 import CartWrapper from '../pages/Cart';
-import CheckoutWrapper from '../pages/Checkout';
 import ProductWrapper from '../pages/Product';
 import CategoryWrapper from '../pages/Category';
 import ContactWrapper from '../pages/Contact';
@@ -20,6 +19,11 @@ import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
+//Checkout
+import BillingCheckout from '../pages/Checkout/Billing';
+import ShippingCheckout from '../pages/Checkout/Shipping';
+import PromoCheckout from '../pages/Checkout/Promo';
+import ReviewCheckout from '../pages/Checkout/Review';
 
 function onChange() {
   window.scrollTo(0, 0);
@@ -45,7 +49,13 @@ const routes = (
     <Route path="contact" component={ContactWrapper} title="Contact" />
     <Route path="ks-mannequin-heads" component={MannequinHeadsWrapper} title="ks Mannequin Heads" />
     <Route path="cart" component={CartWrapper} title="Cart" />
-    <Route path="checkout" component={CheckoutWrapper} title="Checkout" />
+    <Route path="checkout">
+      <IndexRedirect to="/checkout/billing" />
+      <Route path="billing" component={BillingCheckout} title="Checkout" />
+      <Route path="shipping" component={ShippingCheckout} title="Checkout" />
+      <Route path="promo" component={PromoCheckout} title="Checkout" />
+      <Route path="review" component={ReviewCheckout} title="Checkout" />
+    </Route>
     <Route path="error" component={ErrorPageWrapper} title="Error" />
     <Route path="*" component={NotFoundWrapper} title="Page Not Found" />
   </Route>

@@ -94,17 +94,22 @@
   text-align: center;
   margin: 35px 0 25px;
   width: 100%;
-  .paymessage {
-    color: #565656;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 25px;
-  }
+}
+
+.paymessage {
+  color: #565656;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 25px;
 }
 
 .buttonwrapper2 {
   text-align: center;
   margin: 50px 0 25px;
+}
+
+.buttonwrapper3 {
+  float: none;
 }
 
 .label {

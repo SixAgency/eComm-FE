@@ -456,12 +456,31 @@ function setBraintreeResponse(data) {
   return resp;
 }
 
+function setAddressCallBack(request, data, isPayPal, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      status: data.status,
+    };
+    return resp;
+  }
+  if (isPayPal) {
+    return setCartResponse(data, request, () => (true));
+  }
+  return callback(request);
+}
+
 export {
   checkResponse,
   setError,
   setAuthResponse,
   setLogoutResponse,
   setUserResponse,
+  setAddressResponse,
   setAddressesResponse,
   setEditCreateAddressResponse,
   setOrderResponse,
@@ -475,4 +494,5 @@ export {
   setMannequinHeadsResponse,
   setContactResponse,
   setBraintreeResponse,
+  setAddressCallBack,
 };

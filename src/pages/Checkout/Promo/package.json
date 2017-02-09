@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "PromoCheckout",
+  "main": "./PromoWrapperServer.js",
+  "browser": "./PromoWrapper.js"
+}

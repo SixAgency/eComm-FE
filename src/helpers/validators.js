@@ -46,6 +46,7 @@ function validateMandatoryFieldsAddress(data) {
   const isValidPhoneNumber = /^(\([0-9]{3}\)|[0-9]{3})[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
   if ((!data.firstname) || (!data.lastname) || (!data.phone) ||
     (!data.city) || (!data.state_id) || (!data.zipcode)) {
+    console.log('asdasd');
     messages.push('Please fill all the fields');
   }
   if (!isValidPhoneNumber.test(data.phone)) {

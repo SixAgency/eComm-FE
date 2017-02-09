@@ -44,7 +44,7 @@ class PayPalButton extends Component {
     const paypalInstance = this.state.checkout;
     paypalInstance.tokenize({
       flow: 'checkout', // Required
-      amount: 10.00, // Required
+      amount: this.props.cart.total, // Required
       currency: 'USD', // Required
       locale: 'en_US',
       enableShippingAddress: false,
@@ -71,24 +71,6 @@ class PayPalButton extends Component {
       checkout: 'true',
     };
 
-    // const data = {
-    //   order: {
-    //     line_items_attributes:{
-    //       0: {
-    //         quantity: '1',
-    //         id: '25',
-    //       },
-    //     },
-    //     coupon_code: '',
-    //     email: 'bt_buyer_us@paypal.com',
-    //   },
-    //   paypal: {
-    //     payment_method_id: '4',
-    //     payment_method_nonce: 'aa49ff2e-089e-065a-2d7c-f13f041e6a54',
-    //   },
-    //   checkout: 'true',
-    // };
-
     return data;
   };
 
@@ -110,8 +92,6 @@ class PayPalButton extends Component {
   formatLineItems = () => {
     const data = {};
     this.props.cart.line_items.forEach((value, key) => {
-      // console.log('value',value);
-      // console.log('key', key);
       data[key] = {
         quantity: value.quantity.toString(),
         id: value.variant.id.toString(),

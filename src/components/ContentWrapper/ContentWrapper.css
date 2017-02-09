@@ -38,6 +38,13 @@
           -ms-appearance: button;
           appearance: button;
         }
+        .buttonlink {
+          display: block;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          -ms-appearance: none;
+          appearance: none;
+        }
         .active {
           background: #E9EDEF;
           color: #222222;

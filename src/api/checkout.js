@@ -5,6 +5,7 @@ import {
   setError,
   setBraintreeResponse,
   setCartResponse,
+  setAddressCallBack,
 } from './helpers/handlers';
 
 import { faketoken } from '../config';
@@ -54,4 +55,24 @@ function checkoutNext(request) {
     .catch((err) => setError(err));
 }
 
-export { getBraintreeTokens, checkoutPayPal, checkoutNext };
+function checkoutAddress(request) {
+  const order = {
+    order: request.body.order,
+  };
+  const isPayPal = request.body.isPayPal;
+  return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(order),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+    .then((response) => checkResponse(response))
+    .then((data) => setAddressCallBack(request, data, isPayPal, checkoutNext))
+    .catch((err) => setError(err));
+}
+
+
+export { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress };

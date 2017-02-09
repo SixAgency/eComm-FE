@@ -19,11 +19,11 @@ class BillingWrapper extends React.Component {
     getAddress: () => (true),
     setHeaderProps: () => (true),
     onLogout: () => (true),
-  }
+  };
 
   onSubmit = (address) => {
     this.props.addAddress(address);
-  }
+  };
 
   render() {
     const address = this.props.billing.address || {
