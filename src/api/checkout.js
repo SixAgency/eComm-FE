@@ -8,7 +8,7 @@ import {
 } from './helpers/handlers';
 
 import { faketoken } from '../config';
-
+import conslog from '../utils/dev';
 
 function getBraintreeTokens(request) {
   return apiFetch('/api/v1/braintree_client_token',
@@ -25,10 +25,11 @@ function getBraintreeTokens(request) {
 }
 
 function checkoutPayPal(request) {
+  conslog('data', request.body.data);
   return apiFetch(`/api/v1/orders/${request.session.orderNumber}`,
     {
       method: 'PUT',
-      body: JSON.stringify(request.body.order),
+      body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
         'X-Spree-Token': request.session.token || faketoken,

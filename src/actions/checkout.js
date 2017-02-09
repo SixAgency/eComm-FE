@@ -24,7 +24,7 @@ function getPayPalToken() {
 
 function checkoutPayPal(data) {
   return (dispatch) => {
-    axios.post('/api/checkout/paypal', data)
+    axios.post('/api/checkout/paypal', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
         forwardTo('checkout');
@@ -51,19 +51,22 @@ function checkoutAddresses() {
   };
 }
 
-function checkoutNext() {
-  return (dispatch) => {
-    axios.post('/api/checkout/next')
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setCart(response.data));
-        forwardTo('checkout');
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
-  };
+function checkoutNext(state) {
+  if (state === 'cart') {
+    return (dispatch) => {
+      axios.post('/api/checkout/next')
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setCart(response.data));
+          forwardTo('checkout');
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    };
+  }
+  return forwardTo('checkout');
 }
 
 export { getPayPalToken, checkoutPayPal, checkoutAddresses, checkoutNext };

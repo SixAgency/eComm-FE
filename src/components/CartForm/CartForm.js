@@ -25,7 +25,7 @@ class CartForm extends React.Component {
 
   onClick = (e) => {
     e.preventDefault();
-    this.props.checkoutNext();
+    this.props.checkoutNext(this.props.cart.state);
   };
 
   toggleCalculator = (e) => {

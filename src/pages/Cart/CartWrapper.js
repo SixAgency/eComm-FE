@@ -34,7 +34,7 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
-    checkoutNext: () => dispatch(checkoutNext()),
+    checkoutNext: (state) => dispatch(checkoutNext(state)),
   }
 ));
 

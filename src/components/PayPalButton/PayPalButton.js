@@ -51,7 +51,7 @@ class PayPalButton extends Component {
     }, (err, tokenizationPayload) => {
       if (!err) {
         const data = this.setRequestData(tokenizationPayload);
-        console.log('data', data);
+        console.log('data', tokenizationPayload);
         this.props.checkoutPayPal(data);
       }
     });
@@ -63,8 +63,6 @@ class PayPalButton extends Component {
         line_items_attributes: this.formatLineItems(),
         coupon_code: '',
         email: payload.details.email,
-        // ship_address: this.setAddress(payload, 'shipping'),
-        // bill_address: this.setAddress(payload, 'billing'),
       },
       paypal: {
         payment_method_id: this.props.paypalObj.tokens.payment_method_id.toString(),
@@ -72,6 +70,24 @@ class PayPalButton extends Component {
       },
       checkout: 'true',
     };
+
+    // const data = {
+    //   order: {
+    //     line_items_attributes:{
+    //       0: {
+    //         quantity: '1',
+    //         id: '25',
+    //       },
+    //     },
+    //     coupon_code: '',
+    //     email: 'bt_buyer_us@paypal.com',
+    //   },
+    //   paypal: {
+    //     payment_method_id: '4',
+    //     payment_method_nonce: 'aa49ff2e-089e-065a-2d7c-f13f041e6a54',
+    //   },
+    //   checkout: 'true',
+    // };
 
     return data;
   };
@@ -98,7 +114,7 @@ class PayPalButton extends Component {
       // console.log('key', key);
       data[key] = {
         quantity: value.quantity.toString(),
-        id: value.id.toString(),
+        id: value.variant.id.toString(),
       };
     });
     return data;

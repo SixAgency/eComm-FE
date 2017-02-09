@@ -36,7 +36,7 @@ class Checkout extends React.Component {
     billingAddress: PropTypes.object.isRequired,
     shippingAddress: PropTypes.object.isRequired,
     addresses: PropTypes.array.isRequired,
-  }
+  };
 
   getChildren = () => {
     const content = this.props.content;
@@ -68,14 +68,14 @@ class Checkout extends React.Component {
         notes={false}
       />
     );
-  }
+  };
 
   handleError = (flag, data) => {
     if (flag === true) {
       return data;
     }
     return '';
-  }
+  };
 
   render() {
     const contentTabs = [
