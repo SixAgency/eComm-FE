@@ -16,6 +16,19 @@ class Dashboard extends React.Component {
     orders: PropTypes.object.isRequired,
   }
 
+  checkOrders = () => {
+    const orders = this.props.orders.orders;
+    if (!orders.isLoaded || orders.isEmpty) {
+      return null;
+    }
+    return (
+      <div>
+        <h1 className={s.title}>RECENT ORDERS</h1>
+        <OrderHistory orders={this.props.orders} />
+      </div>
+    );
+  }
+
   render() {
     return (
       <section className={s.page}>
@@ -30,8 +43,8 @@ class Dashboard extends React.Component {
              shipping and billing addresses and
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
-            <h1 className={s.title}>RECENT ORDERS</h1>
-            <OrderHistory orders={this.props.orders} />
+
+            {this.checkOrders()}
             <Addresses {...this.props.addresses} />
           </div>
         </ContentWrapper>

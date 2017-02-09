@@ -17,25 +17,17 @@ class OrderHistory extends Component {
       <table className={s.shoptable}>
         <thead>
           <tr>
-            <th>
-              <span className={s.nobr}>
-                Order
-              </span>
+            <th className={s.nobr}>
+              Order
             </th>
-            <th>
-              <span className={s.nobr}>
-                Date
-              </span>
+            <th className={s.nobr}>
+              Date
             </th>
-            <th>
-              <span className={s.nobr}>
-                Status
-              </span>
+            <th className={s.nobr}>
+              Status
             </th>
-            <th>
-              <span className={s.nobr}>
-                Total
-              </span>
+            <th className={s.nobr}>
+              Total
             </th>
             <th>
               <span>&nbsp;</span>

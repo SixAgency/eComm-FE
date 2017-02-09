@@ -20,9 +20,7 @@ class OrderRow extends Component {
           </a>
         </td>
         <td className={s.orderdate}>
-          <time>
-            {order.created_at.substring(0, 10)}
-          </time>
+          {order.created_at.substring(0, 10)}
         </td>
         <td className={s.orderstatus}>
           Processing
