@@ -239,7 +239,7 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
       resp.redirect('/500');
     });
 });
-// Account - View/Order - @TODO, page, endpoint etc
+// Account - View/Order
 siteRoutes.get('/my-account/view-order/:number', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
@@ -254,15 +254,12 @@ siteRoutes.get('/my-account/view-order/:number', (req, resp, next) => {
                 isLoaded: true,
                 ...orderData,
               };
-              const orderParams = {
-                number: req.params.number,
-              };
               const params = {
                 title: 'My Account',
                 description: '',
                 header: 'colored',
                 active: '/my-account',
-                content: <ViewOrderWrapper order={order} params={orderParams} />,
+                content: <ViewOrderWrapper order={order} loggedIn={data.user.loggedIn} />,
               };
               handleRoutes(req, resp, next, params);
             }

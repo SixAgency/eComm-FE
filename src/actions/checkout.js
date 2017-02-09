@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setCart } from './order';
-import { setMessage } from './page';
+import { setCart, resetCart, getCart } from './order';
+import { setMessage, resetMessages, setLoader } from './page';
 import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
 function setPayPal(data) {
@@ -66,6 +66,8 @@ function checkoutPayPal(data) {
 function checkoutAddresses(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     axios.post('/api/checkout/address', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
@@ -82,6 +84,8 @@ function checkoutAddresses(data) {
 function checkoutNext(state) {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     if (state !== 'cart') {
       forwardTo('checkout');
     } else {
@@ -106,9 +110,16 @@ function checkoutNext(state) {
 function completePayPal() {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     axios.post('/api/checkout/next')
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setMessage({ isError: true, messages: ['Your order placed successfully.'] }));
+        const orderLink = `my-account/view-order/${response.data.cart.id}`;
+        console.log(orderLink);
+        forwardTo(orderLink);
+        dispatch(resetCart());
+        dispatch(setMessage({ isError: true, messages: ['Your purchase completed successfully.'] }));
+        dispatch(getCart());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -187,6 +198,8 @@ function getCheckoutShipping(loggedIn, cart) {
 function setCheckoutBilling(address) {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     const valid = validateMandatoryFieldsAddress(address);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
@@ -207,6 +220,8 @@ function setCheckoutBilling(address) {
 function setCheckoutShipping(address,) {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     const valid = validateMandatoryFieldsAddress(address);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));

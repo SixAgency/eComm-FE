@@ -45,6 +45,7 @@ class Cart extends Component {
         <EmptyCart
           messages={this.props.messages}
           isError={this.props.isError}
+          loggedIn={this.props.loggedIn}
         />
       );
     }

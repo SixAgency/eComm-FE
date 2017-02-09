@@ -272,10 +272,14 @@
 }
 
 table.customerdetails {
+  margin: 0 auto;
   padding-bottom: 0;
 }
 
-.firstfield { padding-top: 65px; }
+.firstfield {
+  padding-top: 65px;
+  padding-bottom: 30px;
+}
 
 /* END Custom classes for View Order Page */
 

@@ -58,7 +58,7 @@ class ShippingWrapper extends BasePageComponent {
     getCheckoutShipping: PropTypes.func.isRequired,
     setCheckoutShipping: PropTypes.func.isRequired,
     checkoutAddresses: PropTypes.func.isRequired,
-    isPayPal: PropTypes.func.isRequired,
+    isPayPal: PropTypes.bool.isRequired,
   };
 
   constructor(props) {

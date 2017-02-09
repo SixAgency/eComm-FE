@@ -47,7 +47,7 @@ class CartWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
@@ -56,6 +56,7 @@ class CartWrapper extends BasePageComponent {
     getPayPalToken: PropTypes.func.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -108,6 +109,7 @@ class CartWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   handleGiftCard = (e) => {

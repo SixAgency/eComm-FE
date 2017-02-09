@@ -12,34 +12,14 @@ class EmptyCart extends React.Component {
   static propTypes = {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showmessageclass: 'hidemessage',
-      logged: true,
-    };
-  }
-
-  onLogout = () => {
-    fetch('/api/logout', {
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-    })
-    .then((resp) => (resp.json()))
-    .then((json) => this.handleLogout(json));
-  }
+    loggedIn: PropTypes.bool.isRequired,
+  };
 
   render() {
     return (
       <section className={s.page}>
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
-        <Subnav isLogged={this.state.logged} onLogout={this.onLogout} />
-        <div className={cx(s.messagecontainer, s[this.state.showmessageclass])}>
-          product removed.
-          <a href=""> Undo?</a>
-        </div>
+        <Subnav isLogged={this.props.loggedIn} onLogout={this.onLogout} />
         <ContentWrapper contentClass={'emptycartwrpr'}>
           <div>
             <p className={s.eparagraph}>Your cart is currently empty</p>

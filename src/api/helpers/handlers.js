@@ -281,10 +281,12 @@ function setCartResponse(data, request, callback) {
   } else if (Object.getOwnPropertyNames(data).length > 0) {
     const isEmpty = data.total_quantity < 1;
     resp = { isEmpty, cart: data };
-    request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
-    conslog('session', request.session);
+    if (data.state === 'complete') {
+      request.session.orderNumber = null; // eslint-disable-line no-param-reassign
+    } else {
+      request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
+    }
   } else {
-    conslog('callback');
     return callback(request);
   }
   return resp;
@@ -311,13 +313,12 @@ function setAddRemoveCartResponse(data) {
 
 function setCouponResponse(data) {
   let resp;
-  conslog('resp', data);
-  if (data.item.isError) {
-    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
       messages: [message],
-      status: data.item.status,
+      status: data.status,
     };
   } else {
     resp = {

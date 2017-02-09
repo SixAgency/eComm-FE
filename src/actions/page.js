@@ -25,8 +25,16 @@ function setHeaderProps(props) {
  */
 function resetMessages() {
   return (dispatch) => {
-    dispatch({ type: 'RESET_MESSAGES', payload: {} });
+    dispatch({ type: 'RESET_MESSAGES', payload: { isError: false, messages: [] } });
   };
+}
+
+/**
+ * Helper - Set redux loading state
+ * @param toggle - boolen
+ */
+function setLoader(toggle) {
+  return { type: 'TOGGLE_LOADER', payload: toggle };
 }
 
 /**
@@ -36,9 +44,8 @@ function resetMessages() {
  */
 function toggleLoader(toggle) {
   return (dispatch) => {
-    dispatch({ type: 'TOGGLE_LOADER', payload: toggle });
+    dispatch(setLoader(toggle));
   };
 }
 
-
-export { setHeaderProps, resetMessages, toggleLoader, setMessage };
+export { setHeaderProps, resetMessages, toggleLoader, setMessage, setLoader };

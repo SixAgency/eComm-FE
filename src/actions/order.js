@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage } from './page';
+import { setMessage, setLoader, resetMessages } from './page';
 import { setCartState, setPayment } from './checkout';
 
 /**
@@ -101,6 +101,9 @@ function getOrder(number) {
  */
 function addToCart(data) {
   return (dispatch) => {
+    dispatch(setLoader(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
@@ -125,11 +128,14 @@ function addToCart(data) {
  */
 function removeItem(data) {
   return (dispatch) => {
+    dispatch(setLoader(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
     axios.post('/api/cart/remove', data)
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setCart(response.data.cart));
         const message = `${response.data.name} has been removed from your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
+        dispatch(setCart(response.data.cart));
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -149,11 +155,14 @@ function removeItem(data) {
  */
 function updateCart(data) {
   return (dispatch) => {
+    dispatch(setLoader(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
     axios.put('/api/cart', { data })
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setCart(response.data));
         const message = 'Cart updated.';
         dispatch(setMessage({ isError: false, messages: [message] }));
+        dispatch(setCart(response.data));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -171,6 +180,9 @@ function updateCart(data) {
  */
 function applyPromoCode(data) {
   return (dispatch) => {
+    dispatch(setLoader(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
     axios.put('/api/applycode', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
@@ -194,7 +206,7 @@ function getAllOrders(data) {
     axios.get('/api/orders', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setOrders(response.data));
-        dispatch(setMessage({ isError: false, message: ['success'] }));
+        dispatch(setMessage({ isError: false, messages: ['success'] }));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))

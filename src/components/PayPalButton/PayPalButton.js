@@ -51,7 +51,6 @@ class PayPalButton extends Component {
     }, (err, tokenizationPayload) => {
       if (!err) {
         const data = this.setRequestData(tokenizationPayload);
-        console.log('data', tokenizationPayload);
         this.props.checkoutPayPal(data);
       }
     });
