@@ -1,7 +1,12 @@
 import { apiFetch } from '../core/fetch';
 // Helpers
-import { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse } from './helpers/handlers';
-import { parseProfile } from './handlers';
+import {
+  checkResponse,
+  setError,
+  setAuthResponse,
+  setLogoutResponse,
+  setUserResponse,
+  parseProfile } from './helpers/handlers';
 import { faketoken } from '../config';
 import conslog from '../utils/dev';
 

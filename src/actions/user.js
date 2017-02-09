@@ -14,6 +14,22 @@ function setUser(user) {
   return { type: 'SET_USER', payload: user };
 }
 
+/** Set Profile - helper
+* @param object
+* @returns {{type: string, payload: object}}
+*/
+function setProfile(resp) {
+  return { type: 'GET_PROFILE_SUCCESS', payload: resp.data };
+}
+
+/** Set Profile - helper
+* @param object
+* @returns {{type: string, payload: object}}
+*/
+function setUserUpdate(resp) {
+  return { type: 'UPDATE_PROFILE_SUCCESS', payload: resp.data };
+}
+
 /**
  * Checks if the user is logged in or not
  * @returns {function(*)}
@@ -139,17 +155,35 @@ function onRegister(data) {
 function getProfile() {
   return (dispatch) => {
     axios.get('/api/profile')
-      .then((resp) => dispatch({ type: 'GET_PROFILE_SUCCESS', payload: resp.data }))
-      .catch((err) => dispatch({ type: 'GET_PROFILE_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        // dispatch({ type: 'GET_PROFILE_SUCCESS', payload: response.data });
+        dispatch(setProfile(response));
+        console.log('ajung aici', response);
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
   };
 }
 
 function updateProfile(data) {
   return (dispatch) => {
     axios.post('/api/profile', data)
-      .then((resp) => dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: resp.data }))
-      .catch((err) => dispatch({ type: 'UPDATE_PROFILE_ERROR', payload: err }));
+      .then((response) => checkResponse(response.data, () => {
+        // dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: response.data });
+        dispatch(setUserUpdate(response));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
   };
 }
+
 
 export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile };

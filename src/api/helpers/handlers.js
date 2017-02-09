@@ -1,6 +1,5 @@
 import Promise from 'bluebird';
 import { mannequinHeadsSlugs } from '../../config';
-import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -536,6 +535,17 @@ function setAddressCallBack(request, data, isPayPal, callback) {
   return callback(request);
 }
 
+/* Parse profile */
+function parseProfile(data) {
+  let resp = {};
+  if (Object.getOwnPropertyNames(data).length > 0) {
+    resp = { isLoaded: true, profile: data.users[0] };
+    return resp;
+  }
+  resp = { isLoaded: true, profile: {} };
+  return resp;
+}
+
 export {
   checkResponse,
   setError,
@@ -557,5 +567,6 @@ export {
   setMannequinHeadsResponse,
   setContactResponse,
   setBraintreeResponse,
-  setAddressCallBack
+  setAddressCallBack,
+  parseProfile
 };

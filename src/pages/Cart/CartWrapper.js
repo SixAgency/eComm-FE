@@ -161,7 +161,6 @@ class CartWrapper extends BasePageComponent {
 
   handleLogin = (e) => {
     e.preventDefault();
-    console.log('here');
     this.setState({
       showLoginFields: !this.state.showLoginFields,
       loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
