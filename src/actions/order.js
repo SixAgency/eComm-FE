@@ -167,7 +167,7 @@ function updateCart(data) {
  */
 function applyPromoCode(data) {
   return (dispatch) => {
-    axios.put('api/applycode', { data })
+    axios.put('/api/applycode', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
       }, () => {
@@ -183,13 +183,14 @@ function applyPromoCode(data) {
 
 /** Get all orders
 * @param data
-* @returns
+* @returns {function(*)}
 */
 function getAllOrders(data) {
   return (dispatch) => {
-    axios.get('api/orders', { data })``
+    axios.get('/api/orders', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setOrders(response.data));
+        dispatch(setMessage({ isError: false, message: ['success'] }));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))

@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './OrderRow.css';
 
 class OrderRow extends Component {
+  static propTypes = {
+    order: PropTypes.object.isRequired,
+  }
+
   render() {
+    const order = this.props.order;
     return (
       <tr className={s.order}>
         <td className={s.ordernumber}>
@@ -11,20 +16,20 @@ class OrderRow extends Component {
             href=""
             className={s.orderlink}
           >
-            #1027
+            #{order.id}
           </a>
         </td>
         <td className={s.orderdate}>
           <time>
-            January 4, 2017
+            {order.created_at.substring(0, 10)}
           </time>
         </td>
         <td className={s.orderstatus}>
           Processing
         </td>
         <td className={s.ordertotal}>
-          <span className={s.amount}> $18.99 </span>
-          for 8 items
+          <span className={s.amount}> {order.display_total} </span>
+          for {order.line_items.length} items
         </td>
         <td className={s.viewlinkwrpr}>
           <a

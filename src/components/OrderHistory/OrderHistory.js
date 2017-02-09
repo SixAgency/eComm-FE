@@ -1,10 +1,18 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './OrderHistory.css';
 import OrderRow from './OrderRow';
 
 class OrderHistory extends Component {
+  static propTypes = {
+    orders: PropTypes.object.isRequired,
+  }
+
   render() {
+    const { orders } = this.props.orders;
+    if (!orders.isLoaded || orders.isEmpty) {
+      return null;
+    }
     return (
       <table className={s.shoptable}>
         <thead>
@@ -35,7 +43,13 @@ class OrderHistory extends Component {
           </tr>
         </thead>
         <tbody>
-          <OrderRow />
+          { orders.orders.orders.map((item, index) => (
+            <OrderRow
+              key={index}
+              order={item}
+            />
+            ),
+          )}
         </tbody>
       </table>
     );

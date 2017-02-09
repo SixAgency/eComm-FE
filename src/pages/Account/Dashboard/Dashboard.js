@@ -13,6 +13,7 @@ class Dashboard extends React.Component {
     userName: PropTypes.string.isRequired,
     onLogout: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
+    orders: PropTypes.object.isRequired,
   }
 
   render() {
@@ -30,7 +31,7 @@ class Dashboard extends React.Component {
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
             <h1 className={s.title}>RECENT ORDERS</h1>
-            <OrderHistory />
+            <OrderHistory orders={this.props.orders} />
             <Addresses {...this.props.addresses} />
           </div>
         </ContentWrapper>

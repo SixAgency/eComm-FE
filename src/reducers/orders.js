@@ -5,6 +5,12 @@ export default function reducer(state = {
   },
   message: '',
   isError: false,
+  orders: {
+    isLoaded: false,
+    isEmpty: true,
+    isError: false,
+    orders: {},
+  },
 }, action) {
   switch (action.type) {
     case 'SET_ORDER': {
