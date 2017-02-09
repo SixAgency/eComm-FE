@@ -14,6 +14,7 @@ class OrderDetailsTbl extends React.Component {
     const products = order.line_items;
     const shipment = order.shipments[0];
     const payment = order.payments[0];
+    console.log('ORDER', order);
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -29,11 +30,11 @@ class OrderDetailsTbl extends React.Component {
               return (
                 <tr className={s.orderItem}>
                   <td className={s.productname}>
-                    <Link to={slug}>{item.variant.name}</Link>
+                    <Link className={s.orderitem} to={slug}>{item.variant.name}</Link>
                     {item.variant.option_values &&
                       <p className={s.productvariant}>
-                        {item.variant.option_values.map((option) => (
-                          <span>{option.option_type_presentation}:&nbsp;
+                        {item.variant.option_values.map((option, index) => (
+                          <span key={index} >{option.option_type_presentation}:&nbsp;
                             <strong>{option.presentation} </strong>
                           </span>
                         ))}
@@ -54,7 +55,7 @@ class OrderDetailsTbl extends React.Component {
                 Subtotal:
               </td>
               <td className={s.orderdetails}>
-                {order.item_total}
+                {order.display_item_total}
               </td>
             </tr>
             {shipment &&
@@ -92,7 +93,7 @@ class OrderDetailsTbl extends React.Component {
                 Total:
               </td>
               <td className={s.orderdetails}>
-                {order.total}
+                {order.display_total}
               </td>
             </tr>
           </tbody>

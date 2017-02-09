@@ -176,6 +176,12 @@
     -ms-transition: color 0.2s ease-out;
     -o-transition: color 0.2s ease-out;
     transition: color 0.2s ease-out;
+    display: block;
+    width: 200px;
+  }
+  .orderitem {
+    display: block;
+    width: 200px;
   }
 
   .productname > a:after {

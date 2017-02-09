@@ -9,11 +9,12 @@ class OrderRow extends Component {
 
   render() {
     const order = this.props.order;
+    const orderLink = `/my-account/view-order/${order.id}`;
     return (
       <tr className={s.order}>
         <td className={s.ordernumber}>
           <a
-            href=""
+            href={orderLink}
             className={s.orderlink}
           >
             #{order.id}
@@ -31,7 +32,7 @@ class OrderRow extends Component {
         </td>
         <td className={s.viewlinkwrpr}>
           <a
-            href=""
+            href={orderLink}
             className={s.viewlink}
           >
             View
