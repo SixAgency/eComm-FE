@@ -63,7 +63,6 @@ class ViewOrderWrapper extends BasePageComponent {
   }
 
   render() {
-    // console.log('ORDER', this.props.order);
     if (!this.props.order.isLoaded) {
       return null;
     }

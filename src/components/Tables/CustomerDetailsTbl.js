@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Tables.css';
 
 class CustomerDetailsTbl extends React.Component {
+  static propTypes = {
+    order: PropTypes.object.isRequired,
+  }
+
   render() {
+    const order = this.props.order;
     return (
       <table className={s.customerdetails}>
         <tbody>
@@ -13,7 +18,7 @@ class CustomerDetailsTbl extends React.Component {
               Email:
             </td>
             <td className={cx(s.customerdetails, s.firstfield)}>
-              whatever@whatever.com
+              {order.email}
             </td>
           </tr>
           <tr className={s.detailsItem}>
@@ -21,7 +26,7 @@ class CustomerDetailsTbl extends React.Component {
               Telephone:
             </td>
             <td className={s.customerdetails}>
-              1232123123123
+              {order.bill_address.phone}
             </td>
           </tr>
         </tbody>

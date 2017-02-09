@@ -241,7 +241,6 @@ siteRoutes.get('/my-account/view-order/:number', (req, resp, next) => {
       if (data.user.loggedIn) {
         getOrder(req)
           .then((orderData) => handleError(orderData, resp, () => {
-            conslog('ORDER', orderData);
             if (orderData.isEmpty) {
               conslog('NOT FOUND', orderData);
               resp.redirect('/404');

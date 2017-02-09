@@ -265,6 +265,10 @@
   padding: 0 15px 65px;
 }
 
+table.customerdetails {
+  padding-bottom: 0;
+}
+
 .firstfield { padding-top: 65px; }
 
 /* END Custom classes for View Order Page */

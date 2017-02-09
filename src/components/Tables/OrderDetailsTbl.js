@@ -12,6 +12,8 @@ class OrderDetailsTbl extends React.Component {
   render() {
     const order = this.props.order;
     const products = order.line_items;
+    const shipment = order.shipments[0];
+    const payment = order.payments[0];
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -55,36 +57,42 @@ class OrderDetailsTbl extends React.Component {
                 {order.item_total}
               </td>
             </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Shipping
-              </td>
-              <td className={s.orderdetails}>
-                $15.81 via Ground (UPS), Flat Rate
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                New York State Tax:
-              </td>
-              <td className={s.orderdetails}>
-                $8.61
-              </td>
-            </tr>
-            <tr className={s.orderItem}>
-              <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Payment Method:
-              </td>
-              <td className={s.orderdetails}>
-                PayPal Express Checkout
-              </td>
-            </tr>
+            {shipment &&
+              <tr className={s.orderItem}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  Shipping
+                </td>
+                <td className={s.orderdetails}>
+                  {shipment.selected_shipping_rate.cost} via {shipment.selected_shipping_rate.name}
+                </td>
+              </tr>
+            }
+            {shipment && shipment.adjustments && shipment.adjustments.map((adjust) => (
+              <tr className={s.orderItems}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  {adjust.label}
+                </td>
+                <td className={s.orderdetails}>
+                  {adjust.amount}
+                </td>
+              </tr>
+            ))}
+            {payment &&
+              <tr className={s.orderItem}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                  Payment Method:
+                </td>
+                <td className={s.orderdetails}>
+                  {payment.payment_method.name}
+                </td>
+              </tr>
+            }
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Total:
               </td>
               <td className={s.orderdetails}>
-                $121.42
+                {order.total}
               </td>
             </tr>
           </tbody>
