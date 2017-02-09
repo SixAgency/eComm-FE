@@ -1,0 +1,29 @@
+.shoptable {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: rgb(34, 34, 34);
+  margin-top: 100px;
+  width: 100%;
+  vertical-align: top;
+  thead th {
+    text-align: left;
+  }
+  .nobr {
+    font-size: 11px;
+    line-height: 17px;
+    font-weight: 800;
+    color: #565656;
+    text-transform: uppercase;
+    text-align: left;
+  }
+  tbody td {
+    padding: 0 14px 65px 0;
+  }
+}
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px) {
+  .shoptable {
+    thead {
+      display: none;
+    }
+  }
+}

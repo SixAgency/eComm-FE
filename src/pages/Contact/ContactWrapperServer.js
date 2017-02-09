@@ -10,6 +10,7 @@ class ContactWrapper extends React.Component {
   static defaultProps = {
     setHeaderProps: () => (true),
     sendContact: () => (true),
+    isError: false,
     isSent: false,
     messages: [],
   }

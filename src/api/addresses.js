@@ -1,7 +1,6 @@
 import { apiFetch } from '../core/fetch';
 import { setError, checkResponse, setAddressesResponse, setEditCreateAddressResponse } from './helpers/handlers';
 import { faketoken } from '../config';
-import conslog from '../utils/dev';
 
 const ADDRESSES = '/api/v1/addresses';
 

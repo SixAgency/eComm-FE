@@ -13,6 +13,7 @@ import {
 import { faketoken } from '../config';
 
 const ORDER = '/api/v1/orders';
+const ORDERS = '/api/v1/orders/mine';
 const CART = '/api/v1/orders/current';
 
 // Get Order Details
@@ -31,7 +32,7 @@ function getOrder(request) {
 
 // Get User Orders
 function getOrders(request) {
-  return apiFetch(ORDER, {
+  return apiFetch(ORDERS, {
     headers: {
       'Content-Type': 'application/json',
       'X-Spree-Token': request.session.token || faketoken,

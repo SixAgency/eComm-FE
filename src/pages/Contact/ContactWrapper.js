@@ -10,9 +10,8 @@ import sendContact from '../../actions/contact';
 
 const mapStateToProps = ((state) => (
   {
-    isSent: state.contact.isSent,
-    message: state.contact.message,
     messages: state.page.messages,
+    isError: state.page.isError,
   }
 ));
 
@@ -31,7 +30,7 @@ class ContactWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     sendContact: PropTypes.func.isRequired,
-    isSent: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
   }
 
@@ -58,7 +57,7 @@ class ContactWrapper extends BasePageComponent {
     return (
       <Contact
         sendContact={this.props.sendContact}
-        isSent={this.props.isSent}
+        isError={this.props.isError}
         message={this.props.message}
         messages={this.props.messages}
       />

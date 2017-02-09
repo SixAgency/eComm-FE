@@ -10,25 +10,30 @@ class DashboardWrapper extends React.Component {
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
+    getAllOrders: PropTypes.func.isRequired,
+    orders: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     onLogout: () => (true),
     getAddress: () => (true),
     setHeaderProps: () => (true),
+    getAllOrders: () => (true),
   }
 
   render() {
     const addresses = {
       shippAddress: this.props.shipping.address,
       billAddress: this.props.billing.address,
-    }
+    };
+    const orders = this.props.orders;
     return (
       <Dashboard
         userName={this.props.userName}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
         addresses={addresses}
+        orders={orders}
       />
     );
   }

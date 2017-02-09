@@ -10,7 +10,7 @@ import conslog from '../utils/dev';
 // Actions
 import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
-import { getCart, getOrder } from '../api/orders';
+import { getCart, getOrder, getOrders } from '../api/orders';
 import { getAddresses } from '../api/addresses';
 
 // Top Level Compontents
@@ -300,27 +300,31 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
           header: 'colored',
           active: '/my-account',
         };
-        return getAddresses(req)
-          .then((address) => {
-            addresses = {
-              shipping: {
-                isLoaded: true,
-                isEmpty: address.ship_address == null,
-                address: address.ship_address || {},
-              },
-              billing: {
-                isLoaded: true,
-                isEmpty: address.bill_address == null,
-                address: address.bill_address || {},
-              },
-            };
-            params.content = <DashboardWrapper {...data.user} {...addresses} />;
-            handleRoutes(req, resp, next, params);
-          }).catch((err) => {
-            conslog('ERROR', err);
-            params.content = <DashboardWrapper {...data.user} {...addresses} />;
-            handleRoutes(req, resp, next, params);
-          });
+        return Promise.all([
+          getAddresses(req),
+          getOrders(req),
+        ]).then((values) => {
+          const address = values[0];
+          const orders = values[1];
+          addresses = {
+            shipping: {
+              isLoaded: true,
+              isEmpty: address.ship_address == null,
+              address: address.ship_address || {},
+            },
+            billing: {
+              isLoaded: true,
+              isEmpty: address.bill_address == null,
+              address: address.bill_address || {},
+            },
+          };
+          params.content = <DashboardWrapper {...data.user} {...addresses} {...orders} />;
+          handleRoutes(req, resp, next, params);
+        }).catch((err) => {
+          conslog('ERROR', err);
+          params.content = <DashboardWrapper {...data.user} {...addresses} />;
+          handleRoutes(req, resp, next, params);
+        });
       }
     }))
     .catch((err) => {

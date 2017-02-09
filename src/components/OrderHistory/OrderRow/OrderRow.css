@@ -1,0 +1,71 @@
+.order {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222222;
+  .orderlink {
+    text-decoration: none;
+    color: rgb(34, 34, 34);
+  }
+  .orderlink:active {
+    color: rgb(25, 122, 117);
+  }
+  .ordertotal {
+    .amount {
+      font-weight: 800;
+    }
+  }
+  .viewlinkwrpr {
+    .viewlink {
+      font-size: 17px;
+      line-height: 24px;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px dotted #000;
+      margin: 0 10px;
+      color: rgb(34, 34, 34);
+    }
+    .viewlink:hover {
+      color: #29cbc8;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px) {
+  .order {
+    td {
+      display: block;
+      position: relative;
+      padding-left: 50% !important;
+      width: 50%;
+    }
+    .viewlinkwrpr {
+      width: 100%;
+      padding-left: 0px !important;
+    }
+    .ordernumber:before {
+      content: 'order';
+    }
+    .orderdate:before {
+      content: 'date';
+    }
+    .orderstatus:before {
+      content: 'status';
+    }
+    .ordertotal:before {
+      content: 'total';
+    }
+    .ordernumber:before,
+    .orderdate:before,
+    .orderstatus:before,
+    .ordertotal:before {
+      font-size: 11px;
+      line-height: 17px;
+      font-weight: 800;
+      color: #565656;
+      text-transform: uppercase;
+      display: inline-block;
+      position: absolute;
+      left: 6px;
+    }
+  }
+}

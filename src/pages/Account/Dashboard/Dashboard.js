@@ -5,6 +5,7 @@ import s from './Dashboard.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import Addresses from '../../../components/Addresses';
+import OrderHistory from '../../../components/OrderHistory';
 
 class Dashboard extends React.Component {
   static propTypes = {
@@ -12,6 +13,20 @@ class Dashboard extends React.Component {
     userName: PropTypes.string.isRequired,
     onLogout: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
+    orders: PropTypes.object.isRequired,
+  }
+
+  checkOrders = () => {
+    const orders = this.props.orders.orders;
+    if (!orders.isLoaded || orders.isEmpty) {
+      return null;
+    }
+    return (
+      <div>
+        <h1 className={s.title}>RECENT ORDERS</h1>
+        <OrderHistory orders={this.props.orders} />
+      </div>
+    );
   }
 
   render() {
@@ -28,6 +43,8 @@ class Dashboard extends React.Component {
              shipping and billing addresses and
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
+
+            {this.checkOrders()}
             <Addresses {...this.props.addresses} />
           </div>
         </ContentWrapper>

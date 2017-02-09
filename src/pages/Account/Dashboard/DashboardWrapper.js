@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import { onLogout } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { getAllOrders } from '../../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
@@ -16,6 +17,7 @@ const mapStateToProps = ((state) => (
     userName: state.user.userName,
     shipping: state.address.shipping,
     billing: state.address.billing,
+    orders: state.orders,
   }
 ));
 
@@ -26,6 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
+    getAllOrders: () => dispatch(getAllOrders()),
   }
 ));
 
@@ -39,6 +42,8 @@ class DashboardWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     getAddress: PropTypes.func.isRequired,
+    getAllOrders: PropTypes.func.isRequired,
+    orders: PropTypes.object.isRequired,
   }
 
   componentWillMount = () => {
@@ -53,6 +58,9 @@ class DashboardWrapper extends BasePageComponent {
     this.props.setHeaderProps(props);
     if (!this.props.shipping.isLoaded && !this.props.billing.isLoaded) {
       this.props.getAddress();
+    }
+    if (!this.props.orders.isLoaded) {
+      this.props.getAllOrders();
     }
   }
 
@@ -90,13 +98,14 @@ class DashboardWrapper extends BasePageComponent {
       shippAddress: this.props.shipping,
       billAddress: this.props.billing,
     };
-
+    const orders = this.props.orders;
     return (
       <Dashboard
         userName={this.props.userName}
         loggedIn={this.props.loggedIn}
         onLogout={this.onLogout}
         addresses={addresses}
+        orders={orders}
       />
     );
   }
