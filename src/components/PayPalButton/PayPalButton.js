@@ -21,7 +21,10 @@ class PayPalButton extends Component {
   }
 
   componentDidMount = () => {
-    if (braintree && !this.state.initialized && !this.props.paypalObj.isEmpty) {
+    // if (this.props.paypalObj.isLoaded) {
+    //
+    // }
+    if (!this.state.initialized && !this.props.paypalObj.isEmpty) {
       this.setState({
         initialized: true,
       }, () => {

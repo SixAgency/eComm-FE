@@ -38,6 +38,9 @@ class CartForm extends React.Component {
 
 
   render() {
+    if (!this.props.paypalObj.isLoaded) {
+      return null;
+    }
     const cart = this.props.cart;
     return (
       <div className={s.cformwrpr}>
