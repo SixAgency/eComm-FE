@@ -169,13 +169,11 @@ function setUserResponse(request) {
 // Format User Addresses Response
 function setAddressesResponse(data) {
   let resp;
-  conslog('DATA', data);
   if (!data.isError) {
     resp = {
       billing: setAddressResponse(data.bill_address),
       shipping: setAddressResponse(data.ship_address),
       addresses: {
-        isLoaded: true,
         isEmpty: data.owner_address.length === 0,
         addresses: data.owner_address,
       },
@@ -223,6 +221,18 @@ function setEditCreateAddressResponse(data, type) {
     };
   }
   return resp;
+}
+
+function setCreateAddressResponse(data, request, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+    };
+  }
+  return callback(request);
 }
 
 // Format Order Response
@@ -483,6 +493,7 @@ export {
   setUserResponse,
   setAddressResponse,
   setAddressesResponse,
+  setCreateAddressResponse,
   setEditCreateAddressResponse,
   setOrderResponse,
   setOrdersResponse,

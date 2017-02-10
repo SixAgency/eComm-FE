@@ -1,43 +1,42 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Billing.css';
+import s from './Create.css';
 // Components
-import Subnav from '../../../components/Subnav';
-import ContentWrapper from '../../../components/ContentWrapper';
-import AddressList from '../../../components/Forms/AddressList';
-import ErrorDisplay from '../../../components/ErrorDisplay';
+import Subnav from '../../../../components/Subnav';
+import ContentWrapper from '../../../../components/ContentWrapper';
+import AddressForm from '../../../../components/Forms/AddressForm';
+import ErrorDisplay from '../../../../components/ErrorDisplay';
 
-class Billing extends React.Component {
+class CreateAddress extends React.Component {
 
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
-    address: PropTypes.number.isRequired,
-    addresses: PropTypes.array.isRequired,
+    emailAddress: PropTypes.string.isRequired,
+    address: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
   };
 
   render() {
+    const showEmailPhone = true;
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass={'hide'}>
-          <AddressList
-            addresses={this.props.addresses}
+          <AddressForm
+            formTitle={'Create Address'}
+            formSubtitle={'Fulfill your details'}
+            showEmailPhone={showEmailPhone}
+            buttonText={'save address'}
+            selectClass={'checkoutselect'}
+            emailAddress={this.props.emailAddress}
             address={this.props.address}
-            buttonText="Set Billing Address"
-            formTitle="Update Billing Address"
-            formSubtitle="Select one of the addresses"
             onSubmit={this.props.onSubmit}
             onCancel={this.props.onCancel}
-            onCreate={this.props.onCreate}
-            onSelect={this.props.onSelect}
           />
         </ContentWrapper>
       </section>
@@ -45,4 +44,4 @@ class Billing extends React.Component {
   }
 }
 
-export default withStyles(s)(Billing);
+export default withStyles(s)(CreateAddress);

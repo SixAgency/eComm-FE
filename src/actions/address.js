@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { checkResponse, forwardTo } from './handler';
-import { setMessage } from './page';
+import { checkResponse, forwardTo, goBack } from './handler';
+import { setMessage, resetMessages, setLoader } from './page';
 import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
 /**
@@ -38,15 +38,15 @@ function resetAddresses() {
  * Set billing and shipping addresses state to the given data
  * @param billing
  * @param shipping
- * @returns {{type: string, payload: {billing: {isLoaded: boolean}, shipping: {isLoaded: boolean}}}}
+ * @param addresses - all user addresses
  */
-function setAddresses(billing, shipping, alladdresses) {
-  const addresses = {
+function setAddresses(billing, shipping, addresses) {
+  const payload = {
     billing: { ...billing, isLoaded: true },
     shipping: { ...shipping, isLoaded: true },
-    addresses: alladdresses,
+    addresses: { ...addresses, isLoaded: true },
   };
-  return { type: 'SET_ADDRESSES', payload: addresses };
+  return { type: 'SET_ADDRESSES', payload };
 }
 
 /**
@@ -155,4 +155,62 @@ function createOrEditAddress(data) {
   return createAddress(address);
 }
 
-export { getAddress, resetAddresses, setAddresses, createOrEditAddress };
+function setBillingAddress(data) {
+  return (dispatch) => {
+    axios.post('/api/addresses', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+        const message = 'Billing Address Updated Successfully.';
+        dispatch(setMessage({ isError: false, messages: [message] }));
+        forwardTo('my-account/dashboard');
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
+  };
+}
+
+/**
+ * Create an address
+ * @param data
+ * @returns {function(*=)}
+ */
+function createAddressNew(data) {
+  window.scrollTo(0, 0);
+  return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
+    const valid = validateMandatoryFieldsAddress(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/addresses', { address: data })
+        .then((response) => checkResponse(response.data, () => {
+          const message = ['Address Create Successfully!'];
+          dispatch(setAddresses(
+            response.data.billing,
+            response.data.shipping,
+            response.data.addresses,
+          ));
+          goBack();
+          dispatch(setMessage({ isError: false, messages: [message] }));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
+  };
+}
+
+export {
+  getAddress,
+  resetAddresses,
+  setAddresses,
+  createOrEditAddress,
+  createAddressNew,
+  setBillingAddress,
+};

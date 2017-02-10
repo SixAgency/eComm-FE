@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
-import Billing from './Billing';
+import Create from './Create';
 
-class BillingWrapper extends React.Component {
+class CreateWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    billing: PropTypes.object.isRequired,
-    addresses: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
+    emailAddress: PropTypes.string.isRequired,
     messages: PropTypes.string.isRequired,
     isError: PropTypes.bool.isRequired,
   };
@@ -19,25 +18,32 @@ class BillingWrapper extends React.Component {
 
   onSubmit = () => (true);
   onCancel = () => (true);
-  onCreate = () => (true);
-  onSelect = () => (true);
 
   render() {
+    const address = {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state_id: 0,
+      zipcode: '',
+    };
     return (
-      <Billing
+      <Create
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        address={this.props.billing.address.id}
-        addresses={this.props.addresses}
+        emailAddress={this.props.emailAddress}
         messages={this.props.messages}
         isError={this.props.isError}
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
-        onSelect={this.onSelect}
-        onCreate={this.onCreate}
+        address={address}
       />
     );
   }
 }
 
-export default BillingWrapper;
+export default CreateWrapper;

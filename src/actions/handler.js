@@ -10,6 +10,13 @@ function forwardTo(location) {
 }
 
 /**
+ * Go Back function
+ */
+function goBack() {
+  browserHistory.goBack();
+}
+
+/**
  * Server error - helper
  * @param error: object
  */
@@ -42,4 +49,4 @@ function checkResponse(data, success, error) {
   }
 }
 
-export { checkResponse, forwardTo, serverError };
+export { checkResponse, forwardTo, serverError, goBack };

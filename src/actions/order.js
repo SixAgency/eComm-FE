@@ -206,7 +206,6 @@ function getAllOrders(data) {
     axios.get('/api/orders', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setOrders(response.data));
-        dispatch(setMessage({ isError: false, messages: ['success'] }));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))

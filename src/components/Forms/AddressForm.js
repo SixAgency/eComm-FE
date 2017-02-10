@@ -8,6 +8,7 @@ class AddressForm extends React.Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
@@ -38,60 +39,65 @@ class AddressForm extends React.Component {
     this.setState({
       firstname: event.target.value,
     });
-  }
+  };
 
   onLastNameUpdate = (event) => {
     this.setState({
       lastname: event.target.value,
     });
-  }
+  };
 
   onCompanyUpdate = (event) => {
     this.setState({
       company: event.target.value,
     });
-  }
+  };
 
   onPhoneNumberUpdate = (event) => {
     this.setState({
       phone: event.target.value,
     });
-  }
+  };
 
   onAddressOneUpdate = (event) => {
     this.setState({
       address1: event.target.value,
     });
-  }
+  };
 
   onAddressTwoUpdate = (event) => {
     this.setState({
       address2: event.target.value,
     });
-  }
+  };
 
   onCityUpdate = (event) => {
     this.setState({
       city: event.target.value,
     });
-  }
+  };
 
   onStateUpdate = (event) => {
     this.setState({
       state_id: parseInt(event.target.value, 10),
     });
-  }
+  };
 
   onZipUpdate = (event) => {
     this.setState({
       zipcode: event.target.value,
     });
-  }
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state);
-  }
+  };
+
+  onCancel = (e) => {
+    e.preventDefault();
+    this.props.onCancel();
+  };
 
   render() {
     return (
@@ -127,6 +133,12 @@ class AddressForm extends React.Component {
               className={s.submit}
               type="submit"
               value={this.props.buttonText}
+            />
+            <input
+              className={cx(s.submit, s.cancel)}
+              type="button"
+              value="Cancel"
+              onClick={this.onCancel}
             />
           </div>
         </form>

@@ -8,18 +8,16 @@ class DashboardWrapper extends React.Component {
     shipping: PropTypes.object.isRequired,
     billing: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
-    setHeaderProps: PropTypes.func.isRequired,
-    getAddress: PropTypes.func.isRequired,
-    getAllOrders: PropTypes.func.isRequired,
     orders: PropTypes.object.isRequired,
-  }
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+  };
 
   static defaultProps = {
     onLogout: () => (true),
-    getAddress: () => (true),
-    setHeaderProps: () => (true),
-    getAllOrders: () => (true),
-  }
+    messages: [],
+    isError: false,
+  };
 
   render() {
     const addresses = {
@@ -34,6 +32,8 @@ class DashboardWrapper extends React.Component {
         onLogout={this.props.onLogout}
         addresses={addresses}
         orders={orders}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

@@ -43,7 +43,7 @@ class Addresses extends React.Component {
           <div className={s.addresseswrpr}>
             <Link
               className={s.options}
-              to="/my-account/edit-address/billing"
+              to="/my-account/address/billing"
             >
               Edit billing address
             </Link>
@@ -52,11 +52,19 @@ class Addresses extends React.Component {
           <div className={s.addresseswrpr}>
             <Link
               className={s.options}
-              to="/my-account/edit-address/shipping"
+              to="/my-account/address/shipping"
             >
             Edit shipping address
             </Link>
             { this.listAddress(this.props.shippAddress) }
+          </div>
+          <div className={s.addresseswrpr}>
+            <Link
+              className={s.options}
+              to="/my-account/address/create"
+            >
+              Create Address
+            </Link>
           </div>
         </div>
       </section>

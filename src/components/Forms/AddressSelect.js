@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import cx from 'classnames';
 import s from './Forms.css';
 
 class AddressSelect extends React.Component {
@@ -8,47 +7,42 @@ class AddressSelect extends React.Component {
   static propTypes = {
     addresses: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
-    addAddress: PropTypes.func.isRequired,
-    activeID: PropTypes.number.isRequired,
-  }
+    onCreate: PropTypes.func.isRequired,
+    address: PropTypes.number.isRequired,
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      checkedID: this.props.activeID,
+      address: this.props.address,
     };
   }
 
-  onSelect = (address) => {
-    this.setState({ checkedID: address.id });
+  onSelect = (e) => {
+    const address = parseInt(e.currentTarget.value, 10);
+    this.setState({
+      address,
+    });
     this.props.onSelect(address);
-  }
+  };
 
-  getActive = (id) => {
-    if (this.state.checkedID === id) {
-      return true;
-    }
-    return false;
-  }
+  getActive = (id) => (this.state.address === id);
 
   render() {
-    if (!this.props.addresses) {
-      return null;
-    }
     return (
       <div>
-        { this.props.addresses.map((address) => {
+        { this.props.addresses.map((address, key) => {
           const id = address.id;
           return (
-            <div className={s.radiowrapper}>
+            <div className={s.radiowrapper} key={key}>
               <input
                 id={id}
                 value={id}
                 type="radio"
                 name="addresses"
                 className={s.radio}
-                checked={this.getActive(id)}
-                onChange={() => this.onSelect(address)}
+                checked={() => this.getActive(id)}
+                onChange={this.onSelect}
               />
               <label htmlFor={address.id} className={s.labelradio}>
                 {address.firstname} {address.lastname}<br />
@@ -64,13 +58,12 @@ class AddressSelect extends React.Component {
             className={s.submitadd}
             type="button"
             value="Add another address"
-            onClick={this.props.addAddress}
+            onClick={this.props.onCreate}
           />
         </div>
       </div>
     );
   }
-
 }
 
 export default withStyles(s)(AddressSelect);

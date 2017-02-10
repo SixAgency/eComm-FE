@@ -317,6 +317,21 @@
   -o-transition: all 0.2s linear;
 }
 
+.cancel {
+  background: #cccccc;
+  color: #666666;
+}
+
+.cancel:hover {
+  background-color: #333333;
+  color: #29cbc8;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+
 .login {
   margin-bottom: 25px;
 }

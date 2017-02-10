@@ -1,5 +1,11 @@
 import { apiFetch } from '../core/fetch';
-import { setError, checkResponse, setAddressesResponse, setEditCreateAddressResponse } from './helpers/handlers';
+import {
+  setError,
+  checkResponse,
+  setAddressesResponse,
+  setEditCreateAddressResponse,
+  setCreateAddressResponse
+} from './helpers/handlers';
 import { faketoken } from '../config';
 
 const ADDRESSES = '/api/v1/addresses';
@@ -20,10 +26,8 @@ function getAddresses(request) {
 
 // Create Address
 function createAddress(request) {
-  const type = request.body.address_type;
   const address = {
     address: request.body.address,
-    default_address_types: [type],
   };
   return apiFetch(ADDRESSES,
     {
@@ -35,7 +39,7 @@ function createAddress(request) {
       },
     })
   .then((response) => checkResponse(response))
-  .then((data) => setEditCreateAddressResponse(data, type))
+  .then((data) => setCreateAddressResponse(data, request, getAddresses))
   .catch((err) => setError(err));
 }
 

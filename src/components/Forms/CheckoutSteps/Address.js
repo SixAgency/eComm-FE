@@ -13,7 +13,7 @@ class Address extends React.Component {
     address: PropTypes.object.isRequired,
     addresses: PropTypes.array.isRequired,
     nextTab: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -24,17 +24,16 @@ class Address extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('proceed', this.state.selectedAddress);
     this.props.nextTab();
-  }
+  };
 
   onRadioUpdate = (address) => {
     this.setState({ selectedAddress: address });
-  }
+  };
 
   addAddress = () => {
     console.log('add address');
-  }
+  };
 
   render() {
     if (!this.props.addresses) {
