@@ -55,11 +55,11 @@ class ReviewOrder extends React.Component {
             >
               Credit Cart
             </span>
-            <div className={s.active}>
+            <span className={s.active}>
               <fieldset className={s.paymentfields}>
                 <p>Pay with your credit card via Stripe.</p>
               </fieldset>
-            </div>
+            </span>
           </li>
         </ul>
         <div className={cx(s.buttonwrapper, s.buttonwrapper3)}>

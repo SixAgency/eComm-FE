@@ -118,9 +118,8 @@ class PromoWrapper extends BasePageComponent {
 
   clickTab = (e) => {
     e.preventDefault();
-    this.setState({
-      content: e.target.id,
-    });
+    const target = e.target.id;
+    forwardTo(`checkout/${target}`);
   };
 
   handleGiftCard = (e) => {

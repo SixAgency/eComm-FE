@@ -9,6 +9,7 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 import { getCart, applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { getCheckoutBilling, setCheckoutBilling } from '../../../actions/checkout';
+import { forwardTo } from '../../../actions/handler';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -92,12 +93,9 @@ class BillingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     const billingLoaded = nextProps.billing.isLoaded;
     const cartLoaded = nextProps.cartItems.isLoaded;
-    console.log('billing', billingLoaded);
-    console.log('cart', cartLoaded);
     if (!billingLoaded && cartLoaded) {
       const loggedIn = this.props.loggedIn;
       const { cart } = nextProps.cartItems;
-      console.log(this.props);
       this.props.getCheckoutBilling(loggedIn, cart);
     }
     if (cartLoaded && billingLoaded) {
@@ -113,9 +111,8 @@ class BillingWrapper extends BasePageComponent {
 
   clickTab = (e) => {
     e.preventDefault();
-    this.setState({
-      content: e.target.id,
-    });
+    const target = e.target.id;
+    forwardTo(`checkout/${target}`);
   };
 
   handleGiftCard = (e) => {

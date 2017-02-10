@@ -9,6 +9,7 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 import { getCart, applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { getCheckoutShipping, setCheckoutShipping, checkoutAddresses } from '../../../actions/checkout';
+import { forwardTo } from '../../../actions/handler';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -115,9 +116,8 @@ class ShippingWrapper extends BasePageComponent {
 
   clickTab = (e) => {
     e.preventDefault();
-    this.setState({
-      content: e.target.id,
-    });
+    const target = e.target.id;
+    forwardTo(`checkout/${target}`);
   };
 
   handleGiftCard = (e) => {
@@ -168,17 +168,16 @@ class ShippingWrapper extends BasePageComponent {
   };
 
   onSubmit = (shipping) => {
-    const success = this.props.setCheckoutShipping(shipping);
-    if (success) {
-      const data = {
-        order: {
-          bill_address_attributes: this.props.billing.address,
-          ship_address_attributes: shipping,
-        },
-        isPayPal: this.props.isPayPal,
-      };
-      this.props.checkoutAddresses(data);
-    }
+    this.props.toggleLoader(true);
+    // const success = this.props.setCheckoutShipping(shipping);
+    const data = {
+      order: {
+        bill_address_attributes: this.props.billing.address,
+        ship_address_attributes: shipping,
+      },
+      isPayPal: this.props.isPayPal,
+    };
+    this.props.checkoutAddresses(data);
   };
 
   render() {

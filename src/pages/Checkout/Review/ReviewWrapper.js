@@ -10,6 +10,7 @@ import { getCart, applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
 import { completePayPal } from '../../../actions/checkout';
+import { forwardTo } from '../../../actions/handler';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -65,8 +66,6 @@ class ReviewWrapper extends BasePageComponent {
       content: 'review',
       showCouponFields: false,
       couponClassName: 'hide',
-      showLoginFields: false,
-      loginClassName: 'hide',
       message: PropTypes.string,
       isError: PropTypes.bool,
     };
@@ -139,26 +138,10 @@ class ReviewWrapper extends BasePageComponent {
     return contentTabs;
   };
 
-  nextTab = () => {
-    switch (this.state.content) {
-      case 'billing':
-        this.setState({ content: 'shipping' });
-        break;
-      case 'shipping':
-        this.setState({ content: 'promocode' });
-        break;
-      case 'promocode':
-        this.setState({ content: 'review' });
-        break;
-      default: // do nothing
-    }
-  }
-
   clickTab = (e) => {
     e.preventDefault();
-    this.setState({
-      content: e.target.id,
-    });
+    const target = e.target.id;
+    forwardTo(`checkout/${target}`);
   };
 
   handleGiftCard = (e) => {
@@ -194,10 +177,7 @@ class ReviewWrapper extends BasePageComponent {
         onLogout={this.props.onLogout}
         handleGiftcard={this.handleGiftCard}
         couponClass={this.state.couponClassName}
-        handleLogin={this.handleLogin}
-        loginClass={this.state.loginClassName}
         clickTab={this.clickTab}
-        nextTab={this.nextTab}
         content={this.state.content}
         messages={this.props.messages}
         isError={this.props.isError}

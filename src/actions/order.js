@@ -58,6 +58,19 @@ function setOrders(orders) {
 }
 
 /**
+ * Helper - Set orders
+ * @returns {{type: string, payload: {}}}
+ */
+function resetOrders() {
+  const data = {
+    isLoaded: true,
+    isEmpty: true,
+    orders: [],
+  };
+  return { type: 'GET_ORDERS', payload: data };
+}
+
+/**
  * Get the user cart
  * @returns {function(*=)}
  */
@@ -226,6 +239,7 @@ export {
   setCart,
   applyPromoCode,
   getOrder,
+  resetOrders,
   getAllOrders,
 };
 
