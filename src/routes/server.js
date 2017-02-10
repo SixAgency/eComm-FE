@@ -321,7 +321,7 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
               address: address.bill_address || {},
             },
           };
-          params.content = <DashboardWrapper {...data.user} {...addresses} {...orders} />;
+          params.content = <DashboardWrapper {...data.user} {...addresses} orders={orders} />;
           handleRoutes(req, resp, next, params);
         }).catch((err) => {
           conslog('ERROR', err);
@@ -358,7 +358,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
     });
 });
 // Account - Shipping
-siteRoutes.get('/my-account/address/create', (req, resp, next) => {
+siteRoutes.get('/my-account/address/create/:type', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
@@ -369,7 +369,7 @@ siteRoutes.get('/my-account/address/create', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <CreateAddress {...data.user} />,
+          content: <CreateAddress {...data.user} params={req.params} />,
         };
         handleRoutes(req, resp, next, params);
       }
@@ -380,7 +380,7 @@ siteRoutes.get('/my-account/address/create', (req, resp, next) => {
     });
 });
 // Account - Shipping
-siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
+siteRoutes.get('/my-account/address/shipping', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
@@ -391,6 +391,11 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
           isEmpty: true,
           address: {},
         };
+        let alladdresses = {
+          isLoaded: true,
+          isEmpty: true,
+          addresses: [],
+        };
         const params = {
           title: 'Edit Shipping Address',
           description: '',
@@ -399,12 +404,13 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
         };
         getAddresses(req)
           .then((addresses) => {
-            address = {
-              isLoaded: true,
-              isEmpty: addresses.ship_address === null,
-              address: addresses.ship_address || {},
-            };
-            params.content = <ShippingWrapper {...data.user} shipping={address} />;
+            address = { ...addresses.billing, isLoaded: true };
+            alladdresses = { ...addresses.addresses, isLoaded: true };
+            params.content = (<ShippingWrapper
+              {...data.user}
+              shipping={address}
+              addresses={alladdresses}
+            />);
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
             conslog('ERROR', err);
@@ -419,7 +425,7 @@ siteRoutes.get('/my-account/edit-address/shipping', (req, resp, next) => {
     });
 });
 // Account - Billing
-siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
+siteRoutes.get('/my-account/address/billing', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
@@ -430,6 +436,11 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
           isEmpty: true,
           address: {},
         };
+        let alladdresses = {
+          isLoaded: true,
+          isEmpty: true,
+          address: [],
+        };
         const params = {
           title: 'Edit Billing Address',
           description: '',
@@ -438,15 +449,14 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
         };
         getAddresses(req)
           .then((addresses) => {
+            conslog('addd', addresses);
             const messages = data.messages || [];
-            address = {
-              isLoaded: true,
-              isEmpty: addresses.bill_address === null,
-              address: addresses.bill_address || {},
-            };
+            address = { ...addresses.billing, isLoaded: true };
+            alladdresses = { ...addresses.addresses, isLoaded: true };
             params.content = (<BillingWrapper
               {...data.user}
               billing={address}
+              addresses={alladdresses}
               isError={data.isError}
               messages={messages}
             />);
@@ -454,7 +464,11 @@ siteRoutes.get('/my-account/edit-address/billing', (req, resp, next) => {
           })
           .catch((err) => {
             conslog('ERROR', err);
-            params.content = <BillingWrapper {...data.user} billing={address} />;
+            params.content = <BillingWrapper
+              {...data.user}
+              billing={address}
+              addresses={alladdresses}
+            />;
             handleRoutes(req, resp, next, params);
           });
       }

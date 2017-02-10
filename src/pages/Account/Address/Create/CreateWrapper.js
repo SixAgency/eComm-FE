@@ -9,6 +9,7 @@ import CreateAddress from './Create';
 import { onLogout } from '../../../../actions/user';
 import { createAddressNew } from '../../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
+import { forwardTo } from '../../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -24,7 +25,11 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    createAddress: (address) => dispatch(createAddressNew(address)),
+    createAddress: (address, message, callback) => dispatch(createAddressNew(
+      address,
+      message,
+      callback
+    )),
     resetMessages: () => dispatch(resetMessages()),
   }
 ));
@@ -38,6 +43,7 @@ class CreateAddressWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    params: PropTypes.object.isRequired,
   };
 
   componentWillMount = () => {
@@ -68,20 +74,34 @@ class CreateAddressWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-    // this.props.resetMessages();
   };
 
   onSubmit = (address) => {
-    this.props.createAddress(address);
+    const data = {
+      address,
+    };
+    let message = 'Address created successfully.';
+    if (this.props.params.type === 'billing') {
+      message = 'Billing Address updated successfully.';
+      data.default_address_types = ['bill_address'];
+    }
+    if (this.props.params.type === 'shipping') {
+      message = 'Shipping Address updated successfully.';
+      data.default_address_types = ['ship_address'];
+    }
+    this.props.createAddress(data, message, () => {
+      forwardTo('my-account/dashboard');
+    });
   };
 
   onCancel = () => {
-    browserHistory.goBack();
+    if (this.props.params.type === 'billing' || this.props.params.type === 'shipping') {
+      forwardTo('my-account/dashboard');
+    }
   };
 
   render() {
     const address = {
-      id: 0,
       firstname: '',
       lastname: '',
       company: '',

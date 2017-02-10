@@ -6,13 +6,9 @@ import OrderRow from './OrderRow';
 class OrderHistory extends Component {
   static propTypes = {
     orders: PropTypes.object.isRequired,
-  }
+  };
 
   render() {
-    const { orders } = this.props.orders;
-    if (!orders.isLoaded || orders.isEmpty) {
-      return null;
-    }
     return (
       <table className={s.shoptable}>
         <thead>
@@ -35,7 +31,7 @@ class OrderHistory extends Component {
           </tr>
         </thead>
         <tbody>
-          { orders.orders.orders.map((item, index) => (
+          { this.props.orders.orders.map((item, index) => (
             <OrderRow
               key={index}
               order={item}

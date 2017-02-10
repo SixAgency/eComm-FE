@@ -26,13 +26,10 @@ function getAddresses(request) {
 
 // Create Address
 function createAddress(request) {
-  const address = {
-    address: request.body.address,
-  };
   return apiFetch(ADDRESSES,
     {
       method: 'POST',
-      body: JSON.stringify(address),
+      body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
         'X-Spree-Token': request.session.token || faketoken,
@@ -64,4 +61,20 @@ function updateAddress(request) {
     .catch((err) => setError(err));
 }
 
-export { getAddresses, createAddress, updateAddress };
+// Edit Address
+function setDefaultAddress(request) {
+  return apiFetch(`${ADDRESSES}/default`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(request.body.data),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+    .then((response) => checkResponse(response))
+    .then((data) => setEditCreateAddressResponse(data))
+    .catch((err) => setError(err));
+}
+
+export { getAddresses, createAddress, updateAddress, setDefaultAddress };

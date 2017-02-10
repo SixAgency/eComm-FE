@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
   };
 
   checkOrders = () => {
-    const orders = this.props.orders.orders;
+    const orders = this.props.orders;
     if (!orders.isLoaded || orders.isEmpty) {
       return null;
     }

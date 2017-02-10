@@ -11,48 +11,32 @@ class AddressSelect extends React.Component {
     address: PropTypes.number.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      address: this.props.address,
-    };
-  }
-
-  onSelect = (e) => {
-    const address = parseInt(e.currentTarget.value, 10);
-    this.setState({
-      address,
-    });
-    this.props.onSelect(address);
+  getActive = (id) => {
+    return this.props.address === id;
   };
-
-  getActive = (id) => (this.state.address === id);
 
   render() {
     return (
       <div>
-        { this.props.addresses.map((address, key) => {
-          const id = address.id;
-          return (
-            <div className={s.radiowrapper} key={key}>
-              <input
-                id={id}
-                value={id}
-                type="radio"
-                name="addresses"
-                className={s.radio}
-                checked={() => this.getActive(id)}
-                onChange={this.onSelect}
-              />
-              <label htmlFor={address.id} className={s.labelradio}>
-                {address.firstname} {address.lastname}<br />
-                {address.address1} {address.address2}<br />
-                {address.city}, {address.state_id}, {address.zipcode}<br />
-                {address.phone}
-              </label>
-            </div>
-          );
-        })}
+        { this.props.addresses.map((value, key) => (
+          <div className={s.radiowrapper} key={key}>
+            <input
+              id={value.id}
+              value={value.id}
+              type="radio"
+              name="addresses"
+              className={s.radio}
+              checked={this.getActive(value.id)}
+              onChange={this.props.onSelect}
+            />
+            <label htmlFor={value.id} className={s.labelradio}>
+              {value.firstname} {value.lastname}<br />
+              {value.address1} {value.address2}<br />
+              {value.city}, {value.state_id}, {value.zipcode}<br />
+              {value.phone}
+            </label>
+          </div>
+        ))}
         <div className={s.buttonwrapper}>
           <input
             className={s.submitadd}

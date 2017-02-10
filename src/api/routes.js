@@ -3,7 +3,7 @@ import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct, getMannequinHeads } from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
-import { getAddresses, createAddress, updateAddress } from './addresses';
+import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
 import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
 
 import sendContact from './contact';
@@ -96,7 +96,7 @@ apiRoutes
     getAddresses(req).then((data) => (resp.json(data)));
   })
   .post('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body.address);
+    const valid = validateMandatoryFieldsAddress(req.body.data.address);
     if (valid.isError) {
       resp.json(valid);
     } else {
@@ -110,6 +110,9 @@ apiRoutes
     } else {
       updateAddress(req).then((data) => (resp.json(data)));
     }
+  })
+  .post('/addresses/default', (req, resp) => {
+    setDefaultAddress(req).then((data) => (resp.json(data)));
   });
 
 // Contact

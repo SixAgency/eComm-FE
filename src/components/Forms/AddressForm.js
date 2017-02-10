@@ -16,12 +16,11 @@ class AddressForm extends React.Component {
     emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
     address: PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.address.id,
       firstname: this.props.address.firstname,
       lastname: this.props.address.lastname,
       company: this.props.address.company,

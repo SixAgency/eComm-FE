@@ -155,14 +155,18 @@ function createOrEditAddress(data) {
   return createAddress(address);
 }
 
-function setBillingAddress(data) {
+/**
+ * @param data
+ * @returns {function(*=)}
+ */
+function setDefaultAddress(data, message) {
   return (dispatch) => {
-    axios.post('/api/addresses', data)
+    axios.post('/api/addresses/default', { data } )
       .then((response) => checkResponse(response.data, () => {
         dispatch(setAddress(response.data.billing, 'SET_BILLING'));
-        const message = 'Billing Address Updated Successfully.';
-        dispatch(setMessage({ isError: false, messages: [message] }));
+        dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
         forwardTo('my-account/dashboard');
+        dispatch(setMessage({ isError: false, messages: [message] }));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -175,26 +179,27 @@ function setBillingAddress(data) {
 /**
  * Create an address
  * @param data
+ * @param message
+ * @param callback
  * @returns {function(*=)}
  */
-function createAddressNew(data) {
+function createAddressNew(data, message, callback) {
   window.scrollTo(0, 0);
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(resetMessages());
-    const valid = validateMandatoryFieldsAddress(data);
+    const valid = validateMandatoryFieldsAddress(data.address);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
-      axios.post('/api/addresses', { address: data })
+      axios.post('/api/addresses', { data })
         .then((response) => checkResponse(response.data, () => {
-          const message = ['Address Create Successfully!'];
           dispatch(setAddresses(
             response.data.billing,
             response.data.shipping,
             response.data.addresses,
           ));
-          goBack();
+          callback();
           dispatch(setMessage({ isError: false, messages: [message] }));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -212,5 +217,5 @@ export {
   setAddresses,
   createOrEditAddress,
   createAddressNew,
-  setBillingAddress,
+  setDefaultAddress,
 };

@@ -17,7 +17,7 @@ const mapStateToProps = ((state) => (
     userName: state.user.userName,
     shipping: state.address.shipping,
     billing: state.address.billing,
-    orders: state.orders,
+    orders: state.orders.orders,
     messages: state.page.messages,
     isError: state.page.isError,
   }
@@ -48,6 +48,7 @@ class DashboardWrapper extends BasePageComponent {
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired,
   };
 
   componentWillMount = () => {
@@ -90,6 +91,7 @@ class DashboardWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   onLogout = (event) => {

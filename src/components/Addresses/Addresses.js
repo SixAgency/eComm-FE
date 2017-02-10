@@ -38,6 +38,17 @@ class Addresses extends React.Component {
     return (
       <section className={s.addresses}>
         <h1 className={s.title}>MY ADDRESSES</h1>
+        <p className={s.info}>Below you can manage your addresses.</p>
+        <div className={s.addressescont}>
+          <div className={s.addresseswrpr}>
+            <Link
+              className={s.options}
+              to="/my-account/address/create"
+            >
+              Manage Addresses
+            </Link>
+          </div>
+        </div>
         <p className={s.info}>The following addresses will be used on the checkout page.</p>
         <div className={s.addressescont}>
           <div className={s.addresseswrpr}>
@@ -57,14 +68,6 @@ class Addresses extends React.Component {
             Edit shipping address
             </Link>
             { this.listAddress(this.props.shippAddress) }
-          </div>
-          <div className={s.addresseswrpr}>
-            <Link
-              className={s.options}
-              to="/my-account/address/create"
-            >
-              Create Address
-            </Link>
           </div>
         </div>
       </section>

@@ -12,9 +12,26 @@ class AddressList extends React.Component {
     address: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: this.props.address,
+    };
+  }
+
+  onSelect = (e) => {
+    this.setState({
+      selected: parseInt(e.target.value, 10),
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.selected);
   };
 
   render() {
@@ -22,12 +39,12 @@ class AddressList extends React.Component {
       <div className={s.cformcontent}>
         <h1 className={s.title}>{this.props.formTitle}</h1>
         <h2 className={s.subtitle}>{this.props.formSubtitle}</h2>
-        <form className={cx(s.form, s.addresses)} onSubmit={this.props.onSubmit}>
+        <form className={cx(s.form, s.addresses)} onSubmit={this.onSubmit}>
           <AddressSelect
             addresses={this.props.addresses}
-            onSelect={this.props.onSelect}
+            onSelect={this.onSelect}
             onCreate={this.props.onCreate}
-            address={this.props.address}
+            address={this.state.selected}
           />
           <div className={s.buttonwrapper}>
             <input className={s.submit} type="submit" value={this.props.buttonText} />

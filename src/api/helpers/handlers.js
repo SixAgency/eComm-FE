@@ -201,18 +201,13 @@ function setAddressesResponse(data) {
 }
 
 // Format edit/create address response
-function setEditCreateAddressResponse(data, type) {
+function setEditCreateAddressResponse(data) {
   let resp;
   if (!data.isError && !data.errors) {
-    if (type === 'bill_address') {
-      resp = {
-        billing: setAddressResponse(data.address),
-      };
-    } else {
-      resp = {
-        shipping: setAddressResponse(data.address),
-      };
-    }
+    resp = {
+      billing: setAddressResponse(data.default_addresses.bill_address),
+      shipping: setAddressResponse(data.default_addresses.ship_address),
+    };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
@@ -231,6 +226,7 @@ function setCreateAddressResponse(data, request, callback) {
       isError: true,
       messages: [message],
     };
+    return resp;
   }
   return callback(request);
 }
@@ -261,9 +257,10 @@ function setOrdersResponse(data) {
   let resp;
   if (!data.isError) {
     resp = {
+      isLoaded: true,
       isError: false,
-      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
-      orders: data,
+      isEmpty: data.orders.length === 0,
+      orders: data.orders,
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -271,7 +268,7 @@ function setOrdersResponse(data) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      orders: {},
+      orders: [],
     };
   }
   return resp;

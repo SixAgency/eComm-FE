@@ -14,7 +14,6 @@ class Billing extends React.Component {
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     address: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
@@ -37,7 +36,6 @@ class Billing extends React.Component {
             onSubmit={this.props.onSubmit}
             onCancel={this.props.onCancel}
             onCreate={this.props.onCreate}
-            onSelect={this.props.onSelect}
           />
         </ContentWrapper>
       </section>

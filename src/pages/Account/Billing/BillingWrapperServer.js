@@ -7,7 +7,7 @@ class BillingWrapper extends React.Component {
     billing: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
-    messages: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
   };
 
@@ -28,7 +28,7 @@ class BillingWrapper extends React.Component {
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
         address={this.props.billing.address.id}
-        addresses={this.props.addresses}
+        addresses={this.props.addresses.addresses}
         messages={this.props.messages}
         isError={this.props.isError}
         onSubmit={this.onSubmit}

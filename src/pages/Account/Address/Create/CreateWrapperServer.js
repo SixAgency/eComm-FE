@@ -6,8 +6,9 @@ class CreateWrapper extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     emailAddress: PropTypes.string.isRequired,
-    messages: PropTypes.string.isRequired,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    params: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

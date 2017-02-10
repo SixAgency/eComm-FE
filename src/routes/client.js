@@ -39,7 +39,7 @@ const routes = (
       <Route path="dashboard" component={DashboardWrapper} title="My Account" />
       <Route path="edit-account" component={ProfileWrapper} title="Edit Account" />
       <Route path="address">
-        <Route path="create" component={CreateAddress} title="Create Address" />
+        <Route path="create/:type" component={CreateAddress} title="Create Address" />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" />
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" />
       </Route>

@@ -6,7 +6,7 @@ import Billing from './Billing';
 
 // Action
 import { onLogout } from '../../../actions/user';
-import { getAddress, setBillingAddress } from '../../../actions/address';
+import { getAddress, setDefaultAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { forwardTo } from '../../../actions/handler';
 
@@ -26,7 +26,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    setBillingAddress: (data) => dispatch(setBillingAddress(data)),
+    setDefaultAddress: (data, message) => dispatch(setDefaultAddress(data, message)),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -43,14 +43,8 @@ class BillingWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    setDefaultAddress: PropTypes.func.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      address: null,
-    };
-  }
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
@@ -63,6 +57,12 @@ class BillingWrapper extends BasePageComponent {
     this.props.setHeaderProps(props);
     if (!this.props.billing.isLoaded || !this.props.addresses.isLoaded) {
       this.props.getAddress();
+    }
+    if (this.props.billing.isLoaded &&
+      this.props.billing.isEmpty &&
+      this.props.addresses.isLoaded &&
+      this.props.addresses.isEmpty) {
+      forwardTo('my-account/address/create/billing');
     }
   };
 
@@ -77,10 +77,9 @@ class BillingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { isLoaded, isEmpty } = nextProps.billing;
-    if (isLoaded) {
-      if (isEmpty) {
-        forwardTo('my-account/address/billing');
+    if (nextProps.billing.isLoaded && nextProps.addresses.isLoaded) {
+      if (nextProps.billing.isEmpty && nextProps.addresses.isEmpty) {
+        forwardTo('my-account/address/create/billing');
       } else {
         setTimeout(() => {
           this.props.toggleLoader(false);
@@ -91,20 +90,17 @@ class BillingWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
-  onSubmit = () => {
+  onSubmit = (id) => {
     const address = {
-      default_bill_address: this.state.address,
+      default_bill_address: {
+        id,
+      },
     };
-    this.props.setBillingAddress(address);
-  };
-
-  onSelect = (val) => {
-    this.setState({
-      address: val,
-    });
-    console.log(this.state.address);
+    const message = 'Billing Address updated successfully.';
+    this.props.setDefaultAddress(address, message);
   };
 
   onCancel = () => {
@@ -112,11 +108,14 @@ class BillingWrapper extends BasePageComponent {
   };
 
   onCreate = () => {
-    forwardTo('my-account/address/billing');
+    forwardTo('my-account/address/create/billing');
   };
 
   render() {
-    if (this.props.billing.isLoaded && this.props.addresses.isLoaded) {
+    if (this.props.billing.isLoaded &&
+      this.props.addresses.isLoaded &&
+      !this.props.billing.isEmpty &&
+      !this.props.addresses.isEmpty) {
       return (
         <Billing
           loggedIn={this.props.loggedIn}
@@ -127,7 +126,6 @@ class BillingWrapper extends BasePageComponent {
           isError={this.props.isError}
           onSubmit={this.onSubmit}
           onCancel={this.onCancel}
-          onSelect={this.onSelect}
           onCreate={this.onCreate}
         />
       );
