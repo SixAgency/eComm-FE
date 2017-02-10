@@ -1,20 +1,21 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../BasePageComponent';
 import Shipping from './Shipping';
 
 // Action
 import { onLogout } from '../../../actions/user';
-import { getAddress, createOrEditAddress } from '../../../actions/address';
+import { getAddress, setDefaultAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
     emailAddress: state.user.emailAddress,
     loggedIn: state.user.loggedIn,
     shipping: state.address.shipping,
+    addresses: state.address.addresses,
     messages: state.page.messages,
     isError: state.page.isError,
   }
@@ -23,9 +24,9 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (props) => dispatch(toggleLoader(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    createOrEditAddress: (data) => dispatch(createOrEditAddress(data)),
+    setDefaultAddress: (data, message) => dispatch(setDefaultAddress(data, message)),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -33,89 +34,100 @@ const mapDispatchToProps = ((dispatch) => (
 
 class ShippingWrapper extends BasePageComponent {
   static propTypes = {
-    emailAddress: PropTypes.string.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     shipping: PropTypes.object.isRequired,
-    createOrEditAddress: PropTypes.func.isRequired,
+    addresses: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    messages: PropTypes.array,
-    isError: PropTypes.bool,
-  }
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+    setDefaultAddress: PropTypes.func.isRequired,
+  };
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
-      browserHistory.push('/my-account');
+      forwardTo('my-account');
     }
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account',
     };
     this.props.setHeaderProps(props);
-    if (!this.props.shipping.isLoaded) {
+    if (!this.props.shipping.isLoaded || !this.props.addresses.isLoaded) {
       this.props.getAddress();
     }
-  }
+    if (this.props.shipping.isLoaded &&
+        this.props.shipping.isEmpty &&
+        this.props.addresses.isLoaded &&
+        this.props.addresses.isEmpty) {
+      forwardTo('my-account/address/create/shipping');
+    }
+  };
 
   componentDidMount = () => {
-    const { isLoaded } = this.props.shipping;
-    if (isLoaded) {
+    const shippingLoaded = this.props.shipping.isLoaded;
+    const addressesLoaded = this.props.addresses.isLoaded;
+    if (shippingLoaded && addressesLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next');
-    const { isLoaded } = nextProps.shipping;
-    if (isLoaded) {
-      setTimeout(() => {
-        this.props.toggleLoader(false);
-      }, 250);
+    if (nextProps.shipping.isLoaded && nextProps.addresses.isLoaded) {
+      if (nextProps.shipping.isEmpty && nextProps.addresses.isEmpty) {
+        forwardTo('my-account/address/create/shipping');
+      } else {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 250);
+      }
     }
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
-  }
+    this.props.resetMessages();
+  };
 
-  onSubmit = (address) => {
-    console.log(address);
-    const data = {
-      address,
-      address_type: 'ship_address',
+  onSubmit = (id) => {
+    const address = {
+      default_ship_address: {
+        id,
+      },
     };
-    this.props.createOrEditAddress(data);
-  }
+    const message = 'Shipping Address updated successfully.';
+    this.props.setDefaultAddress(address, message);
+  };
+
+  onCancel = () => {
+    forwardTo('my-account/dashboard');
+  };
+
+  onCreate = () => {
+    forwardTo('my-account/address/create/shipping');
+  };
 
   render() {
-    const address = this.props.shipping.address || {
-      id: 0,
-      firstname: '',
-      lastname: '',
-      company: '',
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state_id: 0,
-      zipcode: '',
-    };
-    return (
-      <Shipping
-        loggedIn={this.props.loggedIn}
-        onSubmit={this.onSubmit}
-        onLogout={this.props.onLogout}
-        emailAddress={this.props.emailAddress}
-        shippingAddress={address}
-        messages={this.props.messages}
-        isError={this.props.isError}
-      />
-    );
+    if (this.props.shipping.isLoaded && this.props.addresses.isLoaded) {
+      return (
+        <Shipping
+          loggedIn={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          address={this.props.shipping.address.id}
+          addresses={this.props.addresses.addresses}
+          messages={this.props.messages}
+          isError={this.props.isError}
+          onSubmit={this.onSubmit}
+          onCancel={this.onCancel}
+          onCreate={this.onCreate}
+        />
+      );
+    }
+    return null;
   }
 }
 

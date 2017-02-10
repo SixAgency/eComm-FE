@@ -4,7 +4,7 @@ import s from './Shipping.css';
 // Components
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
-import AddressForm from '../../../components/Forms/AddressForm';
+import AddressList from '../../../components/Forms/AddressList';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class Shipping extends React.Component {
@@ -13,28 +13,29 @@ class Shipping extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    emailAddress: PropTypes.string.isRequired,
-    shippingAddress: PropTypes.object.isRequired,
-    messages: PropTypes.array,
-    isError: PropTypes.bool,
-  }
+    onCancel: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    address: PropTypes.number.isRequired,
+    addresses: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+  };
 
   render() {
-    const showEmailPhone = true;
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass={'hide'}>
-          <AddressForm
-            formTitle={'shipping address'}
-            formSubtitle={'Change your details'}
-            showEmailPhone={showEmailPhone}
-            buttonText={'save address'}
-            selectClass={'checkoutselect'}
-            emailAddress={this.props.emailAddress}
-            address={this.props.shippingAddress}
+          <AddressList
+            addresses={this.props.addresses}
+            address={this.props.address}
+            buttonText="Set Shipping Address"
+            formTitle="Update Shipping Address"
+            formSubtitle="Select one of the addresses"
             onSubmit={this.props.onSubmit}
+            onCancel={this.props.onCancel}
+            onCreate={this.props.onCreate}
           />
         </ContentWrapper>
       </section>

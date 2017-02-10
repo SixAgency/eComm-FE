@@ -3,7 +3,7 @@
   z-index: 2;
   width: 100%;
   padding-top: 127px;
-  .show {
+.show {
   -moz-transition-duration: 0.4s;
   -webkit-transition-duration: 0.4s;
   -o-transition-duration: 0.4s;
@@ -14,8 +14,8 @@
   transition-timing-function: ease-in;
   max-height: 800px;
   overflow: hidden;
-  }
-  .hide {
+}
+.hide {
   overflow: hidden;
   max-height: 0;
   padding-top: 0;
@@ -30,20 +30,20 @@
   -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  }
-  .giftCardwrpr, .loginwrpr {
-    display: block;
-    padding: 0 5%;
-    padding-top: 60px;
-    margin: 0 auto;
-    width: 90%;
-    max-width: 1200px;
-  }
-  .loginwrpr {
-    padding-top: 0;
-  }
-  ::selection {
-    background-color: #29cbc8;
-    color: #d0ff00;
-  }
+}
+.giftCardwrpr, .loginwrpr {
+  display: block;
+  padding: 0 5%;
+  padding-top: 60px;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1200px;
+}
+.loginwrpr {
+  padding-top: 0;
+}
+::selection {
+  background-color: #29cbc8;
+  color: #d0ff00;
+}
 }

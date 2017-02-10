@@ -10,6 +10,13 @@ function forwardTo(location) {
 }
 
 /**
+ * Go Back function
+ */
+function goBack() {
+  browserHistory.goBack();
+}
+
+/**
  * Server error - helper
  * @param error: object
  */
@@ -25,9 +32,7 @@ function serverError(error) {
  * @returns {function(*)}
  */
 function checkResponse(data, success, error) {
-  console.log('here1');
   if (data.isError) {
-    console.log('here2');
     // Server Error - redirect to error page
     if (data.status === 500) {
       forwardTo('error');
@@ -39,10 +44,9 @@ function checkResponse(data, success, error) {
     // Other error - display on the page
     error();
   } else {
-    console.log('here');
     //  Everything OK - move forward
     success();
   }
 }
 
-export { checkResponse, forwardTo, serverError };
+export { checkResponse, forwardTo, serverError, goBack };

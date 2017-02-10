@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
+import PayPalButton from '../PayPalButton';
 
 class CartForm extends React.Component {
   static propTypes = {
-    cart: React.PropTypes.object.isRequired,
-    loggedIn: React.PropTypes.bool.isRequired,
-  }
+    cart: PropTypes.object.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    paypalObj: PropTypes.object.isRequired,
+    checkoutPayPal: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -19,15 +23,24 @@ class CartForm extends React.Component {
     };
   }
 
+  onClick = (e) => {
+    e.preventDefault();
+    this.props.checkoutNext(this.props.cart.state);
+  };
+
   toggleCalculator = (e) => {
     e.preventDefault();
     this.setState({
       showCalculator: !this.state.showCalculator,
       className: !this.state.showCalculator ? 'show' : 'hide',
     });
-  }
+  };
+
 
   render() {
+    if (!this.props.paypalObj.isLoaded) {
+      return null;
+    }
     const cart = this.props.cart;
     return (
       <div className={s.cformwrpr}>
@@ -93,15 +106,17 @@ class CartForm extends React.Component {
               </tbody>
             </table>
           </div>
-          <div className={s.paypal} />
+          <PayPalButton
+            paypalObj={this.props.paypalObj}
+            cart={this.props.cart}
+            checkoutPayPal={this.props.checkoutPayPal}
+          />
           <p className={s.message}>
             Please note that you will be re-directed to the Paypal website to complete
             your purchase.
           </p>
           <p className={s.gotocheckout}>
-            <Link to="/checkout">
-              <button className={s.checkoutbtn}>Proceed to Checkout</button>
-            </Link>
+            <button className={s.checkoutbtn} onClick={this.onClick}>Proceed to Checkout</button>
           </p>
           <p className={s.message}>
             Complete your purchase with your Krissorbie.com account or as a guest.

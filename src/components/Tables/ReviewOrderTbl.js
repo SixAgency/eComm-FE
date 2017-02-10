@@ -7,17 +7,15 @@ import s from './Tables.css';
 class ReviewOrderTbl extends React.Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
-  }
+  };
 
   handleShipping = (e) => {
     e.preventDefault();
-    console.log('take me shipping');
-  }
+  };
 
   handleBilling = (e) => {
     e.preventDefault();
-    console.log('take me billing');
-  }
+  };
 
   render() {
     const cart = this.props.cart;
@@ -55,25 +53,25 @@ class ReviewOrderTbl extends React.Component {
               </td>
             </tr>
             {shipments.map((ship, index) => (
-              <tr>
+              <tr key={index}>
                 <td className={cx(s.td, s.tdbig, s.pshipping)}>
                   Shipping {index > 0 ? index + 1 : ''}
                 </td>
                 <td className={cx(s.td, s.tdsmall, s.flatrate)}>
                   {ship.shipping_rates[0].name}:
                   <span className={s.amount}>${ship.shipping_rates[0].cost}</span>
-                  <p className={s.shippingcontents}>
-                    {ship.manifest.map((item) => (
-                      <small>{item.variant.name} x{item.quantity}</small>
-                      ),
-                    )}
-                  </p>
+                  {/*<p className={s.shippingcontents}>*/}
+                    {/*{ship.manifest.map((item) => (*/}
+                      {/*<small>{item.variant.name} x{item.quantity}</small>*/}
+                      {/*),*/}
+                    {/*)}*/}
+                  {/*</p>*/}
                 </td>
               </tr>
               ),
             )}
-            {adjustments.map((adjust) => (
-              <tr>
+            {adjustments.map((adjust, key) => (
+              <tr key={key} >
                 <td className={cx(s.td, s.tdbig, s.pshipping)}>
                   {adjust.label}
                 </td>

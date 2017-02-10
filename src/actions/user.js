@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
-import { getCart, resetCart } from './order';
+import { getCart, resetCart, resetOrders } from './order';
 import { resetAddresses, setAddresses } from './address';
 import { validateAuth } from '../helpers/validators';
 
@@ -45,6 +45,7 @@ function onLogout() {
         dispatch(setUser(response.data.user));
         // Reset the cart
         dispatch(resetCart());
+        dispatch(resetOrders());
         dispatch(resetAddresses());
         forwardTo('my-account');
       }, () => {

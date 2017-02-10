@@ -7,7 +7,8 @@ class GiftCardInput extends React.Component {
   static propTypes = {
     toggleGiftcard: PropTypes.func.isRequired,
     infoClass: PropTypes.string.isRequired,
-  }
+  };
+
   render() {
     return (
       <form

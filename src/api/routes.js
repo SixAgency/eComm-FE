@@ -3,7 +3,9 @@ import express from 'express';
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
 import { getProducts, getProduct, getMannequinHeads } from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
-import { getAddresses, createAddress, updateAddress } from './addresses';
+import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
+import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
+
 import sendContact from './contact';
 // Helpers
 import {
@@ -94,7 +96,7 @@ apiRoutes
     getAddresses(req).then((data) => (resp.json(data)));
   })
   .post('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body.address);
+    const valid = validateMandatoryFieldsAddress(req.body.data.address);
     if (valid.isError) {
       resp.json(valid);
     } else {
@@ -108,6 +110,9 @@ apiRoutes
     } else {
       updateAddress(req).then((data) => (resp.json(data)));
     }
+  })
+  .post('/addresses/default', (req, resp) => {
+    setDefaultAddress(req).then((data) => (resp.json(data)));
   });
 
 // Contact
@@ -124,6 +129,16 @@ apiRoutes.post('/contact', (req, resp) => {
 // Mannequin heads page
 apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
+});
+
+apiRoutes.get('/checkout/braintree', (req, resp) => {
+  getBraintreeTokens(req).then((data) => (resp.json(data)));
+}).post('/checkout/paypal', (req, resp) => {
+  checkoutPayPal(req).then((data) => (resp.json(data)));
+}).post('/checkout/next', (req, resp) => {
+  checkoutNext(req).then((data) => (resp.json(data)));
+}).post('/checkout/address', (req, resp) => {
+  checkoutAddress(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

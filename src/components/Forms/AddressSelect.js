@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import cx from 'classnames';
 import s from './Forms.css';
 
 class AddressSelect extends React.Component {
@@ -8,69 +7,47 @@ class AddressSelect extends React.Component {
   static propTypes = {
     addresses: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
-    addAddress: PropTypes.func.isRequired,
-    activeID: PropTypes.number.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      checkedID: this.props.activeID,
-    };
-  }
-
-  onSelect = (address) => {
-    this.setState({ checkedID: address.id });
-    this.props.onSelect(address);
-  }
+    onCreate: PropTypes.func.isRequired,
+    address: PropTypes.number.isRequired,
+  };
 
   getActive = (id) => {
-    if (this.state.checkedID === id) {
-      return true;
-    }
-    return false;
-  }
+    return this.props.address === id;
+  };
 
   render() {
-    if (!this.props.addresses) {
-      return null;
-    }
     return (
       <div>
-        { this.props.addresses.map((address) => {
-          const id = address.id;
-          return (
-            <div className={s.radiowrapper}>
-              <input
-                id={id}
-                value={id}
-                type="radio"
-                name="addresses"
-                className={s.radio}
-                checked={this.getActive(id)}
-                onChange={() => this.onSelect(address)}
-              />
-              <label htmlFor={address.id} className={s.labelradio}>
-                {address.firstname} {address.lastname}<br />
-                {address.address1} {address.address2}<br />
-                {address.city}, {address.state_id}, {address.zipcode}<br />
-                {address.phone}
-              </label>
-            </div>
-          );
-        })}
+        { this.props.addresses.map((value, key) => (
+          <div className={s.radiowrapper} key={key}>
+            <input
+              id={value.id}
+              value={value.id}
+              type="radio"
+              name="addresses"
+              className={s.radio}
+              checked={this.getActive(value.id)}
+              onChange={this.props.onSelect}
+            />
+            <label htmlFor={value.id} className={s.labelradio}>
+              {value.firstname} {value.lastname}<br />
+              {value.address1} {value.address2}<br />
+              {value.city}, {value.state_id}, {value.zipcode}<br />
+              {value.phone}
+            </label>
+          </div>
+        ))}
         <div className={s.buttonwrapper}>
           <input
             className={s.submitadd}
             type="button"
             value="Add another address"
-            onClick={this.props.addAddress}
+            onClick={this.props.onCreate}
           />
         </div>
       </div>
     );
   }
-
 }
 
 export default withStyles(s)(AddressSelect);

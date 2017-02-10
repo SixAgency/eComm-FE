@@ -6,6 +6,7 @@ import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import Addresses from '../../../components/Addresses';
 import OrderHistory from '../../../components/OrderHistory';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class Dashboard extends React.Component {
   static propTypes = {
@@ -14,10 +15,12 @@ class Dashboard extends React.Component {
     onLogout: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
-  }
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+  };
 
   checkOrders = () => {
-    const orders = this.props.orders.orders;
+    const orders = this.props.orders;
     if (!orders.isLoaded || orders.isEmpty) {
       return null;
     }
@@ -27,12 +30,13 @@ class Dashboard extends React.Component {
         <OrderHistory orders={this.props.orders} />
       </div>
     );
-  }
+  };
 
   render() {
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>
           <div className={s.dashboard}>
             <h1 className={s.title}>YOUR ACCOUNT</h1>

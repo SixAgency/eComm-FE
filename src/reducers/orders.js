@@ -9,7 +9,7 @@ export default function reducer(state = {
     isLoaded: false,
     isEmpty: true,
     isError: false,
-    orders: {},
+    orders: [],
   },
 }, action) {
   switch (action.type) {

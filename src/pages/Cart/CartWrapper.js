@@ -7,12 +7,14 @@ import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import { getCart, removeItem, updateCart, updateQuantity, applyPromoCode } from '../../actions/order';
+import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
 import { onLogout, onLogin } from '../../actions/user';
 
 const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
+    paypalObj: state.checkout.paypal,
     messages: state.page.messages,
     isError: state.cart.isError,
   }
@@ -30,6 +32,9 @@ const mapDispatchToProps = ((dispatch) => (
     updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
+    getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
+    checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
+    checkoutNext: (state) => dispatch(checkoutNext(state)),
   }
 ));
 
@@ -42,11 +47,20 @@ class CartWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    paypalObj: PropTypes.object.isRequired,
+    getPayPalToken: PropTypes.func.isRequired,
+    checkoutPayPal: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    paypalObj: {},
   };
 
   constructor(props) {
@@ -68,11 +82,15 @@ class CartWrapper extends BasePageComponent {
     if (!this.props.cartItems.isLoaded) {
       this.props.getCart();
     }
+    if (!this.props.paypalObj.isLoaded) {
+      this.props.getPayPalToken();
+    }
   };
 
   componentDidMount = () => {
-    const { isLoaded } = this.props.cartItems;
-    if (isLoaded) {
+    const cartLoaded = this.props.cartItems.isLoaded;
+    const payPalLoaded = this.props.paypalObj.isLoaded;
+    if (cartLoaded && payPalLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -80,8 +98,9 @@ class CartWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { isLoaded } = nextProps.cartItems;
-    if (isLoaded) {
+    const cartLoaded = nextProps.cartItems.isLoaded;
+    const payPalLoaded = nextProps.paypalObj.isLoaded;
+    if (cartLoaded && payPalLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -90,6 +109,7 @@ class CartWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   handleGiftCard = (e) => {
@@ -149,6 +169,9 @@ class CartWrapper extends BasePageComponent {
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}
+        paypalObj={this.props.paypalObj}
+        checkoutPayPal={this.props.checkoutPayPal}
+        checkoutNext={this.props.checkoutNext}
       />
     );
   }

@@ -7,14 +7,13 @@ import s from './Tables.css';
 class OrderDetailsTbl extends React.Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
-  }
+  };
 
   render() {
     const order = this.props.order;
     const products = order.line_items;
     const shipment = order.shipments[0];
     const payment = order.payments[0];
-    console.log('ORDER', order);
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -25,10 +24,10 @@ class OrderDetailsTbl extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { products.map((item) => {
+            { products.map((item, key) => {
               const slug = `/product/${item.variant.slug}`;
               return (
-                <tr className={s.orderItem}>
+                <tr className={s.orderItem} key={key}>
                   <td className={s.productname}>
                     <Link className={s.orderitem} to={slug}>{item.variant.name}</Link>
                     {item.variant.option_values &&

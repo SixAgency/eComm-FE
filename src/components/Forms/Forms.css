@@ -94,17 +94,22 @@
   text-align: center;
   margin: 35px 0 25px;
   width: 100%;
-  .paymessage {
-    color: #565656;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 25px;
-  }
+}
+
+.paymessage {
+  color: #565656;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 25px;
 }
 
 .buttonwrapper2 {
   text-align: center;
   margin: 50px 0 25px;
+}
+
+.buttonwrapper3 {
+  float: none;
 }
 
 .label {
@@ -303,6 +308,21 @@
   color: #666666;
 }
 .submit:hover {
+  background-color: #333333;
+  color: #29cbc8;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+
+.cancel {
+  background: #cccccc;
+  color: #666666;
+}
+
+.cancel:hover {
   background-color: #333333;
   color: #29cbc8;
   transition: all 0.2s linear;

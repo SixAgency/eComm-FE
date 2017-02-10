@@ -5,7 +5,7 @@ import BasePageComponent from '../../BasePageComponent';
 import ViewOrder from './ViewOrder';
 
 import { onLogout } from '../../../actions/user';
-import { setHeaderProps, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, toggleLoader, resetMessages } from '../../../actions/page';
 import { getOrder } from '../../../actions/order';
 
 const mapStateToProps = ((state) => (
@@ -19,6 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (props) => dispatch(toggleLoader(props)),
+    resetMessages: () => dispatch(resetMessages()),
     getOrder: (number) => dispatch(getOrder(number)),
     onLogout: () => dispatch(onLogout()),
   }
@@ -33,7 +34,8 @@ class ViewOrderWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     order: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-  }
+    resetMessages: PropTypes.func.isRequired,
+  };
 
   componentWillMount = () => {
     const props = {
@@ -46,21 +48,18 @@ class ViewOrderWrapper extends BasePageComponent {
     } else if (this.props.order.order.number !== this.props.params.number) {
       this.props.getOrder(this.props.params.number);
     }
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
-  handleLogout = (data) => {
-    if (data.error) {
-      console.log('error');
-    } else {
-      window.location.href = '/my-account';
-    }
-  }
+  componentWillUnmount = () => {
+    this.props.resetMessages();
+    this.props.toggleLoader(true);
+  };
 
   render() {
     if (!this.props.order.isLoaded) {

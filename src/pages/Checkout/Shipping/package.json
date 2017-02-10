@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ShippingCheckout",
+  "main": "./ShippingWrapperServer.js",
+  "browser": "./ShippingWrapper.js"
+}

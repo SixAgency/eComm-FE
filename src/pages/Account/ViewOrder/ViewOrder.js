@@ -13,7 +13,7 @@ class ViewOrder extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired,
-  }
+  };
 
   getMonth = (number) => {
     const months = [
@@ -31,7 +31,7 @@ class ViewOrder extends React.Component {
       'December',
     ];
     return months[number];
-  }
+  };
 
   listAddress = (address) => {
     if (address) {
@@ -46,7 +46,7 @@ class ViewOrder extends React.Component {
       );
     }
     return (<p className={s.optiontext}> Please set up your billing address </p>);
-  }
+  };
 
   render() {
     const order = this.props.order;
@@ -58,40 +58,44 @@ class ViewOrder extends React.Component {
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
         <ContentWrapper tabsClass={'hide'}>
-          <p className={s.orderInfo}>
-            Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
-            <mark className="order-date">
-              {this.getMonth(orderDate.getMonth())} {orderDate.getDay()}, {orderDate.getFullYear()}
-            </mark>
-            &nbsp;and is currently <mark className={s.orderstatus}>
-              {shipment ? shipment.state : 'Processing'}
-            </mark>.
-          </p>
-          <h2 className={s.title}>Order Details</h2>
-          <OrderDetailsTbl order={this.props.order} />
-          <h2 className={s.title}>Customer Details</h2>
-          <CustomerDetailsTbl order={this.props.order} />
-          <div className={s.addressescontainer}>
-            <address className={s.optiontext}>
-              <span className={s.block}>{billingAddress.full_name}</span>
-              <span className={s.block}>{billingAddress.address1}</span>
-              {billingAddress.address2 &&
-                <span className={s.block}>{billingAddress.address2}</span>
-              }
-              <span className={s.block}>
-                {billingAddress.city}, {billingAddress.state_text} {billingAddress.zipcode}
-              </span>
-            </address>
-            <address className={s.optiontext}>
-              <span className={s.block}>{shippingAddress.full_name}</span>
-              <span className={s.block}>{shippingAddress.address1}</span>
-              {shippingAddress.address2 &&
-                <span className={s.block}>{shippingAddress.address2}</span>
-              }
-              <span className={s.block}>
-                {shippingAddress.city}, {shippingAddress.state_text} {shippingAddress.zipcode}
-              </span>
-            </address>
+          <div>
+            <p className={s.orderInfo}>
+              Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
+              <mark className="order-date">
+                {this.getMonth(orderDate.getMonth())}
+                {orderDate.getDay()},
+                {orderDate.getFullYear()}
+              </mark>
+              &nbsp;and is currently <mark className={s.orderstatus}>
+                {shipment ? shipment.state : 'Processing'}
+              </mark>.
+            </p>
+            <h2 className={s.title}>Order Details</h2>
+            <OrderDetailsTbl order={this.props.order} />
+            <h2 className={s.title}>Customer Details</h2>
+            <CustomerDetailsTbl order={this.props.order} />
+            <div className={s.addressescontainer}>
+              <address className={s.optiontext}>
+                <span className={s.block}>{billingAddress.full_name}</span>
+                <span className={s.block}>{billingAddress.address1}</span>
+                {billingAddress.address2 &&
+                  <span className={s.block}>{billingAddress.address2}</span>
+                }
+                <span className={s.block}>
+                  {billingAddress.city}, {billingAddress.state_text} {billingAddress.zipcode}
+                </span>
+              </address>
+              <address className={s.optiontext}>
+                <span className={s.block}>{shippingAddress.full_name}</span>
+                <span className={s.block}>{shippingAddress.address1}</span>
+                {shippingAddress.address2 &&
+                  <span className={s.block}>{shippingAddress.address2}</span>
+                }
+                <span className={s.block}>
+                  {shippingAddress.city}, {shippingAddress.state_text} {shippingAddress.zipcode}
+                </span>
+              </address>
+            </div>
           </div>
         </ContentWrapper>
       </section>

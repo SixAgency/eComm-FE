@@ -17,7 +17,9 @@ const mapStateToProps = ((state) => (
     userName: state.user.userName,
     shipping: state.address.shipping,
     billing: state.address.billing,
-    orders: state.orders,
+    orders: state.orders.orders,
+    messages: state.page.messages,
+    isError: state.page.isError,
   }
 ));
 
@@ -44,11 +46,14 @@ class DashboardWrapper extends BasePageComponent {
     getAddress: PropTypes.func.isRequired,
     getAllOrders: PropTypes.func.isRequired,
     orders: PropTypes.object.isRequired,
-  }
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+  };
 
   componentWillMount = () => {
+    window.scrollTo(0, 0);
     if (!this.props.loggedIn) {
-      console.log('step one');
       browserHistory.push('/my-account');
     }
     const props = {
@@ -62,7 +67,7 @@ class DashboardWrapper extends BasePageComponent {
     if (!this.props.orders.isLoaded) {
       this.props.getAllOrders();
     }
-  }
+  };
 
   componentDidMount = () => {
     const billingLoaded = this.props.billing.isLoaded;
@@ -72,7 +77,7 @@ class DashboardWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
     const billingLoaded = nextProps.billing.isLoaded;
@@ -82,16 +87,17 @@ class DashboardWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 250);
     }
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-  }
+    this.props.resetMessages();
+  };
 
   onLogout = (event) => {
     event.preventDefault();
     this.props.onLogout();
-  }
+  };
 
   render() {
     const addresses = {
@@ -106,6 +112,8 @@ class DashboardWrapper extends BasePageComponent {
         onLogout={this.onLogout}
         addresses={addresses}
         orders={orders}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

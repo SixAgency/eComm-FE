@@ -1,5 +1,11 @@
 import { apiFetch } from '../core/fetch';
-import { setError, checkResponse, setAddressesResponse, setEditCreateAddressResponse } from './helpers/handlers';
+import {
+  setError,
+  checkResponse,
+  setAddressesResponse,
+  setEditCreateAddressResponse,
+  setCreateAddressResponse
+} from './helpers/handlers';
 import { faketoken } from '../config';
 
 const ADDRESSES = '/api/v1/addresses';
@@ -20,22 +26,17 @@ function getAddresses(request) {
 
 // Create Address
 function createAddress(request) {
-  const type = request.body.address_type;
-  const address = {
-    address: request.body.address,
-    default_address_types: [type],
-  };
   return apiFetch(ADDRESSES,
     {
       method: 'POST',
-      body: JSON.stringify(address),
+      body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
         'X-Spree-Token': request.session.token || faketoken,
       },
     })
   .then((response) => checkResponse(response))
-  .then((data) => setEditCreateAddressResponse(data, type))
+  .then((data) => setCreateAddressResponse(data, request, getAddresses))
   .catch((err) => setError(err));
 }
 
@@ -60,4 +61,20 @@ function updateAddress(request) {
     .catch((err) => setError(err));
 }
 
-export { getAddresses, createAddress, updateAddress };
+// Edit Address
+function setDefaultAddress(request) {
+  return apiFetch(`${ADDRESSES}/default`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(request.body.data),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+    .then((response) => checkResponse(response))
+    .then((data) => setEditCreateAddressResponse(data))
+    .catch((err) => setError(err));
+}
+
+export { getAddresses, createAddress, updateAddress, setDefaultAddress };

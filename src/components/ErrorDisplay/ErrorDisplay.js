@@ -5,9 +5,9 @@ import s from './ErrorDisplay.css';
 
 class ErrorDisplay extends React.Component {
   static propTypes = {
-    messages: PropTypes.array,
+    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-  }
+  };
 
   render() {
     const { isError, messages } = this.props;

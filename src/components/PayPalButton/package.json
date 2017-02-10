@@ -1,0 +1,6 @@
+{
+  "name": "PayPalButton",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PayPalButton.js"
+}

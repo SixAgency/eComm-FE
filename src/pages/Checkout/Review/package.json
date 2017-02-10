@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ReviewCheckout",
+  "main": "./ReviewWrapperServer.js",
+  "browser": "./ReviewWrapper.js"
+}

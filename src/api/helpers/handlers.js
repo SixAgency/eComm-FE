@@ -169,13 +169,11 @@ function setUserResponse(request) {
 // Format User Addresses Response
 function setAddressesResponse(data) {
   let resp;
-  conslog('DATA', data);
   if (!data.isError) {
     resp = {
       billing: setAddressResponse(data.bill_address),
       shipping: setAddressResponse(data.ship_address),
       addresses: {
-        isLoaded: true,
         isEmpty: data.owner_address.length === 0,
         addresses: data.owner_address,
       },
@@ -203,18 +201,13 @@ function setAddressesResponse(data) {
 }
 
 // Format edit/create address response
-function setEditCreateAddressResponse(data, type) {
+function setEditCreateAddressResponse(data) {
   let resp;
   if (!data.isError && !data.errors) {
-    if (type === 'bill_address') {
-      resp = {
-        billing: setAddressResponse(data.address),
-      };
-    } else {
-      resp = {
-        shipping: setAddressResponse(data.address),
-      };
-    }
+    resp = {
+      billing: setAddressResponse(data.default_addresses.bill_address),
+      shipping: setAddressResponse(data.default_addresses.ship_address),
+    };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
@@ -223,6 +216,19 @@ function setEditCreateAddressResponse(data, type) {
     };
   }
   return resp;
+}
+
+function setCreateAddressResponse(data, request, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+    };
+    return resp;
+  }
+  return callback(request);
 }
 
 // Format Order Response
@@ -251,9 +257,10 @@ function setOrdersResponse(data) {
   let resp;
   if (!data.isError) {
     resp = {
+      isLoaded: true,
       isError: false,
-      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
-      orders: data,
+      isEmpty: data.orders.length === 0,
+      orders: data.orders,
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -261,7 +268,7 @@ function setOrdersResponse(data) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      orders: {},
+      orders: [],
     };
   }
   return resp;
@@ -281,10 +288,12 @@ function setCartResponse(data, request, callback) {
   } else if (Object.getOwnPropertyNames(data).length > 0) {
     const isEmpty = data.total_quantity < 1;
     resp = { isEmpty, cart: data };
-    request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
-    conslog('session', request.session);
+    if (data.state === 'complete') {
+      request.session.orderNumber = null; // eslint-disable-line no-param-reassign
+    } else {
+      request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
+    }
   } else {
-    conslog('callback');
     return callback(request);
   }
   return resp;
@@ -311,13 +320,12 @@ function setAddRemoveCartResponse(data) {
 
 function setCouponResponse(data) {
   let resp;
-  conslog('resp', data);
-  if (data.item.isError) {
-    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
       messages: [message],
-      status: data.item.status,
+      status: data.status,
     };
   } else {
     resp = {
@@ -434,6 +442,45 @@ function setContactResponse(data) {
   return resp;
 }
 
+/* CHECKOUT */
+
+function setBraintreeResponse(data) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      status: data.status,
+    };
+  } else {
+    resp = {
+      isError: false,
+      isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      tokens: data,
+    };
+  }
+  return resp;
+}
+
+function setAddressCallBack(request, data, isPayPal, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      isEmpty: true,
+      messages: [message],
+      status: data.status,
+    };
+    return resp;
+  }
+  if (isPayPal) {
+    return setCartResponse(data, request, () => (true));
+  }
+  return callback(request);
+}
 
 export {
   checkResponse,
@@ -441,7 +488,9 @@ export {
   setAuthResponse,
   setLogoutResponse,
   setUserResponse,
+  setAddressResponse,
   setAddressesResponse,
+  setCreateAddressResponse,
   setEditCreateAddressResponse,
   setOrderResponse,
   setOrdersResponse,
@@ -453,4 +502,6 @@ export {
   setRecsResponse,
   setMannequinHeadsResponse,
   setContactResponse,
+  setBraintreeResponse,
+  setAddressCallBack,
 };

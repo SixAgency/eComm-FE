@@ -43,14 +43,15 @@ function validateProduct(data) {
 // Validate Billing/Address Form
 function validateMandatoryFieldsAddress(data) {
   const messages = [];
-  const isValidPhoneNumber = /^(\([0-9]{3}\)|[0-9]{3})[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
+  // const isValidPhoneNumber = /^(\([+]?[0-9]{3}?[0-9]{4}?\)|[+]?[0-9]{2})[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
   if ((!data.firstname) || (!data.lastname) || (!data.phone) ||
     (!data.city) || (!data.state_id) || (!data.zipcode)) {
+    console.log(data);
     messages.push('Please fill all the fields');
   }
-  if (!isValidPhoneNumber.test(data.phone)) {
-    messages.push('Invalid phone number');
-  }
+  // if (!isValidPhoneNumber.test(data.phone)) {
+  //   messages.push('Invalid phone number');
+  // }
   if (isNaN(Number(data.state_id))) {
     messages.push('Invalid state id');
   }
