@@ -4,19 +4,19 @@ import Category from './Category';
 class CategoryWrapper extends React.Component {
 
   static propTypes = {
-    gridItems: PropTypes.object.isRequired,
+    categoryItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     addToCart: () => (true),
+    categoryItems: {},
   }
 
   render() {
     console.log('server');
     return (
-      <Category gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
+      <Category gridItems={this.props.categoryItems} addToCart={this.props.addToCart} />
     );
   }
 }

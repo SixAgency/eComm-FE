@@ -11,6 +11,11 @@ export default function reducer(state = {
     isLoaded: false,
     product: {},
   },
+  categoryItems: {
+    isLoaded: false,
+    slug: '',
+    products: [],
+  },
 }, action) {
   switch (action.type) {
     case 'SET_PRODUCTS': {
@@ -21,6 +26,9 @@ export default function reducer(state = {
     }
     case 'SET_PRODUCT': {
       return { ...state, product: action.payload };
+    }
+    case 'SET_CATEGORY': {
+      return { ...state, categoryItems: action.payload };
     }
     default: // do nothing
   }

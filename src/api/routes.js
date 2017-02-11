@@ -1,7 +1,7 @@
 import express from 'express';
 // Actions
 import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import { getProducts, getProduct, getMannequinHeads } from './products';
+import { getProducts, getProduct, getMannequinHeads, getProductsInCategory } from './products';
 import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
 import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
 import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
@@ -140,5 +140,11 @@ apiRoutes.get('/checkout/braintree', (req, resp) => {
 }).post('/checkout/address', (req, resp) => {
   checkoutAddress(req).then((data) => (resp.json(data)));
 });
+
+// Products in category
+apiRoutes.get('/category/:slug', (req, resp) => {
+  getProductsInCategory(req).then((data) => (resp.json(data)));
+});
+
 
 export default apiRoutes;
