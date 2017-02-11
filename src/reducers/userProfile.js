@@ -3,8 +3,8 @@ export default function reducer(state = {
   loggedIn: true,
 }, action) {
   switch (action.type) {
-    case 'GET_PROFILE_SUCCESS': {
-      return { ...state, profile: action.payload.profile };
+    case 'SET_PROFILE': {
+      return { ...state, profile: action.payload };
     }
     default: // do nothing
   }

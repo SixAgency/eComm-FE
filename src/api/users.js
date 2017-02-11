@@ -95,8 +95,9 @@ function getProfile(request) {
 
 // Update User Profile
 function updateProfile(request) {
+  conslog('SESSION', request.session);
   const profile = { ...request.body };
-  return apiFetch(PROFILE,
+  return apiFetch(`${PROFILE}/${profile.id}`,
     {
       method: 'POST',
       body: JSON.stringify(profile),
@@ -106,10 +107,8 @@ function updateProfile(request) {
       },
     })
   .then((resp) => (checkResponse(resp)))
-  .then((resp) => {
-    conslog('UPDATE RESP', resp);
-    parseProfile(resp);
-  })
+  .then((resp) => (resp))
   .catch((err) => setError(err));
 }
+
 export { userLogin, userRegistration, userLogout, checkLogin, getProfile, updateProfile };

@@ -18,16 +18,8 @@ function setUser(user) {
 * @param object
 * @returns {{type: string, payload: object}}
 */
-function setProfile(resp) {
-  return { type: 'GET_PROFILE_SUCCESS', payload: resp.data };
-}
-
-/** Set Profile - helper
-* @param object
-* @returns {{type: string, payload: object}}
-*/
-function setUserUpdate(resp) {
-  return { type: 'UPDATE_PROFILE_SUCCESS', payload: resp.data };
+function setProfile(profile) {
+  return { type: 'SET_PROFILE', payload: profile };
 }
 
 /**
@@ -157,7 +149,7 @@ function getProfile() {
     axios.get('/api/profile')
       .then((response) => checkResponse(response.data, () => {
         // dispatch({ type: 'GET_PROFILE_SUCCESS', payload: response.data });
-        dispatch(setProfile(response));
+        dispatch(setProfile(response.data.profile));
         console.log('ajung aici', response);
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -174,7 +166,7 @@ function updateProfile(data) {
     axios.post('/api/profile', data)
       .then((response) => checkResponse(response.data, () => {
         // dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: response.data });
-        dispatch(setUserUpdate(response));
+        dispatch(setProfile(response.data));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
