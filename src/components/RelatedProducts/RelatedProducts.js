@@ -10,18 +10,18 @@ class RelatedProducts extends React.Component {
   }
 
   render() {
-    if (!this.props.gridRecs.isLoaded) {
+    if (!this.props.gridRecs.isLoaded || this.props.gridRecs.isEmpty) {
       return null;
     }
     return (
       <div className={s.relatedwrpr}>
         <h2 className={s.relatedtitle}>You may also like...</h2>
         <Grid
-          gridClass={'productsgrid'}
+          gridClass="productsgrid"
           gridItems={this.props.gridRecs}
-          priceclass={'rprice'}
-          nameclass={'rname'}
-          catclass={'rcat'}
+          priceclass="rprice"
+          nameclass="rname"
+          catclass="rcat"
           addToCart={this.props.addToCart}
         />
       </div>

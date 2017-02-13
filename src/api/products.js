@@ -30,7 +30,7 @@ function getProducts(request) {
 // Get Product Recs
 // @TODO - update when we have an endpoint
 function getProductRecs(request, product) {
-  return apiFetch(`${PRODUCT}`,
+  return apiFetch(`${PRODUCT}/${product.id}/relations`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -44,19 +44,25 @@ function getProductRecs(request, product) {
 
 // Add product recs to the product feed
 function setProductRecs(data, request, callback) {
-  const response = data;
-  return getProductRecs(request)
+  let response;
+  return getProductRecs(request, data)
     .then((recs) => {
-      response.recs = recs;
+      response = {
+        ...data,
+        recs,
+      };
       return callback(response);
     })
     .catch((err) => {
-      response.recs = {
-        isError: true,
-        messages: err,
-        isLoaded: true,
-        isEmpty: true,
-        products: [],
+      response = {
+        ...data,
+        recs: {
+          isError: true,
+          messages: err,
+          isLoaded: true,
+          isEmpty: true,
+          products: [],
+        },
       };
       return callback(response);
     });

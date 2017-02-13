@@ -381,6 +381,8 @@ function setProductsResponse(data) {
 /* Set Recommendations Response */
 function setRecsResponse(data) {
   let resp;
+  conslog('data', data.product.relations[0]);
+
   if (data.isError) {
     const message = data.item.message || 'Server Error. Please contact your server administrator.';
     resp = {
@@ -395,8 +397,8 @@ function setRecsResponse(data) {
     resp = {
       isError: false,
       isLoaded: true,
-      isEmpty: data.products.length < 1,
-      products: data.products.slice(0, 3),
+      isEmpty: data.product.relations.length < 1,
+      products: data.product.relations.slice(0, 3),
     };
   }
   return resp;
