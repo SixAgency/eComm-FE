@@ -66,7 +66,7 @@ class EditAccountForm extends Component {
               name="f_name"
               className={s.input}
               onChange={this.onFieldsUpdate}
-              defaultValue={this.state.f_name}
+              value={this.state.f_name}
             />
           </div>
           <div className={cx(s.inputwrapper, s.inputright)}>
@@ -82,7 +82,7 @@ class EditAccountForm extends Component {
               name="l_name"
               className={s.input}
               onChange={this.onFieldsUpdate}
-              defaultValue={this.state.l_name}
+              value={this.state.l_name}
             />
           </div>
           <div className={cx(s.inputwrapper)}>

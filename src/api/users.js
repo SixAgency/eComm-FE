@@ -99,7 +99,7 @@ function updateProfile(request) {
   const profile = { ...request.body };
   return apiFetch(`${PROFILE}/${profile.id}`,
     {
-      method: 'POST',
+      method: 'PATCH',
       body: JSON.stringify(profile),
       headers: {
         'Content-Type': 'application/json',
