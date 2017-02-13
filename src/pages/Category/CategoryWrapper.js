@@ -5,12 +5,12 @@ import capitalize from 'lodash.capitalize';
 import Category from './Category';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getProducts } from '../../actions/catalog';
+import { getProductsInCategory } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
-    gridItems: state.catalog.gridItems,
+    categoryItems: state.catalog.categoryItems,
   }
 ));
 
@@ -18,7 +18,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    getProducts: () => dispatch(getProducts()),
+    getProductsInCategory: (slug) => dispatch(getProductsInCategory(slug)),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
   }
@@ -27,9 +27,9 @@ const mapDispatchToProps = ((dispatch) => (
 class CategoryWrapper extends React.Component {
 
   static propTypes = {
-    gridItems: PropTypes.object.isRequired,
+    categoryItems: PropTypes.object.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    getProducts: PropTypes.func.isRequired,
+    getProductsInCategory: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
@@ -42,15 +42,18 @@ class CategoryWrapper extends React.Component {
       activeSlug: '/',
     };
     this.props.setHeaderProps(props);
-    if (this.props.gridItems.isLoaded) {
-      console.log(this.props.gridItems);
+    if (this.props.categoryItems.isLoaded) {
+      console.log(this.props.categoryItems);
     } else {
-      this.props.getProducts();
+      this.props.getProductsInCategory(this.props.params.slug);
+    }
+    if (this.props.categoryItems.slug !== this.props.params.slug) {
+      this.props.getProductsInCategory(this.props.params.slug);
     }
   }
 
   componentDidMount = () => {
-    const { isLoaded } = this.props.gridItems;
+    const { isLoaded } = this.props.categoryItems;
     if (isLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
@@ -63,9 +66,9 @@ class CategoryWrapper extends React.Component {
     console.log(nextProps);
     if (this.props.params.slug !== nextProps.params.slug) {
       this.props.toggleLoader(true);
-      this.props.getProducts();
+      this.props.getProductsInCategory(this.props.params.slug);
     } else {
-      const { isLoaded } = nextProps.gridItems;
+      const { isLoaded } = nextProps.categoryItems;
       if (isLoaded) {
         setTimeout(() => {
           this.props.toggleLoader(false);
@@ -81,7 +84,7 @@ class CategoryWrapper extends React.Component {
   render() {
     document.title = `${capitalize(this.props.params.slug)} Archives - krissorbie`;
     return (
-      <Category gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
+      <Category gridItems={this.props.categoryItems} addToCart={this.props.addToCart} />
     );
   }
 }

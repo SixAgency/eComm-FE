@@ -11,6 +11,7 @@ import {
 import { faketoken } from '../config';
 
 const PRODUCT = '/api/v1/products';
+const CATEGORY = '/api/v1/taxons/products';
 
 // Get Products
 function getProducts(request) {
@@ -79,17 +80,31 @@ function getProduct(request) {
 
 // Get Mannequin heads
 function getMannequinHeads(request) {
-  return apiFetch(`${PRODUCT}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Spree-Token': request.session.token || faketoken,
-    },
-  })
+  return apiFetch(`${PRODUCT}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
     .then((response) => checkResponse(response))
     .then((data) => setMannequinHeadsResponse(data))
     .catch((err) => setError(err));
 }
 
-// Get Products based on slug
+// Get Products in category
+function getProductsInCategory(request) {
+  const slug = request.params.slug;
+  return apiFetch(`${CATEGORY}?permalink=categories/${slug}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken,
+      },
+    })
+    .then((response) => checkResponse(response))
+    .then((data) => setProductsResponse(data))
+    .catch((err) => setError(err));
+}
 
-export { getProducts, getProduct, getMannequinHeads };
+export { getProducts, getProduct, getMannequinHeads, getProductsInCategory };

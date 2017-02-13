@@ -41,6 +41,15 @@ function setMannequin(products) {
   return { type: 'SET_MANNEQUIN', payload: data };
 }
 
+function setCategoryItems(products, slug) {
+  const data = {
+    isLoaded: true,
+    ...products,
+    slug,
+  };
+  return { type: 'SET_CATEGORY', payload: data };
+}
+
 /**
  * Get Products
  * @returns {function(*=)}
@@ -99,4 +108,23 @@ function getMannequinHeads() {
   };
 }
 
-export { getProducts, getProduct, getMannequinHeads };
+/**
+ * Get Products per category
+ * @returns {function(*=)}
+ */
+function getProductsInCategory(slug) {
+  return (dispatch) => {
+    axios.get(`/api/category/${slug}`)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCategoryItems(response.data, slug));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
+export { getProducts, getProduct, getMannequinHeads, getProductsInCategory };

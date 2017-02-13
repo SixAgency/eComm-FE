@@ -23,6 +23,8 @@ class Product extends Component {
     if (productImages.length > 0 && productImages[0].large_url) {
       image = productImages[0].large_url;
     }
+    const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
+    const categoryName = product.classifications[0].taxon.name;
 
     return (
       <div className={s.page}>
@@ -44,7 +46,7 @@ class Product extends Component {
                 <nav className={s.breadcrumb}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
-                  <Link className={s.innerlink} to={`/product-category/${product.slug}`}>{product.classifications[0].taxon.name}</Link>
+                  <Link className={s.innerlink} to={`/product-category/${categorySlug}`}>{categoryName}</Link>
                   <span className={s.divider}>&gt;</span>
                   {product.name}
                 </nav>
@@ -71,7 +73,7 @@ class Product extends Component {
               <div className={s.summarybottom}>
                 <span className={s.sku}>SKU:&nbsp;{product.master.sku}</span>
                 <span className={s.category}>Category:&nbsp;
-                  <Link to={`/product-category/${product.slug}`} className={s.categorylink}>{product.classifications[0].taxon.name}</Link>
+                  <Link to={`/product-category/${categorySlug}`} className={s.categorylink}>{categoryName}</Link>
                 </span>
               </div>
             </div>
