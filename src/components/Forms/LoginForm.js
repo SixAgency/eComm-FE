@@ -8,7 +8,7 @@ class LoginForm extends React.Component {
 
   static propTypes = {
     onLogin: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -22,25 +22,25 @@ class LoginForm extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onLogin(this.state);
-  }
+  };
 
   onUserChange = (event) => {
     this.setState({
       email: event.target.value,
     });
-  }
+  };
 
   onPassChange = (event) => {
     this.setState({
       password: event.target.value,
     });
-  }
+  };
 
   onToggleChange = (event) => {
     this.setState({
       remember: event.target.checked ? '1' : '0',
     });
-  }
+  };
 
   render() {
     return (

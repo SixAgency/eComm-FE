@@ -39,7 +39,7 @@ class AccountWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -49,7 +49,6 @@ class AccountWrapper extends BasePageComponent {
   }
 
   componentWillMount = () => {
-    console.log('logged', this.props.loggedIn);
     if (this.props.loggedIn) {
       browserHistory.push('/my-account/dashboard');
     } else {
@@ -68,9 +67,13 @@ class AccountWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next', nextProps);
     if (nextProps.loggedIn) {
       browserHistory.push('/my-account/dashboard');
+    }
+    if (nextProps.isError) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
     }
   };
 
@@ -86,15 +89,42 @@ class AccountWrapper extends BasePageComponent {
     });
   };
 
+  onLogin = (data) => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      this.props.onLogin(data);
+    }, 250);
+  };
+
+  onLogout = () => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      this.props.onLogout();
+    }, 500);
+  };
+
+  onRegister = (data) => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      this.props.onRegister(data);
+    }, 250);
+  };
+
   render() {
     return (
       <Account
         loggedIn={this.props.loggedIn}
         content={this.state.content}
         clickTab={this.clickTab}
-        onLogin={this.props.onLogin}
-        onLogout={this.props.onLogout}
-        onRegister={this.props.onRegister}
+        onLogin={this.onLogin}
+        onLogout={this.onLogout}
+        onRegister={this.onRegister}
         messages={this.props.messages}
         isError={this.props.isError}
       />
