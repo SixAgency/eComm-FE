@@ -8,7 +8,7 @@ class RegForm extends React.Component {
 
   static propTypes = {
     onRegister: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -27,13 +27,13 @@ class RegForm extends React.Component {
     if (this.state.validInputs) {
       this.props.onRegister(data);
     }
-  }
+  };
 
   onEmailChange = (event) => {
     this.setState({
       email: event.target.value,
     });
-  }
+  };
 
   onPassChange = (event) => {
     this.setState({
@@ -53,7 +53,7 @@ class RegForm extends React.Component {
         disabled: false,
       });
     }
-  }
+  };
 
   render() {
     return (

@@ -27,10 +27,38 @@ function checkResponse(data) {
           message: data.error,
           status: 200,
         };
+      } else if (data.errors) {
+        resp = {
+          isError: true,
+          message: data.errors,
+          status: 200,
+        };
       } else {
         resp = {
           isError: true,
           message: 'The data entered is invalid. Please fix and try again.',
+          status: 200,
+        };
+      }
+      resolve(resp);
+    }
+    if (data.status === 409) {
+      if (data.error) {
+        resp = {
+          isError: true,
+          message: data.error,
+          status: 200,
+        };
+      } else if (data.errors) {
+        resp = {
+          isError: true,
+          message: data.errors,
+          status: 200,
+        };
+      } else {
+        resp = {
+          isError: true,
+          message: 'The email address entered is already in use.',
           status: 200,
         };
       }
@@ -110,7 +138,13 @@ function setAuthResponse(data, request) {
       shipping: setAddressResponse(data.ship_address),
     };
   } else {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    let message = 'Server Error. Please contact your server administrator.';
+    if (data.message && typeof data.message === 'object') {
+      message = data.message.email || 'Server Error. Please contact your server administrator.';
+    }
+    if (data.message && typeof data.message === 'string') {
+      message = data.message;
+    }
     resp = {
       isError: true,
       messages: [message],
