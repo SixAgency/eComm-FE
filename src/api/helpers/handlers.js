@@ -108,11 +108,13 @@ function setAddressResponse(data) {
   let resp;
   if (data && data.id) {
     resp = {
+      isLoaded: true,
       isEmpty: false,
       address: data,
     };
   } else {
     resp = {
+      isLoaded: true,
       isEmpty: true,
       address: {},
     };
@@ -205,9 +207,11 @@ function setAddressesResponse(data) {
   let resp;
   if (!data.isError) {
     resp = {
+      isError: false,
       billing: setAddressResponse(data.bill_address),
       shipping: setAddressResponse(data.ship_address),
       addresses: {
+        isLoaded: true,
         isEmpty: data.owner_address.length === 0,
         addresses: data.owner_address,
       },
@@ -217,10 +221,12 @@ function setAddressesResponse(data) {
       isError: true,
       messages: [data.message],
       billing: {
+        isLoaded: true,
         isEmpty: true,
         address: {},
       },
       shipping: {
+        isLoaded: true,
         isEmpty: true,
         address: {},
       },

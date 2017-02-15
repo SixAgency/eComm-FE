@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
-import { setCartState, setPayment } from './checkout';
+import { setPayment, setShipping, setBilling } from './checkout';
 
+
+/**
+ * Helper
+ */
 /**
  * Helper - Empty Cart
  * @returns {{type: string, payload: {isEmpty: boolean, isLoaded: boolean, cart: {}}}}
@@ -79,7 +83,10 @@ function getCart() {
     axios.get('/api/cart')
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
-        dispatch(setCartState(response.data.cart.state));
+        const addresses = getCartAddresses(response.data);
+        dispatch(setBilling(addresses.billing));
+        dispatch(setShipping(addresses.shipping));
+        // dispatch(setCartState(response.data.cart.state));
         const isPayPal = (response.data.cart.state !== 'cart' && response.data.cart.payments.length > 0);
         dispatch(setPayment(isPayPal));
       }, () => {

@@ -191,6 +191,7 @@ function createAddressNew(data, message, callback) {
     const valid = validateMandatoryFieldsAddress(data.address);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
+      dispatch(setLoader(false));
     } else {
       axios.post('/api/addresses', { data })
         .then((response) => checkResponse(response.data, () => {

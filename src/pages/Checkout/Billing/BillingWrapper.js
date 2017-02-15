@@ -10,8 +10,9 @@ import Billing from './Billing';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getCart, applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
-import { getCheckoutBilling, setCheckoutBilling } from '../../../actions/checkout';
+import { setBilling } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
+import { getAddress, createAddressNew } from '../../../actions/address';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -22,8 +23,13 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
-    getCheckoutBilling: (loggedIn, cart) => dispatch(getCheckoutBilling(loggedIn, cart)),
-    setCheckoutBilling: (address) => dispatch(setCheckoutBilling(address))
+    getAddress: () => dispatch(getAddress()),
+    setBilling: (id) => dispatch(setBilling(id)),
+    createAddress: (data, message, callback) => dispatch(createAddressNew(
+      data,
+      message,
+      callback,
+    )),
   }
 ));
 
@@ -31,7 +37,8 @@ const mapStateToProps = ((state) => (
   {
     cartState: state.checkout.cartState,
     cartItems: state.cart.cartItems,
-    billing: state.checkout.billing,
+    billing: state.address.billing,
+    addresses: state.address.addresses,
     loggedIn: state.user.loggedIn,
     emailAddress: state.user.emailAddress,
     messages: state.page.messages,
@@ -53,17 +60,18 @@ class BillingWrapper extends BasePageComponent {
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
     billing: PropTypes.object.isRequired,
+    addresses: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
-    getCheckoutBilling: PropTypes.func.isRequired,
-    setCheckoutBilling: PropTypes.func.isRequired,
-    route: PropTypes.object
+    getAddress: PropTypes.func.isRequired,
+    setBilling: PropTypes.func.isRequired,
+    route: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      content: 'billing',
+      content: 'list',
       showCouponFields: false,
       couponClassName: 'hide',
       showLoginFields: false,
@@ -72,22 +80,20 @@ class BillingWrapper extends BasePageComponent {
   }
 
   componentWillMount = () => {
+    const { isLoaded, isEmpty } = this.props.addresses;
+    if (isLoaded) {
+      const content = isEmpty ? 'form' : 'list';
+      this.setState({
+        content,
+      });
+    } else {
+      this.props.getAddress();
+    }
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.cartItems.isLoaded) {
-      this.props.getCart();
-    }
-    if (!this.props.billing.isLoaded && this.props.cartItems.isLoaded) {
-      const loggedIn = this.props.loggedIn;
-      const { cart } = this.props.cartItems;
-      this.props.getCheckoutBilling(loggedIn, cart);
-    }
-    if (this.props.cartItems.isEmpty) {
-      browserHistory.push('/cart');
-    }
   };
 
   componentDidMount = () => {
@@ -97,17 +103,17 @@ class BillingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const billingLoaded = nextProps.billing.isLoaded;
-    const cartLoaded = nextProps.cartItems.isLoaded;
-    if (!billingLoaded && cartLoaded) {
-      const loggedIn = this.props.loggedIn;
-      const { cart } = nextProps.cartItems;
-      this.props.getCheckoutBilling(loggedIn, cart);
-    }
-    if (cartLoaded && billingLoaded) {
+    const { isLoaded, isEmpty } = nextProps.addresses;
+    if (isLoaded) {
+      if (!nextProps.isError) {
+        const content = isEmpty ? 'form' : 'list';
+        this.setState({
+          content,
+        });
+      }
       setTimeout(() => {
         this.props.toggleLoader(false);
-      }, 250);
+      }, 500);
     }
   };
 
@@ -170,34 +176,70 @@ class BillingWrapper extends BasePageComponent {
   };
 
   onSubmit = (data) => {
-    this.props.setCheckoutBilling(data);
+    console.log(data);
+    // this.props.setCheckoutBilling(data);
+  };
+
+  onFormSubmit = (address) => {
+    const data = {
+      address,
+    };
+    const message = 'Address created successfully.';
+    this.props.createAddress(data, message, () => {
+      this.setState({
+        content: 'list',
+      });
+    });
+  };
+
+  onFormCancel = () => {
+    window.scrollTo(0, 0);
+    this.setState({
+      content: 'list',
+    });
+  };
+
+  onCreate = () => {
+    window.scrollTo(0, 0);
+    this.setState({
+      content: 'form',
+    });
   };
 
   render() {
-    if (!this.props.billing.isLoaded) {
-      return null;
+    const showCancel = false;
+    if (this.props.cartItems.isLoaded &&
+      this.props.addresses.isLoaded) {
+      return (
+        <Billing
+          loggedIn={this.props.loggedIn}
+          onLogin={this.props.onLogin}
+          onLogout={this.props.onLogout}
+          handleGiftcard={this.handleGiftCard}
+          couponClass={this.state.couponClassName}
+          handleLogin={this.handleLogin}
+          loginClass={this.state.loginClassName}
+          clickTab={this.clickTab}
+          isActive="billing"
+          messages={this.props.messages}
+          isError={this.props.isError}
+          applyPromoCode={this.props.applyPromoCode}
+          contentTabs={CHECKOUT_TABS}
+          address={this.state.selectedAddress}
+          addresses={this.props.addresses.addresses}
+          onSubmit={this.onSubmit}
+          onFormSubmit={this.onFormSubmit}
+          onCreate={this.onCreate}
+          onCancel={this.onCancel}
+          onFormCancel={this.onFormCancel}
+          showCancel={showCancel}
+          emailAddress={this.props.emailAddress}
+          content={this.state.content}
+          breadcrumbs={this.props.route.breadcrumbs}
+        />
+      );
     }
-    return (
-      <Billing
-        loggedIn={this.props.loggedIn}
-        onLogin={this.props.onLogin}
-        onLogout={this.props.onLogout}
-        handleGiftcard={this.handleGiftCard}
-        couponClass={this.state.couponClassName}
-        handleLogin={this.handleLogin}
-        loginClass={this.state.loginClassName}
-        clickTab={this.clickTab}
-        content={this.state.content}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        applyPromoCode={this.props.applyPromoCode}
-        contentTabs={CHECKOUT_TABS}
-        billingAddress={this.props.billing.address}
-        onSubmit={this.onSubmit}
-        emailAddress={this.props.emailAddress}
-        breadcrumbs={this.props.route.breadcrumbs}
-      />
-    );
+    return null;
   }
 }
 

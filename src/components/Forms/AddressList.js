@@ -13,7 +13,8 @@ class AddressList extends React.Component {
     addresses: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired
+    onCancel: PropTypes.func,
+    showCancel: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -34,6 +35,18 @@ class AddressList extends React.Component {
     this.props.onSubmit(this.state.selected);
   };
 
+  showCancel = () => {
+    if (this.props.showCancel) {
+      return (<input
+        className={cx(s.submit, s.cancel)}
+        type="button"
+        value="Cancel"
+        onClick={this.props.onCancel}
+      />);
+    }
+    return null;
+  };
+
   render() {
     return (
       <div className={s.cformcontent}>
@@ -48,12 +61,7 @@ class AddressList extends React.Component {
           />
           <div className={s.buttonwrapper}>
             <input className={s.submit} type="submit" value={this.props.buttonText} />
-            <input
-              className={cx(s.submit, s.cancel)}
-              type="button"
-              value="Cancel"
-              onClick={this.props.onCancel}
-            />
+            { this.showCancel() }
           </div>
         </form>
       </div>

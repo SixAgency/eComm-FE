@@ -7,9 +7,10 @@ import CtaInfo from '../../../components/CartCta/CtaInfo';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import ContentWrapper from '../../../components/ContentWrapper';
 // Forms and inputs
-import BillingForm from '../../../components/Forms/Checkout/BillingForm';
 import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
 import LoginInput from '../../../components/LoginInput/LoginInput';
+import AddressList from '../../../components/Forms/AddressList';
+import AddressForm from '../../../components/Forms/AddressForm';
 
 class Billing extends React.Component {
 
@@ -22,31 +23,68 @@ class Billing extends React.Component {
     handleLogin: PropTypes.func.isRequired,
     loginClass: PropTypes.string.isRequired,
     clickTab: PropTypes.func.isRequired,
-    content: PropTypes.string.isRequired,
+    isActive: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
     contentTabs: PropTypes.array.isRequired,
-    billingAddress: PropTypes.object.isRequired,
+    address: PropTypes.number.isRequired,
+    addresses: PropTypes.array.isRequired,
     emailAddress: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    onFormSubmit: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onFormCancel: PropTypes.func.isRequired,
+    showCancel: PropTypes.bool.isRequired,
+    content: PropTypes.string.isRequired,
+    breadcrumbs: PropTypes.array.isRequire,
+  };
+
+  getContent = () => {
+    if (this.props.content === 'form') {
+      const address = {
+        firstname: '',
+        lastname: '',
+        company: '',
+        phone: '',
+        address1: '',
+        address2: '',
+        city: '',
+        state_id: 0,
+        zipcode: '',
+      };
+      const showEmailPhone = true;
+      return (
+        <AddressForm
+          formTitle={'Create Address'}
+          formSubtitle={'Fulfill your details'}
+          showEmailPhone={showEmailPhone}
+          buttonText={'save address'}
+          selectClass={'checkoutselect'}
+          emailAddress={this.props.emailAddress}
+          address={address}
+          onSubmit={this.props.onFormSubmit}
+          onCancel={this.props.onFormCancel}
+        />
+      );
+    }
+    const showCancel = false;
+    return (
+      <AddressList
+        formTitle="Billing Address"
+        formSubtitle="Set the billing address"
+        buttonText="Proceed"
+        address={this.props.address}
+        addresses={this.props.addresses}
+        onSubmit={this.props.onSubmit}
+        onCreate={this.props.onCreate}
+        showCancel={showCancel}
+      />
+    );
   };
 
   render() {
-    const showEmailPhone = true;
-    const address = this.props.billingAddress || {
-      id: 0,
-      firstname: '',
-      lastname: '',
-      company: '',
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state_id: 0,
-      zipcode: ''
-    };
     return (
       <section className={s.page}>
         <Subnav
@@ -87,18 +125,9 @@ class Billing extends React.Component {
           tabs={this.props.contentTabs}
           tabsClass="show"
           clickTab={this.props.clickTab}
-          isActive={this.props.content}
+          isActive={this.props.isActive}
         >
-          <BillingForm
-            formTitle="billing address"
-            formSubtitle="Change your details"
-            showEmailPhone={showEmailPhone}
-            buttonText="save address"
-            selectClass="checkoutselect"
-            emailAddress={this.props.emailAddress}
-            address={address}
-            onSubmit={this.props.onSubmit}
-          />
+          { this.getContent() }
         </ContentWrapper>
       </section>
     );

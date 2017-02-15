@@ -6,16 +6,14 @@ import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 class BillingWrapper extends React.Component {
 
   static propTypes = {
-    cartState: PropTypes.string.isRequired,
-    cartItems: PropTypes.object.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-    billing: PropTypes.object.isRequired,
+    selectedAddress: PropTypes.number.isRequired,
+    addresses: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
     breadcrumbs: PropTypes.array
   };
@@ -42,6 +40,8 @@ class BillingWrapper extends React.Component {
   }
 
   onSubmit = () => (true);
+  onCreate = () => (true);
+  onCancel = () => (true);
 
   getContentTabs = () => {
     const contentTabs = [
@@ -98,17 +98,6 @@ class BillingWrapper extends React.Component {
   };
 
   render() {
-    const address = this.props.billing.address || {
-      firstname: '',
-      lastname: '',
-      company: '',
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state_id: 0,
-      zipcode: ''
-    };
     return (
       <Billing
         loggedIn={this.props.loggedIn}
@@ -124,8 +113,11 @@ class BillingWrapper extends React.Component {
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
         contentTabs={CHECKOUT_TABS}
-        billingAddress={address}
+        address={this.props.selectedAddress}
+        addresses={this.props.addresses.addresses}
         onSubmit={this.onSubmit}
+        onCancel={this.onCancel}
+        onCreate={this.onCreate}
         emailAddress={this.props.emailAddress}
         breadcrumbs={this.props.breadcrumbs}
       />

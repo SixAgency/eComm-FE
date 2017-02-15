@@ -28,7 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     createAddress: (address, message, callback) => dispatch(createAddressNew(
       address,
       message,
-      callback
+      callback,
     )),
     resetMessages: () => dispatch(resetMessages()),
   }

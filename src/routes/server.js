@@ -533,11 +533,10 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getCart(req)
         .then((cart) => handleError(cart, resp, () => {
-          getCheckoutBilling(req, user.user.loggedIn, cart.cart.bill_address)
-            .then((address) => handleError(address, resp, () => {
-              if (typeof cart.line_items === 'undefined') {
-                resp.redirect('/cart');
-              } else {
+          getAddresses(req)
+            .then((addresses) => handleError(addresses, resp, () => {
+              const address = getCheckoutBilling(cart, addresses);
+              if (address) {
                 const params = {
                   title: 'checkout',
                   description: '',
@@ -547,10 +546,14 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
                     cartState={cart.cart.state}
                     cartItems={cart}
                     loggedIn={user.user.loggedIn}
-                    billing={address}
-                  />
+                    selectedAddress={address}
+                    addresses={addresses.addresses}
+                    breadcrumbs={BREADCRUMBS.checkout}
+                  />,
                 };
                 handleRoutes(req, resp, next, params);
+              } else {
+                resp.redirect('/checkout/address/billing');
               }
             }))
             .catch((err) => {
