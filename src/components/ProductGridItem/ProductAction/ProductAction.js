@@ -9,6 +9,7 @@ class ProductAction extends React.Component {
     text: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     action: PropTypes.func.isRequired,
+    buttonclass: PropTypes.string,
   }
 
   static defaultProps = {
@@ -19,7 +20,7 @@ class ProductAction extends React.Component {
   render() {
     return (
       <Link
-        className={cx(s.button, s.select)}
+        className={cx(s.button, s.select, s[this.props.buttonclass])}
         to={this.props.link}
         onClick={this.props.action}
       >

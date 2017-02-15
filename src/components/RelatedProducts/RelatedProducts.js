@@ -23,6 +23,7 @@ class RelatedProducts extends React.Component {
           nameclass="rname"
           catclass="rcat"
           addToCart={this.props.addToCart}
+          buttonclass="rbutton"
         />
       </div>
     );
