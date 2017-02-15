@@ -21,7 +21,7 @@ export default function reducer(state = {
         ...state,
         billing: action.payload.billing,
         shipping: action.payload.shipping,
-        addresses: action.payload.addresses
+        addresses: action.payload.addresses,
       };
     }
     case 'SET_BILLING': {
