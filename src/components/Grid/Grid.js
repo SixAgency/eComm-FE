@@ -12,6 +12,7 @@ class Grid extends React.Component {
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
+    buttonclass: PropTypes.string,
   }
   render() {
     const { isLoaded, products } = this.props.gridItems;
@@ -28,6 +29,7 @@ class Grid extends React.Component {
                 priceclass={this.props.priceclass}
                 nameclass={this.props.nameclass}
                 catclass={this.props.catclass}
+                buttonclass={this.props.buttonclass}
                 addToCart={this.props.addToCart}
               />
             </li>

@@ -13,6 +13,7 @@ class ProductGridItem extends React.Component {
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
+    buttonclass: PropTypes.string,
   }
 
   addToCart = (event) => {
@@ -76,11 +77,12 @@ class ProductGridItem extends React.Component {
               </h5>
             </Link>
             <div className={s.buttons}>
-              <Link className={cx(s.button, s.view)} to={`/product/${product.slug}`}>View</Link>
+              <Link className={cx(s.button, s.view, s[this.props.buttonclass])} to={`/product/${product.slug}`}>View</Link>
               <ProductAction
                 text={actionProperties.text}
                 link={actionProperties.link}
                 action={actionProperties.action}
+                buttonclass={this.props.buttonclass}
               />
             </div>
           </div>
