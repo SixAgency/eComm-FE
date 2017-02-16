@@ -2,6 +2,7 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
 import { setPayment, setShipping, setBilling } from './checkout';
+import getCartAddresses from '../helpers/feed';
 
 
 /**

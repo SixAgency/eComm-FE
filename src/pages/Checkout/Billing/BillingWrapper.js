@@ -35,9 +35,7 @@ const mapDispatchToProps = ((dispatch) => (
 
 const mapStateToProps = ((state) => (
   {
-    cartState: state.checkout.cartState,
-    cartItems: state.cart.cartItems,
-    billing: state.address.billing,
+    billing: state.checkout.billing,
     addresses: state.address.addresses,
     loggedIn: state.user.loggedIn,
     emailAddress: state.user.emailAddress,
@@ -51,7 +49,6 @@ class BillingWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    cartState: PropTypes.string.isRequired,
     getCart: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
@@ -61,7 +58,6 @@ class BillingWrapper extends BasePageComponent {
     applyPromoCode: PropTypes.func.isRequired,
     billing: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
-    cartItems: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
     getAddress: PropTypes.func.isRequired,
     setBilling: PropTypes.func.isRequired,
@@ -81,6 +77,8 @@ class BillingWrapper extends BasePageComponent {
 
   componentWillMount = () => {
     const { isLoaded, isEmpty } = this.props.addresses;
+    const selectedLoaded = this.props.billing.isLoaded;
+    const isSet = this.props.billing.isSet;
     if (isLoaded) {
       const content = isEmpty ? 'form' : 'list';
       this.setState({
@@ -88,6 +86,11 @@ class BillingWrapper extends BasePageComponent {
       });
     } else {
       this.props.getAddress();
+    }
+    if (selectedLoaded) {
+      if (!isSet) {
+
+      }
     }
     const props = {
       headerClass: 'colored',

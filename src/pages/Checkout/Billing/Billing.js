@@ -75,7 +75,7 @@ class Billing extends React.Component {
         formTitle="Billing Address"
         formSubtitle="Set the billing address"
         buttonText="Proceed"
-        address={this.props.address}
+        selectedId={this.props.address}
         addresses={this.props.addresses}
         onSubmit={this.props.onSubmit}
         onCreate={this.props.onCreate}

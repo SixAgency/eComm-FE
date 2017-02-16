@@ -8,12 +8,12 @@ export default function reducer(state = {
   billing: {
     isSet: false,
     isEmpty: true,
-    address: {},
+    address: 0,
   },
   shipping: {
     isSet: false,
     isEmpty: true,
-    address: {},
+    address: 0,
   },
 }, action) {
   switch (action.type) {
