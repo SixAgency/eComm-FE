@@ -536,25 +536,21 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
           getAddresses(req)
             .then((addresses) => handleError(addresses, resp, () => {
               const address = getCheckoutBilling(cart, addresses);
-              if (address) {
-                const params = {
-                  title: 'checkout',
-                  description: '',
-                  header: 'default',
-                  active: '/',
-                  content: <BillingCheckout
-                    cartState={cart.cart.state}
-                    cartItems={cart}
-                    loggedIn={user.user.loggedIn}
-                    selectedAddress={address}
-                    addresses={addresses.addresses}
-                    breadcrumbs={BREADCRUMBS.checkout}
-                  />,
-                };
-                handleRoutes(req, resp, next, params);
-              } else {
-                resp.redirect('/checkout/address/billing');
-              }
+              const params = {
+                title: 'checkout',
+                description: '',
+                header: 'default',
+                active: '/',
+                content: <BillingCheckout
+                  cartState={cart.cart.state}
+                  cartItems={cart}
+                  loggedIn={user.user.loggedIn}
+                  selectedAddress={address}
+                  addresses={addresses.addresses}
+                  breadcrumbs={BREADCRUMBS.checkout}
+                />,
+              };
+              handleRoutes(req, resp, next, params);
             }))
             .catch((err) => {
               conslog('ERROR', err);

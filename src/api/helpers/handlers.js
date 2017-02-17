@@ -202,6 +202,16 @@ function setUserResponse(request) {
   });
 }
 
+function setDefaultAddresses(addresses, billing, shipping) {
+  const billingId = billing ? billing.id : 0;
+  const shippingId = shipping ? shipping.id : 0;
+  addresses.forEach((address) => {
+    address.isBilling = address.id === billingId; // eslint-disable-line no-param-reassign
+    address.isShipping = address.id === shippingId; // eslint-disable-line no-param-reassign
+  });
+  return addresses;
+}
+
 // Format User Addresses Response
 function setAddressesResponse(data) {
   let resp;
@@ -213,7 +223,7 @@ function setAddressesResponse(data) {
       addresses: {
         isLoaded: true,
         isEmpty: data.owner_address.length === 0,
-        addresses: data.owner_address,
+        addresses: setDefaultAddresses(data.owner_address, data.bill_address, data.ship_address),
       },
     };
   } else {

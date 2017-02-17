@@ -41,7 +41,8 @@ class BillingWrapper extends React.Component {
 
   onSubmit = () => (true);
   onCreate = () => (true);
-  onCancel = () => (true);
+  onFormCancel = () => (true);
+  onFormSubmit = () => (true);
 
   getContentTabs = () => {
     const contentTabs = [
@@ -98,6 +99,7 @@ class BillingWrapper extends React.Component {
   };
 
   render() {
+    const showCancel = false;
     return (
       <Billing
         loggedIn={this.props.loggedIn}
@@ -113,11 +115,14 @@ class BillingWrapper extends React.Component {
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
         contentTabs={CHECKOUT_TABS}
-        address={this.props.selectedAddress}
+        isActive="billing"
+        selectedAddress={this.props.selectedAddress}
         addresses={this.props.addresses.addresses}
         onSubmit={this.onSubmit}
-        onCancel={this.onCancel}
+        onFormCancel={this.onFormCancel}
+        onFormSubmit={this.onFormSubmit}
         onCreate={this.onCreate}
+        showCancel={showCancel}
         emailAddress={this.props.emailAddress}
         breadcrumbs={this.props.breadcrumbs}
       />

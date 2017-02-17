@@ -23,17 +23,17 @@ function setPayment(isPayPal) {
 
 function setBilling(id) {
   const address = {
-    isSet: true,
-    isEmpty: id !== null,
+    isLoaded: true,
+    isSet: id !== null,
     address: id,
   };
-  return { type: 'SET_CHECKOUT_BILLING', payload: { ...address, isLoaded: true } };
+  return { type: 'SET_CHECKOUT_BILLING', payload: address };
 }
 
 function setShipping(id) {
   const address = {
-    isSet: true,
-    isEmpty: id !== null,
+    isLoaded: true,
+    isSet: id !== null,
     address: id,
   };
   return { type: 'SET_CHECKOUT_SHIPPING', payload: { ...address, isLoaded: true } };

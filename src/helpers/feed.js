@@ -1,7 +1,7 @@
 function getCartAddresses(cart) {
   const addresses = {
-    billing: 0,
-    shipping: 0,
+    billing: null,
+    shipping: null,
   };
 
   if (!cart.isEmpty && (cart.state !== 'cart' || cart.state !== 'address')) {

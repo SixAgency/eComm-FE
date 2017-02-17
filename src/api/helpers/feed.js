@@ -5,7 +5,7 @@ function getCheckoutBilling(cart, addresses) {
   if ((cart.cart.state !== 'cart' || cart.cart.state !== 'address')) {
     const { isEmpty } = addresses.billing.isEmpty;
     if (isEmpty) {
-      return null;
+      return 0;
     }
     return addresses.billing.address.id;
   }

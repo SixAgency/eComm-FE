@@ -28,13 +28,12 @@ class Billing extends React.Component {
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
     contentTabs: PropTypes.array.isRequired,
-    address: PropTypes.number.isRequired,
+    selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
     emailAddress: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
     onFormCancel: PropTypes.func.isRequired,
     showCancel: PropTypes.bool.isRequired,
     content: PropTypes.string.isRequired,
@@ -75,7 +74,7 @@ class Billing extends React.Component {
         formTitle="Billing Address"
         formSubtitle="Set the billing address"
         buttonText="Proceed"
-        selectedId={this.props.address}
+        address={this.props.selectedAddress}
         addresses={this.props.addresses}
         onSubmit={this.props.onSubmit}
         onCreate={this.props.onCreate}

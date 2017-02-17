@@ -76,21 +76,20 @@ class BillingWrapper extends BasePageComponent {
   }
 
   componentWillMount = () => {
-    const { isLoaded, isEmpty } = this.props.addresses;
-    const selectedLoaded = this.props.billing.isLoaded;
-    const isSet = this.props.billing.isSet;
-    if (isLoaded) {
-      const content = isEmpty ? 'form' : 'list';
+    if (this.props.addresses.isLoaded) {
+      const content = this.props.addresses.isEmpty ? 'form' : 'list';
       this.setState({
         content,
       });
     } else {
       this.props.getAddress();
     }
-    if (selectedLoaded) {
-      if (!isSet) {
-
+    if (this.props.billing.isLoaded) {
+      if (this.props.addresses.isLoaded && !this.props.addresses.isSet) {
+        this.setBillingFromAddresses(this.props.addresses);
       }
+    } else {
+      this.props.getCart();
     }
     const props = {
       headerClass: 'colored',
@@ -106,23 +105,31 @@ class BillingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { isLoaded, isEmpty } = nextProps.addresses;
-    if (isLoaded) {
-      if (!nextProps.isError) {
-        const content = isEmpty ? 'form' : 'list';
-        this.setState({
-          content,
-        });
+    if (nextProps.addresses.isLoaded && nextProps.billing.isLoaded) {
+      if (nextProps.billing.isSet) {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 500);
+      } else {
+        this.setBillingFromAddresses(nextProps.addresses);
       }
-      setTimeout(() => {
-        this.props.toggleLoader(false);
-      }, 500);
     }
   };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
+  };
+
+  setBillingFromAddresses = (addresses) => {
+    let billingId;
+    if (addresses.isEmpty) {
+      billingId = 0;
+    } else {
+      const billing = addresses.addresses.filter((item) => (item.isBilling));
+      billingId = billing[0] || 0;
+    }
+    this.props.setBilling(billingId);
   };
 
   clickTab = (e) => {
@@ -211,8 +218,7 @@ class BillingWrapper extends BasePageComponent {
 
   render() {
     const showCancel = false;
-    if (this.props.cartItems.isLoaded &&
-      this.props.addresses.isLoaded) {
+    if (this.props.addresses.isLoaded && this.props.billing.isLoaded && this.props.billing.isSet) {
       return (
         <Billing
           loggedIn={this.props.loggedIn}
@@ -228,7 +234,7 @@ class BillingWrapper extends BasePageComponent {
           isError={this.props.isError}
           applyPromoCode={this.props.applyPromoCode}
           contentTabs={CHECKOUT_TABS}
-          address={this.state.selectedAddress}
+          selectedAddress={this.props.billing.address}
           addresses={this.props.addresses.addresses}
           onSubmit={this.onSubmit}
           onFormSubmit={this.onFormSubmit}
