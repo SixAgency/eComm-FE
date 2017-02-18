@@ -1,13 +1,13 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './ContactForm.css';
 
-class ContactForm extends React.Component {
+class ContactForm extends Component {
 
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -19,7 +19,7 @@ class ContactForm extends React.Component {
       message: '',
       nameError: 'hide',
       emailError: 'hide',
-      hasErrors: false,
+      hasErrors: false
     };
   }
 
@@ -34,8 +34,8 @@ class ContactForm extends React.Component {
             name: this.state.name,
             email: this.state.email,
             subject: this.state.subject,
-            message: this.state.message,
-          },
+            message: this.state.message
+          }
         };
         this.props.sendContact(data);
       }
@@ -47,23 +47,23 @@ class ContactForm extends React.Component {
       this.setState({
         nameError: 'show',
         emailError: 'show',
-        hasErrors: true,
+        hasErrors: true
       }, err);
     } else if (this.state.name === '') {
       this.setState({
         nameError: 'show',
-        hasErrors: true,
+        hasErrors: true
       }, err);
     } else if (this.state.email === '') {
       this.setState({
         emailError: 'show',
-        hasErrors: true,
+        hasErrors: true
       }, err);
     } else {
       this.setState({
         nameError: 'hide',
         emailError: 'hide',
-        hasErrors: false,
+        hasErrors: false
       }, err);
     }
   };

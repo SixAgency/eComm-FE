@@ -11,7 +11,7 @@ import sendContact from '../../actions/contact';
 const mapStateToProps = ((state) => (
   {
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
-    sendContact: (data) => dispatch(sendContact(data)),
+    sendContact: (data) => dispatch(sendContact(data))
   }
 ));
 
@@ -31,13 +31,13 @@ class ContactWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     sendContact: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
-    messages: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/contact',
+      activeSlug: '/contact'
     };
     this.props.setHeaderProps(props);
   }
