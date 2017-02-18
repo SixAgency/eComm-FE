@@ -48,4 +48,21 @@ function toggleLoader(toggle) {
   };
 }
 
-export { setHeaderProps, resetMessages, toggleLoader, setMessage, setLoader };
+/**
+ * Toggle mobile navigaion
+ * @param toggle - boolean
+ */
+function toggleMobileNavigation(toggle) {
+  return (dispatch) => {
+    dispatch({ type: 'TOGGLE_MOBILE_NAV', payload: toggle });
+  };
+}
+
+export {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader,
+  setMessage,
+  setLoader,
+  toggleMobileNavigation
+};

@@ -20,7 +20,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
-//Checkout
+// Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
 import PromoCheckout from '../pages/Checkout/Promo';
@@ -28,6 +28,7 @@ import ReviewCheckout from '../pages/Checkout/Review';
 
 function onChange() {
   window.scrollTo(0, 0);
+  console.log('route change');
 }
 
 const routes = (
