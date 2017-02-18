@@ -5,6 +5,7 @@ import s from './Profile.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import EditAccountForm from '../../../components/Forms/EditAccountForm';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class Edit extends Component {
 
@@ -13,7 +14,9 @@ class Edit extends Component {
     onLogout: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    onUpdateProfile: PropTypes.func.isRequired
+    onUpdateProfile: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   render() {
@@ -24,6 +27,7 @@ class Edit extends Component {
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
         />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass="hide">
           <EditAccountForm
             profile={this.props.profile}

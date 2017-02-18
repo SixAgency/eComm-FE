@@ -3,16 +3,18 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../../BasePageComponent';
-import Profile from '../Profile';
+import Password from './Password';
 
 // Action
-import { onLogout, getProfile, updateProfile } from '../../../../actions/user';
+import { onLogout, getProfile, updatePassword } from '../../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.userProfile.loggedIn,
     profile: state.userProfile.profile,
+    messages: state.page.messages,
+    isError: state.page.isError
   }
 ));
 
@@ -23,7 +25,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     getProfile: () => dispatch(getProfile()),
-    updateProfile: (data) => dispatch(updateProfile(data)),
+    updatePassword: (data) => dispatch(updatePassword(data))
   }
 ));
 
@@ -35,8 +37,10 @@ class PasswordWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
-    updateProfile: PropTypes.func.isRequired,
+    updatePassword: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   componentWillMount = () => {
@@ -45,7 +49,7 @@ class PasswordWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.profile) {
@@ -66,11 +70,13 @@ class PasswordWrapper extends BasePageComponent {
 
   render() {
     return (
-      <Profile
+      <Password
         profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        onUpdateProfile={this.props.updateProfile}
+        onUpdatePassword={this.props.updatePassword}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

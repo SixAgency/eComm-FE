@@ -500,6 +500,11 @@
   color: #d0ff00;
 }
 
+.passwordlink {
+  color: #000000;
+  text-decoration: underline;
+}
+
 @media (max-width: 767px) and (min-width: 320px) {
   .cformcontent { margin-top: 0; }
   .submit {

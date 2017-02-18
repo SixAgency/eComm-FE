@@ -148,7 +148,6 @@ function getProfile() {
   return (dispatch) => {
     axios.get('/api/profile')
       .then((response) => checkResponse(response.data, () => {
-        // dispatch({ type: 'GET_PROFILE_SUCCESS', payload: response.data });
         dispatch(setProfile(response.data.profile));
         console.log('ajung aici', response);
       }, () => {
@@ -165,7 +164,7 @@ function updateProfile(data) {
   return (dispatch) => {
     axios.post('/api/profile', data)
       .then((response) => checkResponse(response.data, () => {
-        // dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: response.data });
+        dispatch(setMessage({ isError: false, messages: ['Account updated'] }));
         dispatch(setProfile(response.data));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -177,5 +176,20 @@ function updateProfile(data) {
   };
 }
 
+function updatePassword(data) {
+  return (dispatch) => {
+    axios.post('/api/profile/password', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setMessage({ isError: false, messages: ['Password updated'] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
 
-export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile };
+
+export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile, updatePassword };

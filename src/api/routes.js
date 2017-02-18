@@ -5,7 +5,9 @@ import { userLogin,
   userLogout,
   checkLogin,
   getProfile,
-  updateProfile } from './users';
+  updateProfile,
+  updatePassword,
+} from './users';
 import {
   getProducts,
   getProduct,
@@ -62,6 +64,9 @@ apiRoutes
   })
   .post('/profile', (req, resp) => {
     updateProfile(req).then((data) => resp.json(data));
+  })
+  .post('/profile/password', (req, resp) => {
+    updatePassword(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES

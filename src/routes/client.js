@@ -39,11 +39,18 @@ const routes = (
     <IndexRoute component={HomeWrapper} title="Shop" />
     <Route path="biography" component={BiographyWrapper} title="Biography" />
     <Route path="my-account">
+<<<<<<< 7bb71d7243c92bf3a658a8eac373b3405a178404
       <IndexRoute component={AccountWrapper} title="My Account" breadcrumbs={BREADCRUMBS.dashboard} />
       <Route path="dashboard" component={DashboardWrapper} title="My Account" breadcrumbs={BREADCRUMBS.dashboard} />
       <Route path="edit-account" component={ProfileWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount}>
         <Route path="password" component={PasswordWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount} />
       </Route>
+=======
+      <IndexRoute component={AccountWrapper} title="My Account" />
+      <Route path="dashboard" component={DashboardWrapper} title="My Account" />
+      <Route path="edit-account" component={ProfileWrapper} title="Edit Account" />
+      <Route path="edit-password" component={PasswordWrapper} title="Edit Account" />
+>>>>>>> Implement password update
       <Route path="address">
         <Route path="create/:type" component={CreateAddress} title="Create Address" />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" breadcrumbs={BREADCRUMBS.addresses} />

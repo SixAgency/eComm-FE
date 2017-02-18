@@ -374,7 +374,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
       resp.redirect('/error');
     });
 });
-siteRoutes.get('/my-account/edit-account/password', (req, resp, next) => {
+siteRoutes.get('/my-account/edit-password', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {

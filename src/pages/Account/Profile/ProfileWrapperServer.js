@@ -8,7 +8,9 @@ class ProfileWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    updateProfile: PropTypes.func.isRequired
+    updateProfile: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -27,6 +29,8 @@ class ProfileWrapper extends React.Component {
         profile={this.props.profile}
         onUpdateProfile={this.props.updateProfile}
         breadcrumbs={this.props.breadcrumbs}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

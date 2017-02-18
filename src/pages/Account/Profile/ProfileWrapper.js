@@ -12,7 +12,9 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.userProfile.loggedIn,
-    profile: state.userProfile.profile
+    profile: state.userProfile.profile,
+    messages: state.page.messages,
+    isError: state.page.isError
   }
 ));
 
@@ -37,7 +39,9 @@ class ProfileWrapper extends BasePageComponent {
     route: PropTypes.object,
     getProfile: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   componentWillMount = () => {
@@ -73,6 +77,8 @@ class ProfileWrapper extends BasePageComponent {
         onLogout={this.props.onLogout}
         onUpdateProfile={this.props.updateProfile}
         breadcrumbs={this.props.route.breadcrumbs}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }
