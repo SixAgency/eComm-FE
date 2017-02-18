@@ -55,7 +55,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const headerProps = {
     headerClass: 'colored',
     activeSlug: '/',
-  }
+  };
   const html = ReactDOM.renderToStaticMarkup(
     <Html
       title="Internal Server Error"
