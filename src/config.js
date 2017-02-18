@@ -14,7 +14,7 @@ export const analytics = {
 
 };
 
-export const api = process.env.API_URL || 'http://staging.ecomm.com';
+export const api = process.env.API_URL || 'http://api.krissorbie.com';
 // export const api = process.env.API_URL || 'http://localhost:8888';
 
 // export const faketoken = '5cc524ea3aebceb719386b73099f0d881f951fc1e64c9523';
