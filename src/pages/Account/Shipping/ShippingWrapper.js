@@ -17,7 +17,7 @@ const mapStateToProps = ((state) => (
     shipping: state.address.shipping,
     addresses: state.address.addresses,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -28,7 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     setDefaultAddress: (data, message) => dispatch(setDefaultAddress(data, message)),
     getAddress: () => dispatch(getAddress()),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -44,6 +44,7 @@ class ShippingWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     setDefaultAddress: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   componentWillMount = () => {
@@ -52,7 +53,7 @@ class ShippingWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.shipping.isLoaded || !this.props.addresses.isLoaded) {
@@ -95,9 +96,7 @@ class ShippingWrapper extends BasePageComponent {
 
   onSubmit = (id) => {
     const address = {
-      default_ship_address: {
-        id,
-      },
+      default_ship_address: { id }
     };
     const message = 'Shipping Address updated successfully.';
     this.props.setDefaultAddress(address, message);
@@ -124,6 +123,7 @@ class ShippingWrapper extends BasePageComponent {
           onSubmit={this.onSubmit}
           onCancel={this.onCancel}
           onCreate={this.onCreate}
+          breadcrumbs={this.props.route.breadcrumbs}
         />
       );
     }

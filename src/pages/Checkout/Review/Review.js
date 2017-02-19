@@ -26,12 +26,17 @@ class Review extends React.Component {
     contentTabs: PropTypes.array.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

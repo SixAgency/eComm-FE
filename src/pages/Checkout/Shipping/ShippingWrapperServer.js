@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import Shipping from './Shipping';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
+
 class ShippingWrapper extends React.Component {
 
   static propTypes = {
@@ -15,6 +17,7 @@ class ShippingWrapper extends React.Component {
     applyPromoCode: PropTypes.func.isRequired,
     shipping: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
@@ -24,7 +27,7 @@ class ShippingWrapper extends React.Component {
     applyPromoCode: () => (true),
     emailAddress: '',
     messages: [],
-    isError: false,
+    isError: false
   };
 
   constructor(props) {
@@ -34,48 +37,17 @@ class ShippingWrapper extends React.Component {
       showCouponFields: false,
       couponClassName: 'hide',
       showLoginFields: false,
-      loginClassName: 'hide',
+      loginClassName: 'hide'
     };
   }
 
   onSubmit = () => (true);
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
-  };
-
   handleLogin = (e) => {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   };
 
@@ -83,19 +55,18 @@ class ShippingWrapper extends React.Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      className: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
   clickTab = (e) => {
     e.preventDefault();
     this.setState({
-      content: e.target.id,
+      content: e.target.id
     });
   };
 
   render() {
-    const contentTabs = this.getContentTabs();
     const address = this.props.shipping.address || {
       firstname: '',
       lastname: '',
@@ -105,7 +76,7 @@ class ShippingWrapper extends React.Component {
       address2: '',
       city: '',
       state_id: 0,
-      zipcode: '',
+      zipcode: ''
     };
     return (
       <Shipping
@@ -121,10 +92,11 @@ class ShippingWrapper extends React.Component {
         messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
         billingAddress={address}
         onSubmit={this.onSubmit}
         emailAddress={this.props.emailAddress}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

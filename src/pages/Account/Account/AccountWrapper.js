@@ -13,7 +13,7 @@ const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -24,7 +24,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onRegister: (data) => dispatch(onRegister(data)),
     resetMessages: () => dispatch(resetMessages()),
-    onLogout: (data) => dispatch(onLogout(data)),
+    onLogout: (data) => dispatch(onLogout(data))
   }
 ));
 
@@ -39,12 +39,13 @@ class AccountWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      content: 'blogin',
+      content: 'blogin'
     };
   }
 
@@ -54,7 +55,7 @@ class AccountWrapper extends BasePageComponent {
     } else {
       const props = {
         headerClass: 'colored',
-        activeSlug: '/my-account',
+        activeSlug: '/my-account'
       };
       this.props.setHeaderProps(props);
     }
@@ -85,7 +86,7 @@ class AccountWrapper extends BasePageComponent {
   clickTab = (event) => {
     event.preventDefault();
     this.setState({
-      content: event.target.id,
+      content: event.target.id
     });
   };
 
@@ -127,6 +128,7 @@ class AccountWrapper extends BasePageComponent {
         onRegister={this.onRegister}
         messages={this.props.messages}
         isError={this.props.isError}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

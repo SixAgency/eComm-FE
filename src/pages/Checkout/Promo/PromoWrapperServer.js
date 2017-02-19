@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import Promo from './Promo';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
+
 class PromoWrapper extends React.Component {
 
   static propTypes = {
@@ -11,6 +13,7 @@ class PromoWrapper extends React.Component {
     applyPromoCode: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
@@ -18,7 +21,7 @@ class PromoWrapper extends React.Component {
     onLogout: () => (true),
     applyPromoCode: () => (true),
     messages: [],
-    isError: false,
+    isError: false
   };
 
   constructor(props) {
@@ -26,47 +29,16 @@ class PromoWrapper extends React.Component {
     this.state = {
       content: 'promo',
       showCouponFields: false,
-      className: 'hide',
+      className: 'hide'
     };
   }
 
   onProceed: () => (true);
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
-  };
-
   clickTab = (e) => {
     e.preventDefault();
     this.setState({
-      content: e.target.id,
+      content: e.target.id
     });
   };
 
@@ -74,12 +46,11 @@ class PromoWrapper extends React.Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      className: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
   render() {
-    const contentTabs = this.getContentTabs();
     return (
       <Promo
         cartItems={this.props.cartItems}
@@ -90,8 +61,9 @@ class PromoWrapper extends React.Component {
         clickTab={this.clickTab}
         content={this.state.content}
         applyPromoCode={this.props.applyPromoCode}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
         onProceed={this.onProceed}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   checkOrders = () => {
@@ -35,7 +36,11 @@ class Dashboard extends React.Component {
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>
           <div className={s.dashboard}>

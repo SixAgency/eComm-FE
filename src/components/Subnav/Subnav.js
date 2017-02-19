@@ -6,11 +6,13 @@ import s from './Subnav.css';
 class Subnav extends React.Component {
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired
+    onLogout: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   }
 
   static defaultProps = {
-    onLogout: () => (true)
+    onLogout: () => (true),
+    breadcrumbs: []
   }
 
   getSubNavItems = () => {
@@ -44,13 +46,25 @@ class Subnav extends React.Component {
 
   render() {
     const subNavItem = this.getSubNavItems();
+    const { breadcrumbs } = this.props;
+    const breadcrumbsCount = breadcrumbs.length;
     return (
       <section className={s.subnav}>
-        <nav className={s.breadcrumbs}>
-          <Link to="/" className={s.innerlink}>Shop</Link>
-          <span className={s.divider}>/</span>
-          My Account
-        </nav>
+        {breadcrumbsCount > 0 ?
+          <nav className={s.breadcrumbs}>
+            {this.props.breadcrumbs.map((item, index) => {
+              if (item.url && index < breadcrumbsCount - 1) {
+                return (
+                  <span>
+                    <Link to={item.url} className={s.innerlink}>{item.label}</Link>
+                    <span className={s.divider}>/</span>
+                  </span>
+                );
+              }
+              return item.label;
+            })}
+          </nav> : null
+        }
         <ul className={s.subnavlist}>
           {subNavItem.map((v, k) => (
             <li key={k} className={s.subnavitem}>

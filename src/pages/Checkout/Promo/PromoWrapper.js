@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
 import Promo from './Promo';
 
@@ -18,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
+    applyPromoCode: (cart) => dispatch(applyPromoCode(cart))
   }
 ));
 
@@ -27,7 +28,7 @@ const mapStateToProps = ((state) => (
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -44,6 +45,7 @@ class PromoWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
@@ -51,14 +53,14 @@ class PromoWrapper extends BasePageComponent {
     this.state = {
       content: 'promo',
       showCouponFields: false,
-      couponClassName: 'hide',
+      couponClassName: 'hide'
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
@@ -85,37 +87,6 @@ class PromoWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
-  };
-
   clickTab = (e) => {
     e.preventDefault();
     const target = e.target.id;
@@ -126,7 +97,15 @@ class PromoWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
+    });
+  };
+
+  handleLogin = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLoginFields: !this.state.showLoginFields,
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   };
 
@@ -135,7 +114,6 @@ class PromoWrapper extends BasePageComponent {
   };
 
   render() {
-    const contentTabs = this.getContentTabs();
     return (
       <Promo
         cartItems={this.props.cartItems}
@@ -150,7 +128,9 @@ class PromoWrapper extends BasePageComponent {
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
         onProceed={this.onProceed}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
+        breadcrumbs={this.props.route.breadcrumbs}
+        handleLogin={this.handleLogin}
       />
     );
   }

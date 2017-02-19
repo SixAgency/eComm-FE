@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
 import Review from './Review';
 
@@ -22,7 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getAddress: () => dispatch(getAddress()),
-    completePayPal: () => dispatch(completePayPal()),
+    completePayPal: () => dispatch(completePayPal())
   }
 ));
 
@@ -35,7 +36,7 @@ const mapStateToProps = ((state) => (
     shipping: state.address.shipping,
     billing: state.address.billing,
     addresses: state.address.addresses,
-    isPayPal: state.checkout.isPayPal,
+    isPayPal: state.checkout.isPayPal
   }
 ));
 
@@ -58,6 +59,7 @@ class ReviewWrapper extends BasePageComponent {
     getAddress: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
@@ -67,14 +69,14 @@ class ReviewWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       message: PropTypes.string,
-      isError: PropTypes.bool,
+      isError: PropTypes.bool
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
@@ -107,37 +109,6 @@ class ReviewWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
-  };
-
   clickTab = (e) => {
     e.preventDefault();
     const target = e.target.id;
@@ -148,7 +119,7 @@ class ReviewWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -156,7 +127,7 @@ class ReviewWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   };
 
@@ -168,7 +139,6 @@ class ReviewWrapper extends BasePageComponent {
     if (!this.props.billing.isLoaded && !this.props.shipping.isLoaded && !addresses.isLoaded) {
       return null;
     }
-    const contentTabs = this.getContentTabs();
     return (
       <Review
         cartItems={this.props.cartItems}
@@ -185,9 +155,10 @@ class ReviewWrapper extends BasePageComponent {
         billingAddress={this.props.billing.address}
         shippingAddress={this.props.shipping.address}
         addresses={this.props.addresses.addresses}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

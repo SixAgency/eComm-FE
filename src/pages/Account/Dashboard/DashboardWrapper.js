@@ -49,6 +49,7 @@ class DashboardWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   componentWillMount = () => {
@@ -58,7 +59,7 @@ class DashboardWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.shipping.isLoaded && !this.props.billing.isLoaded) {
@@ -102,7 +103,7 @@ class DashboardWrapper extends BasePageComponent {
   render() {
     const addresses = {
       shippAddress: this.props.shipping,
-      billAddress: this.props.billing,
+      billAddress: this.props.billing
     };
     const orders = this.props.orders;
     return (
@@ -114,6 +115,7 @@ class DashboardWrapper extends BasePageComponent {
         orders={orders}
         messages={this.props.messages}
         isError={this.props.isError}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

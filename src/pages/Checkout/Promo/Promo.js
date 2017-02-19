@@ -25,12 +25,18 @@ class Promo extends React.Component {
     applyPromoCode: PropTypes.func.isRequired,
     onProceed: PropTypes.func.isRequired,
     contentTabs: PropTypes.array.isRequired,
+    breadcrumbs: PropTypes.array,
+    handleLogin: PropTypes.func.isRequired
   };
 
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

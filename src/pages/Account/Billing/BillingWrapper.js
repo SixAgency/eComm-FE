@@ -17,7 +17,7 @@ const mapStateToProps = ((state) => (
     billing: state.address.billing,
     addresses: state.address.addresses,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -28,7 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     setDefaultAddress: (data, message) => dispatch(setDefaultAddress(data, message)),
     getAddress: () => dispatch(getAddress()),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -44,6 +44,7 @@ class BillingWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     setDefaultAddress: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   componentWillMount = () => {
@@ -52,7 +53,7 @@ class BillingWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.billing.isLoaded || !this.props.addresses.isLoaded) {
@@ -95,9 +96,7 @@ class BillingWrapper extends BasePageComponent {
 
   onSubmit = (id) => {
     const address = {
-      default_bill_address: {
-        id,
-      },
+      default_bill_address: { id }
     };
     const message = 'Billing Address updated successfully.';
     this.props.setDefaultAddress(address, message);
@@ -127,6 +126,7 @@ class BillingWrapper extends BasePageComponent {
           onSubmit={this.onSubmit}
           onCancel={this.onCancel}
           onCreate={this.onCreate}
+          breadcrumbs={this.props.route.breadcrumbs}
         />
       );
     }

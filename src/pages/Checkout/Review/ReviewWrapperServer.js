@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import Review from './Review';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
+
 class ReviewWrapper extends React.Component {
 
   static propTypes = {
@@ -15,6 +17,7 @@ class ReviewWrapper extends React.Component {
     onLogin: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
@@ -26,7 +29,7 @@ class ReviewWrapper extends React.Component {
     completePayPal: () => (true),
     isPayPal: false,
     messages: [],
-    isError: false,
+    isError: false
   };
 
   constructor(props) {
@@ -34,45 +37,14 @@ class ReviewWrapper extends React.Component {
     this.state = {
       content: 'review',
       showCouponFields: false,
-      className: 'hide',
+      className: 'hide'
     };
   }
-
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
-  };
 
   clickTab = (e) => {
     e.preventDefault();
     this.setState({
-      content: e.target.id,
+      content: e.target.id
     });
   };
 
@@ -80,7 +52,7 @@ class ReviewWrapper extends React.Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      className: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -104,6 +76,7 @@ class ReviewWrapper extends React.Component {
         contentTabs={contentTabs}
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

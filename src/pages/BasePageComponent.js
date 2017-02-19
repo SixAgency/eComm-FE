@@ -3,7 +3,7 @@ import { PropTypes, Component } from 'react';
 class BasePageComponent extends Component {
 
   static propTypes = {
-    route: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired
   }
 
   constructor(props) {

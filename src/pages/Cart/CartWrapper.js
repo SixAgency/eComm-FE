@@ -16,7 +16,7 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
-    isError: state.cart.isError,
+    isError: state.cart.isError
   }
 ));
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
-    checkoutNext: (state) => dispatch(checkoutNext(state)),
+    checkoutNext: (state) => dispatch(checkoutNext(state))
   }
 ));
 
@@ -57,10 +57,11 @@ class CartWrapper extends BasePageComponent {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   static defaultProps = {
-    paypalObj: {},
+    paypalObj: {}
   };
 
   constructor(props) {
@@ -69,14 +70,14 @@ class CartWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       showLoginFields: false,
-      loginClassName: 'hide',
+      loginClassName: 'hide'
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/',
+      activeSlug: '/'
     };
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
@@ -116,7 +117,7 @@ class CartWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -124,7 +125,7 @@ class CartWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   };
 
@@ -140,14 +141,14 @@ class CartWrapper extends BasePageComponent {
     line_items.forEach((item, index) => {
       items[index] = {
         id: item.id,
-        quantity: item.quantity,
+        quantity: item.quantity
       };
     });
     const data = {
       id: cart.id,
       order: {
-        line_items: items,
-      },
+        line_items: items
+      }
     };
     this.props.updateCart(data);
   };
@@ -172,6 +173,7 @@ class CartWrapper extends BasePageComponent {
         paypalObj={this.props.paypalObj}
         checkoutPayPal={this.props.checkoutPayPal}
         checkoutNext={this.props.checkoutNext}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }
