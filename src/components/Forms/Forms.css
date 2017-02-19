@@ -164,6 +164,9 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
 }
 
 .inputcheck {
@@ -215,6 +218,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  border-radius: 0;
 }
 
 .radio {
@@ -498,10 +502,46 @@
 
 @media (max-width: 767px) and (min-width: 320px) {
   .cformcontent { margin-top: 0; }
-  .submit { border-radius: 5px; }
+  .submit {
+    width: 95%;
+    padding: 0;
+  }
   .pcodebtn { padding: 0 25px; }
   .paymentcontainer ul { padding-left: 0px; }
   .subtitlesmall { font-size: 14px; line-height: 23px; }
+  .buttonwrapper { margin-top: 0; }
+
+  .inputleft {
+    width: 100%;
+    float: none;
+  }
+
+  .inputright {
+    width: 100%;
+    float: none;
+  }
+
+  .selectwrapper {
+    position: relative;
+  }
+
+  .selectwrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 5px;
+    bottom: 12px;
+  }
+
+  .checkoutselect {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+
+  .radiowrapper {
+    width: 100%;
+    float: none;
+  }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 479px) {

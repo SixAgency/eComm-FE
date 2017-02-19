@@ -7,7 +7,7 @@ import { testPasswordStrength } from '../../helpers/validators';
 class RegForm extends React.Component {
 
   static propTypes = {
-    onRegister: PropTypes.func.isRequired,
+    onRegister: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -17,7 +17,7 @@ class RegForm extends React.Component {
       password: '',
       validInputs: true,
       messageClass: 'hide',
-      disabled: false,
+      disabled: false
     };
   }
 
@@ -31,26 +31,26 @@ class RegForm extends React.Component {
 
   onEmailChange = (event) => {
     this.setState({
-      email: event.target.value,
+      email: event.target.value
     });
   };
 
   onPassChange = (event) => {
     this.setState({
-      password: event.target.value,
+      password: event.target.value
     });
     const valid = testPasswordStrength(this.state.password);
     if (valid.isError) {
       this.setState({
         validInputs: false,
         messageClass: 'show',
-        disabled: true,
+        disabled: true
       });
     } else {
       this.setState({
         validInputs: true,
         messageClass: 'hide',
-        disabled: false,
+        disabled: false
       });
     }
   };
@@ -63,7 +63,7 @@ class RegForm extends React.Component {
         <form className={cx(s.form, s.register)} onSubmit={this.onSubmit}>
           <div className={s.inputwrapper}>
             <label className={s.label} htmlFor="email">Email Address <abbr>*</abbr></label>
-            <input id="email" type="text" name="email" className={s.input} onChange={this.onEmailChange} />
+            <input id="email" type="email" name="email" className={s.input} onChange={this.onEmailChange} />
           </div>
           <div className={s.inputwrapper}>
             <label className={s.label} htmlFor="password">Password <abbr>*</abbr></label>

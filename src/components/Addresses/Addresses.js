@@ -9,7 +9,7 @@ class Addresses extends React.Component {
 
   static propTypes = {
     shippAddress: PropTypes.object,
-    billAddress: PropTypes.object,
+    billAddress: PropTypes.object
   };
 
   getStateName = (id) => {

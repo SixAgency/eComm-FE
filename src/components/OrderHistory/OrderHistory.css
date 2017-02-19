@@ -19,11 +19,20 @@
     padding: 0 14px 65px 0;
   }
 }
+
 @media only screen and (max-width: 760px),
 (max-device-width: 1024px) and (min-device-width: 768px) {
   .shoptable {
     thead {
       display: none;
+    }
+  }
+}
+
+@media (max-width: 767px) and (min-width: 320px) {
+  .shoptable {
+    tbody td {
+      padding-bottom: 20px;
     }
   }
 }

@@ -13,19 +13,19 @@ class AddressList extends React.Component {
     addresses: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      selected: this.props.address,
+      selected: this.props.address
     };
   }
 
   onSelect = (e) => {
     this.setState({
-      selected: parseInt(e.target.value, 10),
+      selected: parseInt(e.target.value, 10)
     });
   };
 

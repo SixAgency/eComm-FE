@@ -27,7 +27,7 @@ class AddressInputs extends React.Component {
     onStateUpdate: PropTypes.func.isRequired,
     onZipUpdate: PropTypes.func.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
-    selectClass: PropTypes.string,
+    selectClass: PropTypes.string
   };
 
   showPhoneEmail = () => {
@@ -59,7 +59,7 @@ class AddressInputs extends React.Component {
             </label>
             <input
               id="phone"
-              type="text"
+              type="tel"
               name="phone"
               value={this.props.phoneNumber}
               className={s.input}
@@ -176,7 +176,7 @@ class AddressInputs extends React.Component {
             onChange={this.props.onCityUpdate}
           />
         </div>
-        <div className={cx(s.inputwrapper, s.inputleft)}>
+        <div className={cx(s.inputwrapper, s.inputleft, s.selectwrapper)}>
           <label
             className={s.label}
             htmlFor="state"
@@ -191,13 +191,12 @@ class AddressInputs extends React.Component {
             onChange={this.props.onStateUpdate}
           >
             <option value={''}>Select an option...</option>
-            {selections.map((state) => {
-              return (
-                <option value={state.id} key={state.id}>
-                  {state.name}
-                </option>
-              );
-            })}
+            {selections.map((state) => (
+              <option value={state.id} key={state.id}>
+                {state.name}
+              </option>
+              )
+            )}
           </select>
         </div>
         <div className={cx(s.inputwrapper, s.inputright)}>
@@ -209,7 +208,7 @@ class AddressInputs extends React.Component {
           </label>
           <input
             id="zip"
-            type="text"
+            type="number"
             name="zip"
             value={this.props.zip}
             className={s.input}

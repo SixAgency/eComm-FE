@@ -7,7 +7,7 @@ import s from './Forms.css';
 class LoginForm extends React.Component {
 
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -15,7 +15,7 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '',
-      remember: '0',
+      remember: '0'
     };
   }
 
@@ -26,19 +26,19 @@ class LoginForm extends React.Component {
 
   onUserChange = (event) => {
     this.setState({
-      email: event.target.value,
+      email: event.target.value
     });
   };
 
   onPassChange = (event) => {
     this.setState({
-      password: event.target.value,
+      password: event.target.value
     });
   };
 
   onToggleChange = (event) => {
     this.setState({
-      remember: event.target.checked ? '1' : '0',
+      remember: event.target.checked ? '1' : '0'
     });
   };
 
@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
         <form className={cx(s.form, s.login)} onSubmit={this.onSubmit}>
           <div className={s.inputwrapper}>
             <label className={s.label} htmlFor="email">Email Address <abbr>*</abbr></label>
-            <input id="email" type="text" name="email" className={s.input} onChange={this.onUserChange} />
+            <input id="email" type="email" name="email" className={s.input} onChange={this.onUserChange} />
           </div>
           <div className={s.inputwrapper}>
             <label className={s.label} htmlFor="password">Password <abbr>*</abbr></label>

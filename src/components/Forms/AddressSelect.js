@@ -8,12 +8,10 @@ class AddressSelect extends React.Component {
     addresses: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    address: PropTypes.number.isRequired,
+    address: PropTypes.number.isRequired
   };
 
-  getActive = (id) => {
-    return this.props.address === id;
-  };
+  getActive = (id) => (this.props.address === id);
 
   render() {
     return (
