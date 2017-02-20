@@ -348,3 +348,17 @@ table.customerdetails {
     padding-bottom: 20px;
   }
 }
+
+@media only screen and (max-width: 760px) {
+  .orderdetails,
+  .orderItem {
+    display: block;
+  }
+
+  .productname,
+  .producttotal {
+    display: block;
+    width: 88% !important;
+    padding-bottom: 0px !important;
+  }
+}

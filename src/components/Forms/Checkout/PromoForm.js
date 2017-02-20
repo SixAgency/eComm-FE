@@ -6,13 +6,13 @@ import s from './../Forms.css';
 class PromoCode extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    onProceed: PropTypes.func.isRequired,
+    onProceed: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      coupon_code: '',
+      coupon_code: ''
     };
   }
 
@@ -23,14 +23,14 @@ class PromoCode extends React.Component {
 
   handlePromoCode = (event) => {
     this.setState({
-      coupon_code: event.target.value,
+      coupon_code: event.target.value
     });
   };
 
   render() {
     return (
       <div className={s.cformcontent}>
-        <h1 className={s.title}>Promotional Code</h1>
+        <h1 className={cx(s.title, s.titlemobile)}>Promotional Code</h1>
         <h2 className={s.subtitle}>Forgot about your promotion?</h2>
         <form className={cx(s.form, s.form2)}>
           <div className={s.inputwrapper}>
@@ -45,7 +45,7 @@ class PromoCode extends React.Component {
           </div>
           <div className={s.buttonwrapper}>
             <input
-              className={cx(s.submit, s.pcodebtn)}
+              className={cx(s.submit, s.pcodebtnmobile)}
               type="submit"
               value="Apply promotional code"
               onClick={this.onSubmit}

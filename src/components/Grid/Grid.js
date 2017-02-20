@@ -12,7 +12,7 @@ class Grid extends React.Component {
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
-    buttonclass: PropTypes.string,
+    buttonclass: PropTypes.string
   }
   render() {
     const { isLoaded, products } = this.props.gridItems;

@@ -9,16 +9,16 @@ class Home extends React.Component {
 
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
-    addToCart: PropTypes.func.isRequired,
+    addToCart: PropTypes.func.isRequired
   }
   static defaultProps = {
-    addToCart: () => (true),
+    addToCart: () => (true)
   }
   render() {
     const heroText = {
       title: 'Now available the NEW',
       link: 'ks mannequin heads',
-      url: '/ks-mannequin-heads',
+      url: '/ks-mannequin-heads'
     };
     const bottomText = { subtitle: 'Shop Now' };
 
