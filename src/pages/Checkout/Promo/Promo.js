@@ -49,7 +49,7 @@ class Promo extends React.Component {
           loggedIn={this.props.loggedIn}
           toggleGiftcard={this.props.handleGiftcard}
           toggleLogin={this.props.handleLogin}
-          infoClass={'infocheckout'}
+          infoClass="infocheckout"
         />
         <section>
           <div className={s.giftCardwrpr}>

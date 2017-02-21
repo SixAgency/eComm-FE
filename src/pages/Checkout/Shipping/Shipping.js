@@ -84,16 +84,16 @@ class Shipping extends React.Component {
         </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
-          tabsClass={'show'}
+          tabsClass="show"
           clickTab={this.props.clickTab}
           isActive={this.props.content}
         >
           <ShippingForm
-            formTitle={'Shipping address'}
-            formSubtitle={'Change your details'}
+            formTitle="Shipping address"
+            formSubtitle="Change your details"
             showEmailPhone={showEmailPhone}
-            buttonText={'proceed'}
-            selectClass={'checkoutselect'}
+            buttonText="proceed"
+            selectClass="checkoutselect"
             emailAddress={this.props.emailAddress}
             address={address}
             onSubmit={this.props.onSubmit}

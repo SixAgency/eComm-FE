@@ -84,16 +84,16 @@ class Billing extends React.Component {
         </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
-          tabsClass={'show'}
+          tabsClass="show"
           clickTab={this.props.clickTab}
           isActive={this.props.content}
         >
           <BillingForm
-            formTitle={'billing address'}
-            formSubtitle={'Change your details'}
+            formTitle="billing address"
+            formSubtitle="Change your details"
             showEmailPhone={showEmailPhone}
-            buttonText={'save address'}
-            selectClass={'checkoutselect'}
+            buttonText="save address"
+            selectClass="checkoutselect"
             emailAddress={this.props.emailAddress}
             address={address}
             onSubmit={this.props.onSubmit}

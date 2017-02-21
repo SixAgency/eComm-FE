@@ -49,7 +49,7 @@ class Review extends React.Component {
         <CtaInfo
           loggedIn={this.props.loggedIn}
           toggleGiftcard={this.props.handleGiftcard}
-          infoClass={'infocheckout'}
+          infoClass="infocheckout"
         />
         <section>
           <div className={s.giftCardwrpr}>
@@ -71,7 +71,7 @@ class Review extends React.Component {
         </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
-          tabsClass={'show'}
+          tabsClass="show"
           clickTab={this.props.clickTab}
           isActive={this.props.content}
         >
