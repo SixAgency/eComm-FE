@@ -49,6 +49,7 @@ class Review extends React.Component {
         <CtaInfo
           loggedIn={this.props.loggedIn}
           toggleGiftcard={this.props.handleGiftcard}
+          toggleLogin={this.props.handleLogin}
           infoClass="infocheckout"
         />
         <section>

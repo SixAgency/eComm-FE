@@ -69,7 +69,9 @@ class ReviewWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       message: PropTypes.string,
-      isError: PropTypes.bool
+      isError: PropTypes.bool,
+      showLoginFields: false,
+      loginClassName: 'hide'
     };
   }
 
@@ -190,6 +192,8 @@ class ReviewWrapper extends BasePageComponent {
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}
         breadcrumbs={this.props.route.breadcrumbs}
+        loginClass={this.state.loginClassName}
+        handleLogin={this.handleLogin}
       />
     );
   }

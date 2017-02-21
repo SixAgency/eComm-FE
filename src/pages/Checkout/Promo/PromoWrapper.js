@@ -53,7 +53,9 @@ class PromoWrapper extends BasePageComponent {
     this.state = {
       content: 'promo',
       showCouponFields: false,
-      couponClassName: 'hide'
+      couponClassName: 'hide',
+      showLoginFields: false,
+      loginClassName: 'hide'
     };
   }
 
@@ -161,6 +163,7 @@ class PromoWrapper extends BasePageComponent {
         onProceed={this.onProceed}
         contentTabs={CHECKOUT_TABS}
         breadcrumbs={this.props.route.breadcrumbs}
+        loginClass={this.state.loginClassName}
         handleLogin={this.handleLogin}
       />
     );
