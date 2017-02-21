@@ -14,8 +14,7 @@ class ReviewOrderTbl extends React.Component {
 
   getStateName = (id) => {
     const selected = STATES.find((state) => (state.id === id));
-    const abbr = typeof selected !== 'undefined' ? selected.abbr : '';
-    return abbr;
+    return typeof selected !== 'undefined' ? selected.abbr : '';
   }
 
   handleShipping = (e) => {
@@ -42,8 +41,8 @@ class ReviewOrderTbl extends React.Component {
     const cart = this.props.cart;
     const shipments = cart.shipments;
     const adjustments = cart.adjustments;
-    const shipping = typeof this.props.shippingAddress !== 'undefined' ? this.props.shippingAddress : '';
-    const billing = typeof this.props.billingAddress !== 'undefined' ? this.props.billingAddress : '';
+    const shipping = typeof this.props.shippingAddress !== 'undefined' ? this.props.shippingAddress : {};
+    const billing = typeof this.props.billingAddress !== 'undefined' ? this.props.billingAddress : {};
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
