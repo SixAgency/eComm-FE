@@ -5,7 +5,7 @@ import {
   setError,
   setBraintreeResponse,
   setCartResponse,
-  setAddressCallBack,
+  setAddressCallBack
 } from './helpers/handlers';
 
 import { faketoken } from '../config';
@@ -17,8 +17,8 @@ function getBraintreeTokens(request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setBraintreeResponse(data))
@@ -33,8 +33,8 @@ function checkoutPayPal(request) {
       body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setCartResponse(data, request, () => (true)))
@@ -47,8 +47,8 @@ function checkoutNext(request) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setCartResponse(data, request, () => (true)))
@@ -57,7 +57,7 @@ function checkoutNext(request) {
 
 function checkoutAddress(request) {
   const order = {
-    order: request.body.order,
+    order: request.body.order
   };
   const isPayPal = request.body.isPayPal;
   return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}`,
@@ -66,8 +66,8 @@ function checkoutAddress(request) {
       body: JSON.stringify(order),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setAddressCallBack(request, data, isPayPal, checkoutNext))

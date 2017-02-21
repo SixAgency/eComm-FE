@@ -8,6 +8,8 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 import ContentWrapper from '../../../components/ContentWrapper';
 // Forms and inputs
 import PromoForm from '../../../components/Forms/Checkout/PromoForm';
+import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
+import LoginInput from '../../../components/LoginInput/LoginInput';
 
 
 class Promo extends React.Component {
@@ -18,6 +20,7 @@ class Promo extends React.Component {
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     handleGiftcard: PropTypes.func.isRequired,
+    handleLogin: PropTypes.func.isRequired,
     clickTab: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
@@ -26,7 +29,8 @@ class Promo extends React.Component {
     onProceed: PropTypes.func.isRequired,
     contentTabs: PropTypes.array.isRequired,
     breadcrumbs: PropTypes.array,
-    handleLogin: PropTypes.func.isRequired
+    couponClass: PropTypes.string.isRequired,
+    loginClass: PropTypes.string.isRequired
   };
 
   render() {
@@ -47,6 +51,24 @@ class Promo extends React.Component {
           toggleLogin={this.props.handleLogin}
           infoClass={'infocheckout'}
         />
+        <section>
+          <div className={s.giftCardwrpr}>
+            <GiftCardInput
+              toggleGiftcard={this.props.handleGiftcard}
+              infoClass={this.props.couponClass}
+            />
+          </div>
+          {!this.props.loggedIn &&
+            <div className={s.loginwrpr}>
+              <LoginInput
+                onLogin={this.props.onLogin}
+                toggleLogin={this.props.handleLogin}
+                infoClass={this.props.loginClass}
+                handleError={this.handleError}
+              />
+            </div>
+          }
+        </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
           tabsClass={'show'}

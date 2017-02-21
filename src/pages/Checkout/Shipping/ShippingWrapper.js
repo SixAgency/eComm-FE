@@ -138,6 +138,37 @@ class ShippingWrapper extends BasePageComponent {
     });
   };
 
+  getContentTabs = () => {
+    const contentTabs = [
+      {
+        name: 'Billing Address',
+        title: 'Billing Address',
+        cname: 'billing',
+        id: 'billing'
+      },
+      {
+        name: 'Shipping Address',
+        title: 'Shipping Address',
+        cname: 'shipping',
+        id: 'shipping'
+      },
+      {
+        name: 'Apply Promotional Code',
+        title: 'Apply Promotional Code',
+        cname: 'promocode',
+        id: 'promo'
+      },
+      {
+        name: 'Review Order',
+        title: 'Review Order',
+        cname: 'review',
+        id: 'review'
+      }
+    ];
+
+    return contentTabs;
+  };
+
   onSubmit = (shipping) => {
     this.props.toggleLoader(true);
     // const success = this.props.setCheckoutShipping(shipping);

@@ -8,7 +8,8 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 import ContentWrapper from '../../../components/ContentWrapper';
 // Forms and inputs
 import ShippingForm from '../../../components/Forms/Checkout/BillingForm';
-
+import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
+import LoginInput from '../../../components/LoginInput/LoginInput';
 
 class Shipping extends React.Component {
 
@@ -63,6 +64,24 @@ class Shipping extends React.Component {
           toggleLogin={this.props.handleLogin}
           infoClass={'infocheckout'}
         />
+        <section>
+          <div className={s.giftCardwrpr}>
+            <GiftCardInput
+              toggleGiftcard={this.props.handleGiftcard}
+              infoClass={this.props.couponClass}
+            />
+          </div>
+          {!this.props.loggedIn &&
+            <div className={s.loginwrpr}>
+              <LoginInput
+                onLogin={this.props.onLogin}
+                toggleLogin={this.props.handleLogin}
+                infoClass={this.props.loginClass}
+                handleError={this.handleError}
+              />
+            </div>
+          }
+        </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
           tabsClass={'show'}

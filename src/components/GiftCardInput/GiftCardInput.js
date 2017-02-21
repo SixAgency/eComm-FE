@@ -6,7 +6,7 @@ import s from './GiftCardInput.css';
 class GiftCardInput extends React.Component {
   static propTypes = {
     toggleGiftcard: PropTypes.func.isRequired,
-    infoClass: PropTypes.string.isRequired,
+    infoClass: PropTypes.string.isRequired
   };
 
   render() {
