@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -89,6 +90,9 @@ class ReviewWrapper extends BasePageComponent {
     const addresses = this.props.addresses;
     if (!shipping.isLoaded && !billing.isLoaded && !addresses.isLoaded) {
       this.props.getAddress();
+    }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
     }
   };
 

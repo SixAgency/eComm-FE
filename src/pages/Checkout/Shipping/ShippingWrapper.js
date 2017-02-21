@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -109,6 +110,9 @@ class ShippingWrapper extends BasePageComponent {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
+    }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
     }
   };
 

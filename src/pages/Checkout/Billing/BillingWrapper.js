@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -83,6 +84,9 @@ class BillingWrapper extends BasePageComponent {
       const loggedIn = this.props.loggedIn;
       const { cart } = this.props.cartItems;
       this.props.getCheckoutBilling(loggedIn, cart);
+    }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
     }
   };
 

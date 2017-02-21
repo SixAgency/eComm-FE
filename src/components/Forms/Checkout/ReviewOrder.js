@@ -8,7 +8,7 @@ class ReviewOrder extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    isPaypal: PropTypes.bool.isRequired,
+    isPaypal: PropTypes.bool.isRequired
   };
 
   checkoutPayPal = (e) => {

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -67,6 +68,9 @@ class PromoWrapper extends BasePageComponent {
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
       this.props.getCart();
+    }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
     }
   };
 
