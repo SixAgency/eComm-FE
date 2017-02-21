@@ -56,6 +56,7 @@ class Promo extends React.Component {
             <GiftCardInput
               toggleGiftcard={this.props.handleGiftcard}
               infoClass={this.props.couponClass}
+              applyPromoCode={this.props.applyPromoCode}
             />
           </div>
           {!this.props.loggedIn &&

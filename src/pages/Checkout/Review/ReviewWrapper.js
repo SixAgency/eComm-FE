@@ -113,6 +113,7 @@ class ReviewWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   getContentTabs = () => {

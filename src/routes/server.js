@@ -209,16 +209,12 @@ siteRoutes.get('/my-account', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
           content: <AccountWrapper
             {...data.user}
             isError={data.isError}
             messages={messages}
             breadcrumbs={BREADCRUMBS.dashboard}
           />
-=======
-          content: <AccountWrapper {...data.user} isError={data.isError} messages={messages} />
->>>>>>> Backend twicks
         };
         handleRoutes(req, resp, next, params);
       }
@@ -367,11 +363,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
           content: <ProfileWrapper {...data.user} breadcrumbs={BREADCRUMBS.editAccount} />
-=======
-          content: <ProfileWrapper {...data.user} />
->>>>>>> Backend twicks
         };
         handleRoutes(req, resp, next, params);
       }
@@ -517,15 +509,11 @@ siteRoutes.get('/cart', (req, resp, next) => {
             description: '',
             header: 'default',
             active: '/',
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
             content: <CartWrapper
               cartItems={cart}
               loggedIn={user.user.loggedIn}
               breadcrumbs={BREADCRUMBS.cart}
             />
-=======
-            content: <CartWrapper cartItems={cart} loggedIn={user.user.loggedIn} />
->>>>>>> Backend twicks
           };
           handleRoutes(req, resp, next, params);
         }))
@@ -547,22 +535,6 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
         .then((cart) => handleError(cart, resp, () => {
           getCheckoutBilling(req, user.user.loggedIn, cart.cart.bill_address)
             .then((address) => handleError(address, resp, () => {
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
-              const params = {
-                title: 'checkout',
-                description: '',
-                header: 'default',
-                active: '/',
-                content: <BillingCheckout
-                  cartState={cart.cart.state}
-                  cartItems={cart}
-                  loggedIn={user.user.loggedIn}
-                  billing={address}
-                  breadcrumbs={BREADCRUMBS.checkout}
-                />
-              };
-              handleRoutes(req, resp, next, params);
-=======
               if (typeof cart.line_items === 'undefined') {
                 resp.redirect('/cart');
               } else {
@@ -580,7 +552,6 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
                 };
                 handleRoutes(req, resp, next, params);
               }
->>>>>>> Backend twicks
             }))
             .catch((err) => {
               conslog('ERROR', err);
@@ -604,22 +575,6 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
         .then((cart) => handleError(cart, resp, () => {
           getCheckoutShipping(req, user.user.loggedIn, cart.cart.ship_address)
             .then((address) => handleError(address, resp, () => {
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
-              const params = {
-                title: 'Checkout',
-                description: '',
-                header: 'default',
-                active: '/',
-                content: <ShippingCheckout
-                  cartState={cart.cart.state}
-                  cartItems={cart}
-                  loggedIn={user.user.loggedIn}
-                  shipping={address}
-                  breadcrumbs={BREADCRUMBS.checkout}
-                />
-              };
-              handleRoutes(req, resp, next, params);
-=======
               if (typeof cart.line_items === 'undefined') {
                 resp.redirect('/cart');
               } else {
@@ -637,7 +592,6 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
                 };
                 handleRoutes(req, resp, next, params);
               }
->>>>>>> Backend twicks
             }))
             .catch((err) => {
               conslog('ERROR', err);
@@ -659,22 +613,6 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getCart(req)
         .then((cart) => handleError(cart, resp, () => {
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
-          const params = {
-            title: 'Checkout',
-            description: '',
-            header: 'default',
-            active: '/',
-            content: (
-              <PromoCheckout
-                cartItems={cart}
-                loggedIn={user.user.loggedIn}
-                breadcrumbs={BREADCRUMBS.checkout}
-              />
-            )
-          };
-          handleRoutes(req, resp, next, params);
-=======
           if (typeof cart.line_items === 'undefined') {
             resp.redirect('/cart');
           } else {
@@ -687,7 +625,6 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
             };
             handleRoutes(req, resp, next, params);
           }
->>>>>>> Backend twicks
         }))
         .catch((err) => {
           conslog('ERROR', err);
@@ -704,22 +641,6 @@ siteRoutes.get('/checkout/review', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getCart(req)
         .then((cart) => handleError(cart, resp, () => {
-<<<<<<< 72102c6f23b0ef9a1decc2b86051ccc8145922e2
-          const params = {
-            title: 'Checkout',
-            description: '',
-            header: 'default',
-            active: '/',
-            content: (
-              <ReviewCheckout
-                cartItems={cart}
-                loggedIn={user.user.loggedIn}
-                breadcrumbs={BREADCRUMBS.checkout}
-              />
-            )
-          };
-          handleRoutes(req, resp, next, params);
-=======
           if (typeof cart.line_items === 'undefined') {
             resp.redirect('/cart');
           } else {
@@ -732,7 +653,6 @@ siteRoutes.get('/checkout/review', (req, resp, next) => {
             };
             handleRoutes(req, resp, next, params);
           }
->>>>>>> Backend twicks
         }))
         .catch((err) => {
           conslog('ERROR', err);

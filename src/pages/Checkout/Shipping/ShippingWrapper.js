@@ -118,6 +118,7 @@ class ShippingWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   clickTab = (e) => {
