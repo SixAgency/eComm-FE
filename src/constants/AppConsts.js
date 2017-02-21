@@ -89,6 +89,10 @@ const SHIPPING_STATES = [
     value: 'CO'
   },
   {
+    name: 'Colorado',
+    value: 'CO'
+  },
+  {
     name: 'Conneticut',
     value: 'CT'
   },

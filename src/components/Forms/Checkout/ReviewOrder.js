@@ -9,6 +9,8 @@ class ReviewOrder extends React.Component {
     cartItems: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     isPaypal: PropTypes.bool.isRequired,
+    billingAddress: PropTypes.object.isRequired,
+    shippingAddress: PropTypes.object.isRequired
   };
 
   checkoutPayPal = (e) => {
@@ -89,7 +91,11 @@ class ReviewOrder extends React.Component {
       <div className={s.cformcontent}>
         <h1 className={s.title}>Review your order</h1>
         <h2 className={s.subtitle}>{cart.line_items.length} items in your cart</h2>
-        <ReviewOrderTbl cart={cart} />
+        <ReviewOrderTbl
+          cart={cart}
+          billingAddress={this.props.billingAddress}
+          shippingAddress={this.props.shippingAddress}
+        />
         {this.listPayment()}
       </div>
     );
