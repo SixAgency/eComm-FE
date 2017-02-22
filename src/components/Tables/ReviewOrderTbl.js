@@ -8,8 +8,7 @@ import { STATES } from '../../constants/AppConsts';
 class ReviewOrderTbl extends React.Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
-    billingAddress: PropTypes.object.isRequired,
-    shippingAddress: PropTypes.object.isRequired
+    cartItems: PropTypes.object.isRequired
   };
 
   getStateName = (id) => {
@@ -41,8 +40,7 @@ class ReviewOrderTbl extends React.Component {
     const cart = this.props.cart;
     const shipments = cart.shipments;
     const adjustments = cart.adjustments;
-    const shipping = typeof this.props.shippingAddress !== 'undefined' ? this.props.shippingAddress : {};
-    const billing = typeof this.props.billingAddress !== 'undefined' ? this.props.billingAddress : {};
+    const cartItems = this.props.cartItems;
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -111,7 +109,7 @@ class ReviewOrderTbl extends React.Component {
             <tr>
               <td className={cx(s.td, s.tdbig, s.shipaddr)}>
                 <span className={s.shippaddress}>Shipping address</span>
-                {this.listAddress(shipping)}
+                {this.listAddress(cartItems.cart.ship_address)}
                 <a
                   className={s.changebilling}
                   href=""
@@ -122,7 +120,7 @@ class ReviewOrderTbl extends React.Component {
               </td>
               <td className={cx(s.td, s.tdsmall, s.billaddr)}>
                 <span className={s.billaddress}>Billing address</span>
-                {this.listAddress(billing)}
+                {this.listAddress(cartItems.cart.bill_address)}
                 <a
                   className={s.changeshipping}
                   href=""
