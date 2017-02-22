@@ -103,14 +103,9 @@
   line-height: 16px;
   min-height: 41px;
   color: #1adab1;
-}
-
-.billaddress {
-  padding: 0 70px 15px 14px;
-}
-
-.shippaddress {
-  padding: 0 0 15px 14px;
+  display: block;
+  padding: 0px;
+  margin-top: 30px;
 }
 
 .shipaddr, .billaddr {
@@ -279,6 +274,22 @@ table.customerdetails {
 .firstfield {
   padding-top: 65px;
   padding-bottom: 30px;
+}
+
+.shipaddr,
+.billaddr {
+  .optiontext {
+    height: auto;
+    .block {
+      display: block;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: rgb(80, 80, 80);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 21px;
+    }
+  }
 }
 
 /* END Custom classes for View Order Page */

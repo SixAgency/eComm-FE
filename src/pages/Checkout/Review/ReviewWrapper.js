@@ -109,6 +109,37 @@ class ReviewWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
+  getContentTabs = () => {
+    const contentTabs = [
+      {
+        name: 'Billing Address',
+        title: 'Billing Address',
+        cname: 'billing',
+        id: 'billing'
+      },
+      {
+        name: 'Shipping Address',
+        title: 'Shipping Address',
+        cname: 'shipping',
+        id: 'shipping'
+      },
+      {
+        name: 'Apply Promotional Code',
+        title: 'Apply Promotional Code',
+        cname: 'promocode',
+        id: 'promo'
+      },
+      {
+        name: 'Review Order',
+        title: 'Review Order',
+        cname: 'review',
+        id: 'review'
+      }
+    ];
+
+    return contentTabs;
+  };
+
   clickTab = (e) => {
     e.preventDefault();
     const target = e.target.id;

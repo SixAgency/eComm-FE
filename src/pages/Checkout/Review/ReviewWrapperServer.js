@@ -17,7 +17,9 @@ class ReviewWrapper extends React.Component {
     onLogin: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    shipping: PropTypes.object.isRequired,
+    billing: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -29,7 +31,9 @@ class ReviewWrapper extends React.Component {
     completePayPal: () => (true),
     isPayPal: false,
     messages: [],
-    isError: false
+    isError: false,
+    shipping: {},
+    billing: {}
   };
 
   constructor(props) {
@@ -40,6 +44,37 @@ class ReviewWrapper extends React.Component {
       className: 'hide'
     };
   }
+
+  getContentTabs = () => {
+    const contentTabs = [
+      {
+        name: 'Billing Address',
+        title: 'Billing Address',
+        cname: 'billing',
+        id: 'billing'
+      },
+      {
+        name: 'Shipping Address',
+        title: 'Shipping Address',
+        cname: 'shipping',
+        id: 'shipping'
+      },
+      {
+        name: 'Apply Promotional Code',
+        title: 'Apply Promotional Code',
+        cname: 'promocode',
+        id: 'promo'
+      },
+      {
+        name: 'Review Order',
+        title: 'Review Order',
+        cname: 'review',
+        id: 'review'
+      }
+    ];
+
+    return contentTabs;
+  };
 
   clickTab = (e) => {
     e.preventDefault();

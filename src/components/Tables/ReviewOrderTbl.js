@@ -2,12 +2,19 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Tables.css';
+import { STATES } from '../../constants/AppConsts';
 
 
 class ReviewOrderTbl extends React.Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
+    cartItems: PropTypes.object.isRequired
   };
+
+  getStateName = (id) => {
+    const selected = STATES.find((state) => (state.id === id));
+    return typeof selected !== 'undefined' ? selected.abbr : '';
+  }
 
   handleShipping = (e) => {
     e.preventDefault();
@@ -17,11 +24,23 @@ class ReviewOrderTbl extends React.Component {
     e.preventDefault();
   };
 
+  listAddress = (data) => {
+    const stateName = this.getStateName(data.state_id);
+    return (
+      <address className={s.optiontext}>
+        <span className={s.block}>{data.firstname} {data.lastname}</span>
+        <span className={s.block}>{data.company}</span>
+        <span className={s.block}>{data.address1}</span>
+        <span className={s.block}>{data.city}, {stateName}, {data.zipcode}</span>
+      </address>
+    );
+  }
+
   render() {
     const cart = this.props.cart;
     const shipments = cart.shipments;
     const adjustments = cart.adjustments;
-
+    const cartItems = this.props.cartItems;
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -88,16 +107,9 @@ class ReviewOrderTbl extends React.Component {
               </td>
             </tr>
             <tr>
-              <td className={cx(s.td, s.tdbig, s.billaddress)}>
-                Billing address
-              </td>
-              <td className={cx(s.td, s.tdsmall, s.shippaddress)}>
-                Shipping address
-              </td>
-            </tr>
-            <tr>
               <td className={cx(s.td, s.tdbig, s.shipaddr)}>
-                <span className={s.adrcontainer}>address here</span>
+                <span className={s.shippaddress}>Shipping address</span>
+                {this.listAddress(cartItems.cart.ship_address)}
                 <a
                   className={s.changebilling}
                   href=""
@@ -107,7 +119,8 @@ class ReviewOrderTbl extends React.Component {
                 </a>
               </td>
               <td className={cx(s.td, s.tdsmall, s.billaddr)}>
-                <span className={s.adrcontainer}>address here</span>
+                <span className={s.billaddress}>Billing address</span>
+                {this.listAddress(cartItems.cart.bill_address)}
                 <a
                   className={s.changeshipping}
                   href=""
