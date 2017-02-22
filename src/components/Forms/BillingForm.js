@@ -12,7 +12,7 @@ class BillingForm extends React.Component {
     formSubtitle: PropTypes.string,
     showEmailPhone: PropTypes.string,
     buttonText: PropTypes.string,
-    selectClass: PropTypes.string,
+    selectClass: PropTypes.string
   }
 
   constructor(props) {
@@ -30,7 +30,7 @@ class BillingForm extends React.Component {
       state: '',
       zip: '',
       createaccount: false,
-      password: '',
+      password: ''
     };
   }
 

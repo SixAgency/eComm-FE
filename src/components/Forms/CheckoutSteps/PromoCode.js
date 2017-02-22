@@ -5,13 +5,13 @@ import s from './../Forms.css';
 
 class PromoCode extends React.Component {
   static propTypes = {
-    applyPromoCode: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      coupon_code: '',
+      coupon_code: ''
     };
   }
 
@@ -22,7 +22,7 @@ class PromoCode extends React.Component {
 
   handlePromoCode = (event) => {
     this.setState({
-      coupon_code: event.target.value,
+      coupon_code: event.target.value
     });
   }
 

@@ -14,7 +14,10 @@
 }
 
 .default { background: transparent; }
-.colored { background: -webkit-linear-gradient(left,#19D9B0, #3DB4E5); }
+.colored {
+  background: -webkit-linear-gradient(left,#19D9B0, #3DB4E5);
+  background-image: -ms-linear-gradient(left, #19D9B0, #3DB4E5);
+}
 .black { background: #222; border-top: 3px solid #000; border-bottom: 3px solid #000; }
 .enabled { background: #ffffff; }
 

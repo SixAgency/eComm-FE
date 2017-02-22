@@ -6,7 +6,7 @@ import s from './Tables.css';
 
 class OrderDetailsTbl extends React.Component {
   static propTypes = {
-    order: PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired
   };
 
   render() {
@@ -60,7 +60,7 @@ class OrderDetailsTbl extends React.Component {
             {shipment &&
               <tr className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                  Shipping
+                  Shipping:
                 </td>
                 <td className={s.orderdetails}>
                   {shipment.selected_shipping_rate.cost} via {shipment.selected_shipping_rate.name}

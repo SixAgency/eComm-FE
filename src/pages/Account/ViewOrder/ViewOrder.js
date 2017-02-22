@@ -12,7 +12,7 @@ class ViewOrder extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    order: PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired
   };
 
   getMonth = (number) => {
@@ -28,7 +28,7 @@ class ViewOrder extends React.Component {
       'September',
       'October',
       'November',
-      'December',
+      'December'
     ];
     return months[number];
   };
