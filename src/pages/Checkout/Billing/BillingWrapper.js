@@ -60,7 +60,7 @@ class BillingWrapper extends BasePageComponent {
     addresses: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
     getAddress: PropTypes.func.isRequired,
-    route: PropTypes.object.isRequired
+    route: PropTypes.object.isRequired,
     setBilling: PropTypes.func.isRequired
   };
 
