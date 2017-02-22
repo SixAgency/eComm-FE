@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setCart, resetCart, getCart } from './order';
-import { setMessage, resetMessages, setLoader } from './page';
-import { validateMandatoryFieldsAddress } from '../helpers/validators';
+import { setMessage, resetMessages, setLoader, setPending } from './page';
+import { getCheckoutAddresses } from '../helpers/feed';
 
 function setPayPal(data) {
-  return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } }
+  return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } };
 }
 
 /**
@@ -25,7 +25,7 @@ function setBilling(id) {
   const address = {
     isLoaded: true,
     isSet: id !== null,
-    address: id,
+    address: id
   };
   return { type: 'SET_CHECKOUT_BILLING', payload: address };
 }
@@ -34,7 +34,7 @@ function setShipping(id) {
   const address = {
     isLoaded: true,
     isSet: id !== null,
-    address: id,
+    address: id
   };
   return { type: 'SET_CHECKOUT_SHIPPING', payload: { ...address, isLoaded: true } };
 }
@@ -76,17 +76,23 @@ function checkoutAddresses(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
     dispatch(setLoader(true));
+    dispatch(setPending(true));
     dispatch(resetMessages());
-    axios.post('/api/checkout/address', data)
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setCart(response.data));
-        forwardTo('checkout/promo');
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
+    const addresses = getCheckoutAddresses(data);
+    if (addresses.isError) {
+      dispatch(setMessage({ isError: true, messages: addresses.messages }));
+    } else {
+      axios.post('/api/checkout/address', addresses)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setCart(response.data));
+          forwardTo('checkout/promo');
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
   };
 }
 
@@ -136,114 +142,6 @@ function completePayPal() {
       });
   };
 }
-
-// function getCheckoutBilling(loggedIn, cart) {
-//   window.scrollTo(0, 0);
-//   return (dispatch) => {
-//     if (loggedIn) {
-//       if (cart.bill_address) {
-//         const billing = {
-//           isLoaded: true,
-//           isEmpty: false,
-//           address: cart.bill_address,
-//         };
-//         dispatch(setBilling(billing));
-//       } else {
-//         axios.get('/api/addresses')
-//         .then((response) => checkResponse(response.data, () => {
-//           dispatch(setBilling(response.data.billing));
-//         }, () => {
-//           dispatch(setMessage({ isError: true, messages: response.data.messages }));
-//         }))
-//         .catch((err) => {
-//           console.error('Error: ', err); // eslint-disable-line no-console
-//         });
-//       }
-//     } else {
-//       const empty = {
-//         isLoaded: true,
-//         isEmpty: true,
-//         address: {},
-//       };
-//       dispatch(setBilling(empty));
-//     }
-//   };
-// }
-
-// function getCheckoutShipping(loggedIn, cart) {
-//   window.scrollTo(0, 0);
-//   return (dispatch) => {
-//     if (loggedIn) {
-//       if (cart.ship_address) {
-//         const shipping = {
-//           isLoaded: true,
-//           isEmpty: false,
-//           address: cart.ship_address,
-//         };
-//         dispatch(setShipping(shipping));
-//       } else {
-//         axios.get('/api/addresses')
-//           .then((response) => checkResponse(response.data, () => {
-//             dispatch(setShipping(response.data.shipping));
-//           }, () => {
-//             dispatch(setMessage({ isError: true, messages: response.data.messages }));
-//           }))
-//           .catch((err) => {
-//             console.error('Error: ', err); // eslint-disable-line no-console
-//           });
-//       }
-//     } else {
-//       const empty = {
-//         isLoaded: true,
-//         isEmpty: true,
-//         address: {},
-//       };
-//       dispatch(setShipping(empty));
-//     }
-//   };
-// }
-
-// function setCheckoutBilling(id, addresses) {
-//   window.scrollTo(0, 0);
-//   // return (dispatch) => {
-//   //   dispatch(setLoader(true));
-//   //   dispatch(resetMessages());
-//   //   const valid = validateMandatoryFieldsAddress(address);
-//   //   if (valid.isError) {
-//   //     dispatch(setMessage({ isError: true, messages: valid.messages }));
-//   //     return false;
-//   //   }
-//   //   const billing = {
-//   //     isLoaded: true,
-//   //     isEmpty: false,
-//   //     address,
-//   //   };
-//   //   dispatch(setBilling(billing));
-//   //   dispatch(setMessage({ isError: false, messages: ['Billing address set successfully.'] }));
-//   //   forwardTo('checkout/shipping');
-//   //   return true;
-//   // };
-// }
-
-// function setCheckoutShipping(address,) {
-//   window.scrollTo(0, 0);
-//   return (dispatch) => {
-//     dispatch(setLoader(true));
-//     dispatch(resetMessages());
-//     const valid = validateMandatoryFieldsAddress(address);
-//     if (valid.isError) {
-//       dispatch(setMessage({ isError: true, messages: valid.messages }));
-//       return false;
-//     }
-//     const shipping = {
-//       isLoaded: true,
-//       isEmpty: false,
-//       address,
-//     };
-//     dispatch(setShipping(shipping));
-//     return true;
-//   };
-// }
 
 export {
   getPayPalToken,

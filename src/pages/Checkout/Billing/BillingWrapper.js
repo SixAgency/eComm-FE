@@ -28,8 +28,8 @@ const mapDispatchToProps = ((dispatch) => (
     createAddress: (data, message, callback) => dispatch(createAddressNew(
       data,
       message,
-      callback,
-    )),
+      callback
+    ))
   }
 ));
 
@@ -60,8 +60,8 @@ class BillingWrapper extends BasePageComponent {
     addresses: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
     getAddress: PropTypes.func.isRequired,
-    setBilling: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired
+    setBilling: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -85,7 +85,7 @@ class BillingWrapper extends BasePageComponent {
       this.props.getAddress();
     }
     if (this.props.billing.isLoaded) {
-      if (this.props.addresses.isLoaded && !this.props.addresses.isSet) {
+      if (this.props.addresses.isLoaded && !this.props.billing.isSet) {
         this.setBillingFromAddresses(this.props.addresses);
       }
     } else {
@@ -122,12 +122,10 @@ class BillingWrapper extends BasePageComponent {
   };
 
   setBillingFromAddresses = (addresses) => {
-    let billingId;
-    if (addresses.isEmpty) {
-      billingId = 0;
-    } else {
-      const billing = addresses.addresses.filter((item) => (item.isBilling));
-      billingId = billing[0] || 0;
+    let billingId = 0;
+    const billing = addresses.addresses.filter((item) => (item.isBilling));
+    if (billing.length > 0) {
+      billingId = billing[0].id;
     }
     this.props.setBilling(billingId);
   };
@@ -186,33 +184,35 @@ class BillingWrapper extends BasePageComponent {
   };
 
   onSubmit = (data) => {
-    console.log(data);
-    // this.props.setCheckoutBilling(data);
+    this.props.toggleLoader(true);
+    this.props.setBilling(data);
+    forwardTo('checkout/shipping');
   };
 
   onFormSubmit = (address) => {
     const data = {
-      address,
+      address
     };
     const message = 'Address created successfully.';
-    this.props.createAddress(data, message, () => {
+    this.props.createAddress(data, message, (resp) => {
       this.setState({
-        content: 'list',
+        content: 'list'
       });
+      console.log(resp);
     });
   };
 
   onFormCancel = () => {
     window.scrollTo(0, 0);
     this.setState({
-      content: 'list',
+      content: 'list'
     });
   };
 
   onCreate = () => {
     window.scrollTo(0, 0);
     this.setState({
-      content: 'form',
+      content: 'form'
     });
   };
 
