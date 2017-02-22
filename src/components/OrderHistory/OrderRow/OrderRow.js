@@ -4,7 +4,25 @@ import s from './OrderRow.css';
 
 class OrderRow extends Component {
   static propTypes = {
-    order: PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired
+  }
+
+  getOrderStatus = (order) => {
+    let orderState = '';
+    if (order.state === 'complete' && order.payment_state === 'paid') {
+      if (['ready', 'backorder', 'partial'].includes(order.shipment_state)) {
+        orderState = 'Processing';
+      } else if (order.shipment_state === 'shipped') {
+        orderState = 'Shipped';
+      }
+    } else if (order.state === 'cancelled') {
+      if (order.payments.refunds !== null) {
+        orderState = 'Refunded';
+      } else {
+        orderState = 'Cancelled';
+      }
+    }
+    return orderState;
   }
 
   render() {
@@ -24,7 +42,7 @@ class OrderRow extends Component {
           {order.created_at.substring(0, 10)}
         </td>
         <td className={s.orderstatus}>
-          Processing
+          {this.getOrderStatus(order)}
         </td>
         <td className={s.ordertotal}>
           <span className={s.amount}> {order.display_total} </span>
