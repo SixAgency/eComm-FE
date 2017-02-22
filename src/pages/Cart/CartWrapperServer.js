@@ -18,6 +18,7 @@ class CartWrapper extends Component {
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   /*
@@ -37,7 +38,7 @@ class CartWrapper extends Component {
     checkoutNext: () => (true),
     paypalObj: {},
     isError: false,
-    messages: [],
+    messages: []
   };
 
   constructor(props) {
@@ -46,7 +47,7 @@ class CartWrapper extends Component {
       showCouponFields: false,
       showLoginFields: false,
       className: 'hide',
-      loginClassName: 'hide',
+      loginClassName: 'hide'
     };
   }
 
@@ -54,7 +55,7 @@ class CartWrapper extends Component {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide',
+      className: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -62,7 +63,7 @@ class CartWrapper extends Component {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   };
 
@@ -89,6 +90,7 @@ class CartWrapper extends Component {
         paypalObj={this.props.paypalObj}
         checkoutPayPal={this.props.checkoutPayPal}
         checkoutNext={this.props.checkoutNext}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

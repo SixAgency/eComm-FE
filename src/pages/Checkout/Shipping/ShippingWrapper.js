@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
 import Shipping from './Shipping';
 
@@ -22,7 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getCheckoutShipping: (loggedIn, cart) => dispatch(getCheckoutShipping(loggedIn, cart)),
     setCheckoutShipping: (address) => dispatch(setCheckoutShipping(address)),
-    checkoutAddresses: (data) => dispatch(checkoutAddresses(data)),
+    checkoutAddresses: (data) => dispatch(checkoutAddresses(data))
   }
 ));
 
@@ -36,7 +37,7 @@ const mapStateToProps = ((state) => (
     emailAddress: state.user.emailAddress,
     messages: state.page.messages,
     isError: state.page.isError,
-    isPayPal: state.checkout.isPayPal,
+    isPayPal: state.checkout.isPayPal
   }
 ));
 
@@ -60,6 +61,7 @@ class ShippingWrapper extends BasePageComponent {
     setCheckoutShipping: PropTypes.func.isRequired,
     checkoutAddresses: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
@@ -69,14 +71,14 @@ class ShippingWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       showLoginFields: false,
-      loginClassName: 'hide',
+      loginClassName: 'hide'
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
@@ -124,7 +126,7 @@ class ShippingWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -132,39 +134,8 @@ class ShippingWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
-  };
-
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
   };
 
   onSubmit = (shipping) => {
@@ -173,15 +144,14 @@ class ShippingWrapper extends BasePageComponent {
     const data = {
       order: {
         bill_address_attributes: this.props.billing.address,
-        ship_address_attributes: shipping,
+        ship_address_attributes: shipping
       },
-      isPayPal: this.props.isPayPal,
+      isPayPal: this.props.isPayPal
     };
     this.props.checkoutAddresses(data);
   };
 
   render() {
-    const contentTabs = this.getContentTabs();
     if (!this.props.shipping.isLoaded) {
       return null;
     }
@@ -199,10 +169,11 @@ class ShippingWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
         shippingAddress={this.props.shipping.address}
         onSubmit={this.onSubmit}
         emailAddress={this.props.emailAddress}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

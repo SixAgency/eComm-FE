@@ -11,18 +11,19 @@ class DashboardWrapper extends React.Component {
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
     onLogout: () => (true),
     messages: [],
-    isError: false,
+    isError: false
   };
 
   render() {
     const addresses = {
       shippAddress: this.props.shipping.address,
-      billAddress: this.props.billing.address,
+      billAddress: this.props.billing.address
     };
     const orders = this.props.orders;
     return (
@@ -34,6 +35,7 @@ class DashboardWrapper extends React.Component {
         orders={orders}
         messages={this.props.messages}
         isError={this.props.isError}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

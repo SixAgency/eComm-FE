@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
 import Billing from './Billing';
 
@@ -21,7 +22,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getCheckoutBilling: (loggedIn, cart) => dispatch(getCheckoutBilling(loggedIn, cart)),
-    setCheckoutBilling: (address) => dispatch(setCheckoutBilling(address)),
+    setCheckoutBilling: (address) => dispatch(setCheckoutBilling(address))
   }
 ));
 
@@ -33,7 +34,7 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     emailAddress: state.user.emailAddress,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -55,6 +56,7 @@ class BillingWrapper extends BasePageComponent {
     emailAddress: PropTypes.string.isRequired,
     getCheckoutBilling: PropTypes.func.isRequired,
     setCheckoutBilling: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
@@ -64,14 +66,14 @@ class BillingWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       showLoginFields: false,
-      loginClassName: 'hide',
+      loginClassName: 'hide'
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.cartItems.isLoaded) {
@@ -119,7 +121,7 @@ class BillingWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
     });
   };
 
@@ -127,39 +129,8 @@ class BillingWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
-  };
-
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing',
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping',
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo',
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review',
-      },
-    ];
-
-    return contentTabs;
   };
 
   onSubmit = (data) => {
@@ -167,7 +138,6 @@ class BillingWrapper extends BasePageComponent {
   };
 
   render() {
-    const contentTabs = this.getContentTabs();
     if (!this.props.billing.isLoaded) {
       return null;
     }
@@ -185,10 +155,11 @@ class BillingWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
-        contentTabs={contentTabs}
+        contentTabs={CHECKOUT_TABS}
         billingAddress={this.props.billing.address}
         onSubmit={this.onSubmit}
         emailAddress={this.props.emailAddress}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

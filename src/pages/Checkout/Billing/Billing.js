@@ -6,13 +6,8 @@ import Subnav from '../../../components/Subnav';
 import CtaInfo from '../../../components/CartCta/CtaInfo';
 import ErrorDisplay from '../../../components/ErrorDisplay';
 import ContentWrapper from '../../../components/ContentWrapper';
-import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
-import LoginInput from '../../../components/LoginInput/LoginInput';
 // Forms and inputs
 import BillingForm from '../../../components/Forms/Checkout/BillingForm';
-import ShippingAddress from '../../../components/Forms/CheckoutSteps/ShippingAddress';
-import PromoCode from '../../../components/Forms/CheckoutSteps/PromoCode';
-import ReviewOrder from '../../../components/Forms/CheckoutSteps/ReviewOrder';
 
 
 class Billing extends React.Component {
@@ -34,6 +29,7 @@ class Billing extends React.Component {
     billingAddress: PropTypes.object.isRequired,
     emailAddress: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   render() {
@@ -48,11 +44,15 @@ class Billing extends React.Component {
       address2: '',
       city: '',
       state_id: 0,
-      zipcode: '',
+      zipcode: ''
     };
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

@@ -6,6 +6,7 @@ import capitalize from 'lodash.capitalize';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 
 import conslog from '../utils/dev';
+import { BREADCRUMBS } from '../constants/AppConsts';
 
 // Actions
 import { getProducts, getProduct } from '../api/products';
@@ -59,7 +60,7 @@ function handleRoutes(req, resp, next, params) {
       insertCss: (...styles) => {
         // eslint-disable-next-line no-underscore-dangle
         styles.forEach(style => css.add(style._getCss()));
-      },
+      }
     };
 
     const data = { ...params };
@@ -67,7 +68,7 @@ function handleRoutes(req, resp, next, params) {
     const cart = { isLoaded: false, isEmpty: true, cart: {} };
     const headerProps = {
       headerClass: data.header,
-      activeSlug: data.active,
+      activeSlug: data.active
     };
     data.component = (
       <Layout headerProps={headerProps} cartItems={cart}>
@@ -78,7 +79,7 @@ function handleRoutes(req, resp, next, params) {
     data.style = [...css].join('');
     data.scripts = [
       assets.vendor.js,
-      assets.client.js,
+      assets.client.js
     ];
     if (assets[params.chunk]) {
       data.scripts.push(assets[params.chunk].js);
@@ -107,14 +108,14 @@ siteRoutes.get('/', (req, resp, next) => {
     .then((data) => handleError(data, resp, () => {
       const gridItems = {
         isLoaded: true,
-        ...data,
+        ...data
       };
       const params = {
         title: 'Shop',
         description: '',
         header: 'default',
         active: '/',
-        content: <HomeWrapper gridItems={gridItems} />,
+        content: <HomeWrapper gridItems={gridItems} />
       };
       handleRoutes(req, resp, next, params);
     }))
@@ -130,7 +131,7 @@ siteRoutes.get('/biography', (req, resp, next) => {
     description: '',
     header: 'default',
     active: '/biography',
-    content: <BiographyWrapper />,
+    content: <BiographyWrapper />
   };
   handleRoutes(req, resp, next, params);
 });
@@ -144,10 +145,10 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
       } else {
         const product = {
           isLoaded: true,
-          ...data,
+          ...data
         };
         const prodParams = {
-          slug: req.params.slug,
+          slug: req.params.slug
         };
         const { images } = product.product.master;
         let ogImage = '';
@@ -160,7 +161,7 @@ siteRoutes.get('/product/:slug', (req, resp, next) => {
           ogImage,
           header: 'colored',
           active: '/',
-          content: <ProductWrapper product={product} params={prodParams} />,
+          content: <ProductWrapper product={product} params={prodParams} />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -176,17 +177,17 @@ siteRoutes.get('/product-category/:slug', (req, resp, next) => {
     .then((data) => handleError(data, resp, () => {
       const products = {
         isLoaded: true,
-        ...data,
+        ...data
       };
       const prodParams = {
-        slug: req.params.slug,
+        slug: req.params.slug
       };
       const params = {
         title: `${capitalize(prodParams.slug)} Archives`,
         description: '',
         header: 'default',
         active: '/',
-        content: <CategoryWrapper gridItems={products} params={prodParams} />,
+        content: <CategoryWrapper gridItems={products} params={prodParams} />
       };
       handleRoutes(req, resp, next, params);
     }))
@@ -208,7 +209,12 @@ siteRoutes.get('/my-account', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <AccountWrapper {...data.user} isError={data.isError} messages={messages} />,
+          content: <AccountWrapper
+            {...data.user}
+            isError={data.isError}
+            messages={messages}
+            breadcrumbs={BREADCRUMBS.dashboard}
+          />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -230,7 +236,7 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <LostPasswordWrapper {...data.user} />,
+          content: <LostPasswordWrapper {...data.user} />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -253,14 +259,14 @@ siteRoutes.get('/my-account/view-order/:number', (req, resp, next) => {
             } else {
               const order = {
                 isLoaded: true,
-                ...orderData,
+                ...orderData
               };
               const params = {
                 title: 'My Account',
                 description: '',
                 header: 'colored',
                 active: '/my-account',
-                content: <ViewOrderWrapper order={order} loggedIn={data.user.loggedIn} />,
+                content: <ViewOrderWrapper order={order} loggedIn={data.user.loggedIn} />
               };
               handleRoutes(req, resp, next, params);
             }
@@ -289,23 +295,23 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
           shipping: {
             isLoaded: true,
             isEmpty: true,
-            address: {},
+            address: {}
           },
           billing: {
             isLoaded: true,
             isEmpty: true,
-            address: {},
-          },
+            address: {}
+          }
         };
         const params = {
           title: 'My Account',
           description: '',
           header: 'colored',
-          active: '/my-account',
+          active: '/my-account'
         };
         return Promise.all([
           getAddresses(req),
-          getOrders(req),
+          getOrders(req)
         ]).then((values) => {
           const address = values[0];
           const orders = values[1];
@@ -313,19 +319,29 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
             shipping: {
               isLoaded: true,
               isEmpty: address.ship_address == null,
-              address: address.ship_address || {},
+              address: address.ship_address || {}
             },
             billing: {
               isLoaded: true,
               isEmpty: address.bill_address == null,
-              address: address.bill_address || {},
-            },
+              address: address.bill_address || {}
+            }
           };
-          params.content = <DashboardWrapper {...data.user} {...addresses} orders={orders} />;
+          params.content = (<DashboardWrapper
+            {...data.user}
+            {...addresses}
+            orders={orders}
+            breadcrumbs={BREADCRUMBS.dashboard}
+          />);
           handleRoutes(req, resp, next, params);
         }).catch((err) => {
           conslog('ERROR', err);
-          params.content = <DashboardWrapper {...data.user} {...addresses} />;
+          params.content = (
+            <DashboardWrapper
+              {...data.user}
+              {...addresses}
+              breadcrumbs={BREADCRUMBS.dashboard}
+            />);
           handleRoutes(req, resp, next, params);
         });
       }
@@ -347,7 +363,7 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <ProfileWrapper {...data.user} />,
+          content: <ProfileWrapper {...data.user} breadcrumbs={BREADCRUMBS.editAccount} />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -369,7 +385,7 @@ siteRoutes.get('/my-account/address/create/:type', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <CreateAddress {...data.user} params={req.params} />,
+          content: <CreateAddress {...data.user} params={req.params} />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -389,18 +405,18 @@ siteRoutes.get('/my-account/address/shipping', (req, resp, next) => {
         let address = {
           isLoaded: true,
           isEmpty: true,
-          address: {},
+          address: {}
         };
         let alladdresses = {
           isLoaded: true,
           isEmpty: true,
-          addresses: [],
+          addresses: []
         };
         const params = {
           title: 'Edit Shipping Address',
           description: '',
           header: 'colored',
-          active: '/my-account',
+          active: '/my-account'
         };
         getAddresses(req)
           .then((addresses) => {
@@ -410,6 +426,7 @@ siteRoutes.get('/my-account/address/shipping', (req, resp, next) => {
               {...data.user}
               shipping={address}
               addresses={alladdresses}
+              breadcrumbs={BREADCRUMBS.addresses}
             />);
             handleRoutes(req, resp, next, params);
           }).catch((err) => {
@@ -434,18 +451,18 @@ siteRoutes.get('/my-account/address/billing', (req, resp, next) => {
         let address = {
           isLoaded: true,
           isEmpty: true,
-          address: {},
+          address: {}
         };
         let alladdresses = {
           isLoaded: true,
           isEmpty: true,
-          address: [],
+          address: []
         };
         const params = {
           title: 'Edit Billing Address',
           description: '',
           header: 'colored',
-          active: '/my-account',
+          active: '/my-account'
         };
         getAddresses(req)
           .then((addresses) => {
@@ -459,16 +476,19 @@ siteRoutes.get('/my-account/address/billing', (req, resp, next) => {
               addresses={alladdresses}
               isError={data.isError}
               messages={messages}
+              breadcrumbs={BREADCRUMBS.addresses}
             />);
             handleRoutes(req, resp, next, params);
           })
           .catch((err) => {
             conslog('ERROR', err);
-            params.content = <BillingWrapper
-              {...data.user}
-              billing={address}
-              addresses={alladdresses}
-            />;
+            params.content = (
+              <BillingWrapper
+                {...data.user}
+                billing={address}
+                addresses={alladdresses}
+              />
+            );
             handleRoutes(req, resp, next, params);
           });
       }
@@ -489,7 +509,11 @@ siteRoutes.get('/cart', (req, resp, next) => {
             description: '',
             header: 'default',
             active: '/',
-            content: <CartWrapper cartItems={cart} loggedIn={user.user.loggedIn} />,
+            content: <CartWrapper
+              cartItems={cart}
+              loggedIn={user.user.loggedIn}
+              breadcrumbs={BREADCRUMBS.cart}
+            />
           };
           handleRoutes(req, resp, next, params);
         }))
@@ -521,7 +545,8 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
                   cartItems={cart}
                   loggedIn={user.user.loggedIn}
                   billing={address}
-                />,
+                  breadcrumbs={BREADCRUMBS.checkout}
+                />
               };
               handleRoutes(req, resp, next, params);
             }))
@@ -557,7 +582,8 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
                   cartItems={cart}
                   loggedIn={user.user.loggedIn}
                   shipping={address}
-                />,
+                  breadcrumbs={BREADCRUMBS.checkout}
+                />
               };
               handleRoutes(req, resp, next, params);
             }))
@@ -586,7 +612,13 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
             description: '',
             header: 'default',
             active: '/',
-            content: <PromoCheckout cartItems={cart} loggedIn={user.user.loggedIn} />,
+            content: (
+              <PromoCheckout
+                cartItems={cart}
+                loggedIn={user.user.loggedIn}
+                breadcrumbs={BREADCRUMBS.checkout}
+              />
+            )
           };
           handleRoutes(req, resp, next, params);
         }))
@@ -610,7 +642,13 @@ siteRoutes.get('/checkout/review', (req, resp, next) => {
             description: '',
             header: 'default',
             active: '/',
-            content: <ReviewCheckout cartItems={cart} loggedIn={user.user.loggedIn} />,
+            content: (
+              <ReviewCheckout
+                cartItems={cart}
+                loggedIn={user.user.loggedIn}
+                breadcrumbs={BREADCRUMBS.checkout}
+              />
+            )
           };
           handleRoutes(req, resp, next, params);
         }))
@@ -631,7 +669,7 @@ siteRoutes.get('/contact', (req, resp, next) => {
     description: '',
     header: 'colored',
     active: '/contact',
-    content: <ContactWrapper />,
+    content: <ContactWrapper />
   };
   handleRoutes(req, resp, next, params);
 });
@@ -643,7 +681,7 @@ siteRoutes.get('/ks-mannequin-heads', (req, resp, next) => {
     description: '',
     header: 'default',
     active: '/shop',
-    content: <MannequinHeadsWrapper />,
+    content: <MannequinHeadsWrapper />
   };
   handleRoutes(req, resp, next, params);
 });
@@ -655,7 +693,7 @@ siteRoutes.get('/error', (req, resp, next) => {
     description: '',
     header: 'default',
     active: '/',
-    content: <ErrorPageWrapper />,
+    content: <ErrorPageWrapper />
   };
   handleRoutes(req, resp, next, params);
 });
@@ -668,7 +706,7 @@ siteRoutes.get('*', (req, resp, next) => {
     header: 'default',
     active: '/',
     status: '404',
-    content: <NotFoundWrapper />,
+    content: <NotFoundWrapper />
   };
   handleRoutes(req, resp, next, params);
 });

@@ -31,7 +31,8 @@ class Cart extends Component {
     applyPromoCode: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired
+    checkoutNext: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   render() {
@@ -46,12 +47,17 @@ class Cart extends Component {
           messages={this.props.messages}
           isError={this.props.isError}
           loggedIn={this.props.loggedIn}
+          breadcrumbs={this.props.breadcrumbs}
         />
       );
     }
     return (
       <div className={s.cartpage}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <CartCta
           loggedIn={this.props.loggedIn}

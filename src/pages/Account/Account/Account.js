@@ -19,7 +19,8 @@ class Account extends React.Component {
     onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   getChildren = (state) => {
@@ -46,7 +47,11 @@ class Account extends React.Component {
     ];
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

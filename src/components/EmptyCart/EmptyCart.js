@@ -13,13 +13,18 @@ class EmptyCart extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   render() {
     return (
       <section className={s.page}>
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ContentWrapper contentClass={'emptycartwrpr'}>
           <div>
             <p className={s.eparagraph}>Your cart is currently empty</p>

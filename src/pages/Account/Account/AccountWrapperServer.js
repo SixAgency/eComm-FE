@@ -9,12 +9,13 @@ class AccountWrapper extends React.Component {
     onLogout: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
     onLogin: (data) => (data),
     onLogout: (data) => (data),
-    onRegister: (data) => (data),
+    onRegister: (data) => (data)
   };
 
   clickTab = () => (true);
@@ -30,6 +31,7 @@ class AccountWrapper extends React.Component {
         onLogout={this.props.onLogout}
         isError={this.props.isError}
         messages={this.props.messages}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

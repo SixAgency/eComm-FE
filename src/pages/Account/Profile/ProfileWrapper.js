@@ -11,7 +11,7 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 
 const mapStateToProps = ((state) => (
   {
-    loggedIn: state.user.loggedIn,
+    loggedIn: state.user.loggedIn
   }
 ));
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -30,6 +30,7 @@ class ProfileWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
+    route: PropTypes.object
   }
 
   componentWillMount = () => {
@@ -38,7 +39,7 @@ class ProfileWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
   }
@@ -56,7 +57,11 @@ class ProfileWrapper extends BasePageComponent {
 
   render() {
     return (
-      <Profile loggedIn={this.props.loggedIn} onLogout={this.props.onLogout} />
+      <Profile
+        loggedIn={this.props.loggedIn}
+        onLogout={this.props.onLogout}
+        breadcrumbs={this.props.route.breadcrumbs}
+      />
     );
   }
 }

@@ -9,12 +9,13 @@ class BillingWrapper extends React.Component {
     onLogout: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
     onLogout: () => (true),
     messages: [],
-    isError: false,
+    isError: false
   };
 
   onSubmit = () => (true);
@@ -35,6 +36,7 @@ class BillingWrapper extends React.Component {
         onCancel={this.onCancel}
         onSelect={this.onSelect}
         onCreate={this.onCreate}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }
