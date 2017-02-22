@@ -19,7 +19,7 @@ const mapStateToProps = ((state) => (
     billing: state.address.billing,
     orders: state.orders.orders,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -30,7 +30,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
-    getAllOrders: () => dispatch(getAllOrders()),
+    getAllOrders: () => dispatch(getAllOrders())
   }
 ));
 

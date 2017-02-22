@@ -5,10 +5,11 @@ import OrderRow from './OrderRow';
 
 class OrderHistory extends Component {
   static propTypes = {
-    orders: PropTypes.object.isRequired,
+    orders: PropTypes.object.isRequired
   };
 
   render() {
+    console.log('ORDERS', this.props.orders.orders);
     return (
       <table className={s.shoptable}>
         <thead>
