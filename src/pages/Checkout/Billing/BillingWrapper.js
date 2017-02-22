@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -84,6 +85,9 @@ class BillingWrapper extends BasePageComponent {
       const { cart } = this.props.cartItems;
       this.props.getCheckoutBilling(loggedIn, cart);
     }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
+    }
   };
 
   componentDidMount = () => {
@@ -109,6 +113,7 @@ class BillingWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   clickTab = (e) => {
@@ -131,6 +136,37 @@ class BillingWrapper extends BasePageComponent {
       showLoginFields: !this.state.showLoginFields,
       loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
+  };
+
+  getContentTabs = () => {
+    const contentTabs = [
+      {
+        name: 'Billing Address',
+        title: 'Billing Address',
+        cname: 'billing',
+        id: 'billing'
+      },
+      {
+        name: 'Shipping Address',
+        title: 'Shipping Address',
+        cname: 'shipping',
+        id: 'shipping'
+      },
+      {
+        name: 'Apply Promotional Code',
+        title: 'Apply Promotional Code',
+        cname: 'promocode',
+        id: 'promo'
+      },
+      {
+        name: 'Review Order',
+        title: 'Review Order',
+        cname: 'review',
+        id: 'review'
+      }
+    ];
+
+    return contentTabs;
   };
 
   onSubmit = (data) => {

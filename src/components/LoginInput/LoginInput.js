@@ -9,7 +9,7 @@ class LoginInput extends React.Component {
     onLogin: PropTypes.func.isRequired,
     toggleLogin: PropTypes.func.isRequired,
     infoClass: PropTypes.string.isRequired,
-    handleError: PropTypes.func,
+    handleError: PropTypes.func
   }
 
   constructor(props) {
@@ -18,7 +18,7 @@ class LoginInput extends React.Component {
       email: '',
       password: '',
       remember: '0',
-      hasErrors: false,
+      hasErrors: false
     };
   }
 
@@ -38,19 +38,19 @@ class LoginInput extends React.Component {
 
   onUserChange = (event) => {
     this.setState({
-      email: event.target.value,
+      email: event.target.value
     });
   }
 
   onPassChange = (event) => {
     this.setState({
-      password: event.target.value,
+      password: event.target.value
     });
   }
 
   onToggleChange = (event) => {
     this.setState({
-      remember: event.target.checked ? '1' : '0',
+      remember: event.target.checked ? '1' : '0'
     });
   }
 

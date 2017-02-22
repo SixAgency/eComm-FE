@@ -8,7 +8,7 @@ class CtaInfo extends React.Component {
     loggedIn: PropTypes.bool,
     toggleGiftcard: PropTypes.func,
     toggleLogin: PropTypes.func,
-    infoClass: PropTypes.string,
+    infoClass: PropTypes.string
   }
 
   render() {

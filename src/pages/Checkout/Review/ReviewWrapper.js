@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -69,7 +70,9 @@ class ReviewWrapper extends BasePageComponent {
       showCouponFields: false,
       couponClassName: 'hide',
       message: PropTypes.string,
-      isError: PropTypes.bool
+      isError: PropTypes.bool,
+      showLoginFields: false,
+      loginClassName: 'hide'
     };
   }
 
@@ -87,6 +90,9 @@ class ReviewWrapper extends BasePageComponent {
     const addresses = this.props.addresses;
     if (!shipping.isLoaded && !billing.isLoaded && !addresses.isLoaded) {
       this.props.getAddress();
+    }
+    if (this.props.cartItems.isEmpty) {
+      browserHistory.push('/cart');
     }
   };
 
@@ -107,6 +113,38 @@ class ReviewWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
+  };
+
+  getContentTabs = () => {
+    const contentTabs = [
+      {
+        name: 'Billing Address',
+        title: 'Billing Address',
+        cname: 'billing',
+        id: 'billing'
+      },
+      {
+        name: 'Shipping Address',
+        title: 'Shipping Address',
+        cname: 'shipping',
+        id: 'shipping'
+      },
+      {
+        name: 'Apply Promotional Code',
+        title: 'Apply Promotional Code',
+        cname: 'promocode',
+        id: 'promo'
+      },
+      {
+        name: 'Review Order',
+        title: 'Review Order',
+        cname: 'review',
+        id: 'review'
+      }
+    ];
+
+    return contentTabs;
   };
 
   getContentTabs = () => {
@@ -190,6 +228,8 @@ class ReviewWrapper extends BasePageComponent {
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}
         breadcrumbs={this.props.route.breadcrumbs}
+        loginClass={this.state.loginClassName}
+        handleLogin={this.handleLogin}
       />
     );
   }

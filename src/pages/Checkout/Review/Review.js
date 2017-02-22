@@ -8,6 +8,8 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 import ContentWrapper from '../../../components/ContentWrapper';
 // Forms and inputs
 import ReviewOrder from '../../../components/Forms/Checkout/ReviewOrder';
+import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
+import LoginInput from '../../../components/LoginInput/LoginInput';
 
 
 class Review extends React.Component {
@@ -26,7 +28,10 @@ class Review extends React.Component {
     contentTabs: PropTypes.array.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    couponClass: PropTypes.string.isRequired,
+    loginClass: PropTypes.string.isRequired,
+    handleLogin: PropTypes.func.isRequired
   };
 
   render() {
@@ -44,11 +49,31 @@ class Review extends React.Component {
         <CtaInfo
           loggedIn={this.props.loggedIn}
           toggleGiftcard={this.props.handleGiftcard}
-          infoClass={'infocheckout'}
+          toggleLogin={this.props.handleLogin}
+          infoClass="infocheckout"
         />
+        <section>
+          <div className={s.giftCardwrpr}>
+            <GiftCardInput
+              toggleGiftcard={this.props.handleGiftcard}
+              infoClass={this.props.couponClass}
+              applyPromoCode={this.props.applyPromoCode}
+            />
+          </div>
+          {!this.props.loggedIn &&
+            <div className={s.loginwrpr}>
+              <LoginInput
+                onLogin={this.props.onLogin}
+                toggleLogin={this.props.handleLogin}
+                infoClass={this.props.loginClass}
+                handleError={this.handleError}
+              />
+            </div>
+          }
+        </section>
         <ContentWrapper
           tabs={this.props.contentTabs}
-          tabsClass={'show'}
+          tabsClass="show"
           clickTab={this.props.clickTab}
           isActive={this.props.content}
         >
