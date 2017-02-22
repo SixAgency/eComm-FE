@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Layout.css';
@@ -7,7 +7,7 @@ import Footer from '../Footer';
 import MobileNavigation from '../MobileNavigation';
 import Loader from '../Loader';
 
-class LayoutContent extends React.Component {
+class LayoutContent extends Component {
 
   static propTypes = {
     headerClass: PropTypes.string.isRequired,
@@ -18,7 +18,7 @@ class LayoutContent extends React.Component {
     mobileNavClose: PropTypes.func.isRequired,
     menuOpen: PropTypes.string.isRequired,
     showLoader: PropTypes.bool.isRequired,
-    layoutStyles: PropTypes.object.isRequired,
+    layoutStyles: PropTypes.object.isRequired
   };
 
   showLoader = () => {
@@ -47,7 +47,7 @@ class LayoutContent extends React.Component {
             menuOpen={this.props.menuOpen}
             mobileNavClose={this.props.mobileNavClose}
             activeSlug={this.props.activeSlug}
-            navClass={'mobilenavigation'}
+            navClass="mobilenavigation"
           />
         </div>
         { this.showLoader() }

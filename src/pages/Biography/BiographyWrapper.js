@@ -11,7 +11,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -19,13 +19,13 @@ class BiographyWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'default',
-      activeSlug: '/biography',
+      activeSlug: '/biography'
     };
     this.props.setHeaderProps(props);
   }

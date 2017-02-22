@@ -55,3 +55,9 @@
     background-color: #29cbc8;
     color: #d0ff00;
 }
+
+@media (max-width: 767px) and (min-width: 320px) {
+  .title {
+    margin-top: 50px;
+  }
+}

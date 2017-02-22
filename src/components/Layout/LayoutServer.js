@@ -6,11 +6,11 @@ class Layout extends React.Component {
   static propTypes = {
     headerProps: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   static defaultProps = {
-    cartItems: { isLoaded: false, isEmpty: true, cart: {} },
+    cartItems: { isLoaded: false, isEmpty: true, cart: {} }
   }
 
   mobileNavOpen = () => (true)

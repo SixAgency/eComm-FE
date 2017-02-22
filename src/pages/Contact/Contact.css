@@ -18,3 +18,14 @@
     }
   }
 }
+
+@media (max-width: 479px) and (min-width: 320px) {
+  .contactpage {
+    padding-top: 58px;
+    .pagewrapper {
+      .formwrapper {
+        padding: 8%;
+      }
+    }
+  }
+}

@@ -97,9 +97,16 @@
         .gtext {
           font-size: 13px;
           line-height: 21px;
+          .text {
+            font-size: 13px;
+            line-height: 21px;
+          }
         }
       }
       .staticgridtext { height: 50vw; }
+      .gridfour:last-of-type {
+        padding: 20px 0;
+      }
     }
   }
 }

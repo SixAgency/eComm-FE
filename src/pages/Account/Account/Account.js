@@ -19,7 +19,7 @@ class Account extends React.Component {
     onLogout: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   getChildren = (state) => {
@@ -35,14 +35,14 @@ class Account extends React.Component {
         name: 'Login',
         title: 'Login',
         cname: 'login',
-        id: 'blogin',
+        id: 'blogin'
       },
       {
         name: 'Register',
         title: 'Register',
         cname: 'register',
-        id: 'bregister',
-      },
+        id: 'bregister'
+      }
     ];
     return (
       <section className={s.page}>

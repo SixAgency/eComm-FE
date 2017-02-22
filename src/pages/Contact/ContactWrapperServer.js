@@ -4,7 +4,7 @@ import Contact from './Contact';
 class ContactWrapper extends React.Component {
 
   static propTypes = {
-    setHeaderProps: PropTypes.func.isRequired,
+    setHeaderProps: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -12,7 +12,7 @@ class ContactWrapper extends React.Component {
     sendContact: () => (true),
     isError: false,
     isSent: false,
-    messages: [],
+    messages: []
   }
 
   render() {

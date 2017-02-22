@@ -8,7 +8,7 @@ class Html extends Component {
     ogImage: PropTypes.string,
     style: PropTypes.string,
     scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
-    children: PropTypes.string,
+    children: PropTypes.string
   };
 
   render() {
@@ -34,7 +34,7 @@ class Html extends Component {
           <meta property="twitter:description" content={description || '...'} />
           {ogImage && <meta property="twitter:image" content={ogImage} />}
           <meta name="twitter:title" content={`${title} - krissorbie`} />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
           <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
           <link rel="shortcut icon" href="/assets/tile.png" />
           {style && <style id="css" dangerouslySetInnerHTML={{ __html: style }} />}

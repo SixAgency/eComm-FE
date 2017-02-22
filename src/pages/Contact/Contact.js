@@ -8,7 +8,7 @@ class Contact extends React.Component {
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   render() {

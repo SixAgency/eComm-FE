@@ -15,7 +15,7 @@ class AddressForm extends React.Component {
     buttonText: PropTypes.string.isRequired,
     emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
-    address: PropTypes.object,
+    address: PropTypes.object
   };
 
   constructor(props) {
@@ -30,61 +30,61 @@ class AddressForm extends React.Component {
       address2: this.props.address.address2,
       city: this.props.address.city,
       state_id: this.props.address.state_id,
-      zipcode: this.props.address.zipcode,
+      zipcode: this.props.address.zipcode
     };
   }
 
   onFirstNameUpdate = (event) => {
     this.setState({
-      firstname: event.target.value,
+      firstname: event.target.value
     });
   };
 
   onLastNameUpdate = (event) => {
     this.setState({
-      lastname: event.target.value,
+      lastname: event.target.value
     });
   };
 
   onCompanyUpdate = (event) => {
     this.setState({
-      company: event.target.value,
+      company: event.target.value
     });
   };
 
   onPhoneNumberUpdate = (event) => {
     this.setState({
-      phone: event.target.value,
+      phone: event.target.value
     });
   };
 
   onAddressOneUpdate = (event) => {
     this.setState({
-      address1: event.target.value,
+      address1: event.target.value
     });
   };
 
   onAddressTwoUpdate = (event) => {
     this.setState({
-      address2: event.target.value,
+      address2: event.target.value
     });
   };
 
   onCityUpdate = (event) => {
     this.setState({
-      city: event.target.value,
+      city: event.target.value
     });
   };
 
   onStateUpdate = (event) => {
     this.setState({
-      state_id: parseInt(event.target.value, 10),
+      state_id: parseInt(event.target.value, 10)
     });
   };
 
   onZipUpdate = (event) => {
     this.setState({
-      zipcode: event.target.value,
+      zipcode: event.target.value
     });
   };
 

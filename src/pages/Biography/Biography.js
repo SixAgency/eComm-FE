@@ -10,7 +10,7 @@ class Biography extends React.Component {
   render() {
     const bottomText = {
       subtitle: 'About Kris Sorbie',
-      paragraph: 'AWARD WINNING ARTISTIC DIRECTOR',
+      paragraph: 'AWARD WINNING ARTISTIC DIRECTOR'
     };
     return (
       <section className={s.page}>

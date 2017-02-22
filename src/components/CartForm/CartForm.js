@@ -12,14 +12,14 @@ class CartForm extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
       showCalculator: false,
-      className: 'hide',
+      className: 'hide'
     };
   }
 
@@ -32,7 +32,7 @@ class CartForm extends React.Component {
     e.preventDefault();
     this.setState({
       showCalculator: !this.state.showCalculator,
-      className: !this.state.showCalculator ? 'show' : 'hide',
+      className: !this.state.showCalculator ? 'show' : 'hide'
     });
   };
 

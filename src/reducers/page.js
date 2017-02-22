@@ -1,11 +1,12 @@
 export default function reducer(state = {
   headerProps: {
     headerClass: 'colored',
-    activeSlug: '/',
+    activeSlug: '/'
   },
   showLoader: true,
   isError: false,
   messages: [],
+  showMobileNav: false
 }, action) {
   switch (action.type) {
     case 'SET_HEADER_PROPS': {
@@ -19,6 +20,9 @@ export default function reducer(state = {
     }
     case 'TOGGLE_LOADER': {
       return { ...state, showLoader: action.payload };
+    }
+    case 'TOGGLE_MOBILE_NAV': {
+      return { ...state, showMobileNav: action.payload };
     }
     default: // do nothing
   }

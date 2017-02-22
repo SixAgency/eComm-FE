@@ -4,11 +4,11 @@ import Biography from './Biography';
 class BiographyWrapper extends React.Component {
 
   static propTypes = {
-    setHeaderProps: PropTypes.func.isRequired,
+    setHeaderProps: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    setHeaderProps: () => (true),
+    setHeaderProps: () => (true)
   }
 
   render() {

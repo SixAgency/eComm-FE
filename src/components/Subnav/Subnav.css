@@ -81,5 +81,9 @@
       margin-top: -25px;
       text-align: left;
     }
+
+    .innerlink::after {
+      display: none;
+    }
   }
 }

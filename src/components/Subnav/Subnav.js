@@ -6,11 +6,11 @@ import s from './Subnav.css';
 class Subnav extends React.Component {
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    onLogout: () => (true),
+    onLogout: () => (true)
   }
 
   getSubNavItems = () => {
@@ -19,26 +19,26 @@ class Subnav extends React.Component {
         {
           title: 'My Account',
           link: '/my-account/dashboard',
-          action: () => (true),
+          action: () => (true)
         },
         {
           title: 'Edit Account',
           link: '/my-account/edit-account',
-          action: () => (true),
+          action: () => (true)
         },
         {
           title: 'Logout',
           link: '/my-account',
-          action: this.props.onLogout,
-        },
+          action: this.props.onLogout
+        }
       ];
     }
     return [
       {
         title: 'Login / Register',
         link: '/my-account',
-        action: () => (true),
-      },
+        action: () => (true)
+      }
     ];
   };
 

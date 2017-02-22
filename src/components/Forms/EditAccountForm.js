@@ -13,7 +13,7 @@ class EditAccountForm extends React.Component {
       email: '',
       password: '',
       newpassword: '',
-      confirmnewpassword: '',
+      confirmnewpassword: ''
     };
   }
 
@@ -134,11 +134,6 @@ class EditAccountForm extends React.Component {
               className={s.submit}
               type="submit"
               value="save changes"
-            />
-            <input
-              className={s.submit}
-              type="submit"
-              value="cancel"
             />
           </div>
         </form>

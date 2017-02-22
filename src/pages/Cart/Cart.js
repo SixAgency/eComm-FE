@@ -31,7 +31,7 @@ class Cart extends Component {
     applyPromoCode: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired
   };
 
   render() {
