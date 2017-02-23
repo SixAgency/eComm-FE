@@ -6,7 +6,9 @@ function getCheckoutBilling(cart, addresses) {
     }
     return addresses.billing.address.id;
   }
-  return cart.cart.bill_address.selected_address_id;
+  return 0;
+  // Don't delete - we need once the backend is fixed
+  // return cart.cart.bill_address.selected_address_id;
 }
 
 function getCheckoutShipping(cart, addresses) {
@@ -17,7 +19,9 @@ function getCheckoutShipping(cart, addresses) {
     }
     return addresses.shipping.address.id;
   }
-  return cart.cart.ship_address.selected_address_id;
+  return 0;
+  // Don't delete - we need once the backend is fixed
+  // return cart.cart.ship_address.selected_address_id;
 }
 
 export { getCheckoutBilling, getCheckoutShipping };

@@ -35,6 +35,10 @@ class AddressList extends React.Component {
     this.props.onSubmit(this.state.selected);
   };
 
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({ selected: nextProps.address });
+  };
+
   showCancel = () => {
     if (this.props.showCancel) {
       return (<input
@@ -48,6 +52,7 @@ class AddressList extends React.Component {
   };
 
   render() {
+    console.log(this.props.address);
     return (
       <div className={s.cformcontent}>
         <h1 className={s.title}>{this.props.formTitle}</h1>

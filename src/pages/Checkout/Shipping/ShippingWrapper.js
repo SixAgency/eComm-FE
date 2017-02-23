@@ -116,19 +116,19 @@ class ShippingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    console.log(nextProps);
     if (nextProps.addresses.isLoaded && nextProps.shipping.isLoaded && nextProps.billing.isLoaded) {
       if (!nextProps.billing.isSet) {
         forwardTo('checkout/billing');
-      } else if (nextProps.shipping.isSet && !nextProps.isPending) {
-        setTimeout(() => {
-          this.props.toggleLoader(false);
-        }, 500);
+      } else if (nextProps.shipping.isSet) {
+          if (!nextProps.isPending) {
+            setTimeout(() => {
+              this.props.toggleLoader(false);
+            }, 500);
+          }
       } else {
         this.setShippingFromAddresses(nextProps.addresses);
       }
-    }
-    if (this.props.cartItems.isEmpty) {
-      browserHistory.push('/cart');
     }
   };
 
@@ -168,37 +168,6 @@ class ShippingWrapper extends BasePageComponent {
     });
   };
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing'
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping'
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo'
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review'
-      }
-    ];
-
-    return contentTabs;
-  };
-
   onSubmit = (shipping) => {
     const data = {
       addresses: this.props.addresses.addresses,
@@ -215,11 +184,11 @@ class ShippingWrapper extends BasePageComponent {
       address
     };
     const message = 'Address created successfully.';
-    this.props.createAddress(data, message, (resp) => {
+    this.props.createAddress(data, message, (newAddress) => {
       this.setState({
         content: 'list'
       });
-      console.log(resp);
+      this.props.setShipping(newAddress.id);
     });
   };
 

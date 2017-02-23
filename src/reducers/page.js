@@ -26,7 +26,7 @@ export default function reducer(state = {
       return { ...state, showMobileNav: action.payload };
     }
     case 'SET_PENDING': {
-      return { ...state, showLoader: action.payload };
+      return { ...state, isPending: action.payload };
     }
     default: // do nothing
   }

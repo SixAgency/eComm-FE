@@ -86,6 +86,7 @@ function checkoutAddresses(data) {
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
           forwardTo('checkout/promo');
+          dispatch(setPending(false));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))

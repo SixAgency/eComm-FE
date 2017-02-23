@@ -23,7 +23,6 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
-    getAddress: () => dispatch(getAddress()),
     completePayPal: () => dispatch(completePayPal())
   }
 ));
@@ -34,9 +33,6 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError,
-    shipping: state.address.shipping,
-    billing: state.address.billing,
-    addresses: state.address.addresses,
     isPayPal: state.checkout.isPayPal
   }
 ));
@@ -54,10 +50,6 @@ class ReviewWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-    shipping: PropTypes.object.isRequired,
-    billing: PropTypes.object.isRequired,
-    addressess: PropTypes.object.isRequired,
-    getAddress: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
     route: PropTypes.object
@@ -85,12 +77,6 @@ class ReviewWrapper extends BasePageComponent {
     if (!this.props.cartItems.isLoaded) {
       this.props.getCart();
     }
-    const billing = this.props.billing;
-    const shipping = this.props.shipping;
-    const addresses = this.props.addresses;
-    if (!shipping.isLoaded && !billing.isLoaded && !addresses.isLoaded) {
-      this.props.getAddress();
-    }
     if (this.props.cartItems.isEmpty) {
       browserHistory.push('/cart');
     }
@@ -114,68 +100,6 @@ class ReviewWrapper extends BasePageComponent {
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
-  };
-
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing'
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping'
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo'
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review'
-      }
-    ];
-
-    return contentTabs;
-  };
-
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing'
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping'
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo'
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review'
-      }
-    ];
-
-    return contentTabs;
   };
 
   clickTab = (e) => {
@@ -204,10 +128,6 @@ class ReviewWrapper extends BasePageComponent {
     if (!this.props.cartItems.isLoaded) {
       return null;
     }
-    const addresses = this.props.addresses;
-    if (!this.props.billing.isLoaded && !this.props.shipping.isLoaded && !addresses.isLoaded) {
-      return null;
-    }
     return (
       <Review
         cartItems={this.props.cartItems}
@@ -221,9 +141,6 @@ class ReviewWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         applyPromoCode={this.props.applyPromoCode}
-        billingAddress={this.props.billing.address}
-        shippingAddress={this.props.shipping.address}
-        addresses={this.props.addresses.addresses}
         contentTabs={CHECKOUT_TABS}
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}

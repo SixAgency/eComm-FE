@@ -93,7 +93,7 @@ apiRoutes.put('/applycode', (req, resp) => {
 // ADDRESS ROUTES - GET, CREATE and UPDATE
 apiRoutes
   .get('/addresses', (req, resp) => {
-    getAddresses(req).then((data) => (resp.json(data)));
+    getAddresses(req, { isNew: false }).then((data) => (resp.json(data)));
   })
   .post('/addresses', (req, resp) => {
     const valid = validateMandatoryFieldsAddress(req.body.data.address);

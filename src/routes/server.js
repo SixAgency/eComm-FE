@@ -310,7 +310,7 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
           active: '/my-account'
         };
         return Promise.all([
-          getAddresses(req),
+          getAddresses(req, { isNew: false }),
           getOrders(req)
         ]).then((values) => {
           const address = values[0];
@@ -418,7 +418,7 @@ siteRoutes.get('/my-account/address/shipping', (req, resp, next) => {
           header: 'colored',
           active: '/my-account'
         };
-        getAddresses(req)
+        getAddresses(req, { isNew: false })
           .then((addresses) => {
             address = { ...addresses.billing, isLoaded: true };
             alladdresses = { ...addresses.addresses, isLoaded: true };
@@ -464,7 +464,7 @@ siteRoutes.get('/my-account/address/billing', (req, resp, next) => {
           header: 'colored',
           active: '/my-account'
         };
-        getAddresses(req)
+        getAddresses(req, { isNew: false })
           .then((addresses) => {
             conslog('addd', addresses);
             const messages = data.messages || [];
@@ -533,7 +533,7 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getCart(req)
         .then((cart) => handleError(cart, resp, () => {
-          getAddresses(req)
+          getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
               const address = getCheckoutBilling(cart, addresses);
               const params = {
@@ -572,7 +572,7 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getCart(req)
         .then((cart) => handleError(cart, resp, () => {
-          getAddresses(req)
+          getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
               const address = getCheckoutShipping(cart, addresses);
               const params = {

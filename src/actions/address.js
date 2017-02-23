@@ -200,7 +200,7 @@ function createAddressNew(data, message, callback) {
             response.data.shipping,
             response.data.addresses,
           ));
-          callback('asdasd');
+          callback(response.data.newAddress);
           dispatch(setMessage({ isError: false, messages: [message] }));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));

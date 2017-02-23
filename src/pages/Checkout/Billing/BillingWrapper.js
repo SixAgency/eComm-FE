@@ -79,7 +79,7 @@ class BillingWrapper extends BasePageComponent {
     if (this.props.addresses.isLoaded) {
       const content = this.props.addresses.isEmpty ? 'form' : 'list';
       this.setState({
-        content,
+        content
       });
     } else {
       this.props.getAddress();
@@ -106,6 +106,8 @@ class BillingWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.addresses.isLoaded && nextProps.billing.isLoaded) {
+      const content = nextProps.addresses.isEmpty ? 'form' : 'list';
+      this.setState({ content });
       if (nextProps.billing.isSet) {
         setTimeout(() => {
           this.props.toggleLoader(false);
@@ -152,37 +154,6 @@ class BillingWrapper extends BasePageComponent {
     });
   };
 
-  getContentTabs = () => {
-    const contentTabs = [
-      {
-        name: 'Billing Address',
-        title: 'Billing Address',
-        cname: 'billing',
-        id: 'billing'
-      },
-      {
-        name: 'Shipping Address',
-        title: 'Shipping Address',
-        cname: 'shipping',
-        id: 'shipping'
-      },
-      {
-        name: 'Apply Promotional Code',
-        title: 'Apply Promotional Code',
-        cname: 'promocode',
-        id: 'promo'
-      },
-      {
-        name: 'Review Order',
-        title: 'Review Order',
-        cname: 'review',
-        id: 'review'
-      }
-    ];
-
-    return contentTabs;
-  };
-
   onSubmit = (data) => {
     this.props.toggleLoader(true);
     this.props.setBilling(data);
@@ -193,12 +164,15 @@ class BillingWrapper extends BasePageComponent {
     const data = {
       address
     };
+    if (this.props.addresses.isEmpty) {
+      data.default_address_types = ['bill_address', 'ship_address'];
+    }
     const message = 'Address created successfully.';
-    this.props.createAddress(data, message, (resp) => {
+    this.props.createAddress(data, message, (newAddress) => {
       this.setState({
         content: 'list'
       });
-      console.log(resp);
+      this.props.setBilling(newAddress.id);
     });
   };
 

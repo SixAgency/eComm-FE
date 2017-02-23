@@ -55,7 +55,7 @@ class Subnav extends React.Component {
             {this.props.breadcrumbs.map((item, index) => {
               if (item.url && index < breadcrumbsCount - 1) {
                 return (
-                  <span>
+                  <span key={index}>
                     <Link to={item.url} className={s.innerlink}>{item.label}</Link>
                     <span className={s.divider}>/</span>
                   </span>

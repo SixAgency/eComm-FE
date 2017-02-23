@@ -52,4 +52,4 @@ function getCheckoutAddresses(data) {
   return response;
 }
 
-export { getCartAddresses, getCheckoutAddresses }
+export { getCartAddresses, getCheckoutAddresses };

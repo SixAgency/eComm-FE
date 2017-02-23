@@ -37,7 +37,7 @@ class Billing extends React.Component {
     onFormCancel: PropTypes.func.isRequired,
     showCancel: PropTypes.bool.isRequired,
     content: PropTypes.string.isRequired,
-    breadcrumbs: PropTypes.array.isRequire,
+    breadcrumbs: PropTypes.array
   };
 
   getContent = () => {
