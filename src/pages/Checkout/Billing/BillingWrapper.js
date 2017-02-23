@@ -208,7 +208,7 @@ class BillingWrapper extends BasePageComponent {
           isError={this.props.isError}
           applyPromoCode={this.props.applyPromoCode}
           contentTabs={CHECKOUT_TABS}
-          selectedAddress={this.props.billing.address}
+          selectedAddress={this.props.billing.addressId}
           addresses={this.props.addresses.addresses}
           onSubmit={this.onSubmit}
           onFormSubmit={this.onFormSubmit}

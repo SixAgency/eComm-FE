@@ -74,7 +74,7 @@ class Shipping extends React.Component {
         formTitle="Shipping Address"
         formSubtitle="Set the shipping address"
         buttonText="Proceed"
-        address={this.props.selectedAddress}
+        addressId={this.props.selectedAddress}
         addresses={this.props.addresses}
         onSubmit={this.props.onSubmit}
         onCreate={this.props.onCreate}

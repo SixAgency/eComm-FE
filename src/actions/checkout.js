@@ -17,28 +17,46 @@ function setCartState(state) {
   return { type: 'SET_CART_STATE', payload: state };
 }
 
+/**
+ * Set isPayPal flag
+ * @param cart
+ * @returns {{type: string, payload: *}}
+ */
 function setPayment(isPayPal) {
   return { type: 'SET_PAYMENT', payload: isPayPal };
 }
 
+/**
+ * Set Checkout Billing State
+ * @param cart
+ * @returns {{type: string, payload: *}}
+ */
 function setBilling(id) {
   const address = {
     isLoaded: true,
     isSet: id !== null,
-    address: id
+    addressId: id
   };
   return { type: 'SET_CHECKOUT_BILLING', payload: address };
 }
 
+/**
+ * Set Checkout Shipping State
+ * @param cart
+ * @returns {{type: string, payload: *}}
+ */
 function setShipping(id) {
   const address = {
     isLoaded: true,
     isSet: id !== null,
-    address: id
+    addressId: id
   };
-  return { type: 'SET_CHECKOUT_SHIPPING', payload: { ...address, isLoaded: true } };
+  return { type: 'SET_CHECKOUT_SHIPPING', payload: address };
 }
 
+/**
+ * Get braintree token to initialize PayPal
+ */
 function getPayPalToken() {
   window.scrollTo(0, 0);
   return (dispatch) => {
@@ -55,6 +73,11 @@ function getPayPalToken() {
   };
 }
 
+/**
+ * Set paypal as payment source
+ * @param data
+ * @returns {function(*=)}
+ */
 function checkoutPayPal(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
@@ -72,6 +95,11 @@ function checkoutPayPal(data) {
   };
 }
 
+/**
+ * Set order addresses
+ * @param data
+ * @returns {function(*=)}
+ */
 function checkoutAddresses(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
@@ -97,6 +125,11 @@ function checkoutAddresses(data) {
   };
 }
 
+/**
+ * Next step - we are using to finalize an order
+ * @param state
+ * @returns {function(*=)}
+ */
 function checkoutNext(state) {
   window.scrollTo(0, 0);
   return (dispatch) => {
@@ -123,6 +156,11 @@ function checkoutNext(state) {
   };
 }
 
+/**
+ * The same as above - just with paypal - we are using to finalize an order
+ * @param state
+ * @returns {function(*=)}
+ */
 function completePayPal() {
   window.scrollTo(0, 0);
   return (dispatch) => {
@@ -153,5 +191,5 @@ export {
   setBilling,
   setShipping,
   completePayPal,
-  setPayment,
+  setPayment
 };

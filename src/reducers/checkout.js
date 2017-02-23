@@ -3,18 +3,18 @@ export default function reducer(state = {
   paypal: {
     isLoaded: false,
     isEmpty: true,
-    tokens: {},
+    tokens: {}
   },
   billing: {
     isSet: false,
     isLoaded: false,
-    address: null,
+    addressId: null
   },
   shipping: {
     isSet: false,
     isLoaded: false,
-    address: null,
-  },
+    addressId: null
+  }
 }, action) {
   switch (action.type) {
     case 'SET_PAYPAL': {

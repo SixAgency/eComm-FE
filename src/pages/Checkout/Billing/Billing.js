@@ -51,7 +51,7 @@ class Billing extends React.Component {
         address2: '',
         city: '',
         state_id: 0,
-        zipcode: '',
+        zipcode: ''
       };
       const showEmailPhone = true;
       return (
@@ -74,7 +74,7 @@ class Billing extends React.Component {
         formTitle="Billing Address"
         formSubtitle="Set the billing address"
         buttonText="Proceed"
-        address={this.props.selectedAddress}
+        addressId={this.props.selectedAddress}
         addresses={this.props.addresses}
         onSubmit={this.props.onSubmit}
         onCreate={this.props.onCreate}

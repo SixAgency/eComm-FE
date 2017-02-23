@@ -171,7 +171,7 @@ class ShippingWrapper extends BasePageComponent {
   onSubmit = (shipping) => {
     const data = {
       addresses: this.props.addresses.addresses,
-      billing: this.props.billing.address,
+      billing: this.props.billing.addressId,
       isPayPal: this.props.isPayPal,
       shipping
     };
@@ -226,7 +226,7 @@ class ShippingWrapper extends BasePageComponent {
           isError={this.props.isError}
           applyPromoCode={this.props.applyPromoCode}
           contentTabs={CHECKOUT_TABS}
-          selectedAddress={this.props.shipping.address}
+          selectedAddress={this.props.shipping.addressId}
           addresses={this.props.addresses.addresses}
           onSubmit={this.onSubmit}
           onFormSubmit={this.onFormSubmit}

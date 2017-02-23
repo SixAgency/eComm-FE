@@ -119,7 +119,7 @@ class BillingWrapper extends BasePageComponent {
         <Billing
           loggedIn={this.props.loggedIn}
           onLogout={this.props.onLogout}
-          address={this.props.billing.address.id}
+          addressId={this.props.billing.address.id}
           addresses={this.props.addresses.addresses}
           messages={this.props.messages}
           isError={this.props.isError}

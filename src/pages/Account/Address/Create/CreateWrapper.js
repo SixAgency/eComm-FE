@@ -16,7 +16,7 @@ const mapStateToProps = ((state) => (
     emailAddress: state.user.emailAddress,
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
-    isError: state.page.isError,
+    isError: state.page.isError
   }
 ));
 
@@ -28,9 +28,9 @@ const mapDispatchToProps = ((dispatch) => (
     createAddress: (address, message, callback) => dispatch(createAddressNew(
       address,
       message,
-      callback,
+      callback
     )),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -43,7 +43,7 @@ class CreateAddressWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
   };
 
   componentWillMount = () => {
@@ -52,7 +52,7 @@ class CreateAddressWrapper extends BasePageComponent {
     }
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
   };
@@ -110,7 +110,7 @@ class CreateAddressWrapper extends BasePageComponent {
       address2: '',
       city: '',
       state_id: 0,
-      zipcode: '',
+      zipcode: ''
     };
     return (
       <CreateAddress

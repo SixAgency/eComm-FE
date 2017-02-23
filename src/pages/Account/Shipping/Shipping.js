@@ -15,7 +15,7 @@ class Shipping extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    address: PropTypes.number.isRequired,
+    addressId: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
@@ -34,7 +34,7 @@ class Shipping extends React.Component {
         <ContentWrapper tabsClass={'hide'}>
           <AddressList
             addresses={this.props.addresses}
-            address={this.props.address}
+            addressId={this.props.addressId}
             buttonText="Set Shipping Address"
             formTitle="Update Shipping Address"
             formSubtitle="Select one of the addresses"
