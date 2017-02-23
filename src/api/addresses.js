@@ -11,16 +11,16 @@ import { faketoken } from '../config';
 const ADDRESSES = '/api/v1/addresses';
 
 // Get Addresses
-function getAddresses(request) {
+function getAddresses(request, isNew) {
   return apiFetch(ADDRESSES,
     {
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
-  .then((data) => setAddressesResponse(data))
+  .then((data) => setAddressesResponse(data, isNew))
   .catch((err) => setError(err));
 }
 
@@ -32,8 +32,8 @@ function createAddress(request) {
       body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => setCreateAddressResponse(data, request, getAddresses))
@@ -44,17 +44,15 @@ function createAddress(request) {
 function updateAddress(request) {
   const type = request.body.address_type;
   const id = request.body.address.id;
-  const address = {
-    address: request.body.address,
-  };
+  const address = { address: request.body.address };
   return apiFetch(`${ADDRESSES}/${id}`,
     {
       method: 'PUT',
       body: JSON.stringify(address),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setEditCreateAddressResponse(data, type))
@@ -69,8 +67,8 @@ function setDefaultAddress(request) {
       body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((response) => checkResponse(response))
     .then((data) => setEditCreateAddressResponse(data))

@@ -4,6 +4,7 @@ export default function reducer(state = {
     activeSlug: '/'
   },
   showLoader: true,
+  isPending: false,
   isError: false,
   messages: [],
   showMobileNav: false
@@ -23,6 +24,9 @@ export default function reducer(state = {
     }
     case 'TOGGLE_MOBILE_NAV': {
       return { ...state, showMobileNav: action.payload };
+    }
+    case 'SET_PENDING': {
+      return { ...state, isPending: action.payload };
     }
     default: // do nothing
   }

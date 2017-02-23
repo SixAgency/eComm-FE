@@ -38,6 +38,14 @@ function setLoader(toggle) {
 }
 
 /**
+ * Helper - Set redux loading state
+ * @param toggle - boolen
+ */
+function setPending(toggle) {
+  return { type: 'SET_PENDING', payload: toggle };
+}
+
+/**
  * Toggle loading screen based on value
  * @param toggle - boolean
  * @returns {function(*)}
@@ -64,5 +72,6 @@ export {
   toggleLoader,
   setMessage,
   setLoader,
+  setPending,
   toggleMobileNavigation
 };

@@ -28,7 +28,7 @@ class ShippingWrapper extends React.Component {
       <Shipping
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        address={this.props.shipping.address.id}
+        addressId={this.props.shipping.address.id}
         addresses={this.props.addresses.addresses}
         messages={this.props.messages}
         isError={this.props.isError}

@@ -9,29 +9,34 @@ class AddressList extends React.Component {
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
-    address: PropTypes.number.isRequired,
+    addressId: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired
+    onCancel: PropTypes.func,
+    showCancel: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      selected: this.props.address
+      selected: this.props.addressId
     };
   }
 
-  onSelect = (e) => {
-    this.setState({
-      selected: parseInt(e.target.value, 10)
-    });
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({ selected: nextProps.addressId });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state.selected);
+  };
+
+  onSelect = (e) => {
+    this.setState({
+      selected: parseInt(e.target.value, 10)
+    });
   };
 
   render() {
@@ -44,16 +49,16 @@ class AddressList extends React.Component {
             addresses={this.props.addresses}
             onSelect={this.onSelect}
             onCreate={this.props.onCreate}
-            address={this.state.selected}
+            addressId={this.state.selected}
           />
           <div className={s.buttonwrapper}>
             <input className={s.submit} type="submit" value={this.props.buttonText} />
-            <input
+            { this.props.showCancel && <input
               className={cx(s.submit, s.cancel)}
               type="button"
               value="Cancel"
               onClick={this.props.onCancel}
-            />
+            /> }
           </div>
         </form>
       </div>

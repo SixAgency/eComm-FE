@@ -25,19 +25,19 @@ function checkResponse(data) {
         resp = {
           isError: true,
           message: data.error,
-          status: 200,
+          status: 200
         };
       } else if (data.errors) {
         resp = {
           isError: true,
           message: data.errors,
-          status: 200,
+          status: 200
         };
       } else {
         resp = {
           isError: true,
           message: 'The data entered is invalid. Please fix and try again.',
-          status: 200,
+          status: 200
         };
       }
       resolve(resp);
@@ -47,19 +47,19 @@ function checkResponse(data) {
         resp = {
           isError: true,
           message: data.error,
-          status: 200,
+          status: 200
         };
       } else if (data.errors) {
         resp = {
           isError: true,
           message: data.errors,
-          status: 200,
+          status: 200
         };
       } else {
         resp = {
           isError: true,
           message: 'The email address entered is already in use.',
-          status: 200,
+          status: 200
         };
       }
       resolve(resp);
@@ -82,7 +82,7 @@ function setError(data) {
   const resp = {
     isError: true,
     messages: [message],
-    status: data.status || 500,
+    status: data.status || 500
   };
   return resp;
 }
@@ -108,13 +108,15 @@ function setAddressResponse(data) {
   let resp;
   if (data && data.id) {
     resp = {
+      isLoaded: true,
       isEmpty: false,
-      address: data,
+      address: data
     };
   } else {
     resp = {
+      isLoaded: true,
       isEmpty: true,
-      address: {},
+      address: {}
     };
   }
   return resp;
@@ -127,7 +129,7 @@ function setAuthResponse(data, request) {
     const user = {
       userName: data.user.email.split('@')[0],
       emailAddress: data.user.email,
-      loggedIn: true,
+      loggedIn: true
     };
     const token = data.user.spree_api_key;
     setUserSession(user, token, request);
@@ -135,7 +137,7 @@ function setAuthResponse(data, request) {
       isError: false,
       user,
       billing: setAddressResponse(data.bill_address),
-      shipping: setAddressResponse(data.ship_address),
+      shipping: setAddressResponse(data.ship_address)
     };
   } else {
     let message = 'Server Error. Please contact your server administrator.';
@@ -148,7 +150,7 @@ function setAuthResponse(data, request) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   }
   return resp;
@@ -162,8 +164,8 @@ function setLogoutResponse(request) {
     user: {
       userName: '',
       emailAddress: '',
-      loggedIn: false,
-    },
+      loggedIn: false
+    }
   };
   return resp;
 }
@@ -180,8 +182,8 @@ function setUserResponse(request) {
           user: {
             userName: request.session.username,
             emailAddress: request.session.email,
-            loggedIn,
-          },
+            loggedIn
+          }
         };
       } else {
         resp = {
@@ -189,8 +191,8 @@ function setUserResponse(request) {
           user: {
             loggedIn: false,
             username: '',
-            email: '',
-          },
+            email: ''
+          }
         };
       }
       resolve(resp);
@@ -200,34 +202,51 @@ function setUserResponse(request) {
   });
 }
 
+function setDefaultAddresses(addresses, billing, shipping) {
+  const billingId = billing ? billing.id : 0;
+  const shippingId = shipping ? shipping.id : 0;
+  addresses.forEach((address) => {
+    address.isBilling = address.id === billingId; // eslint-disable-line no-param-reassign
+    address.isShipping = address.id === shippingId; // eslint-disable-line no-param-reassign
+  });
+  return addresses;
+}
+
 // Format User Addresses Response
-function setAddressesResponse(data) {
+function setAddressesResponse(data, newAddress ) {
   let resp;
   if (!data.isError) {
     resp = {
+      isError: false,
       billing: setAddressResponse(data.bill_address),
       shipping: setAddressResponse(data.ship_address),
       addresses: {
+        isLoaded: true,
         isEmpty: data.owner_address.length === 0,
-        addresses: data.owner_address,
-      },
+        addresses: setDefaultAddresses(data.owner_address, data.bill_address, data.ship_address)
+      }
     };
+    if (newAddress.isNew && newAddress.address) {
+      resp.newAddress = newAddress.address;
+    }
   } else {
     resp = {
       isError: true,
       messages: [data.message],
       billing: {
+        isLoaded: true,
         isEmpty: true,
-        address: {},
+        address: {}
       },
       shipping: {
+        isLoaded: true,
         isEmpty: true,
-        address: {},
+        address: {}
       },
       addresses: {
         isLoaded: true,
         isEmpty: true,
-        addresses: [],
+        addresses: []
       },
     };
   }
@@ -240,13 +259,13 @@ function setEditCreateAddressResponse(data) {
   if (!data.isError && !data.errors) {
     resp = {
       billing: setAddressResponse(data.default_addresses.bill_address),
-      shipping: setAddressResponse(data.default_addresses.ship_address),
+      shipping: setAddressResponse(data.default_addresses.ship_address)
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
-      messages: [message],
+      messages: [message]
     };
   }
   return resp;
@@ -258,11 +277,11 @@ function setCreateAddressResponse(data, request, callback) {
     const message = data.message || 'Server Error. Please contact your server administrator.';
     resp = {
       isError: true,
-      messages: [message],
+      messages: [message]
     };
     return resp;
   }
-  return callback(request);
+  return callback(request, { isNew: true, address: data.address });
 }
 
 // Format Order Response
@@ -272,7 +291,7 @@ function setOrderResponse(data) {
     resp = {
       isError: false,
       isEmpty: (Object.getOwnPropertyNames(data).length < 1),
-      order: data,
+      order: data
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -280,7 +299,7 @@ function setOrderResponse(data) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      order: {},
+      order: {}
     };
   }
   return resp;
@@ -294,7 +313,7 @@ function setOrdersResponse(data) {
       isLoaded: true,
       isError: false,
       isEmpty: data.orders.length === 0,
-      orders: data.orders,
+      orders: data.orders
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -302,7 +321,7 @@ function setOrdersResponse(data) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      orders: [],
+      orders: []
     };
   }
   return resp;
@@ -317,7 +336,7 @@ function setCartResponse(data, request, callback) {
       isEmpty: true,
       messages: [message],
       status: data.status,
-      cart: {},
+      cart: {}
     };
   } else if (Object.getOwnPropertyNames(data).length > 0) {
     const isEmpty = data.total_quantity < 1;
@@ -340,13 +359,13 @@ function setAddRemoveCartResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.item.status,
+      status: data.item.status
     };
   } else {
     resp = {
       isError: false,
       name: data.item.name || data.item.variant.name,
-      cart: data.cart,
+      cart: data.cart
     };
   }
   return resp;
@@ -359,12 +378,12 @@ function setCouponResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     resp = {
       isError: false,
-      data,
+      data
     };
   }
   return resp;
@@ -380,13 +399,13 @@ function setProductResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     resp = {
       isError: false,
       isEmpty: (Object.getOwnPropertyNames(data).length < 1),
-      product: data,
+      product: data
     };
   }
   return resp;
@@ -400,13 +419,13 @@ function setProductsResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     resp = {
       isError: false,
       isEmpty: data.products.length === 0,
-      products: data.products,
+      products: data.products
     };
   }
   return resp;
@@ -424,14 +443,14 @@ function setRecsResponse(data) {
       status: data.status,
       isLoaded: true,
       isEmpty: true,
-      products: [],
+      products: []
     };
   } else {
     resp = {
       isError: false,
       isLoaded: true,
       isEmpty: data.relations.length < 1,
-      products: data.relations.slice(0, 3).map((rel) => (rel.product)),
+      products: data.relations.slice(0, 3).map((rel) => (rel.product))
     };
   }
   return resp;
@@ -444,7 +463,7 @@ function setMannequinHeadsResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     const products = data.products
@@ -452,7 +471,7 @@ function setMannequinHeadsResponse(data) {
     resp = {
       isError: false,
       isEmpty: products.length < 1,
-      products,
+      products
     };
   }
   return resp;
@@ -466,7 +485,7 @@ function setContactResponse(data) {
     resp = {
       isError: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     resp = {
@@ -487,13 +506,13 @@ function setBraintreeResponse(data) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
   } else {
     resp = {
       isError: false,
       isEmpty: (Object.getOwnPropertyNames(data).length < 1),
-      tokens: data,
+      tokens: data
     };
   }
   return resp;
@@ -507,7 +526,7 @@ function setAddressCallBack(request, data, isPayPal, callback) {
       isError: true,
       isEmpty: true,
       messages: [message],
-      status: data.status,
+      status: data.status
     };
     return resp;
   }
@@ -538,5 +557,5 @@ export {
   setMannequinHeadsResponse,
   setContactResponse,
   setBraintreeResponse,
-  setAddressCallBack,
+  setAddressCallBack
 };
