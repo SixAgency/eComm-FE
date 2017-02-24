@@ -11,11 +11,6 @@ class ReviewOrder extends React.Component {
     isPaypal: PropTypes.bool.isRequired
   };
 
-  checkoutPayPal = (e) => {
-    e.preventDefault();
-    this.props.checkoutPayPal('delivery');
-  };
-
   checkoutSquare = (e) => {
     e.preventDefault();
     alert('Checkout with Cart');
@@ -41,7 +36,7 @@ class ReviewOrder extends React.Component {
               After clicking on Place Order wait for the confirmation
               screen to appear. Do not click on back or any other buttons during this process.
             </p>
-            <input className={s.submit} type="button" value="Place Order" onClick={this.checkoutPayPal} />
+            <input className={s.submit} type="button" value="Place Order" onClick={this.props.checkoutPayPal} />
           </div>
         </div>
       );

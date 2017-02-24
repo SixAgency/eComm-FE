@@ -1,7 +1,7 @@
 export default function reducer(state = {
   order: {
     isLoaded: false,
-    order: {},
+    order: {}
   },
   message: '',
   isError: false,
@@ -9,8 +9,8 @@ export default function reducer(state = {
     isLoaded: false,
     isEmpty: true,
     isError: false,
-    orders: [],
-  },
+    orders: []
+  }
 }, action) {
   switch (action.type) {
     case 'SET_ORDER': {

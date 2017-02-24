@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setCart, resetCart, getCart } from './order';
+import { setCart, setOrder, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
 import { getCheckoutAddresses } from '../helpers/feed';
 
@@ -85,7 +85,7 @@ function checkoutPayPal(data) {
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
         dispatch(setPayment(true));
-        forwardTo('checkout');
+        forwardTo('checkout/review');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -162,16 +162,20 @@ function checkoutNext(state) {
  * @returns {function(*=)}
  */
 function completePayPal() {
-  window.scrollTo(0, 0);
   return (dispatch) => {
-    dispatch(setLoader(true));
+    window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.post('/api/checkout/next')
       .then((response) => checkResponse(response.data, () => {
+        const order = {
+          isEmpty: response.data.isEmpty,
+          order: response.data.cart
+        };
+        dispatch(setOrder(order));
         const orderLink = `my-account/view-order/${response.data.cart.id}`;
+        dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
+        console.log('HERE');
         forwardTo(orderLink);
-        dispatch(resetCart());
-        dispatch(setMessage({ isError: true, messages: ['Your purchase completed successfully.'] }));
         dispatch(getCart());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));

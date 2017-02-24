@@ -36,6 +36,7 @@ class CartWrapper extends Component {
     applyPromoCode: () => (true),
     checkoutPayPal: () => (true),
     checkoutNext: () => (true),
+    toggleLoader: () => (true),
     paypalObj: {},
     isError: false,
     messages: []
@@ -91,6 +92,7 @@ class CartWrapper extends Component {
         checkoutPayPal={this.props.checkoutPayPal}
         checkoutNext={this.props.checkoutNext}
         breadcrumbs={this.props.breadcrumbs}
+        toggleLoader={this.props.toggleLoader}
       />
     );
   }
