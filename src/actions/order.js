@@ -45,7 +45,7 @@ function updateQuantity(data) {
 function setOrder(order) {
   const data = {
     isLoaded: true,
-    ...order,
+    ...order
   };
   return { type: 'SET_ORDER', payload: data };
 }
@@ -247,7 +247,8 @@ export {
   setCart,
   applyPromoCode,
   getOrder,
+  setOrder,
   resetOrders,
-  getAllOrders,
+  getAllOrders
 };
 

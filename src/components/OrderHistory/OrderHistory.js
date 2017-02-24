@@ -9,7 +9,6 @@ class OrderHistory extends Component {
   };
 
   render() {
-    console.log('ORDERS', this.props.orders.orders);
     return (
       <table className={s.shoptable}>
         <thead>

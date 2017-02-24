@@ -27,9 +27,9 @@ function getBraintreeTokens(request) {
 
 function checkoutPayPal(request) {
   conslog('data', request.body.data);
-  return apiFetch(`/api/v1/orders/${request.session.orderNumber}`,
+  return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}`,
     {
-      method: 'PUT',
+      method: 'PATCH',
       body: JSON.stringify(request.body.data),
       headers: {
         'Content-Type': 'application/json',

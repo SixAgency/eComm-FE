@@ -196,6 +196,7 @@ class CartWrapper extends BasePageComponent {
         checkoutPayPal={this.props.checkoutPayPal}
         checkoutNext={this.props.checkoutNext}
         breadcrumbs={this.props.route.breadcrumbs}
+        toggleLoader={this.props.toggleLoader}
       />
     );
   }

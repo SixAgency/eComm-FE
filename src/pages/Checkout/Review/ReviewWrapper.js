@@ -100,6 +100,7 @@ class ReviewWrapper extends BasePageComponent {
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
+    console.log('UNMOUT');
   };
 
   clickTab = (e) => {
@@ -124,6 +125,12 @@ class ReviewWrapper extends BasePageComponent {
     });
   };
 
+  checkoutPayPal = (e) => {
+    e.preventDefault();
+    this.props.toggleLoader(true);
+    this.props.completePayPal('delivery');
+  };
+
   render() {
     if (!this.props.cartItems.isLoaded) {
       return null;
@@ -143,7 +150,7 @@ class ReviewWrapper extends BasePageComponent {
         applyPromoCode={this.props.applyPromoCode}
         contentTabs={CHECKOUT_TABS}
         isPayPal={this.props.isPayPal}
-        checkoutPayPal={this.props.completePayPal}
+        checkoutPayPal={this.checkoutPayPal}
         breadcrumbs={this.props.route.breadcrumbs}
         loginClass={this.state.loginClassName}
         handleLogin={this.handleLogin}

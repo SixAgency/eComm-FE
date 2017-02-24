@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Cart.css';
-import CartCta from '../../components/CartCta/CartCta';
+import CtaInfo from '../../components/CartCta/CtaInfo';
 import Title from '../../components/Text/Title';
 import ProductsTable from '../../components/ProductsTable/ProductsTable';
 import PromoCodeInput from '../../components/PromoCodeInput/PromoCodeInput';
@@ -32,6 +32,7 @@ class Cart extends Component {
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -59,29 +60,35 @@ class Cart extends Component {
           breadcrumbs={this.props.breadcrumbs}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
-        <CartCta
+        <CtaInfo
           loggedIn={this.props.loggedIn}
-          toggleLogin={this.props.handleLogin}
           toggleGiftcard={this.props.handleGiftCard}
+          toggleLogin={this.props.handleLogin}
+          infoClass="infocheckout"
         />
+        <section>
+          <div className={s.giftCardwrpr}>
+            <GiftCardInput
+              toggleGiftcard={this.props.handleGiftCard}
+              infoClass={this.props.couponClass}
+              applyPromoCode={this.props.applyPromoCode}
+            />
+          </div>
+          {!this.props.loggedIn &&
+          <div className={s.loginwrpr}>
+            <LoginInput
+              onLogin={this.props.onLogin}
+              toggleLogin={this.props.handleLogin}
+              infoClass={this.props.loginClass}
+              handleError={this.handleError}
+            />
+          </div>
+          }
+        </section>
         <ContentWrapper wrprClass={'cartwrpr'} contentClass={'contentwrpr'}>
           <div className={s.cartcontentwrpr}>
             <article className={s.cartbody}>
               <div>
-                <GiftCardInput
-                  toggleGiftcard={this.props.handleGiftCard}
-                  infoClass={this.props.couponClass}
-                />
-                {!this.props.loggedIn &&
-                  <div className={s.loginwrpr}>
-                    <LoginInput
-                      onLogin={this.props.onLogin}
-                      toggleLogin={this.props.handleLogin}
-                      infoClass={this.props.loginClass}
-                      handleError={this.handleError}
-                    />
-                  </div>
-                }
                 <Title text={'Your Cart'} classname={'title'} />
                 <h3 className={s.cartsubtitle}>
                   {cart.line_items.length} {cartText} in your cart
@@ -102,6 +109,7 @@ class Cart extends Component {
                   paypalObj={this.props.paypalObj}
                   checkoutPayPal={this.props.checkoutPayPal}
                   checkoutNext={this.props.checkoutNext}
+                  toggleLoader={this.props.toggleLoader}
                 />
               </div>
             </article>

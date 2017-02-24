@@ -12,7 +12,8 @@ class CartForm extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired
+    checkoutNext: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -110,6 +111,7 @@ class CartForm extends React.Component {
             paypalObj={this.props.paypalObj}
             cart={this.props.cart}
             checkoutPayPal={this.props.checkoutPayPal}
+            toggleLoader={this.props.toggleLoader}
           />
           <p className={s.message}>
             Please note that you will be re-directed to the Paypal website to complete

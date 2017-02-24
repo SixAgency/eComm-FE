@@ -7,6 +7,7 @@ const braintree = require('braintree-web');
 class PayPalButton extends Component {
 
   static propTypes = {
+    toggleLoader: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     cart: PropTypes.object.isRequired
@@ -50,6 +51,7 @@ class PayPalButton extends Component {
       enableShippingAddress: false
     }, (err, tokenizationPayload) => {
       if (!err) {
+        this.props.toggleLoader(true);
         const data = this.setRequestData(tokenizationPayload);
         this.props.checkoutPayPal(data);
       }
@@ -60,6 +62,8 @@ class PayPalButton extends Component {
     const data = {
       order: {
         line_items_attributes: this.formatLineItems(),
+        ship_address: this.setAddress(payload, 'shipping'),
+        bill_address: this.setAddress(payload, 'billing'),
         coupon_code: '',
         email: payload.details.email
       },
@@ -71,6 +75,26 @@ class PayPalButton extends Component {
     };
 
     return data;
+  };
+
+  setAddress = (data, type) => {
+    const response = {
+      firstname: data.details.firstName,
+      lastname: data.details.lastName,
+      country: data.details.countryCode,
+      phone: data.details.phone
+    };
+    let address = data.details.billingAddress;
+    if (type === 'shipping') {
+      address = data.details.shippingAddress;
+      response.full_name = address.recipientName;
+    }
+    response.zipcode = address.postalCode;
+    response.address1 = address.line1;
+    response.address2 = address.line2;
+    response.city = address.city;
+    response.state = address.state;
+    return response;
   };
 
   formatLineItems = () => {

@@ -11,7 +11,7 @@ import { getOrder } from '../../../actions/order';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    order: state.orders.order,
+    order: state.orders.order
   }
 ));
 
@@ -40,7 +40,7 @@ class ViewOrderWrapper extends BasePageComponent {
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.order.isLoaded) {
@@ -51,9 +51,20 @@ class ViewOrderWrapper extends BasePageComponent {
   };
 
   componentDidMount = () => {
+    console.log('DID MOUNT');
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    console.log('RECEIVED');
+    if (nextProps.order.isLoaded &&
+      (this.props.params.number === nextProps.order.order.number)) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
   };
 
   componentWillUnmount = () => {
