@@ -17,6 +17,7 @@ import ErrorPageWrapper from '../pages/Error/ErrorPageWrapper';
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
 import ProfileWrapper from '../pages/Account/Profile';
+import PasswordWrapper from '../pages/Account/Profile/Password';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
@@ -41,6 +42,7 @@ const routes = (
       <IndexRoute component={AccountWrapper} title="My Account" breadcrumbs={BREADCRUMBS.dashboard} />
       <Route path="dashboard" component={DashboardWrapper} title="My Account" breadcrumbs={BREADCRUMBS.dashboard} />
       <Route path="edit-account" component={ProfileWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount} />
+      <Route path="edit-password" component={PasswordWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount} />
       <Route path="address">
         <Route path="create/:type" component={CreateAddress} title="Create Address" />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" breadcrumbs={BREADCRUMBS.addresses} />

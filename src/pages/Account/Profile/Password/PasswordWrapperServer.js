@@ -1,34 +1,30 @@
 import React, { PropTypes } from 'react';
-import Profile from './Profile';
+import Password from './Password';
 
-class ProfileWrapper extends React.Component {
+class PasswordWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    setHeaderProps: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    updateProfile: PropTypes.func.isRequired,
+    updatePassword: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     onLogout: () => (true),
-    setHeaderProps: () => (true),
     loggedIn: true,
-    updateProfile: () => (true),
+    updatePassword: () => (true),
     profile: {}
   }
 
   render() {
     return (
-      <Profile
+      <Password
+        profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        profile={this.props.profile}
-        onUpdateProfile={this.props.updateProfile}
-        breadcrumbs={this.props.breadcrumbs}
+        onUpdatePassword={this.props.updatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
       />
@@ -36,4 +32,4 @@ class ProfileWrapper extends React.Component {
   }
 }
 
-export default ProfileWrapper;
+export default PasswordWrapper;

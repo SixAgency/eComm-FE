@@ -2,11 +2,14 @@ export default function reducer(state = {
   userName: '',
   emailAddress: '',
   loggedIn: false,
+  profile: {}
 }, action) {
   switch (action.type) {
     case 'SET_USER': {
-      const { userName, emailAddress, loggedIn } = action.payload;
-      return { ...state, userName, emailAddress, loggedIn };
+      return { ...state, ...action.payload };
+    }
+    case 'SET_PROFILE': {
+      return { ...state, ...action.payload };
     }
     default: // do nothing
   }

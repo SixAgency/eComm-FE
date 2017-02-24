@@ -1,11 +1,22 @@
 import { apiFetch } from '../core/fetch';
 // Helpers
-import { checkResponse, setError, setAuthResponse, setLogoutResponse, setUserResponse } from './helpers/handlers';
+import {
+  checkResponse,
+  setError,
+  setAuthResponse,
+  setLogoutResponse,
+  setUserResponse,
+  parseProfile,
+  parseProfileUpdate,
+  parsePasswordUpdate
+} from './helpers/handlers';
+import { faketoken } from '../config';
+import conslog from '../utils/dev';
 
 const LOGIN = '/login';
 const LOGOUT = '/logout';
 const REGISTER = '/signup';
-
+const PROFILE = '/api/v1/users';
 
 // Login
 function userLogin(request) {
@@ -13,16 +24,16 @@ function userLogin(request) {
     spree_user: {
       email: request.body.email,
       password: request.body.password,
-      remember_me: request.body.remember || 0,
-    },
+      remember_me: request.body.remember || 0
+    }
   };
   return apiFetch(LOGIN,
     {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => setAuthResponse(data, request))
@@ -35,16 +46,16 @@ function userRegistration(request) {
     spree_user: {
       email: request.body.email,
       password: request.body.password,
-      password_confirmation: request.body.password,
-    },
+      password_confirmation: request.body.password
+    }
   };
   return apiFetch(REGISTER,
     {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => setAuthResponse(data, request))
@@ -56,8 +67,8 @@ function userLogout(request) {
   return apiFetch(LOGOUT,
     {
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
   .then((resp) => checkResponse(resp))
   .then(() => setLogoutResponse(request))
@@ -71,4 +82,63 @@ function checkLogin(request) {
     .catch((err) => setError(err));
 }
 
-export { userLogin, userRegistration, userLogout, checkLogin };
+// Get User Profile
+function getProfile(request) {
+  return apiFetch(PROFILE,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken
+      }
+    })
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (parseProfile(resp)))
+  .catch((err) => setError(err));
+}
+
+// Update User Profile
+function updateProfile(request) {
+  conslog('SESSION', request.session);
+  const profile = { ...request.body };
+  return apiFetch(`${PROFILE}/${profile.id}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(profile),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken
+      }
+    })
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (parseProfileUpdate(resp)))
+  .catch((err) => setError(err));
+}
+
+// Update User Password
+function updatePassword(request) {
+  const data = {
+    user: request.body.passwords
+  };
+  return apiFetch(`${PROFILE}/${request.body.id}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken
+      }
+    })
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (parsePasswordUpdate(resp)))
+  .catch((err) => setError(err));
+}
+
+export {
+  userLogin,
+  userRegistration,
+  userLogout,
+  checkLogin,
+  getProfile,
+  updateProfile,
+  updatePassword
+};

@@ -1,17 +1,46 @@
 import express from 'express';
 // Actions
-import { userLogin, userRegistration, userLogout, checkLogin } from './users';
-import { getProducts, getProduct, getMannequinHeads, getProductsInCategory } from './products';
-import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
-import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
-import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
+import { userLogin,
+  userRegistration,
+  userLogout,
+  checkLogin,
+  getProfile,
+  updateProfile,
+  updatePassword
+} from './users';
+import {
+  getProducts,
+  getProduct,
+  getMannequinHeads,
+  getProductsInCategory
+} from './products';
+import { getOrder,
+  getOrders,
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateCart,
+  applyCouponCode
+} from './orders';
+import { getAddresses,
+  createAddress,
+  updateAddress,
+  setDefaultAddress
+} from './addresses';
+import { getBraintreeTokens,
+  checkoutPayPal,
+  checkoutNext,
+  checkoutAddress
+} from './checkout';
 
 import sendContact from './contact';
 // Helpers
 import {
   validateAuth,
   validateMandatoryFieldsAddress,
-  validateContactForm } from '../helpers/validators';
+  validateContactForm,
+  validatePasswordUpdate,
+  validateAccountUpdate } from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -36,7 +65,7 @@ apiRoutes.post('/register', (req, resp) => {
     userRegistration(req).then(data => resp.json(data));
   }
 });
-// // logout
+// logout
 apiRoutes.post('/logout', (req, resp) => {
   userLogout(req).then(data => resp.json(data));
 });
@@ -44,6 +73,28 @@ apiRoutes.post('/logout', (req, resp) => {
 apiRoutes.get('/check', (req, resp) => {
   checkLogin(req).then(data => resp.json(data));
 });
+
+// get profile
+apiRoutes
+  .get('/profile', (req, resp) => {
+    getProfile(req).then((data) => resp.json(data));
+  })
+  .post('/profile', (req, resp) => {
+    const valid = validateAccountUpdate(req.body);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      updateProfile(req).then((data) => resp.json(data));
+    }
+  })
+  .post('/profile/password', (req, resp) => {
+    const valid = validatePasswordUpdate(req.body.passwords);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      updatePassword(req).then((data) => resp.json(data));
+    }
+  });
 
 // PRODUCT ROUTES
 
@@ -121,7 +172,6 @@ apiRoutes.post('/contact', (req, resp) => {
   if (valid.isError) {
     resp.json(valid);
   } else {
-    console.log('here ======================');
     sendContact(req).then((data) => (resp.json(data)));
   }
 });

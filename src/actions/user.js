@@ -3,7 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { resetAddresses, setAddresses } from './address';
-import { validateAuth } from '../helpers/validators';
+import { validateAuth, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
 
 /**
  * Set User - helper
@@ -12,6 +12,14 @@ import { validateAuth } from '../helpers/validators';
  */
 function setUser(user) {
   return { type: 'SET_USER', payload: user };
+}
+
+/** Set Profile - helper
+* @param object
+* @returns {{type: string, payload: object}}
+*/
+function setProfile(profile) {
+  return { type: 'SET_PROFILE', payload: { profile, loggedIn: true } };
 }
 
 /**
@@ -78,7 +86,7 @@ function onLogin(data) {
           const addresses = {
             isLoaded: false,
             isEmpty: true,
-            addresses: [],
+            addresses: []
           };
           // Set billing and shipping addresses
           dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
@@ -117,7 +125,7 @@ function onRegister(data) {
           const addresses = {
             isLoaded: false,
             isEmpty: true,
-            addresses: [],
+            addresses: []
           };
           // Set billing and shipping addresses
           dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
@@ -136,4 +144,61 @@ function onRegister(data) {
   };
 }
 
-export { onLogout, onLogin, onRegister, checkLogin };
+function getProfile() {
+  return (dispatch) => {
+    axios.get('/api/profile')
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setProfile(response.data.profile));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
+function updateProfile(data) {
+  return (dispatch) => {
+    const valid = validateAccountUpdate(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/profile', data)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setMessage({ isError: false, messages: ['Account updated'] }));
+          dispatch(setProfile(response.data));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
+  };
+}
+
+function updatePassword(data) {
+  return (dispatch) => {
+    const valid = testPasswordStrength(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/profile/password', data)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setMessage({ isError: false, messages: ['Password updated'] }));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
+  };
+}
+
+
+export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile, updatePassword };

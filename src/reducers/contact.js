@@ -1,6 +1,6 @@
 export default function reducer(state = {
   message: '',
-  isSent: false,
+  isSent: false
 }, action) {
   switch (action.type) {
     case 'SEND_CONTACT_SUCCESS': {

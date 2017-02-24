@@ -1,6 +1,5 @@
 import Promise from 'bluebird';
 import { mannequinHeadsSlugs } from '../../config';
-import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -247,7 +246,7 @@ function setAddressesResponse(data, newAddress ) {
         isLoaded: true,
         isEmpty: true,
         addresses: []
-      },
+      }
     };
   }
   return resp;
@@ -490,7 +489,7 @@ function setContactResponse(data) {
   } else {
     resp = {
       isError: false,
-      messages: ['Thank you. Your message has been submited.'],
+      messages: ['Thank you. Your message has been submited.']
     };
   }
   return resp;
@@ -536,6 +535,39 @@ function setAddressCallBack(request, data, isPayPal, callback) {
   return callback(request);
 }
 
+/* Parse profile */
+function parseProfile(data) {
+  let resp = {};
+  if (Object.getOwnPropertyNames(data).length > 0) {
+    resp = { isLoaded: true, profile: data.users[0] };
+    return resp;
+  }
+  resp = { isLoaded: true, profile: {} };
+  return resp;
+}
+
+/* Parse profile on Update */
+function parseProfileUpdate(data) {
+  let resp = {};
+  if (data.isLoaded && data.profile) {
+    resp = { isLoaded: true, profile: data.profile };
+    return resp;
+  }
+  resp = { isLoaded: true, profile: {} };
+  return resp;
+}
+
+/* Parse password Update */
+
+function parsePasswordUpdate(data) {
+  let resp = {};
+  if (data.passwords && (data.passwords.password === data.passwords.password_confirmation)) {
+    return resp;
+  }
+  resp = {};
+  return resp;
+}
+
 export {
   checkResponse,
   setError,
@@ -557,5 +589,8 @@ export {
   setMannequinHeadsResponse,
   setContactResponse,
   setBraintreeResponse,
-  setAddressCallBack
+  setAddressCallBack,
+  parseProfile,
+  parseProfileUpdate,
+  parsePasswordUpdate
 };

@@ -17,6 +17,6 @@ export default combineReducers({
   page,
   contact,
   orders,
-  checkout,
+  checkout
 });
 

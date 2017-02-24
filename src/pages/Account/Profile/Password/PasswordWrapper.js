@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash.isempty';
 import { browserHistory } from 'react-router';
 
-import BasePageComponent from '../../BasePageComponent';
-import Profile from './Profile';
+import BasePageComponent from '../../../BasePageComponent';
+import Password from './Password';
 
 // Action
-import { onLogout, getProfile, updateProfile } from '../../../actions/user';
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { onLogout, getProfile, updatePassword } from '../../../../actions/user';
+import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
@@ -26,20 +25,19 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     getProfile: () => dispatch(getProfile()),
-    updateProfile: (data) => dispatch(updateProfile(data))
+    updatePassword: (data) => dispatch(updatePassword(data))
   }
 ));
 
 
-class ProfileWrapper extends BasePageComponent {
+class PasswordWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    route: PropTypes.object,
     getProfile: PropTypes.func.isRequired,
-    updateProfile: PropTypes.func.isRequired,
+    updatePassword: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired
@@ -54,7 +52,7 @@ class ProfileWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (isEmpty(this.props.profile)) {
+    if (!this.props.profile) {
       this.props.getProfile();
     }
   }
@@ -66,18 +64,16 @@ class ProfileWrapper extends BasePageComponent {
   }
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
   }
 
   render() {
     return (
-      <Profile
+      <Password
         profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        onUpdateProfile={this.props.updateProfile}
-        breadcrumbs={this.props.route.breadcrumbs}
+        onUpdatePassword={this.props.updatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
       />
@@ -85,5 +81,5 @@ class ProfileWrapper extends BasePageComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordWrapper);
 

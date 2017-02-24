@@ -34,6 +34,7 @@ import ErrorPageWrapper from '../pages/Error';
 import AccountWrapper from '../pages/Account/Account';
 import DashboardWrapper from '../pages/Account/Dashboard';
 import ProfileWrapper from '../pages/Account/Profile';
+import PasswordWrapper from '../pages/Account/Profile/Password';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
@@ -364,6 +365,27 @@ siteRoutes.get('/my-account/edit-account', (req, resp, next) => {
           header: 'colored',
           active: '/my-account',
           content: <ProfileWrapper {...data.user} breadcrumbs={BREADCRUMBS.editAccount} />
+        };
+        handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
+});
+siteRoutes.get('/my-account/edit-password', (req, resp, next) => {
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (!data.user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        const params = {
+          title: 'Edit Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+          content: <PasswordWrapper {...data.user} />,
         };
         handleRoutes(req, resp, next, params);
       }

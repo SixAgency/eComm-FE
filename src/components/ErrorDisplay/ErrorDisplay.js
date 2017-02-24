@@ -6,7 +6,7 @@ import s from './ErrorDisplay.css';
 class ErrorDisplay extends React.Component {
   static propTypes = {
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   render() {
@@ -17,7 +17,7 @@ class ErrorDisplay extends React.Component {
     const bg = isError ? 'wrprpink' : 'wrprgreen';
     return (
       <ul className={cx(s.errorwrpr, s[bg])}>
-        {this.props.messages.map((v, k) => (<li className={s.message} key={k}>{v}</li>))}
+        {messages.map((v, k) => (<li className={s.message} key={k}>{v}</li>))}
       </ul>
     );
   }

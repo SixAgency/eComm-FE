@@ -17,7 +17,7 @@ const context = {
     // eslint-disable-next-line no-underscore-dangle
     const removeCss = styles.map(x => x._insertCss());
     return () => { removeCss.forEach(f => f()); };
-  },
+  }
 };
 
 // Set the container and boostrap the React application
