@@ -246,7 +246,7 @@ function setAddressesResponse(data, newAddress ) {
         isLoaded: true,
         isEmpty: true,
         addresses: []
-      },
+      }
     };
   }
   return resp;
@@ -489,7 +489,7 @@ function setContactResponse(data) {
   } else {
     resp = {
       isError: false,
-      messages: ['Thank you. Your message has been submited.'],
+      messages: ['Thank you. Your message has been submited.']
     };
   }
   return resp;
@@ -546,6 +546,28 @@ function parseProfile(data) {
   return resp;
 }
 
+/* Parse profile on Update */
+function parseProfileUpdate(data) {
+  let resp = {};
+  if (data.isLoaded && data.profile) {
+    resp = { isLoaded: true, profile: data.profile };
+    return resp;
+  }
+  resp = { isLoaded: true, profile: {} };
+  return resp;
+}
+
+/* Parse password Update */
+
+function parsePasswordUpdate(data) {
+  let resp = {};
+  if (data.passwords && (data.passwords.password === data.passwords.password_confirmation)) {
+    return resp;
+  }
+  resp = {};
+  return resp;
+}
+
 export {
   checkResponse,
   setError,
@@ -568,5 +590,7 @@ export {
   setContactResponse,
   setBraintreeResponse,
   setAddressCallBack,
-  parseProfile
+  parseProfile,
+  parseProfileUpdate,
+  parsePasswordUpdate
 };

@@ -6,7 +6,9 @@ import {
   setAuthResponse,
   setLogoutResponse,
   setUserResponse,
-  parseProfile
+  parseProfile,
+  parseProfileUpdate,
+  parsePasswordUpdate
 } from './helpers/handlers';
 import { faketoken } from '../config';
 import conslog from '../utils/dev';
@@ -108,7 +110,7 @@ function updateProfile(request) {
       }
     })
   .then((resp) => (checkResponse(resp)))
-  .then((resp) => (resp))
+  .then((resp) => (parseProfileUpdate(resp)))
   .catch((err) => setError(err));
 }
 
@@ -127,7 +129,7 @@ function updatePassword(request) {
       }
     })
   .then((resp) => (checkResponse(resp)))
-  .then((resp) => (resp))
+  .then((resp) => (parsePasswordUpdate(resp)))
   .catch((err) => setError(err));
 }
 

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash.isempty';
 import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../BasePageComponent';
@@ -11,8 +12,8 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/pa
 
 const mapStateToProps = ((state) => (
   {
-    loggedIn: state.userProfile.loggedIn,
-    profile: state.userProfile.profile,
+    loggedIn: state.user.loggedIn,
+    profile: state.user.profile,
     messages: state.page.messages,
     isError: state.page.isError
   }
@@ -53,7 +54,7 @@ class ProfileWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.profile) {
+    if (isEmpty(this.props.profile)) {
       this.props.getProfile();
     }
   }

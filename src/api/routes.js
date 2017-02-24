@@ -6,24 +6,41 @@ import { userLogin,
   checkLogin,
   getProfile,
   updateProfile,
-  updatePassword,
+  updatePassword
 } from './users';
 import {
   getProducts,
   getProduct,
   getMannequinHeads,
-  getProductsInCategory,
+  getProductsInCategory
 } from './products';
-import { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode } from './orders';
-import { getAddresses, createAddress, updateAddress, setDefaultAddress } from './addresses';
-import { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress } from './checkout';
+import { getOrder,
+  getOrders,
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateCart,
+  applyCouponCode
+} from './orders';
+import { getAddresses,
+  createAddress,
+  updateAddress,
+  setDefaultAddress
+} from './addresses';
+import { getBraintreeTokens,
+  checkoutPayPal,
+  checkoutNext,
+  checkoutAddress
+} from './checkout';
 
 import sendContact from './contact';
 // Helpers
 import {
   validateAuth,
   validateMandatoryFieldsAddress,
-  validateContactForm } from '../helpers/validators';
+  validateContactForm,
+  validatePasswordUpdate,
+  validateAccountUpdate } from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -63,10 +80,20 @@ apiRoutes
     getProfile(req).then((data) => resp.json(data));
   })
   .post('/profile', (req, resp) => {
-    updateProfile(req).then((data) => resp.json(data));
+    const valid = validateAccountUpdate(req.body);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      updateProfile(req).then((data) => resp.json(data));
+    }
   })
   .post('/profile/password', (req, resp) => {
-    updatePassword(req).then((data) => resp.json(data));
+    const valid = validatePasswordUpdate(req.body.passwords);
+    if (valid.isError) {
+      resp.json(valid);
+    } else {
+      updatePassword(req).then((data) => resp.json(data));
+    }
   });
 
 // PRODUCT ROUTES
@@ -145,7 +172,6 @@ apiRoutes.post('/contact', (req, resp) => {
   if (valid.isError) {
     resp.json(valid);
   } else {
-    console.log('here ======================');
     sendContact(req).then((data) => (resp.json(data)));
   }
 });

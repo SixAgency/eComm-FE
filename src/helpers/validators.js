@@ -13,7 +13,7 @@ function validateAuth(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
   };
   return resp;
 }
@@ -35,7 +35,7 @@ function validateProduct(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
   };
   return resp;
 }
@@ -60,13 +60,13 @@ function validateMandatoryFieldsAddress(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
   };
   return resp;
 }
 
 
-// Validate Edit Account form (extend to check users current password?)
+// Validate Edit Account form
 function validateAccountEdit(data) {
   const messages = [];
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
@@ -85,7 +85,23 @@ function validateAccountEdit(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
+  };
+
+  return resp;
+}
+
+// Validate Update Account (Updates firstname and lastname)
+function validateAccountUpdate(data) {
+  const messages = [];
+
+  if ((!data.f_name) || (!data.l_name)) {
+    messages.push('Please fill all the required fields');
+  }
+
+  const resp = {
+    isError: (messages.length > 0),
+    messages
   };
 
   return resp;
@@ -117,9 +133,8 @@ function validateContactForm(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
   };
-  console.log('RESP', resp);
   return resp;
 }
 
@@ -131,7 +146,7 @@ function testPasswordStrength(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
   };
   return resp;
 }
@@ -151,7 +166,26 @@ function validateLostPassword(data) {
   }
   const resp = {
     isError: (messages.length > 0),
-    messages,
+    messages
+  };
+  return resp;
+}
+
+// Validate Password update
+function validatePasswordUpdate(data) {
+  const messages = [];
+  if ((!data.password) || (!data.password_confirmation)) {
+    messages.push('Please fill all required fields.');
+  }
+  if (data.password && data.password_confirmation) {
+    if (data.password !== data.password_confirmation) {
+      messages.push('Password fields do not match.');
+    }
+  }
+
+  const resp = {
+    isError: (messages.length > 0),
+    messages
   };
   return resp;
 }
@@ -164,4 +198,6 @@ export {
   validateContactForm,
   validateMandatoryFieldsAddress,
   validateLostPassword,
+  validateAccountUpdate,
+  validatePasswordUpdate
 };

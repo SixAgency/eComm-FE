@@ -11,8 +11,8 @@ import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions
 
 const mapStateToProps = ((state) => (
   {
-    loggedIn: state.userProfile.loggedIn,
-    profile: state.userProfile.profile,
+    loggedIn: state.user.loggedIn,
+    profile: state.user.profile,
     messages: state.page.messages,
     isError: state.page.isError
   }
@@ -64,7 +64,6 @@ class PasswordWrapper extends BasePageComponent {
   }
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
   }
 
