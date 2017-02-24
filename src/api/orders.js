@@ -7,7 +7,7 @@ import {
   setOrdersResponse,
   setCartResponse,
   setAddRemoveCartResponse,
-  setCouponResponse,
+  setCouponResponse
 } from './helpers/handlers';
 
 import { faketoken } from '../config';
@@ -22,8 +22,8 @@ function getOrder(request) {
   return apiFetch(`${ORDER}/${number}`, {
     headers: {
       'Content-Type': 'application/json',
-      'X-Spree-Token': request.session.token || faketoken,
-    },
+      'X-Spree-Token': request.session.token || faketoken
+    }
   })
   .then((response) => checkResponse(response))
   .then((data) => setOrderResponse(data))
@@ -35,8 +35,8 @@ function getOrders(request) {
   return apiFetch(ORDERS, {
     headers: {
       'Content-Type': 'application/json',
-      'X-Spree-Token': request.session.token || faketoken,
-    },
+      'X-Spree-Token': request.session.token || faketoken
+    }
   })
     .then((response) => checkResponse(response))
     .then((data) => setOrdersResponse(data))
@@ -47,8 +47,8 @@ function getOrders(request) {
 function createCart(request) {
   const empty = {
     order: {
-      line_items: [],
-    },
+      line_items: []
+    }
   };
   return apiFetch(ORDER,
     {
@@ -56,8 +56,8 @@ function createCart(request) {
       body: JSON.stringify(empty),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
     .then((resp) => checkResponse(resp))
     .then((resp) => setCartResponse(resp, request))
@@ -69,8 +69,8 @@ function getCart(request) {
   return apiFetch(CART, {
     headers: {
       'Content-Type': 'application/json',
-      'X-Spree-Token': request.session.token || faketoken,
-    },
+      'X-Spree-Token': request.session.token || faketoken
+    }
   })
     .then((response) => checkResponse(response))
     .then((data) => setCartResponse(data, request, createCart))
@@ -83,7 +83,7 @@ function getCartCallback(data, request, callback) {
     .then((cart) => {
       const resp = {
         item: data,
-        cart,
+        cart
       };
       return callback(resp);
     })
@@ -95,8 +95,8 @@ function addToCart(request) {
   const item = {
     line_item: {
       variant_id: request.body.id,
-      quantity: request.body.quantity,
-    },
+      quantity: request.body.quantity
+    }
   };
   const orderNumber = request.session.orderNumber;
   return apiFetch(`${ORDER}/${orderNumber}/line_items`,
@@ -105,8 +105,8 @@ function addToCart(request) {
       body: JSON.stringify(item),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => getCartCallback(data, request, setAddRemoveCartResponse))
@@ -122,8 +122,8 @@ function removeFromCart(request) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => {
@@ -144,8 +144,8 @@ function updateCart(request) {
       body: JSON.stringify(postdata),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => setCartResponse(data, request, () => (true)))
@@ -162,8 +162,8 @@ function applyCouponCode(request) {
       body: JSON.stringify(postdata),
       headers: {
         'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
+        'X-Spree-Token': request.session.token || faketoken
+      }
     })
   .then((response) => checkResponse(response))
   .then((data) => setCouponResponse(data))

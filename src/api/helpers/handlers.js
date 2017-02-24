@@ -212,7 +212,7 @@ function setDefaultAddresses(addresses, billing, shipping) {
 }
 
 // Format User Addresses Response
-function setAddressesResponse(data, newAddress ) {
+function setAddressesResponse(data, newAddress) {
   let resp;
   if (!data.isError) {
     resp = {
@@ -307,12 +307,18 @@ function setOrderResponse(data) {
 // Format User Orders Response
 function setOrdersResponse(data) {
   let resp;
+  const validOrders = [];
   if (!data.isError) {
+    data.orders.forEach((order) => {
+      if ((order.state === 'completed') || (order.state === 'cancelled')) {
+        validOrders.push(order);
+      }
+    });
     resp = {
       isLoaded: true,
       isError: false,
       isEmpty: data.orders.length === 0,
-      orders: data.orders
+      orders: validOrders
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -558,7 +564,6 @@ function parseProfileUpdate(data) {
 }
 
 /* Parse password Update */
-
 function parsePasswordUpdate(data) {
   let resp = {};
   if (data.passwords && (data.passwords.password === data.passwords.password_confirmation)) {
