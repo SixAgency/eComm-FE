@@ -13,7 +13,7 @@ import {
 import { faketoken } from '../config';
 
 const ORDER = '/api/v1/orders';
-const ORDERS = '/api/v1/orders/mine';
+const ORDERS = '/api/v1/orders/mine?q[state_cont]=complete&q[state_cont]=canceled';
 const CART = '/api/v1/orders/current';
 
 // Get Order Details

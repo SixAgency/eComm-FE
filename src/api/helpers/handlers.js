@@ -307,18 +307,12 @@ function setOrderResponse(data) {
 // Format User Orders Response
 function setOrdersResponse(data) {
   let resp;
-  const validOrders = [];
   if (!data.isError) {
-    data.orders.forEach((order) => {
-      if ((order.state === 'completed') || (order.state === 'cancelled')) {
-        validOrders.push(order);
-      }
-    });
     resp = {
       isLoaded: true,
       isError: false,
       isEmpty: data.orders.length === 0,
-      orders: validOrders
+      orders: data.orders
     };
   } else {
     const message = data.message || 'Server Error. Please contact your server administrator.';
