@@ -237,6 +237,21 @@ function getAllOrders(data) {
   };
 }
 
+function calculateShipping(data) {
+  return (dispatch) => {
+    axios.post('/api/calculate_shipping', { data })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setOrders(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   getCart,
   addToCart,
@@ -249,6 +264,7 @@ export {
   getOrder,
   setOrder,
   resetOrders,
-  getAllOrders
+  getAllOrders,
+  calculateShipping
 };
 

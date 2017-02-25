@@ -6,7 +6,14 @@ import Cart from './Cart';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
-import { getCart, removeItem, updateCart, updateQuantity, applyPromoCode } from '../../actions/order';
+import {
+  getCart,
+  removeItem,
+  updateCart,
+  updateQuantity,
+  applyPromoCode,
+  calculateShipping
+} from '../../actions/order';
 import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
 import { onLogout, onLogin } from '../../actions/user';
 
@@ -34,7 +41,8 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
-    checkoutNext: (state) => dispatch(checkoutNext(state))
+    checkoutNext: (state) => dispatch(checkoutNext(state)),
+    calculateShipping: (data) => dispatch(calculateShipping(data))
   }
 ));
 
@@ -58,7 +66,8 @@ class CartWrapper extends BasePageComponent {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    route: PropTypes.object
+    route: PropTypes.object,
+    calculateShipping: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -163,7 +172,7 @@ class CartWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide',
+      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
     });
   }
 
@@ -171,7 +180,7 @@ class CartWrapper extends BasePageComponent {
     e.preventDefault();
     this.setState({
       showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide',
+      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
     });
   }
 
@@ -197,6 +206,7 @@ class CartWrapper extends BasePageComponent {
         checkoutNext={this.props.checkoutNext}
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
+        calculateShipping={this.props.calculateShipping}
       />
     );
   }

@@ -14,13 +14,15 @@ import {
   getMannequinHeads,
   getProductsInCategory
 } from './products';
-import { getOrder,
+import {
+  getOrder,
   getOrders,
   getCart,
   addToCart,
   removeFromCart,
   updateCart,
-  applyCouponCode
+  applyCouponCode,
+  calculateShipping
 } from './orders';
 import { getAddresses,
   createAddress,
@@ -196,5 +198,8 @@ apiRoutes.get('/category/:slug', (req, resp) => {
   getProductsInCategory(req).then((data) => (resp.json(data)));
 });
 
+apiRoutes.post('/calculate_shipping', (req, resp) => {
+  calculateShipping(req).then((data) => (resp.json(data)));
+});
 
 export default apiRoutes;
