@@ -16,7 +16,7 @@ function resetCart() {
   const data = {
     isEmpty: true,
     isLoaded: true,
-    cart: {},
+    cart: {}
   };
   return { type: 'SET_CART', payload: data };
 }
@@ -57,7 +57,7 @@ function setOrder(order) {
 function setOrders(orders) {
   const data = {
     isLoaded: true,
-    ...orders,
+    ...orders
   };
   return { type: 'GET_ORDERS', payload: data };
 }
@@ -70,7 +70,7 @@ function resetOrders() {
   const data = {
     isLoaded: true,
     isEmpty: true,
-    orders: [],
+    orders: []
   };
   return { type: 'GET_ORDERS', payload: data };
 }

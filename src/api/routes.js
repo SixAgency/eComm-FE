@@ -42,7 +42,8 @@ import {
   validateMandatoryFieldsAddress,
   validateContactForm,
   validatePasswordUpdate,
-  validateAccountUpdate } from '../helpers/validators';
+  validateAccountUpdate,
+  validateShippingCalculator } from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -199,7 +200,12 @@ apiRoutes.get('/category/:slug', (req, resp) => {
 });
 
 apiRoutes.post('/calculate_shipping', (req, resp) => {
-  calculateShipping(req).then((data) => (resp.json(data)));
+  const valid = validateShippingCalculator(req.body.data);
+  if (valid.isError) {
+    resp.json(valid);
+  } else {
+    calculateShipping(req).then((data) => (resp.json(data)));
+  }
 });
 
 export default apiRoutes;

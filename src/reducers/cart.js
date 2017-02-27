@@ -2,10 +2,10 @@ export default function reducer(state = {
   cartItems: {
     isLoaded: false,
     isEmpty: true,
-    cart: {},
+    cart: {}
   },
   message: '',
-  isError: false,
+  isError: false
 }, action) {
   switch (action.type) {
     case 'SET_CART': {
