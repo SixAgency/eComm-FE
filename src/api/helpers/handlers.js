@@ -212,7 +212,7 @@ function setDefaultAddresses(addresses, billing, shipping) {
 }
 
 // Format User Addresses Response
-function setAddressesResponse(data, newAddress ) {
+function setAddressesResponse(data, newAddress) {
   let resp;
   if (!data.isError) {
     resp = {
@@ -558,7 +558,6 @@ function parseProfileUpdate(data) {
 }
 
 /* Parse password Update */
-
 function parsePasswordUpdate(data) {
   let resp = {};
   if (data.passwords && (data.passwords.password === data.passwords.password_confirmation)) {

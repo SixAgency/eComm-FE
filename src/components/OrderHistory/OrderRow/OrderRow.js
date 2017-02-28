@@ -9,13 +9,13 @@ class OrderRow extends Component {
 
   getOrderStatus = (order) => {
     let orderState = '';
-    if (order.state === 'complete' && order.payment_state === 'paid') {
+    if (order.state === 'complete') {
       if (['ready', 'backorder', 'partial'].includes(order.shipment_state)) {
         orderState = 'Processing';
       } else if (order.shipment_state === 'shipped') {
         orderState = 'Shipped';
       }
-    } else if (order.state === 'cancelled') {
+    } else if (order.state === 'canceled') {
       if (order.payments.refunds !== null) {
         orderState = 'Refunded';
       } else {
