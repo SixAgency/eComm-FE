@@ -18,18 +18,18 @@ function resetAddresses() {
     billing: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
+      address: {}
     },
     shipping: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
+      address: {}
     },
     addresses: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
-    },
+      address: {}
+    }
   };
   return { type: 'SET_ADDRESSES', payload: data };
 }
@@ -44,7 +44,7 @@ function setAddresses(billing, shipping, addresses) {
   const payload = {
     billing: { ...billing, isLoaded: true },
     shipping: { ...shipping, isLoaded: true },
-    addresses: { ...addresses, isLoaded: true },
+    addresses: { ...addresses, isLoaded: true }
   };
   return { type: 'SET_ADDRESSES', payload };
 }
@@ -161,7 +161,7 @@ function createOrEditAddress(data) {
  */
 function setDefaultAddress(data, message) {
   return (dispatch) => {
-    axios.post('/api/addresses/default', { data } )
+    axios.post('/api/addresses/default', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setAddress(response.data.billing, 'SET_BILLING'));
         dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
@@ -218,5 +218,5 @@ export {
   setAddresses,
   createOrEditAddress,
   createAddressNew,
-  setDefaultAddress,
+  setDefaultAddress
 };

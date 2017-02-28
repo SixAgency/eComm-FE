@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "EditAddresses",
+  "main": "./EditAddressesWrapperServer.js",
+  "browser": "./EditAddressesWrapper.js"
+}

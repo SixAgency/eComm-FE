@@ -78,7 +78,7 @@ class CreateAddressWrapper extends BasePageComponent {
 
   onSubmit = (address) => {
     const data = {
-      address,
+      address
     };
     let message = 'Address created successfully.';
     if (this.props.params.type === 'billing') {
