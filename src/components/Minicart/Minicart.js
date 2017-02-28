@@ -8,7 +8,12 @@ import imagePlaceholder from './image_placeholder_small.png';
 class Minicart extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
-    cartClass: PropTypes.string.isRequired,
+    cartClass: PropTypes.string.isRequired
+  }
+
+  brokenImage = (event) => {
+    const img = event.target;
+    img.src = imagePlaceholder;
   }
 
   render = () => {
@@ -48,6 +53,7 @@ class Minicart extends React.Component {
                         className={s.pimage}
                         src={image}
                         alt={item.variant.name}
+                        onError={this.brokenImage}
                       />
                       <span className={s.pname}>{item.variant.name}</span>
                       <span className={s.pprice}>

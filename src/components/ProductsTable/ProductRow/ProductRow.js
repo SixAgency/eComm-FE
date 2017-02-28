@@ -10,7 +10,12 @@ class ProductRow extends React.Component {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired,
+    cartItems: PropTypes.object.isRequired
+  }
+
+  brokenImage = (event) => {
+    const img = event.target;
+    img.src = imagePlaceholder;
   }
 
   removeItem = () => {
@@ -47,6 +52,7 @@ class ProductRow extends React.Component {
             width="200"
             height="200"
             alt="product"
+            onError={this.brokenImage}
           />
           <Link to={slug}>
             {item.variant.name}
