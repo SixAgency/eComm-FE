@@ -114,10 +114,10 @@
   }
 }
 .facebook {
-  .socialicon:before { content: "X"; }
+  .socialicon:before { content: "\58"; }
 }
 .instagram {
-  .socialicon:before { content: "x"; }
+  .socialicon:before { content: "\78"; }
 }
 .twitter {
   .socialicon:before { content: '"'; }
