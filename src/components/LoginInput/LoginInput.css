@@ -153,3 +153,24 @@
   -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
+
+@media only screen and (max-width: 760px),
+(max-device-width: 1024px) and (min-device-width: 768px) {
+
+  .formcontent {
+    .message {
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+    form {
+      padding-left: 10px;
+      padding-right: 10px;
+      .inputwrapper {
+        label {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+}
