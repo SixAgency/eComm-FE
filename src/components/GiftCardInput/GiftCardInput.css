@@ -3,11 +3,13 @@
   font-family: Georgia, serif;
   margin-top: 0;
   color: rgb(34, 34, 34);
+  padding: 0 5%;
   .gcrow {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 15px;
     line-height: 25px;
     font-weight: normal;
+    padding: 0 50px;
     .couponinput {
       max-width: 50%;
       border: 1px solid #e9e9e9;
