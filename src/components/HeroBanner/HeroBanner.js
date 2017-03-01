@@ -9,26 +9,26 @@ class HeroBanner extends React.Component {
     heroClass: PropTypes.string.isRequired,
     heroBanner: PropTypes.string.isRequired,
     heroText: PropTypes.object,
-    bottomText: PropTypes.object,
+    bottomText: PropTypes.object
   }
 
   static defaultProps = {
     heroText: {
       title: '',
       url: '#',
-      link: '',
+      link: ''
     },
     bottomText: {
       subtitle: '',
-      paragraph: '',
-    },
+      paragraph: ''
+    }
   }
 
   constructor(props) {
     super(props);
     this.state = {
       transform: 'translate3d(0px, 0px, 0px)',
-      heroHeight: '100vh',
+      heroHeight: '100vh'
     };
   }
 
@@ -44,7 +44,7 @@ class HeroBanner extends React.Component {
 
   handleImageLoad = () => {
     this.setState({
-      heroHeight: this.node.offsetHeight,
+      heroHeight: this.node.offsetHeight
     });
   }
 
@@ -53,7 +53,7 @@ class HeroBanner extends React.Component {
     const itemTranslate = (-event.srcElement.body.scrollTop / parRatio);
 
     this.setState({
-      transform: `translate3d(0px,${itemTranslate}px,0px)`,
+      transform: `translateY(${itemTranslate}px)`
     });
   }
 
