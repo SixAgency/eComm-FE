@@ -34,6 +34,8 @@
 (max-device-width: 1024px) and (min-device-width: 768px) {
   .shopcarttable {
     display: block;
+    margin-left: 10%;
+    margin-right: 10%;
     thead tr {
       position: absolute;
       top: -9999px;

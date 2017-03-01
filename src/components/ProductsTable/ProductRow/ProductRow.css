@@ -94,26 +94,21 @@
 @media only screen and (max-width: 760px),
 (max-device-width: 1024px) and (min-device-width: 768px){
   .cartitem {
-    margin-left: 10%;
     display: block;
     td {
       display: block;
       position: relative;
     }
     .productname {
-      display: block;
       margin-bottom: 20px;
     }
     .productprice {
       margin-top: -47px;
     }
-    .productquantity {
-      margin-top: -20px;
-    }
     .productprice::before {
       content: 'Price';
       top: -18px;
-      left: 120px;
+      left: 145px;
       font-size: 11px;
       line-height: 17px;
       font-weight: 800;
@@ -124,13 +119,9 @@
       padding-right: 10px;
       white-space: nowrap;
     }
-    .prodsubtotal {
-      display: block;
-    }
     .prodsubtotal::before {
       content: 'Total';
       top: -18px;
-      left: 15px;
       font-size: 11px;
       line-height: 17px;
       font-weight: 800;
