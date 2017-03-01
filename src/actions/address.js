@@ -212,11 +212,30 @@ function createAddressNew(data, message, callback) {
   };
 }
 
+/**
+* Delete an address
+* @param id
+*/
+
+function deleteAddress(id) {
+  return (dispatch) => {
+    axios.delete(`/api/v1/addresses/${id}`)
+      .then((response) => checkResponse(response.data, () => {
+        console.log('DELETE RESPONSE', response);
+      }))
+      .catch((err) => {
+        console.error('Error', err);
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   getAddress,
   resetAddresses,
   setAddresses,
   createOrEditAddress,
   createAddressNew,
-  setDefaultAddress
+  setDefaultAddress,
+  deleteAddress
 };

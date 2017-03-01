@@ -30,6 +30,9 @@ export default function reducer(state = {
     case 'SET_SHIPPING': {
       return { ...state, shipping: action.payload };
     }
+    case 'DELETE_ADDRESS': {
+      return { ...state, delete: action.payload };
+    }
     default: // do nothing
   }
 

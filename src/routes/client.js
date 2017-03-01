@@ -48,7 +48,7 @@ const routes = (
         <Route path="create/:type" component={CreateAddress} title="Create Address" />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" breadcrumbs={BREADCRUMBS.addresses} />
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" breadcrumbs={BREADCRUMBS.addresses} />
-        <Route path="edit" component={EditAddressesWrapper} title="Edit Addresses" />
+        <Route path="manage" component={EditAddressesWrapper} title="Edit Addresses" />
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
       <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />

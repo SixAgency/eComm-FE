@@ -14,26 +14,14 @@ class EditAddresses extends React.Component {
     onLogout: PropTypes.func.isRequired,
     billing: PropTypes.object.isRequired,
     shipping: PropTypes.object.isRequired,
-    addresses: PropTypes.object.isRequired
+    addresses: PropTypes.object.isRequired,
+    setAddresses: PropTypes.func.isRequired,
+    deleteAddress: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: 0
-    };
-  }
 
   onCreate = (e) => {
     e.preventDefault();
     forwardTo('my-account/address/create/billing');
-  };
-
-  onSelect = (e) => {
-    this.setState({
-      selected: parseInt(e.target.value, 10)
-    });
-    console.log(this.state.selected);
   };
 
   render() {
@@ -46,10 +34,11 @@ class EditAddresses extends React.Component {
         <ContentWrapper>
           <EditAddressesForm
             addresses={this.props.addresses}
-            onSelect={this.onSelect}
             shipping={this.props.shipping}
             billing={this.props.billing}
             onCreate={this.onCreate}
+            setAddresses={this.props.setAddresses}
+            deleteAddress={this.props.deleteAddress}
           />
         </ContentWrapper>
       </section>

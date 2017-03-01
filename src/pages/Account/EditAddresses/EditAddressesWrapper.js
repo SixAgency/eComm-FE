@@ -7,7 +7,7 @@ import EditAddresses from './EditAddresses';
 // Actions
 import { toggleLoader, setHeaderProps } from '../../../actions/page';
 import { onLogout } from '../../../actions/user';
-import { getAddress } from '../../../actions/address';
+import { getAddress, setAddresses, deleteAddress } from '../../../actions/address';
 
 const mapStateToProps = ((state) => (
   {
@@ -23,7 +23,9 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     onLogout: () => dispatch(onLogout()),
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    getAddress: () => dispatch(getAddress())
+    getAddress: () => dispatch(getAddress()),
+    setAddresses: (billing, shipping) => dispatch(setAddresses(billing, shipping)),
+    deleteAddress: (id) => dispatch(deleteAddress(id))
   }
 ));
 
@@ -31,7 +33,14 @@ class EditAddressesWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
-    getAddress: PropTypes.func.isRequired
+    getAddress: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    addresses: PropTypes.object.isRequired,
+    shipping: PropTypes.object.isRequired,
+    billing: PropTypes.object.isRequired,
+    deleteAddress: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -62,18 +71,7 @@ class EditAddressesWrapper extends BasePageComponent {
     this.props.onLogout();
   };
 
-  static propTypes = {
-    setHeaderProps: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-    addresses: PropTypes.object.isRequired,
-    shipping: PropTypes.object.isRequired,
-    billing: PropTypes.object.isRequired
-  };
-
   render() {
-    console.log('WRAPPER ADDRESSES', this.props.addresses);
     return (
       <EditAddresses
         onLogout={this.onLogout}
@@ -81,6 +79,8 @@ class EditAddressesWrapper extends BasePageComponent {
         addresses={this.props.addresses}
         shipping={this.props.shipping}
         billing={this.props.billing}
+        setAddresses={this.props.setAddresses}
+        deleteAddress={this.props.deleteAddress}
       />
     );
   }

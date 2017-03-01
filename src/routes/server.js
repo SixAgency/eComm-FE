@@ -40,7 +40,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
-import EditAddresses from '../pages/Account/EditAddresses';
+import EditAddressesWrapper from '../pages/Account/EditAddresses';
 // Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
@@ -419,7 +419,7 @@ siteRoutes.get('/my-account/address/create/:type', (req, resp, next) => {
     });
 });
 // Account - Addresses view
-siteRoutes.get('/my-account/address/edit', (req, resp, next) => {
+siteRoutes.get('/my-account/address/manage', (req, resp, next) => {
   checkLogin(req)
     .then((data) => handleError(data, resp, () => {
       if (!data.user.loggedIn) {
@@ -428,10 +428,16 @@ siteRoutes.get('/my-account/address/edit', (req, resp, next) => {
         getAddresses(req, { isNew: false })
         .then((addresses) => handleError(data, resp, () => {
           const params = {
-            title: 'Edit Addresses',
+            title: 'Manage Addresses',
             description: '',
             active: '/my-account',
-            content: <EditAddresses {...data.user} params={req.params} addresses={addresses} />
+            content: <EditAddressesWrapper
+              {...data.user}
+              params={req.params}
+              addresses={{ ...addresses.addresses }}
+              billing={{ ...addresses.billing }}
+              shipping={{ ...addresses.shipping }}
+            />
           };
           handleRoutes(req, resp, next, params);
         }))

@@ -5,11 +5,20 @@ class EditAddressesWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    addresses: PropTypes.object.isRequired
+    addresses: PropTypes.object.isRequired,
+    setAddresses: PropTypes.func.isRequired,
+    deleteAddress: PropTypes.func.isRequired,
+    billing: PropTypes.object.isRequired,
+    shipping: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    onLogout: () => (true)
+    onLogout: () => (true),
+    setAddresses: () => (true),
+    deleteAddress: () => (true),
+    shipping: {},
+    billing: {},
+    addresses: { addresses: [] }
   };
 
   render() {
@@ -18,6 +27,10 @@ class EditAddressesWrapper extends React.Component {
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
         addresses={this.props.addresses}
+        setAddresses={this.props.setAddresses}
+        deleteAddress={this.props.deleteAddress}
+        shipping={this.props.shipping}
+        billing={this.props.billing}
       />
     );
   }
