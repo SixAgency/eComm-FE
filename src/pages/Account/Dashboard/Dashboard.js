@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Dashboard.css';
+// Components
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import Addresses from '../../../components/Addresses';
@@ -17,7 +18,8 @@ class Dashboard extends React.Component {
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    profile: PropTypes.object.isRequired
   };
 
   checkOrders = () => {
@@ -46,7 +48,8 @@ class Dashboard extends React.Component {
           <div className={s.dashboard}>
             <h1 className={s.title}>YOUR ACCOUNT</h1>
             <p className={s.intro}>
-             Hello <b>{this.props.userName}</b> (not {this.props.userName}?
+             Hello <b>{this.props.profile.f_name} {this.props.profile.l_name}</b>&nbsp;
+             (not {this.props.profile.f_name} {this.props.profile.l_name}?
              <a href="/" className={s.actions} onClick={this.props.onLogout}> Sign out</a>).
              From your account dashboard you can view your recent orders, manage your
              shipping and billing addresses and

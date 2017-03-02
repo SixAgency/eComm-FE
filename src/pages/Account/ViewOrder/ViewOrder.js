@@ -33,6 +33,24 @@ class ViewOrder extends React.Component {
     return months[number];
   };
 
+  getOrderStatus = (order) => {
+    let orderState = '';
+    if (order.state === 'complete') {
+      if (['ready', 'backorder', 'partial'].includes(order.shipment_state)) {
+        orderState = 'Processing';
+      } else if (order.shipment_state === 'shipped') {
+        orderState = 'Shipped';
+      }
+    } else if (order.state === 'canceled') {
+      if (order.payments.refunds !== null) {
+        orderState = 'Refunded';
+      } else {
+        orderState = 'Cancelled';
+      }
+    }
+    return orderState;
+  }
+
   listAddress = (address) => {
     if (address) {
       return (
@@ -48,10 +66,10 @@ class ViewOrder extends React.Component {
     return (<p className={s.optiontext}> Please set up your billing address </p>);
   };
 
+
   render() {
     const order = this.props.order;
     const orderDate = new Date(order.created_at);
-    const shipment = order.shipments[0];
     const billingAddress = order.bill_address;
     const shippingAddress = order.ship_address;
     return (
@@ -62,12 +80,12 @@ class ViewOrder extends React.Component {
             <p className={s.orderInfo}>
               Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
               <mark className="order-date">
-                {this.getMonth(orderDate.getMonth())}
-                {orderDate.getDay()},
+                {this.getMonth(orderDate.getMonth())}&nbsp;
+                {orderDate.getDay()},&nbsp;
                 {orderDate.getFullYear()}
               </mark>
               &nbsp;and is currently <mark className={s.orderstatus}>
-                {shipment ? shipment.state : 'Processing'}
+                {this.getOrderStatus(order)}
               </mark>.
             </p>
             <h2 className={s.title}>Order Details</h2>

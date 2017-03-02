@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import isEmpty from 'lodash.isempty';
 
 import BasePageComponent from '../../BasePageComponent';
 import Dashboard from './Dashboard';
 
 // Action
-import { onLogout } from '../../../actions/user';
+import { onLogout, getProfile } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
@@ -19,7 +20,8 @@ const mapStateToProps = ((state) => (
     billing: state.address.billing,
     orders: state.orders.orders,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    profile: state.user.profile
   }
 ));
 
@@ -30,7 +32,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
-    getAllOrders: () => dispatch(getAllOrders())
+    getAllOrders: () => dispatch(getAllOrders()),
+    getProfile: () => dispatch(getProfile())
   }
 ));
 
@@ -49,7 +52,8 @@ class DashboardWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    route: PropTypes.object
+    route: PropTypes.object,
+    profile: PropTypes.object.isRequired
   };
 
   componentWillMount = () => {
@@ -67,6 +71,9 @@ class DashboardWrapper extends BasePageComponent {
     }
     if (!this.props.orders.isLoaded) {
       this.props.getAllOrders();
+    }
+    if (isEmpty(this.props.profile)) {
+      this.props.getProfile();
     }
   };
 
@@ -116,6 +123,7 @@ class DashboardWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        profile={this.props.profile}
       />
     );
   }
