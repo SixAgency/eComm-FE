@@ -18,7 +18,9 @@ class CartWrapper extends Component {
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    calculateShipping: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   };
 
   /*
@@ -39,7 +41,8 @@ class CartWrapper extends Component {
     toggleLoader: () => (true),
     paypalObj: {},
     isError: false,
-    messages: []
+    messages: [],
+    calculateShipping: () => (true)
   };
 
   constructor(props) {
@@ -93,6 +96,7 @@ class CartWrapper extends Component {
         checkoutNext={this.props.checkoutNext}
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
+        calculateShipping={this.props.calculateShipping}
       />
     );
   }

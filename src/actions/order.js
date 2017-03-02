@@ -3,6 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
 import { setPayment, setShipping, setBilling } from './checkout';
 import { getCartAddresses } from '../helpers/feed';
+import { validateShippingCalculator } from '../helpers/validators';
 
 
 /**
@@ -16,7 +17,7 @@ function resetCart() {
   const data = {
     isEmpty: true,
     isLoaded: true,
-    cart: {},
+    cart: {}
   };
   return { type: 'SET_CART', payload: data };
 }
@@ -57,7 +58,7 @@ function setOrder(order) {
 function setOrders(orders) {
   const data = {
     isLoaded: true,
-    ...orders,
+    ...orders
   };
   return { type: 'GET_ORDERS', payload: data };
 }
@@ -70,7 +71,7 @@ function resetOrders() {
   const data = {
     isLoaded: true,
     isEmpty: true,
-    orders: [],
+    orders: []
   };
   return { type: 'GET_ORDERS', payload: data };
 }
@@ -237,6 +238,26 @@ function getAllOrders(data) {
   };
 }
 
+function calculateShipping(data) {
+  return (dispatch) => {
+    const valid = validateShippingCalculator(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/calculate_shipping', { data })
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setOrders(response.data));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
+  };
+}
+
 export {
   getCart,
   addToCart,
@@ -249,6 +270,7 @@ export {
   getOrder,
   setOrder,
   resetOrders,
-  getAllOrders
+  getAllOrders,
+  calculateShipping
 };
 

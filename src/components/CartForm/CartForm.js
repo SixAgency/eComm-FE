@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
@@ -6,7 +6,7 @@ import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
 
-class CartForm extends React.Component {
+class CartForm extends Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -14,6 +14,7 @@ class CartForm extends React.Component {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
+    calculateShipping: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -24,25 +25,16 @@ class CartForm extends React.Component {
     };
   }
 
-  onClick = (e) => {
+  proceedToCheckout = (e) => {
     e.preventDefault();
     this.props.checkoutNext(this.props.cart.state);
   };
-
-  toggleCalculator = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCalculator: !this.state.showCalculator,
-      className: !this.state.showCalculator ? 'show' : 'hide'
-    });
-  };
-
 
   render() {
     if (!this.props.paypalObj.isLoaded) {
       return null;
     }
-    const cart = this.props.cart;
+    const { cart } = this.props;
     return (
       <div className={s.cformwrpr}>
         <div className={s.cformcontents}>
@@ -77,20 +69,9 @@ class CartForm extends React.Component {
                         Shipping costs will be calculated
                         once you have provided your address.
                     </p>
-                    <h2 className={s.calctitle}>
-                      <a
-                        href=""
-                        className="shipping-calc-btn"
-                        onClick={this.toggleCalculator}
-                      >
-                          Calculate Shipping
-                      </a>
-                    </h2>
-                    <h3 className={s.csubtitles}>
-                        Based on your location
-                    </h3>
+                    <h2 className={s.calctitle}>Calculate Shipping</h2>
                     <ShippingCalculator
-                      visibility={this.state.className}
+                      calculateShipping={this.props.calculateShipping}
                     />
                   </td>
                 </tr>
@@ -118,7 +99,9 @@ class CartForm extends React.Component {
             your purchase.
           </p>
           <p className={s.gotocheckout}>
-            <button className={s.checkoutbtn} onClick={this.onClick}>Proceed to Checkout</button>
+            <button className={s.checkoutbtn} onClick={this.proceedToCheckout}>
+              Proceed to Checkout
+            </button>
           </p>
           <p className={s.message}>
             Complete your purchase with your Krissorbie.com account or as a guest.

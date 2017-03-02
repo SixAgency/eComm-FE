@@ -12,8 +12,8 @@ function sendContact(request) {
     method: 'POST',
     body: JSON.stringify(request.body),
     headers: {
-      'Content-Type': 'application/json',
-    },
+      'Content-Type': 'application/json'
+    }
   })
   .then((response) => checkResponse(response))
   .then((data) => setContactResponse(data))

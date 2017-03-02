@@ -33,7 +33,8 @@ class Cart extends Component {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    calculateShipping: PropTypes.func.isRequired
   };
 
   render() {
@@ -110,6 +111,7 @@ class Cart extends Component {
                   checkoutPayPal={this.props.checkoutPayPal}
                   checkoutNext={this.props.checkoutNext}
                   toggleLoader={this.props.toggleLoader}
+                  calculateShipping={this.props.calculateShipping}
                 />
               </div>
             </article>

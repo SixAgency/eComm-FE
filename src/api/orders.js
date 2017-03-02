@@ -12,6 +12,8 @@ import {
 
 import { faketoken } from '../config';
 
+import conslog from '../utils/dev';
+
 const ORDER = '/api/v1/orders';
 const ORDERS = '/api/v1/orders/mine?q[state_cont]=complete&q[state_cont]=canceled';
 const CART = '/api/v1/orders/current';
@@ -38,9 +40,9 @@ function getOrders(request) {
       'X-Spree-Token': request.session.token || faketoken
     }
   })
-    .then((response) => checkResponse(response))
-    .then((data) => setOrdersResponse(data))
-    .catch((err) => setError(err));
+  .then((response) => checkResponse(response))
+  .then((data) => setOrdersResponse(data))
+  .catch((err) => setError(err));
 }
 
 // Create Cart
@@ -50,18 +52,17 @@ function createCart(request) {
       line_items: []
     }
   };
-  return apiFetch(ORDER,
-    {
-      method: 'POST',
-      body: JSON.stringify(empty),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
-    .then((resp) => checkResponse(resp))
-    .then((resp) => setCartResponse(resp, request))
-    .catch((err) => setError(err));
+  return apiFetch(ORDER, {
+    method: 'POST',
+    body: JSON.stringify(empty),
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Spree-Token': request.session.token || faketoken
+    }
+  })
+  .then((resp) => checkResponse(resp))
+  .then((resp) => setCartResponse(resp, request))
+  .catch((err) => setError(err));
 }
 
 // Get Cart
@@ -72,9 +73,9 @@ function getCart(request) {
       'X-Spree-Token': request.session.token || faketoken
     }
   })
-    .then((response) => checkResponse(response))
-    .then((data) => setCartResponse(data, request, createCart))
-    .catch((err) => setError(err));
+  .then((response) => checkResponse(response))
+  .then((data) => setCartResponse(data, request, createCart))
+  .catch((err) => setError(err));
 }
 
 // Get the Cart after interactions like add, remove or update
@@ -170,4 +171,32 @@ function applyCouponCode(request) {
   .catch((err) => setError(err));
 }
 
-export { getOrder, getOrders, getCart, addToCart, removeFromCart, updateCart, applyCouponCode };
+// Update Cart
+function calculateShipping(request) {
+  const postdata = request.body.data;
+  const orderNumber = request.session.orderNumber;
+  conslog('postdata', postdata);
+  return apiFetch(`${ORDER}/${orderNumber}/calculate_shipping`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(postdata),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken
+      }
+    })
+  .then((response) => checkResponse(response))
+  .then((data) => setCartResponse(data, request, () => (true)))
+  .catch((err) => setError(err));
+}
+
+export {
+  getOrder,
+  getOrders,
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateCart,
+  applyCouponCode,
+  calculateShipping
+};

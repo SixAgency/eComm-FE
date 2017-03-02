@@ -14,13 +14,15 @@ import {
   getMannequinHeads,
   getProductsInCategory
 } from './products';
-import { getOrder,
+import {
+  getOrder,
   getOrders,
   getCart,
   addToCart,
   removeFromCart,
   updateCart,
-  applyCouponCode
+  applyCouponCode,
+  calculateShipping
 } from './orders';
 import { getAddresses,
   createAddress,
@@ -40,7 +42,8 @@ import {
   validateMandatoryFieldsAddress,
   validateContactForm,
   validatePasswordUpdate,
-  validateAccountUpdate } from '../helpers/validators';
+  validateAccountUpdate,
+  validateShippingCalculator } from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -196,5 +199,13 @@ apiRoutes.get('/category/:slug', (req, resp) => {
   getProductsInCategory(req).then((data) => (resp.json(data)));
 });
 
+apiRoutes.post('/calculate_shipping', (req, resp) => {
+  const valid = validateShippingCalculator(req.body.data);
+  if (valid.isError) {
+    resp.json(valid);
+  } else {
+    calculateShipping(req).then((data) => (resp.json(data)));
+  }
+});
 
 export default apiRoutes;

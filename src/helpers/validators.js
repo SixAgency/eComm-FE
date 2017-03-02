@@ -190,6 +190,21 @@ function validatePasswordUpdate(data) {
   return resp;
 }
 
+// Validate shipping calculator
+function validateShippingCalculator(data) {
+  const messages = [];
+  if (!data.shipments_attributes.zipcode &&
+    !data.shipments_attributes.state_id &&
+    !data.shipments_attributes.country_id) {
+    messages.push('Please fill all fields.');
+  }
+  const resp = {
+    isError: (messages.length > 0),
+    messages
+  };
+  return resp;
+}
+
 export {
   validateAuth,
   validateProduct,
@@ -199,5 +214,6 @@ export {
   validateMandatoryFieldsAddress,
   validateLostPassword,
   validateAccountUpdate,
-  validatePasswordUpdate
+  validatePasswordUpdate,
+  validateShippingCalculator
 };
