@@ -6,26 +6,26 @@ import s from './PromoCodeInput.css';
 class PromoCodeInput extends Component {
   static propTypes = {
     updateCart: PropTypes.func.isRequired,
-    applyPromoCode: PropTypes.func.isRequired,
+    applyPromoCode: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      coupon_code: '',
+      coupon_code: ''
     };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.applyPromoCode(event.target.value);
+    this.props.applyPromoCode(this.state.coupon_code);
   }
 
   handlePromoCode = (event) => {
     event.preventDefault();
     /* TODO: add validation */
     this.setState({
-      coupon_code: event.target.value,
+      coupon_code: event.target.value
     });
   }
 
