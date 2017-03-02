@@ -164,6 +164,7 @@ function checkoutNext(state) {
 function completePayPal() {
   return (dispatch) => {
     window.scrollTo(0, 0);
+    dispatch(setPending(true));
     dispatch(resetMessages());
     axios.post('/api/checkout/next')
       .then((response) => checkResponse(response.data, () => {
@@ -174,13 +175,14 @@ function completePayPal() {
         dispatch(setOrder(order));
         const orderLink = `my-account/view-order/${response.data.cart.id}`;
         dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
-        console.log('HERE');
         forwardTo(orderLink);
         dispatch(getCart());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setPending(false));
       }))
       .catch((err) => {
+        dispatch(setPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
       });
   };
