@@ -21,7 +21,7 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     resetMessages: () => dispatch(resetMessages()),
     getOrder: (number) => dispatch(getOrder(number)),
-    onLogout: () => dispatch(onLogout()),
+    onLogout: () => dispatch(onLogout())
   }
 ));
 
@@ -34,7 +34,7 @@ class ViewOrderWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     order: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    resetMessages: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
@@ -51,14 +51,12 @@ class ViewOrderWrapper extends BasePageComponent {
   };
 
   componentDidMount = () => {
-    console.log('DID MOUNT');
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('RECEIVED');
     if (nextProps.order.isLoaded &&
       (this.props.params.number === nextProps.order.order.number)) {
       setTimeout(() => {

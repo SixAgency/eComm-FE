@@ -33,7 +33,8 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError,
-    isPayPal: state.checkout.isPayPal
+    isPayPal: state.checkout.isPayPal,
+    isPending: state.page.isPending
   }
 ));
 
@@ -52,6 +53,7 @@ class ReviewWrapper extends BasePageComponent {
     applyPromoCode: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired,
     route: PropTypes.object
   };
 
@@ -89,8 +91,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { isLoaded } = nextProps.cartItems;
-    if (isLoaded) {
+    if (!nextProps.isPending && nextProps.cartItems) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -100,7 +101,6 @@ class ReviewWrapper extends BasePageComponent {
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
-    console.log('UNMOUT');
   };
 
   clickTab = (e) => {
@@ -128,7 +128,7 @@ class ReviewWrapper extends BasePageComponent {
   checkoutPayPal = (e) => {
     e.preventDefault();
     this.props.toggleLoader(true);
-    this.props.completePayPal('delivery');
+    this.props.completePayPal();
   };
 
   render() {
