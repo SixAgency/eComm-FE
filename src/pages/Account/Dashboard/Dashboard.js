@@ -22,11 +22,11 @@ class Dashboard extends React.Component {
     profile: PropTypes.object.isRequired
   };
 
-  setName = (username, profile) => {
-    if (profile.f_name && profile.l_name) {
-      return `${profile.f_name} ${profile.l_name}`;
+  setName = () => {
+    if (this.props.profile.f_name && this.props.profile.l_name) {
+      return `${this.props.profile.f_name} ${this.props.profile.l_name}`;
     }
-    return username;
+    return this.props.userName;
   }
 
   checkOrders = () => {
@@ -55,8 +55,8 @@ class Dashboard extends React.Component {
           <div className={s.dashboard}>
             <h1 className={s.title}>YOUR ACCOUNT</h1>
             <p className={s.intro}>
-             Hello <b>{this.setName(this.props.userName, this.props.profile)}</b>&nbsp;
-             (not {this.setName(this.props.userName, this.props.profile)}?
+             Hello <b>{this.setName()}</b>&nbsp;
+             (not {this.setName()}?
              <a href="/" className={s.actions} onClick={this.props.onLogout}> Sign out</a>).
              From your account dashboard you can view your recent orders, manage your
              shipping and billing addresses and

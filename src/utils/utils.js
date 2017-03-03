@@ -7,13 +7,12 @@ function setNavigation(slug) {
 }
 
 // Helper function - used to set order state
-function getOrderState(state, refunded, shipment) {
-  const states = ORDER_STATES;
+function getOrderStatus(state, refunded, shipment) {
   if (refunded || state === 'canceled') {
     return 'Canceled';
   }
-  return states[shipment] || '';
+  return ORDER_STATES[shipment] || '';
 }
 
-export { setNavigation, getOrderState };
+export { setNavigation, getOrderStatus };
 

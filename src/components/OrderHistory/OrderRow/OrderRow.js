@@ -3,7 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import moment from 'moment';
 import s from './OrderRow.css';
 // helpers
-import { getOrderState } from '../../../utils/utils';
+import { getOrderStatus } from '../../../utils/utils';
 
 class OrderRow extends Component {
   static propTypes = {
@@ -27,7 +27,7 @@ class OrderRow extends Component {
           {moment(order.created_at).format('MMMM DD YYYY')}
         </td>
         <td className={s.orderstatus}>
-          {getOrderState(order.state, order.has_refunds, order.shipment_state)}
+          {getOrderStatus(order.state, order.has_refunds, order.shipment_state)}
         </td>
         <td className={s.ordertotal}>
           <span className={s.amount}> {order.display_total} </span>

@@ -8,7 +8,7 @@ import ContentWrapper from '../../../components/ContentWrapper';
 import OrderDetailsTbl from '../../../components/Tables/OrderDetailsTbl';
 import CustomerDetailsTbl from '../../../components/Tables/CustomerDetailsTbl';
 // helpers
-import { getOrderState } from '../../../utils/utils';
+import { getOrderStatus } from '../../../utils/utils';
 
 class ViewOrder extends React.Component {
 
@@ -49,7 +49,7 @@ class ViewOrder extends React.Component {
                 {moment(order.created_at).format('MMMM DD YYYY')}
               </mark>
               &nbsp;and is currently <mark className={s.orderstatus}>
-                {getOrderState(order.state, order.has_refunds, order.shipment_state)}
+                {getOrderStatus(order.state, order.has_refunds, order.shipment_state)}
               </mark>.
             </p>
             <h2 className={s.title}>Order Details</h2>
