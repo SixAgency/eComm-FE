@@ -749,4 +749,12 @@ const CHECKOUT_TABS = [
   }
 ];
 
-export { NAV, SOCIAL_NAV, SHIPPING_STATES, STATES, BREADCRUMBS, CHECKOUT_TABS };
+const ORDER_STATES = {
+  ready: 'Processing',
+  backorder: 'Processing',
+  partial: 'Processing',
+  shipped: 'Shipped',
+  canceled: 'Canceled'
+};
+
+export { NAV, SOCIAL_NAV, SHIPPING_STATES, STATES, BREADCRUMBS, CHECKOUT_TABS, ORDER_STATES };

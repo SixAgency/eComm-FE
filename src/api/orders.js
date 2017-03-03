@@ -15,7 +15,7 @@ import { faketoken } from '../config';
 import conslog from '../utils/dev';
 
 const ORDER = '/api/v1/orders';
-const ORDERS = '/api/v1/orders/mine?q[state_cont]=complete&q[state_cont]=canceled';
+const ORDERS = '/api/v1/orders/mine?q[state_cont_any][]=complete&q[state_cont_any][]=canceled';
 const CART = '/api/v1/orders/current';
 
 // Get Order Details

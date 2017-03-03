@@ -1,28 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import moment from 'moment';
 import s from './OrderRow.css';
+// helpers
+import { getOrderState } from '../../../utils/utils';
 
 class OrderRow extends Component {
   static propTypes = {
     order: PropTypes.object.isRequired
-  }
-
-  getOrderStatus = (order) => {
-    let orderState = '';
-    if (order.state === 'complete') {
-      if (['ready', 'backorder', 'partial'].includes(order.shipment_state)) {
-        orderState = 'Processing';
-      } else if (order.shipment_state === 'shipped') {
-        orderState = 'Shipped';
-      }
-    } else if (order.state === 'canceled') {
-      if (order.payments.refunds !== null) {
-        orderState = 'Refunded';
-      } else {
-        orderState = 'Cancelled';
-      }
-    }
-    return orderState;
   }
 
   render() {
@@ -39,10 +24,10 @@ class OrderRow extends Component {
           </a>
         </td>
         <td className={s.orderdate}>
-          {order.created_at.substring(0, 10)}
+          {moment(order.created_at).format('MMMM DD YYYY')}
         </td>
         <td className={s.orderstatus}>
-          {this.getOrderStatus(order)}
+          {getOrderState(order.state, order.has_refunds, order.shipment_state)}
         </td>
         <td className={s.ordertotal}>
           <span className={s.amount}> {order.display_total} </span>
