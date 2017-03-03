@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import renderHTML from 'react-render-html';
 import cx from 'classnames';
 import s from './Product.css';
 import RelatedProducts from '../../components/RelatedProducts';
@@ -10,7 +11,7 @@ import imagePlaceholder from './image_placeholder_large.png';
 class Product extends Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
-    onAddToCart: PropTypes.func.isRequired,
+    onAddToCart: PropTypes.func.isRequired
   }
 
   render() {
@@ -60,7 +61,7 @@ class Product extends Component {
                 <div className={cx(s.summarytab, s.summaryopen)}>
                   <h3 className={s.summarytitle}>Description</h3>
                   <div className={s.summarycontent}>
-                    <p className={s.summaryparagraph}>{product.description}</p>
+                    <p className={s.summaryparagraph}>{renderHTML(product.description)}</p>
                   </div>
                 </div>
                 <div className={cx(s.summarytab, s.summaryclosed)}>
