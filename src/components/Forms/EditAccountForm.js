@@ -23,7 +23,6 @@ class EditAccountForm extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     this.setState({
-      ...this.state,
       ...nextProps.profile
     });
   }
