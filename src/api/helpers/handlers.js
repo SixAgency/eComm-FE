@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import { mannequinHeadsSlugs } from '../../config';
+import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -549,8 +550,8 @@ function parseProfile(data) {
 /* Parse profile on Update */
 function parseProfileUpdate(data) {
   let resp = {};
-  if (data.isLoaded && data.profile) {
-    resp = { isLoaded: true, profile: data.profile };
+  if (data) {
+    resp = { isLoaded: true, profile: data };
     return resp;
   }
   resp = { isLoaded: true, profile: {} };
