@@ -168,7 +168,7 @@ function updateProfile(data) {
       axios.post('/api/profile', data)
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: ['Account updated'] }));
-          dispatch(setProfile(response.data));
+          dispatch(setProfile(response.data.profile));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))

@@ -22,10 +22,12 @@ class EditAccountForm extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.state = {
-      ...this.state,
-      ...nextProps.profile
-    };
+    this.setState({
+      ...nextProps.profile,
+      password: '',
+      newpassword: '',
+      confirmnewpassword: ''
+    });
   }
 
   onFieldsUpdate = (e) => {
