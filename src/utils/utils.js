@@ -1,4 +1,4 @@
-import NAV from '../constants/AppConsts';
+import { NAV, ORDER_STATES } from '../constants/AppConsts';
 
 function setNavigation(slug) {
   const navItems = [...NAV];
@@ -6,4 +6,13 @@ function setNavigation(slug) {
   return navItems;
 }
 
-export default setNavigation;
+// Helper function - used to set order state
+function getOrderStatus(state, refunded, shipment) {
+  if (refunded || state === 'canceled') {
+    return 'Canceled';
+  }
+  return ORDER_STATES[shipment] || '';
+}
+
+export { setNavigation, getOrderStatus };
+

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import { NAV } from '../../constants/AppConsts';
-// import setNavigation from '../../utils/utils';
+// import { setNavigation } from '../../utils/utils';
 
 class Navigation extends React.Component {
 

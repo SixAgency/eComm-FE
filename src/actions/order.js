@@ -3,7 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
 import { setPayment, setShipping, setBilling } from './checkout';
 import { getCartAddresses } from '../helpers/feed';
-import { validateShippingCalculator } from '../helpers/validators';
+import { validateShippingCalculator, validatePromoCode } from '../helpers/validators';
 
 
 /**
@@ -205,17 +205,22 @@ function applyPromoCode(data) {
     dispatch(setLoader(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
-    axios.put('/api/applycode', { data })
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
-      }, () => {
-        const message = response.data.messages || 'Something went wrong.';
-        dispatch(setMessage({ isError: true, messages: [message] }));
-      }))
-      .catch((err) => {
-        console.error('Error', err); // eslint-disable-line no-console
-        forwardTo('error');
-      });
+    const valid = validatePromoCode(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.put('/api/applycode', { data })
+        .then((response) => checkResponse(response, () => {
+          dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
+        }, () => {
+          const message = response.data.messages || 'Something went wrong.';
+          dispatch(setMessage({ isError: true, messages: [message] }));
+        }))
+        .catch((err) => {
+          console.error('Error', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
   };
 }
 
@@ -273,4 +278,3 @@ export {
   getAllOrders,
   calculateShipping
 };
-

@@ -11,13 +11,15 @@ class DashboardWrapper extends React.Component {
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    profile: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     onLogout: () => (true),
     messages: [],
-    isError: false
+    isError: false,
+    profile: {}
   };
 
   render() {
@@ -36,6 +38,7 @@ class DashboardWrapper extends React.Component {
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.breadcrumbs}
+        profile={this.props.profile}
       />
     );
   }

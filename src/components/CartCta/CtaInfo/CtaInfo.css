@@ -1,5 +1,6 @@
 .infowrpr {
   background: -webkit-linear-gradient(left,#19D9B0, #3DB4E5);
+  background-image: -ms-linear-gradient(left, #19D9B0, #3DB4E5);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: rgb(0, 0, 0);
   width: 100%;

@@ -198,6 +198,21 @@ function validateShippingCalculator(data) {
     !data.shipments_attributes.country_id) {
     messages.push('Please fill all fields.');
   }
+
+  const resp = {
+    isError: (messages.length > 0),
+    messages
+  };
+  return resp;
+}
+
+// Validate Promo code
+function validatePromoCode(data) {
+  const messages = [];
+  if (!data) {
+    messages.push('Please enter a promo code.');
+  }
+
   const resp = {
     isError: (messages.length > 0),
     messages
@@ -215,5 +230,6 @@ export {
   validateLostPassword,
   validateAccountUpdate,
   validatePasswordUpdate,
-  validateShippingCalculator
+  validateShippingCalculator,
+  validatePromoCode
 };

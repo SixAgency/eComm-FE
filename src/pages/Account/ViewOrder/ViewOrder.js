@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import moment from 'moment';
 import s from './ViewOrder.css';
 // Components
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import OrderDetailsTbl from '../../../components/Tables/OrderDetailsTbl';
 import CustomerDetailsTbl from '../../../components/Tables/CustomerDetailsTbl';
+// helpers
+import { getOrderStatus } from '../../../utils/utils';
 
 class ViewOrder extends React.Component {
 
@@ -13,24 +16,6 @@ class ViewOrder extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired
-  };
-
-  getMonth = (number) => {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-    return months[number];
   };
 
   listAddress = (address) => {
@@ -48,10 +33,9 @@ class ViewOrder extends React.Component {
     return (<p className={s.optiontext}> Please set up your billing address </p>);
   };
 
+
   render() {
     const order = this.props.order;
-    const orderDate = new Date(order.created_at);
-    const shipment = order.shipments[0];
     const billingAddress = order.bill_address;
     const shippingAddress = order.ship_address;
     return (
@@ -62,12 +46,10 @@ class ViewOrder extends React.Component {
             <p className={s.orderInfo}>
               Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
               <mark className="order-date">
-                {this.getMonth(orderDate.getMonth())}
-                {orderDate.getDay()},
-                {orderDate.getFullYear()}
+                {moment(order.created_at).format('MMMM DD YYYY')}
               </mark>
               &nbsp;and is currently <mark className={s.orderstatus}>
-                {shipment ? shipment.state : 'Processing'}
+                {getOrderStatus(order.state, order.has_refunds, order.shipment_state)}
               </mark>.
             </p>
             <h2 className={s.title}>Order Details</h2>
