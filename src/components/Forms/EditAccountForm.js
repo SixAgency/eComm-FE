@@ -23,10 +23,8 @@ class EditAccountForm extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     this.setState({
-      ...nextProps.profile,
-      password: '',
-      newpassword: '',
-      confirmnewpassword: ''
+      ...this.state,
+      ...nextProps.profile
     });
   }
 
