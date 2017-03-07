@@ -63,7 +63,7 @@ class Product extends Component {
                 <h1 className={s.pname}>{product.name}</h1>
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
-                  { videoFlag && <EmbeddedVideo video={videoObj.value} /> }
+                  { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />

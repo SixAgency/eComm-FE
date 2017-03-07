@@ -5,13 +5,13 @@ import s from './EmbeddedVideo.css';
 
 class EmbeddedVideo extends Component {
   static propTypes = {
-    video: PropTypes.object.isRequired
+    embeddedCode: PropTypes.string.isRequired
   }
 
   render() {
     return (
       <div className={s.videocontainer}>
-        {renderHTML(this.props.video)}
+        {renderHTML(this.props.embeddedCode)}
       </div>
     );
   }
