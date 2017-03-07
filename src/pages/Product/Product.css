@@ -82,6 +82,9 @@
               color: #bdbdbd;
             }
           }
+          .videomargin {
+            margin-top: 90px;
+          }
         }
         .summarymiddle {
           .summarytab {
@@ -201,6 +204,9 @@
           .summarytop {
             margin-right: 0px;
             padding-top: 80px;
+          }
+          .videomargin {
+            margin-top: 180px !important;
           }
         }
       }
