@@ -19,14 +19,7 @@ class Product extends Component {
 
   getVideoProperty = (properties) => properties.find((prop) => (prop.property_name === 'embedded_video'));
 
-  setVideoFlag = (videoObj) => {
-    if (typeof videoObj !== 'undefined') {
-      if (videoObj.value !== '') {
-        return true;
-      }
-    }
-    return false;
-  }
+  setVideoFlag = (videoObj) => typeof videoObj !== 'undefined' && videoObj.value !== '';
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -70,7 +63,7 @@ class Product extends Component {
                 <h1 className={s.pname}>{product.name}</h1>
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
-                  { (videoFlag) ? <EmbeddedVideo videoObj={videoObj} /> : '' }
+                  { videoFlag && <EmbeddedVideo video={videoObj.value} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
