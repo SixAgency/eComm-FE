@@ -4,15 +4,22 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import renderHTML from 'react-render-html';
 import cx from 'classnames';
 import s from './Product.css';
+// Components
 import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
 import imagePlaceholder from './image_placeholder_large.png';
+import EmbeddedVideo from '../../components/EmbeddedVideo';
 
 class Product extends Component {
+
   static propTypes = {
     product: PropTypes.object.isRequired,
     onAddToCart: PropTypes.func.isRequired
-  }
+  };
+
+  getVideoProperty = (properties) => properties.find((prop) => (prop.property_name === 'embedded_video'));
+
+  setVideoFlag = (videoObj) => typeof videoObj !== 'undefined' && videoObj.value !== '';
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -26,7 +33,9 @@ class Product extends Component {
     }
     const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
     const categoryName = product.classifications[0].taxon.name;
-
+    const videoObj = this.getVideoProperty(this.props.product.product.product_properties);
+    const videoFlag = this.setVideoFlag(videoObj);
+    const videoClass = videoFlag ? 'videomargin' : '';
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -44,7 +53,7 @@ class Product extends Component {
             <div className={s.summary}>
               <div className={s.summarytop}>
                 <div className={s.video} />
-                <nav className={s.breadcrumb}>
+                <nav className={cx(s.breadcrumb, s[videoClass])}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
                   <Link className={s.innerlink} to={`/product-category/${categorySlug}`}>{categoryName}</Link>
@@ -54,6 +63,7 @@ class Product extends Component {
                 <h1 className={s.pname}>{product.name}</h1>
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
+                  { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
