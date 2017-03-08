@@ -1,0 +1,6 @@
+{
+  "name": "ErrorPopup",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ErrorPopup.js"
+}

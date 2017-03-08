@@ -40,6 +40,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
+import ManageAddressesWrapper from '../pages/Account/ManageAddresses';
 // Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
@@ -513,6 +514,40 @@ siteRoutes.get('/my-account/address/billing', (req, resp, next) => {
             );
             handleRoutes(req, resp, next, params);
           });
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
+});
+// Account - Manage Addresses
+siteRoutes.get('/my-account/address/manage', (req, resp, next) => {
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (!data.user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        getAddresses(req, { isNew: false })
+        .then((addresses) => handleError(data, resp, () => {
+          const params = {
+            title: 'Manage Addresses',
+            description: '',
+            header: 'default',
+            active: '/my-account',
+            content: <ManageAddressesWrapper
+              {...data.user}
+              addresses={{ ...addresses.addresses }}
+              billing={{ ...addresses.billing }}
+              shipping={{ ...addresses.shipping }}
+            />
+          };
+          handleRoutes(req, resp, next, params);
+        }))
+        .catch((err) => {
+          conslog('ERROR', err);
+          resp.redirect('/error');
+        });
       }
     }))
     .catch((err) => {
