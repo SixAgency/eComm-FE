@@ -42,7 +42,8 @@ class ProfileWrapper extends BasePageComponent {
     updateProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -80,6 +81,7 @@ class ProfileWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         messages={this.props.messages}
         isError={this.props.isError}
+        resetMessages={this.props.resetMessages}
       />
     );
   }

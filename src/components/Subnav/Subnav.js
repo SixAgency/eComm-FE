@@ -7,11 +7,13 @@ class Subnav extends React.Component {
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    resetMessages: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     onLogout: () => (true),
+    resetMessages: () => (true),
     breadcrumbs: []
   }
 
@@ -21,12 +23,12 @@ class Subnav extends React.Component {
         {
           title: 'My Account',
           link: '/my-account/dashboard',
-          action: () => (true)
+          action: this.props.resetMessages
         },
         {
           title: 'Edit Account',
           link: '/my-account/edit-account',
-          action: () => (true)
+          action: this.props.resetMessages
         },
         {
           title: 'Logout',

@@ -129,6 +129,7 @@ class AccountWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        resetMessages={this.props.resetMessages}
       />
     );
   }

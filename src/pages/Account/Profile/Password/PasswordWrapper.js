@@ -40,7 +40,8 @@ class PasswordWrapper extends BasePageComponent {
     updatePassword: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -76,6 +77,7 @@ class PasswordWrapper extends BasePageComponent {
         onUpdatePassword={this.props.updatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
+        resetMessages={this.props.resetMessages}
       />
     );
   }
