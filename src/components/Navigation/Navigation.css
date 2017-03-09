@@ -112,5 +112,8 @@
         line-height: 20px;
       }
     }
+    .greenline {
+      display: none;
+    }
   }
 }
