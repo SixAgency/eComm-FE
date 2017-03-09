@@ -2,18 +2,18 @@ export default function reducer(state = {
   billing: {
     isLoaded: false,
     isEmpty: true,
-    address: {},
+    address: {}
   },
   shipping: {
     isLoaded: false,
     isEmpty: true,
-    address: {},
+    address: {}
   },
   addresses: {
     isLoaded: false,
     isEmpty: true,
-    addresses: [],
-  },
+    addresses: []
+  }
 }, action) {
   switch (action.type) {
     case 'SET_ADDRESSES': {
@@ -21,7 +21,7 @@ export default function reducer(state = {
         ...state,
         billing: action.payload.billing,
         shipping: action.payload.shipping,
-        addresses: action.payload.addresses,
+        addresses: action.payload.addresses
       };
     }
     case 'SET_BILLING': {
@@ -29,6 +29,9 @@ export default function reducer(state = {
     }
     case 'SET_SHIPPING': {
       return { ...state, shipping: action.payload };
+    }
+    case 'DELETE_ADDRESS': {
+      return { ...state, delete: action.payload };
     }
     default: // do nothing
   }

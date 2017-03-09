@@ -208,4 +208,9 @@ apiRoutes.post('/calculate_shipping', (req, resp) => {
   }
 });
 
+// Delete addres
+apiRoutes.delete('/addressdelete/:id', (req, resp) => {
+  resp.json(JSON.stringify(req.body.data));
+});
+
 export default apiRoutes;

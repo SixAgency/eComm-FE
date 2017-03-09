@@ -256,6 +256,7 @@ function setAddressesResponse(data, newAddress) {
 // Format edit/create address response
 function setEditCreateAddressResponse(data) {
   let resp;
+  conslog('ADRESA', data);
   if (!data.isError && !data.errors) {
     resp = {
       billing: setAddressResponse(data.default_addresses.bill_address),
@@ -568,6 +569,10 @@ function parsePasswordUpdate(data) {
   return resp;
 }
 
+/* Delete Address */
+// function setDeleteAddressResponse(data) {
+//   let resp = {}
+// }
 
 export {
   checkResponse,

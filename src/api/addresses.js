@@ -4,7 +4,7 @@ import {
   checkResponse,
   setAddressesResponse,
   setEditCreateAddressResponse,
-  setCreateAddressResponse,
+  setCreateAddressResponse
 } from './helpers/handlers';
 import { faketoken } from '../config';
 
@@ -75,4 +75,9 @@ function setDefaultAddress(request) {
     .catch((err) => setError(err));
 }
 
-export { getAddresses, createAddress, updateAddress, setDefaultAddress };
+export {
+  getAddresses,
+  createAddress,
+  updateAddress,
+  setDefaultAddress
+};

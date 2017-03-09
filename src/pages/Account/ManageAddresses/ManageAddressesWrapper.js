@@ -5,9 +5,13 @@ import { browserHistory } from 'react-router';
 import BasePageComponent from '../../BasePageComponent';
 import ManageAddresses from './ManageAddresses';
 // Actions
-import { toggleLoader, setHeaderProps } from '../../../actions/page';
+import { toggleLoader, setHeaderProps, resetMessages } from '../../../actions/page';
 import { onLogout } from '../../../actions/user';
-import { getAddress } from '../../../actions/address';
+import { getAddress,
+  deleteAddress,
+  setDefaultShipping,
+  setDefaultBilling,
+  editAddress } from '../../../actions/address';
 
 const mapStateToProps = ((state) => (
   {
@@ -23,7 +27,12 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     getAddress: () => dispatch(getAddress()),
-    onLogout: () => dispatch(onLogout())
+    onLogout: () => dispatch(onLogout()),
+    deleteAddress: (id) => dispatch(deleteAddress(id)),
+    setDefaultShipping: (data, message) => dispatch(setDefaultShipping(data, message)),
+    setDefaultBilling: (data, message) => dispatch(setDefaultBilling(data, message)),
+    resetMessages: () => dispatch(resetMessages()),
+    editAddress: (data) => dispatch(editAddress(data))
   }
 ));
 
@@ -34,7 +43,12 @@ class ManageAddressesWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     addresses: PropTypes.object.isRequired,
-    getAddress: PropTypes.func.isRequired
+    getAddress: PropTypes.func.isRequired,
+    deleteAddress: PropTypes.func.isRequired,
+    setDefaultShipping: PropTypes.func.isRequired,
+    setDefaultBilling: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+    editAddress: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -57,6 +71,7 @@ class ManageAddressesWrapper extends BasePageComponent {
   }
 
   componentWillUnmount = () => {
+    this.props.resetMessages();
     this.props.toggleLoader(true);
   };
 
@@ -73,6 +88,10 @@ class ManageAddressesWrapper extends BasePageComponent {
         onLogout={this.onLogout}
         billing={this.props.billing}
         shipping={this.props.shipping}
+        deleteAddress={this.props.deleteAddress}
+        setDefaultShipping={this.props.setDefaultShipping}
+        setDefaultBilling={this.props.setDefaultBilling}
+        editAddress={this.props.editAddress}
       />
     );
   }

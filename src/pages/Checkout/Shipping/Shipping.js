@@ -51,7 +51,7 @@ class Shipping extends React.Component {
         address2: '',
         city: '',
         state_id: 0,
-        zipcode: '',
+        zipcode: ''
       };
       const showEmailPhone = true;
       return (
