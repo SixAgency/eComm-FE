@@ -19,7 +19,8 @@ class Dashboard extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
-    profile: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired,
+    resetMessages: PropTypes.func.isRequired
   };
 
   setName = () => {
@@ -49,6 +50,7 @@ class Dashboard extends React.Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          resetMessages={this.props.resetMessages}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>

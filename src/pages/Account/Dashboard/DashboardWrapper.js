@@ -124,6 +124,7 @@ class DashboardWrapper extends BasePageComponent {
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
         profile={this.props.profile}
+        resetMessages={this.props.resetMessages}
       />
     );
   }

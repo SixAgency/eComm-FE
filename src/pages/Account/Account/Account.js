@@ -20,7 +20,8 @@ class Account extends React.Component {
     onRegister: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    resetMessages: PropTypes.func.isRequired
   };
 
   getChildren = (state) => {
@@ -51,6 +52,7 @@ class Account extends React.Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          resetMessages={this.props.resetMessages}
         />
         <ErrorDisplay
           messages={this.props.messages}

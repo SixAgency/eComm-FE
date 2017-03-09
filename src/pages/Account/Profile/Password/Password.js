@@ -15,13 +15,18 @@ class Password extends Component {
     profile: PropTypes.object.isRequired,
     onUpdatePassword: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          resetMessages={this.props.resetMessages}
+        />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass="hide">
           <EditPasswordForm
