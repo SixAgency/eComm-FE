@@ -25,6 +25,8 @@ class ManageAddressesWrapper extends Component {
     editAddress: () => (true)
   }
 
+  onSubmit = () => (true);
+
   render() {
     return (
       <ManageAddresses
@@ -37,6 +39,7 @@ class ManageAddressesWrapper extends Component {
         setDefaultShipping={this.props.setDefaultShipping}
         setDefaultBilling={this.props.setDefaultBilling}
         editAddress={this.props.editAddress}
+        onSubmit={this.onSubmit}
       />
     );
   }

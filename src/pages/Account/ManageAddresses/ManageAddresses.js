@@ -18,7 +18,8 @@ class ManageAddresses extends Component {
     deleteAddress: PropTypes.func.isRequired,
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
-    editAddress: PropTypes.func.isRequired
+    editAddress: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -59,7 +60,7 @@ class ManageAddresses extends Component {
         address={tolist}
         buttonText={'save address'}
         selectClass={'checkoutselect'}
-        onSubmit={this.props.editAddress}
+        onSubmit={this.props.onSubmit}
         onCancel={() => { browserHistory.push('/my-account/dashboard'); }}
       />
     );
@@ -74,7 +75,6 @@ class ManageAddresses extends Component {
 
 
   render() {
-    console.log(this.props.addresses);
     if (this.props.addresses.addresses.length === 0) {
       return (
         <section className={s.page}>
@@ -83,7 +83,9 @@ class ManageAddresses extends Component {
             onLogout={this.props.onLogout}
           />
           <ContentWrapper>
-            <div>No available addresses to show.</div>
+            <div className={s.warning}>
+              No available addresses to show.
+            </div>
           </ContentWrapper>
         </section>
       );

@@ -127,7 +127,6 @@ class ManageAddressesForm extends Component {
           <label htmlFor={value.id} className={s.labelradio}>
             {value.firstname} {value.lastname}<br />
             {value.address1} {value.address2}<br />
-            {value.id}
             {value.city}, {this.getStateName(value.state_id)}, {value.zipcode}<br />
             {value.phone}
           </label>
@@ -149,6 +148,7 @@ class ManageAddressesForm extends Component {
   );
 
   render() {
+    console.log(this.props.addresses);
     return (
       <div className={cx(s.formcontent)}>
         <h1 className={s.title}>Manage addresses</h1>

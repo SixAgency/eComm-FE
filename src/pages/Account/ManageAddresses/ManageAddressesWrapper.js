@@ -13,6 +13,7 @@ import { getAddress,
   setDefaultBilling,
   editAddress,
   createAddressNew } from '../../../actions/address';
+import { setBilling } from '../../../actions/checkout';
 
 const mapStateToProps = ((state) => (
   {
@@ -38,7 +39,8 @@ const mapDispatchToProps = ((dispatch) => (
       data,
       message,
       callback
-    ))
+    )),
+    setBilling: (id) => dispatch(setBilling(id))
   }
 ));
 
@@ -54,7 +56,8 @@ class ManageAddressesWrapper extends BasePageComponent {
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    editAddress: PropTypes.func.isRequired
+    editAddress: PropTypes.func.isRequired,
+    setBilling: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -86,6 +89,22 @@ class ManageAddressesWrapper extends BasePageComponent {
     this.props.onLogout();
   };
 
+  onFormSubmit = (address) => {
+    const data = {
+      address
+    };
+    if (this.props.addresses.isEmpty) {
+      data.default_address_types = ['bill_address', 'ship_address'];
+    }
+    const message = 'Address created successfully.';
+    this.props.createAddress(data, message, (newAddress) => {
+      this.setState({
+        content: 'list'
+      });
+      this.props.setBilling(newAddress.id);
+    });
+  };
+
   render() {
     return (
       <ManageAddresses
@@ -98,6 +117,7 @@ class ManageAddressesWrapper extends BasePageComponent {
         setDefaultShipping={this.props.setDefaultShipping}
         setDefaultBilling={this.props.setDefaultBilling}
         editAddress={this.props.editAddress}
+        onSubmit={this.onFormSubmit}
       />
     );
   }
