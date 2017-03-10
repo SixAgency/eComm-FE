@@ -37,6 +37,7 @@ class ReviewOrder extends React.Component {
               screen to appear. Do not click on back or any other buttons during this process.
             </p>
             <input className={s.submit} type="button" value="Place Order" onClick={this.props.checkoutPayPal} />
+            <input className={s.cancelorder} type="button" value="Cancel" />
           </div>
         </div>
       );

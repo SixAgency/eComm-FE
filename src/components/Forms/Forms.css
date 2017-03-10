@@ -321,6 +321,15 @@
   -o-transition: all 0.2s linear;
 }
 
+.cancelorder {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222222;
+}
+
 .cancel {
   background: #cccccc;
   color: #666666;
