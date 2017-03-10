@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './ManageAddresses.css';
 import { browserHistory } from 'react-router';
+import s from './ManageAddresses.css';
 // Components
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
@@ -30,6 +30,7 @@ class ManageAddresses extends Component {
   }
 
   setContent = () => {
+    const showEmailPhone = true;
     if (this.state.display === 'list') {
       return (
         <ManageAddressesForm
@@ -40,6 +41,7 @@ class ManageAddresses extends Component {
           setDefaultShipping={this.props.setDefaultShipping}
           setDefaultBilling={this.props.setDefaultBilling}
           handleDisplayState={this.handledisplayState}
+          showEmailPhone={showEmailPhone}
         />
       );
     }
@@ -72,6 +74,20 @@ class ManageAddresses extends Component {
 
 
   render() {
+    console.log(this.props.addresses);
+    if (this.props.addresses.addresses.length === 0) {
+      return (
+        <section className={s.page}>
+          <Subnav
+            isLogged={this.props.loggedIn}
+            onLogout={this.props.onLogout}
+          />
+          <ContentWrapper>
+            <div>No available addresses to show.</div>
+          </ContentWrapper>
+        </section>
+      );
+    }
     return (
       <section className={s.page}>
         <Subnav

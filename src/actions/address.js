@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { checkResponse, forwardTo, goBack } from './handler';
+import { checkResponse, forwardTo } from './handler';
 import { setMessage, resetMessages, setLoader } from './page';
 import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
@@ -58,6 +58,17 @@ function setAddresses(billing, shipping, addresses) {
 function setAddress(address, type) {
   const data = { ...address, isLoaded: true };
   return { type, payload: data };
+}
+
+/**
+ * Get the id of the address to be deleted
+ * @param id
+ * @param type
+ * returns {function(*=)}
+ */
+
+function deleteAddr(id, type) {
+  return { type, payload: id };
 }
 
 /**
@@ -258,11 +269,11 @@ function createAddressNew(data, message, callback) {
 * @param id
 */
 
-function deleteAddress(id) {
-  return () => {
-    axios.delete(`/api/v1/addresses/${id}`)
+function deleteAddress(data) {
+  return (dispatch) => {
+    axios.delete(`/api/addressdelete/${data}`)
       .then((response) => checkResponse(response.data, () => {
-        console.log('DELETE RESPONSE', response);
+        dispatch(deleteAddr(data, 'DELETE_ADDRESS'));
       }))
       .catch((err) => {
         console.error('Error', err);

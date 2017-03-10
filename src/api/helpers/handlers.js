@@ -570,9 +570,14 @@ function parsePasswordUpdate(data) {
 }
 
 /* Delete Address */
-// function setDeleteAddressResponse(data) {
-//   let resp = {}
-// }
+function setDeleteAddressResponse(data) {
+  let resp = {};
+  if (data) {
+    return resp;
+  }
+  resp = {};
+  return resp;
+}
 
 export {
   checkResponse,
@@ -598,5 +603,6 @@ export {
   setAddressCallBack,
   parseProfile,
   parseProfileUpdate,
-  parsePasswordUpdate
+  parsePasswordUpdate,
+  setDeleteAddressResponse
 };

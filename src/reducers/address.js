@@ -31,7 +31,15 @@ export default function reducer(state = {
       return { ...state, shipping: action.payload };
     }
     case 'DELETE_ADDRESS': {
-      return { ...state, delete: action.payload };
+      return {
+        ...state,
+        addresses: {
+          ...state.addresses,
+          addresses: state.addresses.addresses.filter(
+            (item) => (item.id !== action.payload)
+          )
+        }
+      };
     }
     default: // do nothing
   }

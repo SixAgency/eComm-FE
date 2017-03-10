@@ -11,7 +11,8 @@ import { getAddress,
   deleteAddress,
   setDefaultShipping,
   setDefaultBilling,
-  editAddress } from '../../../actions/address';
+  editAddress,
+  createAddressNew } from '../../../actions/address';
 
 const mapStateToProps = ((state) => (
   {
@@ -32,7 +33,12 @@ const mapDispatchToProps = ((dispatch) => (
     setDefaultShipping: (data, message) => dispatch(setDefaultShipping(data, message)),
     setDefaultBilling: (data, message) => dispatch(setDefaultBilling(data, message)),
     resetMessages: () => dispatch(resetMessages()),
-    editAddress: (data) => dispatch(editAddress(data))
+    editAddress: (data) => dispatch(editAddress(data)),
+    createAddress: (data, message, callback) => dispatch(createAddressNew(
+      data,
+      message,
+      callback
+    ))
   }
 ));
 
