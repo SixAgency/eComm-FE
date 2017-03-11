@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import capitalize from 'lodash.capitalize';
 
-import assets from './assets'; // eslint-disable-line import/no-unresolved
+import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 
 import conslog from '../utils/dev';
 import { BREADCRUMBS } from '../constants/AppConsts';
