@@ -3,6 +3,7 @@
 
 build
 node_modules
+logs
 ncp-debug.log
 npm-debug.log
 .DS_Store

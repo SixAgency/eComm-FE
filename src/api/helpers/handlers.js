@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import { mannequinHeadsSlugs } from '../../config';
+import logger from '../../utils/logger';
 import conslog from '../../utils/dev';
 
 // Middleware function to check status codes
@@ -78,6 +79,7 @@ function checkResponse(data) {
 
 // Error response
 function setError(data) {
+  logger.error(data);
   const message = data.message || 'Server Error. Please contact your server administrator.';
   const resp = {
     isError: true,

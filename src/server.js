@@ -7,12 +7,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import compress from 'compression';
+import morgan from 'morgan';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './pages/Error/ErrorPage';
 import errorPageStyle from './pages/Error/ErrorPage.css';
 import apiRoutes from './api/routes';
 import siteRoutes from './routes/server';
 import { port } from './config';
+import logger from './utils/logger';
 
 const app = express();
 app.use(compress());
@@ -22,6 +24,13 @@ app.use(compress());
 // -----------------------------------------------------------------------------
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
+
+//
+// Override console.error to show
+// React render errors to error logs
+console.error = (error) => {
+  logger.error(error);
+};
 
 //
 // Register Node.js middleware
@@ -35,6 +44,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(morgan('combined', { stream: logger.stream }));
 // Register API Endpoints
 app.use('/api', apiRoutes);
 
