@@ -4,7 +4,7 @@ import path from 'path';
 winston.emitErrs = true;
 
 let logFile = '/app/eComm_frontend/logs/all.log';
-if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV !== 'production') {
   logFile = path.resolve(__dirname, '../logs/all.log');
 }
 const logger = new winston.Logger({
@@ -20,17 +20,10 @@ const logger = new winston.Logger({
       name: 'error',
       level: 'error',
       handleExceptions: true,
-      colorize: true,
-      json: true
-    }),
-    new winston.transports.File({
-      name: 'file-info',
-      filename: logFile,
-      level: 'info',
-      handleExceptions: true,
       humanReadableUnhandledException: true,
+      colorize: true,
       json: false
-    }),
+    })
   ],
   exitOnError: false
 });

@@ -1,6 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import AssetsPlugin from 'assets-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import pkg from '../package.json';
 
 const isDebug = !process.argv.includes('--release');
@@ -287,9 +288,14 @@ const serverConfig = {
       banner: 'require("source-map-support").install();',
       raw: true,
       entryOnly: false
+    }),
+    new CopyWebpackPlugin([
+        // {output}/to/file.txt
+        { from: path.resolve(__dirname, '../ecosystem.config.js'), to: path.resolve(__dirname, '../build') },
+    ], {
+      copyUnmodified: true
     })
   ],
-
   node: {
     console: false,
     global: false,
