@@ -3,10 +3,6 @@ import path from 'path';
 
 winston.emitErrs = true;
 
-let logFile = '/app/eComm_frontend/logs/all.log';
-if (process.env.NODE_ENV !== 'production') {
-  logFile = path.resolve(__dirname, '../logs/all.log');
-}
 const logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
