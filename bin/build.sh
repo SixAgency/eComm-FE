@@ -10,15 +10,21 @@ GIT_URL=git@github.com:CleverSoftwareSolutions/eComm-FE.git
 
 set -x
 
+# Deploy key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa_deploy
+
 # Pull latest code
 if [[ -e $APP_DIR/repo ]]; then
   cd $APP_DIR/repo
-  git pull
+  git stash
+  git checkout master
+  git pull origin master
 else
   git clone $GIT_URL $APP_DIR/repo
+  cd $APP_DIR/repo
 fi
 
-cd $APP_DIR/repo
 # Install dependencies
 npm install
 
