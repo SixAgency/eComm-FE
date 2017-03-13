@@ -34,8 +34,9 @@ npm install --production
 npm prune --production
 
 # Link to current
-sudo ln -s $APP_DIR/releases/$DATE $APP_DIR/current
+ln -s $APP_DIR/releases/$DATE $APP_DIR/current
 
 cd $APP_DIR/current
 # Restart app
 pm2 start ecosystem.config.js
+sudo service nginx restart
