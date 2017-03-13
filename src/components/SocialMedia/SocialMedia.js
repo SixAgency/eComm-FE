@@ -8,7 +8,7 @@ import { SOCIAL_NAV } from '../../constants/AppConsts';
 class SocialMedia extends React.Component {
 
   static propTypes = {
-    socialClass: PropTypes.string.isRequired,
+    socialClass: PropTypes.string.isRequired
   };
 
   render() {
