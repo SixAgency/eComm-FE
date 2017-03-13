@@ -8,13 +8,13 @@ class CreateWrapper extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     onLogout: () => (true),
     messages: [],
-    isError: false,
+    isError: false
   };
 
   onSubmit = () => (true);
@@ -30,7 +30,7 @@ class CreateWrapper extends React.Component {
       address2: '',
       city: '',
       state_id: 0,
-      zipcode: '',
+      zipcode: ''
     };
     return (
       <Create

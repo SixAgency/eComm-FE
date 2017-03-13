@@ -23,6 +23,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
+import EditAddressesWrapper from '../pages/Account/EditAddresses';
 // Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
@@ -47,6 +48,7 @@ const routes = (
         <Route path="create/:type" component={CreateAddress} title="Create Address" />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" breadcrumbs={BREADCRUMBS.addresses} />
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" breadcrumbs={BREADCRUMBS.addresses} />
+        <Route path="manage" component={EditAddressesWrapper} title="Edit Addresses" />
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
       <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />

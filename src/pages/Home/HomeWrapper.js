@@ -11,7 +11,7 @@ import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
-    gridItems: state.catalog.gridItems,
+    gridItems: state.catalog.gridItems
   }
 ));
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -32,17 +32,17 @@ class HomeWrapper extends BasePageComponent {
     getProducts: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    addToCart: PropTypes.func.isRequired,
+    addToCart: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    gridItems: { isLoaded: false, products: [] },
+    gridItems: { isLoaded: false, products: [] }
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'default',
-      activeSlug: '/',
+      activeSlug: '/'
     };
     this.props.setHeaderProps(props);
     if (this.props.gridItems.isLoaded) {

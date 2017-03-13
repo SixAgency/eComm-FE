@@ -40,6 +40,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
+import EditAddressesWrapper from '../pages/Account/EditAddresses';
 // Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
@@ -385,7 +386,7 @@ siteRoutes.get('/my-account/edit-password', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <PasswordWrapper {...data.user} />,
+          content: <PasswordWrapper {...data.user} />
         };
         handleRoutes(req, resp, next, params);
       }
@@ -410,6 +411,40 @@ siteRoutes.get('/my-account/address/create/:type', (req, resp, next) => {
           content: <CreateAddress {...data.user} params={req.params} />
         };
         handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/error');
+    });
+});
+// Account - Addresses view
+siteRoutes.get('/my-account/address/manage', (req, resp, next) => {
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (!data.user.loggedIn) {
+        resp.redirect('/my-account');
+      } else {
+        getAddresses(req, { isNew: false })
+        .then((addresses) => handleError(data, resp, () => {
+          const params = {
+            title: 'Manage Addresses',
+            description: '',
+            active: '/my-account',
+            content: <EditAddressesWrapper
+              {...data.user}
+              params={req.params}
+              addresses={{ ...addresses.addresses }}
+              billing={{ ...addresses.billing }}
+              shipping={{ ...addresses.shipping }}
+            />
+          };
+          handleRoutes(req, resp, next, params);
+        }))
+        .catch((err) => {
+          conslog('ERROR', err);
+          resp.redirect('/error');
+        });
       }
     }))
     .catch((err) => {
@@ -570,7 +605,7 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
                   selectedAddress={address}
                   addresses={addresses.addresses}
                   breadcrumbs={BREADCRUMBS.checkout}
-                />,
+                />
               };
               handleRoutes(req, resp, next, params);
             }))
@@ -609,7 +644,7 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
                   breadcrumbs={BREADCRUMBS.checkout}
                   selectedAddress={address}
                   addresses={addresses.addresses}
-                />,
+                />
               };
               handleRoutes(req, resp, next, params);
             }))

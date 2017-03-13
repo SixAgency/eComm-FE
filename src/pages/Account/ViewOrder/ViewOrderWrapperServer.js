@@ -5,11 +5,11 @@ class ViewOrderWrapper extends React.Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    onLogout: () => (true),
+    onLogout: () => (true)
   };
 
   render() {
