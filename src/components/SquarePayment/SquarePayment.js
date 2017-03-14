@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import axios from 'axios';
 import s from './SquarePayment.css';
+
+const { SqPaymentForm } = global;
 
 class SquarePayment extends Component {
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    paymentForm.requestCardNonce();
-    return false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      is_payment_success: false, // for showing #successNotification div
+      is_processing: false, // for disabling payment button
+      card_errors: [],
+      product: {
+        id: '001'
+      },
+      user: {
+        name: 'my name',
+        email: 'test@test.com'
+      },
+      shipping: {
+        address1: 'adresa 1',
+        address2: 'adresa 2',
+        city: 'whateve',
+        state: 'AZ',
+        zip: '10001'
+      }
+    };
   }
 
-  componentWillMount = () => {
-    paymentForm.build();
-  }
-
-  render() {
-    let cardNonce;
-    const paymentForm = new SqPaymentForm({
-      applicationId: '#{square_application_id}',
+  componentDidMount = () => {
+    this.paymentForm = new SqPaymentForm({
+      applicationId: 'sandbox-sq0idp-zZJC4qFxIk0LYgwAKygtWQ',
       inputClass: 'sq-input',
       inputStyles: [
         {
@@ -43,113 +58,204 @@ class SquarePayment extends Component {
         placeholder: '94110'
       },
       callbacks: {
-        cardNonceResponseReceived: (errors, nonce, cardData) => {
+        cardNonceResponseReceived: (errors, nonce) => {
           if (errors) {
-            let errorHtml = '';
-            for (let i = 0; i < errors.length; i++) {
-              errorHtml += `<li> ${errors[i].message} </li>`;
-            }
-            document.getElementById('card-errors').innerHTML = errorHtml;
-            document.getElementById('submit').disabled = false;
+            this.setState({
+              is_processing: false,
+              card_errors: errors
+            });
           } else {
-            document.getElementById('card-errors').innerHTML = '';
-            chargeCardWithNonce(nonce);
+            this.setState({
+              card_errors: []
+            });
+            this.chargeCardWithNonce(nonce);
           }
-        },
-        unsupportedBrowserDetected: () => {
-          console.log('alert the buyer');
         }
       }
     });
+    this.paymentForm.build();
+  }
 
-    const chargeCardWithNonce = function (nonce) {
-      const productId = document.getElementById('product_id').value;
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const streetAddress1 = document.getElementById('street_address_1').value;
-      const streetAddress2 = document.getElementById('street_address_2').value;
-      const city = document.getElementById('city').value;
-      const state = document.getElementById('state').value;
-      const zip = document.getElementById('zip').value;
+  handleIdChange = (e) => {
+    this.setState({
+      product: {
+        id: e.target.value
+      }
+    });
+  }
 
-      const http = new XMLHttpRequest();
-      const url = '/charges/charge_card';
-      const params = `product_id= ${productId}
-      '&name='${name}
-      '&email='${email}
-      '&nonce='${nonce}
-      '&street_address_1='${streetAddress1}
-      '&street_address_2='${streetAddress2}
-      '&city='${city}
-      '&state='${state}
-      '&zip='${zip}`;
+  handleNameChange = (e) => {
+    this.setState({
+      user: {
+        name: e.target.value
+      }
+    });
+  }
 
-      http.open('POST', url, true);
-      http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      http.setRequestHeader('X-CSRF-Token', '<%= form_authenticity_token %>');
+  handleEmailChange = (e) => {
+    this.setState({
+      user: {
+        email: e.target.value
+      }
+    });
+  }
 
-      http.onreadystatechange = function () {
-        if (http.readyState === 4 && http.status === 200) {
-          const data = JSON.parse(http.responseText);
-          if (data.status === 200) {
-            document.getElementById('successNotification').style.display = 'block';
-            document.getElementById('payment-form').style.display = 'none';
-            window.scrollTo(0, 0);
-          } else if (data.status === 400) {
-            const errorHtml = '';
-            for (let i = 0; i < data.errors.length; i++) {
-              errorHtml += `<li>${data.errors[i].detail}</li>`;
-            }
-            document.getElementById('card-errors').innerHTML = errorHtml;
-            document.getElementById('submit').disabled = false;
-          }
-        }
-      };
-      http.send(params);
+  handleAddress1Change = (e) => {
+    this.setState({
+      shipping: {
+        address1: e.target.value
+      }
+    });
+  }
+
+  handleAddress2Change = (e) => {
+    this.setState({
+      shipping: {
+        address1: e.target.value
+      }
+    });
+  }
+
+  handleCityChange = (e) => {
+    this.setState({
+      shipping: {
+        city: e.target.value
+      }
+    });
+  }
+
+  handleStateChange = (e) => {
+    this.setState({
+      shipping: {
+        state: e.target.value
+      }
+    });
+  }
+
+  handleZipChange = (e) => {
+    this.setState({
+      shipping: {
+        zip: e.target.value
+      }
+    });
+  }
+
+  handleCardNbChange = (e) => { console.log(e.target.value); }
+  handleCvvChange = (e) => { console.log(e.target.value); }
+  handleExpirationChange = (e) => { console.log(e.target.value); }
+  handlePCodeChange = (e) => { console.log(e.target.value); }
+
+  chargeCardWithNonce = (nonce) => {
+    console.log('charging card with nonce');
+    const url = '/charges/charge_card';
+    const data = {
+      nonce,
+      product_id: this.state.product.id,
+      name: this.state.user.name,
+      email: this.state.user.email,
+      street_address_1: this.state.shipping.address1,
+      street_address_2: this.state.shipping.address2,
+      city: this.state.shipping.city,
+      state: this.state.shipping.state,
+      zip: this.state.shipping.zip
     };
+    console.log(data);
 
+    axios.post(url, data, (result) => {
+      if (result.status === 200) {
+        this.setState({ is_payment_success: true });
+      } else if (result.status === 400) {
+        const errors = [];
+        for (let i = 0; i < result.errors.length; i += 1) {
+          errors.push({ message: result.errors[i].detail });
+        }
+        this.setState({ card_errors: errors });
+      }
+      this.setState({ is_processing: false });
+    });
+  }
+
+  handleSubmit = () => {
+    this.setState({
+      is_processing: true
+    });
+    this.paymentForm.requestCardNonce();
+  }
+
+  render() {
+    if (this.state.is_payment_success === true) {
+      return (
+        <div id="successNotification">
+          Card Charged Successfully!
+        </div>
+      );
+    }
     return (
       <div>
-        <form id="payment-form" action="#" onSubmit={this.onSubmit}>
-          <label htmlFor="product_id">Choose your Golden Gate replica</label>
-          <select id="product_id" name="product_id">
+        <div>
+          <label
+            htmlFor="product_id"
+          >Choose your Golden Gate replica</label>
+          <select
+            id="product_id"
+            defaultValue={this.state.product.id}
+            onChange={this.handleIdChange}
+          >
             <option value="001">$1 Paper Origami 1:10,000 scale model (11 inch) </option>
             <option value="002">$49 Plastic 1:5000 scale model (22 inch)</option>
             <option value="003">$5000 Metal &amp; Concrete 1:1000 scale replica (9 feet)</option>
           </select>
+        </div>
+        <div>
           <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
-            name="name"
             placeholder="Name"
+            defaultValue={this.state.user.name}
+            onChange={this.handleNameChange}
           />
           <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            name="email"
             placeholder="Email"
+            defaultValue={this.state.user.email}
+            onChange={this.handleEmailChange}
           />
-          <h3> Shipping Address </h3>
+        </div>
+        <div>
+          <h3>Shipping Address</h3>
           <label htmlFor="street_address_1">Street</label>
           <input
             type="text"
             id="street_address_1"
-            name="street_address_1"
             placeholder="Address Line 1"
+            defaultValue={this.state.shipping.address1}
+            onChange={this.handleAddress1Change}
           />
           <label htmlFor="street_address_2">Street</label>
           <input
             type="text"
             id="street_address_2"
-            name="street_address_2"
             placeholder="Address Line 2"
+            defaultValue={this.state.shipping.address2}
+            onChange={this.handleAddress2Change}
           />
           <label htmlFor="city">City</label>
-          <input type="text" id="city" name="city" placeholder="City" />
+          <input
+            type="text"
+            id="city"
+            placeholder="City"
+            defaultValue={this.state.shipping.city}
+            onChange={this.handleCityChange}
+          />
           <label htmlFor="state">State</label>
-          <select id="state" name="state">
+          <select
+            id="state"
+            defaultValue={this.state.shipping.state}
+            onChange={this.handleStateChange}
+          >
             <option value="" />
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -203,29 +309,44 @@ class SquarePayment extends Component {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
-          <label htmlFor="zip">Zip</label>
-          <input type="text" id="zip" name="zip" placeholder="Zip" />
-          <div id="card-errors" />
+        </div>
+        <label htmlFor="zip">Zip</label>
+        <input
+          type="text"
+          id="zip"
+          placeholder="Zip"
+          defaultValue={this.state.shipping.zip}
+          onChange={this.handleZipChange}
+        />
+        <div>
+          <div id="card-errors">{/* cardErrorNodes */}</div>
           <div>
-            <p>Card Number</p>
-            <div id="sq-card-number" />
+            <label htmlFor="sq-card-number">Card Number</label>
+            <input id="sq-card-number" onChange={this.handleCardNbChange} />
           </div>
           <div>
-            <p>CVV</p>
-            <div id="sq-cvv" />
+            <label htmlFor="sq-cvv">CVV</label>
+            <input id="sq-cvv" onChange={this.handleCvvChange} />
           </div>
           <div>
-            <p>Expiration Date</p>
-            <div id="sq-expiration-date" />
+            <label htmlFor="sq-expiration-date">Expiration Date</label>
+            <input id="sq-expiration-date" onChange={this.handleExpirationChange} />
           </div>
           <div>
-            <p>Postal Code</p>
-            <div id="sq-postal-code" />
+            <label htmlFor="sq-postal-code">Postal Code</label>
+            <input id="sq-postal-code" onChange={this.handlePCodeChange} />
           </div>
-          <div>
-            <input type="submit" id="submit" value="Buy Now" />
-          </div>
-        </form>
+        </div>
+        <div>
+          <input
+            type="submit"
+            id="submit"
+            value="Buy Now"
+            className="btn btn-primary"
+            onClick={this.handleSubmit}
+            disabled={this.state.is_processing}
+          />
+        </div>
       </div>
     );
   }
