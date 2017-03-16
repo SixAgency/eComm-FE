@@ -3,6 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Contact.css';
 import ContactForm from '../../components/ContactForm';
 import ErrorDisplay from '../../components/ErrorDisplay';
+// Square payment - to test
+import SquarePayment from '../../components/SquarePayment';
 
 class Contact extends React.Component {
   static propTypes = {
@@ -24,6 +26,7 @@ class Contact extends React.Component {
               sendContact={this.props.sendContact}
               messages={this.props.messages}
             />
+            <SquarePayment />
           </div>
         </div>
       </div>
