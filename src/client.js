@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import routes from './routes/client';
 import App from './components/App';
-import { ErrorReporter } from './core/devUtils';
 
 // Global (context) variables that can be easily accessed from any React component
 // https://facebook.github.io/react/docs/context.html
@@ -35,9 +34,4 @@ try {
   );
 } catch (error) {
   console.error(error); // eslint-disable-line no-console
-  // Display the error in full-screen for development mode
-  if (process.env.NODE_ENV !== 'production') {
-    document.title = `Error: ${error.message}`;
-    ReactDOM.render(<ErrorReporter error={error} />, container);
-  }
 }

@@ -20,6 +20,7 @@ import { onLogout, onLogin } from '../../actions/user';
 const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
+    isCartPending: state.cart.isPending,
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
@@ -54,6 +55,7 @@ class CartWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
+    isCartPending: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
@@ -90,18 +92,16 @@ class CartWrapper extends BasePageComponent {
       activeSlug: '/'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.cartItems.isLoaded) {
-      this.props.getCart();
-    }
     if (!this.props.paypalObj.isLoaded) {
       this.props.getPayPalToken();
     }
   };
 
   componentDidMount = () => {
+    const isCartPending = this.props.isCartPending;
     const cartLoaded = this.props.cartItems.isLoaded;
     const payPalLoaded = this.props.paypalObj.isLoaded;
-    if (cartLoaded && payPalLoaded) {
+    if (!isCartPending && cartLoaded && payPalLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -109,9 +109,10 @@ class CartWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    const isCartPending = nextProps.isCartPending;
     const cartLoaded = nextProps.cartItems.isLoaded;
     const payPalLoaded = nextProps.paypalObj.isLoaded;
-    if (cartLoaded && payPalLoaded) {
+    if (!isCartPending && cartLoaded && payPalLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);

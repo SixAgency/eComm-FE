@@ -1,5 +1,4 @@
 import winston from 'winston';
-import path from 'path';
 
 winston.emitErrs = true;
 
@@ -31,10 +30,10 @@ const logger = new winston.Logger({
   exitOnError: false
 });
 
-logger.stream = {
-  write: (message, encoding) => {
-    logger.info(message.trim());
-  }
-};
+// logger.stream = {
+//   write: (message, encoding) => {
+//     logger.info(message.trim());
+//   }
+// };
 
 export default logger;

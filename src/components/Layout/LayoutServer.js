@@ -11,10 +11,10 @@ class Layout extends React.Component {
 
   static defaultProps = {
     cartItems: { isLoaded: false, isEmpty: true, cart: {} }
-  }
+  };
 
-  mobileNavOpen = () => (true)
-  mobileNavClose = () => (true)
+  mobileNavOpen = () => (true);
+  mobileNavClose = () => (true);
 
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;

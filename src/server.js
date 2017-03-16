@@ -7,14 +7,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import compress from 'compression';
+import helmet from 'helmet';
 import morgan from 'morgan';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './pages/Error/ErrorPage';
 import errorPageStyle from './pages/Error/ErrorPage.css';
-import apiRoutes from './api/routes';
+import apiRoutes from './routes/api';
 import siteRoutes from './routes/server';
 import { port } from './config';
-import logger from './utils/logger';
+import logger from './api/logger';
 
 const app = express();
 app.use(compress());
@@ -39,12 +40,12 @@ app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(session({
   secret: 'key123456qwerty',
-  name: 'ecomm',
+  name: 'ecomm'
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(morgan('combined', { stream: logger.stream }));
+app.use(helmet());
+app.use(morgan('dev'));
 // Register API Endpoints
 app.use('/api', apiRoutes);
 
@@ -63,7 +64,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.log(pe.render(err)); // eslint-disable-line no-console
   const headerProps = {
     headerClass: 'colored',
-    activeSlug: '/',
+    activeSlug: '/'
   };
   const html = ReactDOM.renderToStaticMarkup(
     <Html

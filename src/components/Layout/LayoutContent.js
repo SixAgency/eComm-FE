@@ -26,7 +26,7 @@ class LayoutContent extends Component {
       return (<Loader />);
     }
     return null;
-  }
+  };
 
   render() {
     return (

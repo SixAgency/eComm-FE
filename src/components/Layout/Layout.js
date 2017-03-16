@@ -10,6 +10,7 @@ const mapStateToProps = ((state) => (
     headerProps: state.page.headerProps,
     showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
+    isCartPending: state.cart.isPending,
     showMobileNav: state.page.showMobileNav
   })
 );
@@ -27,6 +28,7 @@ class Layout extends Component {
     getCart: PropTypes.func.isRequired,
     headerProps: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
+    isCartPending: PropTypes.bool.isRequired,
     checkLogin: PropTypes.func.isRequired,
     showLoader: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
@@ -37,28 +39,26 @@ class Layout extends Component {
 
   componentWillMount = () => {
     this.props.checkLogin();
-    if (this.props.cartItems.isLoaded) {
-      console.log('isLoaded');
-    } else {
+    if (!this.props.isCartPending && !this.props.cartItems.isLoaded) {
       this.props.getCart();
     }
-  }
+  };
 
   componentWillUpdate = (nexProps) => {
     if (nexProps.location.pathname !== this.props.location.pathname) {
       this.props.toggleMobileNavigation(false);
     }
-  }
+  };
 
   mobileNavOpen = (event) => {
     event.preventDefault();
     this.props.toggleMobileNavigation(true);
-  }
+  };
 
   mobileNavClose = (event) => {
     event.preventDefault();
     this.props.toggleMobileNavigation(false);
-  }
+  };
 
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;

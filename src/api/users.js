@@ -1,4 +1,4 @@
-import { apiFetch } from '../core/fetch';
+import { apiFetch } from './fetch';
 // Helpers
 import {
   checkResponse,
@@ -10,8 +10,6 @@ import {
   parseProfileUpdate,
   parsePasswordUpdate
 } from './helpers/handlers';
-import { faketoken } from '../config';
-import conslog from '../utils/dev';
 
 const LOGIN = '/login';
 const LOGOUT = '/logout';
@@ -27,14 +25,14 @@ function userLogin(request) {
       remember_me: request.body.remember || 0
     }
   };
+  if (!request.session.user_token) {
+    user.guest_token = request.session.guest_token;
+  }
   return apiFetch(LOGIN,
     {
       method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+      body: JSON.stringify(user)
+    }, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setAuthResponse(data, request))
   .catch((err) => setError(err));
@@ -49,14 +47,14 @@ function userRegistration(request) {
       password_confirmation: request.body.password
     }
   };
+  if (!request.session.user_token) {
+    user.guest_token = request.session.guest_token;
+  }
   return apiFetch(REGISTER,
     {
       method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+      body: JSON.stringify(user)
+    }, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setAuthResponse(data, request))
   .catch((err) => setError(err));
@@ -64,12 +62,7 @@ function userRegistration(request) {
 
 // Logout
 function userLogout(request) {
-  return apiFetch(LOGOUT,
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+  return apiFetch(LOGOUT, {}, request.session)
   .then((resp) => checkResponse(resp))
   .then(() => setLogoutResponse(request))
   .catch((err) => setError(err));
@@ -84,13 +77,7 @@ function checkLogin(request) {
 
 // Get User Profile
 function getProfile(request) {
-  return apiFetch(PROFILE,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+  return apiFetch(PROFILE, {}, request.session)
   .then((resp) => (checkResponse(resp)))
   .then((resp) => (parseProfile(resp)))
   .catch((err) => setError(err));
@@ -98,17 +85,12 @@ function getProfile(request) {
 
 // Update User Profile
 function updateProfile(request) {
-  conslog('SESSION', request.session);
   const profile = { ...request.body };
   return apiFetch(`${PROFILE}/${profile.id}`,
     {
       method: 'PATCH',
-      body: JSON.stringify(profile),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(profile)
+    }, request.session)
   .then((resp) => (checkResponse(resp)))
   .then((resp) => (parseProfileUpdate(resp)))
   .catch((err) => setError(err));
@@ -122,12 +104,8 @@ function updatePassword(request) {
   return apiFetch(`${PROFILE}/${request.body.id}`,
     {
       method: 'PATCH',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(data)
+    }, request.session)
   .then((resp) => (checkResponse(resp)))
   .then((resp) => (parsePasswordUpdate(resp)))
   .catch((err) => setError(err));

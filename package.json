@@ -21,6 +21,7 @@
     "cookie-parser": "1.4.3",
     "cookie-session": "2.0.0-beta.1",
     "express": "4.15.2",
+    "helmet": "3.5.0",
     "isomorphic-style-loader": "1.1.0",
     "lodash.capitalize": "4.2.1",
     "lodash.isempty": "4.4.0",

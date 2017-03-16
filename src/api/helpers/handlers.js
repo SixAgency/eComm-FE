@@ -1,7 +1,6 @@
 import Promise from 'bluebird';
 import { mannequinHeadsSlugs } from '../../config';
-import logger from '../../utils/logger';
-import conslog from '../../utils/dev';
+import logger from '../logger';
 
 // Middleware function to check status codes
 function checkResponse(data) {
@@ -90,12 +89,11 @@ function setError(data) {
 }
 
 // Session params
-function setUserSession(data, token, request) {
-  request.session.token = token; // eslint-disable-line no-param-reassign
-  request.session.loggedIn = data.loggedIn; // eslint-disable-line no-param-reassign
-  request.session.username = data.userName; // eslint-disable-line no-param-reassign
-  request.session.email = data.emailAddress; // eslint-disable-line no-param-reassign
-  request.session.orderNumber = null; // eslint-disable-line no-param-reassign
+/* eslint-disable no-param-reassign */
+function setUserSession(token, request) {
+  request.session.user_token = token;
+  request.session.guest_token = null;
+  request.session.order = null;
   return true;
 }
 
@@ -104,6 +102,7 @@ function clearSession(request) {
   request.session = null; // eslint-disable-line no-param-reassign
   return true;
 }
+/* eslint-enable no-param-reassign */
 
 // Modify address response
 function setAddressResponse(data) {
@@ -134,7 +133,7 @@ function setAuthResponse(data, request) {
       loggedIn: true
     };
     const token = data.user.spree_api_key;
-    setUserSession(user, token, request);
+    setUserSession(token, request);
     resp = {
       isError: false,
       user,
@@ -176,15 +175,14 @@ function setLogoutResponse(request) {
 function setUserResponse(request) {
   return new Promise((resolve, reject) => {
     try {
-      const { token, loggedIn } = request.session;
       let resp;
-      if (token && loggedIn) {
+      if (request.session.user_token) {
         resp = {
           isError: false,
           user: {
-            userName: request.session.username,
-            emailAddress: request.session.email,
-            loggedIn
+            username: '',
+            email: '',
+            loggedIn: true
           }
         };
       } else {
@@ -258,7 +256,6 @@ function setAddressesResponse(data, newAddress) {
 // Format edit/create address response
 function setEditCreateAddressResponse(data) {
   let resp;
-  conslog('ADRESA', data);
   if (!data.isError && !data.errors) {
     resp = {
       billing: setAddressResponse(data.default_addresses.bill_address),
@@ -330,7 +327,7 @@ function setOrdersResponse(data) {
   return resp;
 }
 
-function setCartResponse(data, request, callback) {
+function setCartResponse(data) {
   let resp;
   if (data.isError) {
     const message = data.message || 'Server Error. Please contact your server administrator.';
@@ -341,16 +338,9 @@ function setCartResponse(data, request, callback) {
       status: data.status,
       cart: {}
     };
-  } else if (Object.getOwnPropertyNames(data).length > 0) {
+  } else {
     const isEmpty = data.total_quantity < 1;
     resp = { isEmpty, cart: data };
-    if (data.state === 'complete') {
-      request.session.orderNumber = null; // eslint-disable-line no-param-reassign
-    } else {
-      request.session.orderNumber = data.number; // eslint-disable-line no-param-reassign
-    }
-  } else {
-    return callback(request);
   }
   return resp;
 }
