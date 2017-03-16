@@ -17,7 +17,7 @@ class CreateAddress extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     address: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   render() {

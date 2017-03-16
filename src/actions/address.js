@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { checkResponse, forwardTo, goBack } from './handler';
+import { checkResponse, forwardTo } from './handler';
 import { setMessage, resetMessages, setLoader } from './page';
 import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
@@ -18,18 +18,18 @@ function resetAddresses() {
     billing: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
+      address: {}
     },
     shipping: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
+      address: {}
     },
     addresses: {
       isLoaded: false,
       isEmpty: true,
-      address: {},
-    },
+      address: {}
+    }
   };
   return { type: 'SET_ADDRESSES', payload: data };
 }
@@ -44,7 +44,7 @@ function setAddresses(billing, shipping, addresses) {
   const payload = {
     billing: { ...billing, isLoaded: true },
     shipping: { ...shipping, isLoaded: true },
-    addresses: { ...addresses, isLoaded: true },
+    addresses: { ...addresses, isLoaded: true }
   };
   return { type: 'SET_ADDRESSES', payload };
 }
@@ -58,6 +58,17 @@ function setAddresses(billing, shipping, addresses) {
 function setAddress(address, type) {
   const data = { ...address, isLoaded: true };
   return { type, payload: data };
+}
+
+/**
+ * Get the id of the address to be deleted
+ * @param id
+ * @param type
+ * returns {function(*=)}
+ */
+
+function deleteAddr(id, type) {
+  return { type, payload: id };
 }
 
 /**
@@ -161,7 +172,7 @@ function createOrEditAddress(data) {
  */
 function setDefaultAddress(data, message) {
   return (dispatch) => {
-    axios.post('/api/addresses/default', { data } )
+    axios.post('/api/addresses/default', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setAddress(response.data.billing, 'SET_BILLING'));
         dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
@@ -175,6 +186,47 @@ function setDefaultAddress(data, message) {
       });
   };
 }
+
+/**
+* @param data
+* @returns {function(*=)}
+*/
+function setDefaultShipping(data, message) {
+  return (dispatch) => {
+    axios.post('/api/addresses/default', { data })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
+        forwardTo('my-account/dashboard');
+        dispatch(setMessage({ isError: false, messages: [message] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
+  };
+}
+
+/**
+* @param data
+* @returns {function(*=)}
+*/
+function setDefaultBilling(data, message) {
+  return (dispatch) => {
+    axios.post('/api/addresses/default', { data })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setAddress(response.data.billing, 'SET_BILLING'));
+        forwardTo('my-account/dashboard');
+        dispatch(setMessage({ isError: false, messages: [message] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
+  };
+}
+
 
 /**
  * Create an address
@@ -212,6 +264,24 @@ function createAddressNew(data, message, callback) {
   };
 }
 
+/**
+* Delete an address
+* @param id
+*/
+
+function deleteAddress(data) {
+  return (dispatch) => {
+    axios.delete(`/api/addressdelete/${data}`)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(deleteAddr(data, 'DELETE_ADDRESS'));
+      }))
+      .catch((err) => {
+        console.error('Error', err);
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   getAddress,
   resetAddresses,
@@ -219,4 +289,7 @@ export {
   createOrEditAddress,
   createAddressNew,
   setDefaultAddress,
+  deleteAddress,
+  setDefaultBilling,
+  setDefaultShipping
 };

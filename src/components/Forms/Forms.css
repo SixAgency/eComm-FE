@@ -48,6 +48,16 @@
   height: 100px;
 }
 
+.accountradio {
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+.accountsubtitle {
+  text-align: left;
+}
+
 .phoneemailwrapper {
   display: block;
   position: relative;
@@ -385,6 +395,10 @@
   margin-top: -35px;
 }
 
+.aformcontent {
+  overflow: hidden;
+}
+
 .addresscontent {
   position: relative;
   display: block;
@@ -514,6 +528,24 @@
   text-decoration: underline;
 }
 
+/* Account addresses */
+
+.addresses {
+  .listwrapper {
+    width: 100%;
+    box-sizing: border-box;
+    .addresswrapper {
+      overflow: hidden;
+      .addressesoption {
+        border-bottom: none;
+        display: inline-block;
+        float: left;
+        margin: 0 10px 10px 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 767px) and (min-width: 320px) {
   .cformcontent { margin-top: 0; }
   .submit {
@@ -553,10 +585,6 @@
     border-radius: 0;
   }
 
-  .radiowrapper {
-    width: 100%;
-    float: none;
-  }
   .titlemobile { font-size: 24px; }
 }
 

@@ -5,6 +5,7 @@ import {
   setAddressesResponse,
   setEditCreateAddressResponse,
   setCreateAddressResponse,
+  setDeleteAddressResponse
 } from './helpers/handlers';
 import { faketoken } from '../config';
 
@@ -75,4 +76,25 @@ function setDefaultAddress(request) {
     .catch((err) => setError(err));
 }
 
-export { getAddresses, createAddress, updateAddress, setDefaultAddress };
+// Delete Address
+function deleteAddress(request) {
+  return apiFetch(`${ADDRESSES}/${request.params.id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Spree-Token': request.session.token || faketoken
+      }
+    })
+  .then((response) => checkResponse(response))
+  .then((data) => setDeleteAddressResponse(data))
+  .catch((err) => setError(err));
+}
+
+export {
+  getAddresses,
+  createAddress,
+  updateAddress,
+  setDefaultAddress,
+  deleteAddress
+};

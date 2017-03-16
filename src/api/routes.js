@@ -27,7 +27,8 @@ import {
 import { getAddresses,
   createAddress,
   updateAddress,
-  setDefaultAddress
+  setDefaultAddress,
+  deleteAddress
 } from './addresses';
 import { getBraintreeTokens,
   checkoutPayPal,
@@ -36,6 +37,7 @@ import { getBraintreeTokens,
 } from './checkout';
 
 import sendContact from './contact';
+import conslog from '../utils/dev';
 // Helpers
 import {
   validateAuth,
@@ -206,6 +208,11 @@ apiRoutes.post('/calculate_shipping', (req, resp) => {
   } else {
     calculateShipping(req).then((data) => (resp.json(data)));
   }
+});
+
+// Delete addres
+apiRoutes.delete('/addressdelete/:id', (req, resp) => {
+  deleteAddress(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

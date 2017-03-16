@@ -1,0 +1,57 @@
+.errorwrapper {
+  padding-top: 127px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  .errorbody {
+    position: fixed;
+    background-color: #ffffff;
+    margin-top: 25%;
+    width: 100%;
+    height: 130px;
+    padding: 10px 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
+    font-size: 16px;
+    clear: both;
+    .option {
+      margin-right: 20px;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #202020;
+      text-align: center;
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+      outline: none;
+      border: none;
+      background-color: #ffffff;
+    }
+    .cancel {
+      border-bottom: 1px dotted #000000;
+    }
+    .cancel:hover {
+      color: #29cbc8;
+    }
+    .proceed {
+      background-color: #29cbc8;
+    }
+    .proceed:hover {
+      color: #29cbc8;
+      background-color: #000000;
+    }
+  }
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

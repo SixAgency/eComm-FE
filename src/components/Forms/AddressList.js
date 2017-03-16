@@ -14,7 +14,7 @@ class AddressList extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
-    showCancel: PropTypes.bool.isRequired,
+    showCancel: PropTypes.bool.isRequired
   };
 
   constructor(props) {
