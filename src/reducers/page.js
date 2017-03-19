@@ -7,7 +7,9 @@ export default function reducer(state = {
   isPending: false,
   isError: false,
   messages: [],
-  showMobileNav: false
+  showMobileNav: false,
+  showModal: false,
+  modalContent: ''
 }, action) {
   switch (action.type) {
     case 'SET_HEADER_PROPS': {
@@ -21,6 +23,9 @@ export default function reducer(state = {
     }
     case 'TOGGLE_LOADER': {
       return { ...state, showLoader: action.payload };
+    }
+    case 'TOGGLE_MODAL': {
+      return { ...state, showModal: action.payload };
     }
     case 'TOGGLE_MOBILE_NAV': {
       return { ...state, showMobileNav: action.payload };

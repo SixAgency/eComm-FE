@@ -19,6 +19,8 @@ class Layout extends React.Component {
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;
     const showLoader = true;
+    const showModal = true;
+    const modalContent = '';
     return (
       <LayoutContent
         headerClass={headerClass}
@@ -26,6 +28,8 @@ class Layout extends React.Component {
         cartItems={this.props.cartItems}
         mobileNavOpen={this.mobileNavOpen}
         mobileNavClose={this.mobileNavClose}
+        showModal={showModal}
+        modalContent={modalContent}
         showLoader={showLoader}
         layoutStyles={{ opacity: 0 }}
         menuOpen={''}

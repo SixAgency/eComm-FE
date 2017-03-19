@@ -28,6 +28,7 @@ class Review extends React.Component {
     contentTabs: PropTypes.array.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
+    checkoutSquare: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     couponClass: PropTypes.string.isRequired,
     loginClass: PropTypes.string.isRequired,
@@ -81,6 +82,7 @@ class Review extends React.Component {
             cartItems={this.props.cartItems}
             isPaypal={this.props.isPayPal}
             checkoutPayPal={this.props.checkoutPayPal}
+            checkoutSquare={this.props.checkoutSquare}
           />
         </ContentWrapper>
       </section>

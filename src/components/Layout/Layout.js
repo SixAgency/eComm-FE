@@ -7,6 +7,8 @@ import { toggleMobileNavigation } from '../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
+    showModal: state.page.showModal,
+    modalContent: state.page.modalContent,
     headerProps: state.page.headerProps,
     showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
@@ -31,6 +33,8 @@ class Layout extends Component {
     isCartPending: PropTypes.bool.isRequired,
     checkLogin: PropTypes.func.isRequired,
     showLoader: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
+    modalContent: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     showMobileNav: PropTypes.bool.isRequired,
     toggleMobileNavigation: PropTypes.func.isRequired,
@@ -72,6 +76,8 @@ class Layout extends Component {
         menuOpen={this.props.showMobileNav ? 'menuopen' : ''}
         layoutStyles={{ opacity: 1 }}
         showLoader={this.props.showLoader}
+        showModal={this.props.showModal}
+        modalContent={this.props.modalContent}
       >{this.props.children}</LayoutContent>
     );
   }

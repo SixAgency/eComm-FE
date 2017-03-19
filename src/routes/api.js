@@ -26,6 +26,9 @@ import {
   applyCouponCode,
   calculateShipping
 } from '../api/orders';
+import {
+  checkoutSquare
+} from '../api/payment';
 import { getAddresses,
   createAddress,
   updateAddress,
@@ -198,15 +201,26 @@ apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
 });
 
-apiRoutes.get('/checkout/braintree', (req, resp) => {
-  getBraintreeTokens(req).then((data) => (resp.json(data)));
-}).post('/checkout/paypal', (req, resp) => {
-  checkoutPayPal(req).then((data) => (resp.json(data)));
-}).post('/checkout/next', (req, resp) => {
-  checkoutNext(req).then((data) => (resp.json(data)));
-}).post('/checkout/address', (req, resp) => {
-  checkoutAddress(req).then((data) => (resp.json(data)));
-});
+apiRoutes
+  .get('/checkout/braintree', (req, resp) => {
+    getBraintreeTokens(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/paypal', (req, resp) => {
+    checkoutPayPal(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/next', (req, resp) => {
+    checkoutNext(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/address', (req, resp) => {
+    checkoutAddress(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/square', (req, resp) => {
+    checkoutSquare(req)
+      .then((data) => resp.json(data))
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 
 // Products in category
 apiRoutes.get('/category/:slug', (req, resp) => {

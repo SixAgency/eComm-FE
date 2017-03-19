@@ -7,10 +7,9 @@ import BasePageComponent from '../../BasePageComponent';
 import Review from './Review';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader, toggleModal } from '../../../actions/page';
 import { getCart, applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
-import { getAddress } from '../../../actions/address';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 
@@ -18,6 +17,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    toggleModal: (toggle) => dispatch(toggleModal(toggle)),
     getCart: () => dispatch(getCart()),
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
@@ -43,6 +43,7 @@ class ReviewWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     getCart: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
@@ -131,6 +132,11 @@ class ReviewWrapper extends BasePageComponent {
     this.props.completePayPal();
   };
 
+  checkoutSquare = (e) => {
+    e.preventDefault();
+    this.props.toggleModal(true);
+  };
+
   render() {
     if (!this.props.cartItems.isLoaded) {
       return null;
@@ -151,6 +157,7 @@ class ReviewWrapper extends BasePageComponent {
         contentTabs={CHECKOUT_TABS}
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.checkoutPayPal}
+        checkoutSquare={this.checkoutSquare}
         breadcrumbs={this.props.route.breadcrumbs}
         loginClass={this.state.loginClassName}
         handleLogin={this.handleLogin}

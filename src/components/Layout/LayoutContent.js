@@ -6,6 +6,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import MobileNavigation from '../MobileNavigation';
 import Loader from '../Loader';
+import CustomModal from '../CustomModal';
 
 class LayoutContent extends Component {
 
@@ -18,7 +19,9 @@ class LayoutContent extends Component {
     mobileNavClose: PropTypes.func.isRequired,
     menuOpen: PropTypes.string.isRequired,
     showLoader: PropTypes.bool.isRequired,
-    layoutStyles: PropTypes.object.isRequired
+    layoutStyles: PropTypes.object.isRequired,
+    showModal: PropTypes.bool.isRequired,
+    modalContent: PropTypes.string.isRequired
   };
 
   showLoader = () => {
@@ -50,6 +53,10 @@ class LayoutContent extends Component {
             navClass="mobilenavigation"
           />
         </div>
+        <CustomModal
+          modalContent={this.props.modalContent}
+          showModal={this.props.showModal}
+        />
         { this.showLoader() }
       </div>
     );
