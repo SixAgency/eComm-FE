@@ -45,5 +45,6 @@ ln -s $APP_DIR/releases/$DATE $APP_DIR/current
 
 cd $APP_DIR/current
 # Restart app
-pm2 start ecosystem.config.js
+pm2 startOrRestart ecosystem.config.js --env production
 sudo service nginx restart
+sudo service redis-server restart

@@ -11,6 +11,8 @@ module.exports = {
       script: 'server.js',
       out_file: '/app/eComm_frontend/logs/all.log',
       error_file: 'dev/null',
+      instances: 1,
+      exec_mode: 'cluster',
       env: {
         COMMON_VARIABLE: 'true'
       },
