@@ -12,6 +12,14 @@ function initSession(session) {
   }
 }
 
+function resetCartSession(session, isNew) {
+  if (isNew && isNew !== 'false') {
+    console.log('here');
+    session.order = null;
+    session.guest_token = null;
+  }
+}
+
 /**
  * Set the session with the given params
  * @param request
@@ -51,6 +59,7 @@ function checkSessionOrder(session) {
  */
 function getSession(request) {
   initSession(request.session);
+  resetCartSession(request.session, request.params.new);
   if (checkSessionOrder(request.session)) {
     logger.debug('Existing cart.');
     return getCart(request);

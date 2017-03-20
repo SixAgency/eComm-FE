@@ -12,13 +12,13 @@ const mapStateToProps = ((state) => (
     headerProps: state.page.headerProps,
     showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
-    isCartPending: state.cart.isPending,
+    isCartPending: state.cart.isCartPending,
     showMobileNav: state.page.showMobileNav
   })
 );
 const mapDispatchToProps = ((dispatch) => (
   {
-    getCart: () => dispatch(getCart()),
+    getCart: (isNew) => dispatch(getCart(isNew)),
     checkLogin: () => dispatch(checkLogin()),
     toggleMobileNavigation: (value) => dispatch(toggleMobileNavigation(value))
   }
@@ -44,7 +44,7 @@ class Layout extends Component {
   componentWillMount = () => {
     this.props.checkLogin();
     if (!this.props.isCartPending && !this.props.cartItems.isLoaded) {
-      this.props.getCart();
+      this.props.getCart(false);
     }
   };
 

@@ -6,14 +6,14 @@ export default function reducer(state = {
   },
   message: '',
   isError: false,
-  isPending: false
+  isCartPending: false
 }, action) {
   switch (action.type) {
     case 'SET_CART': {
       return { ...state, cartItems: action.payload };
     }
     case 'CART_PENDING': {
-      return { ...state, isPending: action.payload };
+      return { ...state, isCartPending: action.payload };
     }
     default: // do nothing
   }

@@ -9,7 +9,7 @@ const mapStateToProps = ((state) => (
 ));
 const mapDispatchToProps = ((dispatch) => (
   {
-    toggleModal: () => dispatch(toggleModal()),
+    toggleModal: (toggle) => dispatch(toggleModal(toggle)),
     checkoutSquare: (data) => dispatch(checkoutSquare(data))
   }
 ));

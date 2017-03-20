@@ -286,6 +286,7 @@ export {
   getAddress,
   resetAddresses,
   setAddresses,
+  editAddress,
   createOrEditAddress,
   createAddressNew,
   setDefaultAddress,

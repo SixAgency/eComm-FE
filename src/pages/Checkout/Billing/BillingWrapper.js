@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -8,7 +7,7 @@ import Billing from './Billing';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
-import { getCart, applyPromoCode } from '../../../actions/order';
+import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { setBilling } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
@@ -18,7 +17,6 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    getCart: () => dispatch(getCart()),
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
@@ -40,7 +38,8 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     emailAddress: state.user.emailAddress,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    isCartPending: state.cart.isCartPending,
   }
 ));
 
@@ -49,7 +48,6 @@ class BillingWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -61,7 +59,8 @@ class BillingWrapper extends BasePageComponent {
     emailAddress: PropTypes.string.isRequired,
     getAddress: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
-    setBilling: PropTypes.func.isRequired
+    setBilling: PropTypes.func.isRequired,
+    isCartPending: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -84,12 +83,10 @@ class BillingWrapper extends BasePageComponent {
     } else {
       this.props.getAddress();
     }
-    if (this.props.billing.isLoaded) {
+    if (!this.props.isCartPending && this.props.billing.isLoaded) {
       if (this.props.addresses.isLoaded && !this.props.billing.isSet) {
         this.setBillingFromAddresses(this.props.addresses);
       }
-    } else {
-      this.props.getCart();
     }
     const props = {
       headerClass: 'colored',
@@ -105,7 +102,7 @@ class BillingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.addresses.isLoaded && nextProps.billing.isLoaded) {
+    if (!nextProps.isCartPending && nextProps.addresses.isLoaded && nextProps.billing.isLoaded) {
       const content = nextProps.addresses.isEmpty ? 'form' : 'list';
       this.setState({ content });
       if (nextProps.billing.isSet) {

@@ -46,8 +46,11 @@ function setSessionParams(request, data) {
 
 // Get Order Details
 function getOrder(request) {
-  const number = request.params.number;
-  return apiFetch(`${ORDER}/${number}`, {}, request.session)
+  let endpoint = `${ORDER}/${request.params.number}`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${request.params.number}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint, {}, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setOrderResponse(data))
   .catch((err) => setError(err));
@@ -173,8 +176,7 @@ function updateCart(request) {
 // Apply Coupon code
 function applyCouponCode(request) {
   const postdata = request.body.data;
-  const orderNumber = request.session.orderNumber;
-  return apiFetch(`${ORDER}/${orderNumber}/apply_coupon_code`,
+  return apiFetch(`${ORDER}/${request.session.order}/apply_coupon_code`,
     {
       method: 'PUT',
       body: JSON.stringify(postdata)

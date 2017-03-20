@@ -55,7 +55,7 @@ function onLogout() {
         dispatch(resetCart());
         dispatch(resetOrders());
         dispatch(resetAddresses());
-        dispatch(getCart());
+        dispatch(getCart(false));
         forwardTo('my-account');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -81,7 +81,7 @@ function onLogin(data) {
       axios.post('/api/login', data)
         .then((response) => checkResponse(response.data, () => {
           // Reset the cart
-          dispatch(getCart());
+          dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
           const addresses = {
@@ -118,7 +118,7 @@ function onRegister(data) {
       axios.post('/api/register', data)
         .then((response) => checkResponse(response.data, () => {
           // Reset the cart
-          dispatch(getCart());
+          dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
           const addresses = {

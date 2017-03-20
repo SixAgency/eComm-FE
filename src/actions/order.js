@@ -89,10 +89,10 @@ function resetOrders() {
  * Get the user cart
  * @returns {function(*=)}
  */
-function getCart() {
+function getCart(isNew) {
   return (dispatch) => {
     dispatch(setCartPending(true));
-    axios.get('/api/cart')
+    axios.get(`/api/cart/${isNew}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
         const addresses = getCartAddresses(response.data);

@@ -53,17 +53,6 @@ import {
 
 const apiRoutes = express.Router();
 
-
-// GENERAL
-apiRoutes.get('/session', (req, resp) => {
-  getSession(req)
-    .then((data) => resp.json(data))
-    .catch((err) => {
-      console.err(err);
-    });
-});
-
-
 // USER ROUTES
 
 // login
@@ -131,7 +120,7 @@ apiRoutes.get('/product/:slug', (req, resp) => {
 
 // Get cart
 apiRoutes
-  .get('/cart', (req, resp) => {
+  .get('/cart/:new', (req, resp) => {
     getSession(req).then((data) => (resp.json(data)));
   })
   .post('/cart', (req, resp) => {

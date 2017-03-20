@@ -7,7 +7,6 @@ class PromoWrapper extends React.Component {
 
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
@@ -17,7 +16,6 @@ class PromoWrapper extends React.Component {
   };
 
   static defaultProps = {
-    getCart: () => (true),
     onLogout: () => (true),
     applyPromoCode: () => (true),
     messages: [],

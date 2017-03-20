@@ -7,7 +7,6 @@ import Cart from './Cart';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
 import {
-  getCart,
   removeItem,
   updateCart,
   updateQuantity,
@@ -20,7 +19,7 @@ import { onLogout, onLogin } from '../../actions/user';
 const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
-    isCartPending: state.cart.isPending,
+    isCartPending: state.cart.isCartPending,
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
@@ -32,7 +31,6 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    getCart: () => dispatch(getCart()),
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
     onLogin: (data) => dispatch(onLogin(data)),
@@ -50,7 +48,6 @@ const mapDispatchToProps = ((dispatch) => (
 class CartWrapper extends BasePageComponent {
   static propTypes = {
     removeItem: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
