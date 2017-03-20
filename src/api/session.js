@@ -2,21 +2,9 @@ import { getCart, createCartWrapper } from './orders';
 import logger from './logger';
 
 /* eslint-disable no-param-reassign */
-function initSession(session) {
-  logger.info('START-SESSION');
-  logger.info(session);
-  logger.info('END-SESSION');
-  if (session && !session.initialized) {
-    session.initialized = true;
-    session.guest_token = null;
-    session.user_token = null;
-    session.order = null;
-  }
-}
-
 function resetCartSession(session, isNew) {
+  console.log(session);
   if (isNew && isNew !== 'false') {
-    console.log('here');
     session.order = null;
     session.guest_token = null;
   }
@@ -29,7 +17,9 @@ function resetCartSession(session, isNew) {
  * @returns {{params: *}}
  */
 function updateSession(request, params) {
-  request.session = params;
+  request.session.guest_token = params.guest_token;
+  request.session.user_token = params.user_token;
+  request.session.order = params.order;
 }
 
 /**
@@ -38,7 +28,9 @@ function updateSession(request, params) {
  * @returns {null}
  */
 function clearSession(request) {
-  request.session = null;
+  request.session.destroy((err) => {
+    console.error(err);
+  });
 }
 /* eslint-enable no-param-reassign */
 
@@ -60,7 +52,6 @@ function checkSessionOrder(session) {
  * @param request
  */
 function getSession(request) {
-  initSession(request.session);
   resetCartSession(request.session, request.params.new);
   if (checkSessionOrder(request.session)) {
     logger.info('Existing cart.');
