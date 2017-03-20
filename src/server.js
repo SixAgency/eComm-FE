@@ -45,7 +45,12 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(morgan('dev'));
+app.use(morgan('combined'));
+app.use((req, res, next) => {
+  const maxAge = req.session.maxAge || req.sessionOptions.maxAge;
+  req.sessionOptions.maxAge = maxAge; // eslint-disable-line no-param-reassign
+  next();
+});
 // Register API Endpoints
 app.use('/api', apiRoutes);
 

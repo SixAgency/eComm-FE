@@ -3,7 +3,9 @@ import logger from './logger';
 
 /* eslint-disable no-param-reassign */
 function initSession(session) {
-  console.log(session);
+  logger.info('START-SESSION');
+  logger.info(session);
+  logger.info('END-SESSION');
   if (session && !session.initialized) {
     session.initialized = true;
     session.guest_token = null;
@@ -61,10 +63,10 @@ function getSession(request) {
   initSession(request.session);
   resetCartSession(request.session, request.params.new);
   if (checkSessionOrder(request.session)) {
-    logger.debug('Existing cart.');
+    logger.info('Existing cart.');
     return getCart(request);
   }
-  logger.debug('Create new cart.');
+  logger.info('Create new cart.');
   return createCartWrapper(request);
 }
 
