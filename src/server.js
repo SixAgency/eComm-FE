@@ -1,8 +1,7 @@
 import path from 'path';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import session from 'cookie-session';
+import session from 'express-session';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
@@ -17,8 +16,9 @@ import siteRoutes from './routes/server';
 import { port } from './config';
 import logger from './api/logger';
 
+const RedisStore = require('connect-redis')(session);
+
 const app = express();
-app.use(compress());
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -36,19 +36,26 @@ console.error = (error) => {
 //
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
-app.use(cookieParser());
-app.set('trust proxy', 1);
-app.use(session({
-  secret: 'key123456qwerty',
-  name: 'ecomm'
-}));
+app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(morgan('combined'));
+app.use(morgan('dev'));
+app.set('trust proxy', 1);
+app.use(session({
+  store: new RedisStore({
+    host: '127.0.0.1',
+    port: '6379'
+  }),
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 36000000
+  }
+}));
 app.use((req, res, next) => {
-  const maxAge = req.session.maxAge || req.sessionOptions.maxAge;
-  req.sessionOptions.maxAge = maxAge; // eslint-disable-line no-param-reassign
+  console.log('session', req.session.id);
   next();
 });
 // Register API Endpoints

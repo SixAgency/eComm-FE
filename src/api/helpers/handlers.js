@@ -99,7 +99,9 @@ function setUserSession(token, request) {
 
 // Clear session params
 function clearSession(request) {
-  request.session = null; // eslint-disable-line no-param-reassign
+  request.session.destroy((err) => {
+    console.error(err);
+  });
   return true;
 }
 /* eslint-enable no-param-reassign */
