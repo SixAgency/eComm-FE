@@ -1,0 +1,6 @@
+{
+  "name": "CustomModal",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CustomModal.js"
+}

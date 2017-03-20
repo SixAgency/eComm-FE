@@ -11,7 +11,8 @@ import { BREADCRUMBS } from '../constants/AppConsts';
 // Actions
 import { getProducts, getProduct } from '../api/products';
 import { checkLogin } from '../api/users';
-import { getCart, getOrder, getOrders } from '../api/orders';
+import { getOrder, getOrders } from '../api/orders';
+import { getSession } from '../api/session';
 import { getAddresses } from '../api/addresses';
 import { getCheckoutBilling, getCheckoutShipping } from '../api/helpers/feed';
 
@@ -559,7 +560,7 @@ siteRoutes.get('/my-account/address/manage', (req, resp, next) => {
 siteRoutes.get('/cart', (req, resp, next) => {
   checkLogin(req)
     .then((user) => handleError(user, resp, () => {
-      getCart(req)
+      getSession(req)
         .then((cart) => handleError(cart, resp, () => {
           const params = {
             title: 'Cart',
@@ -588,7 +589,7 @@ siteRoutes.get('/cart', (req, resp, next) => {
 siteRoutes.get('/checkout/billing', (req, resp, next) => {
   checkLogin(req)
     .then((user) => handleError(user, resp, () => {
-      getCart(req)
+      getSession(req)
         .then((cart) => handleError(cart, resp, () => {
           getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
@@ -627,7 +628,7 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
 siteRoutes.get('/checkout/shipping', (req, resp, next) => {
   checkLogin(req)
     .then((user) => handleError(user, resp, () => {
-      getCart(req)
+      getSession(req)
         .then((cart) => handleError(cart, resp, () => {
           getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
@@ -666,7 +667,7 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
 siteRoutes.get('/checkout/promo', (req, resp, next) => {
   checkLogin(req)
     .then((user) => handleError(user, resp, () => {
-      getCart(req)
+      getSession(req)
         .then((cart) => handleError(cart, resp, () => {
           if (typeof cart.line_items === 'undefined') {
             resp.redirect('/cart');
@@ -694,7 +695,7 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
 siteRoutes.get('/checkout/review', (req, resp, next) => {
   checkLogin(req)
     .then((user) => handleError(user, resp, () => {
-      getCart(req)
+      getSession(req)
         .then((cart) => handleError(cart, resp, () => {
           if (typeof cart.line_items === 'undefined') {
             resp.redirect('/cart');

@@ -1,5 +1,8 @@
 import express from 'express';
 // Actions
+import {
+  getSession
+} from '../api/session';
 import { userLogin,
   userRegistration,
   userLogout,
@@ -7,37 +10,38 @@ import { userLogin,
   getProfile,
   updateProfile,
   updatePassword
-} from './users';
+} from '../api/users';
 import {
   getProducts,
   getProduct,
   getMannequinHeads,
   getProductsInCategory
-} from './products';
+} from '../api/products';
 import {
-  getOrder,
-  getOrders,
-  getCart,
   addToCart,
   removeFromCart,
   updateCart,
+  getOrder,
+  getOrders,
   applyCouponCode,
   calculateShipping
-} from './orders';
+} from '../api/orders';
+import {
+  checkoutSquare
+} from '../api/payment';
 import { getAddresses,
   createAddress,
   updateAddress,
   setDefaultAddress,
   deleteAddress
-} from './addresses';
+} from '../api/addresses';
 import { getBraintreeTokens,
   checkoutPayPal,
   checkoutNext,
   checkoutAddress
-} from './checkout';
+} from '../api/checkout';
 
-import sendContact from './contact';
-import conslog from '../utils/dev';
+import sendContact from '../api/contact';
 // Helpers
 import {
   validateAuth,
@@ -116,8 +120,8 @@ apiRoutes.get('/product/:slug', (req, resp) => {
 
 // Get cart
 apiRoutes
-  .get('/cart', (req, resp) => {
-    getCart(req).then((data) => (resp.json(data)));
+  .get('/cart/:new', (req, resp) => {
+    getSession(req).then((data) => (resp.json(data)));
   })
   .post('/cart', (req, resp) => {
     addToCart(req).then((data) => (resp.json(data)));
@@ -186,15 +190,26 @@ apiRoutes.get('/mannequin', (req, resp) => {
   getMannequinHeads(req).then((data) => (resp.json(data)));
 });
 
-apiRoutes.get('/checkout/braintree', (req, resp) => {
-  getBraintreeTokens(req).then((data) => (resp.json(data)));
-}).post('/checkout/paypal', (req, resp) => {
-  checkoutPayPal(req).then((data) => (resp.json(data)));
-}).post('/checkout/next', (req, resp) => {
-  checkoutNext(req).then((data) => (resp.json(data)));
-}).post('/checkout/address', (req, resp) => {
-  checkoutAddress(req).then((data) => (resp.json(data)));
-});
+apiRoutes
+  .get('/checkout/braintree', (req, resp) => {
+    getBraintreeTokens(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/paypal', (req, resp) => {
+    checkoutPayPal(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/next', (req, resp) => {
+    checkoutNext(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/address', (req, resp) => {
+    checkoutAddress(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/square', (req, resp) => {
+    checkoutSquare(req)
+      .then((data) => resp.json(data))
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 
 // Products in category
 apiRoutes.get('/category/:slug', (req, resp) => {

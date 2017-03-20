@@ -8,11 +8,11 @@ import { getOrderStatus } from '../../../utils/utils';
 class OrderRow extends Component {
   static propTypes = {
     order: PropTypes.object.isRequired
-  }
+  };
 
   render() {
     const order = this.props.order;
-    const orderLink = `/my-account/view-order/${order.id}`;
+    const orderLink = `/my-account/view-order/${order.number}`;
     return (
       <tr className={s.order}>
         <td className={s.ordernumber}>

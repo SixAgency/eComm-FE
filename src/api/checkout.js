@@ -1,4 +1,4 @@
-import { apiFetch } from '../core/fetch';
+import { apiFetch } from './fetch';
 // Helpers
 import {
   checkResponse,
@@ -8,48 +8,40 @@ import {
   setAddressCallBack
 } from './helpers/handlers';
 
-import { faketoken } from '../config';
-import conslog from '../utils/dev';
-
 function getBraintreeTokens(request) {
   return apiFetch('/api/v1/braintree_client_token',
     {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      method: 'POST'
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setBraintreeResponse(data))
     .catch((err) => setError(err));
 }
 
 function checkoutPayPal(request) {
-  conslog('data', request.body.data);
-  return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}`,
+  let endpoint = `/api/v1/checkouts/${request.session.order}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'PATCH',
-      body: JSON.stringify(request.body.data),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(request.body.data)
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setCartResponse(data, request, () => (true)))
     .catch((err) => setError(err));
 }
 
 function checkoutNext(request) {
-  return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}/next`,
+  let endpoint = `/api/v1/checkouts/${request.session.order}/next`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}/next?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      method: 'PUT'
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setCartResponse(data, request, () => (true)))
     .catch((err) => setError(err));
@@ -60,15 +52,11 @@ function checkoutAddress(request) {
     order: request.body.order
   };
   const isPayPal = request.body.isPayPal;
-  return apiFetch(`/api/v1/checkouts/${request.session.orderNumber}`,
+  return apiFetch(`/api/v1/checkouts/${request.session.order}`,
     {
       method: 'PUT',
-      body: JSON.stringify(order),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(order)
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setAddressCallBack(request, data, isPayPal, checkoutNext))
     .catch((err) => setError(err));

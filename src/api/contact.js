@@ -1,20 +1,15 @@
-import { apiFetch } from '../core/fetch';
+import { apiFetch } from './fetch';
 import { checkResponse, setError, setContactResponse } from './helpers/handlers';
-import conslog from '../utils/dev';
 
 // Handle contact form
 
 const CONTACT = '/api/v1/contact';
 
 function sendContact(request) {
-  conslog('CONTACT REQUEST', request.body);
   return apiFetch(CONTACT, {
     method: 'POST',
-    body: JSON.stringify(request.body),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+    body: JSON.stringify(request.body)
+  }, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setContactResponse(data))
   .catch((err) => setError(err));

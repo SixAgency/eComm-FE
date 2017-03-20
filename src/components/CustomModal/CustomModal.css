@@ -1,0 +1,32 @@
+.custommodal {
+  background: rgba(0, 0, 0, 0.9);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+}
+.modalbodywrapper {
+  position: fixed;
+  display: table;
+  width: 100%;
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: center;
+  font-size: 16px;
+  clear: both;
+}
+
+.modalbody {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

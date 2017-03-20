@@ -33,6 +33,15 @@ function setCart(cart) {
 }
 
 /**
+ * Set Cart Pending
+ * @param pending - bool
+ * @returns {{type: string, payload: *}}
+ */
+function setCartPending(pending) {
+  return { type: 'SET_CART_PENDING', payload: pending };
+}
+
+/**
  * Set line items quantity
  * @param data
  * @returns {function(*)}
@@ -80,23 +89,26 @@ function resetOrders() {
  * Get the user cart
  * @returns {function(*=)}
  */
-function getCart() {
+function getCart(isNew) {
   return (dispatch) => {
-    axios.get('/api/cart')
+    dispatch(setCartPending(true));
+    axios.get(`/api/cart/${isNew}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
         const addresses = getCartAddresses(response.data);
         dispatch(setBilling(addresses.billing));
         dispatch(setShipping(addresses.shipping));
-        // dispatch(setCartState(response.data.cart.state));
         const isPayPal = (response.data.cart.state !== 'cart' && response.data.cart.payments.length > 0);
         dispatch(setPayment(isPayPal));
+        dispatch(setCartPending(false));
       }, () => {
+        dispatch(setCartPending(false));
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
         dispatch(resetCart());
+        dispatch(setCartPending(false));
       });
   };
 }
@@ -124,6 +136,7 @@ function getOrder(number) {
 function addToCart(data) {
   return (dispatch) => {
     dispatch(setLoader(true));
+    dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.post('/api/cart', data)
@@ -131,12 +144,15 @@ function addToCart(data) {
         dispatch(setCart(response.data.cart));
         const message = `${response.data.name} has been added to your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
+        dispatch(setCartPending(false));
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setCartPending(false));
         forwardTo('cart');
       }))
       .catch((err) => {
+        dispatch(setCartPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
       });
@@ -151,6 +167,7 @@ function addToCart(data) {
 function removeItem(data) {
   return (dispatch) => {
     dispatch(setLoader(true));
+    dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.post('/api/cart/remove', data)
@@ -158,12 +175,15 @@ function removeItem(data) {
         const message = `${response.data.name} has been removed from your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data.cart));
+        dispatch(setCartPending(false));
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setCartPending(false));
         forwardTo('cart');
       }))
       .catch((err) => {
+        dispatch(setCartPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
       });
@@ -178,6 +198,7 @@ function removeItem(data) {
 function updateCart(data) {
   return (dispatch) => {
     dispatch(setLoader(true));
+    dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.put('/api/cart', { data })
@@ -185,10 +206,13 @@ function updateCart(data) {
         const message = 'Cart updated.';
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data));
+        dispatch(setCartPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setCartPending(false));
       }))
       .catch((err) => {
+        dispatch(setCartPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
       });

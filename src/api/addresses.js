@@ -1,4 +1,4 @@
-import { apiFetch } from '../core/fetch';
+import { apiFetch } from './fetch';
 import {
   setError,
   checkResponse,
@@ -7,19 +7,12 @@ import {
   setCreateAddressResponse,
   setDeleteAddressResponse
 } from './helpers/handlers';
-import { faketoken } from '../config';
 
 const ADDRESSES = '/api/v1/addresses';
 
 // Get Addresses
 function getAddresses(request, isNew) {
-  return apiFetch(ADDRESSES,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+  return apiFetch(ADDRESSES, {}, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setAddressesResponse(data, isNew))
   .catch((err) => setError(err));
@@ -30,12 +23,8 @@ function createAddress(request) {
   return apiFetch(ADDRESSES,
     {
       method: 'POST',
-      body: JSON.stringify(request.body.data),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(request.body.data)
+    }, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setCreateAddressResponse(data, request, getAddresses))
   .catch((err) => setError(err));
@@ -49,12 +38,8 @@ function updateAddress(request) {
   return apiFetch(`${ADDRESSES}/${id}`,
     {
       method: 'PUT',
-      body: JSON.stringify(address),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(address)
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setEditCreateAddressResponse(data, type))
     .catch((err) => setError(err));
@@ -65,12 +50,8 @@ function setDefaultAddress(request) {
   return apiFetch(`${ADDRESSES}/default`,
     {
       method: 'PATCH',
-      body: JSON.stringify(request.body.data),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      body: JSON.stringify(request.body.data)
+    }, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setEditCreateAddressResponse(data))
     .catch((err) => setError(err));
@@ -80,12 +61,8 @@ function setDefaultAddress(request) {
 function deleteAddress(request) {
   return apiFetch(`${ADDRESSES}/${request.params.id}`,
     {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken
-      }
-    })
+      method: 'DELETE'
+    }, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setDeleteAddressResponse(data))
   .catch((err) => setError(err));

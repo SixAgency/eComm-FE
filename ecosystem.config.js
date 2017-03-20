@@ -10,7 +10,7 @@ module.exports = {
       name: 'eComm_frontend',
       script: 'server.js',
       out_file: '/app/eComm_frontend/logs/all.log',
-      error_file: '/app/eComm_frontend/logs/all.log',
+      error_file: 'dev/null',
       env: {
         COMMON_VARIABLE: 'true'
       },

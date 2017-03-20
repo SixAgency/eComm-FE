@@ -8,14 +8,8 @@ class ReviewOrder extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
+    checkoutSquare: PropTypes.func.isRequired,
     isPaypal: PropTypes.bool.isRequired
-  };
-
-  checkoutSquare = (e) => {
-    e.preventDefault();
-    alert('Checkout with Cart');
-    console.log('checkout with card');
-    // this.props.checkoutSquare();
   };
 
   listPayment = () => {
@@ -70,7 +64,7 @@ class ReviewOrder extends React.Component {
             Do not click on back or any other buttons
             during this process.
           </p>
-          <input className={s.submit} type="button" value="Continue to Payment" onClick={this.checkoutSquare} />
+          <input className={s.submit} type="button" value="Continue to Payment" onClick={this.props.checkoutSquare} />
         </div>
       </div>
     );

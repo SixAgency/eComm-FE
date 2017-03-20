@@ -58,7 +58,7 @@ class ManageAddressesWrapper extends BasePageComponent {
     resetMessages: PropTypes.func.isRequired,
     editAddress: PropTypes.func.isRequired,
     setBilling: PropTypes.func.isRequired
-  }
+  };
 
   componentWillMount = () => {
     window.scrollTo(0, 0);
@@ -71,13 +71,13 @@ class ManageAddressesWrapper extends BasePageComponent {
     };
     this.props.setHeaderProps(props);
     this.props.getAddress();
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.resetMessages();

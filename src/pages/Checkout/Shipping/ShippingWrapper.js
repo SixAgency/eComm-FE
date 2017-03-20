@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
@@ -8,7 +7,7 @@ import Shipping from './Shipping';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
-import { getCart, applyPromoCode } from '../../../actions/order';
+import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { setShipping, checkoutAddresses } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
@@ -18,7 +17,6 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    getCart: () => dispatch(getCart()),
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
@@ -44,7 +42,8 @@ const mapStateToProps = ((state) => (
     messages: state.page.messages,
     isPayPal: state.checkout.isPayPal,
     isError: state.page.isError,
-    isPending: state.page.isPending
+    isPending: state.page.isPending,
+    isCartPending: state.cart.isCartPending
   }
 ));
 
@@ -53,7 +52,6 @@ class ShippingWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -68,6 +66,7 @@ class ShippingWrapper extends BasePageComponent {
     setShipping: PropTypes.func.isRequired,
     checkoutAddresses: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
+    isCartPending: PropTypes.bool.isRequired,
     route: PropTypes.object
   };
 
@@ -91,15 +90,14 @@ class ShippingWrapper extends BasePageComponent {
     } else {
       this.props.getAddress();
     }
-    if (!this.props.billing.isLoaded || !this.props.shipping.isLoaded) {
-      this.props.getCart();
-    }
-    if (this.props.billing.isLoaded && !this.props.billing.isSet) {
-      forwardTo('checkout/billing');
-    }
-    if (this.props.shipping.isLoaded) {
-      if (this.props.addresses.isLoaded && !this.props.shipping.isSet) {
-        this.setShippingFromAddresses(this.props.addresses);
+    if (!this.props.isCartPending) {
+      if (this.props.billing.isLoaded && !this.props.billing.isSet) {
+        forwardTo('checkout/billing');
+      }
+      if (this.props.shipping.isLoaded) {
+        if (this.props.addresses.isLoaded && !this.props.shipping.isSet) {
+          this.setShippingFromAddresses(this.props.addresses);
+        }
       }
     }
     const props = {
@@ -116,16 +114,18 @@ class ShippingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps);
-    if (nextProps.addresses.isLoaded && nextProps.shipping.isLoaded && nextProps.billing.isLoaded) {
+    if (nextProps.isCartPending &&
+      nextProps.addresses.isLoaded &&
+      nextProps.shipping.isLoaded &&
+      nextProps.billing.isLoaded) {
       if (!nextProps.billing.isSet) {
         forwardTo('checkout/billing');
       } else if (nextProps.shipping.isSet) {
-          if (!nextProps.isPending) {
-            setTimeout(() => {
-              this.props.toggleLoader(false);
-            }, 500);
-          }
+        if (!nextProps.isPending) {
+          setTimeout(() => {
+            this.props.toggleLoader(false);
+          }, 500);
+        }
       } else {
         this.setShippingFromAddresses(nextProps.addresses);
       }

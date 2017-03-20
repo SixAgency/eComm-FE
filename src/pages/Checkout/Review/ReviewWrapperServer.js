@@ -1,14 +1,11 @@
 import React, { PropTypes } from 'react';
 import Review from './Review';
 
-import { CHECKOUT_TABS } from '../../../constants/AppConsts';
-
 class ReviewWrapper extends React.Component {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
-    getCart: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
@@ -24,7 +21,6 @@ class ReviewWrapper extends React.Component {
 
   static defaultProps = {
     setHeaderProps: () => (true),
-    getCart: () => (true),
     onLogout: () => (true),
     onLogin: () => (true),
     applyPromoCode: () => (true),

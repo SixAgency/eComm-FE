@@ -8,7 +8,7 @@ import Promo from './Promo';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
-import { getCart, applyPromoCode } from '../../../actions/order';
+import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { forwardTo } from '../../../actions/handler';
 
@@ -16,7 +16,6 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    getCart: () => dispatch(getCart()),
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
@@ -29,7 +28,8 @@ const mapStateToProps = ((state) => (
     cartItems: state.cart.cartItems,
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    isCartPending: state.cart.isCartPending
   }
 ));
 
@@ -39,7 +39,7 @@ class PromoWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
-    getCart: PropTypes.func.isRequired,
+    isCartPending: PropTypes.bool.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -66,10 +66,7 @@ class PromoWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.cartItems.isLoaded) {
-      this.props.getCart();
-    }
-    if (this.props.cartItems.isEmpty) {
+    if (!this.props.isCartPending && this.props.cartItems.isEmpty) {
       browserHistory.push('/cart');
     }
   };
@@ -82,7 +79,7 @@ class PromoWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.cartItems;
-    if (isLoaded) {
+    if (!nextProps.isCartPending && isLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);

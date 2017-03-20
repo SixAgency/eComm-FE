@@ -19,7 +19,6 @@ class ShippingWrapper extends React.Component {
   };
 
   static defaultProps = {
-    getCart: () => (true),
     onLogout: () => (true),
     onLogin: () => (true),
     applyPromoCode: () => (true),

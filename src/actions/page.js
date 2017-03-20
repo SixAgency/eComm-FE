@@ -41,6 +41,14 @@ function setLoader(toggle) {
  * Helper - Set redux loading state
  * @param toggle - boolen
  */
+function setModal(toggle) {
+  return { type: 'TOGGLE_MODAL', payload: toggle };
+}
+
+/**
+ * Helper - Set redux loading state
+ * @param toggle - boolen
+ */
 function setPending(toggle) {
   return { type: 'SET_PENDING', payload: toggle };
 }
@@ -53,6 +61,17 @@ function setPending(toggle) {
 function toggleLoader(toggle) {
   return (dispatch) => {
     dispatch(setLoader(toggle));
+  };
+}
+
+/**
+ * Toggle modal screen based on value
+ * @param toggle - boolean
+ * @returns {function(*)}
+ */
+function toggleModal(toggle) {
+  return (dispatch) => {
+    dispatch(setModal(toggle));
   };
 }
 
@@ -70,6 +89,7 @@ export {
   setHeaderProps,
   resetMessages,
   toggleLoader,
+  toggleModal,
   setMessage,
   setLoader,
   setPending,

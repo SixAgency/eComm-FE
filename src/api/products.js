@@ -1,4 +1,4 @@
-import { apiFetch } from '../core/fetch';
+import { apiFetch } from './fetch';
 // Helpers
 import {
   checkResponse,
@@ -8,20 +8,13 @@ import {
   setRecsResponse,
   setMannequinHeadsResponse,
 } from './helpers/handlers';
-import { faketoken } from '../config';
 
 const PRODUCT = '/api/v1/products';
 const CATEGORY = '/api/v1/taxons/products';
 
 // Get Products
 function getProducts(request) {
-  return apiFetch(`${PRODUCT}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
+  return apiFetch(`${PRODUCT}`, {}, request.session)
   .then((response) => checkResponse(response))
   .then((data) => setProductsResponse(data))
   .catch((err) => setError(err));
@@ -30,13 +23,7 @@ function getProducts(request) {
 // Get Product Recs
 // @TODO - update when we have an endpoint
 function getProductRecs(request, product) {
-  return apiFetch(`${PRODUCT}/${product.id}/relations`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
+  return apiFetch(`${PRODUCT}/${product.id}/relations`, {}, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setRecsResponse(data, product))
     .catch((err) => setError(err));
@@ -70,15 +57,8 @@ function setProductRecs(data, request, callback) {
 
 // Get Product
 function getProduct(request) {
-  // @TODO - validate slug presence
   const slug = request.params.slug;
-  return apiFetch(`${PRODUCT}/${slug}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
+  return apiFetch(`${PRODUCT}/${slug}`, {}, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setProductRecs(data, request, setProductResponse))
     .catch((err) => setError(err));
@@ -86,13 +66,7 @@ function getProduct(request) {
 
 // Get Mannequin heads
 function getMannequinHeads(request) {
-  return apiFetch(`${PRODUCT}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
+  return apiFetch(`${PRODUCT}`, {}, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setMannequinHeadsResponse(data))
     .catch((err) => setError(err));
@@ -101,13 +75,7 @@ function getMannequinHeads(request) {
 // Get Products in category
 function getProductsInCategory(request) {
   const slug = request.params.slug;
-  return apiFetch(`${CATEGORY}?permalink=categories/${slug}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Spree-Token': request.session.token || faketoken,
-      },
-    })
+  return apiFetch(`${CATEGORY}?permalink=categories/${slug}`, {}, request.session)
     .then((response) => checkResponse(response))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
