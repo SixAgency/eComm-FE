@@ -40,6 +40,7 @@ npm install --production
 npm prune --production
 
 # Link to current
+rm $APP_DIR/current
 ln -s $APP_DIR/releases/$DATE $APP_DIR/current
 
 cd $APP_DIR/current
