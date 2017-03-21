@@ -28,7 +28,7 @@ function setHeaders(options, session) {
 function apiFetch(slug, options, session) {
   const url = apiUrl(slug);
   const opts = setHeaders(options, session);
-  logger.info('Request', { url, options: opts });
+  logger.debug('Request to API', { url, options: opts });
   return fetch(url, opts);
 }
 
