@@ -40,7 +40,7 @@ app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(morgan('dev'));
+app.use(morgan('dev', { stream: logger.stream }));
 app.set('trust proxy', 1);
 app.use(session({
   store: new RedisStore({
@@ -55,7 +55,6 @@ app.use(session({
   }
 }));
 app.use((req, res, next) => {
-  console.log('session', req.session.id);
   next();
 });
 // Register API Endpoints

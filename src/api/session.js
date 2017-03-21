@@ -3,7 +3,7 @@ import logger from './logger';
 
 /* eslint-disable no-param-reassign */
 function resetCartSession(session, isNew) {
-  console.log(session);
+  logger.debug('SESSION', session);
   if (isNew && isNew !== 'false') {
     session.order = null;
     session.guest_token = null;
@@ -54,10 +54,10 @@ function checkSessionOrder(session) {
 function getSession(request) {
   resetCartSession(request.session, request.params.new);
   if (checkSessionOrder(request.session)) {
-    logger.info('Existing cart.');
+    logger.debug('Existing cart.');
     return getCart(request);
   }
-  logger.info('Create new cart.');
+  logger.debug('Create new cart.');
   return createCartWrapper(request);
 }
 
