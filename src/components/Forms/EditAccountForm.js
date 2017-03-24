@@ -9,7 +9,7 @@ class EditAccountForm extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     onUpdateProfile: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ class EditAccountForm extends Component {
     this.setState({
       ...nextProps.profile
     });
-  }
+  };
 
   onFieldsUpdate = (e) => {
     switch (e.target.id) {
@@ -34,7 +34,7 @@ class EditAccountForm extends Component {
       case 'email' : this.setState({ email: e.target.value }); break;
       default: // do nothing
     }
-  }
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ class EditAccountForm extends Component {
       l_name: this.state.l_name,
       id: this.state.id
     });
-  }
+  };
 
   render() {
     return (

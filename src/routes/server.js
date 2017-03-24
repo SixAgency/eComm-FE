@@ -10,7 +10,7 @@ import { BREADCRUMBS } from '../constants/AppConsts';
 
 // Actions
 import { getProducts, getProduct } from '../api/products';
-import { checkLogin } from '../api/users';
+import { checkLogin, getProfile } from '../api/users';
 import { getOrder, getOrders } from '../api/orders';
 import { getSession } from '../api/session';
 import { getAddresses } from '../api/addresses';
@@ -312,27 +312,30 @@ siteRoutes.get('/my-account/dashboard', (req, resp, next) => {
           header: 'colored',
           active: '/my-account'
         };
-        return Promise.all([
+        Promise.all([
           getAddresses(req, { isNew: false }),
-          getOrders(req)
+          getOrders(req),
+          getProfile(req)
         ]).then((values) => {
           const address = values[0];
           const orders = values[1];
+          const profile = values[2];
           addresses = {
             shipping: {
               isLoaded: true,
-              isEmpty: address.ship_address == null,
+              isEmpty: address.ship_address === null,
               address: address.ship_address || {}
             },
             billing: {
               isLoaded: true,
-              isEmpty: address.bill_address == null,
+              isEmpty: address.bill_address === null,
               address: address.bill_address || {}
             }
           };
           params.content = (<DashboardWrapper
             {...data.user}
             {...addresses}
+            profile={profile.profile}
             orders={orders}
             breadcrumbs={BREADCRUMBS.dashboard}
           />);

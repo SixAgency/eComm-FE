@@ -132,7 +132,11 @@ function addToCart(request) {
     }
   };
   const orderNumber = request.session.order;
-  return apiFetch(`${ORDER}/${orderNumber}/line_items?order_token=${request.session.guest_token}`,
+  let endpoint = `${ORDER}/${orderNumber}/line_items`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${orderNumber}/line_items?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'POST',
       body: JSON.stringify(item)
@@ -146,7 +150,11 @@ function addToCart(request) {
 function removeFromCart(request) {
   const { id, name } = request.body;
   const orderNumber = request.session.order;
-  return apiFetch(`${ORDER}/${orderNumber}/line_items/${id}?order_token=${request.session.guest_token}`,
+  let endpoint = `${ORDER}/${orderNumber}/line_items/${id}`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${orderNumber}/line_items/${id}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'DELETE'
     }, request.session)
@@ -163,7 +171,11 @@ function removeFromCart(request) {
 function updateCart(request) {
   const postdata = request.body.data;
   const orderNumber = request.session.order;
-  return apiFetch(`${ORDER}/${orderNumber}?order_token=${request.session.guest_token}`,
+  let endpoint = `${ORDER}/${orderNumber}`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${orderNumber}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'PUT',
       body: JSON.stringify(postdata)
@@ -176,7 +188,11 @@ function updateCart(request) {
 // Apply Coupon code
 function applyCouponCode(request) {
   const postdata = request.body.data;
-  return apiFetch(`${ORDER}/${request.session.order}/apply_coupon_code`,
+  let endpoint = `${ORDER}/${request.session.order}/apply_coupon_code`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${request.session.order}/apply_coupon_code?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'PUT',
       body: JSON.stringify(postdata)
@@ -189,8 +205,12 @@ function applyCouponCode(request) {
 // Update Cart
 function calculateShipping(request) {
   const postdata = request.body.data;
-  const orderNumber = request.session.orderNumber;
-  return apiFetch(`${ORDER}/${orderNumber}/calculate_shipping`,
+  const orderNumber = request.session.order;
+  let endpoint = `${ORDER}/${orderNumber}/calculate_shipping`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${orderNumber}/calculate_shipping?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'PATCH',
       body: JSON.stringify(postdata)

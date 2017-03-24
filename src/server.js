@@ -40,7 +40,7 @@ app.use(compress());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
-app.use(morgan('dev', { stream: logger.stream }));
+app.use(morgan('dev'));
 app.set('trust proxy', 1);
 app.use(session({
   store: new RedisStore({

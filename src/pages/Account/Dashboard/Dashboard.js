@@ -12,7 +12,6 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 class Dashboard extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    userName: PropTypes.string.isRequired,
     onLogout: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
     orders: PropTypes.object.isRequired,
@@ -27,8 +26,8 @@ class Dashboard extends React.Component {
     if (this.props.profile.f_name && this.props.profile.l_name) {
       return `${this.props.profile.f_name} ${this.props.profile.l_name}`;
     }
-    return this.props.userName;
-  }
+    return this.props.profile.email.split('@')[0];
+  };
 
   checkOrders = () => {
     const orders = this.props.orders;

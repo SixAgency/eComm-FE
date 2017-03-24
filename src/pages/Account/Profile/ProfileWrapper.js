@@ -44,7 +44,7 @@ class ProfileWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired
-  }
+  };
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
@@ -58,18 +58,17 @@ class ProfileWrapper extends BasePageComponent {
     if (isEmpty(this.props.profile)) {
       this.props.getProfile();
     }
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     return (

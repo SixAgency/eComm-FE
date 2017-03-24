@@ -27,7 +27,7 @@ winston.emitErrs = true;
 
 const logger = new winston.Logger({
   transports: [
-    new winston.transports.File({
+    new winston.transports.Console({
       name: 'info',
       filename: getInfoFileName(),
       level: 'info',
@@ -35,7 +35,7 @@ const logger = new winston.Logger({
       colorize: true,
       json: false
     }),
-    new winston.transports.File({
+    new winston.transports.Console({
       name: 'debug',
       filename: getDebugFileName(),
       level: 'debug',
@@ -43,7 +43,7 @@ const logger = new winston.Logger({
       colorize: true,
       json: false
     }),
-    new winston.transports.File({
+    new winston.transports.Console({
       name: 'error',
       filename: getErrorFileName(),
       level: 'error',
@@ -56,10 +56,10 @@ const logger = new winston.Logger({
   exitOnError: false
 });
 
-logger.stream = {
-  write: (message, encoding) => {
-    logger.info(message.trim());
-  }
-};
+// logger.stream = {
+//   write: (message, encoding) => {
+//     logger.info(message.trim());
+//   }
+// };
 
 export default logger;

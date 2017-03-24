@@ -18,7 +18,7 @@ class Edit extends Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     return (
