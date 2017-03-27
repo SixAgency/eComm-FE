@@ -11,10 +11,10 @@ import {
  * @returns {Promise.<T>|Promise<R>}
  */
 function checkoutSquare(request) {
-  return fetch(`/api/v1/checkouts${request.session.order}`,
+  return fetch(`/api/v1/checkouts/${request.session.order}`,
     {
       method: 'PUT',
-      body: JSON.stringify(request.data)
+      body: JSON.stringify(request.body.data)
     }, request.session
   )
     .then((resp) => checkResponse(resp))
@@ -30,8 +30,24 @@ function checkoutPayPal(request) {
   console.log('PayPal', request.session);
 }
 
+/**
+ * Finalize the order
+ * @param request
+ */
+function checkoutConfirm(request) {
+  return fetch(`/api/v1/checkouts/${request.session.order}`,
+    {
+      method: 'PUT'
+    }, request.session
+  )
+    .then((resp) => checkResponse(resp))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
+}
+
 export {
   checkoutSquare,
-  checkoutPayPal
+  checkoutPayPal,
+  checkoutConfirm
 };
 
