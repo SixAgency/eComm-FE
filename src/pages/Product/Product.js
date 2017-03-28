@@ -17,9 +17,10 @@ class Product extends Component {
     onAddToCart: PropTypes.func.isRequired
   };
 
-  getVideoProperty = (properties) => properties.find((prop) => (prop.property_name === 'embedded_video'));
-
-  setVideoFlag = (videoObj) => typeof videoObj !== 'undefined' && videoObj.value !== '';
+  // Set validity flag for displaying information (helper)
+  setValidFlag = (object) => typeof object !== 'undefined' && object.value !== '';
+  // Check property existence (helper)
+  getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -33,9 +34,31 @@ class Product extends Component {
     }
     const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
     const categoryName = product.classifications[0].taxon.name;
-    const videoObj = this.getVideoProperty(this.props.product.product.product_properties);
-    const videoFlag = this.setVideoFlag(videoObj);
+
+    // Handle Product Video
+    const videoObj = this.getProperty(this.props.product.product.product_properties, 'embedded_video');
+    const videoFlag = this.setValidFlag(videoObj);
     const videoClass = videoFlag ? 'videomargin' : '';
+
+    // Handle additional text below product name
+    const textObj = this.getProperty(this.props.product.product.product_properties, 'name_description');
+    const textFlag = this.setValidFlag(textObj);
+
+    // Handle Bulk prices below product name
+    const bulkPrice1Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price1');
+    const bulkPrice2Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price2');
+    const bulkPrice3Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price3');
+    const bulkPrice4Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price4');
+    const bulkPrice1Flag = this.setValidFlag(bulkPrice1Obj);
+    const bulkPrice2Flag = this.setValidFlag(bulkPrice2Obj);
+    const bulkPrice3Flag = this.setValidFlag(bulkPrice3Obj);
+    const bulkPrice4Flag = this.setValidFlag(bulkPrice4Obj);
+
+    // Handle Price note
+    const priceDescription = this.getProperty(this.props.product.product.product_properties, 'price_description');
+    const priceFlag = this.setValidFlag(priceDescription);
+
+    console.log('VARIANTS', this.props.product.product.variants);
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -61,17 +84,64 @@ class Product extends Component {
                   {product.name}
                 </nav>
                 <h1 className={s.pname}>{product.name}</h1>
+                {textFlag && <p className={s.nametext}>{textObj.value}</p>}
+                {bulkPrice1Flag && <p className={s.nametext}>{bulkPrice1Obj.value}</p>}
+                {bulkPrice2Flag && <p className={s.nametext}>{bulkPrice2Obj.value}</p>}
+                {bulkPrice3Flag && <p className={s.nametext}>{bulkPrice3Obj.value}</p>}
+                {bulkPrice4Flag && <p className={s.nametext}>{bulkPrice4Obj.value}</p>}
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
+                  {priceFlag && <span className={s.pricetext}>{priceDescription.value}</span>}
                   { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
               <div className={s.summarymiddle}>
                 <div className={cx(s.summarytab, s.summaryopen)}>
-                  <h3 className={s.summarytitle}>Description</h3>
+                  <h3
+                    className={s.summarytitle}
+                  >
+                    Description
+                  </h3>
                   <div className={s.summarycontent}>
                     <p className={s.summaryparagraph}>{renderHTML(product.description)}</p>
+                  </div>
+                </div>
+                <div className={cx(s.summarytab, s.summaryopen)}>
+                  <h3
+                    className={s.summarytitle}
+                  >
+                    Additional Information
+                  </h3>
+                  <div className={s.summarycontent}>
+                    <table className={s.summarytable}>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Weight
+                          </td>
+                          <td>
+                            si aici
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Dimensions
+                          </td>
+                          <td>
+                            si aici
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Options
+                          </td>
+                          <td>
+                            si aici
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
                 <div className={cx(s.summarytab, s.summaryclosed)}>
