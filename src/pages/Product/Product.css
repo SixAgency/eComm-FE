@@ -133,12 +133,16 @@
                 margin: 0;
                 margin-bottom: 15px;
               }
-              .summaryparagraph > a {
+              .summaryparagraph > a, .summaryparagraph b > a {
                 color: rgb(41, 203, 200);
                 text-decoration: none;
               }
-              .sumaryparagraph > ul > li{
-                list-style: disc;
+              .summaryparagraph ul {
+                font-size: 13px;
+                list-style: circle;
+                list-style-position: inside;
+                padding: 0;
+                margin: 0;
               }
               .summarytable {
                 margin: 0 0 10px 0;
@@ -151,6 +155,7 @@
                 border-collapse: collapse;
                 border: 1px solid #e9e9e9;
                 border-spacing: 0;
+                width: 100%;
               }
               .summarytable tr {
                 border-top: 1px solid #e9e9e9;

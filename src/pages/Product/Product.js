@@ -19,8 +19,11 @@ class Product extends Component {
 
   // Set validity flag for displaying information (helper)
   setValidFlag = (object) => typeof object !== 'undefined' && object.value !== '';
+
   // Check property existence (helper)
   getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
+
+  getPropertyVariants = (properties, property) => properties[0].hasOwnProperty(property) ? properties[0][property] : '';
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -41,7 +44,7 @@ class Product extends Component {
     const videoClass = videoFlag ? 'videomargin' : '';
 
     // Handle additional text below product name
-    const textObj = this.getProperty(this.props.product.product.product_properties, 'name_description');
+    const textObj = this.getProperty(this.props.product.product.product_properties, 'title_note');
     const textFlag = this.setValidFlag(textObj);
 
     // Handle Bulk prices below product name
@@ -55,10 +58,22 @@ class Product extends Component {
     const bulkPrice4Flag = this.setValidFlag(bulkPrice4Obj);
 
     // Handle Price note
-    const priceDescription = this.getProperty(this.props.product.product.product_properties, 'price_description');
-    const priceFlag = this.setValidFlag(priceDescription);
+    const priceNoteObj = this.getProperty(this.props.product.product.product_properties, 'price_note');
+    const priceFlag = this.setValidFlag(priceNoteObj);
 
-    console.log('VARIANTS', this.props.product.product.variants);
+    // Handle Details
+    const detailsObj = this.getProperty(this.props.product.product.product_properties, 'details');
+    const detailsFlag = this.setValidFlag(detailsObj);
+
+    // Handle Additional Information
+    const additionalInfoObj = this.getProperty(this.props.product.product.product_properties, 'additional_information');
+    const additionalInfoFlag = this.setValidFlag(additionalInfoObj);
+    const weightObj = this.getProperty(this.props.product.product.product_properties, 'weight');
+    const weightFlag = this.setValidFlag(weightObj);
+    const dimensionsObj = this.getProperty(this.props.product.product.product_properties, 'dimensions');
+    const dimensionsFlag = this.setValidFlag(dimensionsObj);
+    const variants = this.props.product.product.variants;
+
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -91,7 +106,7 @@ class Product extends Component {
                 {bulkPrice4Flag && <p className={s.nametext}>{bulkPrice4Obj.value}</p>}
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
-                  {priceFlag && <span className={s.pricetext}>{priceDescription.value}</span>}
+                  {priceFlag && <span className={s.pricetext}>{priceNoteObj.value}</span>}
                   { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
                 </div>
               </div>
@@ -104,46 +119,70 @@ class Product extends Component {
                     Description
                   </h3>
                   <div className={s.summarycontent}>
-                    <p className={s.summaryparagraph}>{renderHTML(product.description)}</p>
+                    <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
                   </div>
                 </div>
-                <div className={cx(s.summarytab, s.summaryopen)}>
-                  <h3
-                    className={s.summarytitle}
-                  >
-                    Additional Information
-                  </h3>
-                  <div className={s.summarycontent}>
-                    <table className={s.summarytable}>
-                      <tbody>
-                        <tr>
-                          <td>
-                            Weight
-                          </td>
-                          <td>
-                            si aici
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            Dimensions
-                          </td>
-                          <td>
-                            si aici
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            Options
-                          </td>
-                          <td>
-                            si aici
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                {detailsFlag &&
+                  <div className={cx(s.summarytab, s.summaryopen)}>
+                    <h3
+                      className={s.summarytitle}
+                    >
+                      Details
+                    </h3>
+                    <div className={s.summarycontent}>
+                      <p className={s.summaryparagraph}><b>{renderHTML(detailsObj.value)}</b></p>
+                    </div>
                   </div>
-                </div>
+                }
+                {additionalInfoFlag &&
+                  <div className={cx(s.summarytab, s.summaryopen)}>
+                    <h3
+                      className={s.summarytitle}
+                    >
+                      Additional Information
+                    </h3>
+                    <div className={s.summarycontent}>
+                      <table className={s.summarytable}>
+                        <tbody>
+                          {weightFlag &&
+                            <tr>
+                              <td>
+                                Weight
+                              </td>
+                              <td>
+                                {weightObj.value}
+                              </td>
+                            </tr>
+                          }
+                          {dimensionsFlag &&
+                            <tr>
+                              <td>
+                                Dimensions
+                              </td>
+                              <td>
+                                {dimensionsObj.value}
+                              </td>
+                            </tr>
+                          }
+                          {variants.length > 0 &&
+                            <tr>
+                              <td>
+                                Options
+                              </td>
+                              <td>
+                                {variants.map((item, index) => (
+                                  <span key={index}>
+                                    {index > 0 ? ', ' : ''}{item.option_values[0].presentation}
+                                  </span>
+                                ))}
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                }
                 <div className={cx(s.summarytab, s.summaryclosed)}>
                   <h3 className={s.summarytitle}>Reviews (0)</h3>
                   <div className={s.summarycontent}>
