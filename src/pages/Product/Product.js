@@ -9,6 +9,7 @@ import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
 import imagePlaceholder from './image_placeholder_large.png';
 import EmbeddedVideo from '../../components/EmbeddedVideo';
+import ProductTab from '../../components/ProductTab';
 
 class Product extends Component {
 
@@ -17,6 +18,18 @@ class Product extends Component {
     onAddToCart: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabs: {
+        description: true,
+        details: false,
+        info: false,
+        reviews: false
+      }
+    }
+  }
+
   // Set validity flag for displaying information (helper)
   setValidFlag = (object) => typeof object !== 'undefined' && object.value !== '';
 
@@ -24,6 +37,18 @@ class Product extends Component {
   getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
 
   getPropertyVariants = (properties, property) => properties[0].hasOwnProperty(property) ? properties[0][property] : '';
+
+  isTabOpen = (tabName) => {
+    return this.state.tabs[tabName];
+  }
+
+  openTab = (tabName) => {
+    const {tabs} = this.state;
+    Object.keys(tabs).forEach((key) => {
+      tabs[key] = key === tabName;
+    });
+    this.setState({tabs});
+  }
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -112,83 +137,73 @@ class Product extends Component {
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
               <div className={s.summarymiddle}>
-                <div className={cx(s.summarytab, s.summaryopen)}>
-                  <h3
-                    className={s.summarytitle}
-                  >
-                    Description
-                  </h3>
-                  <div className={s.summarycontent}>
-                    <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
-                  </div>
-                </div>
+                <ProductTab
+                  title="Description" open={this.isTabOpen('description')}
+                  onClick={() => this.openTab('description')}
+                >
+                  <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
+                </ProductTab>
                 {detailsFlag &&
-                  <div className={cx(s.summarytab, s.summaryopen)}>
-                    <h3
-                      className={s.summarytitle}
-                    >
-                      Details
-                    </h3>
-                    <div className={s.summarycontent}>
+                  <ProductTab
+                    title="Details" open={this.isTabOpen('details')}
+                    onClick={() => this.openTab('details')}
+                  >
                       <p className={s.summaryparagraph}><b>{renderHTML(detailsObj.value)}</b></p>
-                    </div>
-                  </div>
+                  </ProductTab>
                 }
                 {additionalInfoFlag &&
-                  <div className={cx(s.summarytab, s.summaryopen)}>
-                    <h3
-                      className={s.summarytitle}
-                    >
-                      Additional Information
-                    </h3>
-                    <div className={s.summarycontent}>
-                      <table className={s.summarytable}>
-                        <tbody>
-                          {weightFlag &&
-                            <tr>
-                              <td>
-                                Weight
-                              </td>
-                              <td>
-                                {weightObj.value}
-                              </td>
-                            </tr>
-                          }
-                          {dimensionsFlag &&
-                            <tr>
-                              <td>
-                                Dimensions
-                              </td>
-                              <td>
-                                {dimensionsObj.value}
-                              </td>
-                            </tr>
-                          }
-                          {variants.length > 0 &&
-                            <tr>
-                              <td>
-                                Options
-                              </td>
-                              <td>
-                                {variants.map((item, index) => (
-                                  <span key={index}>
-                                    {index > 0 ? ', ' : ''}{item.option_values[0].presentation}
-                                  </span>
-                                ))}
-                              </td>
-                            </tr>
-                          }
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                  <ProductTab
+                    title="Additional Information" open={this.isTabOpen('info')}
+                    onClick={() => this.openTab('info')}
+                  >
+                    <table className={s.summarytable}>
+                      <tbody>
+                        {weightFlag &&
+                          <tr>
+                            <td>
+                              Weight
+                            </td>
+                            <td>
+                              {weightObj.value}
+                            </td>
+                          </tr>
+                        }
+                        {dimensionsFlag &&
+                          <tr>
+                            <td>
+                              Dimensions
+                            </td>
+                            <td>
+                              {dimensionsObj.value}
+                            </td>
+                          </tr>
+                        }
+                        {variants.length > 0 &&
+                          <tr>
+                            <td>
+                              Options
+                            </td>
+                            <td>
+                              {variants.map((item, index) => (
+                                <span key={index}>
+                                  {index > 0 ? ', ' : ''}{item.option_values[0].presentation}
+                                </span>
+                              ))}
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </ProductTab>
                 }
-                <div className={cx(s.summarytab, s.summaryclosed)}>
-                  <h3 className={s.summarytitle}>Reviews (0)</h3>
-                  <div className={s.summarycontent}>
+                <ProductTab
+                  title="Reviews (0)" open={this.isTabOpen('reviews')}
+                  onClick={() => this.openTab('reviews')}
+                >
+                  {product.reviews &&
                     <p className={s.summaryparagraph}>{product.reviews}</p>
-                  </div>
-                </div>
+                  }
+                </ProductTab>
               </div>
               <div className={s.summarybottom}>
                 <span className={s.sku}>SKU:&nbsp;{product.master.sku}</span>
