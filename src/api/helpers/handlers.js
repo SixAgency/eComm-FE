@@ -573,6 +573,17 @@ function setDeleteAddressResponse(data) {
   return resp;
 }
 
+/* Reset password - parse the response from send reset email step */
+function parseResetResponse(data) {
+  let resp = {};
+  if (data) {
+    resp = `${data.message} to ${data.user.email}`;
+    return resp;
+  }
+  resp = {};
+  return resp;
+}
+
 export {
   checkResponse,
   setError,
@@ -598,5 +609,6 @@ export {
   parseProfile,
   parseProfileUpdate,
   parsePasswordUpdate,
-  setDeleteAddressResponse
+  setDeleteAddressResponse,
+  parseResetResponse
 };

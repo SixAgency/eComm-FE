@@ -6,14 +6,14 @@ import BasePageComponent from '../../BasePageComponent';
 import LostPassword from './LostPassword';
 
 // Action
-import { onLogout } from '../../../actions/user';
+import { onLogout, resetPassword } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    message: state.page.message,
-    isError: state.page.isError,
+    messages: state.page.messages,
+    isError: state.page.isError
   }
 ));
 
@@ -23,6 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
     onLogout: (data) => dispatch(onLogout(data)),
+    resetPassword: (data) => dispatch(resetPassword(data))
   }
 ));
 
@@ -33,12 +34,13 @@ class LostPasswordWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: '/my-account',
+      activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
   }
@@ -56,7 +58,12 @@ class LostPasswordWrapper extends BasePageComponent {
   }
 
   onSubmit = (data) => {
-    console.log(data);
+    const user = {
+      spree_user: {
+        email: data.authfield
+      }
+    };
+    this.props.resetPassword(user);
   }
 
   render() {
@@ -68,6 +75,8 @@ class LostPasswordWrapper extends BasePageComponent {
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
         onSubmit={this.onSubmit}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

@@ -197,5 +197,29 @@ function updatePassword(data) {
   };
 }
 
+function resetPassword(data) {
+  return (dispatch) => {
+    axios.post('/api/my-account/reset-password', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setMessage({ isError: false, messages: [response.data] }));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: [response.data] }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
 
-export { onLogout, onLogin, onRegister, checkLogin, getProfile, updateProfile, updatePassword };
+
+export {
+  onLogout,
+  onLogin,
+  onRegister,
+  checkLogin,
+  getProfile,
+  updateProfile,
+  updatePassword,
+  resetPassword
+};
