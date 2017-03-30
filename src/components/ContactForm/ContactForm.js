@@ -7,7 +7,8 @@ class ContactForm extends Component {
 
   static propTypes = {
     sendContact: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -21,6 +22,18 @@ class ContactForm extends Component {
       emailError: 'hide',
       hasErrors: false
     };
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const isError = this.props.isError;
+    if (isError !== prevProps.isError && !isError) {
+      this.setState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    }
   }
 
   onSubmit = (e) => {
@@ -95,6 +108,7 @@ class ContactForm extends Component {
               name="your-name"
               id="name"
               onChange={this.handleFields}
+              value={this.state.name}
             />
             <span
               className={cx(s.errorContainer, s[this.state.nameError])}
@@ -115,6 +129,7 @@ class ContactForm extends Component {
               name="your-email"
               id="email"
               onChange={this.handleFields}
+              value={this.state.email}
             />
             <span
               className={cx(s.errorContainer, s[this.state.emailError])}
@@ -135,6 +150,7 @@ class ContactForm extends Component {
               name="your-subject"
               id="subject"
               onChange={this.handleFields}
+              value={this.state.subject}
             />
           </div>
           <div className={s.textareawrapper}>
@@ -152,6 +168,7 @@ class ContactForm extends Component {
               name="your-message"
               id="message"
               onChange={this.handleFields}
+              value={this.state.message}
             />
           </div>
           <div className={s.inputwrapper}>
