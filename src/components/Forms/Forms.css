@@ -486,6 +486,7 @@
 
 .show {
   display: block;
+  float: left;
 }
 
 .showForm {
