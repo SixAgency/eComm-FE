@@ -17,7 +17,6 @@ class EditPasswordForm extends Component {
       ...props.profile,
       newpassword: '',
       confirmnewpassword: '',
-      messageClass: 'hide',
       passwordValid: false
     };
   }
@@ -49,19 +48,11 @@ class EditPasswordForm extends Component {
   }
 
   checkPassword = () => {
-    const valid = testPasswordStrength(this.state.newpassword);
-    if (valid.isError) {
-      this.setState({
-        messageClass: 'show',
-        passwordValid: false
-      });
-    } else {
-      this.setState({
-        messageClass: 'hide',
-        passwordValid: true
-      });
-    }
+    this.setState({passwordValid: !testPasswordStrength(this.state.newpassword).isError});
   }
+
+  isPasswordChanged = () =>
+    (this.state.newpassword.length > 0 || this.state.confirmnewpassword. length > 0);
 
   render() {
     return (
@@ -98,7 +89,7 @@ class EditPasswordForm extends Component {
               onChange={this.onFieldsUpdate}
             />
           </div>
-          <div className={s[this.state.messageClass]}>
+          <div className={cx(s.passwordmessage, this.isPasswordChanged() && !this.state.passwordValid ? s.show : '')}>
             <div className={s.passworderror}>
               Weak - Please enter a stronger password.
             </div>
