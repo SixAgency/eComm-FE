@@ -8,7 +8,7 @@ import { validateContactForm } from '../helpers/validators';
  * @param data
  * @returns {function(*=)}
  */
-function sendContact(data) {
+function sendContact(data, callback) {
   return (dispatch) => {
     const valid = validateContactForm(data.contact);
     if (valid.isError) {
@@ -17,6 +17,7 @@ function sendContact(data) {
       axios.post('/api/contact', data)
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: response.data.messages }));
+          callback();
         }, () => {
           dispatch(setMessage({ isError: true, messages: [response.data.messages] }));
         }))

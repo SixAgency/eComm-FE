@@ -24,18 +24,6 @@ class ContactForm extends Component {
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    const isError = this.props.isError;
-    if (isError !== prevProps.isError && !isError) {
-      this.setState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-    }
-  }
-
   onSubmit = (e) => {
     e.preventDefault();
     this.errorHandling(() => {
@@ -50,7 +38,14 @@ class ContactForm extends Component {
             message: this.state.message
           }
         };
-        this.props.sendContact(data);
+        this.props.sendContact(data, () => {
+          this.setState({
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+          });
+        });
       }
     });
   };
