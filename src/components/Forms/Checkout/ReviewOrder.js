@@ -43,7 +43,7 @@ class ReviewOrder extends React.Component {
             <span
               className={cx(s.paytitle, s.active)}
             >
-              Credit Cart
+              Credit Card
             </span>
             <span className={s.active}>
               <fieldset className={s.paymentfields}>
