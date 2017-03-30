@@ -39,6 +39,7 @@ import PasswordWrapper from '../pages/Account/Profile/Password';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
+import ResetPasswordWrapper from '../pages/Account/ResetPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
 import ManageAddressesWrapper from '../pages/Account/ManageAddresses';
@@ -240,6 +241,29 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
           header: 'colored',
           active: '/my-account',
           content: <LostPasswordWrapper {...data.user} />
+        };
+        handleRoutes(req, resp, next, params);
+      }
+    }))
+    .catch((err) => {
+      conslog('ERROR', err);
+      resp.redirect('/500');
+    });
+});
+// Account - Reset Password
+siteRoutes.get('/my-account/lost-password/:param', (req, resp, next) => {
+  conslog('REQUEST', req.params);
+  checkLogin(req)
+    .then((data) => handleError(data, resp, () => {
+      if (data.user.loggedIn) {
+        resp.redirect('/my-account/dashboard');
+      } else {
+        const params = {
+          title: 'My Account',
+          description: '',
+          header: 'colored',
+          active: '/my-account',
+          content: <ResetPasswordWrapper {...data.user} params={req.params} />
         };
         handleRoutes(req, resp, next, params);
       }

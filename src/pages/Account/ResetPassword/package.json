@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "ResetPasswordWrapper",
+  "main": "./ResetPasswordWrapperServer.js",
+  "browser": "./ResetPasswordWrapper.js"
+}

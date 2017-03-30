@@ -3,30 +3,37 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Forms.css';
 
-class LostPasswordInputs extends React.Component {
+class ResetPasswordInputs extends React.Component {
 
   static propTypes = {
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      authfield: ''
+      password: '',
+      confirmPassword: ''
     };
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
+  onSubmit = (e) => {
+    e.preventDefault();
     this.props.onSubmit(this.state);
   }
 
-  handleAuthfield = (event) => {
+  handlePasswordField = (e) => {
     this.setState({
-      authfield: event.target.value
+      password: e.target.value
+    });
+  }
+
+  handleConfirmField = (e) => {
+    this.setState({
+      confirmPassword: e.target.value
     });
   }
 
@@ -41,12 +48,27 @@ class LostPasswordInputs extends React.Component {
               className={s.label}
               htmlFor="password"
             >
-              Username or email
+              New Password
             </label>
             <input
               id="password"
+              type="password"
               className={s.input}
-              onChange={this.handleAuthfield}
+              onChange={this.handlePasswordField}
+            />
+          </div>
+          <div className={s.inputwrapper2}>
+            <label
+              className={s.label}
+              htmlFor="confirmpassword"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirmpassword"
+              type="password"
+              className={s.input}
+              onChange={this.handleConfirmField}
             />
           </div>
           <div className={s.buttonwrapper2}>
@@ -62,4 +84,4 @@ class LostPasswordInputs extends React.Component {
   }
 }
 
-export default withStyles(s)(LostPasswordInputs);
+export default withStyles(s)(ResetPasswordInputs);

@@ -21,6 +21,7 @@ import PasswordWrapper from '../pages/Account/Profile/Password';
 import BillingWrapper from '../pages/Account/Billing';
 import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
+import ResetPasswordWrapper from '../pages/Account/ResetPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
 import CreateAddress from '../pages/Account/Address/Create';
 import ManageAddressesWrapper from '../pages/Account/ManageAddresses';
@@ -51,6 +52,7 @@ const routes = (
         <Route path="manage" component={ManageAddressesWrapper} title="Manage Addresses" />
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
+      <Route path="lost-password/:param" component={ResetPasswordWrapper} title="My Account" />
       <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />
     </Route>
     <Route path="product/:slug" component={ProductWrapper} title="Category" />
