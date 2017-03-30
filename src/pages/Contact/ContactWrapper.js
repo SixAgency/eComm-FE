@@ -20,7 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     resetMessages: () => dispatch(resetMessages()),
-    sendContact: (data) => dispatch(sendContact(data))
+    sendContact: (data, callback) => dispatch(sendContact(data, callback))
   }
 ));
 

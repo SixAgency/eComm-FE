@@ -23,6 +23,7 @@ class Contact extends React.Component {
             <ContactForm
               sendContact={this.props.sendContact}
               messages={this.props.messages}
+              isError={this.props.isError}
             />
           </div>
         </div>
