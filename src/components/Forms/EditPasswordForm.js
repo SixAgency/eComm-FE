@@ -52,7 +52,7 @@ class EditPasswordForm extends Component {
   }
 
   isPasswordChanged = () =>
-    (this.state.newpassword.length > 0 || this.state.confirmnewpassword. length > 0);
+    (this.state.newpassword.length > 0 || this.state.confirmnewpassword.length > 0);
 
   render() {
     return (
