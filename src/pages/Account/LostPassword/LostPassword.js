@@ -5,6 +5,7 @@ import s from './LostPassword.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import LostPasswordInputs from '../../../components/Forms/LostPasswordInputs';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class LostPassword extends React.Component {
 
@@ -12,12 +13,18 @@ class LostPassword extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   }
 
   render() {
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <ErrorDisplay
+          messages={this.props.messages}
+          isError={this.props.isError}
+        />
         <ContentWrapper tabsClass={'hide'}>
           <LostPasswordInputs
             formTitle={'lost password'}

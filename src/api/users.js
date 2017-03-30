@@ -8,7 +8,8 @@ import {
   setUserResponse,
   parseProfile,
   parseProfileUpdate,
-  parsePasswordUpdate
+  parsePasswordUpdate,
+  parseResetResponse
 } from './helpers/handlers';
 
 const LOGIN = '/login';
@@ -111,6 +112,19 @@ function updatePassword(request) {
   .catch((err) => setError(err));
 }
 
+// Send instruction mail for reset password
+function resetPassword(request) {
+  const data = { ...request.body };
+  return apiFetch('/password/recover',
+    {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }, request.session)
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (parseResetResponse(resp)))
+  .catch((err) => setError(err));
+}
+
 export {
   userLogin,
   userRegistration,
@@ -118,5 +132,6 @@ export {
   checkLogin,
   getProfile,
   updateProfile,
-  updatePassword
+  updatePassword,
+  resetPassword
 };

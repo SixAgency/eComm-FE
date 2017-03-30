@@ -9,7 +9,8 @@ import { userLogin,
   checkLogin,
   getProfile,
   updateProfile,
-  updatePassword
+  updatePassword,
+  resetPassword
 } from '../api/users';
 import {
   getProducts,
@@ -49,7 +50,8 @@ import {
   validateContactForm,
   validatePasswordUpdate,
   validateAccountUpdate,
-  validateShippingCalculator } from '../helpers/validators';
+  validateShippingCalculator
+} from '../helpers/validators';
 
 const apiRoutes = express.Router();
 
@@ -103,6 +105,12 @@ apiRoutes
     } else {
       updatePassword(req).then((data) => resp.json(data));
     }
+  });
+
+// reset password
+apiRoutes
+  .post('/my-account/reset-password', (req, resp) => {
+    resetPassword(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES
