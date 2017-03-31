@@ -15,7 +15,8 @@ class Product extends Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
-    onAddToCart: PropTypes.func.isRequired
+    onAddToCart: PropTypes.func.isRequired,
+    properties: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -29,14 +30,6 @@ class Product extends Component {
       }
     }
   }
-
-  // Set validity flag for displaying information (helper)
-  setValidFlag = (object) => typeof object !== 'undefined' && object.value !== '';
-
-  // Check property existence (helper)
-  getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
-
-  getPropertyVariants = (properties, property) => properties[0].hasOwnProperty(property) ? properties[0][property] : '';
 
   isTabOpen = (tabName) => {
     return this.state.tabs[tabName];
@@ -62,41 +55,7 @@ class Product extends Component {
     }
     const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
     const categoryName = product.classifications[0].taxon.name;
-
-    // Handle Product Video
-    const videoObj = this.getProperty(this.props.product.product.product_properties, 'embedded_video');
-    const videoFlag = this.setValidFlag(videoObj);
-    const videoClass = videoFlag ? 'videomargin' : '';
-
-    // Handle additional text below product name
-    const textObj = this.getProperty(this.props.product.product.product_properties, 'title_note');
-    const textFlag = this.setValidFlag(textObj);
-
-    // Handle Bulk prices below product name
-    const bulkPrice1Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price1');
-    const bulkPrice2Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price2');
-    const bulkPrice3Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price3');
-    const bulkPrice4Obj = this.getProperty(this.props.product.product.product_properties, 'bulk_price4');
-    const bulkPrice1Flag = this.setValidFlag(bulkPrice1Obj);
-    const bulkPrice2Flag = this.setValidFlag(bulkPrice2Obj);
-    const bulkPrice3Flag = this.setValidFlag(bulkPrice3Obj);
-    const bulkPrice4Flag = this.setValidFlag(bulkPrice4Obj);
-
-    // Handle Price note
-    const priceNoteObj = this.getProperty(this.props.product.product.product_properties, 'price_note');
-    const priceFlag = this.setValidFlag(priceNoteObj);
-
-    // Handle Details
-    const detailsObj = this.getProperty(this.props.product.product.product_properties, 'details');
-    const detailsFlag = this.setValidFlag(detailsObj);
-
-    // Handle Additional Information
-    const additionalInfoObj = this.getProperty(this.props.product.product.product_properties, 'additional_information');
-    const additionalInfoFlag = this.setValidFlag(additionalInfoObj);
-    const weightObj = this.getProperty(this.props.product.product.product_properties, 'weight');
-    const weightFlag = this.setValidFlag(weightObj);
-    const dimensionsObj = this.getProperty(this.props.product.product.product_properties, 'dimensions');
-    const dimensionsFlag = this.setValidFlag(dimensionsObj);
+    const properties = this.props.properties;
     const variants = this.props.product.product.variants;
 
     return (
@@ -116,7 +75,7 @@ class Product extends Component {
             <div className={s.summary}>
               <div className={s.summarytop}>
                 <div className={s.video} />
-                <nav className={cx(s.breadcrumb, s[videoClass])}>
+                <nav className={cx(s.breadcrumb, properties.video ? s.videomargin : '')}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
                   <Link className={s.innerlink} to={`/product-category/${categorySlug}`}>{categoryName}</Link>
@@ -124,15 +83,16 @@ class Product extends Component {
                   {product.name}
                 </nav>
                 <h1 className={s.pname}>{product.name}</h1>
-                {textFlag && <p className={s.nametext}>{textObj.value}</p>}
-                {bulkPrice1Flag && <p className={s.nametext}>{bulkPrice1Obj.value}</p>}
-                {bulkPrice2Flag && <p className={s.nametext}>{bulkPrice2Obj.value}</p>}
-                {bulkPrice3Flag && <p className={s.nametext}>{bulkPrice3Obj.value}</p>}
-                {bulkPrice4Flag && <p className={s.nametext}>{bulkPrice4Obj.value}</p>}
+                {properties.titleNote && <p className={s.nametext}>{properties.titleNote}</p>}
+                {properties.bulkPrices.map((price, index) => (
+                  <div key={index}>
+                    {price && <p className={s.nametext}>{price}</p>}
+                  </div>
+                ))}
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
-                  {priceFlag && <span className={s.pricetext}>{priceNoteObj.value}</span>}
-                  { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
+                  {properties.priceNote && <span className={s.pricetext}>{properties.priceNote}</span>}
+                  {properties.video && <EmbeddedVideo embeddedCode={properties.video} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
@@ -143,38 +103,38 @@ class Product extends Component {
                 >
                   <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
                 </ProductTab>
-                {detailsFlag &&
+                {properties.details &&
                   <ProductTab
                     title="Details" open={this.isTabOpen('details')}
                     onClick={() => this.openTab('details')}
                   >
-                      <p className={s.summaryparagraph}><b>{renderHTML(detailsObj.value)}</b></p>
+                      <p className={s.summaryparagraph}><b>{renderHTML(properties.details)}</b></p>
                   </ProductTab>
                 }
-                {additionalInfoFlag &&
+                {properties.additionalInfo &&
                   <ProductTab
                     title="Additional Information" open={this.isTabOpen('info')}
                     onClick={() => this.openTab('info')}
                   >
                     <table className={s.summarytable}>
                       <tbody>
-                        {weightFlag &&
+                        {properties.weight &&
                           <tr>
                             <td>
                               Weight
                             </td>
                             <td>
-                              {weightObj.value}
+                              {properties.weight}
                             </td>
                           </tr>
                         }
-                        {dimensionsFlag &&
+                        {properties.dimensions &&
                           <tr>
                             <td>
                               Dimensions
                             </td>
                             <td>
-                              {dimensionsObj.value}
+                              {properties.dimensions}
                             </td>
                           </tr>
                         }
