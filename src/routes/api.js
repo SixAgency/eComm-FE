@@ -116,7 +116,7 @@ apiRoutes
 
 // Reset password - set new password step
 apiRoutes
-  .post('my-account/reset-password/:number', (req, resp) => {
+  .post('/my-account/set-new-password', (req, resp) => {
     setNewPassword(req).then((data) => resp.json(data));
   });
 

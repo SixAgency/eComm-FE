@@ -6,7 +6,7 @@ import {
   setProductResponse,
   setProductsResponse,
   setRecsResponse,
-  setMannequinHeadsResponse,
+  setMannequinHeadsResponse
 } from './helpers/handlers';
 
 const PRODUCT = '/api/v1/products';

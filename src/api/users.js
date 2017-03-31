@@ -9,7 +9,8 @@ import {
   parseProfile,
   parseProfileUpdate,
   parsePasswordUpdate,
-  parseResetResponse
+  parseResetResponse,
+  parseNewPasswordResponse
 } from './helpers/handlers';
 
 const LOGIN = '/login';
@@ -134,7 +135,7 @@ function setNewPassword(request) {
       body: JSON.stringify(data)
     }, request.session)
   .then((resp) => (checkResponse(resp)))
-  .then((resp) => (resp)) // TODO: add validation
+  .then((resp) => (parseNewPasswordResponse(resp))) // TODO: add validation
   .catch((err) => setError(err));
 }
 
