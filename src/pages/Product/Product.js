@@ -9,17 +9,39 @@ import RelatedProducts from '../../components/RelatedProducts';
 import AddToCart from '../../components/AddToCart';
 import imagePlaceholder from './image_placeholder_large.png';
 import EmbeddedVideo from '../../components/EmbeddedVideo';
+import ProductTab from '../../components/ProductTab';
 
 class Product extends Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
-    onAddToCart: PropTypes.func.isRequired
+    onAddToCart: PropTypes.func.isRequired,
+    properties: PropTypes.object.isRequired
   };
 
-  getVideoProperty = (properties) => properties.find((prop) => (prop.property_name === 'embedded_video'));
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabs: {
+        description: true,
+        details: false,
+        info: false,
+        reviews: false
+      }
+    }
+  }
 
-  setVideoFlag = (videoObj) => typeof videoObj !== 'undefined' && videoObj.value !== '';
+  isTabOpen = (tabName) => {
+    return this.state.tabs[tabName];
+  }
+
+  openTab = (tabName) => {
+    const {tabs} = this.state;
+    Object.keys(tabs).forEach((key) => {
+      tabs[key] = key === tabName;
+    });
+    this.setState({tabs});
+  }
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -33,9 +55,9 @@ class Product extends Component {
     }
     const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
     const categoryName = product.classifications[0].taxon.name;
-    const videoObj = this.getVideoProperty(this.props.product.product.product_properties);
-    const videoFlag = this.setVideoFlag(videoObj);
-    const videoClass = videoFlag ? 'videomargin' : '';
+    const properties = this.props.properties;
+    const variants = this.props.product.product.variants;
+
     return (
       <div className={s.page}>
         <div className={s.left}>
@@ -53,7 +75,7 @@ class Product extends Component {
             <div className={s.summary}>
               <div className={s.summarytop}>
                 <div className={s.video} />
-                <nav className={cx(s.breadcrumb, s[videoClass])}>
+                <nav className={cx(s.breadcrumb, properties.video ? s.videomargin : '')}>
                   <Link className={s.innerlink} to="/">Shop</Link>
                   <span className={s.divider}>&gt;</span>
                   <Link className={s.innerlink} to={`/product-category/${categorySlug}`}>{categoryName}</Link>
@@ -61,25 +83,87 @@ class Product extends Component {
                   {product.name}
                 </nav>
                 <h1 className={s.pname}>{product.name}</h1>
+                {properties.titleNote && <p className={s.nametext}>{properties.titleNote}</p>}
+                {properties.bulkPrices.map((price, index) => (
+                  <div key={index}>
+                    {price && <p className={s.nametext}>{price}</p>}
+                  </div>
+                ))}
                 <div className={s.price}>
                   <span className={s.current}>{product.display_price}</span>
-                  { videoFlag && <EmbeddedVideo embeddedCode={videoObj.value} /> }
+                  {properties.priceNote && <span className={s.pricetext}>{properties.priceNote}</span>}
+                  {properties.video && <EmbeddedVideo embeddedCode={properties.video} /> }
                 </div>
               </div>
               <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
               <div className={s.summarymiddle}>
-                <div className={cx(s.summarytab, s.summaryopen)}>
-                  <h3 className={s.summarytitle}>Description</h3>
-                  <div className={s.summarycontent}>
-                    <p className={s.summaryparagraph}>{renderHTML(product.description)}</p>
-                  </div>
-                </div>
-                <div className={cx(s.summarytab, s.summaryclosed)}>
-                  <h3 className={s.summarytitle}>Reviews (0)</h3>
-                  <div className={s.summarycontent}>
+                <ProductTab
+                  title="Description" open={this.isTabOpen('description')}
+                  onClick={() => this.openTab('description')}
+                >
+                  <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
+                </ProductTab>
+                {properties.details &&
+                  <ProductTab
+                    title="Details" open={this.isTabOpen('details')}
+                    onClick={() => this.openTab('details')}
+                  >
+                      <p className={s.summaryparagraph}><b>{renderHTML(properties.details)}</b></p>
+                  </ProductTab>
+                }
+                {properties.additionalInfo &&
+                  <ProductTab
+                    title="Additional Information" open={this.isTabOpen('info')}
+                    onClick={() => this.openTab('info')}
+                  >
+                    <table className={s.summarytable}>
+                      <tbody>
+                        {properties.weight &&
+                          <tr>
+                            <td>
+                              Weight
+                            </td>
+                            <td>
+                              {properties.weight}
+                            </td>
+                          </tr>
+                        }
+                        {properties.dimensions &&
+                          <tr>
+                            <td>
+                              Dimensions
+                            </td>
+                            <td>
+                              {properties.dimensions}
+                            </td>
+                          </tr>
+                        }
+                        {variants.length > 0 &&
+                          <tr>
+                            <td>
+                              Options
+                            </td>
+                            <td>
+                              {variants.map((item, index) => (
+                                <span key={index}>
+                                  {index > 0 ? ', ' : ''}{item.option_values[0].presentation}
+                                </span>
+                              ))}
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </ProductTab>
+                }
+                <ProductTab
+                  title="Reviews (0)" open={this.isTabOpen('reviews')}
+                  onClick={() => this.openTab('reviews')}
+                >
+                  {product.reviews &&
                     <p className={s.summaryparagraph}>{product.reviews}</p>
-                  </div>
-                </div>
+                  }
+                </ProductTab>
               </div>
               <div className={s.summarybottom}>
                 <span className={s.sku}>SKU:&nbsp;{product.master.sku}</span>
