@@ -4,6 +4,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './StickySection.css';
 
+const pageHeight = 0;
+
 class StickySection extends React.Component {
 
   constructor(props) {
@@ -14,6 +16,7 @@ class StickySection extends React.Component {
   }
 
   componentDidMount = () => {
+    pageHeight = document.body.clientHeight;
     window.addEventListener('scroll', this.stickyScroll);
   }
 
@@ -23,7 +26,7 @@ class StickySection extends React.Component {
 
   stickyScroll = () => {
     const posCur = window.scrollY;
-    if (posCur > 700) {
+    if (posCur > pageHeight / 4) {
       this.setState({
         wrapperClass: 'showsticky',
       });
