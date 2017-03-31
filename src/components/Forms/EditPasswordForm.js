@@ -3,6 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 
 import s from './Forms.css';
+import { testPasswordStrength } from '../../helpers/validators';
 
 class EditPasswordForm extends Component {
   static propTypes = {
@@ -15,7 +16,8 @@ class EditPasswordForm extends Component {
     this.state = {
       ...props.profile,
       newpassword: '',
-      confirmnewpassword: ''
+      confirmnewpassword: '',
+      passwordValid: false
     };
   }
 
@@ -28,7 +30,7 @@ class EditPasswordForm extends Component {
 
   onFieldsUpdate = (e) => {
     switch (e.target.id) {
-      case 'newpassword' : this.setState({ newpassword: e.target.value }); break;
+      case 'newpassword' : this.setState({ newpassword: e.target.value }, this.checkPassword()); break;
       case 'confirmnewpassword' : this.setState({ confirmnewpassword: e.target.value }); break;
       default: // do nothing
     }
@@ -44,6 +46,13 @@ class EditPasswordForm extends Component {
       id: this.state.id
     });
   }
+
+  checkPassword = () => {
+    this.setState({passwordValid: !testPasswordStrength(this.state.newpassword).isError});
+  }
+
+  isPasswordChanged = () =>
+    (this.state.newpassword.length > 0 || this.state.confirmnewpassword.length > 0);
 
   render() {
     return (
@@ -80,11 +89,20 @@ class EditPasswordForm extends Component {
               onChange={this.onFieldsUpdate}
             />
           </div>
+          <div className={cx(s.passwordmessage, this.isPasswordChanged() && !this.state.passwordValid ? s.show : '')}>
+            <div className={s.passworderror}>
+              Weak - Please enter a stronger password.
+            </div>
+            <div className={s.passwordhint}>
+              The password should be at least eight characters long.
+            </div>
+          </div>
           <div className={s.buttonwrapper}>
             <input
               className={s.submit}
               type="submit"
               value="save changes"
+              disabled={!this.state.passwordValid}
             />
           </div>
         </form>

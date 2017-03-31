@@ -15,9 +15,7 @@ class RegForm extends React.Component {
     this.state = {
       email: '',
       password: '',
-      validInputs: true,
-      messageClass: 'hide',
-      disabled: false
+      validInputs: false
     };
   }
 
@@ -30,29 +28,14 @@ class RegForm extends React.Component {
   };
 
   onEmailChange = (event) => {
-    this.setState({
-      email: event.target.value
-    });
+    this.setState({email: event.target.value});
   };
 
   onPassChange = (event) => {
     this.setState({
-      password: event.target.value
+      password: event.target.value,
+      validInputs: !testPasswordStrength(this.state.password).isError
     });
-    const valid = testPasswordStrength(this.state.password);
-    if (valid.isError) {
-      this.setState({
-        validInputs: false,
-        messageClass: 'show',
-        disabled: true
-      });
-    } else {
-      this.setState({
-        validInputs: true,
-        messageClass: 'hide',
-        disabled: false
-      });
-    }
   };
 
   render() {
@@ -69,7 +52,7 @@ class RegForm extends React.Component {
             <label className={s.label} htmlFor="password">Password <abbr>*</abbr></label>
             <input id="password" type="password" name="password" className={s.input} onChange={this.onPassChange} />
           </div>
-          <div className={s[this.state.messageClass]}>
+          <div className={cx(s.passwordmessage, !this.state.validInputs && this.state.password.length > 0 ? s.show : '')}>
             <div className={s.passworderror}>
               Weak - Please enter a stronger password.
             </div>
@@ -82,7 +65,7 @@ class RegForm extends React.Component {
               className={s.submit}
               type="submit"
               value="Register"
-              disabled={this.state.disabled}
+              disabled={!this.state.validInputs}
             />
           </div>
         </form>

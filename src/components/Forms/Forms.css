@@ -488,13 +488,15 @@
   }
 }
 
-.hide {
+.passwordmessage {
   display: none;
 }
 
-.show {
+.passwordmessage.show {
   display: block;
+  float: left;
 }
+
 
 .showForm {
   -moz-transition-duration: 0.4s;
