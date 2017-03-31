@@ -14,7 +14,7 @@ class ResetPasswordWrapper extends React.Component {
   }
 
   onSubmit = () => (true);
-  resetMessages = () => (true);
+  setMessage = () => (true);
 
   render() {
     console.log('server');
@@ -25,6 +25,7 @@ class ResetPasswordWrapper extends React.Component {
         onSubmit={this.onSubmit}
         messages={this.props.messages}
         resetMessages={this.resetMessages}
+        setMessage={this.setMessage}
         params={this.props.params}
       />
     );

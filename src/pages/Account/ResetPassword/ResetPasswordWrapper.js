@@ -7,7 +7,14 @@ import BasePageComponent from '../../BasePageComponent';
 import ResetPassword from './ResetPassword';
 
 // Action
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader
+} from '../../../actions/page';
+import {
+  setNewPassword
+} from '../../../actions/user';
 
 const mapStateToProps = ((state) => (
   {
@@ -21,7 +28,8 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    resetMessages: () => dispatch(resetMessages())
+    resetMessages: () => dispatch(resetMessages()),
+    setNewPassword: (data) => dispatch(setNewPassword(data))
   }
 ));
 
@@ -32,7 +40,8 @@ class ResetPasswordWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
+    setNewPassword: PropTypes.func.isRequired
   }
 
   componentWillMount = () => {
@@ -56,13 +65,11 @@ class ResetPasswordWrapper extends BasePageComponent {
   }
 
   onSubmit = (data) => {
-    const user = {
-      spree_user: {
-        reset_password_token: this.props.params.param,
-        password: data
-      }
+    const info = {
+      passwords: data,
+      token: this.props.params.param
     };
-    console.log('SUBMITED', user);
+    this.props.setNewPassword(info);
   }
 
   render() {
@@ -76,6 +83,7 @@ class ResetPasswordWrapper extends BasePageComponent {
         isError={this.props.isError}
         onSubmit={this.onSubmit}
         params={this.props.params}
+        resetMessages={this.props.resetMessages}
       />
     );
   }

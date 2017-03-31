@@ -9,7 +9,8 @@ class ResetPasswordInputs extends React.Component {
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -26,12 +27,14 @@ class ResetPasswordInputs extends React.Component {
   }
 
   handlePasswordField = (e) => {
+    this.props.resetMessages();
     this.setState({
       password: e.target.value
     });
   }
 
   handleConfirmField = (e) => {
+    this.props.resetMessages();
     this.setState({
       confirmPassword: e.target.value
     });

@@ -197,6 +197,7 @@ function updatePassword(data) {
   };
 }
 
+// Reset Password - send email step
 function resetPassword(data) {
   return (dispatch) => {
     axios.post('/api/my-account/reset-password', data)
@@ -212,6 +213,32 @@ function resetPassword(data) {
   };
 }
 
+// Reset Password - set new password step
+function setNewPassword(data) {
+  return (dispatch) => {
+    if (data.passwords.password !== data.passwords.confirmPassword) {
+      dispatch(setMessage({ isError: true, messages: ['Your password and password confirmation do not match'] }));
+    } else {
+      const userInfo = {
+        spree_user: {
+          reset_password_token: data.token,
+          password: data.passwords.password
+        }
+      };
+      axios.post('/api/my-account/reset-password/:number', userInfo)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setMessage({ isError: false, messages: [response.data] }));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: [response.data] }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
+  };
+}
+
 
 export {
   onLogout,
@@ -221,5 +248,6 @@ export {
   getProfile,
   updateProfile,
   updatePassword,
-  resetPassword
+  resetPassword,
+  setNewPassword
 };

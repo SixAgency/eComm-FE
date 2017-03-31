@@ -10,7 +10,8 @@ import { userLogin,
   getProfile,
   updateProfile,
   updatePassword,
-  resetPassword
+  resetPassword,
+  setNewPassword
 } from '../api/users';
 import {
   getProducts,
@@ -107,10 +108,16 @@ apiRoutes
     }
   });
 
-// reset password
+// Reset password - send mail step
 apiRoutes
   .post('/my-account/reset-password', (req, resp) => {
     resetPassword(req).then((data) => resp.json(data));
+  });
+
+// Reset password - set new password step
+apiRoutes
+  .post('my-account/reset-password/:number', (req, resp) => {
+    setNewPassword(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES

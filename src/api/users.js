@@ -125,6 +125,19 @@ function resetPassword(request) {
   .catch((err) => setError(err));
 }
 
+// Set new password after receiving the email instructions
+function setNewPassword(request) {
+  const data = { ...request.body };
+  return apiFetch('/user/spree_user/password',
+    {
+      method: 'PATCH',
+      body: JSON.stringify(data)
+    }, request.session)
+  .then((resp) => (checkResponse(resp)))
+  .then((resp) => (resp)) // TODO: add validation
+  .catch((err) => setError(err));
+}
+
 export {
   userLogin,
   userRegistration,
@@ -133,5 +146,6 @@ export {
   getProfile,
   updateProfile,
   updatePassword,
-  resetPassword
+  resetPassword,
+  setNewPassword
 };

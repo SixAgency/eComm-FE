@@ -12,7 +12,8 @@ class ResetPassword extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   render() {
@@ -29,6 +30,7 @@ class ResetPassword extends React.Component {
             formSubtitle={'Please enter a new password'}
             buttonText={'submit'}
             onSubmit={this.props.onSubmit}
+            resetMessages={this.props.resetMessages}
           />
         </ContentWrapper>
       </section>
