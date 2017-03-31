@@ -152,11 +152,9 @@ class ManageAddressesForm extends Component {
     return (
       <div className={cx(s.formcontent)}>
         <h1 className={s.title}>Manage addresses</h1>
+        <h2 className={s.subtitle}>Available Addresses</h2>
         <form className={cx(s.form, s.addresses, s.addressesform)}>
           <div className={s.listwrapper}>
-            <h4 className={s.accountsubtitle}>
-              Available Addresses
-            </h4>
             {this.renderAddresses(this.props.addresses.addresses)}
           </div>
         </form>
