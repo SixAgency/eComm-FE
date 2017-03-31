@@ -24,11 +24,11 @@ class ResetPassword extends React.Component {
           messages={this.props.messages}
           isError={this.props.isError}
         />
-        <ContentWrapper tabsClass={'hide'}>
+        <ContentWrapper tabsClass="hide">
           <ResetPasswordInputs
-            formTitle={'reset password'}
-            formSubtitle={'Please enter a new password'}
-            buttonText={'submit'}
+            formTitle="reset password"
+            formSubtitle="Please enter a new password"
+            buttonText="submit"
             onSubmit={this.props.onSubmit}
             resetMessages={this.props.resetMessages}
           />
