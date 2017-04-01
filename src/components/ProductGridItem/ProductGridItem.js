@@ -53,7 +53,6 @@ class ProductGridItem extends Component {
     if (calcReduced) {
       const {sale, price} = product;
       return parseFloat(price) - (parseFloat(price)*sale/100);
-
     }
     return accounting.formatMoney(product.price);
   }
