@@ -1,19 +1,20 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.css';
 import HeroBanner from '../../components/HeroBanner';
 import Grid from '../../components/Grid';
 import homeBanner from './home_banner.jpg';
 
-class Home extends React.Component {
-
+class Home extends Component {
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired
   }
+
   static defaultProps = {
     addToCart: () => (true)
   }
+
   render() {
     const heroText = {
       title: 'Now available the NEW',
@@ -25,13 +26,13 @@ class Home extends React.Component {
     return (
       <section className={s.page}>
         <HeroBanner
-          heroClass={'homebanner'}
+          heroClass='homebanner'
           heroBanner={homeBanner}
           heroText={heroText}
           bottomText={bottomText}
         />
         <Grid
-          gridClass={'productsgrid'}
+          gridClass='productsgrid'
           gridItems={this.props.gridItems}
           addToCart={this.props.addToCart}
         />
