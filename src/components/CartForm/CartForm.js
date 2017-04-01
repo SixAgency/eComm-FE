@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
@@ -49,7 +51,9 @@ class CartForm extends Component {
               <tbody>
                 <tr className={s.csubtotals}>
                   <th className="table-heads">Subtotal</th>
-                  <td className={cx(s.ammout, s.data)}>{cart.display_item_total}</td>
+                  <td className={cx(s.ammout, s.data)}>
+                    {accounting.formatMoney(cart.total)}
+                  </td>
                 </tr>
                 <tr className={s.csubtotals}>
                   <th className="table-heads" />
@@ -77,7 +81,9 @@ class CartForm extends Component {
                   <th className="table-heads">Total</th>
                   <td className={cx(s.totalprice, s.data)}>
                     <strong>
-                      <span className="amount">{cart.display_total}</span>
+                      <span className="amount">
+                        {accounting.formatMoney(cart.total)}
+                      </span>
                     </strong>
                   </td>
                 </tr>

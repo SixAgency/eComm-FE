@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './Minicart.css';
 import imagePlaceholder from './image_placeholder_small.png';
 
@@ -14,6 +16,15 @@ class Minicart extends React.Component {
   brokenImage = (event) => {
     const img = event.target;
     img.src = imagePlaceholder;
+  }
+
+  getPrice = (item) => {
+    // if the item has adjustments it's on sale
+    if (item.adjustments.length === 1) {
+      // addititon works here because the adjustment amount is negative
+      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
+    }
+    return item.price;
   }
 
   render = () => {
@@ -58,7 +69,7 @@ class Minicart extends React.Component {
                       />
                       <span className={s.pname}>{item.variant.name}</span>
                       <span className={s.pprice}>
-                        Price: <span>{item.display_amount}</span>
+                        Price: <span>{accounting.formatMoney(this.getPrice(item))}</span>
                       </span>
                       <span className={s.pquantity}>Quantity: {item.quantity}</span>
                     </Link>
@@ -68,7 +79,7 @@ class Minicart extends React.Component {
             </ul>
             <p className={s.total}>
               <strong>Subtotal:</strong>
-              <span className={s.amount}>{cart.display_item_total}</span>
+              <span className={s.amount}>{accounting.formatMoney(cart.total)}</span>
             </p>
             <p className={s.buttons}>
               <Link to="/cart" className={cx(s.button, s.view)}>View Cart</Link>
