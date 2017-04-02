@@ -601,6 +601,19 @@ function parseResetResponse(data) {
   return resp;
 }
 
+function parseNewPasswordResponse(data) {
+  if (typeof data.errors !== 'undefined') {
+    return {
+      isError: true,
+      data: data.errors
+    };
+  }
+  return {
+    isError: false,
+    data: data.message
+  };
+}
+
 export {
   checkResponse,
   setError,
@@ -627,5 +640,6 @@ export {
   parseProfileUpdate,
   parsePasswordUpdate,
   setDeleteAddressResponse,
-  parseResetResponse
+  parseResetResponse,
+  parseNewPasswordResponse
 };
