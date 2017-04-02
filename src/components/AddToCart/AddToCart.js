@@ -1,13 +1,12 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AddToCart.css';
 import ProductQuantity from '../ProductQuantity';
 import SingleVariant from '../SingleVariant';
 import MultiVariant from '../MultiVariant';
-import SendGiftForm from '../../components/SendGiftForm';
+import GiftCardSelector from '../SingleVariant/GiftCardSelector';
 
-class CartCta extends React.Component {
-
+class CartCta extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
@@ -50,12 +49,21 @@ class CartCta extends React.Component {
         );
       }
       if (product.option_types.length > 0) {
-        return (
-          <SingleVariant
-            variants={product.variants}
-            action={this.setVariant}
-          />
-        );
+        if (product.classifications[0].taxon.name === 'Gifts') {
+          return (
+            <GiftCardSelector
+              variants={product.variants}
+              action={this.setVariant}
+            />
+          );
+        } else {
+          return (
+            <SingleVariant
+              variants={product.variants}
+              action={this.setVariant}
+            />
+          );
+        }
       }
     }
     return null;
@@ -94,16 +102,22 @@ class CartCta extends React.Component {
   }
 
   render() {
+    const { product } = this.props.product;
     return (
       <form className={s.cartform} onSubmit={this.addToCart}>
         { this.getVariant() }
-        <ProductQuantity
-          sizingClass="quantitybig"
-          quantity={this.state.quantity}
-          addQuantity={this.addQuantity}
-          subQuantity={this.subQuantity}
-        />
-        <button type="submit" className={s.addtocart}>Add to cart</button>
+        {
+          product.classifications[0].taxon.name !== 'Gifts' &&
+          [
+            <ProductQuantity
+              sizingClass="quantitybig"
+              quantity={this.state.quantity}
+              addQuantity={this.addQuantity}
+              subQuantity={this.subQuantity}
+            />,
+            <button type="submit" className={s.addtocart}>Add to cart</button>
+          ]
+        }
       </form>
     );
   }

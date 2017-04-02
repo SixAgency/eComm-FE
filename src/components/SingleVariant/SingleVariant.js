@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SingleVariant.css';
 
-class SingleVariant extends React.Component {
+class SingleVariant extends Component {
 
   static propTypes = {
     variants: PropTypes.array.isRequired,

@@ -1,6 +1,0 @@
-{
-  "name": "SendGiftForm",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./SendGiftForm.js"
-}
