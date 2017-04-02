@@ -19,7 +19,7 @@ function setUser(user) {
 * @returns {{type: string, payload: object}}
 */
 function setProfile(profile) {
-  return { type: 'SET_PROFILE', payload: { profile, loggedIn: true } };
+  return { type: 'SET_PROFILE', payload: { profile } };
 }
 
 /**
@@ -145,7 +145,14 @@ function getProfile() {
   return (dispatch) => {
     axios.get('/api/profile')
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setProfile(response.data.profile));
+        const profile = {
+          id: response.data.profile.id,
+          f_name: response.data.profile.f_name,
+          l_name: response.data.profile.l_name,
+          email: response.data.profile.email,
+          isLoaded: true
+        };
+        dispatch(setProfile(profile));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -165,7 +172,14 @@ function updateProfile(data) {
       axios.post('/api/profile', data)
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: ['Account updated'] }));
-          dispatch(setProfile(response.data.profile));
+          const profile = {
+            id: response.data.profile.id,
+            f_name: response.data.profile.f_name,
+            l_name: response.data.profile.l_name,
+            email: response.data.profile.email,
+            isLoaded: true
+          };
+          dispatch(setProfile(profile));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))

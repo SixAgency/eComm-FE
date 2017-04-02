@@ -28,7 +28,8 @@ import {
   calculateShipping
 } from '../api/orders';
 import {
-  checkoutSquare
+  checkoutSquare,
+  checkoutConfirm
 } from '../api/payment';
 import { getAddresses,
   createAddress,
@@ -213,6 +214,13 @@ apiRoutes
   })
   .post('/checkout/square', (req, resp) => {
     checkoutSquare(req)
+      .then((data) => resp.json(data))
+      .catch((err) => {
+        console.error(err);
+      });
+  })
+  .post('/checkout/confirm', (req, resp) => {
+    checkoutConfirm(req)
       .then((data) => resp.json(data))
       .catch((err) => {
         console.error(err);

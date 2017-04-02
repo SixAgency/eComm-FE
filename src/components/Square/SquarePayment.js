@@ -80,9 +80,13 @@ class SquarePayment extends Component {
   };
 
   render() {
+    const cardErrorNodes = [];
+    this.state.card_errors.forEach((value, key) => {
+      cardErrorNodes.push(<li key={key}>{value.message}</li>);
+    });
     return (
       <div className={s.squaremodal}>
-        <div id="card-errors">{this.state.card_errors}</div>
+        <div id="card-errors">{cardErrorNodes}</div>
         <div className={s.formwrapper}>
           <h1 className={s.title}>Payment</h1>
           <h2 className={s.subtitle}>Please enter your details</h2>

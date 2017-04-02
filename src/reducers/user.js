@@ -1,8 +1,11 @@
 export default function reducer(state = {
-  userName: '',
-  emailAddress: '',
   loggedIn: false,
-  profile: {}
+  profile: {
+    isLoaded: false,
+    email: '',
+    f_name: '',
+    l_name: ''
+  }
 }, action) {
   switch (action.type) {
     case 'SET_USER': {

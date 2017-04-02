@@ -87,6 +87,8 @@ class ReviewWrapper extends React.Component {
     });
   };
 
+  confirmOrder = () => (true);
+
   render() {
     const contentTabs = this.getContentTabs();
     return (
@@ -107,6 +109,7 @@ class ReviewWrapper extends React.Component {
         contentTabs={contentTabs}
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.props.completePayPal}
+        confirmOrder={this.confirmOrder}
         breadcrumbs={this.props.breadcrumbs}
       />
     );

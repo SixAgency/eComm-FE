@@ -25,8 +25,7 @@ class Addresses extends React.Component {
         <address className={s.optiontext}>
           <span className={s.block}>{address.firstname} {address.lastname}</span>
           <span className={s.block}>{address.company}</span>
-          <span className={s.block}>{address.address1}</span>
-          <span className={s.block}>{address.address2}</span>
+          <span className={s.block}>{address.address1} {address.address2}</span>
           <span className={s.block}>{address.city}, {stateName}, {address.zipcode}</span>
         </address>
       );

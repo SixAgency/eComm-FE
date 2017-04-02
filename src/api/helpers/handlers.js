@@ -129,10 +129,15 @@ function setAddressResponse(data) {
 function setAuthResponse(data, request) {
   let resp;
   if (!data.isError && data.user) {
+    console.log('USER', data.user);
     const user = {
-      userName: data.user.email.split('@')[0],
-      emailAddress: data.user.email,
-      loggedIn: true
+      loggedIn: true,
+      profile: {
+        isLoaded: false,
+        email: '',
+        f_name: '',
+        l_name: ''
+      }
     };
     const token = data.user.spree_api_key;
     setUserSession(token, request);
@@ -165,9 +170,13 @@ function setLogoutResponse(request) {
   const resp = {
     isError: false,
     user: {
-      userName: '',
-      emailAddress: '',
-      loggedIn: false
+      loggedIn: false,
+      profile: {
+        isLoaded: true,
+        email: '',
+        f_name: '',
+        l_name: ''
+      }
     }
   };
   return resp;
@@ -182,9 +191,13 @@ function setUserResponse(request) {
         resp = {
           isError: false,
           user: {
-            username: '',
-            email: '',
-            loggedIn: true
+            loggedIn: true,
+            profile: {
+              isLoaded: false,
+              email: '',
+              f_name: '',
+              l_name: ''
+            }
           }
         };
       } else {
@@ -192,8 +205,12 @@ function setUserResponse(request) {
           isError: false,
           user: {
             loggedIn: false,
-            username: '',
-            email: ''
+            profile: {
+              isLoaded: true,
+              email: '',
+              f_name: '',
+              l_name: ''
+            }
           }
         };
       }

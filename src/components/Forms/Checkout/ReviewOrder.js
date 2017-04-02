@@ -9,11 +9,34 @@ class ReviewOrder extends React.Component {
     cartItems: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutSquare: PropTypes.func.isRequired,
+    confirmOrder: PropTypes.func.isRequired,
     isPaypal: PropTypes.bool.isRequired
   };
 
   listPayment = () => {
-    if (this.props.isPaypal) {
+    if (this.props.cartItems.cart.state === 'confirm') {
+      return (
+        <div className={s.paymentcontainer}>
+          <ul>
+            <li className={s.paymentmethod}>
+              <span
+                className={cx(s.paytitle, s.active)}
+              >
+                Credit Cart via Square
+              </span>
+            </li>
+          </ul>
+          <div className={cx(s.buttonwrapper, s.buttonwrapper3)}>
+            <p className={s.paymessage}>
+              After clicking on Place Order wait for the confirmation
+              screen to appear. Do not click on back or any other buttons during this process.
+            </p>
+            <input className={s.submit} type="button" value="Place Order" onClick={this.props.confirmOrder} />
+            <input className={s.cancelorder} type="button" value="Cancel" />
+          </div>
+        </div>
+      );
+    } else if (this.props.isPaypal) {
       return (
         <div className={s.paymentcontainer}>
           <ul>
@@ -47,7 +70,7 @@ class ReviewOrder extends React.Component {
             </span>
             <span className={s.active}>
               <fieldset className={s.paymentfields}>
-                <p>Pay with your credit card via Stripe.</p>
+                <p>Pay with your credit card via Square.</p>
               </fieldset>
             </span>
           </li>
@@ -57,12 +80,7 @@ class ReviewOrder extends React.Component {
             After clicking on Continue to Payment
             you will see a pop up from our payment
             processor. Enter your credit card here
-            and click on the blue bar containing
-            the amount of your purchase.
-            After you see the green checkmark,
-            wait for the confirmation screen to appear.
-            Do not click on back or any other buttons
-            during this process.
+            and click on the green button.
           </p>
           <input className={s.submit} type="button" value="Continue to Payment" onClick={this.props.checkoutSquare} />
         </div>

@@ -12,6 +12,7 @@ import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
+import { confirmOrder } from '../../../actions/payment/payment';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -22,7 +23,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
-    completePayPal: () => dispatch(completePayPal())
+    completePayPal: () => dispatch(completePayPal()),
+    confirmOrder: () => (dispatch(confirmOrder()))
   }
 ));
 
@@ -134,6 +136,11 @@ class ReviewWrapper extends BasePageComponent {
     this.props.toggleModal(true);
   };
 
+  confirmOrder = (e) => {
+    e.preventDefault();
+    this.props.confirmOrder();
+  };
+
   render() {
     if (!this.props.cartItems.isLoaded) {
       return null;
@@ -155,6 +162,7 @@ class ReviewWrapper extends BasePageComponent {
         isPayPal={this.props.isPayPal}
         checkoutPayPal={this.checkoutPayPal}
         checkoutSquare={this.checkoutSquare}
+        confirmOrder={this.confirmOrder}
         breadcrumbs={this.props.route.breadcrumbs}
         loginClass={this.state.loginClassName}
         handleLogin={this.handleLogin}

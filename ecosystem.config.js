@@ -9,8 +9,8 @@ module.exports = {
     {
       name: 'eComm_frontend',
       script: 'server.js',
-      out_file: 'dev/null',
-      error_file: 'dev/null',
+      out_file: '/app/eComm_frontend/logs/out.log',
+      error_file: '/app/eComm_frontend/logs/err.log',
       instances: 1,
       exec_mode: 'cluster',
       env: {

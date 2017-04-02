@@ -15,7 +15,6 @@ import { getAllOrders } from '../../../actions/order';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    userName: state.user.userName,
     shipping: state.address.shipping,
     billing: state.address.billing,
     orders: state.orders.orders,
@@ -40,7 +39,6 @@ const mapDispatchToProps = ((dispatch) => (
 class DashboardWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    userName: PropTypes.string.isRequired,
     shipping: PropTypes.object.isRequired,
     billing: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
@@ -72,7 +70,7 @@ class DashboardWrapper extends BasePageComponent {
     if (!this.props.orders.isLoaded) {
       this.props.getAllOrders();
     }
-    if (isEmpty(this.props.profile)) {
+    if (!this.props.profile.isLoaded) {
       this.props.getProfile();
     }
   };
@@ -90,7 +88,8 @@ class DashboardWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     const billingLoaded = nextProps.billing.isLoaded;
     const shippingLoaded = nextProps.shipping.isLoaded;
-    if (billingLoaded && shippingLoaded) {
+    const profileLoaded = nextProps.profile.isLoaded;
+    if (profileLoaded && billingLoaded && shippingLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -108,6 +107,9 @@ class DashboardWrapper extends BasePageComponent {
   };
 
   render() {
+    if (!this.props.profile.isLoaded) {
+      return null;
+    }
     const addresses = {
       shippAddress: this.props.shipping,
       billAddress: this.props.billing
@@ -115,7 +117,6 @@ class DashboardWrapper extends BasePageComponent {
     const orders = this.props.orders;
     return (
       <Dashboard
-        userName={this.props.userName}
         loggedIn={this.props.loggedIn}
         onLogout={this.onLogout}
         addresses={addresses}

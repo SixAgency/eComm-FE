@@ -8,7 +8,7 @@ import Shipping from './Shipping';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { applyPromoCode } from '../../../actions/order';
-import { onLogin, onLogout } from '../../../actions/user';
+import { onLogin, onLogout, getProfile } from '../../../actions/user';
 import { setShipping, checkoutAddresses } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { getAddress, createAddressNew } from '../../../actions/address';
@@ -22,6 +22,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getAddress: () => dispatch(getAddress()),
+    getProfile: () => dispatch(getProfile()),
     setShipping: (id) => dispatch(setShipping(id)),
     checkoutAddresses: (data) => dispatch(checkoutAddresses(data)),
     createAddress: (data, message, callback) => dispatch(createAddressNew(
@@ -38,7 +39,7 @@ const mapStateToProps = ((state) => (
     shipping: state.checkout.shipping,
     addresses: state.address.addresses,
     loggedIn: state.user.loggedIn,
-    emailAddress: state.user.emailAddress,
+    profile: state.user.profile,
     messages: state.page.messages,
     isPayPal: state.checkout.isPayPal,
     isError: state.page.isError,
@@ -61,7 +62,7 @@ class ShippingWrapper extends BasePageComponent {
     shipping: PropTypes.object.isRequired,
     billing: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
-    emailAddress: PropTypes.string.isRequired,
+    profile: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
     setShipping: PropTypes.func.isRequired,
     checkoutAddresses: PropTypes.func.isRequired,
@@ -89,6 +90,9 @@ class ShippingWrapper extends BasePageComponent {
       });
     } else {
       this.props.getAddress();
+    }
+    if (!this.props.profile.isLoaded) {
+      this.props.getProfile();
     }
     if (!this.props.isCartPending) {
       if (this.props.billing.isLoaded && !this.props.billing.isSet) {
@@ -234,7 +238,7 @@ class ShippingWrapper extends BasePageComponent {
           onCancel={this.onCancel}
           onFormCancel={this.onFormCancel}
           showCancel={showCancel}
-          emailAddress={this.props.emailAddress}
+          emailAddress={this.props.profile.email}
           content={this.state.content}
           breadcrumbs={this.props.route.breadcrumbs}
         />

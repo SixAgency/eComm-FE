@@ -8,7 +8,7 @@ import Billing from './Billing';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { applyPromoCode } from '../../../actions/order';
-import { onLogin, onLogout } from '../../../actions/user';
+import { onLogin, onLogout, getProfile } from '../../../actions/user';
 import { setBilling } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { getAddress, createAddressNew } from '../../../actions/address';
@@ -22,6 +22,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getAddress: () => dispatch(getAddress()),
+    getProfile: () => dispatch(getProfile()),
     setBilling: (id) => dispatch(setBilling(id)),
     createAddress: (data, message, callback) => dispatch(createAddressNew(
       data,
@@ -36,7 +37,7 @@ const mapStateToProps = ((state) => (
     billing: state.checkout.billing,
     addresses: state.address.addresses,
     loggedIn: state.user.loggedIn,
-    emailAddress: state.user.emailAddress,
+    profile: state.user.profile,
     messages: state.page.messages,
     isError: state.page.isError,
     isCartPending: state.cart.isCartPending,
@@ -56,8 +57,9 @@ class BillingWrapper extends BasePageComponent {
     applyPromoCode: PropTypes.func.isRequired,
     billing: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
-    emailAddress: PropTypes.string.isRequired,
+    profile: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
     setBilling: PropTypes.func.isRequired,
     isCartPending: PropTypes.bool.isRequired
@@ -82,6 +84,9 @@ class BillingWrapper extends BasePageComponent {
       });
     } else {
       this.props.getAddress();
+    }
+    if (!this.props.profile.isLoaded) {
+      this.props.getProfile();
     }
     if (!this.props.isCartPending && this.props.billing.isLoaded) {
       if (this.props.addresses.isLoaded && !this.props.billing.isSet) {
@@ -213,7 +218,7 @@ class BillingWrapper extends BasePageComponent {
           onCancel={this.onCancel}
           onFormCancel={this.onFormCancel}
           showCancel={showCancel}
-          emailAddress={this.props.emailAddress}
+          emailAddress={this.props.profile.email}
           content={this.state.content}
           breadcrumbs={this.props.route.breadcrumbs}
         />

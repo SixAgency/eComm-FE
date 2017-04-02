@@ -49,9 +49,7 @@ class CartForm extends Component {
               <tbody>
                 <tr className={s.csubtotals}>
                   <th className="table-heads">Subtotal</th>
-                  <td className={cx(s.ammout, s.data)}>
-                      ${cart.total}
-                  </td>
+                  <td className={cx(s.ammout, s.data)}>{cart.display_item_total}</td>
                 </tr>
                 <tr className={s.csubtotals}>
                   <th className="table-heads" />
@@ -79,9 +77,7 @@ class CartForm extends Component {
                   <th className="table-heads">Total</th>
                   <td className={cx(s.totalprice, s.data)}>
                     <strong>
-                      <span className="amount">
-                          ${cart.total}
-                      </span>
+                      <span className="amount">{cart.display_total}</span>
                     </strong>
                   </td>
                 </tr>

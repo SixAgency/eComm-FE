@@ -4,10 +4,8 @@ import Dashboard from './Dashboard';
 class DashboardWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    userName: PropTypes.string.isRequired,
     shipping: PropTypes.object.isRequired,
     billing: PropTypes.object.isRequired,
-    onLogout: PropTypes.func.isRequired,
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
@@ -16,11 +14,13 @@ class DashboardWrapper extends React.Component {
   };
 
   static defaultProps = {
-    onLogout: () => (true),
     messages: [],
     isError: false,
     profile: {}
   };
+
+  onLogout = () => (true);
+  resetMessages = () => (true);
 
   render() {
     const addresses = {
@@ -30,11 +30,11 @@ class DashboardWrapper extends React.Component {
     const orders = this.props.orders;
     return (
       <Dashboard
-        userName={this.props.userName}
         loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
+        onLogout={this.onLogout}
         addresses={addresses}
         orders={orders}
+        resetMessages={this.resetMessages}
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.breadcrumbs}

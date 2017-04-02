@@ -275,7 +275,7 @@ function calculateShipping(data) {
     } else {
       axios.post('/api/calculate_shipping', { data })
         .then((response) => checkResponse(response.data, () => {
-          dispatch(setOrders(response.data));
+          dispatch(setCart(response.data));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))

@@ -42,7 +42,7 @@ class PasswordWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired
-  }
+  };
 
   componentWillMount = () => {
     if (!this.props.loggedIn) {
@@ -53,20 +53,20 @@ class PasswordWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.profile) {
+    if (!this.props.profile.isLoaded) {
       this.props.getProfile();
     }
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     return (

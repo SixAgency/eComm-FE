@@ -173,7 +173,6 @@ function completePayPal() {
           order: response.data.cart
         };
         dispatch(setOrder(order));
-        console.log(response.data.cart.number);
         const orderLink = `my-account/view-order/${response.data.cart.number}`;
         dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
         forwardTo(orderLink);
