@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Grid.css';
 import ProductGridItem from '../ProductGridItem';
 
-class Grid extends React.Component {
+class Grid extends Component {
   static propTypes = {
     gridClass: PropTypes.string.isRequired,
     gridItems: PropTypes.object.isRequired,
@@ -14,6 +14,7 @@ class Grid extends React.Component {
     catclass: PropTypes.string,
     buttonclass: PropTypes.string
   }
+
   render() {
     const { isLoaded, products } = this.props.gridItems;
     if (!isLoaded) {
@@ -22,10 +23,10 @@ class Grid extends React.Component {
     return (
       <section className={cx(s.grid, s[this.props.gridClass])}>
         <ul className={s.gridwrapper}>
-          {products.map((v, k) => (
-            <li key={k} className={s.gridthree}>
+          {products.map((value, key) => (
+            <li key={key} className={s.gridthree}>
               <ProductGridItem
-                product={v}
+                product={value}
                 priceclass={this.props.priceclass}
                 nameclass={this.props.nameclass}
                 catclass={this.props.catclass}

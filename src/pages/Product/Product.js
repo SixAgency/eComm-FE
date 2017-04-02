@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import renderHTML from 'react-render-html';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './Product.css';
 // Components
 import RelatedProducts from '../../components/RelatedProducts';
@@ -43,6 +45,15 @@ class Product extends Component {
     this.setState({tabs});
   }
 
+  getPrice = (calcReduced = false) => {
+    const {product} = this.props.product;
+    if (calcReduced) {
+      const {sale, price} = product;
+      return parseFloat(price) - (parseFloat(price)*sale/100);
+    }
+    return accounting.formatMoney(product.price);
+  }
+
   render() {
     const { isLoaded, product } = this.props.product;
     if (!isLoaded) {
@@ -67,6 +78,9 @@ class Product extends Component {
               src={image}
               alt={product.name}
             />
+            {product.is_sale &&
+              <div className={s.salebadge}>SALE!</div>
+            }
             <RelatedProducts gridRecs={product.recs} addToCart={this.props.onAddToCart} />
           </div>
         </div>
@@ -90,7 +104,12 @@ class Product extends Component {
                   </div>
                 ))}
                 <div className={s.price}>
-                  <span className={s.current}>{product.display_price}</span>
+                  <span className={product.is_sale ? s.old : ''}>
+                    {this.getPrice()}
+                  </span>
+                  {product.is_sale &&
+                    <span className={s.current}>{accounting.formatMoney(this.getPrice(true))}</span>
+                  }
                   {properties.priceNote && <span className={s.pricetext}>{properties.priceNote}</span>}
                   {properties.video && <EmbeddedVideo embeddedCode={properties.video} /> }
                 </div>

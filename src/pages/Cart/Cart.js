@@ -86,11 +86,11 @@ class Cart extends Component {
           </div>
           }
         </section>
-        <ContentWrapper wrprClass={'cartwrpr'} contentClass={'contentwrpr'}>
+        <ContentWrapper wrprClass="cartwrpr" contentClass="contentwrpr">
           <div className={s.cartcontentwrpr}>
             <article className={s.cartbody}>
               <div>
-                <Title text={'Your Cart'} classname={'title'} />
+                <Title text="Your Cart" classname="title" />
                 <h3 className={s.cartsubtitle}>
                   {cart.line_items.length} {cartText} in your cart
                 </h3>

@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import accounting from 'accounting';
+
 import s from './ProductRow.css';
 import ProductQuantity from '../../../components/ProductQuantity';
 import imagePlaceholder from './image_placeholder_small.png';
@@ -36,8 +38,18 @@ class ProductRow extends React.Component {
     this.props.updateQuantity(updatedCartItems);
   }
 
+  getPrice = () => {
+    const {item} = this.props;
+    // if the item has adjustments it's on sale
+    if (item.adjustments.length === 1) {
+      // addititon works here because the adjustment amount is negative
+      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
+    }
+    return item.price;
+  }
+
   render() {
-    const item = this.props.item;
+    const {item} = this.props;
     let image = imagePlaceholder;
     const productImages = item.variant.images;
     if (productImages.length > 0 && productImages[0].small_url) {
@@ -67,7 +79,7 @@ class ProductRow extends React.Component {
         </td>
         <td className={s.productprice}>
           <span className={s.priceamount}>
-            {item.single_display_amount}
+            {accounting.formatMoney(this.getPrice())}
           </span>
         </td>
         <td className={s.productquantity}>
@@ -80,7 +92,7 @@ class ProductRow extends React.Component {
         </td>
         <td className={s.prodsubtotal}>
           <span className={s.samount}>
-            {item.display_amount}
+            {accounting.formatMoney(item.total)}
           </span>
         </td>
         <td className={s.prodremove}>

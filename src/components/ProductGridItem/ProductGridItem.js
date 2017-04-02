@@ -1,12 +1,14 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './ProductGridItem.css';
 import ProductAction from './ProductAction';
 import imagePlaceholder from './image_placeholder_large.png';
 
-class ProductGridItem extends React.Component {
+class ProductGridItem extends Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
@@ -43,18 +45,22 @@ class ProductGridItem extends React.Component {
     };
   }
 
-  handlePricing = () => {
-    const product = this.props.product;
+  getPrice = (calcReduced = false) => {
+    const {product} = this.props;
     if (product.classifications[0].taxon.name === 'Gifts') {
-      return `${product.display_price} - ${product.variants.slice(-1)[0].price}`;
+      return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
     }
-    return product.display_price;
+    if (calcReduced) {
+      const {sale, price} = product;
+      return parseFloat(price) - (parseFloat(price)*sale/100);
+    }
+    return accounting.formatMoney(product.price);
   }
 
   render() {
     const product = this.props.product;
     const actionProperties = this.handleText();
-    const price = this.handlePricing();
+    const price = this.getPrice();
     const productImages = product.master.images;
     let image = imagePlaceholder;
     if (productImages.length > 0 && productImages[0].large_url) {
@@ -64,13 +70,19 @@ class ProductGridItem extends React.Component {
       <div className={s.productgrid}>
         <Link className={s.plink} to={`/product/${product.slug}`}>
           <img className={s.pimage} src={image} alt={product.name} />
+          {product.is_sale &&
+            <div className={s.salebadge}>SALE!</div>
+          }
         </Link>
         <div className={s.itemhover}>
           <div className={s.itemmeta}>
             <Link className={s.plink} to={`/product/${product.slug}`}>
-              <span className={cx(s.pprice, s[this.props.priceclass])}>
+              <span className={cx(s.pprice, s[this.props.priceclass], product.is_sale ? s.poriginalprice : '')}>
                 {price}
               </span>
+              {product.is_sale &&
+                <span className={cx(s.pprice, s[this.props.priceclass])}>{accounting.formatMoney(this.getPrice(true))}</span>
+              }
               <h2 className={cx(s.pname, s[this.props.nameclass])}>{product.name}</h2>
               <h5 className={cx(s.pcat, s[this.props.catclass])}>
                 {this.props.product.classifications[0].taxon.name}

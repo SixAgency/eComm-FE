@@ -50,6 +50,13 @@
       font-weight: 700;
       text-align: center;
     }
+    .poriginalprice {
+      text-decoration: line-through;
+      color: #666666;
+      display: block;
+      font-size: 16px;
+      opacity: 0.3;
+    }
     .pname {
       display: block;
       padding-top: 20px;
@@ -57,7 +64,8 @@
       line-height: 28px;
       font-weight: 800;
       color: #000000;
-      margin: 0px;
+      margin: 0 auto;
+      width: 210px;
     }
     .pcat {
       color: #121212;
@@ -105,6 +113,25 @@
   .itemhover:hover:before {
     border-color: #29cbc8;
     border-width: 15px;
+  }
+  .salebadge {
+    color: #29CBC8;
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #000000;
+    left: 10px;
+    top: 50%;
+    margin-top: -35px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 70px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    vertical-align: bottom;
+    z-index: 9;
+    font-family: Georgia, serif;
   }
 }
 

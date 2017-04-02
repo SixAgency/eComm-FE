@@ -4,8 +4,8 @@
   display: table;
   padding-top: 127px;
   z-index: 2;
-  .left,
-  .right {
+
+  .left {
     float: left;
     width: 50%;
     .container {
@@ -17,12 +17,32 @@
         width: 100%;
         height: auto;
       }
+      .salebadge {
+        color: #29CBC8;
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        background: #000000;
+        left: 10px;
+        top: 45px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 70px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        vertical-align: bottom;
+        z-index: 9;
+        font-family: Georgia, serif;
+      }
     }
   }
+
   .right {
     float: right;
     padding-top: 40px;
     padding-bottom: 40px;
+    width: 50%;
     .content {
       position: relative;
       width: 100%;
