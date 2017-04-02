@@ -131,6 +131,10 @@ function addToCart(request) {
       quantity: request.body.quantity
     }
   };
+  if (typeof request.body.options !== 'undefined') {
+    item.options = request.body.options;
+  }
+
   const orderNumber = request.session.order;
   let endpoint = `${ORDER}/${orderNumber}/line_items`;
   if (!request.session.user_token) {

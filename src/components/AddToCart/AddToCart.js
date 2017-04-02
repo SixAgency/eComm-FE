@@ -53,7 +53,7 @@ class CartCta extends Component {
           return (
             <GiftCardSelector
               variants={product.variants}
-              action={this.setVariant}
+              onAddToCart={this.props.onSubmit}
             />
           );
         } else {

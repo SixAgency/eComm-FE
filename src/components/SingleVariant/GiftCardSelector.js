@@ -1,38 +1,109 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
 
-import SingleVariant from './SingleVariant';
 import s from './GiftCardSelector.css';
 
-class GiftCardSelector extends SingleVariant {
+class GiftCardSelector extends Component {
+  static propTypes = {
+    variants: PropTypes.array.isRequired,
+    onAddToCart: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
+      isFormValid: false,
       showForm: false,
-      selectedVariant: 0
+      selectedVariant: 0,
+      details: {
+        recipient_email: '',
+        purchaser_name: '',
+        gift_message: ''
+      },
+      invalidFields: []
     };
   };
 
   handleChange = (event) => {
     const variant = parseInt(event.target.value, 10);
-    // this.props.action(variant);
     this.setState({
       selectedVariant: variant,
       showForm: variant !== 0
     });
   }
 
-  closeForm = () => {
+  closeForm = (event) => {
+    event.preventDefault();
     this.setState({
+      isFormValid: false,
       showForm: false,
-      selectedVariant: 0
+      selectedVariant: 0,
+      details: {
+        recipient_email: '',
+        purchaser_name: '',
+        gift_message: ''
+      },
+      invalidFields: []
     });
+  }
+
+  updateDetails = (field, event) => {
+    const value = event.target.value;
+    const {details} = this.state;
+    details[field] = value;
+    this.setState({details});
+  }
+
+  addGiftToCart = (event) => {
+    event.preventDefault();
+    const {
+      details: {
+        recipient_email,
+        purchaser_name
+      }
+    } = this.state;
+    const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z0-9]{2,5}$/i;
+    let isValid = true;
+    let invalidFields = [];
+    if (purchaser_name.length === 0) {
+      isValid = false; 
+      invalidFields.push('purchaser_name');
+    }
+    if (recipient_email.length === 0 || !emailRegex.test(recipient_email)) {
+      isValid = false;
+      invalidFields.push('recipient_email');
+    }
+    if (isValid) {
+      const payload = {
+        id: this.state.selectedVariant,
+        quantity: 1,
+        options: {...this.state.details}
+      };
+      this.props.onAddToCart(payload);
+    } else {
+      this.setState({
+        isFormValid: false,
+        invalidFields
+      });
+    }
   }
 
   render() {
     const {variants} = this.props;
-    const {selectedVariant, showForm} = this.state;
+    const {
+      selectedVariant,
+      showForm,
+      details: {
+        recipient_email,
+        purchaser_name,
+        gift_message
+      },
+      isFormValid,
+      invalidFields
+    } = this.state;
+
     return (
       <div className={s.variants}>
         <h3 className={s.vname}>Choose Amount</h3>
@@ -40,7 +111,7 @@ class GiftCardSelector extends SingleVariant {
           <option value={0} key="">Choose an amount</option>
           { variants.map((item) => (
             <option value={item.id} key={item.id}>
-              {item.option_values[0].presentation}
+              {accounting.formatMoney(item.option_values[0].presentation)}
             </option>)
           )}
         </select>
@@ -50,13 +121,46 @@ class GiftCardSelector extends SingleVariant {
           </p>
           <div className={s.giftcardform_details}>
             <p className={s.giftcardform_details_title}>Gift card details</p>
-            <label htmlFor="recipient_email">Recipient's email</label>
-            <input type="email" id="recipient_email" />
-            <label htmlFor="sender_name">Your name</label>
-            <input type="text" id="sender_name" />
-            <label htmlFor="message">Message</label>
-            <textarea id="message" rows="5" placeholder="Your message..." />
-            <button className={s.giftcardform_details_addtocart}>ADD TO CART</button>
+            <label htmlFor="recipient_email">Recipient's email*</label>
+            <input
+              type="email"
+              id="recipient_email"
+              value={recipient_email}
+              onChange={(event) => {
+                this.updateDetails('recipient_email', event);
+              }}
+            />
+            {!isFormValid && invalidFields.includes('recipient_email') &&
+              <p className={s.validationerror}>Please enter a valid email address</p>
+            }
+            <label htmlFor="purchaser_name">Your name*</label>
+            <input
+              type="text"
+              id="purchaser_name"
+              value={purchaser_name}
+              onChange={(event) => {
+                this.updateDetails('purchaser_name', event);
+              }}
+            />
+            {!isFormValid && invalidFields.includes('purchaser_name') &&
+              <p className={s.validationerror}>Please enter your name</p>
+            }
+            <label htmlFor="gift_message">Message</label>
+            <textarea
+              id="gift_message"
+              rows="5"
+              placeholder="Your message..."
+              value={gift_message}
+              onChange={(event) => {
+                this.updateDetails('gift_message', event);
+              }}
+            />
+            <button
+              className={s.giftcardform_details_addtocart}
+              onClick={this.addGiftToCart}
+            >
+              ADD TO CART
+            </button>
             <button onClick={this.closeForm}>Cancel</button>
           </div>
         </div>

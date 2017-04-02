@@ -40,6 +40,11 @@
     right: 0;
     display: none;
 
+    .validationerror {
+      font-size: 12px;
+      margin: 0;
+      margin-top: 5px;
+    }
 
     .giftcardform_title {
       margin: 15px 0;
