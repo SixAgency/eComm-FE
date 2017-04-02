@@ -47,6 +47,9 @@ class Product extends Component {
 
   getPrice = (calcReduced = false) => {
     const {product} = this.props.product;
+    if (product.classifications[0].taxon.name === 'Gifts') {
+      return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
+    }
     if (calcReduced) {
       const {sale, price} = product;
       return parseFloat(price) - (parseFloat(price)*sale/100);
