@@ -240,7 +240,7 @@ siteRoutes.get('/my-account/lost-password', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <LostPasswordWrapper {...data.user} />
+          content: <LostPasswordWrapper {...data.user} breadcrumbs={BREADCRUMBS.lostPassword} />
         };
         handleRoutes(req, resp, next, params);
       }
