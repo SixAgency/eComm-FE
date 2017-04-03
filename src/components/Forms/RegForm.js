@@ -32,9 +32,10 @@ class RegForm extends React.Component {
   };
 
   onPassChange = (event) => {
+    const pass = event.target.value;
     this.setState({
-      password: event.target.value,
-      validInputs: !testPasswordStrength(this.state.password).isError
+      password: pass,
+      validInputs: !testPasswordStrength(pass).isError
     });
   };
 
