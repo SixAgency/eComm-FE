@@ -54,7 +54,7 @@ class AddressForm extends React.Component {
 
   onPhoneNumberUpdate = (event) => {
     this.setState({
-      phone: event.target.value.replace(/[^0-9]/g, '')
+      phone: event.target.value.replace(/[^0-9()-\s]/g, '')
     });
   };
 
