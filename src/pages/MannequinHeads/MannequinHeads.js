@@ -16,7 +16,7 @@ class MannequinHeads extends Component {
         <div className={s.pagewrapper}>
           <h2 className={s.title}>ks Mannequin Heads</h2>
           <Grid
-            gridClass="productsgrid"
+            gridClass="mannequingrid"
             gridItems={this.props.products}
             addToCart={this.props.addToCart}
           />

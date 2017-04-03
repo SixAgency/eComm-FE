@@ -171,7 +171,7 @@
   .enabled .logo { background-image: url(./logo_black.png); }
 }
 
-@media only screen and (max-device-width: 768px) and (min-device-width: 320px) {
+@media (max-width: 1000px) and (min-width: 320px) {
   .header { border-top: 0; }
   .menuopen { opacity: 0; }
   .openbtn {
@@ -180,9 +180,6 @@
     opacity: 1;
   }
   .menuopen { opacity: 0; }
-}
-
-@media (max-width: 767px) and (min-width: 320px) {
   .cartholder {
     height: 40px;
     margin-right: 0px;

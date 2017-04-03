@@ -12,7 +12,7 @@ class Header extends React.Component {
     activeSlug: PropTypes.string.isRequired,
     cartItems: PropTypes.object.isRequired,
     menuOpen: PropTypes.string.isRequired,
-    mobileNavOpen: PropTypes.func.isRequired,
+    mobileNavOpen: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -20,9 +20,9 @@ class Header extends React.Component {
     this.state = {
       headerClass: '',
       stickyClass: '',
-      cartClass: 'hide',
+      cartClass: 'hide'
     };
-  };
+  }
 
   componentDidMount = () => {
     window.addEventListener('scroll', this.headerScroll);
@@ -33,22 +33,22 @@ class Header extends React.Component {
   };
 
   onHoverStart = () => {
-    if (window.outerWidth > 960) {
+    if (window.innerWidth > 1000) {
       clearTimeout(this.timeOut);
       this.setState({
-        headerClass: 'enabled',
+        headerClass: 'enabled'
       });
     }
   };
 
   onHoverEnd = () => {
-    if (window.outerWidth > 960) {
+    if (window.innerWidth > 1000) {
       this.timeOut = setTimeout(() => {
         this.setState({
           headerClass: '',
-          stickyCls: '',
+          stickyCls: ''
         });
-      }, 555);
+      }, 200);
     }
   };
 
