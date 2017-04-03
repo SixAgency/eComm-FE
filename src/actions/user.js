@@ -94,7 +94,7 @@ function onLogin(data) {
           // Redirect to dashboard
           forwardTo('my-account/dashboard');
         }, () => {
-          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setMessage({ isError: true, messages: ['ERROR: Incorrect username or password.'] }));
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
