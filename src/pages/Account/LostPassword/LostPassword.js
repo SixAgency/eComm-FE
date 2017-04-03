@@ -14,13 +14,19 @@ class LostPassword extends React.Component {
     onLogout: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   }
 
   render() {
+    console.log('BREADCRUMBS', this.props.breadcrumbs);
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

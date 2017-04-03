@@ -34,7 +34,8 @@ class LostPasswordWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    route: PropTypes.object
   }
 
   componentWillMount = () => {
@@ -77,6 +78,7 @@ class LostPasswordWrapper extends BasePageComponent {
         onSubmit={this.onSubmit}
         messages={this.props.messages}
         isError={this.props.isError}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

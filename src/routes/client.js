@@ -51,7 +51,7 @@ const routes = (
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" breadcrumbs={BREADCRUMBS.addresses} />
         <Route path="manage" component={ManageAddressesWrapper} title="Manage Addresses" />
       </Route>
-      <Route path="lost-password" component={LostPasswordWrapper} title="My Account" />
+      <Route path="lost-password" component={LostPasswordWrapper} title="My Account" breadcrumbs={BREADCRUMBS.lostPassword} />
       <Route path="lost-password/:param" component={ResetPasswordWrapper} title="My Account" />
       <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />
     </Route>

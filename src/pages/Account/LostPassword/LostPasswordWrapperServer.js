@@ -7,7 +7,8 @@ class LostPasswordWrapper extends React.Component {
     onLogout: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   }
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class LostPasswordWrapper extends React.Component {
         messages={this.props.messages}
         isError={this.props.isError}
         resetMessages={this.resetMessages}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

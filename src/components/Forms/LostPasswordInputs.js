@@ -36,7 +36,7 @@ class LostPasswordInputs extends React.Component {
         <h1 className={s.title}>{this.props.formTitle}</h1>
         <h2 className={cx(s.subtitle, s.subtitlesmall)}>{this.props.formSubtitle}</h2>
         <form className={s.form} onSubmit={this.onSubmit} >
-          <div className={s.inputwrapper2}>
+          <div className={s.inputwrapper3}>
             <label
               className={s.label}
               htmlFor="password"
