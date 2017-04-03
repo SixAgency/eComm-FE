@@ -4,7 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './StickySection.css';
 
-const pageHeight = 0;
+let pageHeight = 0;
 
 class StickySection extends React.Component {
 
@@ -28,18 +28,31 @@ class StickySection extends React.Component {
     const posCur = window.scrollY;
     if (posCur > pageHeight / 4) {
       this.setState({
-        wrapperClass: 'showsticky',
+        wrapperClass: 'showsticky'
       });
     } else {
       this.setState({
-        wrapperClass: 'hidesticky',
+        wrapperClass: 'hidesticky'
       });
+    }
+  }
+
+  scrollToTop = (duration) => {
+    if (duration > 0) {
+      const diff = document.body.scrollTop;
+      const step = (diff / duration) * 10;
+      setTimeout(() => {
+        document.body.scrollTop -= step;
+        if (document.body.scrollTop > 0) {
+          this.scrollToTop(duration - 10);
+        }
+      }, 10);
     }
   }
 
   goUp = (e) => {
     e.preventDefault();
-    window.scrollTo(0, 0);
+    this.scrollToTop(800);
   }
 
   render() {
