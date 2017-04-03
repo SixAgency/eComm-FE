@@ -128,20 +128,21 @@
 .linkedin {
   .socialicon:before { content: "4"; }
 }
- @media all and (min-width: 950px) and (max-width: 1000px) {
+
+@media all and (max-width: 950px){
   .socialfooter {
     .socialnav {
       .socialitem {
-        .sociallink {
-          i { display: none; }
-          .socialtext { display: inline-block; }
-        }
+        display: block;
+        line-height: 30px;
+        margin: 0;
+        width: 100%;
       }
     }
   }
 }
 
-@media all and (max-width: 950px){
+@media all and (max-width: 767px), screen and (max-device-width: 1024px){
   .socialfooter {
     .socialnav {
       .socialitem {

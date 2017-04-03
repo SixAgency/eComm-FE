@@ -8,7 +8,7 @@
   .pagewrapper {
     display: table;
     margin: 0 auto;
-    height: 655px !important;
+    // height: 655px !important;
     width: 100%;
 
     .title {
@@ -19,6 +19,14 @@
       margin: 0;
       margin-bottom: 15px;
       color: #222222;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .mannequinheadspage {
+    .pagewrapper {
+      width: 80%;
     }
   }
 }
