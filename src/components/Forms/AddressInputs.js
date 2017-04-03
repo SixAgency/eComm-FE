@@ -139,7 +139,7 @@ class AddressInputs extends React.Component {
             className={s.label}
             htmlFor="address1"
           >
-            Address
+            Address *
           </label>
           <input
             id="address1"
@@ -208,7 +208,7 @@ class AddressInputs extends React.Component {
           </label>
           <input
             id="zip"
-            type="number"
+            type="text"
             name="zip"
             value={this.props.zip}
             className={s.input}

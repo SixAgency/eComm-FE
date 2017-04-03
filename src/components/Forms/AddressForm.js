@@ -54,7 +54,7 @@ class AddressForm extends React.Component {
 
   onPhoneNumberUpdate = (event) => {
     this.setState({
-      phone: event.target.value
+      phone: event.target.value.replace(/[^0-9]/g, '')
     });
   };
 
@@ -84,7 +84,7 @@ class AddressForm extends React.Component {
 
   onZipUpdate = (event) => {
     this.setState({
-      zipcode: event.target.value
+      zipcode: event.target.value.replace(/[^0-9]/g, '')
     });
   };
 
