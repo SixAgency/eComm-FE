@@ -142,7 +142,7 @@ function addToCart(data) {
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
-        const message = `${response.data.name} has been added to your cart.`;
+        const message = `"${response.data.name}" has been added to your cart.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCartPending(false));
         forwardTo('cart');
@@ -172,7 +172,7 @@ function removeItem(data) {
     dispatch(resetMessages());
     axios.post('/api/cart/remove', data)
       .then((response) => checkResponse(response.data, () => {
-        const message = `${response.data.name} has been removed from your cart.`;
+        const message = `${response.data.name} removed.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data.cart));
         dispatch(setCartPending(false));
