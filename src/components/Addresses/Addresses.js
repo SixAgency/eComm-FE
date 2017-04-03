@@ -17,7 +17,7 @@ class Addresses extends React.Component {
     return selected.abbr || '';
   };
 
-  listAddress = (data) => {
+  listAddress = (data, type) => {
     const { isLoaded, isEmpty, address } = data;
     if (isLoaded && !isEmpty) {
       const stateName = this.getStateName(address.state_id);
@@ -30,7 +30,7 @@ class Addresses extends React.Component {
         </address>
       );
     }
-    return (<p className={s.optiontext}> Please set up your billing address </p>);
+    return (<p className={s.optiontext}> Please set up your {type} address </p>);
   };
 
   render() {
@@ -57,7 +57,7 @@ class Addresses extends React.Component {
             >
               Edit billing address
             </Link>
-            { this.listAddress(this.props.billAddress) }
+            { this.listAddress(this.props.billAddress, 'billing') }
           </div>
           <div className={s.addresseswrpr}>
             <Link
@@ -66,7 +66,7 @@ class Addresses extends React.Component {
             >
             Edit shipping address
             </Link>
-            { this.listAddress(this.props.shippAddress) }
+            { this.listAddress(this.props.shippAddress, 'shipping') }
           </div>
         </div>
       </section>
