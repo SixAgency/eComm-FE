@@ -30,7 +30,7 @@ class EditPasswordForm extends Component {
 
   onFieldsUpdate = (e) => {
     switch (e.target.id) {
-      case 'newpassword' : this.setState({ newpassword: e.target.value }, () => this.checkPassword()); break;
+      case 'newpassword' : this.setState({ newpassword: e.target.value }, this.checkPassword); break;
       case 'confirmnewpassword' : this.setState({ confirmnewpassword: e.target.value }); break;
       default: // do nothing
     }
