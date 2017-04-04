@@ -98,20 +98,26 @@ function getAddress() {
  * @param data
  * @returns {function(*=)}
  */
-function editAddress(data) {
+function editAddress(data, message, callback) {
+  window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
     const valid = validateMandatoryFieldsAddress(data.address);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
+      dispatch(setLoader(false));
     } else {
       axios.put('/api/addresses', data)
         .then((response) => checkResponse(response.data, () => {
-          if (data.address_type === 'bill_address') {
-            dispatch(setAddress(response.data.billing, 'SET_BILLING'));
-          } else {
-            dispatch(setAddress(response.data.shipping, 'SET_SHIPPING'));
-          }
-          forwardTo('my-account/dashboard');
+          dispatch(setAddresses(
+            response.data.billing,
+            response.data.shipping,
+            response.data.addresses
+          ));
+          dispatch(setMessage({ isError: false, messages: [message] }));
+          dispatch(setLoader(false));
+          callback();
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))
@@ -247,6 +253,7 @@ function createAddressNew(data, message, callback) {
     } else {
       axios.post('/api/addresses', { data })
         .then((response) => checkResponse(response.data, () => {
+          console.log('RESPONSE', response);
           dispatch(setAddresses(
             response.data.billing,
             response.data.shipping,

@@ -20,7 +20,9 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     addresses: state.address.addresses,
     billing: state.address.billing,
-    shipping: state.address.shipping
+    shipping: state.address.shipping,
+    isError: state.page.isError,
+    messages: state.page.messages
   }
 ));
 
@@ -34,7 +36,11 @@ const mapDispatchToProps = ((dispatch) => (
     setDefaultShipping: (data, message) => dispatch(setDefaultShipping(data, message)),
     setDefaultBilling: (data, message) => dispatch(setDefaultBilling(data, message)),
     resetMessages: () => dispatch(resetMessages()),
-    editAddress: (data) => dispatch(editAddress(data)),
+    editAddress: (data, message, callback) => dispatch(editAddress(
+      data,
+      message,
+      callback
+    )),
     createAddress: (data, message, callback) => dispatch(createAddressNew(
       data,
       message,
@@ -55,10 +61,19 @@ class ManageAddressesWrapper extends BasePageComponent {
     deleteAddress: PropTypes.func.isRequired,
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
-    resetMessages: PropTypes.func.isRequired,
     editAddress: PropTypes.func.isRequired,
-    setBilling: PropTypes.func.isRequired
+    setBilling: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: 'list'
+    };
+  }
 
   componentWillMount = () => {
     window.scrollTo(0, 0);
@@ -84,6 +99,10 @@ class ManageAddressesWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
+  handleDisplay = (content) => {
+    this.setState({ display: content });
+  }
+
   onLogout = (event) => {
     event.preventDefault();
     this.props.onLogout();
@@ -93,15 +112,9 @@ class ManageAddressesWrapper extends BasePageComponent {
     const data = {
       address
     };
-    if (this.props.addresses.isEmpty) {
-      data.default_address_types = ['bill_address', 'ship_address'];
-    }
-    const message = 'Address created successfully.';
-    this.props.createAddress(data, message, (newAddress) => {
-      this.setState({
-        content: 'list'
-      });
-      this.props.setBilling(newAddress.id);
+    const message = 'Address updated successfully';
+    this.props.editAddress(data, message, () => {
+      this.setState({ display: 'list' });
     });
   };
 
@@ -118,6 +131,11 @@ class ManageAddressesWrapper extends BasePageComponent {
         setDefaultBilling={this.props.setDefaultBilling}
         editAddress={this.props.editAddress}
         onSubmit={this.onFormSubmit}
+        display={this.state.display}
+        handleDisplay={this.handleDisplay}
+        messages={this.props.messages}
+        isError={this.props.isError}
+        resetMessages={this.props.resetMessages}
       />
     );
   }

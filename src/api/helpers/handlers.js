@@ -303,6 +303,19 @@ function setCreateAddressResponse(data, request, callback) {
   return callback(request, { isNew: true, address: data.address });
 }
 
+function setEditAddressResponse(data, request, callback) {
+  let resp;
+  if (data.isError) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message]
+    };
+    return resp;
+  }
+  return callback(request, { address: data.address });
+}
+
 // Format Order Response
 function setOrderResponse(data) {
   let resp;
@@ -623,6 +636,7 @@ export {
   setAddressResponse,
   setAddressesResponse,
   setCreateAddressResponse,
+  setEditAddressResponse,
   setEditCreateAddressResponse,
   setOrderResponse,
   setOrdersResponse,

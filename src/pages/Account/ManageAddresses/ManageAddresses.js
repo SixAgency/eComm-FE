@@ -7,6 +7,7 @@ import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
 import ManageAddressesForm from '../../../components/Forms/ManageAddressesForm';
 import AddressForm from '../../../components/Forms/AddressForm';
+import ErrorDisplay from '../../../components/ErrorDisplay';
 
 class ManageAddresses extends Component {
   static propTypes = {
@@ -19,20 +20,24 @@ class ManageAddresses extends Component {
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
     editAddress: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    display: PropTypes.string.isRequired,
+    handleDisplay: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      display: 'list',
       editId: 0
     };
   }
 
   setContent = () => {
     const showEmailPhone = true;
-    if (this.state.display === 'list') {
+    if (this.props.display === 'list') {
       return (
         <ManageAddressesForm
           addresses={this.props.addresses}
@@ -45,10 +50,11 @@ class ManageAddresses extends Component {
           showEmailPhone={showEmailPhone}
         />
       );
+    } else if (this.props.display === 'edit') {
+      return (
+        <div> { this.getAddressToEdit(this.state.editId) }</div>
+      );
     }
-    return (
-      <div> { this.getAddressToEdit(this.state.editId) }</div>
-    );
   }
 
   getAddressToEdit = (id) => {
@@ -67,10 +73,9 @@ class ManageAddresses extends Component {
   }
 
   handledisplayState = (content, id) => {
-    this.setState({
-      display: `${content}`,
-      editId: id
-    });
+    this.setState({editId: id});
+    this.props.handleDisplay(content);
+    this.props.resetMessages();
   }
 
 
@@ -96,6 +101,7 @@ class ManageAddresses extends Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
         />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>
           {this.setContent()}
         </ContentWrapper>
