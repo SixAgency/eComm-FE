@@ -43,20 +43,28 @@ function validateProduct(data) {
 // Validate Billing/Address Form
 function validateMandatoryFieldsAddress(data) {
   const messages = [];
-  // const isValidPhoneNumber = /^(\([+]?[0-9]{3}?[0-9]{4}?\)|[+]?[0-9]{2})[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
-  if ((!data.firstname) || (!data.lastname) || (!data.phone) ||
-    (!data.city) || (!data.state_id) || (!data.zipcode)) {
-    console.log(data);
-    messages.push('Please fill all the fields');
+  if (!data.firstname) {
+    messages.push('First Name is a required field.');
   }
-  // if (!isValidPhoneNumber.test(data.phone)) {
-  //   messages.push('Invalid phone number');
-  // }
-  if (isNaN(Number(data.state_id))) {
-    messages.push('Invalid state id');
+  if (!data.lastname) {
+    messages.push('Last Name is a required field.');
   }
-  if (isNaN(Number(data.zipcode))) {
-    messages.push('Invalid zipcode');
+  if (!data.phone) {
+    messages.push('Phone is a required field.');
+  }
+  if (!data.address1) {
+    messages.push('Address is a required field.');
+  }
+  if (!data.city) {
+    messages.push('City is a required field.');
+  }
+  if (data.state_id === 0) {
+    messages.push('State is a required field.');
+  }
+  if (!data.zipcode) {
+    messages.push('ZIP is a required field.');
+  } else if (data.zipcode.length < 5) {
+    messages.push('Please enter a valid postcode/ZIP.');
   }
   const resp = {
     isError: (messages.length > 0),
