@@ -15,15 +15,28 @@ class ProductGridItem extends Component {
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
-    buttonclass: PropTypes.string,
+    buttonclass: PropTypes.string
   }
+
+  getPrice = (calcReduced = false) => {
+    const { product } = this.props;
+    if (product.classifications[0].taxon.name === 'Gifts') {
+      return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
+    }
+    if (calcReduced) {
+      const { sale, price } = product;
+      return parseFloat(price) - (parseFloat(price) * (sale / 100));
+    }
+    return accounting.formatMoney(product.price);
+  }
+
 
   addToCart = (event) => {
     event.preventDefault();
 
     const data = {
       id: this.props.product.master.id,
-      quantity: 1,
+      quantity: 1
     };
 
     this.props.addToCart(data);
@@ -35,26 +48,14 @@ class ProductGridItem extends Component {
     if (product.has_variants) {
       return {
         text: (product.classifications[0].taxon.name === 'Gifts' ? 'Select Amount' : 'Select Options'),
-        link: `/product/${product.slug}`,
+        link: `/product/${product.slug}`
       };
     }
     return {
       text: 'Buy',
       link: '/cart',
-      action: this.addToCart,
+      action: this.addToCart
     };
-  }
-
-  getPrice = (calcReduced = false) => {
-    const {product} = this.props;
-    if (product.classifications[0].taxon.name === 'Gifts') {
-      return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
-    }
-    if (calcReduced) {
-      const {sale, price} = product;
-      return parseFloat(price) - (parseFloat(price)*sale/100);
-    }
-    return accounting.formatMoney(product.price);
   }
 
   render() {
@@ -81,7 +82,11 @@ class ProductGridItem extends Component {
                 {price}
               </span>
               {product.is_sale &&
-                <span className={cx(s.pprice, s[this.props.priceclass])}>{accounting.formatMoney(this.getPrice(true))}</span>
+                <span
+                  className={cx(s.pprice, s[this.props.priceclass])}
+                >
+                  {accounting.formatMoney(this.getPrice(true))}
+                </span>
               }
               <h2 className={cx(s.pname, s[this.props.nameclass])}>{product.name}</h2>
               <h5 className={cx(s.pcat, s[this.props.catclass])}>

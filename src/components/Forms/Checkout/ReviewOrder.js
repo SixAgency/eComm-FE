@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './../Forms.css';
 import ReviewOrderTbl from '../../Tables/ReviewOrderTbl';
 
-class ReviewOrder extends React.Component {
+class ReviewOrder extends PureComponent {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,

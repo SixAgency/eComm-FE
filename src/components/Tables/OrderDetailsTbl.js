@@ -1,19 +1,24 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './Tables.css';
 
-class OrderDetailsTbl extends React.Component {
+class OrderDetailsTbl extends PureComponent {
   static propTypes = {
     order: PropTypes.object.isRequired
   };
 
   render() {
-    const order = this.props.order;
+    const { order } = this.props;
     const products = order.line_items;
     const shipment = order.shipments[0];
     const payment = order.payments[0];
+
+    const subTotal = parseFloat(order.item_total) + parseFloat(order.adjustment_total);
+
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -43,7 +48,7 @@ class OrderDetailsTbl extends React.Component {
                   </td>
                   <td className={s.producttotal}>
                     <span className={s.amount}>
-                      {item.display_amount}
+                      {accounting.formatMoney(item.total)}
                     </span>
                   </td>
                 </tr>
@@ -54,7 +59,7 @@ class OrderDetailsTbl extends React.Component {
                 Subtotal:
               </td>
               <td className={s.orderdetails}>
-                {order.display_item_total}
+                {accounting.formatMoney(subTotal)}
               </td>
             </tr>
             {shipment &&
