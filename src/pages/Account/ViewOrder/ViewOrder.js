@@ -50,7 +50,7 @@ class ViewOrder extends PureComponent {
                 {moment(order.created_at).format('MMMM DD YYYY')}
               </mark>
               &nbsp;and is currently <mark className={s.orderstatus}>
-                {getOrderStatus(order.state, order.has_refunds, order.shipment_state)}
+                {getOrderStatus(order.state, order.has_refunds, order.shipment_state) || 'Processing'}
               </mark>.
             </p>
             <h2 className={s.title}>Order Details</h2>
