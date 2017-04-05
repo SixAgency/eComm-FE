@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import accounting from 'accounting';
 import cx from 'classnames';
 import accounting from 'accounting';
 
@@ -11,14 +12,19 @@ class OrderDetailsTbl extends PureComponent {
     order: PropTypes.object.isRequired
   };
 
+  getPrice = (item) => {
+    if (item.adjustments.length === 1) {
+      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
+    }
+    return item.price;
+  }
+
   render() {
     const { order } = this.props;
     const products = order.line_items;
     const shipment = order.shipments[0];
     const payment = order.payments[0];
-
     const subTotal = parseFloat(order.item_total) + parseFloat(order.adjustment_total);
-
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -68,7 +74,8 @@ class OrderDetailsTbl extends PureComponent {
                   Shipping:
                 </td>
                 <td className={s.orderdetails}>
-                  {shipment.selected_shipping_rate.cost} via {shipment.selected_shipping_rate.name}
+                  {accounting.formatMoney(shipment.selected_shipping_rate.cost)}&nbsp;
+                  via {shipment.selected_shipping_rate.name}
                 </td>
               </tr>
             }

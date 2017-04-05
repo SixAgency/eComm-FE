@@ -18,6 +18,13 @@ class ReviewOrderTbl extends PureComponent {
     return typeof selected !== 'undefined' ? selected.abbr : '';
   }
 
+  getPrice = (item) => {
+    if (item.adjustments.length === 1) {
+      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
+    }
+    return item.price;
+  }
+
   handleShipping = (e) => {
     e.preventDefault();
   };
@@ -70,7 +77,7 @@ class ReviewOrderTbl extends PureComponent {
                   <strong className={s.qty}>× {item.quantity}</strong>
                 </td>
                 <td className={cx(s.td, s.tdsmall, s.ptotal)}>
-                  ${item.total}
+                  {accounting.formatMoney(this.getPrice(item))}
                 </td>
               </tr>
               ),
