@@ -24,7 +24,7 @@ class GiftCardSelector extends Component {
       },
       invalidFields: []
     };
-  };
+  }
 
   handleChange = (event) => {
     const variant = parseInt(event.target.value, 10);
@@ -51,9 +51,9 @@ class GiftCardSelector extends Component {
 
   updateDetails = (field, event) => {
     const value = event.target.value;
-    const {details} = this.state;
+    const { details } = this.state;
     details[field] = value;
-    this.setState({details});
+    this.setState({ details });
   }
 
   addGiftToCart = (event) => {
@@ -66,9 +66,9 @@ class GiftCardSelector extends Component {
     } = this.state;
     const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z0-9]{2,5}$/i;
     let isValid = true;
-    let invalidFields = [];
+    const invalidFields = [];
     if (purchaser_name.length === 0) {
-      isValid = false; 
+      isValid = false;
       invalidFields.push('purchaser_name');
     }
     if (recipient_email.length === 0 || !emailRegex.test(recipient_email)) {
@@ -79,7 +79,11 @@ class GiftCardSelector extends Component {
       const payload = {
         id: this.state.selectedVariant,
         quantity: 1,
-        options: {...this.state.details}
+        options: {
+          gift_card_details: {
+            ...this.state.details
+          }
+        }
       };
       this.props.onAddToCart(payload);
     } else {
@@ -91,7 +95,7 @@ class GiftCardSelector extends Component {
   }
 
   render() {
-    const {variants} = this.props;
+    const { variants } = this.props;
     const {
       selectedVariant,
       showForm,

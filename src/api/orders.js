@@ -132,7 +132,7 @@ function addToCart(request) {
     }
   };
   if (typeof request.body.options !== 'undefined') {
-    item.options = request.body.options;
+    item.line_item.options = request.body.options;
   }
 
   const orderNumber = request.session.order;

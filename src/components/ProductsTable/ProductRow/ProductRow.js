@@ -15,13 +15,14 @@ class ProductRow extends React.Component {
     cartItems: PropTypes.object.isRequired
   }
 
-  brokenImage = (event) => {
-    const img = event.target;
-    img.src = imagePlaceholder;
-  }
-
-  removeItem = () => {
-    this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });
+  getPrice = () => {
+    const { item: { variant } } = this.props;
+    // sale information is on the variant
+    if (variant.is_sale) {
+      const { sale, price } = variant;
+      return parseFloat(price) - (parseFloat(price) * (sale / 100));
+    }
+    return variant.price;
   }
 
   addQuantity = () => {
@@ -40,18 +41,17 @@ class ProductRow extends React.Component {
     this.props.updateQuantity(updatedCartItems);
   }
 
-  getPrice = () => {
-    const {item} = this.props;
-    // if the item has adjustments it's on sale
-    if (item.adjustments.length === 1) {
-      // addititon works here because the adjustment amount is negative
-      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
-    }
-    return item.price;
+  removeItem = () => {
+    this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });
+  }
+
+  brokenImage = (event) => {
+    const img = event.target;
+    img.src = imagePlaceholder;
   }
 
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     let image = imagePlaceholder;
     const productImages = item.variant.images;
     if (productImages.length > 0 && productImages[0].small_url) {

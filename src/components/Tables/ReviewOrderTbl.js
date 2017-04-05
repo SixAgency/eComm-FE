@@ -1,11 +1,12 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './Tables.css';
 import { STATES } from '../../constants/AppConsts';
 
-
-class ReviewOrderTbl extends React.Component {
+class ReviewOrderTbl extends PureComponent {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired
@@ -37,10 +38,20 @@ class ReviewOrderTbl extends React.Component {
   }
 
   render() {
-    const cart = this.props.cart;
-    const shipments = cart.shipments;
-    const adjustments = cart.adjustments;
-    const cartItems = this.props.cartItems;
+    const {
+      cart: {
+        shipments,
+        adjustments,
+        line_items,
+        item_total,
+        total,
+        adjustment_total
+      },
+      cartItems
+    } = this.props;
+
+    const subTotal = parseFloat(item_total) + parseFloat(adjustment_total);
+
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -51,7 +62,7 @@ class ReviewOrderTbl extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {cart.line_items.map((item, index) => (
+            {line_items.map((item, index) => (
               <tr key={index}>
                 <td className={cx(s.td, s.tdbig, s.pname)}>
                   {item.variant.name}&nbsp;
@@ -68,7 +79,9 @@ class ReviewOrderTbl extends React.Component {
             <tr>
               <td className={cx(s.td, s.tdbig, s.psubtotal)}>Subtotal</td>
               <td className={cx(s.td, s.tdsmall)}>
-                <span className={s.amount}>${cart.item_total}</span>
+                <span className={s.amount}>
+                  {accounting.formatMoney(subTotal)}
+                </span>
               </td>
             </tr>
             {shipments.map((ship, index) => (
@@ -103,7 +116,7 @@ class ReviewOrderTbl extends React.Component {
             <tr>
               <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
               <td className={cx(s.td, s.tdsmall)}>
-                <span className={s.total}>${cart.total}</span>
+                <span className={s.total}>${total}</span>
               </td>
             </tr>
             <tr>

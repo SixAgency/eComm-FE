@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import moment from 'moment';
 import s from './ViewOrder.css';
@@ -10,7 +10,7 @@ import CustomerDetailsTbl from '../../../components/Tables/CustomerDetailsTbl';
 // helpers
 import { getOrderStatus } from '../../../utils/utils';
 
-class ViewOrder extends React.Component {
+class ViewOrder extends PureComponent {
 
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
@@ -35,9 +35,10 @@ class ViewOrder extends React.Component {
 
 
   render() {
-    const order = this.props.order;
+    const { order } = this.props;
     const billingAddress = order.bill_address;
     const shippingAddress = order.ship_address;
+
     return (
       <section className={s.page}>
         <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />

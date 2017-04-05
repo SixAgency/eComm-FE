@@ -30,32 +30,31 @@ class Product extends Component {
         info: false,
         reviews: false
       }
-    }
-  }
-
-  isTabOpen = (tabName) => {
-    return this.state.tabs[tabName];
-  }
-
-  openTab = (tabName) => {
-    const {tabs} = this.state;
-    Object.keys(tabs).forEach((key) => {
-      tabs[key] = key === tabName;
-    });
-    this.setState({tabs});
+    };
   }
 
   getPrice = (calcReduced = false) => {
-    const {product} = this.props.product;
+    const { product } = this.props.product;
     if (product.classifications[0].taxon.name === 'Gifts') {
       return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
     }
     if (calcReduced) {
-      const {sale, price} = product;
-      return parseFloat(price) - (parseFloat(price)*sale/100);
+      const { sale, price } = product;
+      return parseFloat(price) - (parseFloat(price) * (sale / 100));
     }
     return accounting.formatMoney(product.price);
   }
+
+  isTabOpen = (tabName) => this.state.tabs[tabName];
+
+  openTab = (tabName) => {
+    const { tabs } = this.state;
+    Object.keys(tabs).forEach((key) => {
+      tabs[key] = key === tabName;
+    });
+    this.setState({ tabs });
+  }
+
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -113,7 +112,10 @@ class Product extends Component {
                   {product.is_sale &&
                     <span className={s.current}>{accounting.formatMoney(this.getPrice(true))}</span>
                   }
-                  {properties.priceNote && <span className={s.pricetext}>{properties.priceNote}</span>}
+                  {
+                    properties.priceNote &&
+                    <span className={s.pricetext}>{properties.priceNote}</span>
+                  }
                   {properties.video && <EmbeddedVideo embeddedCode={properties.video} /> }
                 </div>
               </div>
@@ -130,7 +132,7 @@ class Product extends Component {
                     title="Details" open={this.isTabOpen('details')}
                     onClick={() => this.openTab('details')}
                   >
-                      <p className={s.summaryparagraph}><b>{renderHTML(properties.details)}</b></p>
+                    <p className={s.summaryparagraph}><b>{renderHTML(properties.details)}</b></p>
                   </ProductTab>
                 }
                 {properties.additionalInfo &&

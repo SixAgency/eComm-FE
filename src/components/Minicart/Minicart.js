@@ -13,18 +13,19 @@ class Minicart extends React.Component {
     cartClass: PropTypes.string.isRequired
   }
 
+  getPrice = (item) => {
+    const { variant } = item;
+    // sale information is on the variant
+    if (variant.is_sale) {
+      const { sale, price } = variant;
+      return parseFloat(price) - (parseFloat(price) * (sale / 100));
+    }
+    return variant.price;
+  }
+
   brokenImage = (event) => {
     const img = event.target;
     img.src = imagePlaceholder;
-  }
-
-  getPrice = (item) => {
-    // if the item has adjustments it's on sale
-    if (item.adjustments.length === 1) {
-      // addititon works here because the adjustment amount is negative
-      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
-    }
-    return item.price;
   }
 
   render = () => {
