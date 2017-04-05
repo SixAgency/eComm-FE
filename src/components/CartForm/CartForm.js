@@ -8,6 +8,8 @@ import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
 
+let shippingMethod = '';
+
 class CartForm extends Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
@@ -25,6 +27,18 @@ class CartForm extends Component {
       showCalculator: false,
       className: 'hide'
     };
+  }
+
+  componentWillUpdate(nextProps) {
+    const updatedCart = nextProps.cart;
+    if (updatedCart.shipments.length > 0) {
+      console.log('all good', updatedCart.shipments[0].selected_shipping_rate.name);
+      shippingMethod = `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}): 
+        ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
+    } else {
+      console.log('CART', this.props.cart);
+      shippingMethod = 'Shipping costs will be calculate once you have provided your address.';
+    }
   }
 
   render() {
@@ -47,7 +61,9 @@ class CartForm extends Component {
                 <tr className={s.csubtotals}>
                   <th className="table-heads">Subtotal</th>
                   <td className={cx(s.ammout, s.data)}>
-                    {accounting.formatMoney(cart.total)}
+                    {accounting.formatMoney(
+                      parseFloat(cart.item_total) + parseFloat(cart.adjustment_total)
+                    )}
                   </td>
                 </tr>
                 <tr className={s.csubtotals}>
@@ -63,8 +79,7 @@ class CartForm extends Component {
                   <th className="table-heads">Shipping</th>
                   <td className="data">
                     <p>
-                        Shipping costs will be calculated
-                        once you have provided your address.
+                      {shippingMethod}
                     </p>
                     <h2 className={s.calctitle}>Calculate Shipping</h2>
                     <ShippingCalculator
@@ -72,12 +87,22 @@ class CartForm extends Component {
                     />
                   </td>
                 </tr>
+                <tr className={s.csubtotals}>
+                  <th className="table-heads">New York State Tax</th>
+                  <td className={cx(s.totalprice, s.data)}>
+                    <strong>
+                      <span className="amount">
+                        TBA {/* TODO: add correct value here and check visibility */}
+                      </span>
+                    </strong>
+                  </td>
+                </tr>
                 <tr className={s.ordertotal}>
                   <th className="table-heads">Total</th>
                   <td className={cx(s.totalprice, s.data)}>
                     <strong>
                       <span className="amount">
-                        {accounting.formatMoney(cart.total)}
+                        {accounting.formatMoney(cart.order_total_after_store_credit)}
                       </span>
                     </strong>
                   </td>
@@ -85,6 +110,10 @@ class CartForm extends Component {
               </tbody>
             </table>
           </div>
+          <p className={s.message}>
+            Note: Shipping and taxes are estimated and will be updated during
+            checkout based on your billing and shipping information.
+          </p>
           <PayPalButton
             paypalObj={this.props.paypalObj}
             cart={this.props.cart}
