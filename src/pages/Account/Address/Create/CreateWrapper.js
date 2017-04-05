@@ -13,7 +13,7 @@ import { forwardTo } from '../../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
-    emailAddress: state.user.emailAddress,
+    emailAddress: state.user.profile.email,
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError
