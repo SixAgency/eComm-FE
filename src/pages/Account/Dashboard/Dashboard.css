@@ -23,6 +23,7 @@
   font-weight: normal;
   line-height: 24px;
   text-align: center;
+  word-wrap: break-word;
   color: #565656;
   padding-bottom: 60px;
 }
