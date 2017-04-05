@@ -32,8 +32,10 @@ class ProductRow extends React.Component {
   }
 
   subQuantity = () => {
+    let qty = this.props.item.quantity;
+    qty = qty > 1 ? qty - 1 : 1;
     const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
-      item.id === this.props.item.id ? { ...item, quantity: this.props.item.quantity - 1 } : item
+      item.id === this.props.item.id ? { ...item, quantity: qty } : item
     ));
     this.props.updateQuantity(updatedCartItems);
   }
