@@ -10,7 +10,7 @@ class ReviewOrder extends PureComponent {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutSquare: PropTypes.func.isRequired,
     confirmOrder: PropTypes.func.isRequired,
-    isPaypal: PropTypes.bool.isRequired
+    isPayPal: PropTypes.bool.isRequired
   };
 
   listPayment = () => {
@@ -36,7 +36,7 @@ class ReviewOrder extends PureComponent {
           </div>
         </div>
       );
-    } else if (this.props.isPaypal) {
+    } else if (this.props.isPayPal) {
       return (
         <div className={s.paymentcontainer}>
           <ul>
@@ -100,6 +100,7 @@ class ReviewOrder extends PureComponent {
         <ReviewOrderTbl
           cart={cart}
           cartItems={this.props.cartItems}
+          isPayPal={this.props.isPayPal}
         />
         {this.listPayment()}
       </div>

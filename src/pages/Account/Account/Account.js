@@ -3,17 +3,17 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Account.css';
 import Subnav from '../../../components/Subnav';
 import ContentWrapper from '../../../components/ContentWrapper';
+import ErrorDisplay from '../../../components/ErrorDisplay';
+import { ACCOUNT_TABS } from '../../../constants/AppConsts';
 
 // Forms
 import LoginForm from '../../../components/Forms/LoginForm';
 import RegForm from '../../../components/Forms/RegForm';
 
-import ErrorDisplay from '../../../components/ErrorDisplay';
-
 class Account extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    content: PropTypes.string.isRequired,
+    activeTab: PropTypes.string.isRequired,
     clickTab: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
@@ -24,47 +24,45 @@ class Account extends React.Component {
     resetMessages: PropTypes.func.isRequired
   };
 
-  getChildren = (state) => {
-    if (state === 'bregister') {
+  getChildren = () => {
+    const { activeTab } = this.props;
+    if (activeTab === 'bregister') {
       return <RegForm onRegister={this.props.onRegister} />;
     }
     return <LoginForm onLogin={this.props.onLogin} />;
   };
 
   render() {
-    const contentTabs = [
-      {
-        name: 'Login',
-        title: 'Login',
-        cname: 'login',
-        id: 'blogin'
-      },
-      {
-        name: 'Register',
-        title: 'Register',
-        cname: 'register',
-        id: 'bregister'
-      }
-    ];
+    const {
+      loggedIn,
+      onLogout,
+      breadcrumbs,
+      resetMessages,
+      messages,
+      isError,
+      clickTab,
+      activeTab
+    } = this.props;
+    const showContentTabs = true;
     return (
       <section className={s.page}>
         <Subnav
-          isLogged={this.props.loggedIn}
-          onLogout={this.props.onLogout}
-          breadcrumbs={this.props.breadcrumbs}
-          resetMessages={this.props.resetMessages}
+          isLogged={loggedIn}
+          onLogout={onLogout}
+          breadcrumbs={breadcrumbs}
+          resetMessages={resetMessages}
         />
         <ErrorDisplay
-          messages={this.props.messages}
-          isError={this.props.isError}
+          messages={messages}
+          isError={isError}
         />
         <ContentWrapper
-          tabs={contentTabs}
-          tabsClass="account"
-          clickTab={this.props.clickTab}
-          isActive={this.props.content}
+          tabs={ACCOUNT_TABS}
+          clickTab={clickTab}
+          activeTab={activeTab}
+          showContentTabs={showContentTabs}
         >
-          {this.getChildren(this.props.content)}
+          {this.getChildren()}
         </ContentWrapper>
       </section>
     );

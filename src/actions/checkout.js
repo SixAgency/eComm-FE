@@ -2,7 +2,8 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setCart, setOrder, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
-import { getCheckoutAddresses } from '../helpers/feed';
+import { setCheckoutAddressFeed, setCheckoutAddressesFeed } from '../helpers/feed';
+import { validateMandatoryFieldsAddress } from '../helpers/validators';
 
 function setPayPal(data) {
   return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } };
@@ -96,63 +97,29 @@ function checkoutPayPal(data) {
 }
 
 /**
- * Set order addresses
- * @param data
+ * Next step - we are using for ort state transition
  * @returns {function(*=)}
  */
-function checkoutAddresses(data) {
+function checkoutNext(callback) {
   window.scrollTo(0, 0);
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
-    const addresses = getCheckoutAddresses(data);
-    if (addresses.isError) {
-      dispatch(setMessage({ isError: true, messages: addresses.messages }));
-    } else {
-      axios.post('/api/checkout/address', addresses)
-        .then((response) => checkResponse(response.data, () => {
-          dispatch(setCart(response.data));
-          forwardTo('checkout/promo');
-          dispatch(setPending(false));
-        }, () => {
-          dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        }))
-        .catch((err) => {
-          console.error('Error: ', err); // eslint-disable-line no-console
-        });
-    }
-  };
-}
-
-/**
- * Next step - we are using to finalize an order
- * @param state
- * @returns {function(*=)}
- */
-function checkoutNext(state) {
-  window.scrollTo(0, 0);
-  return (dispatch) => {
-    dispatch(setLoader(true));
-    dispatch(resetMessages());
-    if (state !== 'cart') {
-      forwardTo('checkout');
-    } else {
-      axios.post('/api/checkout/next')
-        .then((response) => checkResponse(response.data, () => {
-          if (response.data.cart.state === 'complete') {
-            dispatch(setMessage({ isError: true, messages: ['Your order placed successfully.'] }));
-          } else {
-            dispatch(setCart(response.data));
-            forwardTo('checkout/billing');
-          }
-        }, () => {
-          dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        }))
-        .catch((err) => {
-          console.error('Error: ', err); // eslint-disable-line no-console
-        });
-    }
+    axios.post('/api/checkout/next')
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data));
+        dispatch(setPending(false));
+        if (callback) {
+          callback();
+        }
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setPending(false));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+      });
   };
 }
 
@@ -188,6 +155,58 @@ function completePayPal() {
   };
 }
 
+/* *** New Stuff *** */
+function setCheckoutAddress(data) {
+  window.scrollTo(0, 0);
+  return (dispatch) => {
+    dispatch(resetMessages());
+    const valid = validateMandatoryFieldsAddress(data.address);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      dispatch(setLoader(true));
+      dispatch(setPending(true));
+      axios.post('/api/checkout/addresses', setCheckoutAddressesFeed(data))
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setCart(response.data));
+          dispatch(setPending(false));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setPending(false));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
+  };
+}
+
+function editOrderAddress(data, callback) {
+  window.scrollTo(0, 0);
+  return (dispatch) => {
+    dispatch(resetMessages());
+    const valid = validateMandatoryFieldsAddress(data.address);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      dispatch(setLoader(true));
+      dispatch(setPending(true));
+      axios.post('/api/checkout/address', setCheckoutAddressFeed(data))
+        .then((response) => checkResponse(response.data, () => {
+          // dispatch(setCart(response.data));
+          /* Callback after edit success */
+          callback();
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setPending(false));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+        });
+    }
+  };
+}
+
 export {
   getPayPalToken,
   checkoutPayPal,
@@ -197,5 +216,7 @@ export {
   setBilling,
   setShipping,
   completePayPal,
-  setPayment
+  setPayment,
+  setCheckoutAddress,
+  editOrderAddress
 };

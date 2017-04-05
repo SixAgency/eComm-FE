@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
-import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 import BasePageComponent from '../../BasePageComponent';
+import Checkout from '../../../components/Checkout';
 import Review from './Review';
 
 // Actions
@@ -13,6 +12,7 @@ import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { confirmOrder } from '../../../actions/payment/payment';
+import { checkCartState } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -60,41 +60,33 @@ class ReviewWrapper extends BasePageComponent {
     route: PropTypes.object
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: 'review',
-      showCouponFields: false,
-      couponClassName: 'hide',
-      message: PropTypes.string,
-      isError: PropTypes.bool,
-      showLoginFields: false,
-      loginClassName: 'hide'
-    };
-  }
-
   componentWillMount = () => {
-    const props = {
-      headerClass: 'colored',
-      activeSlug: '/my-account'
-    };
-    this.props.setHeaderProps(props);
-    if (!this.props.isCartPending && this.props.cartItems.isEmpty) {
-      browserHistory.push('/cart');
+    // Set the header styles
+    this.setHeaderStyles();
+    // This actions should happen only if the cart
+    // is already loaded
+    if (this.props.cartItems.isLoaded) {
+      const expectedState = checkCartState(this.props);
+      if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 500);
+      } else {
+        forwardTo(expectedState);
+      }
     }
   };
 
-  componentDidMount = () => {
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
-  };
-
   componentWillReceiveProps = (nextProps) => {
-    if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems) {
-      setTimeout(() => {
-        this.props.toggleLoader(false);
-      }, 250);
+    if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
+      const expectedState = checkCartState(nextProps);
+      if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
+        setTimeout(() => {
+          this.props.toggleLoader(false);
+        }, 500);
+      } else {
+        forwardTo(expectedState);
+      }
     }
   };
 
@@ -103,26 +95,16 @@ class ReviewWrapper extends BasePageComponent {
     this.props.resetMessages();
   };
 
-  clickTab = (e) => {
-    e.preventDefault();
-    const target = e.target.id;
-    forwardTo(`checkout/${target}`);
-  };
-
-  handleGiftCard = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
-    });
-  };
-
-  handleLogin = (e) => {
-    e.preventDefault();
-    this.setState({
-      showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
-    });
+  /**
+   * Helper Method to set the active nav item
+   * and header styles
+   */
+  setHeaderStyles = () => {
+    const props = {
+      headerClass: 'colored',
+      activeSlug: '/my-account'
+    };
+    this.props.setHeaderProps(props);
   };
 
   checkoutPayPal = (e) => {
@@ -142,32 +124,32 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   render() {
-    if (!this.props.cartItems.isLoaded) {
-      return null;
+    if (this.props.cartItems.isLoaded) {
+      return (
+        <Checkout
+          state={this.props.cartItems.cart.state}
+          content="review"
+          isPayPal={this.props.isPayPal}
+          loggedIn={this.props.loggedIn}
+          breadcrumbs={this.props.route.breadcrumbs}
+          messages={this.props.messages}
+          isError={this.props.isError}
+          forwardTo={forwardTo}
+          onLogout={this.props.onLogout}
+          onLogin={this.props.onLogin}
+          applyPromoCode={this.props.applyPromoCode}
+        >
+          <Review
+            cartItems={this.props.cartItems}
+            isPayPal={this.props.isPayPal}
+            checkoutPayPal={this.checkoutPayPal}
+            checkoutSquare={this.checkoutSquare}
+            confirmOrder={this.confirmOrder}
+          />
+        </Checkout>
+      );
     }
-    return (
-      <Review
-        cartItems={this.props.cartItems}
-        loggedIn={this.props.loggedIn}
-        onLogin={this.props.onLogin}
-        onLogout={this.props.onLogout}
-        handleGiftcard={this.handleGiftCard}
-        couponClass={this.state.couponClassName}
-        clickTab={this.clickTab}
-        content={this.state.content}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        applyPromoCode={this.props.applyPromoCode}
-        contentTabs={CHECKOUT_TABS}
-        isPayPal={this.props.isPayPal}
-        checkoutPayPal={this.checkoutPayPal}
-        checkoutSquare={this.checkoutSquare}
-        confirmOrder={this.confirmOrder}
-        breadcrumbs={this.props.route.breadcrumbs}
-        loginClass={this.state.loginClassName}
-        handleLogin={this.handleLogin}
-      />
-    );
+    return null;
   }
 }
 

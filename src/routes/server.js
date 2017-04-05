@@ -14,7 +14,6 @@ import { checkLogin, getProfile } from '../api/users';
 import { getOrder, getOrders } from '../api/orders';
 import { getSession } from '../api/session';
 import { getAddresses } from '../api/addresses';
-import { getCheckoutBilling, getCheckoutShipping } from '../api/helpers/feed';
 
 // Top Level Compontents
 import Layout from '../components/Layout';
@@ -104,6 +103,12 @@ function handleError(data, resp, callback) {
   } else {
     callback();
   }
+}
+
+// Helper
+function isPayPal(cart) {
+  const paypal = cart.payments.filter((method) => (method.payment_method.name === 'Paypal'));
+  return (paypal.length > 0);
 }
 
 // Homepage
@@ -598,6 +603,7 @@ siteRoutes.get('/cart', (req, resp, next) => {
               cartItems={cart}
               loggedIn={user.user.loggedIn}
               breadcrumbs={BREADCRUMBS.cart}
+              isPayPal={isPayPal(cart.cart)}
             />
           };
           handleRoutes(req, resp, next, params);
@@ -620,20 +626,18 @@ siteRoutes.get('/checkout/billing', (req, resp, next) => {
         .then((cart) => handleError(cart, resp, () => {
           getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
-              const address = getCheckoutBilling(cart, addresses);
               const params = {
                 title: 'checkout',
                 description: '',
                 header: 'default',
                 active: '/',
                 content: <BillingCheckout
-                  cartState={cart.cart.state}
                   cartItems={cart}
                   loggedIn={user.user.loggedIn}
-                  selectedAddress={address}
                   addresses={addresses.addresses}
                   breadcrumbs={BREADCRUMBS.checkout}
-                />,
+                  isPayPal={isPayPal(cart.cart)}
+                />
               };
               handleRoutes(req, resp, next, params);
             }))
@@ -659,20 +663,18 @@ siteRoutes.get('/checkout/shipping', (req, resp, next) => {
         .then((cart) => handleError(cart, resp, () => {
           getAddresses(req, { isNew: false })
             .then((addresses) => handleError(addresses, resp, () => {
-              const address = getCheckoutShipping(cart, addresses);
               const params = {
                 title: 'checkout',
                 description: '',
                 header: 'default',
                 active: '/',
                 content: <ShippingCheckout
-                  cartState={cart.cart.state}
                   cartItems={cart}
                   loggedIn={user.user.loggedIn}
                   breadcrumbs={BREADCRUMBS.checkout}
-                  selectedAddress={address}
                   addresses={addresses.addresses}
-                />,
+                  isPayPal={isPayPal(cart.cart)}
+                />
               };
               handleRoutes(req, resp, next, params);
             }))
@@ -696,18 +698,19 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getSession(req)
         .then((cart) => handleError(cart, resp, () => {
-          if (typeof cart.line_items === 'undefined') {
-            resp.redirect('/cart');
-          } else {
-            const params = {
-              title: 'Checkout',
-              description: '',
-              header: 'default',
-              active: '/',
-              content: <PromoCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
-            };
-            handleRoutes(req, resp, next, params);
-          }
+          const params = {
+            title: 'Checkout',
+            description: '',
+            header: 'default',
+            active: '/',
+            content: <PromoCheckout
+              cartItems={cart}
+              loggedIn={user.user.loggedIn}
+              breadcrumbs={BREADCRUMBS.checkout}
+              isPayPal={isPayPal(cart.cart)}
+            />
+          };
+          handleRoutes(req, resp, next, params);
         }))
         .catch((err) => {
           conslog('ERROR', err);
@@ -724,18 +727,18 @@ siteRoutes.get('/checkout/review', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getSession(req)
         .then((cart) => handleError(cart, resp, () => {
-          if (typeof cart.line_items === 'undefined') {
-            resp.redirect('/cart');
-          } else {
-            const params = {
-              title: 'Checkout',
-              description: '',
-              header: 'default',
-              active: '/',
-              content: <ReviewCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
-            };
-            handleRoutes(req, resp, next, params);
-          }
+          const params = {
+            title: 'Checkout',
+            description: '',
+            header: 'default',
+            active: '/',
+            content: <ReviewCheckout
+              cartItems={cart}
+              loggedIn={user.user.loggedIn}
+              breadcrumbs={BREADCRUMBS.checkout}
+            />
+          };
+          handleRoutes(req, resp, next, params);
         }))
         .catch((err) => {
           conslog('ERROR', err);

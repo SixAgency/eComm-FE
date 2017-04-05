@@ -1,22 +1,21 @@
 import React from 'react';
-import SquarePayment from './SquarePayment';
+// import SquarePayment from './SquarePayment';
 
 class SquareWrapper extends React.Component {
-
-  static defaultProps = {
-    cartItems: { isLoaded: false, isEmpty: true, cart: {} }
-  };
 
   onCancel = () => (true);
   onNonceReceived = () => (true);
 
   render() {
-    return (
-      <SquarePayment
-        onCancel={this.onCancel}
-        onNonceReceived={this.onNonceReceived}
-      />
-    );
+    // Please keep uncommented until we figure out how to handle it
+    // return (
+    //   <SquarePayment
+    //     onCancel={this.onCancel}
+    //     onNonceReceived={this.onNonceReceived}
+    //     zipCode=""
+    //   />
+    // );
+    return null;
   }
 }
 

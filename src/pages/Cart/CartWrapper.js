@@ -6,6 +6,7 @@ import Cart from './Cart';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import { forwardTo } from '../../actions/handler';
 import {
   removeItem,
   updateCart,
@@ -15,10 +16,12 @@ import {
 } from '../../actions/order';
 import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
 import { onLogout, onLogin } from '../../actions/user';
+import { checkCartState } from '../../utils/utils';
 
 const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
+    isPayPal: state.checkout.isPayPal,
     isCartPending: state.cart.isCartPending,
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
@@ -40,7 +43,7 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
-    checkoutNext: (state) => dispatch(checkoutNext(state)),
+    checkoutNext: (fn) => dispatch(checkoutNext(fn)),
     calculateShipping: (data) => dispatch(calculateShipping(data))
   }
 ));
@@ -52,6 +55,7 @@ class CartWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
+    isPayPal: PropTypes.bool.isRequired,
     isCartPending: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
@@ -76,10 +80,7 @@ class CartWrapper extends BasePageComponent {
   constructor(props) {
     super(props);
     this.state = {
-      showCouponFields: false,
-      couponClassName: 'hide',
-      showLoginFields: false,
-      loginClassName: 'hide'
+      showGiftCardForm: false
     };
   }
 
@@ -121,25 +122,31 @@ class CartWrapper extends BasePageComponent {
     this.props.resetMessages();
   };
 
-  handleGiftCard = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
-    });
-  };
-
-  handleLogin = (e) => {
-    e.preventDefault();
-    this.setState({
-      showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
-    });
+  /**
+   * Gift cart handler
+   * @param event
+   */
+  toggleGiftCardForm = (event) => {
+    event.preventDefault();
+    this.setState({ showGiftCardForm: !this.state.showGiftCardForm });
   };
 
   updateQuantity = (updatedCartItems) => {
     const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
     this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
+  };
+
+  /**
+   * Send next request if the order is in cart state
+   * else we are good - redirecting to correct step
+   */
+  proceedToCheckout = () => {
+    const state = checkCartState(this.props);
+    if (state !== 'cart') {
+      forwardTo(state);
+    } else {
+      this.props.checkoutNext(() => (forwardTo('checkout/billing')));
+    }
   };
 
   onUpdateCart = () => {
@@ -161,27 +168,6 @@ class CartWrapper extends BasePageComponent {
     this.props.updateCart(data);
   };
 
-  updateQuantity = (updatedCartItems) => {
-    const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
-    this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
-  }
-
-  handleLogin = (e) => {
-    e.preventDefault();
-    this.setState({
-      showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
-    });
-  }
-
-  handleGiftCard = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCouponFields: !this.state.showCouponFields,
-      couponClassName: !this.state.showCouponFields ? 'show' : 'hide'
-    });
-  }
-
   render() {
     return (
       <Cart
@@ -189,19 +175,16 @@ class CartWrapper extends BasePageComponent {
         updateQuantity={this.updateQuantity}
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
-        handleGiftCard={this.handleGiftCard}
-        couponClass={this.state.couponClassName}
-        handleLogin={this.handleLogin}
-        loginClass={this.state.loginClassName}
         onLogout={this.props.onLogout}
-        onLogin={this.props.onLogin}
         messages={this.props.messages}
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}
+        showGiftCardForm={this.state.showGiftCardForm}
+        toggleGiftCardForm={this.toggleGiftCardForm}
         paypalObj={this.props.paypalObj}
         checkoutPayPal={this.props.checkoutPayPal}
-        checkoutNext={this.props.checkoutNext}
+        proceedToCheckout={this.proceedToCheckout}
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}

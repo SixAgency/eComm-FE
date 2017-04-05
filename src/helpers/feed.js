@@ -52,4 +52,26 @@ function getCheckoutAddresses(data) {
   return response;
 }
 
-export { getCartAddresses, getCheckoutAddresses };
+function setCheckoutAddressesFeed(data) {
+  return {
+    order: {
+      email: data.email,
+      bill_address_attributes: data.address,
+      ship_address_attributes: data.address
+    }
+  };
+}
+
+function setCheckoutAddressFeed(data) {
+  return {
+    id: data.id,
+    address: data.address
+  };
+}
+
+export {
+  getCartAddresses,
+  getCheckoutAddresses,
+  setCheckoutAddressesFeed,
+  setCheckoutAddressFeed
+};

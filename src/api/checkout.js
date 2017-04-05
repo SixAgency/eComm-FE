@@ -5,7 +5,7 @@ import {
   setError,
   setBraintreeResponse,
   setCartResponse,
-  setAddressCallBack
+  setAddressResponse
 } from './helpers/handlers';
 
 function getBraintreeTokens(request) {
@@ -47,20 +47,35 @@ function checkoutNext(request) {
     .catch((err) => setError(err));
 }
 
-function checkoutAddress(request) {
-  const order = {
-    order: request.body.order
-  };
-  const isPayPal = request.body.isPayPal;
-  return apiFetch(`/api/v1/checkouts/${request.session.order}`,
+function checkoutAddresses(request) {
+  let endpoint = `/api/v1/checkouts/${request.session.order}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
     {
       method: 'PUT',
-      body: JSON.stringify(order)
+      body: JSON.stringify({ order: request.body.order })
     }, request.session)
     .then((response) => checkResponse(response))
-    .then((data) => setAddressCallBack(request, data, isPayPal, checkoutNext))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
+}
+
+function checkoutAddress(request) {
+  let endpoint = `/api/v1/checkouts/${request.session.order}/addresses/${request.body.id}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}/addresses/${request.body.id}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ address: request.body.address })
+    }, request.session)
+    .then((response) => checkResponse(response))
+    .then((data) => setAddressResponse(data))
     .catch((err) => setError(err));
 }
 
 
-export { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress };
+export { getBraintreeTokens, checkoutPayPal, checkoutNext, checkoutAddress, checkoutAddresses };

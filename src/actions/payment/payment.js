@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { resetMessages, setMessage, setPending } from '../page';
+import { resetMessages, setMessage, setPending, toggleLoader } from '../page';
 import { checkResponse, forwardTo } from '../handler';
 import { setCart, setOrder, getCart } from '../order';
 
@@ -10,6 +10,7 @@ import { setCart, setOrder, getCart } from '../order';
 function checkoutSquare(data) {
   return (dispatch) => {
     window.scrollTo(0, 0);
+    dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
     axios.post('/api/checkout/square', { data })
@@ -18,10 +19,12 @@ function checkoutSquare(data) {
         dispatch(setPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(toggleLoader(false));
         dispatch(setPending(false));
       }))
       .catch((err) => {
         dispatch(setPending(false));
+        dispatch(toggleLoader(false));
         console.error('Error: ', err);
       });
   };
@@ -44,6 +47,7 @@ function checkoutPayPal() {
 function confirmOrder() {
   return (dispatch) => {
     window.scrollTo(0, 0);
+    dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
     axios.post('/api/checkout/confirm')
@@ -54,15 +58,17 @@ function confirmOrder() {
         };
         dispatch(setOrder(order));
         const orderLink = `my-account/view-order/${response.data.cart.number}`;
-        dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
         forwardTo(orderLink);
+        dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
         dispatch(getCart(true));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setPending(false));
+        dispatch(toggleLoader(false));
       }))
       .catch((err) => {
         dispatch(setPending(false));
+        dispatch(toggleLoader(false));
         console.error('Error: ', err);
       });
   };

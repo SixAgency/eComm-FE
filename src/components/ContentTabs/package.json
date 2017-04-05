@@ -1,0 +1,6 @@
+{
+  "name": "ContentTabs",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ContentTabs.js"
+}

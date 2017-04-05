@@ -1,0 +1,60 @@
+.contenttabs {
+  display: table;
+  text-align: center;
+  padding: 0;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+.tab {
+  display: inline-block;
+  margin: 0 3px;
+}
+.button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  display: block;
+  height: 52px;
+  font-size: 11px;
+  line-height: 52px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: transparent;
+  cursor: pointer;
+  padding: 0 30px;
+  border: 0;
+  outline: none;
+  color: #222222;
+  transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+  -moz-transition: background 0.2s linear;
+  -ms-transition: background 0.2s linear;
+  -o-transition: background 0.2s linear;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+.button:not(.active):hover {
+  background: #f7f7f7;
+  transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+  -moz-transition: background 0.2s linear;
+  -ms-transition: background 0.2s linear;
+  -o-transition: background 0.2s linear;
+}
+.button:disabled,
+.button:disabled:hover{
+  color: #bbbbbb;
+  cursor: default;
+  background: inherit;
+}
+.active {
+  background: #E9EDEF;
+  color: #222222;
+}
+
+@media only screen and (max-device-width: 1024px) and (min-device-width: 768px) and (orientation: portrait) {
+  .tab { margin: 0 58px; }
+}
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+  .tab { margin: 0 15px; }
+}
+

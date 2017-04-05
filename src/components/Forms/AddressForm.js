@@ -8,14 +8,20 @@ class AddressForm extends React.Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
     formTitle: PropTypes.string.isRequired,
     formSubtitle: PropTypes.string.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
     buttonText: PropTypes.string.isRequired,
+    onCancel: PropTypes.func,
     emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
-    address: PropTypes.object
+    showCancel: PropTypes.bool,
+    address: PropTypes.object,
+    emailDisabled: PropTypes.bool
+  };
+
+  static defaultProps = {
+    showCancel: true
   };
 
   constructor(props) {
@@ -31,7 +37,8 @@ class AddressForm extends React.Component {
       address2: this.props.address.address2,
       city: this.props.address.city,
       state_id: this.props.address.state_id,
-      zipcode: this.props.address.zipcode
+      zipcode: this.props.address.zipcode,
+      email: this.props.emailAddress
     };
   }
 
@@ -89,6 +96,12 @@ class AddressForm extends React.Component {
     });
   };
 
+  onEmailUpdate = (event) => {
+    this.setState({
+      email: event.target.value
+    });
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state);
@@ -109,7 +122,7 @@ class AddressForm extends React.Component {
             firstName={this.state.firstname}
             lastName={this.state.lastname}
             company={this.state.company}
-            emailAddress={this.props.emailAddress}
+            emailAddress={this.state.email}
             phoneNumber={this.state.phone}
             address1={this.state.address1}
             address2={this.state.address2}
@@ -125,6 +138,8 @@ class AddressForm extends React.Component {
             onCityUpdate={this.onCityUpdate}
             onStateUpdate={this.onStateUpdate}
             onZipUpdate={this.onZipUpdate}
+            onEmailUpdate={this.onEmailUpdate}
+            emailDisabled={this.props.emailDisabled}
             showEmailPhone={this.props.showEmailPhone}
             selectClass={this.props.selectClass}
           />
@@ -134,12 +149,12 @@ class AddressForm extends React.Component {
               type="submit"
               value={this.props.buttonText}
             />
-            <input
+            { this.props.showCancel && <input
               className={cx(s.submit, s.cancel)}
               type="button"
               value="Cancel"
               onClick={this.onCancel}
-            />
+            /> }
           </div>
         </form>
       </div>

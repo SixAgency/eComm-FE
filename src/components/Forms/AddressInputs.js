@@ -26,8 +26,14 @@ class AddressInputs extends React.Component {
     onCityUpdate: PropTypes.func.isRequired,
     onStateUpdate: PropTypes.func.isRequired,
     onZipUpdate: PropTypes.func.isRequired,
+    onEmailUpdate: PropTypes.func.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
+    emailDisabled: PropTypes.bool.isRequired,
     selectClass: PropTypes.string
+  };
+
+  static defaultProps = {
+    emailDisabled: true
   };
 
   showPhoneEmail = () => {
@@ -47,7 +53,8 @@ class AddressInputs extends React.Component {
               name="email"
               value={this.props.emailAddress}
               className={s.input}
-              disabled
+              onChange={this.props.onEmailUpdate}
+              disabled={this.props.emailDisabled}
             />
           </div>
           <div className={cx(s.inputwrapper, s.inputright)}>
@@ -73,6 +80,7 @@ class AddressInputs extends React.Component {
   };
 
   render() {
+    const test = 'zip';
     const selections = [...STATES];
     return (
       <div className={s.addresscontent}>
@@ -124,7 +132,39 @@ class AddressInputs extends React.Component {
             onChange={this.props.onCompanyUpdate}
           />
         </div>
-        { this.showPhoneEmail() }
+        <div className={cx(s.inputwrapper, s.inputleft)}>
+          <label
+            className={s.label}
+            htmlFor="email"
+          >
+            Email Address <abbr>*</abbr>
+          </label>
+          <input
+            id="email"
+            type="text"
+            name="email"
+            value={this.props.emailAddress}
+            className={s.input}
+            onChange={this.props.onEmailUpdate}
+            disabled={this.props.emailDisabled}
+          />
+        </div>
+        <div className={cx(s.inputwrapper, s.inputright)}>
+          <label
+            className={s.label}
+            htmlFor="phone"
+          >
+            Phone <abbr>*</abbr>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            name="phone"
+            value={this.props.phoneNumber}
+            className={s.input}
+            onChange={this.props.onPhoneNumberUpdate}
+          />
+        </div>
         <div className={s.inputwrapper}>
           <label
             className={s.label}
@@ -150,6 +190,8 @@ class AddressInputs extends React.Component {
             className={s.input}
             onChange={this.props.onAddressOneUpdate}
           />
+        </div>
+        <div className={s.inputwrapper}>
           <input
             id="address2"
             type="text"
@@ -210,7 +252,7 @@ class AddressInputs extends React.Component {
             id="zip"
             type="text"
             name="zip"
-            value={this.props.zip}
+            value={this.props[test]}
             className={s.input}
             onChange={this.props.onZipUpdate}
           />
