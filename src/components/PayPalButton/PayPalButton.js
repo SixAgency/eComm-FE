@@ -59,13 +59,14 @@ class PayPalButton extends Component {
   };
 
   setRequestData = (payload) => {
+    console.log(this.props.cart.email);
     const data = {
       order: {
         line_items_attributes: this.formatLineItems(),
         ship_address: this.setAddress(payload, 'shipping'),
         bill_address: this.setAddress(payload, 'billing'),
         coupon_code: '',
-        email: payload.details.email
+        email: this.props.cart.email || payload.details.email
       },
       paypal: {
         payment_method_id: this.props.paypalObj.tokens.payment_method_id.toString(),

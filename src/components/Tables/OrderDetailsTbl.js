@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import accounting from 'accounting';
 import cx from 'classnames';
-import accounting from 'accounting';
 
 import s from './Tables.css';
 
