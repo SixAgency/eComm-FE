@@ -77,6 +77,7 @@ function deleteAddr(id, type) {
  */
 function getAddress() {
   return (dispatch) => {
+    dispatch({ type: 'SET_ADDRESS_FETCHING', payload: true });
     axios.get('/api/addresses')
       .then((response) => checkResponse(response.data, () => {
         dispatch(setAddresses(

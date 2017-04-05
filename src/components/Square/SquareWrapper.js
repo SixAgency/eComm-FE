@@ -62,7 +62,7 @@ class SquareWrapper extends React.Component {
   };
 
   getPaymentSource = (params) => ({
-    name: 'John Doe',
+    name: this.props.cartItems.cart.bill_address.full_name,
     number: `111111111111${params.cardData.last_4}`,
     expiry: `${params.cardData.exp_month}/${(params.cardData.exp_year % 100)}`,
     verification_value: '',
@@ -72,12 +72,16 @@ class SquareWrapper extends React.Component {
   });
 
   render() {
-    return (
-      <SquarePayment
-        onCancel={this.onCancel}
-        onNonceReceived={this.onNonceReceived}
-      />
-    );
+    if (this.props.cartItems.isLoaded && this.props.cartItems.cart.state === 'payment') {
+      return (
+        <SquarePayment
+          onCancel={this.onCancel}
+          onNonceReceived={this.onNonceReceived}
+          zipCode={this.props.cartItems.cart.bill_address.zipcode}
+        />
+      );
+    }
+    return null;
   }
 }
 

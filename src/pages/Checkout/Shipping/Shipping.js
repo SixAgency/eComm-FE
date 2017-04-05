@@ -1,136 +1,160 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Shipping.css';
-// Components
-import Subnav from '../../../components/Subnav';
-import CtaInfo from '../../../components/CartCta/CtaInfo';
-import ErrorDisplay from '../../../components/ErrorDisplay';
-import ContentWrapper from '../../../components/ContentWrapper';
+import f from '../../../components/Forms/Forms.css';
+
+// Constants
+import {
+  CHECKOUT_SHIPPING,
+  CHECKOUT_SHIPPING_FIELDS,
+  STATES
+} from '../../../constants/FormConsts';
+
 // Forms and inputs
-import GiftCardInput from '../../../components/GiftCardInput/GiftCardInput';
-import LoginInput from '../../../components/LoginInput/LoginInput';
-import AddressList from '../../../components/Forms/AddressList';
-import AddressForm from '../../../components/Forms/AddressForm';
+import Form from '../../../components/Forms/Form';
+import FormFields from '../../../components/Forms/FormField';
+import AddressSelect from '../../../components/Forms/AddressSelect';
 
 class Shipping extends React.Component {
 
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    onLogin: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    handleGiftcard: PropTypes.func.isRequired,
-    couponClass: PropTypes.string.isRequired,
-    handleLogin: PropTypes.func.isRequired,
-    loginClass: PropTypes.string.isRequired,
-    clickTab: PropTypes.func.isRequired,
-    isActive: PropTypes.string.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
-    applyPromoCode: PropTypes.func.isRequired,
-    contentTabs: PropTypes.array.isRequired,
+    content: PropTypes.string.isRequired,
+    toggleContent: PropTypes.func.isRequired,
+    emailAddress: PropTypes.string.isRequired,
     selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
-    emailAddress: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
-    onFormCancel: PropTypes.func.isRequired,
-    showCancel: PropTypes.bool.isRequired,
-    content: PropTypes.string.isRequired,
-    breadcrumbs: PropTypes.array
+    showCancel: PropTypes.bool.isRequired
   };
 
-  getContent = () => {
-    if (this.props.content === 'form') {
-      const address = {
-        firstname: '',
-        lastname: '',
-        company: '',
-        phone: '',
-        address1: '',
-        address2: '',
-        city: '',
-        state_id: 0,
-        zipcode: ''
-      };
-      const showEmailPhone = true;
-      return (
-        <AddressForm
-          formTitle={'Create Address'}
-          formSubtitle={'Fulfill your details'}
-          showEmailPhone={showEmailPhone}
-          buttonText={'save address'}
-          selectClass={'checkoutselect'}
-          emailAddress={this.props.emailAddress}
-          address={address}
-          onSubmit={this.props.onFormSubmit}
-          onCancel={this.props.onFormCancel}
-        />
-      );
-    }
-    const showCancel = false;
-    return (
-      <AddressList
-        formTitle="Shipping Address"
-        formSubtitle="Set the shipping address"
-        buttonText="Proceed"
-        addressId={this.props.selectedAddress}
-        addresses={this.props.addresses}
-        onSubmit={this.props.onSubmit}
-        onCreate={this.props.onCreate}
-        showCancel={showCancel}
-      />
-    );
+  constructor(props) {
+    super(props);
+    const {
+      selectedAddress,
+      emailAddress
+    } = props;
+    this.state = {
+      addressId: selectedAddress,
+      firstname: '',
+      lastname: '',
+      company: '',
+      email: emailAddress,
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: 0,
+      country: 232,
+      zipcode: '',
+      notes: ''
+    };
+  }
+
+  /**
+   * Form submit handler
+   * @param event
+   */
+  onSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+    this.props.onSubmit(this.state);
+  };
+
+  /**
+   * (Input, Select) field change handler
+   * @param key
+   * @param value
+   */
+  onFieldChange = (key, value) => {
+    const obj = {};
+    obj[key] = value;
+    this.setState(obj);
+  };
+
+  /**
+   * Address list select handler
+   * @param event
+   */
+  onSelect = (event) => {
+    this.setState({
+      addressId: parseInt(event.target.value, 10)
+    });
   };
 
   render() {
+    const {
+      formTitle,
+      formSubtitle,
+      buttonText,
+      bottomButtonText
+    } = CHECKOUT_SHIPPING;
+    const {
+      addresses,
+      content,
+      toggleContent,
+      showCancel
+    } = this.props;
     return (
-      <section className={s.page}>
-        <Subnav
-          isLogged={this.props.loggedIn}
-          onLogout={this.props.onLogout}
-          breadcrumbs={this.props.breadcrumbs}
-        />
-        <ErrorDisplay
-          messages={this.props.messages}
-          isError={this.props.isError}
-        />
-        <CtaInfo
-          loggedIn={this.props.loggedIn}
-          toggleGiftcard={this.props.handleGiftcard}
-          toggleLogin={this.props.handleLogin}
-          infoClass={'infocheckout'}
-        />
-        <section>
-          <div className={s.giftCardwrpr}>
-            <GiftCardInput
-              toggleGiftcard={this.props.handleGiftcard}
-              infoClass={this.props.couponClass}
-              applyPromoCode={this.props.applyPromoCode}
+      <Form
+        formTitle={formTitle}
+        formSubtitle={formSubtitle}
+        buttonText={buttonText}
+        onSubmit={this.onSubmit}
+        showCancel={showCancel}
+        onCancel={toggleContent}
+      >
+        <div>
+          <div className={f.inputwrapper}>
+            <label className={f.label} htmlFor="changeaddress">
+              &nbsp;Ship to a different address?&nbsp;&nbsp;&nbsp;
+              <input
+                id="sameas"
+                className={f.checkbox}
+                name="sameas"
+                type="checkbox"
+                onChange={toggleContent}
+              />
+            </label>
+          </div>
+          <div className={s[`addresslist_${content}`]}>
+            <AddressSelect
+              addresses={addresses}
+              addressId={this.state.addressId}
+              onSelect={this.onSelect}
+              onBottomButtonClick={toggleContent}
+              showBottomButton={content === 'list'}
+              bottomButtonText={bottomButtonText}
+              selectClass="mt20"
             />
           </div>
-          {!this.props.loggedIn &&
-            <div className={s.loginwrpr}>
-              <LoginInput
-                onLogin={this.props.onLogin}
-                toggleLogin={this.props.handleLogin}
-                infoClass={this.props.loginClass}
-                handleError={this.handleError}
+          <div className={s[`addressform_${content}`]}>
+            {CHECKOUT_SHIPPING_FIELDS.map((v, k) => (
+              <FormFields
+                key={k}
+                elem={v}
+                value={this.state[v.value]}
+                onChange={this.onFieldChange}
+                options={STATES}
               />
-            </div>
-          }
-        </section>
-        <ContentWrapper
-          tabs={this.props.contentTabs}
-          tabsClass="show"
-          clickTab={this.props.clickTab}
-          isActive={this.props.isActive}
-        >
-          { this.getContent() }
-        </ContentWrapper>
-      </section>
+            ))}
+          </div>
+          {/* Keep here until we figure the functionality */}
+          <div className={f.inputwrapper}>
+            <label className={f.label} htmlFor="notes">Order Notes</label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="2"
+              cols="5"
+              className={f.textarea}
+              placeholder="Notes about your order, e.g. special notes for delivery."
+              onChange={(event) => this.onFieldChange('notes', event.target.value)}
+            />
+          </div>
+        </div>
+      </Form>
     );
   }
 }
 
-export default withStyles(s)(Shipping);
+export default withStyles(s, f)(Shipping);

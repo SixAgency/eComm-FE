@@ -12,14 +12,20 @@ class BillingForm extends React.Component {
     formSubtitle: PropTypes.string.isRequired,
     showEmailPhone: PropTypes.bool.isRequired,
     buttonText: PropTypes.string.isRequired,
+    onCancel: PropTypes.func,
     emailAddress: PropTypes.string,
     selectClass: PropTypes.string,
-    address: PropTypes.object
+    showCancel: PropTypes.bool,
+    address: PropTypes.object,
+    emailDisabled: PropTypes.bool
+  };
+
+  static defaultProps = {
+    showCancel: true
   };
 
   constructor(props) {
     super(props);
-    const address2 = this.props.address.address2 || '';
     this.state = {
       firstname: this.props.address.firstname,
       lastname: this.props.address.lastname,
@@ -27,10 +33,11 @@ class BillingForm extends React.Component {
       phone: this.props.address.phone,
       country_id: 232, /* US - always */
       address1: this.props.address.address1,
-      address2,
+      address2: this.props.address.address2,
       city: this.props.address.city,
       state_id: this.props.address.state_id,
-      zipcode: this.props.address.zipcode
+      zipcode: this.props.address.zipcode,
+      email: this.props.emailAddress
     };
   }
 
@@ -54,7 +61,7 @@ class BillingForm extends React.Component {
 
   onPhoneNumberUpdate = (event) => {
     this.setState({
-      phone: event.target.value
+      phone: event.target.value.replace(/[^0-9()-\s]/g, '')
     });
   };
 
@@ -84,13 +91,24 @@ class BillingForm extends React.Component {
 
   onZipUpdate = (event) => {
     this.setState({
-      zipcode: event.target.value
+      zipcode: event.target.value.replace(/[^0-9]/g, '')
+    });
+  };
+
+  onEmailUpdate = (event) => {
+    this.setState({
+      email: event.target.value
     });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state);
+  };
+
+  onCancel = (e) => {
+    e.preventDefault();
+    this.props.onCancel();
   };
 
   render() {
@@ -103,7 +121,7 @@ class BillingForm extends React.Component {
             firstName={this.state.firstname}
             lastName={this.state.lastname}
             company={this.state.company}
-            emailAddress={this.props.emailAddress}
+            emailAddress={this.state.email}
             phoneNumber={this.state.phone}
             address1={this.state.address1}
             address2={this.state.address2}
@@ -119,6 +137,8 @@ class BillingForm extends React.Component {
             onCityUpdate={this.onCityUpdate}
             onStateUpdate={this.onStateUpdate}
             onZipUpdate={this.onZipUpdate}
+            onEmailUpdate={this.onEmailUpdate}
+            emailDisabled={this.props.emailDisabled}
             showEmailPhone={this.props.showEmailPhone}
             selectClass={this.props.selectClass}
           />
@@ -128,6 +148,12 @@ class BillingForm extends React.Component {
               type="submit"
               value={this.props.buttonText}
             />
+            { this.props.showCancel && <input
+              className={cx(s.submit, s.cancel)}
+              type="button"
+              value="Cancel"
+              onClick={this.onCancel}
+            /> }
           </div>
         </form>
       </div>

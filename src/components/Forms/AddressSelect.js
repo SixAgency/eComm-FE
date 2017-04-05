@@ -7,15 +7,23 @@ class AddressSelect extends React.Component {
   static propTypes = {
     addresses: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
-    addressId: PropTypes.number.isRequired
+    addressId: PropTypes.number.isRequired,
+    onBottomButtonClick: PropTypes.func,
+    showBottomButton: PropTypes.bool,
+    bottomButtonText: PropTypes.string,
+    selectClass: PropTypes.string
+  };
+
+  static defaultProps = {
+    showBottomButton: true,
+    bottomButtonText: 'Add another address'
   };
 
   getActive = (id) => (this.props.addressId === id);
 
   render() {
     return (
-      <div>
+      <div className={s[this.props.selectClass]}>
         { this.props.addresses.map((value, key) => (
           <div className={s.radiowrapper} key={key}>
             <input
@@ -35,14 +43,14 @@ class AddressSelect extends React.Component {
             </label>
           </div>
         ))}
-        <div className={s.buttonwrapper}>
+        { this.props.showBottomButton && <div className={s.buttonwrapper}>
           <input
             className={s.submitadd}
             type="button"
-            value="Add another address"
-            onClick={this.props.onCreate}
+            value={this.props.bottomButtonText}
+            onClick={this.props.onBottomButtonClick}
           />
-        </div>
+        </div>}
       </div>
     );
   }

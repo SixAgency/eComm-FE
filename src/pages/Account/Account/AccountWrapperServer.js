@@ -19,7 +19,7 @@ class AccountWrapper extends React.Component {
     return (
       <Account
         loggedIn={this.props.loggedIn}
-        content="blogin"
+        activeTab="blogin"
         clickTab={this.clickTab}
         onLogin={this.onLogin}
         onRegister={this.onRegister}

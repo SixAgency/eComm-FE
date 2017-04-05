@@ -9,7 +9,8 @@ class SquarePayment extends Component {
 
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
-    onNonceReceived: PropTypes.func.isRequired
+    onNonceReceived: PropTypes.func.isRequired,
+    zipCode: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -73,20 +74,20 @@ class SquarePayment extends Component {
   };
 
   handleSubmit = () => {
+    console.log(this.state);
     this.setState({
       is_processing: true
     });
+    this.paymentForm.setPostalCode(this.props.zipCode);
     this.paymentForm.requestCardNonce();
   };
 
   render() {
-    const cardErrorNodes = [];
-    this.state.card_errors.forEach((value, key) => {
-      cardErrorNodes.push(<li key={key}>{value.message}</li>);
-    });
     return (
       <div className={s.squaremodal}>
-        <div id="card-errors">{cardErrorNodes}</div>
+        <ul id="card-errors">{
+          this.state.card_errors.map((value, key) => (<li key={key}>{value.message}</li>))
+        }</ul>
         <div className={s.formwrapper}>
           <h1 className={s.title}>Payment</h1>
           <h2 className={s.subtitle}>Please enter your details</h2>
@@ -102,9 +103,8 @@ class SquarePayment extends Component {
             <label htmlFor="sq-expiration-date" className={s.label}>Expiration Date</label>
             <input id="sq-expiration-date" className={s.input} onChange={this.handleExpirationChange} />
           </div>
-          <div className={s.inputwrapper}>
-            <label htmlFor="sq-postal-code" className={s.label}>Postal Code</label>
-            <input id="sq-postal-code" className={s.input} onChange={this.handlePCodeChange} />
+          <div className={s.hidden}>
+            <input id="sq-postal-code" />
           </div>
           <div className={cx(s.buttonwrapper, s.buttonwrapper3)}>
             <input

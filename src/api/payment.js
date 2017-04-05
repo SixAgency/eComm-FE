@@ -11,7 +11,11 @@ import {
  * @returns {Promise.<T>|Promise<R>}
  */
 function checkoutSquare(request) {
-  return fetch(`/api/v1/checkouts/${request.session.order}`,
+  let endpoint = `/api/v1/checkouts/${request.session.order}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
+  }
+  return fetch(endpoint,
     {
       method: 'PUT',
       body: JSON.stringify(request.body.data)
@@ -35,7 +39,11 @@ function checkoutPayPal(request) {
  * @param request
  */
 function checkoutConfirm(request) {
-  return fetch(`/api/v1/checkouts/${request.session.order}`,
+  let endpoint = `/api/v1/checkouts/${request.session.order}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
+  }
+  return fetch(endpoint,
     {
       method: 'PUT'
     }, request.session

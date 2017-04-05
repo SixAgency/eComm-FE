@@ -6,8 +6,7 @@ import s from './GiftCardInput.css';
 
 class GiftCardInput extends React.Component {
   static propTypes = {
-    toggleGiftcard: PropTypes.func.isRequired,
-    infoClass: PropTypes.string.isRequired,
+    showGiftCardForm: PropTypes.bool.isRequired,
     applyPromoCode: PropTypes.func.isRequired
   };
 
@@ -21,37 +20,37 @@ class GiftCardInput extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.applyPromoCode(this.state.coupon_code);
-  }
+  };
 
   handlePromoCode = (event) => {
     this.setState({
       coupon_code: event.target.value
     });
-  }
+  };
 
   render() {
+    const className = this.props.showGiftCardForm ? 'show': 'hide';
     return (
-      <form
-        className={cx(s.gcform, s[this.props.infoClass])}
-        method="post"
-      >
-        <p className={s.gcrow}>
-          <input
-            type="text"
-            name="coupon-code"
-            className={s.couponinput}
-            placeholder="Gift card code"
-            id="giftcard-code"
-            onChange={this.handlePromoCode}
-          />
-          <input
-            type="submit"
-            className={s.couponsubmit}
-            value="Apply gift card"
-            onClick={this.onSubmit}
-          />
-        </p>
-      </form>
+      <div className={s.giftCardwrpr}>
+        <form className={cx(s.gcform, s[className])}>
+          <p className={s.gcrow}>
+            <input
+              type="text"
+              name="coupon-code"
+              className={s.couponinput}
+              placeholder="Gift card code"
+              id="giftcard-code"
+              onChange={this.handlePromoCode}
+            />
+            <input
+              type="submit"
+              className={s.couponsubmit}
+              value="Apply gift card"
+              onClick={this.onSubmit}
+            />
+          </p>
+        </form>
+      </div>
     );
   }
 }

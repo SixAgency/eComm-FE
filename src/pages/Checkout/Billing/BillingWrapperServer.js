@@ -1,99 +1,99 @@
 import React, { PropTypes } from 'react';
+import Checkout from '../../../components/Checkout';
 import Billing from './Billing';
-
-import { CHECKOUT_TABS } from '../../../constants/AppConsts';
 
 class BillingWrapper extends React.Component {
 
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    applyPromoCode: PropTypes.func.isRequired,
-    selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.object.isRequired,
-    emailAddress: PropTypes.string.isRequired,
+    cartItems: PropTypes.object.isRequired,
+    isPayPal: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
-    onLogout: () => (true),
-    onLogin: () => (true),
-    applyPromoCode: () => (true),
-    emailAddress: '',
     messages: [],
     isError: false
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: 'list',
-      showCouponFields: false,
-      couponClassName: 'hide',
-      showLoginFields: false,
-      loginClassName: 'hide'
-    };
-  }
-
-  onSubmit = () => (true);
-  onCreate = () => (true);
-  onFormCancel = () => (true);
-  onFormSubmit = () => (true);
-
-  handleLogin = (e) => {
-    e.preventDefault();
-    this.setState({
-      showLoginFields: !this.state.showLoginFields,
-      loginClassName: !this.state.showLoginFields ? 'show' : 'hide'
-    });
+  /**
+   * Helper method to identify
+   * the content type shown
+   * @param props
+   * @returns {*}
+   */
+  getBillingContent = (props) => {
+    const { loggedIn, addresses } = props;
+    return (addresses.isEmpty || !loggedIn) ? 'form' : 'list';
   };
 
-  handleGiftCard = (e) => {
-    e.preventDefault();
-    this.setState({
-      showCouponFields: !this.state.showCouponFields,
-      className: !this.state.showCouponFields ? 'show' : 'hide'
-    });
+  /**
+   * Get selected address from user addresses
+   * @param id
+   * @param email
+   * @returns object
+   */
+  /**
+   * Returns the customer default address
+   * @returns {number}
+   */
+  getDefaultAddressId = () => {
+    const { addresses } = this.props;
+    const address = addresses.addresses.find((elem) => elem.isBilling);
+    return address ? address.id : 0;
   };
 
-  clickTab = (e) => {
-    e.preventDefault();
-    this.setState({
-      content: e.target.id
-    });
+  /**
+   * Returns the customer email address used in order
+   * @returns {string}
+   */
+  getEmailAddress = () => {
+    const { cartItems } = this.props;
+    return cartItems.cart.email || '';
+  };
+
+  /**
+   * Get when the cancel button should be show
+   * @returns {boolean}
+   */
+  getShowCancel = () => {
+    const { addresses, loggedIn } = this.props;
+    const content = this.getBillingContent(this.props);
+    return (content === 'form' && loggedIn && !addresses.isEmpty);
   };
 
   render() {
-    const showCancel = false;
+    const selectedAddress = this.getDefaultAddressId();
+    const emailAddress = this.getEmailAddress();
+    const showCancel = this.getShowCancel();
+
     return (
-      <Billing
+      <Checkout
+        state={this.props.cartItems.cart.state}
+        content="billing"
+        isPayPal={this.props.isPayPal}
         loggedIn={this.props.loggedIn}
-        onLogin={this.props.onLogin}
-        onLogout={this.props.onLogout}
-        handleGiftcard={this.handleGiftCard}
-        couponClass={this.state.couponClassName}
-        handleLogin={this.handleLogin}
-        loginClass={this.state.loginClassName}
-        clickTab={this.clickTab}
-        content={this.state.content}
+        breadcrumbs={this.props.breadcrumbs}
         messages={this.props.messages}
         isError={this.props.isError}
-        applyPromoCode={this.props.applyPromoCode}
-        contentTabs={CHECKOUT_TABS}
-        isActive="billing"
-        selectedAddress={this.props.selectedAddress}
-        addresses={this.props.addresses.addresses}
-        onSubmit={this.onSubmit}
-        onFormCancel={this.onFormCancel}
-        onFormSubmit={this.onFormSubmit}
-        onCreate={this.onCreate}
-        showCancel={showCancel}
-        emailAddress={this.props.emailAddress}
-        breadcrumbs={this.props.breadcrumbs}
-      />
+        forwardTo={() => (true)}
+        onLogout={() => (true)}
+        onLogin={() => (true)}
+        applyPromoCode={() => (true)}
+      >
+        <Billing
+          content={this.state.content}
+          emailAddress={emailAddress}
+          addresses={this.props.addresses.addresses}
+          selectedAddress={selectedAddress}
+          onSubmit={() => (true)}
+          toggleContent={() => (true)}
+          showCancel={showCancel}
+        />
+      </Checkout>
     );
   }
 }

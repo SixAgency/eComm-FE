@@ -1,61 +1,256 @@
-const NAV = [
+const CHECKOUT_BILLING = {
+  formTitle: 'Billing Address',
+  formSubtitle: 'Set the billing address',
+  buttonText: 'Proceed',
+  bottomButtonText: 'Use a different address'
+};
+
+const CHECKOUT_SHIPPING = {
+  formTitle: 'Shipping Address',
+  formSubtitle: 'Set the shipping address',
+  buttonText: 'Proceed',
+  bottomButtonText: 'Use a different address'
+};
+
+const CHECKOUT_BILLING_FIELDS = [
   {
-    title: 'Shop',
-    slug: '/',
-    isActive: false
+    name: 'firstname',
+    label: 'First Name',
+    required: true,
+    className: 'inputleft',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'firstname'
   },
   {
-    title: 'Education',
-    slug: '/product/mentoring-program-day',
-    isActive: false
+    name: 'lastname',
+    label: 'Last Name',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'lastname'
   },
   {
-    title: 'Biography',
-    slug: '/biography',
-    isActive: false
+    name: 'company',
+    label: 'Company Name',
+    required: false,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'company'
   },
   {
-    title: 'My Account',
-    slug: '/my-account',
-    isActive: false
+    name: 'email',
+    label: 'Email Address',
+    required: true,
+    className: 'inputleft',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'email'
   },
   {
-    title: 'Contact',
-    slug: '/contact',
-    isActive: false
+    name: 'phone',
+    label: 'Phone',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'tel',
+    placeholder: '',
+    disabled: false,
+    value: 'phone'
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    required: true,
+    className: '',
+    isStatic: true,
+    value: ' United States (US)'
+  },
+  {
+    name: 'address1',
+    label: 'Address',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Street address',
+    disabled: false,
+    value: 'address1'
+  },
+  {
+    name: 'address2',
+    label: '',
+    required: false,
+    className: 'inputmtneg15',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Apartment, suite, unit etc. (optional)',
+    disabled: false,
+    value: 'address2'
+  },
+  {
+    name: 'city',
+    label: 'Town / City',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'city'
+  },
+  {
+    name: 'state',
+    label: 'state',
+    required: true,
+    className: 'inputleft',
+    selectClass: 'checkoutselect',
+    isSelect: true,
+    type: 'text',
+    value: 'state',
+    options: 'options'
+  },
+  {
+    name: 'zipcode',
+    label: 'Zip',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'zip'
   }
 ];
 
-const SOCIAL_NAV = [
+const CHECKOUT_SHIPPING_FIELDS = [
   {
-    name: 'Facebook',
-    title: 'Join us on Facebook',
-    url: 'https://www.facebook.com/krissorbieLLC/',
-    icon: 'facebook'
+    name: 'firstname',
+    label: 'First Name',
+    required: true,
+    className: 'inputleft',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'firstname'
   },
   {
-    name: 'Instagram',
-    title: 'Join us on Instagram',
-    url: 'https://www.instagram.com/krissorbie/',
-    icon: 'instagram'
+    name: 'lastname',
+    label: 'Last Name',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'lastname'
   },
   {
-    name: 'Twitter',
-    title: 'Join us on Twitter',
-    url: 'https://twitter.com/krissorbie',
-    icon: 'twitter'
+    name: 'company',
+    label: 'Company Name',
+    required: false,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'company'
   },
   {
-    name: 'Pinterest',
-    title: 'Join us on Pinterest',
-    url: 'https://in.pinterest.com/krissorbie/',
-    icon: 'pinterest'
+    name: 'email',
+    label: 'Email Address',
+    required: true,
+    className: 'inputleft',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: true,
+    value: 'email'
   },
   {
-    name: 'Linkedin',
-    title: 'Join us on Linkedin',
-    url: 'https://www.linkedin.com/in/kris-sorbie-26718b7',
-    icon: 'linkedin'
+    name: 'phone',
+    label: 'Phone',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'tel',
+    placeholder: '',
+    disabled: false,
+    value: 'phone'
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    required: true,
+    className: '',
+    isStatic: true,
+    value: ' United States (US)'
+  },
+  {
+    name: 'address1',
+    label: 'Address',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Street address',
+    disabled: false,
+    value: 'address1'
+  },
+  {
+    name: 'address2',
+    label: '',
+    required: false,
+    className: 'inputmtneg15',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Apartment, suite, unit etc. (optional)',
+    disabled: false,
+    value: 'address2'
+  },
+  {
+    name: 'city',
+    label: 'Town / City',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'city'
+  },
+  {
+    name: 'state',
+    label: 'state',
+    required: true,
+    className: 'inputleft',
+    selectClass: 'checkoutselect',
+    isSelect: true,
+    type: 'text',
+    value: 'state',
+    options: 'options'
+  },
+  {
+    name: 'zipcode',
+    label: 'Zip',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'zip'
   }
 ];
 
@@ -422,136 +617,10 @@ const STATES = [
   }
 ];
 
-const BREADCRUMBS = {
-  cart: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'Cart'
-    }
-  ],
-  dashboard: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'My Account'
-    }
-  ],
-  editAccount: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'Account Details',
-      url: '/my-account/dashboard'
-    }, {
-      label: 'Account Details'
-    }
-  ],
-  lostPassword: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'Lost Password',
-      url: '/my-account/dashboard'
-    }, {
-      label: 'Lost Password'
-    }
-  ],
-  addresses: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'Addresses',
-      url: '/my-account/dashboard'
-    }, {
-      label: 'Addresses'
-    }
-  ],
-  checkout: [
-    {
-      label: 'Shop',
-      url: '/'
-    }, {
-      label: 'Checkout'
-    }
-  ]
-};
-
-const CHECKOUT_TABS = [
-  {
-    name: 'Billing Address',
-    title: 'Billing Address',
-    cname: 'billing',
-    id: 'billing'
-  },
-  {
-    name: 'Shipping Address',
-    title: 'Shipping Address',
-    cname: 'shipping',
-    id: 'shipping'
-  },
-  {
-    name: 'Apply Promotional Code',
-    title: 'Apply Promotional Code',
-    cname: 'promocode',
-    id: 'promo'
-  },
-  {
-    name: 'Review Order',
-    title: 'Review Order',
-    cname: 'review',
-    id: 'review'
-  }
-];
-
-const ACCOUNT_TABS = [
-  {
-    name: 'Login',
-    title: 'Login',
-    cname: 'login',
-    id: 'blogin',
-    alwaysActive: true
-  },
-  {
-    name: 'Register',
-    title: 'Register',
-    cname: 'register',
-    id: 'bregister',
-    alwaysActive: true
-  }
-];
-
-const ORDER_STATES = {
-  ready: 'Processing',
-  backorder: 'Processing',
-  partial: 'Processing',
-  shipped: 'Shipped',
-  canceled: 'Canceled'
-};
-
-const CHECKOUT_STEPS = [
-  'address_billing',
-  'delivery_shipping',
-  'delivery_promo',
-  'delivery_review',
-  'payment_promo',
-  'payment_review',
-  'confirm_promo',
-  'confirm_review'
-];
-
 export {
-  NAV,
-  SOCIAL_NAV,
-  STATES,
-  BREADCRUMBS,
-  CHECKOUT_TABS,
-  ACCOUNT_TABS,
-  CHECKOUT_STEPS,
-  ORDER_STATES
+  CHECKOUT_BILLING_FIELDS,
+  CHECKOUT_SHIPPING_FIELDS,
+  CHECKOUT_BILLING,
+  CHECKOUT_SHIPPING,
+  STATES
 };

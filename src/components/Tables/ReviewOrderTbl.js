@@ -8,7 +8,8 @@ import { STATES } from '../../constants/AppConsts';
 class ReviewOrderTbl extends React.Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
-    cartItems: PropTypes.object.isRequired
+    cartItems: PropTypes.object.isRequired,
+    isPayPal: PropTypes.bool.isRequired
   };
 
   getStateName = (id) => {
@@ -110,24 +111,24 @@ class ReviewOrderTbl extends React.Component {
               <td className={cx(s.td, s.tdbig, s.shipaddr)}>
                 <span className={s.shippaddress}>Shipping address</span>
                 {this.listAddress(cartItems.cart.ship_address)}
-                <a
+                {!this.props.isPayPal && <a
                   className={s.changebilling}
                   href=""
                   onClick={this.handleShipping}
                 >
                   Change
-                </a>
+                </a>}
               </td>
               <td className={cx(s.td, s.tdsmall, s.billaddr)}>
                 <span className={s.billaddress}>Billing address</span>
                 {this.listAddress(cartItems.cart.bill_address)}
-                <a
+                {!this.props.isPayPal && <a
                   className={s.changeshipping}
                   href=""
                   onClick={this.handleBilling}
                 >
                   Change
-                </a>
+                </a>}
               </td>
             </tr>
           </tfoot>

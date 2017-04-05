@@ -48,7 +48,7 @@ class AddressList extends React.Component {
           <AddressSelect
             addresses={this.props.addresses}
             onSelect={this.onSelect}
-            onCreate={this.props.onCreate}
+            onBottomButtonClick={this.props.onCreate}
             addressId={this.state.selected}
           />
           <div className={s.buttonwrapper}>

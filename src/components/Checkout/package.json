@@ -1,0 +1,7 @@
+{
+  "name": "Checkout",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Checkout.js"
+}
+

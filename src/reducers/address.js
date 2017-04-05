@@ -13,7 +13,8 @@ export default function reducer(state = {
     isLoaded: false,
     isEmpty: true,
     addresses: []
-  }
+  },
+  isFetching: false
 }, action) {
   switch (action.type) {
     case 'SET_ADDRESSES': {
@@ -21,7 +22,8 @@ export default function reducer(state = {
         ...state,
         billing: action.payload.billing,
         shipping: action.payload.shipping,
-        addresses: action.payload.addresses
+        addresses: action.payload.addresses,
+        isFetching: false
       };
     }
     case 'SET_BILLING': {
@@ -40,6 +42,9 @@ export default function reducer(state = {
           )
         }
       };
+    }
+    case 'SET_ADDRESS_FETCHING': {
+      return { ...state, isFetching: action.payload };
     }
     default: // do nothing
   }

@@ -41,7 +41,8 @@ import { getAddresses,
 import { getBraintreeTokens,
   checkoutPayPal,
   checkoutNext,
-  checkoutAddress
+  checkoutAddress,
+  checkoutAddresses
 } from '../api/checkout';
 
 import sendContact from '../api/contact';
@@ -215,6 +216,9 @@ apiRoutes
   })
   .post('/checkout/next', (req, resp) => {
     checkoutNext(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/addresses', (req, resp) => {
+    checkoutAddresses(req).then((data) => (resp.json(data)));
   })
   .post('/checkout/address', (req, resp) => {
     checkoutAddress(req).then((data) => (resp.json(data)));

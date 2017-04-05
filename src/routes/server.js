@@ -696,18 +696,14 @@ siteRoutes.get('/checkout/promo', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getSession(req)
         .then((cart) => handleError(cart, resp, () => {
-          if (typeof cart.line_items === 'undefined') {
-            resp.redirect('/cart');
-          } else {
-            const params = {
-              title: 'Checkout',
-              description: '',
-              header: 'default',
-              active: '/',
-              content: <PromoCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
-            };
-            handleRoutes(req, resp, next, params);
-          }
+          const params = {
+            title: 'Checkout',
+            description: '',
+            header: 'default',
+            active: '/',
+            content: <PromoCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
+          };
+          handleRoutes(req, resp, next, params);
         }))
         .catch((err) => {
           conslog('ERROR', err);
@@ -724,18 +720,14 @@ siteRoutes.get('/checkout/review', (req, resp, next) => {
     .then((user) => handleError(user, resp, () => {
       getSession(req)
         .then((cart) => handleError(cart, resp, () => {
-          if (typeof cart.line_items === 'undefined') {
-            resp.redirect('/cart');
-          } else {
-            const params = {
-              title: 'Checkout',
-              description: '',
-              header: 'default',
-              active: '/',
-              content: <ReviewCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
-            };
-            handleRoutes(req, resp, next, params);
-          }
+          const params = {
+            title: 'Checkout',
+            description: '',
+            header: 'default',
+            active: '/',
+            content: <ReviewCheckout cartItems={cart} loggedIn={user.user.loggedIn} />
+          };
+          handleRoutes(req, resp, next, params);
         }))
         .catch((err) => {
           conslog('ERROR', err);

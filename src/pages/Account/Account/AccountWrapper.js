@@ -121,7 +121,7 @@ class AccountWrapper extends BasePageComponent {
     return (
       <Account
         loggedIn={this.props.loggedIn}
-        content={this.state.content}
+        activeTab={this.state.content}
         clickTab={this.clickTab}
         onLogin={this.onLogin}
         onLogout={this.onLogout}

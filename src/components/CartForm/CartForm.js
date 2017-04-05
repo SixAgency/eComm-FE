@@ -14,7 +14,7 @@ class CartForm extends Component {
     loggedIn: PropTypes.bool.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired,
+    proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     calculateShipping: PropTypes.func.isRequired
   };
@@ -26,11 +26,6 @@ class CartForm extends Component {
       className: 'hide'
     };
   }
-
-  proceedToCheckout = (e) => {
-    e.preventDefault();
-    this.props.checkoutNext(this.props.cart.state);
-  };
 
   render() {
     if (!this.props.paypalObj.isLoaded) {
@@ -101,7 +96,7 @@ class CartForm extends Component {
             your purchase.
           </p>
           <p className={s.gotocheckout}>
-            <button className={s.checkoutbtn} onClick={this.proceedToCheckout}>
+            <button className={s.checkoutbtn} onClick={this.props.proceedToCheckout}>
               Proceed to Checkout
             </button>
           </p>
