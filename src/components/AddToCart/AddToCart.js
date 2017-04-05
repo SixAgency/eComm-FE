@@ -61,6 +61,7 @@ class CartCta extends Component {
             <SingleVariant
               variants={product.variants}
               action={this.setVariant}
+              price={product.price}
             />
           );
         }

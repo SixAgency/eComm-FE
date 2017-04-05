@@ -1,5 +1,6 @@
 /* General Styles */
 .quantity {
+  float: left;
   position: relative;
   .input {
     background: transparent;
