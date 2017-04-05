@@ -13,35 +13,20 @@ class ErrorDisplay extends React.Component {
   };
 
   componentWillMount = () => {
-    const message = this.props.messages[0] ? this.props.messages[0] : '';
-    if (message.indexOf('has been added to your cart.') > -1 && !this.props.isError) {
-      showContinueShopping = true;
-    } else {
-      showContinueShopping = false;
-    }
+    showContinueShopping = this.showContinueShoppingFunc(this.props);
   }
 
   componentDidUpdate = (nextProps) => {
-    const message = nextProps.messages[0] ? nextProps.messages[0] : '';
-    if (message.indexOf('has been added to your cart.') > -1 && !nextProps.isError) {
-      showContinueShopping = true;
-    } else {
-      showContinueShopping = false;
-    }
+    showContinueShopping = this.showContinueShoppingFunc(nextProps);
   }
 
-  handleContinueButton = () => {
-    if (showContinueShopping) {
-      return (
-        <Link
-          to="/"
-          className={s.btnforward}
-        >
-          Continue Shopping
-        </Link>
-      );
+  // helper - show continue shopping button
+  showContinueShoppingFunc = (props) => {
+    const messages = props.messages[0] ? props.messages[0] : [];
+    if (messages.indexOf('has been added to your cart.') > -1 && !props.isError) {
+      return true;
     }
-    return null;
+    return false;
   }
 
   render() {
@@ -54,7 +39,14 @@ class ErrorDisplay extends React.Component {
       <ul className={cx(s.errorwrpr, s[bg])}>
         {messages.map((v, k) => (
           <li className={s.message} key={k}>
-            {this.handleContinueButton()}
+            {showContinueShopping &&
+              <Link
+                to="/"
+                className={s.btnforward}
+              >
+                Continue Shopping
+              </Link>
+            }
             {v}
           </li>
         ))}
