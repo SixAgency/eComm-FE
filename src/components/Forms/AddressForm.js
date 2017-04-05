@@ -21,6 +21,7 @@ class AddressForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.address.id,
       firstname: this.props.address.firstname,
       lastname: this.props.address.lastname,
       company: this.props.address.company,

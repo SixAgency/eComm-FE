@@ -4,6 +4,7 @@ import {
   checkResponse,
   setAddressesResponse,
   setEditCreateAddressResponse,
+  setEditAddressResponse,
   setCreateAddressResponse,
   setDeleteAddressResponse
 } from './helpers/handlers';
@@ -41,7 +42,7 @@ function updateAddress(request) {
       body: JSON.stringify(address)
     }, request.session)
     .then((response) => checkResponse(response))
-    .then((data) => setEditCreateAddressResponse(data, type))
+    .then((data) => setEditAddressResponse(data, request, getAddresses))
     .catch((err) => setError(err));
 }
 
