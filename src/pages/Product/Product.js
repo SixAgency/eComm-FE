@@ -70,6 +70,7 @@ class Product extends Component {
     const categoryName = product.classifications[0].taxon.name;
     const properties = this.props.properties;
     const variants = this.props.product.product.variants;
+    console.log('VARIANTS', variants);
 
     return (
       <div className={s.page}>
