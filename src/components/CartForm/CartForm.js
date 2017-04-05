@@ -9,7 +9,6 @@ import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
 
 let shippingMethod = '';
-let isShippingCalculated = false;
 
 class CartForm extends Component {
   static propTypes = {
@@ -36,11 +35,9 @@ class CartForm extends Component {
       console.log('all good', updatedCart.shipments[0].selected_shipping_rate.name);
       shippingMethod = `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}): 
         ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
-      isShippingCalculated = true;
     } else {
       console.log('CART', this.props.cart);
       shippingMethod = 'Shipping costs will be calculate once you have provided your address.';
-      isShippingCalculated = false;
     }
   }
 
@@ -64,7 +61,9 @@ class CartForm extends Component {
                 <tr className={s.csubtotals}>
                   <th className="table-heads">Subtotal</th>
                   <td className={cx(s.ammout, s.data)}>
-                    {accounting.formatMoney(parseFloat(cart.item_total) + parseFloat(cart.adjustment_total))}
+                    {accounting.formatMoney(
+                      parseFloat(cart.item_total) + parseFloat(cart.adjustment_total)
+                    )}
                   </td>
                 </tr>
                 <tr className={s.csubtotals}>
