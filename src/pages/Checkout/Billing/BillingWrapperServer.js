@@ -69,7 +69,7 @@ class BillingWrapper extends React.Component {
     const selectedAddress = this.getDefaultAddressId();
     const emailAddress = this.getEmailAddress();
     const showCancel = this.getShowCancel();
-
+    const content = this.getBillingContent(this.props);
     return (
       <Checkout
         state={this.props.cartItems.cart.state}
@@ -85,7 +85,7 @@ class BillingWrapper extends React.Component {
         applyPromoCode={() => (true)}
       >
         <Billing
-          content={this.state.content}
+          content={content}
           emailAddress={emailAddress}
           addresses={this.props.addresses.addresses}
           selectedAddress={selectedAddress}

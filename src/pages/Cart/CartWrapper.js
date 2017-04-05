@@ -145,9 +145,7 @@ class CartWrapper extends BasePageComponent {
     if (state !== 'cart') {
       forwardTo(state);
     } else {
-      this.props.checkoutNext(
-        forwardTo('checkout/billing')
-      );
+      this.props.checkoutNext(() => (forwardTo('checkout/billing')));
     }
   };
 

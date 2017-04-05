@@ -23,6 +23,7 @@ class CartWrapper extends Component {
 
 
   render() {
+    const showGiftCartForm = false;
     return (
       <Cart
         removeItem={() => (true)}
@@ -41,7 +42,9 @@ class CartWrapper extends Component {
         proceedToCheckout={() => (true)}
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
+        toggleGiftCardForm={() => (true)}
         calculateShipping={() => (true)}
+        showGiftCardForm={showGiftCartForm}
       />
     );
   }
