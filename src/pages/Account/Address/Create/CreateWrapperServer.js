@@ -9,12 +9,13 @@ class CreateWrapper extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
     onLogout: () => (true),
     messages: [],
-    isError: false,
+    isError: false
   };
 
   onSubmit = () => (true);
@@ -30,7 +31,7 @@ class CreateWrapper extends React.Component {
       address2: '',
       city: '',
       state_id: 0,
-      zipcode: '',
+      zipcode: ''
     };
     return (
       <Create
@@ -42,6 +43,7 @@ class CreateWrapper extends React.Component {
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
         address={address}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

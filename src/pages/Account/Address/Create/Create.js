@@ -17,14 +17,19 @@ class CreateAddress extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     address: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   render() {
     const showEmailPhone = true;
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
+        />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass={'hide'}>
           <AddressForm
