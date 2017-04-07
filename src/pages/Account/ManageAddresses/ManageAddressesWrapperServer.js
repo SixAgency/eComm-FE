@@ -13,7 +13,8 @@ class ManageAddressesWrapper extends Component {
     deleteAddress: PropTypes.func.isRequired,
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
-    editAddress: PropTypes.func.isRequired
+    editAddress: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
@@ -40,6 +41,7 @@ class ManageAddressesWrapper extends Component {
         setDefaultBilling={this.props.setDefaultBilling}
         editAddress={this.props.editAddress}
         onSubmit={this.onSubmit}
+        breadcrumbs={this.props.breadcrumbs}
       />
     );
   }

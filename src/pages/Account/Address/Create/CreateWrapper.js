@@ -43,7 +43,8 @@ class CreateAddressWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
+    route: PropTypes.object
   };
 
   componentWillMount = () => {
@@ -78,7 +79,7 @@ class CreateAddressWrapper extends BasePageComponent {
 
   onSubmit = (address) => {
     const data = {
-      address,
+      address
     };
     let message = 'Address created successfully.';
     if (this.props.params.type === 'billing') {
@@ -122,6 +123,7 @@ class CreateAddressWrapper extends BasePageComponent {
         address={address}
         messages={this.props.messages}
         isError={this.props.isError}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

@@ -46,10 +46,10 @@ const routes = (
       <Route path="edit-account" component={ProfileWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount} />
       <Route path="edit-password" component={PasswordWrapper} title="Edit Account" breadcrumbs={BREADCRUMBS.editAccount} />
       <Route path="address">
-        <Route path="create/:type" component={CreateAddress} title="Create Address" />
+        <Route path="create/:type" component={CreateAddress} title="Create Address" breadcrumbs={BREADCRUMBS.addresses} />
         <Route path="billing" component={BillingWrapper} title="Edit Billing Address" breadcrumbs={BREADCRUMBS.addresses} />
         <Route path="shipping" component={ShippingWrapper} title="Edit Shipping Address" breadcrumbs={BREADCRUMBS.addresses} />
-        <Route path="manage" component={ManageAddressesWrapper} title="Manage Addresses" />
+        <Route path="manage" component={ManageAddressesWrapper} title="Manage Addresses" breadcrumbs={BREADCRUMBS.addresses} />
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" breadcrumbs={BREADCRUMBS.lostPassword} />
       <Route path="lost-password/:param" component={ResetPasswordWrapper} title="My Account" />

@@ -65,7 +65,8 @@ class ManageAddressesWrapper extends BasePageComponent {
     setBilling: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    route: PropTypes.object
   };
 
   constructor(props) {
@@ -136,6 +137,7 @@ class ManageAddressesWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         resetMessages={this.props.resetMessages}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

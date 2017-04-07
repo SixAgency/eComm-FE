@@ -25,7 +25,8 @@ class ManageAddresses extends Component {
     handleDisplay: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   }
 
   constructor(props) {
@@ -73,7 +74,7 @@ class ManageAddresses extends Component {
   }
 
   handledisplayState = (content, id) => {
-    this.setState({editId: id});
+    this.setState({ editId: id });
     this.props.handleDisplay(content);
     this.props.resetMessages();
   }
@@ -86,6 +87,7 @@ class ManageAddresses extends Component {
           <Subnav
             isLogged={this.props.loggedIn}
             onLogout={this.props.onLogout}
+            breadcrumbs={this.props.breadcrumbs}
           />
           <ContentWrapper>
             <div className={s.warning}>
@@ -100,6 +102,7 @@ class ManageAddresses extends Component {
         <Subnav
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>
