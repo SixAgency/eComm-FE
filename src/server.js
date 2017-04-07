@@ -14,7 +14,7 @@ import errorPageStyle from './pages/Error/ErrorPage.css';
 import apiRoutes from './routes/api';
 import siteRoutes from './routes/server';
 import { port } from './config';
-import logger from './api/logger';
+import logger from './server/logger';
 
 const RedisStore = require('connect-redis')(session);
 

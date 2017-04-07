@@ -9,11 +9,11 @@ import conslog from '../utils/dev';
 import { BREADCRUMBS } from '../constants/AppConsts';
 
 // Actions
-import { getProducts, getProduct } from '../api/products';
-import { checkLogin, getProfile } from '../api/users';
-import { getOrder, getOrders } from '../api/orders';
-import { getSession } from '../api/session';
-import { getAddresses } from '../api/addresses';
+import { getProducts, getProduct } from '../server/products';
+import { checkLogin, getProfile } from '../server/users';
+import { getOrder, getOrders } from '../server/orders';
+import { getSession } from '../server/session';
+import { getAddresses } from '../server/addresses';
 
 // Top Level Compontents
 import Layout from '../components/Layout';

@@ -33,7 +33,6 @@ import ReviewCheckout from '../pages/Checkout/Review';
 
 function onChange() {
   window.scrollTo(0, 0);
-  console.log('route change');
 }
 
 const routes = (
