@@ -36,7 +36,6 @@ class SingleVariant extends Component {
       <div className={s.variants}>
         <h3 className={s.vname}>
           {this.props.variants[0].option_values[0].option_type_presentation}
-          <abbr className={s.required} title="required">*</abbr>
         </h3>
         <select className={s.vselect} name="sizes" onChange={this.handleChange}>
           { variants.map((item, index) =>
