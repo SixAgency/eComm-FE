@@ -22,9 +22,11 @@ class ErrorDisplay extends React.Component {
 
   // helper - show continue shopping button
   showContinueShoppingFunc = (props) => {
-    const messages = props.messages[0] ? props.messages[0] : [];
-    if (messages.indexOf('has been added to your cart.') > -1 && !props.isError) {
-      return true;
+    if (typeof props.messages !== 'undefined') {
+      const messages = props.messages[0] ? props.messages[0] : '';
+      if (messages.indexOf('has been added to your cart.') > -1 && !props.isError) {
+        return true;
+      }
     }
     return false;
   }
