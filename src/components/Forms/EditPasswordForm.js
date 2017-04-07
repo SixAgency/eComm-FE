@@ -62,6 +62,7 @@ class EditPasswordForm extends Component {
       <div className={s.formcontent}>
         <h1 className={s.title}>Change Password</h1>
         <form className={cx(s.form)} onSubmit={this.onSubmit}>
+          <input type="password" style={{ display: 'none' }} name="preventAutoComplete" />
           <div className={cx(s.inputwrapper, s.inputleft)}>
             <label
               className={s.label}
