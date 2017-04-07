@@ -31,7 +31,7 @@ class EditPasswordForm extends Component {
   onFieldsUpdate = (e) => {
     switch (e.target.id) {
       case 'newpassword' : this.setState({ newpassword: e.target.value }, this.checkPassword); break;
-      case 'confirmnewpassword' : this.setState({ confirmnewpassword: e.target.value }); break;
+      case 'confirmnewpassword' : this.setState({ confirmnewpassword: e.target.value }, this.checkPassword); break;
       default: // do nothing
     }
   }
@@ -48,7 +48,10 @@ class EditPasswordForm extends Component {
   }
 
   checkPassword = () => {
-    this.setState({passwordValid: !testPasswordStrength(this.state.newpassword).isError});
+    this.setState({
+      passwordValid: !testPasswordStrength(this.state.newpassword).isError &&
+      !testPasswordStrength(this.state.confirmnewpassword).isError
+    });
   }
 
   isPasswordChanged = () =>

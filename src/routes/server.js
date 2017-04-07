@@ -419,7 +419,7 @@ siteRoutes.get('/my-account/edit-password', (req, resp, next) => {
           description: '',
           header: 'colored',
           active: '/my-account',
-          content: <PasswordWrapper {...data.user} />,
+          content: <PasswordWrapper {...data.user} />
         };
         handleRoutes(req, resp, next, params);
       }
