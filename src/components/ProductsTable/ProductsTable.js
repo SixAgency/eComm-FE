@@ -8,7 +8,7 @@ class ProductsTable extends React.Component {
     items: PropTypes.array.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired,
+    cartItems: PropTypes.object.isRequired
   }
 
   render() {
