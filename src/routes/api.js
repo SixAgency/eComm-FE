@@ -11,7 +11,8 @@ import { userLogin,
   updateProfile,
   updatePassword,
   resetPassword,
-  setNewPassword
+  setNewPassword,
+  redeemGiftCard
 } from '../api/users';
 import {
   getProducts,
@@ -120,6 +121,12 @@ apiRoutes
 apiRoutes
   .post('/my-account/set-new-password', (req, resp) => {
     setNewPassword(req).then((data) => resp.json(data));
+  });
+
+// Redeem gift card
+apiRoutes
+  .post('/my-account/redeem-giftcard', (req, resp) => {
+    redeemGiftCard(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES

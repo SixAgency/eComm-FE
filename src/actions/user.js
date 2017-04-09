@@ -253,6 +253,24 @@ function setNewPassword(data) {
   };
 }
 
+// Redeem gift card
+function redeemGiftCard(code) {
+  return (dispatch) => {
+    axios.post('/api/my-account/redeem-giftcard', { redemption_code: code })
+      .then((response) => checkResponse(response.data, () => {
+        window.scrollTo(0, 0);
+        dispatch(setMessage({ isError: false, messages: [response.data.data] }));
+      }, () => {
+        window.scrollTo(0, 0);
+        dispatch(setMessage({ isError: true, messages: [response.data.data] }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 
 export {
   onLogout,
@@ -263,5 +281,6 @@ export {
   updateProfile,
   updatePassword,
   resetPassword,
-  setNewPassword
+  setNewPassword,
+  redeemGiftCard
 };

@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import isEmpty from 'lodash.isempty';
 
 import BasePageComponent from '../../BasePageComponent';
 import Dashboard from './Dashboard';
 
 // Action
-import { onLogout, getProfile } from '../../../actions/user';
+import { onLogout, getProfile, redeemGiftCard } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
@@ -32,7 +31,8 @@ const mapDispatchToProps = ((dispatch) => (
     getAddress: () => dispatch(getAddress()),
     resetMessages: () => dispatch(resetMessages()),
     getAllOrders: () => dispatch(getAllOrders()),
-    getProfile: () => dispatch(getProfile())
+    getProfile: () => dispatch(getProfile()),
+    onRedeemGiftCard: (code) => dispatch(redeemGiftCard(code))
   }
 ));
 
@@ -51,7 +51,8 @@ class DashboardWrapper extends BasePageComponent {
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
     route: PropTypes.object,
-    profile: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired,
+    onRedeemGiftCard: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
@@ -126,6 +127,7 @@ class DashboardWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         profile={this.props.profile}
         resetMessages={this.props.resetMessages}
+        onRedeemGiftCard={this.props.onRedeemGiftCard}
       />
     );
   }
