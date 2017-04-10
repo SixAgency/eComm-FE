@@ -112,10 +112,6 @@ const config = {
     ]
   },
 
-  resolve: {
-    modules: [path.resolve(__dirname, '../src'), 'node_modules']
-  },
-
   // Don't attempt to continue if there are any errors.
   bail: !isDebug,
 
@@ -137,7 +133,6 @@ const config = {
 //
 // Configuration for the client-side bundle (client.js)
 // -----------------------------------------------------------------------------
-
 const clientConfig = {
   ...config,
 
@@ -154,7 +149,15 @@ const clientConfig = {
     chunkFilename: isDebug ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js'
   },
 
-  resolve: { ...config.resolve },
+  resolve: {
+    modules: [path.resolve(__dirname, '../src'), 'node_modules'],
+    alias: {
+      components: path.resolve(__dirname, '../src/components'),
+      actions: path.resolve(__dirname, '../src/actions'),
+      store: path.resolve(__dirname, '../src/reducers'),
+      pages: path.resolve(__dirname, '../src/pages')
+    }
+  },
 
   plugins: [
     // Define free variables
@@ -257,7 +260,13 @@ const serverConfig = {
     }))
   },
 
-  resolve: { ...config.resolve },
+  resolve: {
+    modules: [path.resolve(__dirname, '../src'), 'node_modules'],
+    alias: {
+      components: path.resolve(__dirname, '../src/components'),
+      pages: path.resolve(__dirname, '../src/pages')
+    }
+  },
 
   externals: [
     /^\.\/assets\.json$/,
