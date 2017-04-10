@@ -627,6 +627,19 @@ function parseNewPasswordResponse(data) {
   };
 }
 
+function parseGiftRedeemResponse(data) {
+  if (data.status !== 201) {
+    return {
+      isError: true,
+      data: data.statusText
+    };
+  }
+  return {
+    isError: false,
+    data: 'Gift card redeemed'
+  };
+}
+
 export {
   checkResponse,
   setError,
@@ -655,5 +668,6 @@ export {
   parsePasswordUpdate,
   setDeleteAddressResponse,
   parseResetResponse,
-  parseNewPasswordResponse
+  parseNewPasswordResponse,
+  parseGiftRedeemResponse
 };

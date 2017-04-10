@@ -10,7 +10,8 @@ import {
   parseProfileUpdate,
   parsePasswordUpdate,
   parseResetResponse,
-  parseNewPasswordResponse
+  parseNewPasswordResponse,
+  parseGiftRedeemResponse
 } from './helpers/handlers';
 
 const LOGIN = '/login';
@@ -139,6 +140,18 @@ function setNewPassword(request) {
   .catch((err) => setError(err));
 }
 
+// Redeem gift card
+function redeemGiftCard(request) {
+  const data = { ...request.body };
+  return apiFetch('/api/v1/gift_cards/redeem',
+    {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }, request.session)
+  .then((resp) => (parseGiftRedeemResponse(resp)))
+  .catch((err) => setError(err));
+}
+
 export {
   userLogin,
   userRegistration,
@@ -148,5 +161,6 @@ export {
   updateProfile,
   updatePassword,
   resetPassword,
-  setNewPassword
+  setNewPassword,
+  redeemGiftCard
 };

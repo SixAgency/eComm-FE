@@ -19,8 +19,16 @@ class Dashboard extends React.Component {
     isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    onRedeemGiftCard: PropTypes.func.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      giftCode: ''
+    };
+  }
 
   setName = () => {
     if (this.props.profile.f_name && this.props.profile.l_name) {
@@ -41,6 +49,10 @@ class Dashboard extends React.Component {
       </div>
     );
   };
+
+  redeemGiftCard = () => {
+    this.props.onRedeemGiftCard(this.state.giftCode);
+  }
 
   render() {
     return (
@@ -66,6 +78,25 @@ class Dashboard extends React.Component {
 
             {this.checkOrders()}
             <Addresses {...this.props.addresses} />
+            <h1 className={s.title}>MY GIFT CARDS</h1>
+            <div className={s.giftcardform}>
+              <h2 className={s.giftcardform_title}>Redeem a gift card</h2>
+              <input
+                type="text"
+                placeholder="Enter gift card code"
+                className={s.giftcardform_input}
+                value={this.state.giftCode}
+                onChange={(event) => {
+                  this.setState({ giftCode: event.target.value });
+                }}
+              />
+              <button
+                className={s.giftcardform_submit}
+                onClick={this.redeemGiftCard}
+              >
+                Redeem
+              </button>
+            </div>
           </div>
         </ContentWrapper>
       </section>
