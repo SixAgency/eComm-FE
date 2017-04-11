@@ -83,7 +83,12 @@ class Product extends Component {
             {product.is_sale &&
               <div className={s.salebadge}>SALE!</div>
             }
-            <RelatedProducts gridRecs={product.recs} addToCart={this.props.onAddToCart} />
+            <span className={s.relatedcontainer}>
+              <RelatedProducts
+                gridRecs={product.recs}
+                addToCart={this.props.onAddToCart}
+              />
+            </span>
           </div>
         </div>
         <div className={s.right}>
