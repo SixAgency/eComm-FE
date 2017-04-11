@@ -128,7 +128,9 @@ class CartWrapper extends BasePageComponent {
    */
   toggleGiftCardForm = (event) => {
     event.preventDefault();
-    this.setState({ showGiftCardForm: !this.state.showGiftCardForm });
+    this.setState({ showGiftCardForm: !this.state.showGiftCardForm }, () => {
+      document.getElementById('giftcard-code').focus();
+    });
   };
 
   updateQuantity = (updatedCartItems) => {
