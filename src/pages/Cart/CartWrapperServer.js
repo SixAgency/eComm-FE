@@ -18,7 +18,7 @@ class CartWrapper extends Component {
   static defaultProps = {
     paypalObj: {},
     isError: false,
-    messages: [],
+    messages: []
   };
 
 

@@ -29,7 +29,7 @@ class GiftCardInput extends React.Component {
   };
 
   render() {
-    const className = this.props.showGiftCardForm ? 'show': 'hide';
+    const className = this.props.showGiftCardForm ? 'show' : 'hide';
     return (
       <div className={s.giftCardwrpr}>
         <form className={cx(s.gcform, s[className])}>

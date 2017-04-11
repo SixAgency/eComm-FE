@@ -134,6 +134,7 @@ class CartWrapper extends BasePageComponent {
   updateQuantity = (updatedCartItems) => {
     const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
     this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
+    this.setState({ showGiftCardForm: false });
   };
 
   /**
