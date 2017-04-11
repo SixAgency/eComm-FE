@@ -640,6 +640,19 @@ function parseGiftRedeemResponse(data) {
   };
 }
 
+function parseStoreCredit(data) {
+  if (data.count > 0) {
+    return {
+      isLoaded: true,
+      totalAmount: data.store_credit_events[0].display_user_total_amount
+    };
+  }
+  return {
+    isLoaded: true,
+    totalAmount: 0
+  };
+}
+
 export {
   checkResponse,
   setError,
@@ -669,5 +682,6 @@ export {
   setDeleteAddressResponse,
   parseResetResponse,
   parseNewPasswordResponse,
-  parseGiftRedeemResponse
+  parseGiftRedeemResponse,
+  parseStoreCredit
 };

@@ -12,7 +12,8 @@ import { userLogin,
   updatePassword,
   resetPassword,
   setNewPassword,
-  redeemGiftCard
+  redeemGiftCard,
+  getStoreCreditInfo
 } from '../api/users';
 import {
   getProducts,
@@ -127,6 +128,12 @@ apiRoutes
 apiRoutes
   .post('/my-account/redeem-giftcard', (req, resp) => {
     redeemGiftCard(req).then((data) => resp.json(data));
+  });
+
+// Get store credit information
+apiRoutes
+  .get('/my-account/store-credit', (req, resp) => {
+    getStoreCreditInfo(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES

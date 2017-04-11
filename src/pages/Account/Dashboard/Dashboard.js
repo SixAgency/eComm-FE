@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import accounting from 'accounting';
+
 import s from './Dashboard.css';
 // Components
 import Subnav from '../../../components/Subnav';
@@ -20,7 +22,8 @@ class Dashboard extends React.Component {
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    onRedeemGiftCard: PropTypes.func.isRequired
+    onRedeemGiftCard: PropTypes.func.isRequired,
+    creditInfo: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -37,8 +40,12 @@ class Dashboard extends React.Component {
     return this.props.profile.email.split('@')[0];
   };
 
-  checkOrders = () => {
-    const orders = this.props.orders;
+  redeemGiftCard = () => {
+    this.props.onRedeemGiftCard(this.state.giftCode);
+  }
+
+  renderOrders = () => {
+    const { orders } = this.props;
     if (!orders.isLoaded || orders.isEmpty) {
       return null;
     }
@@ -50,8 +57,18 @@ class Dashboard extends React.Component {
     );
   };
 
-  redeemGiftCard = () => {
-    this.props.onRedeemGiftCard(this.state.giftCode);
+  renderStoreCreditAmount = () => {
+    const { creditInfo } = this.props;
+    if (!creditInfo.isLoaded || creditInfo.totalAmount === 0) {
+      return (
+        <h2 className={s.storecreditamount}>{"You don't have any store credit"}</h2>
+      );
+    }
+    return (
+      <h2 className={s.storecreditamount}>
+        Your total store credit amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
+      </h2>
+    );
   }
 
   render() {
@@ -76,11 +93,14 @@ class Dashboard extends React.Component {
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
 
-            {this.checkOrders()}
+            {this.renderOrders()}
             <Addresses {...this.props.addresses} />
-            <h1 className={s.title}>MY GIFT CARDS</h1>
+            <h1 className={s.title}>MY STORE CREDIT</h1>
+            {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>
-              <h2 className={s.giftcardform_title}>Redeem a gift card</h2>
+              <h2 className={s.giftcardform_title}>
+                Do you have a gift card? Redeem it here for store credit.
+              </h2>
               <input
                 type="text"
                 placeholder="Enter gift card code"

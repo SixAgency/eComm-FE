@@ -22,6 +22,10 @@ function setProfile(profile) {
   return { type: 'SET_PROFILE', payload: { profile } };
 }
 
+function setStoreCreditInfo(creditInfo) {
+  return { type: 'SET_STORE_CREDIT_INFO', payload: { creditInfo } };
+}
+
 /**
  * Checks if the user is logged in or not
  * @returns {function(*)}
@@ -272,6 +276,22 @@ function redeemGiftCard(code) {
 }
 
 
+// Get store credit information
+function getStoreCredit() {
+  return (dispatch) => {
+    axios.get('/api/my-account/store-credit')
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setStoreCreditInfo(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   onLogout,
   onLogin,
@@ -282,5 +302,6 @@ export {
   updatePassword,
   resetPassword,
   setNewPassword,
-  redeemGiftCard
+  redeemGiftCard,
+  getStoreCredit
 };

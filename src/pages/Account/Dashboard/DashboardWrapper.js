@@ -6,7 +6,7 @@ import BasePageComponent from '../../BasePageComponent';
 import Dashboard from './Dashboard';
 
 // Action
-import { onLogout, getProfile, redeemGiftCard } from '../../../actions/user';
+import { onLogout, getProfile, redeemGiftCard, getStoreCredit } from '../../../actions/user';
 import { getAddress } from '../../../actions/address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
@@ -19,7 +19,8 @@ const mapStateToProps = ((state) => (
     orders: state.orders.orders,
     messages: state.page.messages,
     isError: state.page.isError,
-    profile: state.user.profile
+    profile: state.user.profile,
+    creditInfo: state.user.creditInfo
   }
 ));
 
@@ -32,7 +33,8 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     getAllOrders: () => dispatch(getAllOrders()),
     getProfile: () => dispatch(getProfile()),
-    onRedeemGiftCard: (code) => dispatch(redeemGiftCard(code))
+    onRedeemGiftCard: (code) => dispatch(redeemGiftCard(code)),
+    getStoreCredit: () => dispatch(getStoreCredit())
   }
 ));
 
@@ -52,7 +54,9 @@ class DashboardWrapper extends BasePageComponent {
     resetMessages: PropTypes.func.isRequired,
     route: PropTypes.object,
     profile: PropTypes.object.isRequired,
-    onRedeemGiftCard: PropTypes.func.isRequired
+    onRedeemGiftCard: PropTypes.func.isRequired,
+    getStoreCredit: PropTypes.func.isRequired,
+    creditInfo: PropTypes.object.isRequired
   };
 
   componentWillMount = () => {
@@ -73,6 +77,9 @@ class DashboardWrapper extends BasePageComponent {
     }
     if (!this.props.profile.isLoaded) {
       this.props.getProfile();
+    }
+    if (!this.props.creditInfo.isLoaded) {
+      this.props.getStoreCredit();
     }
   };
 
@@ -128,6 +135,7 @@ class DashboardWrapper extends BasePageComponent {
         profile={this.props.profile}
         resetMessages={this.props.resetMessages}
         onRedeemGiftCard={this.props.onRedeemGiftCard}
+        creditInfo={this.props.creditInfo}
       />
     );
   }

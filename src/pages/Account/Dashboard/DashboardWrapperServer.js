@@ -11,14 +11,18 @@ class DashboardWrapper extends React.Component {
     isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    onRedeemGiftCard: PropTypes.func.isRequired
+    onRedeemGiftCard: PropTypes.func.isRequired,
+    getStoreCredit: PropTypes.func.isRequired,
+    creditInfo: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     messages: [],
     isError: false,
     profile: {},
-    onRedeemGiftCard: () => (true)
+    onRedeemGiftCard: () => (true),
+    getStoreCredit: () => (true),
+    creditInfo: {}
   };
 
   onLogout = () => (true);
@@ -42,6 +46,7 @@ class DashboardWrapper extends React.Component {
         breadcrumbs={this.props.breadcrumbs}
         profile={this.props.profile}
         onRedeemGiftCard={this.props.onRedeemGiftCard}
+        creditInfo={this.props.creditInfo}
       />
     );
   }

@@ -5,17 +5,14 @@ export default function reducer(state = {
     email: '',
     f_name: '',
     l_name: ''
+  },
+  creditInfo: {
+    isLoaded: false,
+    totalAmount: {}
   }
 }, action) {
-  switch (action.type) {
-    case 'SET_USER': {
-      return { ...state, ...action.payload };
-    }
-    case 'SET_PROFILE': {
-      return { ...state, ...action.payload };
-    }
-    default: // do nothing
+  if (['SET_USER', 'SET_PROFILE', 'SET_STORE_CREDIT_INFO'].includes(action.type)) {
+    return { ...state, ...action.payload };
   }
-
   return state;
 }
