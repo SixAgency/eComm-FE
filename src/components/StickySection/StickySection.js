@@ -11,7 +11,7 @@ class StickySection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wrapperClass: 'hidesticky',
+      wrapperClass: 'hidesticky'
     };
   }
 
@@ -72,6 +72,8 @@ class StickySection extends React.Component {
             <Link
               className={cx(s.actions, s.gohomelink)}
               to="/"
+              onmouseover="window.status=''"
+              onmouseout="window.status=''"
             >
                 Home
             </Link>
