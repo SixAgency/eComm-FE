@@ -26,7 +26,7 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
-    isError: state.cart.isError
+    isError: state.page.isError
   }
 ));
 

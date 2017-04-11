@@ -191,7 +191,7 @@ function updateCart(request) {
 
 // Apply Coupon code
 function applyCouponCode(request) {
-  const postdata = request.body.data;
+  const postdata = request.body;
   let endpoint = `${ORDER}/${request.session.order}/apply_coupon_code`;
   if (!request.session.user_token) {
     endpoint = `${ORDER}/${request.session.order}/apply_coupon_code?order_token=${request.session.guest_token}`;
