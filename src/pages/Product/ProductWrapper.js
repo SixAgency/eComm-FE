@@ -10,7 +10,7 @@ import { getProduct } from '../../actions/catalog';
 
 const mapStateToProps = ((state) => (
   {
-    product: state.catalog.product,
+    product: state.catalog.product
   }
 ));
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     addToCart: (item) => dispatch(addToCart(item)),
     getProduct: (slug) => dispatch(getProduct(slug)),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -32,21 +32,21 @@ class ProductWrapper extends Component {
     addToCart: PropTypes.func.isRequired,
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
       quantity: 1,
-      variant_id: null,
+      variant_id: null
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
+      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
     };
     this.props.setHeaderProps(props);
     if (!this.props.product.isLoaded) {
@@ -79,7 +79,7 @@ class ProductWrapper extends Component {
       if (isLoaded && currentId !== nextId) {
         const props = {
           headerClass: 'colored',
-          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
+          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
         };
         this.props.setHeaderProps(props);
         setTimeout(() => {
@@ -114,7 +114,7 @@ class ProductWrapper extends Component {
       titleNote: this.getPropertyFlag(titleNote) ? titleNote.value : '',
       video: this.getPropertyFlag(video) ? video.value : '',
       bulkPrices: [
-        this.getPropertyFlag(bulkPrice1) ? bulkPrice1.value : '',,
+        this.getPropertyFlag(bulkPrice1) ? bulkPrice1.value : '',
         this.getPropertyFlag(bulkPrice2) ? bulkPrice2.value : '',
         this.getPropertyFlag(bulkPrice3) ? bulkPrice3.value : '',
         this.getPropertyFlag(bulkPrice4) ? bulkPrice4.value : ''
