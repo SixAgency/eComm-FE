@@ -72,8 +72,8 @@ class StickySection extends React.Component {
             <Link
               className={cx(s.actions, s.gohomelink)}
               to="/"
-              onmouseover="window.status=''"
-              onmouseout="window.status=''"
+              onMouseOver={() => { window.status = ''; }}
+              onMouseOut={() => { window.status = ''; }}
             >
                 Home
             </Link>
