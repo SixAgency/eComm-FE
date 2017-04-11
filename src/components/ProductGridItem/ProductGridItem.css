@@ -65,7 +65,7 @@
       font-weight: 800;
       color: #000000;
       margin: 0 auto;
-      width: 210px;
+      width: 100%;
     }
     .pcat {
       color: #121212;
@@ -151,3 +151,21 @@
 .rbutton {
   padding: 0 15px !important;
 }
+
+@media (max-width: 1300px) {
+  .productgrid {
+    .itemhover {
+      .pcat {
+        margin-bottom: 15px;
+      }
+      .rprice {
+        font-size: 16px !important;
+      }
+      .button {
+        margin-top: -4px;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
