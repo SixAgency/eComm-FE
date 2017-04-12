@@ -641,8 +641,8 @@
 }
 
 @media (max-width: 1024px) and (min-width: 767px) {
-  .title {
-    margin-top: 100px;
+  .cformcontent {
+    margin-top: 30px;
   }
 }
 
