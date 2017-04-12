@@ -3,18 +3,17 @@ import MannequinHeads from './MannequinHeads';
 
 class MannequinHeadsWrapper extends React.Component {
 
-  static defaultProps = {
-    products: {
+  render() {
+    const products = {
       isLoaded: true,
       isEmpty: true,
-      products: [],
-    },
-    addToCart: (item) => (item),
-  }
-
-  render() {
+      products: []
+    };
     return (
-      <MannequinHeads {...this.props} />
+      <MannequinHeads
+        products={products}
+        addToCart={() => (true)}
+      />
     );
   }
 }

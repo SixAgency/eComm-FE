@@ -12,7 +12,6 @@ import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
-    profile: state.user.profile,
     loggedIn: state.user.loggedIn,
     billing: state.address.billing,
     addresses: state.address.addresses,
@@ -56,9 +55,6 @@ class BillingWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.profile.isLoaded) {
-      this.props.getProfile();
-    }
     if (!this.props.billing.isLoaded || !this.props.addresses.isLoaded) {
       this.props.getAddress();
     }
@@ -73,7 +69,6 @@ class BillingWrapper extends BasePageComponent {
   componentDidMount = () => {
     const billingLoaded = this.props.billing.isLoaded;
     const addressesLoaded = this.props.addresses.isLoaded;
-    const profileLoaded = this.props.profile.isLoaded;
     if (billingLoaded && addressesLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);

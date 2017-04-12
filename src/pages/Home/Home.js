@@ -9,11 +9,11 @@ class Home extends Component {
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired
-  }
+  };
 
   static defaultProps = {
     addToCart: () => (true)
-  }
+  };
 
   render() {
     const heroText = {
@@ -26,13 +26,13 @@ class Home extends Component {
     return (
       <section className={s.page}>
         <HeroBanner
-          heroClass='homebanner'
+          heroClass="homebanner"
           heroBanner={homeBanner}
           heroText={heroText}
           bottomText={bottomText}
         />
         <Grid
-          gridClass='productsgrid'
+          gridClass="productsgrid"
           gridItems={this.props.gridItems}
           addToCart={this.props.addToCart}
         />

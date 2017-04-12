@@ -72,6 +72,10 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    const addresses = {
+      shippAddress: this.props.addresses.shipping,
+      billAddress: this.props.addresses.billing
+    };
     return (
       <section className={s.page}>
         <Subnav
@@ -92,9 +96,8 @@ class Dashboard extends React.Component {
              shipping and billing addresses and
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
-
             {this.renderOrders()}
-            <Addresses {...this.props.addresses} />
+            <Addresses {...addresses} />
             <h1 className={s.title}>MY STORE CREDIT</h1>
             {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>

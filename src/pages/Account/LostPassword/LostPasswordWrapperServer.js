@@ -4,32 +4,25 @@ import LostPassword from './LostPassword';
 class LostPasswordWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array
-  }
-
-  static defaultProps = {
-    onLogout: () => (true),
-    resetPassword: () => (true)
-  }
-
-  onSubmit = () => (true);
-  resetMessages = () => (true);
+  };
 
   render() {
-    console.log('server');
+    const {
+      loggedIn,
+      breadcrumbs
+    } = this.props;
+    const isError = true;
+    const messages = [];
     return (
       <LostPassword
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        onSubmit={this.onSubmit}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        resetMessages={this.resetMessages}
-        breadcrumbs={this.props.breadcrumbs}
+        loggedIn={loggedIn}
+        onLogout={() => (true)}
+        onSubmit={() => (true)}
+        messages={messages}
+        isError={isError}
+        resetMessages={() => (true)}
+        breadcrumbs={breadcrumbs}
       />
     );
   }

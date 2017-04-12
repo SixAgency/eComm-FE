@@ -5,7 +5,7 @@ import s from './ErrorPage.css';
 
 class ErrorPage extends React.Component {
   static propTypes = {
-    error: PropTypes.object,
+    error: PropTypes.object
   };
 
   render() {

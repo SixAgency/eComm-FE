@@ -3,35 +3,29 @@ import Profile from './Profile';
 
 class ProfileWrapper extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    breadcrumbs: PropTypes.array
   };
-
-  static defaultProps = {
-    loggedIn: true,
-    messages: [],
-    isError: false,
-    profile: {}
-  };
-
-  onLogout = () => (true);
-  onUpdateProfile = () => (true);
-  resetMessages = () => (true);
 
   render() {
+    const {
+      profile,
+      breadcrumbs
+    } = this.props;
+    // Only logged in users can get here, so always true
+    const loggedIn = true;
+    const isError = false;
+    const messages = [];
     return (
       <Profile
-        loggedIn={this.props.loggedIn}
-        onLogout={this.onLogout}
-        profile={this.props.profile}
-        onUpdateProfile={this.onUpdateProfile}
-        resetMessages={this.resetMessages}
-        breadcrumbs={this.props.breadcrumbs}
-        messages={this.props.messages}
-        isError={this.props.isError}
+        loggedIn={loggedIn}
+        profile={profile}
+        breadcrumbs={breadcrumbs}
+        messages={messages}
+        isError={isError}
+        onLogout={() => (true)}
+        onUpdateProfile={() => (true)}
+        resetMessages={() => (true)}
       />
     );
   }

@@ -4,20 +4,22 @@ import ViewOrder from './ViewOrder';
 class ViewOrderWrapper extends React.Component {
   static propTypes = {
     order: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    onLogout: () => (true),
+    breadcrumbs: PropTypes.array
   };
 
   render() {
+    const {
+      order,
+      breadcrumbs
+    } = this.props;
+    // Only logged in users can get here - so always true
+    const loggedIn = true;
     return (
       <ViewOrder
-        order={this.props.order.order}
-        onLogout={this.props.onLogout}
-        loggedIn={this.props.loggedIn}
+        order={order.order}
+        breadcrumbs={breadcrumbs}
+        loggedIn={loggedIn}
+        onLogout={() => (true)}
       />
     );
   }

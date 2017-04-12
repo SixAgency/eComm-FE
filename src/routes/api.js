@@ -2,7 +2,7 @@ import express from 'express';
 // Actions
 import {
   getSession
-} from '../api/session';
+} from '../server/session';
 import { userLogin,
   userRegistration,
   userLogout,
@@ -12,15 +12,15 @@ import { userLogin,
   updatePassword,
   resetPassword,
   setNewPassword,
-  redeemGiftCard,
-  getStoreCreditInfo
-} from '../api/users';
+  getStoreCreditInfo,
+  redeemGiftCard
+} from '../server/users';
 import {
   getProducts,
   getProduct,
   getMannequinHeads,
   getProductsInCategory
-} from '../api/products';
+} from '../server/products';
 import {
   addToCart,
   removeFromCart,
@@ -29,25 +29,25 @@ import {
   getOrders,
   applyCouponCode,
   calculateShipping
-} from '../api/orders';
+} from '../server/orders';
 import {
   checkoutSquare,
   checkoutConfirm
-} from '../api/payment';
+} from '../server/payment';
 import { getAddresses,
   createAddress,
   updateAddress,
   setDefaultAddress,
   deleteAddress
-} from '../api/addresses';
+} from '../server/addresses';
 import { getBraintreeTokens,
   checkoutPayPal,
   checkoutNext,
   checkoutAddress,
   checkoutAddresses
-} from '../api/checkout';
+} from '../server/checkout';
 
-import sendContact from '../api/contact';
+import sendContact from '../server/contact';
 // Helpers
 import {
   validateAuth,

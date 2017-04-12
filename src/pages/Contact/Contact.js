@@ -22,8 +22,6 @@ class Contact extends React.Component {
           <div className={s.formwrapper}>
             <ContactForm
               sendContact={this.props.sendContact}
-              messages={this.props.messages}
-              isError={this.props.isError}
             />
           </div>
         </div>
