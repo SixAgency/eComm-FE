@@ -20,8 +20,7 @@
   }
 }
 
-@media only screen and (max-width: 760px),
-(max-device-width: 1024px) and (min-device-width: 768px) {
+@media (max-width: 767px) {
   .shoptable {
     thead {
       display: none;
