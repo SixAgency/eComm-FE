@@ -100,6 +100,7 @@
         padding: 5px 10px;
         outline: none;
         width: 380px;
+        max-width: 100%;
         box-sizing: border-box;
       }
 
@@ -129,6 +130,18 @@
       button.giftcardform_details_addtocart {
         margin-right: 15px;
       }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .variants {
+    width: 100%;
+    .giftcardform {
+      box-sizing: border-box;
+      max-width: 100%;
+      right: auto;
+      left: 0;
     }
   }
 }

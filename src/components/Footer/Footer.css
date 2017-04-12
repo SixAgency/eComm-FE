@@ -22,6 +22,7 @@
 }
 @media all and (max-width: 950px){
   .footer {
+    z-index: 0;
     .credits { margin-top: 35px; }
   }
 }
