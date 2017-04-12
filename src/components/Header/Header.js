@@ -20,7 +20,8 @@ class Header extends React.Component {
     this.state = {
       headerClass: '',
       stickyClass: '',
-      cartClass: 'hide'
+      cartClass: 'hide',
+      cartCountStick: false
     };
   }
 
@@ -55,6 +56,7 @@ class Header extends React.Component {
   headerScroll = () => {
     if (window.outerWidth > 960) {
       let stickyClass = '';
+      let cartCountStick = false;
       const posCur = window.scrollY;
       const heroSpacerH = window.innerHeight;
       // scroll down
@@ -68,9 +70,10 @@ class Header extends React.Component {
           stickyClass = '';
         }
       }
+      cartCountStick = posCur >= 570;
 
       this.posWas = posCur;
-      this.setState({ stickyClass });
+      this.setState({ stickyClass, cartCountStick });
     }
   };
 
@@ -111,7 +114,7 @@ class Header extends React.Component {
         >
           <i className={s.menuicon} />
         </Link>
-        <div className={cx(s.cartholder, s[this.props.menuOpen])}>
+        <div className={cx(s.cartholder, s[this.props.menuOpen], this.state.cartCountStick ? s.fixed : '')}>
           <div className={s.carticon} onMouseEnter={this.cartHover} onMouseLeave={this.cartHover}>
             <Link className={s.cartquantity} to="/cart"><span className={s.quantity}>{quantity}</span></Link>
             <Minicart cartItems={this.props.cartItems} cartClass={this.state.cartClass} />
