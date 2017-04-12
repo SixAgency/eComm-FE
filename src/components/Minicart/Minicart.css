@@ -1,6 +1,6 @@
 .minicart {
   position: absolute;
-  width: 250px;
+  width: 270px;
   right: -10px;
   top: 50px;
   padding-top: 6px;
@@ -41,6 +41,8 @@
   list-style-type: none;
   margin: 0;
   padding: 9px;
+  max-height: 580px;
+  overflow-y: auto;
 }
 .cartitem {
   width: 100%;
@@ -84,7 +86,7 @@
   text-transform: uppercase;
   color: #565656;
   font-weight: 700;
-  margin: 0px 20px 30px;
+  margin: 30px 20px;
   font-size: 14px;
 }
 .amount {
