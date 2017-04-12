@@ -11,7 +11,8 @@ import {
   parsePasswordUpdate,
   parseResetResponse,
   parseNewPasswordResponse,
-  parseGiftRedeemResponse
+  parseGiftRedeemResponse,
+  parseStoreCredit
 } from './helpers/handlers';
 
 const LOGIN = '/login';
@@ -152,6 +153,13 @@ function redeemGiftCard(request) {
   .catch((err) => setError(err));
 }
 
+function getStoreCreditInfo(request) {
+  return apiFetch('/api/v1/store_credit_events/mine', {}, request.session)
+    .then((resp) => (checkResponse(resp)))
+    .then((resp) => (parseStoreCredit(resp)))
+    .catch((err) => setError(err));
+}
+
 export {
   userLogin,
   userRegistration,
@@ -162,5 +170,6 @@ export {
   updatePassword,
   resetPassword,
   setNewPassword,
-  redeemGiftCard
+  redeemGiftCard,
+  getStoreCreditInfo
 };

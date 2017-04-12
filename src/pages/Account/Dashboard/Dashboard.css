@@ -43,7 +43,14 @@
     color: #d0ff00;
 }
 
+.storecreditamount {
+  text-align: center;
+  margin: 0;
+  margin-top: 15px;
+}
+
 .giftcardform {
+  margin-top: 40px;
   text-align: center;
   .giftcardform_title {
     margin: 0;
