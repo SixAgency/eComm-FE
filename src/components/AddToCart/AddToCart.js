@@ -9,7 +9,9 @@ import GiftCardSelector from '../SingleVariant/GiftCardSelector';
 class CartCta extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    cartItems: PropTypes.array.isRequired,
+    setMessage: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -56,15 +58,14 @@ class CartCta extends Component {
               onAddToCart={this.props.onSubmit}
             />
           );
-        } else {
-          return (
-            <SingleVariant
-              variants={product.variants}
-              action={this.setVariant}
-              price={product.price}
-            />
-          );
         }
+        return (
+          <SingleVariant
+            variants={product.variants}
+            action={this.setVariant}
+            price={product.price}
+          />
+        );
       }
     }
     return null;
@@ -91,8 +92,8 @@ class CartCta extends Component {
     });
   }
 
-  addToCart = (event) => {
-    event.preventDefault();
+  addToCart = (e) => {
+    e.preventDefault();
     if (this.state.variant_id === null) {
       return;
     }
@@ -100,13 +101,42 @@ class CartCta extends Component {
       id: this.state.variant_id,
       quantity: this.state.quantity
     };
-    this.props.onSubmit(data);
+    if (this.checkQuantities(this.props.product, this.props.cartItems)) {
+      this.props.onSubmit(data);
+    } else {
+      this.props.setMessage({
+        isError: true,
+        messages: [
+          `You may only purchase a maximum
+          ${this.props.product.product.max_quantity_allowed_in_cart}
+          ${this.props.product.product.name} at one time`
+        ]
+      });
+    }
+  }
+
+  checkQuantities = (prod, cartItems) => {
+    const currentId = prod.product.master.id;
+    const currentProdInCart = cartItems.find(
+      product => product.variant_id === currentId
+    );
+    if (typeof currentProdInCart !== 'undefined' && currentProdInCart) {
+      const currentMaxAllowed = currentProdInCart.variant.max_quantity_allowed_in_cart;
+      const currentQuantity = currentProdInCart.quantity;
+      return (parseInt(this.state.quantity, 10) + parseInt(currentQuantity, 10)) <
+        parseInt(currentMaxAllowed, 10);
+    }
+    return false;
   }
 
   render() {
     const { product } = this.props.product;
+    console.log(this.props.product);
     return (
-      <form className={s.cartform} onSubmit={this.addToCart}>
+      <form
+        className={s.cartform}
+        onSubmit={this.addToCart}
+      >
         { this.getVariant() }
         {
           product.classifications[0].taxon.name !== 'Gifts' &&

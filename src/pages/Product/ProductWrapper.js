@@ -4,13 +4,20 @@ import { connect } from 'react-redux';
 import Product from './Product';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader,
+  setMessage
+} from '../../actions/page';
 import { addToCart } from '../../actions/order';
 import { getProduct } from '../../actions/catalog';
 
 const mapStateToProps = ((state) => (
   {
-    product: state.catalog.product
+    product: state.catalog.product,
+    cartItems: state.cart.cartItems.cart.line_items,
+    messages: state.page.messages
   }
 ));
 
@@ -20,7 +27,8 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     addToCart: (item) => dispatch(addToCart(item)),
     getProduct: (slug) => dispatch(getProduct(slug)),
-    resetMessages: () => dispatch(resetMessages())
+    resetMessages: () => dispatch(resetMessages()),
+    setMessage: (message) => dispatch(setMessage(message))
   }
 ));
 
@@ -32,7 +40,10 @@ class ProductWrapper extends Component {
     addToCart: PropTypes.func.isRequired,
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
+    cartItems: PropTypes.array.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired
   }
 
   constructor(props) {
@@ -57,7 +68,6 @@ class ProductWrapper extends Component {
   }
 
   componentDidMount = () => {
-    console.log('did');
     const { isLoaded } = this.props.product;
     if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
       setTimeout(() => {
@@ -67,8 +77,6 @@ class ProductWrapper extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next');
-    console.log(nextProps);
     if (this.props.params.slug !== nextProps.params.slug) {
       this.props.toggleLoader(true);
       this.props.getProduct(nextProps.params.slug);
@@ -90,11 +98,12 @@ class ProductWrapper extends Component {
   }
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
   }
 
-  getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
+  getProperty = (properties, property) => properties.find(
+    (prop) => (prop.property_name === property)
+  );
 
   getPropertyFlag = (object) => typeof object !== 'undefined' && object.value !== '';
 
@@ -136,7 +145,10 @@ class ProductWrapper extends Component {
       <Product
         product={this.props.product}
         onAddToCart={this.props.addToCart}
+        cartItems={this.props.cartItems}
         properties={this.getProperties()}
+        setMessage={this.props.setMessage}
+        messages={this.props.messages}
       />
     );
   }

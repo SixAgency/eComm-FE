@@ -12,13 +12,17 @@ import AddToCart from '../../components/AddToCart';
 import imagePlaceholder from './image_placeholder_large.png';
 import EmbeddedVideo from '../../components/EmbeddedVideo';
 import ProductTab from '../../components/ProductTab';
+import ErrorDisplay from '../../components/ErrorDisplay';
 
 class Product extends Component {
 
   static propTypes = {
     product: PropTypes.object.isRequired,
     onAddToCart: PropTypes.func.isRequired,
-    properties: PropTypes.object.isRequired
+    properties: PropTypes.object.isRequired,
+    cartItems: PropTypes.array.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired
   };
 
   constructor(props) {
@@ -70,9 +74,12 @@ class Product extends Component {
     const categoryName = product.classifications[0].taxon.name;
     const properties = this.props.properties;
     const variants = this.props.product.product.variants;
-
     return (
       <div className={s.page}>
+        <ErrorDisplay
+          messages={this.props.messages}
+          isError
+        />
         <div className={s.left}>
           <div className={s.container}>
             <img
@@ -124,7 +131,12 @@ class Product extends Component {
                   {properties.video && <EmbeddedVideo embeddedCode={properties.video} /> }
                 </div>
               </div>
-              <AddToCart onSubmit={this.props.onAddToCart} product={this.props.product} />
+              <AddToCart
+                onSubmit={this.props.onAddToCart}
+                product={this.props.product}
+                cartItems={this.props.cartItems}
+                setMessage={this.props.setMessage}
+              />
               <div className={s.summarymiddle}>
                 <ProductTab
                   title="Description" open={this.isTabOpen('description')}

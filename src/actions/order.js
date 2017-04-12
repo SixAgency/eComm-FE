@@ -134,12 +134,12 @@ function getOrder(number) {
  * @returns {function(*=)}
  */
 function addToCart(data) {
-  console.log('ADD TO CART DATA', data);
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
+    console.log('ADD TO CART', data);
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
