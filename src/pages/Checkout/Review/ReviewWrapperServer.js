@@ -11,7 +11,7 @@ class ReviewWrapper extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.bool.isRequired
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {

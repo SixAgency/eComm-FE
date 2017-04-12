@@ -3,40 +3,31 @@ import Shipping from './Shipping';
 
 class ShippingWrapper extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    shipping: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array
   };
 
-  static defaultProps = {
-    onLogout: () => (true),
-    messages: [],
-    isError: false
-  };
-
-  onSubmit = () => (true);
-  onCancel = () => (true);
-  onCreate = () => (true);
-  onSelect = () => (true);
-
   render() {
+    const {
+      addresses,
+      breadcrumbs
+    } = this.props;
+    // Only logged in users can get here - so always true
+    const loggedIn = true;
+    const isError = true;
+    const messages = [];
     return (
       <Shipping
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        addressId={this.props.shipping.address.id}
-        addresses={this.props.addresses.addresses}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        onSubmit={this.onSubmit}
-        onCancel={this.onCancel}
-        onSelect={this.onSelect}
-        onCreate={this.onCreate}
-        breadcrumbs={this.props.breadcrumbs}
+        addresses={addresses.addresses.addresses}
+        breadcrumbs={breadcrumbs}
+        messages={messages}
+        isError={isError}
+        loggedIn={loggedIn}
+        onLogout={() => (true)}
+        onSubmit={() => (true)}
+        onCancel={() => (true)}
+        onSelect={() => (true)}
+        onCreate={() => (true)}
       />
     );
   }

@@ -4,29 +4,25 @@ import ResetPassword from './ResetPassword';
 class ResetPasswordWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
-    params: PropTypes.object.isRequired
-  }
-
-  static defaultProps = {
-  }
-
-  onSubmit = () => (true);
-  setMessage = () => (true);
+    breadcrumbs: PropTypes.array
+  };
 
   render() {
-    console.log('server');
+    const {
+      loggedIn,
+      breadcrumbs
+    } = this.props;
+    const isError = true;
+    const messages = [];
     return (
       <ResetPassword
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        onSubmit={this.onSubmit}
-        messages={this.props.messages}
-        resetMessages={this.resetMessages}
-        setMessage={this.setMessage}
-        params={this.props.params}
+        loggedIn={loggedIn}
+        onLogout={() => (true)}
+        onSubmit={() => (true)}
+        messages={messages}
+        isError={isError}
+        resetMessages={() => (true)}
+        breadcrumbs={breadcrumbs}
       />
     );
   }

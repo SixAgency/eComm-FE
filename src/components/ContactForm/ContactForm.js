@@ -6,9 +6,7 @@ import s from './ContactForm.css';
 class ContactForm extends Component {
 
   static propTypes = {
-    sendContact: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    sendContact: PropTypes.func.isRequired
   };
 
   constructor(props) {

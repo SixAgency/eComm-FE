@@ -41,8 +41,9 @@ class ResetPasswordWrapper extends BasePageComponent {
     resetMessages: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
-    setNewPassword: PropTypes.func.isRequired
-  }
+    setNewPassword: PropTypes.func.isRequired,
+    location: PropTypes.object
+  };
 
   componentWillMount = () => {
     const props = {
@@ -50,27 +51,28 @@ class ResetPasswordWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.resetMessages();
     this.props.toggleLoader(true);
-  }
+  };
 
   onSubmit = (data) => {
+    const { location, params } = this.props;
+    const token = location.query.reset_password_token || params.param;
     const info = {
       passwords: data,
-      token: this.props.params.param
+      token
     };
     this.props.setNewPassword(info);
-  }
+  };
 
   render() {
     if (this.props.loggedIn) {

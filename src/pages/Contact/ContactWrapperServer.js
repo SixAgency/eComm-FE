@@ -1,24 +1,18 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Contact from './Contact';
 
 class ContactWrapper extends React.Component {
-
-  static propTypes = {
-    setHeaderProps: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    setHeaderProps: () => (true),
-    sendContact: () => (true),
-    isError: false,
-    isSent: false,
-    messages: []
-  }
-
   render() {
-    console.log('server');
+    const isError = false;
+    const isSent = false;
+    const messages = [];
     return (
-      <Contact {...this.props} />
+      <Contact
+        sendContact={() => (true)}
+        isError={isError}
+        isSent={isSent}
+        messages={messages}
+      />
     );
   }
 }

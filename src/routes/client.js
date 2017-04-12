@@ -66,6 +66,8 @@ const routes = (
       <Route path="promo" component={PromoCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
       <Route path="review" component={ReviewCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
     </Route>
+    {/* TODO - remove once the reset password email returns the correct link  */}
+    <Route path="user/spree_user/password/edit" component={ResetPasswordWrapper} title="My Account" />
     <Route path="error" component={ErrorPageWrapper} title="Error" />
     <Route path="*" component={NotFoundWrapper} title="Page Not Found" />
   </Route>

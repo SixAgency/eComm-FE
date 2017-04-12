@@ -245,7 +245,7 @@ function setAddressesResponse(data, newAddress) {
         addresses: setDefaultAddresses(data.owner_address, data.bill_address, data.ship_address)
       }
     };
-    if (newAddress.isNew && newAddress.address) {
+    if (newAddress && newAddress.isNew && newAddress.address) {
       resp.newAddress = newAddress.address;
     }
   } else {

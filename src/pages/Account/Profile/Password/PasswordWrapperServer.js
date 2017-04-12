@@ -3,30 +3,29 @@ import Password from './Password';
 
 class PasswordWrapper extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
-    updatePassword: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
-  }
-
-  static defaultProps = {
-    onLogout: () => (true),
-    loggedIn: true,
-    updatePassword: () => (true),
-    profile: {}
-  }
+    breadcrumbs: PropTypes.array
+  };
 
   render() {
+    const {
+      profile,
+      breadcrumbs
+    } = this.props;
+    // Only loggedIn users can get here - so always true
+    const loggedIn = true;
+    const isError = true;
+    const messages = [];
     return (
       <Password
-        profile={this.props.profile}
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        onUpdatePassword={this.props.updatePassword}
-        messages={this.props.messages}
-        isError={this.props.isError}
+        profile={profile}
+        breadcrumbs={breadcrumbs}
+        isError={isError}
+        messages={messages}
+        loggedIn={loggedIn}
+        onLogout={() => (true)}
+        onUpdatePassword={() => (true)}
+        resetMessages={() => (true)}
       />
     );
   }

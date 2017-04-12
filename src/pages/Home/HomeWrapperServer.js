@@ -4,19 +4,18 @@ import Home from './Home';
 class HomeWrapper extends React.Component {
 
   static propTypes = {
-    gridItems: PropTypes.object.isRequired,
-    addToCart: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    // gridItems: { isLoaded: false, products: [] },
-    addToCart: (item) => (item),
-  }
+    gridItems: PropTypes.object.isRequired
+  };
 
   render() {
-    // console.log(this.props.gridItems);
+    const {
+      gridItems
+    } = this.props;
     return (
-      <Home gridItems={this.props.gridItems} addToCart={this.props.addToCart} />
+      <Home
+        gridItems={gridItems}
+        addToCart={() => (true)}
+      />
     );
   }
 }

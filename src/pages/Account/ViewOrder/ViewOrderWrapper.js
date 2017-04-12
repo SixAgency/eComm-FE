@@ -34,7 +34,8 @@ class ViewOrderWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     order: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    route: PropTypes.object
   };
 
   componentWillMount = () => {
@@ -79,6 +80,7 @@ class ViewOrderWrapper extends BasePageComponent {
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
         order={this.props.order.order}
+        breadcrumbs={this.props.route.breadcrumbs}
       />
     );
   }

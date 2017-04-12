@@ -15,7 +15,8 @@ class ViewOrder extends PureComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    order: PropTypes.object.isRequired
+    order: PropTypes.object.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   listAddress = (address) => {
@@ -41,7 +42,11 @@ class ViewOrder extends PureComponent {
 
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} onLogout={this.props.onLogout} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          breadcrumbs={this.props.breadcrumbs}
+          onLogout={this.props.onLogout}
+        />
         <ContentWrapper tabsClass={'hide'}>
           <div>
             <p className={s.orderInfo}>

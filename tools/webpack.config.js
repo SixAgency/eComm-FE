@@ -264,6 +264,7 @@ const serverConfig = {
     modules: [path.resolve(__dirname, '../src'), 'node_modules'],
     alias: {
       components: path.resolve(__dirname, '../src/components'),
+      controllers: path.resolve(__dirname, '../src/server/controllers'),
       pages: path.resolve(__dirname, '../src/pages')
     }
   },

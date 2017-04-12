@@ -13,6 +13,7 @@ module.exports = {
           resolve: {
             modules: [path.resolve(__dirname, './src'), 'node_modules'],
             alias: {
+              controllers: path.resolve(__dirname, './src/server/controllers'),
               components: path.resolve(__dirname, './src/components'),
               actions: path.resolve(__dirname, './src/actions'),
               store: path.resolve(__dirname, './src/reducers'),

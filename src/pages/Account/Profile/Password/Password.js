@@ -16,8 +16,9 @@ class Password extends Component {
     onUpdatePassword: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
-  }
+    resetMessages: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
+  };
 
   render() {
     return (
@@ -25,6 +26,7 @@ class Password extends Component {
         <Subnav
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
+          breadcrumbs={this.props.breadcrumbs}
           resetMessages={this.props.resetMessages}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />

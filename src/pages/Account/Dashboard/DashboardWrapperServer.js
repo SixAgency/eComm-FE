@@ -3,50 +3,38 @@ import Dashboard from './Dashboard';
 
 class DashboardWrapper extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
-    shipping: PropTypes.object.isRequired,
-    billing: PropTypes.object.isRequired,
-    orders: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array,
+    addresses: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    onRedeemGiftCard: PropTypes.func.isRequired,
-    getStoreCredit: PropTypes.func.isRequired,
-    creditInfo: PropTypes.object.isRequired
+    orders: PropTypes.object.isRequired,
+    creditInfo: PropTypes.object.isRequired,
+    breadcrumbs: PropTypes.array
   };
-
-  static defaultProps = {
-    messages: [],
-    isError: false,
-    profile: {},
-    onRedeemGiftCard: () => (true),
-    getStoreCredit: () => (true),
-    creditInfo: {}
-  };
-
-  onLogout = () => (true);
-  resetMessages = () => (true);
 
   render() {
-    const addresses = {
-      shippAddress: this.props.shipping.address,
-      billAddress: this.props.billing.address
-    };
-    const orders = this.props.orders;
+    const {
+      profile,
+      addresses,
+      orders,
+      breadcrumbs,
+      creditInfo
+    } = this.props;
+    /* Only logged in users can land here */
+    const loggedIn = true;
+    const isError = false;
+    const messages = [];
     return (
       <Dashboard
-        loggedIn={this.props.loggedIn}
-        onLogout={this.onLogout}
+        loggedIn={loggedIn}
+        profile={profile.profile}
         addresses={addresses}
         orders={orders}
-        resetMessages={this.resetMessages}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        breadcrumbs={this.props.breadcrumbs}
-        profile={this.props.profile}
-        onRedeemGiftCard={this.props.onRedeemGiftCard}
-        creditInfo={this.props.creditInfo}
+        creditInfo={creditInfo}
+        breadcrumbs={breadcrumbs}
+        messages={messages}
+        isError={isError}
+        onLogout={() => (true)}
+        resetMessages={() => (true)}
+        onRedeemGiftCard={() => (true)}
       />
     );
   }

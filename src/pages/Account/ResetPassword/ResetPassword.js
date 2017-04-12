@@ -14,7 +14,7 @@ class ResetPassword extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     return (
