@@ -3,7 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { resetAddresses, setAddresses } from './address';
-import { validateAuth, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
+import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
 
 /**
  * Set User - helper
@@ -218,16 +218,21 @@ function updatePassword(data) {
 // Reset Password - send email step
 function resetPassword(data) {
   return (dispatch) => {
-    axios.post('/api/my-account/reset-password', data)
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setMessage({ isError: false, messages: [response.data] }));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: [response.data] }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-        forwardTo('error');
-      });
+    const valid = validatePasswordEmail(data);
+    if (valid.isError) {
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      axios.post('/api/my-account/reset-password', data)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setMessage({ isError: false, messages: [response.data] }));
+        }, () => {
+          dispatch(setMessage({ isError: true, messages: [response.data] }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
   };
 }
 
