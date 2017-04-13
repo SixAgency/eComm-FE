@@ -74,6 +74,15 @@
   }
 }
 
+@media (max-width: 950px) and (min-width: 767px) {
+  .subnav {
+    padding-top: 35px;
+    .breadcrumbs {
+      top: 10px;
+    }
+  }
+}
+
 @media (max-width: 767px) and (min-width: 320px){
   .subnav {
     .breadcrumbs {
