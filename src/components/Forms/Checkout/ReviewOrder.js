@@ -10,7 +10,10 @@ class ReviewOrder extends PureComponent {
     checkoutPayPal: PropTypes.func.isRequired,
     checkoutSquare: PropTypes.func.isRequired,
     confirmOrder: PropTypes.func.isRequired,
-    isPayPal: PropTypes.bool.isRequired
+    isPayPal: PropTypes.bool.isRequired,
+    creditInfo: PropTypes.object.isRequired,
+    toggleUseCredits: PropTypes.func.isRequired,
+    useCredits: PropTypes.bool.isRequired
   };
 
   listPayment = () => {
@@ -101,6 +104,9 @@ class ReviewOrder extends PureComponent {
           cart={cart}
           cartItems={this.props.cartItems}
           isPayPal={this.props.isPayPal}
+          creditInfo={this.props.creditInfo}
+          toggleUseCredits={this.props.toggleUseCredits}
+          useCredits={this.props.useCredits}
         />
         {this.listPayment()}
       </div>
