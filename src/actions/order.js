@@ -139,7 +139,6 @@ function addToCart(data) {
     dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
-    console.log('ADD TO CART', data);
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));

@@ -16,7 +16,7 @@ import { getProduct } from '../../actions/catalog';
 const mapStateToProps = ((state) => (
   {
     product: state.catalog.product,
-    cartItems: state.cart.cartItems.cart.line_items,
+    cartItems: state.cart.cartItems,
     messages: state.page.messages
   }
 ));
@@ -41,10 +41,11 @@ class ProductWrapper extends Component {
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    cartItems: PropTypes.array.isRequired,
+    cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
-  }
+    messages: PropTypes.array.isRequired,
+    resetMessages: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -65,7 +66,8 @@ class ProductWrapper extends Component {
     } else if (this.props.product.product.slug !== this.props.params.slug) {
       this.props.getProduct(this.props.params.slug);
     }
-  }
+    this.props.resetMessages();
+  };
 
   componentDidMount = () => {
     const { isLoaded } = this.props.product;
@@ -74,7 +76,7 @@ class ProductWrapper extends Component {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.params.slug !== nextProps.params.slug) {
@@ -95,11 +97,11 @@ class ProductWrapper extends Component {
         }, 250);
       }
     }
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-  }
+  };
 
   getProperty = (properties, property) => properties.find(
     (prop) => (prop.property_name === property)
@@ -134,23 +136,29 @@ class ProductWrapper extends Component {
       weight: this.getPropertyFlag(weight) ? weight.value : '',
       dimensions: this.getPropertyFlag(dimensions) ? dimensions.value : ''
     };
-  }
+  };
 
   render() {
-    if (!this.props.product.isLoaded) {
-      return null;
+    const {
+      product,
+      cartItems,
+      messages
+    } = this.props;
+    if (product.isLoaded && cartItems.isLoaded) {
+      document.title = `${product.product.name || 'Shop'} - krissorbie`;
+      return (
+        <Product
+          product={product}
+          onAddToCart={this.props.addToCart}
+          cartItems={cartItems.cart.line_items}
+          properties={this.getProperties()}
+          setMessage={this.props.setMessage}
+          messages={messages}
+          resetMessages={this.props.resetMessages}
+        />
+      );
     }
-    document.title = `${this.props.product.product.name || 'Shop'} - krissorbie`;
-    return (
-      <Product
-        product={this.props.product}
-        onAddToCart={this.props.addToCart}
-        cartItems={this.props.cartItems}
-        properties={this.getProperties()}
-        setMessage={this.props.setMessage}
-        messages={this.props.messages}
-      />
-    );
+    return null;
   }
 }
 
