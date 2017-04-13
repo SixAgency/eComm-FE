@@ -1,4 +1,4 @@
-import fetch from './fetch';
+import { apiFetch } from './fetch';
 import {
   checkResponse,
   setError,
@@ -15,7 +15,7 @@ function checkoutSquare(request) {
   if (!request.session.user_token) {
     endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
   }
-  return fetch(endpoint,
+  return apiFetch(endpoint,
     {
       method: 'PUT',
       body: JSON.stringify(request.body.data)
@@ -43,7 +43,7 @@ function checkoutConfirm(request) {
   if (!request.session.user_token) {
     endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
   }
-  return fetch(endpoint,
+  return apiFetch(endpoint,
     {
       method: 'PUT'
     }, request.session

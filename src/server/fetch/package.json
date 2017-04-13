@@ -1,5 +1,5 @@
 {
   "private": true,
   "name": "fetch",
-  "main": "./fetch.server.js"
+  "main": "./fetch.js"
 }
