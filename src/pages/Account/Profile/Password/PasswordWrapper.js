@@ -65,6 +65,7 @@ class PasswordWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
+    this.props.resetMessages();
     this.props.toggleLoader(true);
   };
 

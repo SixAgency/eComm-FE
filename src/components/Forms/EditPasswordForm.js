@@ -48,10 +48,7 @@ class EditPasswordForm extends Component {
   }
 
   checkPassword = () => {
-    this.setState({
-      passwordValid: !testPasswordStrength(this.state.newpassword).isError &&
-      !testPasswordStrength(this.state.confirmnewpassword).isError
-    });
+    this.setState({ passwordValid: !testPasswordStrength(this.state.newpassword).isError });
   }
 
   isPasswordChanged = () =>
@@ -106,7 +103,10 @@ class EditPasswordForm extends Component {
               className={s.submit}
               type="submit"
               value="save changes"
-              disabled={!this.state.passwordValid}
+              disabled={
+                !this.state.passwordValid ||
+                (this.state.newpassword !== this.state.confirmnewpassword)
+              }
             />
           </div>
         </form>
