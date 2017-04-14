@@ -17,7 +17,7 @@
   color: #d0ff00;
 }
 
-@media only screen and (max-device-width: 768px) {
+@media only screen and (max-width: 767px) {
   .relatedwrpr {
     display: none;
   }
