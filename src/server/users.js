@@ -1,4 +1,4 @@
-import { apiFetch } from './fetch';
+import { apiFetch } from './fetch/fetch.server';
 // Helpers
 import {
   checkResponse,
@@ -32,6 +32,7 @@ function userLogin(request) {
   if (!request.session.user_token) {
     user.guest_token = request.session.guest_token;
   }
+  console.log(user);
   return apiFetch(LOGIN,
     {
       method: 'POST',

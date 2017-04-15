@@ -12,6 +12,7 @@ import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './pages/Error/ErrorPage';
 import errorPageStyle from './pages/Error/ErrorPage.css';
 import apiRoutes from './routes/api';
+import apiRoutesV from './routes/api2';
 import siteRoutes from './routes/server';
 import { port } from './config';
 import logger from './server/logger';
@@ -54,10 +55,8 @@ app.use(session({
     maxAge: 36000000
   }
 }));
-app.use((req, res, next) => {
-  next();
-});
 // Register API Endpoints
+app.use('/apiv', apiRoutesV);
 app.use('/api', apiRoutes);
 
 // Assets

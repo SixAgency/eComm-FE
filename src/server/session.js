@@ -20,6 +20,7 @@ function updateSession(request, params) {
   request.session.guest_token = params.guest_token;
   request.session.user_token = params.user_token;
   request.session.order = params.order;
+  logger.debug('SESSION', request.session);
 }
 
 /**
@@ -40,6 +41,7 @@ function clearSession(request) {
  * @returns bool
  */
 function checkSessionOrder(session) {
+  logger.debug('CHECK', session);
   return (session.order && session.guest_token) || session.user_token;
 }
 

@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
 import { apiFetch } from './fetch.server';
-import { setErrorResponse, setSuccessResponse } from '../response';
+import { setErrorResponse, setSuccessResponse } from '../proxy/response';
 
 /**
  * Check the response and apply the appropriate functions
@@ -19,8 +19,7 @@ function checkResponse(data, fn) {
     return setErrorResponse(data);
   }
   // Success
-  const response = fn ? fn(json) : json;
-  return setSuccessResponse(response);
+  return (fn ? fn(json) : setSuccessResponse(json));
 }
 
 /**

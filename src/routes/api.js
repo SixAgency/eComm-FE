@@ -49,9 +49,6 @@ import { getBraintreeTokens,
 
 import sendContact from '../server/contact';
 
-// TEST METHODS
-import { testPost, testPut, testGet, testPatch, testDelete } from '../server/proxy/test';
-
 
 // Helpers
 import {
@@ -62,8 +59,6 @@ import {
   validateAccountUpdate,
   validateShippingCalculator
 } from '../helpers/validators';
-
-import { setInternalErrorResponse } from '../server/response';
 
 const apiRoutes = express.Router();
 
@@ -277,57 +272,5 @@ apiRoutes.post('/calculate_shipping', (req, resp) => {
 apiRoutes.delete('/addressdelete/:id', (req, resp) => {
   deleteAddress(req).then((data) => (resp.json(data)));
 });
-
-apiRoutes
-  .get('/test/:slug', (req, resp) => {
-    testGet(req)
-      .then((data) => {
-        resp.status(data.status).json(data);
-      })
-      .catch((err) => {
-        const data = setInternalErrorResponse(err);
-        resp.status(data.status).json(data);
-      });
-  })
-  .put('/test/:id', (req, resp) => {
-    testPut(req)
-      .then((data) => {
-        resp.status(data.status).json(data);
-      })
-      .catch((err) => {
-        const data = setInternalErrorResponse(err);
-        resp.status(data.status).json(data);
-      });
-  })
-  .post('/test', (req, resp) => {
-    testPost(req)
-      .then((data) => {
-        resp.status(data.status).json(data);
-      })
-      .catch((err) => {
-        const data = setInternalErrorResponse(err);
-        resp.status(data.status).json(data);
-      });
-  })
-  .delete('/test/:id', (req, resp) => {
-    testDelete(req)
-      .then((data) => {
-        resp.status(data.status).json(data);
-      })
-      .catch((err) => {
-        const data = setInternalErrorResponse(err);
-        resp.status(data.status).json(data);
-      });
-  })
-  .post('/test', (req, resp) => {
-    testPatch(req)
-      .then((data) => {
-        resp.status(data.status).json(data);
-      })
-      .catch((err) => {
-        const data = setInternalErrorResponse(err);
-        resp.status(data.status).json(data);
-      });
-  });
 
 export default apiRoutes;
