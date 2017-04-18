@@ -17,9 +17,6 @@ const SessionUtils = {
     Object.entries(args).forEach(([key, val]) => {
       req.session[key] = val;
     });
-  },
-  checkGuestParams: (req) => {
-    return Boolean(req.session && req.session.order && req.session.guest_token);
   }
 };
 

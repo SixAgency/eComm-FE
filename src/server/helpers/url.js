@@ -23,7 +23,10 @@ const UrlUtils = {
   updateCart: (req) => asGuestUrl({
     url: `/api/v1/orders/${req.session.order}`,
     req
-  })
+  }),
+  getProduct: (req) => (`/api/v1/products/${req.params.slug}`),
+  getProducts: () => ('/api/v1/products'),
+  getProductsByCategory: (req) => (`/api/v1/taxons/products?permalink=categories/${req.params.category}`)
 };
 
 export default UrlUtils;

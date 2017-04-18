@@ -1,4 +1,3 @@
-import Promise from 'bluebird';
 import { fetch } from '../fetch';
 import { setSuccessResponse, setErrorResponse } from './response';
 import CartUtils from '../helpers/cart';
@@ -9,7 +8,7 @@ import { NOT_FOUND } from '../../constants/MessageConsts';
 /**
  * Returns the cart of a logged in customer
  * @param req
- * @returns {*}
+ * @returns {Promise}
  */
 function getUserCart(req) {
   const args = {
@@ -30,22 +29,19 @@ function getUserCart(req) {
 /**
  * Returns the cart of a guest user
  * @param req
- * @returns {*}
+ * @returns {Promise}
  */
 function getGuestCart(req) {
-  if (SessionUtils.checkGuestParams(req)) {
-    const args = {
-      url: `/api/v1/orders/${req.session.order}?order_token=${req.session.guest_token}`,
-      method: 'GET',
-      session: req.session,
-      fn: (cart) => {
-        CartUtils.setCartSession(req, cart);
-        return setSuccessResponse(cart);
-      }
-    };
-    return fetch(args);
-  }
-  return Promise.resolve(setErrorResponse({ status: 404, messages: [NOT_FOUND] }));
+  const args = {
+    url: `/api/v1/orders/${req.session.order}?order_token=${req.session.guest_token}`,
+    method: 'GET',
+    session: req.session,
+    fn: (cart) => {
+      CartUtils.setCartSession(req, cart);
+      return setSuccessResponse(cart);
+    }
+  };
+  return fetch(args);
 }
 
 /**
