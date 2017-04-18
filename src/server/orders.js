@@ -224,6 +224,24 @@ function calculateShipping(request) {
   .catch((err) => setError(err));
 }
 
+// Apply Store Credit
+function applyStoreCredit(request) {
+  const postdata = request.body;
+  const orderNumber = request.session.order;
+  let endpoint = `/api/v1/checkouts/${orderNumber}?order_token=${request.session.user_token}`;
+  if (!request.session.user_token) {
+    endpoint = `/api/v1/checkouts/${orderNumber}?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(postdata)
+    }, request.session)
+    .then((response) => checkResponse(response))
+    .then((data) => data)
+    .catch((err) => setError(err));
+}
+
 export {
   createCartWrapper,
   getOrder,
@@ -233,5 +251,6 @@ export {
   removeFromCart,
   updateCart,
   applyCouponCode,
-  calculateShipping
+  calculateShipping,
+  applyStoreCredit
 };

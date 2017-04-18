@@ -13,7 +13,8 @@ class ReviewOrder extends PureComponent {
     isPayPal: PropTypes.bool.isRequired,
     creditInfo: PropTypes.object.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
-    useCredits: PropTypes.bool.isRequired
+    useCredits: PropTypes.bool.isRequired,
+    applyStoreCredit: PropTypes.func.isRequired
   };
 
   listPayment = () => {
@@ -107,6 +108,7 @@ class ReviewOrder extends PureComponent {
           creditInfo={this.props.creditInfo}
           toggleUseCredits={this.props.toggleUseCredits}
           useCredits={this.props.useCredits}
+          applyStoreCredit={this.props.applyStoreCredit}
         />
         {this.listPayment()}
       </div>

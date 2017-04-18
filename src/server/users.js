@@ -153,6 +153,8 @@ function redeemGiftCard(request) {
   .catch((err) => setError(err));
 }
 
+
+// Get store credit value
 function getStoreCreditInfo(request) {
   return apiFetch('/api/v1/store_credit_events/mine', {}, request.session)
     .then((resp) => (checkResponse(resp)))

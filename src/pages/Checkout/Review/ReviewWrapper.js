@@ -8,7 +8,7 @@ import Review from './Review';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, toggleModal } from '../../../actions/page';
 import { applyPromoCode } from '../../../actions/order';
-import { onLogin, onLogout, getStoreCredit } from '../../../actions/user';
+import { onLogin, onLogout, getStoreCredit, applyStoreCredit } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { confirmOrder } from '../../../actions/payment/payment';
@@ -25,7 +25,8 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     completePayPal: () => dispatch(completePayPal()),
     confirmOrder: () => (dispatch(confirmOrder())),
-    getStoreCredit: () => dispatch(getStoreCredit())
+    getStoreCredit: () => dispatch(getStoreCredit()),
+    applyStoreCredit: (data) => dispatch(applyStoreCredit(data))
   }
 ));
 
@@ -61,7 +62,8 @@ class ReviewWrapper extends BasePageComponent {
     isCartPending: PropTypes.bool.isRequired,
     route: PropTypes.object,
     getStoreCredit: PropTypes.func.isRequired,
-    creditInfo: PropTypes.object.isRequired
+    creditInfo: PropTypes.object.isRequired,
+    applyStoreCredit: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -139,7 +141,12 @@ class ReviewWrapper extends BasePageComponent {
 
   toggleUseCredits = () => {
     this.setState({ useCredits: !this.state.useCredits });
-  }
+    this.props.applyStoreCredit({
+      order: {
+        apply_store_credit: true
+      }
+    });
+  };
 
   render() {
     if (this.props.cartItems.isLoaded) {
@@ -166,6 +173,7 @@ class ReviewWrapper extends BasePageComponent {
             creditInfo={this.props.creditInfo}
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
+            applyStoreCredit={this.props.applyStoreCredit}
           />
         </Checkout>
       );

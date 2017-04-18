@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
 
   redeemGiftCard = () => {
     this.props.onRedeemGiftCard(this.state.giftCode);
-  }
+  };
 
   renderOrders = () => {
     const { orders } = this.props;

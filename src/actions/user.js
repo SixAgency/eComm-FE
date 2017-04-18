@@ -22,8 +22,18 @@ function setProfile(profile) {
   return { type: 'SET_PROFILE', payload: { profile } };
 }
 
+/** Set Store Credit - helper
+* @param object
+* @returns {{type: object, payload: object}}
+*/
 function setStoreCreditInfo(creditInfo) {
   return { type: 'SET_STORE_CREDIT_INFO', payload: { creditInfo } };
+}
+
+/** same here **/
+
+function applyCredit(data) {
+  return { type: 'APPLY_STORE_CREDIT', payload: { data } };
 }
 
 /**
@@ -292,6 +302,23 @@ function getStoreCredit() {
   };
 }
 
+// Apply store credits
+function applyStoreCredit(data) {
+  console.log('DATAAAAAAAA', data);
+  return (dispatch) => {
+    axios.post('/api/checkout/apply-credit', data)
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(applyCredit(response.data));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 export {
   onLogout,
   onLogin,
@@ -303,5 +330,6 @@ export {
   resetPassword,
   setNewPassword,
   redeemGiftCard,
-  getStoreCredit
+  getStoreCredit,
+  applyStoreCredit
 };

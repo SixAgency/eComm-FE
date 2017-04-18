@@ -19,14 +19,14 @@ class ReviewOrderTbl extends PureComponent {
   getStateName = (id) => {
     const selected = STATES.find((state) => (state.id === id));
     return typeof selected !== 'undefined' ? selected.abbr : '';
-  }
+  };
 
   getPrice = (item) => {
     if (item.adjustments.length === 1) {
       return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
     }
     return item.price;
-  }
+  };
 
   handleShipping = (e) => {
     e.preventDefault();
@@ -46,7 +46,7 @@ class ReviewOrderTbl extends PureComponent {
         <span className={s.block}>{data.city}, {stateName}, {data.zipcode}</span>
       </address>
     );
-  }
+  };
 
   render() {
     const {
@@ -64,7 +64,6 @@ class ReviewOrderTbl extends PureComponent {
     } = this.props;
 
     const subTotal = parseFloat(item_total) + parseFloat(adjustment_total);
-
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
