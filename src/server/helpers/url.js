@@ -26,7 +26,12 @@ const UrlUtils = {
   }),
   getProduct: (req) => (`/api/v1/products/${req.params.slug}`),
   getProducts: () => ('/api/v1/products'),
-  getProductsByCategory: (req) => (`/api/v1/taxons/products?permalink=categories/${req.params.category}`)
+  getProductsByCategory: (req) => (`/api/v1/taxons/products?permalink=categories/${req.params.category}`),
+  getOrder: (req) => asGuestUrl({
+    url: `/api/v1/orders/${req.params.number}`,
+    req
+  }),
+  getOrders: () => ('/api/v1/orders/mine?q[state_cont_any][]=complete&q[state_cont_any][]=canceled')
 };
 
 export default UrlUtils;
