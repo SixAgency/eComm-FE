@@ -142,9 +142,7 @@ class ReviewWrapper extends BasePageComponent {
   toggleUseCredits = () => {
     this.setState({ useCredits: !this.state.useCredits });
     this.props.applyStoreCredit({
-      order: {
-        apply_store_credit: true
-      }
+      apply_store_credit: true
     });
   };
 
