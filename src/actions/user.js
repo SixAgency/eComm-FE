@@ -267,12 +267,31 @@ function setNewPassword(data) {
   };
 }
 
+function makeStoreCreditRequest(dispatch) {
+  axios.get('/api/my-account/store-credit')
+    .then((response) => checkResponse(response.data, () => {
+      dispatch(setStoreCreditInfo(response.data));
+    }, () => {
+      dispatch(setMessage({ isError: true, messages: response.data.messages }));
+    }))
+    .catch((err) => {
+      console.error('Error: ', err); // eslint-disable-line no-console
+      forwardTo('error');
+    });
+}
+
+// Get store credit information
+function getStoreCredit() {
+  return (dispatch) => makeStoreCreditRequest(dispatch);
+}
+
 // Redeem gift card
 function redeemGiftCard(code) {
   return (dispatch) => {
     axios.post('/api/my-account/redeem-giftcard', { redemption_code: code })
       .then((response) => checkResponse(response.data, () => {
         window.scrollTo(0, 0);
+        dispatch(getStoreCredit());
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
       }, () => {
         window.scrollTo(0, 0);
@@ -285,26 +304,8 @@ function redeemGiftCard(code) {
   };
 }
 
-
-// Get store credit information
-function getStoreCredit() {
-  return (dispatch) => {
-    axios.get('/api/my-account/store-credit')
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setStoreCreditInfo(response.data));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-        forwardTo('error');
-      });
-  };
-}
-
 // Apply store credits
 function applyStoreCredit(data) {
-  console.log('DATAAAAAAAA', data);
   return (dispatch) => {
     axios.post('/api/checkout/apply-credit', data)
       .then((response) => checkResponse(response.data, () => {

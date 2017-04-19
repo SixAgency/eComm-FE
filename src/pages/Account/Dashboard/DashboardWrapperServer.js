@@ -35,6 +35,7 @@ class DashboardWrapper extends React.Component {
         onLogout={() => (true)}
         resetMessages={() => (true)}
         onRedeemGiftCard={() => (true)}
+        getStoreCredits={() => (true)}
       />
     );
   }

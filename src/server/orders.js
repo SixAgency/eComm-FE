@@ -238,7 +238,7 @@ function applyStoreCredit(request) {
       body: JSON.stringify(postdata)
     }, request.session)
     .then((response) => checkResponse(response))
-    .then((data) => setCartResponse(data, request, () => (true)))
+    .then((data) => setCartResponse(data))
     .catch((err) => setError(err));
 }
 
