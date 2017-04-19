@@ -19,7 +19,8 @@ import {
   getProducts,
   getProduct,
   getMannequinHeads,
-  getProductsInCategory
+  getProductsInCategory,
+  addProductReview
 } from '../server/products';
 import {
   addToCart,
@@ -152,6 +153,9 @@ apiRoutes.get('/products', (req, resp) => {
 // Get product based on slug
 apiRoutes.get('/product/:slug', (req, resp) => {
   getProduct(req).then((data) => (resp.json(data)));
+});
+apiRoutes.post('/product/:id/reviews', (req, resp) => {
+  addProductReview(req).then((data) => (resp.json(data)));
 });
 
 // ORDER & CART ROUTES

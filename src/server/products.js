@@ -6,6 +6,7 @@ import {
   setProductResponse,
   setProductsResponse,
   setRecsResponse,
+  setReviewsResponse,
   setMannequinHeadsResponse
 } from './helpers/handlers';
 
@@ -48,7 +49,7 @@ function setProductRecs(data, request, callback) {
         ...data,
         recs
       };
-      return callback(response);
+      return response;
     })
     .catch((err) => {
       response = {
@@ -58,8 +59,45 @@ function setProductRecs(data, request, callback) {
           messages: err,
           isLoaded: true,
           isEmpty: true,
-          products: [],
-        },
+          products: []
+        }
+      };
+      return response;
+    });
+}
+
+function getProductReviews(request, product) {
+  let status;
+  return apiFetch(`${PRODUCT}/${product.id}/reviews`, {}, request.session)
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setReviewsResponse(data, product))
+    .catch((err) => setError(err));
+}
+
+function setProductReviews(data, request, callback) {
+  let response;
+  return getProductReviews(request, data)
+    .then((reviews) => {
+      response = {
+        ...data,
+        reviews
+      };
+      return callback(response);
+    })
+    .catch((err) => {
+      response = {
+        ...data,
+        reviews: {
+          isError: true,
+          messages: err,
+          isLoaded: true,
+          isEmpty: true,
+          reviews: []
+        }
       };
       return callback(response);
     });
@@ -75,7 +113,8 @@ function getProduct(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => setProductRecs(data, request, setProductResponse))
+    .then((data) => setProductRecs(data, request))
+    .then((data) => setProductReviews(data, request, setProductResponse))
     .catch((err) => setError(err));
 }
 
@@ -106,4 +145,27 @@ function getProductsInCategory(request) {
     .catch((err) => setError(err));
 }
 
-export { getProducts, getProduct, getMannequinHeads, getProductsInCategory };
+// Add Product review
+function addProductReview(request) {
+  const review = {
+    review: {
+      rating: 5,
+      review: request.body.review,
+      name: request.body.name,
+      show_identifier: 1,
+      email: request.body.email
+    }
+  };
+  const productID = request.params.id;
+  const endpoint = `${PRODUCT}/${productID}/reviews`;
+  return apiFetch(endpoint,
+    {
+      method: 'POST',
+      body: JSON.stringify(review)
+    }, request.session)
+  .then((response) => checkResponse(response))
+  // .then((data) => setProductReviews(data, request, setProductResponse))
+  .catch((err) => setError(err));
+}
+
+export { getProducts, getProduct, getMannequinHeads, getProductsInCategory, addProductReview };

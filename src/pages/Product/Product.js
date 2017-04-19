@@ -13,6 +13,7 @@ import imagePlaceholder from './image_placeholder_large.png';
 import EmbeddedVideo from '../../components/EmbeddedVideo';
 import ProductTab from '../../components/ProductTab';
 import ErrorDisplay from '../../components/ErrorDisplay';
+import ProductReviews from '../../components/ProductReviews';
 
 class Product extends Component {
 
@@ -33,7 +34,8 @@ class Product extends Component {
         details: false,
         info: false,
         reviews: false
-      }
+      },
+      showReviews: false
     };
   }
 
@@ -59,6 +61,10 @@ class Product extends Component {
     this.setState({ tabs });
   }
 
+  toggleReviews = () => {
+    this.setState({ showReviews: !this.state.showReviews });
+  }
+
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -74,6 +80,8 @@ class Product extends Component {
     const categoryName = product.classifications[0].taxon.name;
     const properties = this.props.properties;
     const variants = this.props.product.product.variants;
+    const reviews = product.reviews.reviews;
+
     return (
       <div className={s.page}>
         <ErrorDisplay
@@ -198,13 +206,12 @@ class Product extends Component {
                   </ProductTab>
                 }
                 <ProductTab
-                  title="Reviews (0)" open={this.isTabOpen('reviews')}
-                  onClick={() => this.openTab('reviews')}
-                >
-                  {product.reviews &&
-                    <p className={s.summaryparagraph}>{product.reviews}</p>
-                  }
-                </ProductTab>
+                  title={`Reviews (${reviews.length})`} open={this.isTabOpen('reviews')}
+                  onClick={this.toggleReviews}
+                />
+                {this.state.showReviews &&
+                  <ProductReviews toggleReviews={this.toggleReviews} reviews={reviews} />
+                }
               </div>
               <div className={s.summarybottom}>
                 <span className={s.sku}>SKU:&nbsp;{product.master.sku}</span>

@@ -467,6 +467,29 @@ function setRecsResponse(data) {
   return resp;
 }
 
+function setReviewsResponse(data) {
+  let resp;
+  if (data.error) {
+    const message = data.message || 'Server Error. Please contact your server administrator.';
+    resp = {
+      isError: true,
+      messages: [message],
+      status: data.status,
+      isLoaded: true,
+      isEmpty: true,
+      reviews: []
+    };
+  } else {
+    resp = {
+      isError: false,
+      isLoaded: true,
+      isEmpty: data.reviews.length < 1,
+      reviews: data.reviews
+    };
+  }
+  return resp;
+}
+
 function setMannequinHeadsResponse(data) {
   let resp;
   if (data.isError) {
@@ -711,6 +734,7 @@ export {
   setProductResponse,
   setProductsResponse,
   setRecsResponse,
+  setReviewsResponse,
   setMannequinHeadsResponse,
   setContactResponse,
   setBraintreeResponse,
