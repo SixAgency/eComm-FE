@@ -10,20 +10,23 @@ class ReviewOrderTbl extends PureComponent {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
-    isPayPal: PropTypes.bool.isRequired
+    isPayPal: PropTypes.bool.isRequired,
+    creditInfo: PropTypes.object.isRequired,
+    toggleUseCredits: PropTypes.func.isRequired,
+    useCredits: PropTypes.bool.isRequired
   };
 
   getStateName = (id) => {
     const selected = STATES.find((state) => (state.id === id));
     return typeof selected !== 'undefined' ? selected.abbr : '';
-  }
+  };
 
   getPrice = (item) => {
     if (item.adjustments.length === 1) {
       return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
     }
     return item.price;
-  }
+  };
 
   handleShipping = (e) => {
     e.preventDefault();
@@ -43,7 +46,7 @@ class ReviewOrderTbl extends PureComponent {
         <span className={s.block}>{data.city}, {stateName}, {data.zipcode}</span>
       </address>
     );
-  }
+  };
 
   render() {
     const {
@@ -52,14 +55,15 @@ class ReviewOrderTbl extends PureComponent {
         adjustments,
         line_items,
         item_total,
-        total,
-        adjustment_total
+        order_total_after_store_credit,
+        adjustment_total,
+        total_applicable_store_credit
       },
-      cartItems
+      cartItems,
+      creditInfo
     } = this.props;
 
     const subTotal = parseFloat(item_total) + parseFloat(adjustment_total);
-
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -99,16 +103,12 @@ class ReviewOrderTbl extends PureComponent {
                 </td>
                 <td className={cx(s.td, s.tdsmall, s.flatrate)}>
                   {ship.shipping_rates[0].name}:
-                  <span className={s.amount}>${ship.shipping_rates[0].cost}</span>
-                  {/*<p className={s.shippingcontents}>*/}
-                    {/*{ship.manifest.map((item) => (*/}
-                      {/*<small>{item.variant.name} x{item.quantity}</small>*/}
-                      {/*),*/}
-                    {/*)}*/}
-                  {/*</p>*/}
+                  <span className={s.amount}>
+                    {accounting.formatMoney(ship.shipping_rates[0].cost)}
+                  </span>
                 </td>
               </tr>
-              ),
+              )
             )}
             {adjustments.map((adjust, key) => (
               <tr key={key} >
@@ -116,17 +116,46 @@ class ReviewOrderTbl extends PureComponent {
                   {adjust.label}
                 </td>
                 <td className={cx(s.td, s.tdsmall, s.flatrate)}>
-                  ${adjust.amount}
+                  {accounting.formatMoney(adjust.amount)}
                 </td>
               </tr>
-              ),
+              )
             )}
+            {this.props.useCredits &&
+              <tr>
+                <td className={cx(s.td, s.tdbig, s.psubtotal)}>Store Credit</td>
+                <td className={cx(s.td, s.tdsmall)}>
+                  <span className={s.amount}>
+                    {accounting.formatMoney(total_applicable_store_credit)}
+                  </span>
+                </td>
+              </tr>
+            }
             <tr>
               <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
               <td className={cx(s.td, s.tdsmall)}>
-                <span className={s.total}>${total}</span>
+                <span className={s.total}>
+                  {accounting.formatMoney(order_total_after_store_credit)}
+                </span>
               </td>
             </tr>
+            {
+              creditInfo.isLoaded && creditInfo.totalAmount !== 0 &&
+              <tr>
+                <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
+                  <label htmlFor="use_credits">
+                    I have <em>{accounting.formatMoney(creditInfo.totalAmount)}</em> store credit,
+                    I want to use it on this purchase
+                  </label>
+                  <input
+                    type="checkbox"
+                    id="use_credits"
+                    checked={this.props.useCredits}
+                    onChange={this.props.toggleUseCredits}
+                  />
+                </td>
+              </tr>
+            }
             <tr>
               <td className={cx(s.td, s.tdbig, s.shipaddr)}>
                 <span className={s.shippaddress}>Shipping address</span>

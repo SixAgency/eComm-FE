@@ -11,7 +11,7 @@ export default function reducer(state = {
     totalAmount: {}
   }
 }, action) {
-  if (['SET_USER', 'SET_PROFILE', 'SET_STORE_CREDIT_INFO'].includes(action.type)) {
+  if (['SET_USER', 'SET_PROFILE', 'SET_STORE_CREDIT_INFO', 'APPLY_STORE_CREDIT'].includes(action.type)) {
     return { ...state, ...action.payload };
   }
   return state;

@@ -76,9 +76,7 @@ class DashboardWrapper extends BasePageComponent {
     if (!this.props.profile.isLoaded) {
       this.props.getProfile();
     }
-    if (!this.props.creditInfo.isLoaded) {
-      this.props.getStoreCredit();
-    }
+    this.props.getStoreCredit();
   };
 
   componentWillReceiveProps = (nextProps) => {
@@ -128,6 +126,7 @@ class DashboardWrapper extends BasePageComponent {
           resetMessages={this.props.resetMessages}
           onRedeemGiftCard={onRedeemGiftCard}
           creditInfo={creditInfo}
+          getStoreCredit={this.props.getStoreCredit}
         />
       );
     }

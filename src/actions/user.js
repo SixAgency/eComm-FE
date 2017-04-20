@@ -22,8 +22,18 @@ function setProfile(profile) {
   return { type: 'SET_PROFILE', payload: { profile } };
 }
 
+/** Set Store Credit - helper
+* @param object
+* @returns {{type: object, payload: object}}
+*/
 function setStoreCreditInfo(creditInfo) {
   return { type: 'SET_STORE_CREDIT_INFO', payload: { creditInfo } };
+}
+
+/** same here **/
+
+function applyCredit(data) {
+  return { type: 'APPLY_STORE_CREDIT', payload: { data } };
 }
 
 /**
@@ -257,12 +267,31 @@ function setNewPassword(data) {
   };
 }
 
+function makeStoreCreditRequest(dispatch) {
+  axios.get('/api/my-account/store-credit')
+    .then((response) => checkResponse(response.data, () => {
+      dispatch(setStoreCreditInfo(response.data));
+    }, () => {
+      dispatch(setMessage({ isError: true, messages: response.data.messages }));
+    }))
+    .catch((err) => {
+      console.error('Error: ', err); // eslint-disable-line no-console
+      forwardTo('error');
+    });
+}
+
+// Get store credit information
+function getStoreCredit() {
+  return (dispatch) => makeStoreCreditRequest(dispatch);
+}
+
 // Redeem gift card
 function redeemGiftCard(code) {
   return (dispatch) => {
     axios.post('/api/my-account/redeem-giftcard', { redemption_code: code })
       .then((response) => checkResponse(response.data, () => {
         window.scrollTo(0, 0);
+        dispatch(getStoreCredit());
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
       }, () => {
         window.scrollTo(0, 0);
@@ -275,13 +304,12 @@ function redeemGiftCard(code) {
   };
 }
 
-
-// Get store credit information
-function getStoreCredit() {
+// Apply store credits
+function applyStoreCredit(data) {
   return (dispatch) => {
-    axios.get('/api/my-account/store-credit')
+    axios.post('/api/checkout/apply-credit', data)
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setStoreCreditInfo(response.data));
+        dispatch(applyCredit(response.data));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -303,5 +331,6 @@ export {
   resetPassword,
   setNewPassword,
   redeemGiftCard,
-  getStoreCredit
+  getStoreCredit,
+  applyStoreCredit
 };

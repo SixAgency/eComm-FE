@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 
 import Checkout from '../../../components/Checkout';
 import Review from './Review';
 
-class ReviewWrapper extends React.Component {
+class ReviewWrapper extends Component {
 
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
@@ -11,12 +11,14 @@ class ReviewWrapper extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    creditInfo: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     isError: false,
-    messages: []
+    messages: [],
+    creditInfo: {}
   };
 
   render() {
@@ -40,6 +42,7 @@ class ReviewWrapper extends React.Component {
           checkoutPayPal={() => (true)}
           checkoutSquare={() => (true)}
           confirmOrder={() => (true)}
+          creditInfo={this.props.creditInfo}
         />
       </Checkout>
     );

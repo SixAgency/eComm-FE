@@ -10,7 +10,7 @@ import { setMessage } from './page';
 function setProducts(products) {
   const data = {
     isLoaded: true,
-    ...products,
+    ...products
   };
   return { type: 'SET_PRODUCTS', payload: data };
 }
@@ -23,7 +23,7 @@ function setProducts(products) {
 function setProduct(product) {
   const data = {
     isLoaded: true,
-    ...product,
+    ...product
   };
   return { type: 'SET_PRODUCT', payload: data };
 }
@@ -36,7 +36,7 @@ function setProduct(product) {
 function setMannequin(products) {
   const data = {
     isLoaded: true,
-    ...products,
+    ...products
   };
   return { type: 'SET_MANNEQUIN', payload: data };
 }
@@ -45,7 +45,7 @@ function setCategoryItems(products, slug) {
   const data = {
     isLoaded: true,
     ...products,
-    slug,
+    slug
   };
   return { type: 'SET_CATEGORY', payload: data };
 }

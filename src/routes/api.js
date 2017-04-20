@@ -28,7 +28,8 @@ import {
   getOrder,
   getOrders,
   applyCouponCode,
-  calculateShipping
+  calculateShipping,
+  applyStoreCredit
 } from '../server/orders';
 import {
   checkoutSquare,
@@ -134,6 +135,12 @@ apiRoutes
 apiRoutes
   .get('/my-account/store-credit', (req, resp) => {
     getStoreCreditInfo(req).then((data) => resp.json(data));
+  });
+
+// Apply store credit
+apiRoutes
+  .post('/checkout/apply-credit', (req, resp) => {
+    applyStoreCredit(req).then((data) => resp.json(data));
   });
 
 // PRODUCT ROUTES

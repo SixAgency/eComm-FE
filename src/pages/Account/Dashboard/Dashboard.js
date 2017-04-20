@@ -23,7 +23,8 @@ class Dashboard extends React.Component {
     profile: PropTypes.object.isRequired,
     resetMessages: PropTypes.func.isRequired,
     onRedeemGiftCard: PropTypes.func.isRequired,
-    creditInfo: PropTypes.object.isRequired
+    creditInfo: PropTypes.object.isRequired,
+    getStoreCredit: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -42,7 +43,7 @@ class Dashboard extends React.Component {
 
   redeemGiftCard = () => {
     this.props.onRedeemGiftCard(this.state.giftCode);
-  }
+  };
 
   renderOrders = () => {
     const { orders } = this.props;
@@ -69,7 +70,7 @@ class Dashboard extends React.Component {
         Your total store credit amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
       </h2>
     );
-  }
+  };
 
   render() {
     const addresses = {
