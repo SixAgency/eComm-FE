@@ -137,13 +137,13 @@ class CartCta extends Component {
           product.classifications[0].taxon.name !== 'Gifts' &&
             [
               <ProductQuantity
-                key={"quantity1"}
+                key="quantity1"
                 sizingClass="quantitybig"
                 quantity={this.state.quantity}
                 addQuantity={this.addQuantity}
                 subQuantity={this.subQuantity}
               />,
-              <button type="submit" className={s.addtocart} key={"button1"}>Add to cart</button>
+              <button type="submit" className={s.addtocart} key="button1">Add to cart</button>
             ]
         }
       </form>
