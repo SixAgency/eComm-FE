@@ -135,25 +135,8 @@ function validateAccountUpdate(data) {
 function validateContactForm(data) {
   const messages = [];
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
-  const isNumberString = /^[a-zA-Z0-9_. -]*$/;
-  if ((!data.name) || (!data.email)) {
-    messages.push('Please fill all required fields');
-  }
-  if (!isNumberString.test(data.name)) {
-    messages.push('Invalid name field');
-  }
   if (!isValidEmail.test(data.email)) {
     messages.push('Invalid email field');
-  }
-  if (data.subject) {
-    if (!isNumberString.test(data.subject)) {
-      messages.push('Invalid characters in the subject field');
-    }
-  }
-  if (data.message) {
-    if (!isNumberString.test(data.message)) {
-      messages.push('Invalid characters in the message field');
-    }
   }
   const resp = {
     isError: (messages.length > 0),
