@@ -1,4 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import accounting from 'accounting';
@@ -26,14 +27,6 @@ class ReviewOrderTbl extends PureComponent {
       return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
     }
     return item.price;
-  };
-
-  handleShipping = (e) => {
-    e.preventDefault();
-  };
-
-  handleBilling = (e) => {
-    e.preventDefault();
   };
 
   listAddress = (data) => {
@@ -160,24 +153,22 @@ class ReviewOrderTbl extends PureComponent {
               <td className={cx(s.td, s.tdbig, s.shipaddr)}>
                 <span className={s.shippaddress}>Shipping address</span>
                 {this.listAddress(cartItems.cart.ship_address)}
-                {!this.props.isPayPal && <a
-                  className={s.changebilling}
-                  href=""
-                  onClick={this.handleShipping}
+                {!this.props.isPayPal && <Link
+                  className={s.changeshipping}
+                  to="/checkout/shipping"
                 >
                   Change
-                </a>}
+                </Link>}
               </td>
               <td className={cx(s.td, s.tdsmall, s.billaddr)}>
                 <span className={s.billaddress}>Billing address</span>
                 {this.listAddress(cartItems.cart.bill_address)}
-                {!this.props.isPayPal && <a
-                  className={s.changeshipping}
-                  href=""
-                  onClick={this.handleBilling}
+                {!this.props.isPayPal && <Link
+                  className={s.changebilling}
+                  to="/checkout/billing"
                 >
                   Change
-                </a>}
+                </Link>}
               </td>
             </tr>
           </tfoot>

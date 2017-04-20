@@ -6,7 +6,7 @@ import Checkout from '../../../components/Checkout';
 import Shipping from './Shipping';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
 import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { editOrderAddress, checkoutNext } from '../../../actions/checkout';
@@ -23,9 +23,10 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
-    onSubmit: () => dispatch(checkoutNext()),
+    onSubmit: (fn) => dispatch(checkoutNext(fn)),
     editAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
-    getAddress: () => dispatch(getAddress())
+    getAddress: () => dispatch(getAddress()),
+    setPending: (toggle) => dispatch(setPending(toggle))
   }
 ));
 
@@ -64,7 +65,8 @@ class ShippingWrapper extends BasePageComponent {
     isPayPal: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     editAddress: PropTypes.func.isRequired,
-    isPending: PropTypes.bool.isRequired
+    isPending: PropTypes.bool.isRequired,
+    setPending: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -85,7 +87,7 @@ class ShippingWrapper extends BasePageComponent {
       // Check the cart state and redirect if needed
       const expectedState = checkCartState(this.props);
       // Get Addresses and set content type
-      if (expectedState !== 'checkout/shipping') {
+      if (expectedState === 'checkout/billing' || this.props.isPayPal) {
         forwardTo(expectedState);
       }
     }
@@ -94,9 +96,9 @@ class ShippingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState === 'checkout/shipping') {
-        if (!nextProps.isAddressesFetching) {
-          // this.setState({ content: this.getShippingContent(nextProps) });
+      if (expectedState !== 'checkout/billing' && expectedState !== 'cart' && !nextProps.isPayPal) {
+        if (!nextProps.isAddressesFetching && !nextProps.isError) {
+          this.setState({ content: this.getShippingContent(nextProps, false, expectedState) });
           setTimeout(() => {
             this.props.toggleLoader(false);
           }, 500);
@@ -128,11 +130,19 @@ class ShippingWrapper extends BasePageComponent {
    * Helper method to identify
    * the content type shown
    * @param props
+   * @param checked
+   * @param expectedState
    * @returns {*}
    */
-  getShippingContent = (props) => {
-    const { addresses, loggedIn } = props;
-    return (addresses.isEmpty && !loggedIn) ? 'form' : 'list';
+  getShippingContent = (props, checked, expectedState) => {
+    if (expectedState === 'checkout/shipping') {
+      if (!checked) {
+        return 'same';
+      }
+      const { addresses, loggedIn } = props;
+      return (addresses.isEmpty && !loggedIn) ? 'form' : 'list';
+    }
+    return 'edit_form';
   };
 
   /**
@@ -147,6 +157,10 @@ class ShippingWrapper extends BasePageComponent {
     return mapFeedToState(address, email);
   };
 
+  moveNext = () => {
+    this.props.onSubmit(() => forwardTo('checkout/promo'));
+  };
+
   /**
    * Select from existing addresses handler
    * @param fields
@@ -155,16 +169,24 @@ class ShippingWrapper extends BasePageComponent {
     const { content } = this.state;
     const { cartItems } = this.props;
     if (content === 'same') {
-      this.props.onSubmit();
+      this.moveNext();
     } else {
       let address = fields;
       if (content === 'list') {
         address = this.getSelectedAddress(fields.addressId, fields.email);
       }
-      this.props.editAddress({
-        address: mapStateToFeed(address),
-        id: cartItems.cart.ship_address.id
-      }, this.props.onSubmit);
+      if (content === 'edit_form') {
+        const expectedState = checkCartState(this.props);
+        this.props.editAddress({
+          address: mapStateToFeed(address),
+          id: cartItems.cart.ship_address.id
+        }, () => { this.props.setPending(false); forwardTo(expectedState); });
+      } else {
+        this.props.editAddress({
+          address: mapStateToFeed(address),
+          id: cartItems.cart.ship_address.id
+        }, this.moveNext);
+      }
     }
   };
 
@@ -172,11 +194,33 @@ class ShippingWrapper extends BasePageComponent {
    * Switch to use a different address view
    */
   toggleContent = (event) => {
+    const expectedState = checkCartState(this.props);
     let content = 'same';
     if (event.target.id === 'sameas') {
-      content = event.target.checked ? this.getShippingContent(this.props) : 'same';
+      content = this.getShippingContent(this.props, event.target.checked, expectedState);
     } else {
-      content = this.state.content === 'form' ? 'list' : 'form';
+      switch (this.state.content) {
+        case 'form': {
+          content = 'list';
+          break;
+        }
+        case 'list': {
+          content = 'form';
+          break;
+        }
+        case 'edit_form': {
+          content = 'edit_list';
+          break;
+        }
+        case 'edit_list': {
+          content = 'edit_form';
+          break;
+        }
+        default: {
+          content = 'list';
+          break;
+        }
+      }
     }
     this.setState({ content });
   };
@@ -210,6 +254,24 @@ class ShippingWrapper extends BasePageComponent {
     return (content === 'form' && loggedIn && !addresses.isEmpty);
   };
 
+  getAddress = (content) => {
+    if (content === 'edit_form') {
+      const { cart } = this.props.cartItems;
+      return mapFeedToState(cart.ship_address, cart.email);
+    }
+    return {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: 0,
+      zipcode: ''
+    };
+  };
+
   render() {
     if (this.props.cartItems.isLoaded && this.props.addresses.isLoaded) {
       const selectedAddress = this.getDefaultAddressId();
@@ -236,6 +298,7 @@ class ShippingWrapper extends BasePageComponent {
             selectedAddress={selectedAddress}
             onSubmit={this.onSubmit}
             toggleContent={this.toggleContent}
+            address={this.getAddress(this.state.content)}
             showCancel={showCancel}
           />
         </Checkout>

@@ -6,10 +6,10 @@ import Checkout from '../../../components/Checkout';
 import Billing from './Billing';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
 import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
-import { setCheckoutAddress } from '../../../actions/checkout';
+import { setCheckoutAddress, editOrderAddress } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
@@ -24,7 +24,9 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     onSubmit: (data) => dispatch(setCheckoutAddress(data)),
-    getAddress: () => dispatch(getAddress())
+    editOrderAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
+    getAddress: () => dispatch(getAddress()),
+    setPending: (toggle) => dispatch(setPending(toggle))
   }
 ));
 
@@ -62,7 +64,9 @@ class BillingWrapper extends BasePageComponent {
     isCartPending: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isPending: PropTypes.bool.isRequired
+    editOrderAddress: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired,
+    setPending: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -82,7 +86,7 @@ class BillingWrapper extends BasePageComponent {
     if (this.props.cartItems.isLoaded) {
       const expectedState = checkCartState(this.props);
       // Get Addresses and set content type
-      if (expectedState !== 'checkout/billing') {
+      if (expectedState === 'cart' && !this.props.isPayPal) {
         forwardTo(expectedState);
       }
     }
@@ -91,9 +95,9 @@ class BillingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState === 'checkout/billing') {
+      if (expectedState !== 'cart' && !nextProps.isPayPal) {
         if (!nextProps.isAddressesFetching && !nextProps.isError) {
-          this.setState({ content: this.getBillingContent(nextProps) });
+          this.setState({ content: this.getBillingContent(nextProps, expectedState) });
           setTimeout(() => {
             this.props.toggleLoader(false);
           }, 500);
@@ -127,9 +131,12 @@ class BillingWrapper extends BasePageComponent {
    * @param props
    * @returns {*}
    */
-  getBillingContent = (props) => {
-    const { loggedIn, addresses } = props;
-    return (addresses.isEmpty || !loggedIn) ? 'form' : 'list';
+  getBillingContent = (props, expectedState) => {
+    if (expectedState === 'checkout/billing') {
+      const { loggedIn, addresses } = props;
+      return (addresses.isEmpty || !loggedIn) ? 'form' : 'list';
+    }
+    return 'edit_form';
   };
 
   /**
@@ -150,22 +157,53 @@ class BillingWrapper extends BasePageComponent {
    */
   onSubmit = (fields) => {
     const { content } = this.state;
-    const { onSubmit } = this.props;
+    const { onSubmit, cartItems } = this.props;
     let address = fields;
     if (content === 'list') {
       address = this.getSelectedAddress(fields.addressId, fields.email);
     }
-    onSubmit({
-      address: mapStateToFeed(address),
-      email: fields.email
-    });
+    if (content === 'edit_form') {
+      const expectedState = checkCartState(this.props);
+      this.props.editOrderAddress({
+        address: mapStateToFeed(address),
+        id: cartItems.cart.bill_address.id
+      }, () => { this.props.setPending(false); forwardTo(expectedState); });
+    } else {
+      onSubmit({
+        address: mapStateToFeed(address),
+        email: fields.email
+      });
+    }
   };
 
   /**
    * Switch to use a different address view
    */
   toggleContent = () => {
-    const content = this.state.content === 'form' ? 'list' : 'form';
+    let content;
+    switch (this.state.content) {
+      case 'form': {
+        content = 'list';
+        break;
+      }
+      case 'list': {
+        content = 'form';
+        break;
+      }
+      case 'edit_form': {
+        content = 'edit_list';
+        break;
+      }
+      case 'edit_list': {
+        content = 'edit_form';
+        break;
+      }
+      default: {
+        content = 'list';
+        break;
+      }
+    }
+
     this.setState({ content });
   };
 
@@ -198,11 +236,31 @@ class BillingWrapper extends BasePageComponent {
     return (content === 'form' && loggedIn && !addresses.isEmpty);
   };
 
+  getAddress = (content) => {
+    console.log('CONTENT', content);
+    if (content === 'edit_form') {
+      const { cart } = this.props.cartItems;
+      return mapFeedToState(cart.bill_address, cart.email);
+    }
+    return {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: 0,
+      zipcode: ''
+    };
+  };
+
   render() {
     if (this.props.cartItems.isLoaded && this.props.addresses.isLoaded) {
       const selectedAddress = this.getDefaultAddressId();
       const emailAddress = this.getEmailAddress();
       const showCancel = this.getShowCancel();
+      const address = this.getAddress(this.state.content);
       return (
         <Checkout
           state={this.props.cartItems.cart.state}
@@ -221,6 +279,7 @@ class BillingWrapper extends BasePageComponent {
             content={this.state.content}
             emailAddress={emailAddress}
             addresses={this.props.addresses.addresses}
+            address={address}
             selectedAddress={selectedAddress}
             onSubmit={this.onSubmit}
             toggleContent={this.toggleContent}

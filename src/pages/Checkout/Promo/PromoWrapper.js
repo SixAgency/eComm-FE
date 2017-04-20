@@ -60,12 +60,12 @@ class PromoWrapper extends BasePageComponent {
     // is already loaded
     if (this.props.cartItems.isLoaded) {
       const expectedState = checkCartState(this.props);
-      if (expectedState !== 'checkout/promo') {
-        forwardTo(expectedState);
-      } else {
+      if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 500);
+      } else {
+        forwardTo(expectedState);
       }
     }
   };
@@ -73,7 +73,7 @@ class PromoWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isCartPending && nextProps.cartItems.isLoaded) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState === 'checkout/promo') {
+      if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 500);

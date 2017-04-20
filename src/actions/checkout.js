@@ -174,6 +174,7 @@ function setCheckoutAddress(data) {
       axios.post('/api/checkout/addresses', setCheckoutAddressesFeed(data))
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
+          forwardTo('checkout/shipping');
           dispatch(setPending(false));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));

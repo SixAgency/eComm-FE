@@ -7,11 +7,11 @@ import Review from './Review';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, toggleModal } from '../../../actions/page';
-import { applyPromoCode } from '../../../actions/order';
+import { applyPromoCode, getCart } from '../../../actions/order';
 import { onLogin, onLogout, getStoreCredit, applyStoreCredit } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
-import { confirmOrder } from '../../../actions/payment/payment';
+import { confirmOrder, checkoutReset } from '../../../actions/payment/payment';
 import { checkCartState } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
@@ -25,8 +25,10 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     completePayPal: () => dispatch(completePayPal()),
     confirmOrder: () => (dispatch(confirmOrder())),
+    checkoutReset: () => dispatch(checkoutReset()),
     getStoreCredit: () => dispatch(getStoreCredit()),
-    applyStoreCredit: (data) => dispatch(applyStoreCredit(data))
+    applyStoreCredit: (data) => dispatch(applyStoreCredit(data)),
+    getCart: (data) => dispatch(getCart(data))
   }
 ));
 
@@ -60,10 +62,12 @@ class ReviewWrapper extends BasePageComponent {
     completePayPal: PropTypes.func.isRequired,
     isPending: PropTypes.bool.isRequired,
     isCartPending: PropTypes.bool.isRequired,
+    getCart: PropTypes.func.isRequired,
     route: PropTypes.object,
     getStoreCredit: PropTypes.func.isRequired,
     creditInfo: PropTypes.object.isRequired,
-    applyStoreCredit: PropTypes.func.isRequired
+    applyStoreCredit: PropTypes.func.isRequired,
+    checkoutReset: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -78,15 +82,8 @@ class ReviewWrapper extends BasePageComponent {
     this.setHeaderStyles();
     // This actions should happen only if the cart
     // is already loaded
-    if (this.props.cartItems.isLoaded) {
-      const expectedState = checkCartState(this.props);
-      if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
-        setTimeout(() => {
-          this.props.toggleLoader(false);
-        }, 500);
-      } else {
-        forwardTo(expectedState);
-      }
+    if (!this.props.cartItems.isCartPending) {
+      this.props.getCart(false);
     }
     if (!this.props.creditInfo.isLoaded) {
       this.props.getStoreCredit();
@@ -94,6 +91,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    console.log('NEXT', nextProps);
     if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
@@ -172,6 +170,7 @@ class ReviewWrapper extends BasePageComponent {
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
             applyStoreCredit={this.props.applyStoreCredit}
+            checkoutReset={this.props.checkoutReset}
           />
         </Checkout>
       );

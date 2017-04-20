@@ -32,11 +32,23 @@ function checkoutSquare(request) {
 }
 
 /**
- * @TODO - Move PayPal checkout here
+ * Reset the order back to cart state
  * @param request
  */
-function checkoutPayPal(request) {
-  console.log('PayPal', request.session);
+function resetOrder(request) {
+  let status;
+  return fetch(`/api/v1/checkouts/${request.session.order}/reset?order_token=${request.session.guest_token}`,
+    {
+      method: 'PUT'
+    }, request.session
+  )
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
 }
 
 /**
@@ -65,7 +77,7 @@ function checkoutConfirm(request) {
 
 export {
   checkoutSquare,
-  checkoutPayPal,
+  resetOrder,
   checkoutConfirm
 };
 

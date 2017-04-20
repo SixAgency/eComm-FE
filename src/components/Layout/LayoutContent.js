@@ -17,6 +17,7 @@ class LayoutContent extends Component {
     children: PropTypes.node.isRequired,
     mobileNavOpen: PropTypes.func.isRequired,
     mobileNavClose: PropTypes.func.isRequired,
+    proceedToCheckout: PropTypes.func.isRequired,
     menuOpen: PropTypes.string.isRequired,
     showLoader: PropTypes.bool.isRequired,
     layoutStyles: PropTypes.object.isRequired,
@@ -41,6 +42,7 @@ class LayoutContent extends Component {
               activeSlug={this.props.activeSlug}
               cartItems={this.props.cartItems}
               menuOpen={this.props.menuOpen}
+              proceedToCheckout={this.props.proceedToCheckout}
               mobileNavOpen={this.props.mobileNavOpen}
             />
             {this.props.children}

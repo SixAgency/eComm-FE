@@ -1,5 +1,7 @@
 .addressform_form,
-.addresslist_list {
+.addresslist_list,
+.addressform_edit_form,
+.addressform_edit_list {
   -moz-transition-duration: 0.2s;
   -webkit-transition-duration: 0.2s;
   -o-transition-duration: 0.2s;
@@ -14,7 +16,9 @@
 .addressform_same,
 .addresslist_same,
 .addresslist_form,
-.addressform_list {
+.addressform_list,
+.addresslist_edit_form,
+.addressform_edit_list {
   overflow: hidden;
   max-height: 0;
   padding-top: 0;

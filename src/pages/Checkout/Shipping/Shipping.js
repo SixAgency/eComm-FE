@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import cx from 'classnames';
 import s from './Shipping.css';
 import f from '../../../components/Forms/Forms.css';
 
@@ -23,6 +24,7 @@ class Shipping extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
+    address: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     showCancel: PropTypes.bool.isRequired
   };
@@ -33,20 +35,30 @@ class Shipping extends React.Component {
       selectedAddress,
       emailAddress
     } = props;
+    const {
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      zipcode
+    } = this.props.address;
     this.state = {
       addressId: selectedAddress,
-      firstname: '',
-      lastname: '',
-      company: '',
+      firstname,
+      lastname,
+      company,
       email: emailAddress,
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state: 0,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
       country: 232,
-      zipcode: '',
-      notes: ''
+      zipcode
     };
   }
 
@@ -81,6 +93,32 @@ class Shipping extends React.Component {
     });
   };
 
+  componentWillReceiveProps = (nextProps) => {
+    const {
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      zipcode
+    } = nextProps.address;
+    this.setState({
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      country: 232,
+      zipcode
+    });
+  };
+
   render() {
     const {
       formTitle,
@@ -104,7 +142,7 @@ class Shipping extends React.Component {
         onCancel={toggleContent}
       >
         <div>
-          <div className={f.inputwrapper}>
+          <div className={cx(f.inputwrapper, f[content])}>
             <label className={f.label} htmlFor="changeaddress">
               &nbsp;Ship to a different address?&nbsp;&nbsp;&nbsp;
               <input

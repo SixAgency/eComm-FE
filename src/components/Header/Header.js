@@ -12,7 +12,8 @@ class Header extends React.Component {
     activeSlug: PropTypes.string.isRequired,
     cartItems: PropTypes.object.isRequired,
     menuOpen: PropTypes.string.isRequired,
-    mobileNavOpen: PropTypes.func.isRequired
+    mobileNavOpen: PropTypes.func.isRequired,
+    proceedToCheckout: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -117,7 +118,11 @@ class Header extends React.Component {
         <div className={cx(s.cartholder, s[this.props.menuOpen], this.state.cartCountStick ? s.fixed : '')}>
           <div className={s.carticon} onMouseEnter={this.cartHover} onMouseLeave={this.cartHover}>
             <Link className={s.cartquantity} to="/cart"><span className={s.quantity}>{quantity}</span></Link>
-            <Minicart cartItems={this.props.cartItems} cartClass={this.state.cartClass} />
+            <Minicart
+              cartItems={this.props.cartItems}
+              cartClass={this.state.cartClass}
+              proceedToCheckout={this.props.proceedToCheckout}
+            />
           </div>
           <span className={s.cartdivider}>|</span>
         </div>

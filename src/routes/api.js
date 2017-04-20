@@ -33,7 +33,8 @@ import {
 } from '../server/orders';
 import {
   checkoutSquare,
-  checkoutConfirm
+  checkoutConfirm,
+  resetOrder
 } from '../server/payment';
 import { getAddresses,
   createAddress,
@@ -243,6 +244,13 @@ apiRoutes
   })
   .post('/checkout/address', (req, resp) => {
     checkoutAddress(req).then((data) => (resp.json(data)));
+  })
+  .post('/checkout/reset', (req, resp) => {
+    resetOrder(req)
+      .then((data) => resp.json(data))
+      .catch((err) => {
+        console.error(err);
+      });
   })
   .post('/checkout/square', (req, resp) => {
     checkoutSquare(req)

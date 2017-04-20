@@ -65,6 +65,20 @@ class BillingWrapper extends React.Component {
     return (content === 'form' && loggedIn && !addresses.isEmpty);
   };
 
+  getAddress = (content) => {
+    return {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: 0,
+      zipcode: ''
+    };
+  };
+
   render() {
     const selectedAddress = this.getDefaultAddressId();
     const emailAddress = this.getEmailAddress();
@@ -88,6 +102,7 @@ class BillingWrapper extends React.Component {
           content={content}
           emailAddress={emailAddress}
           addresses={this.props.addresses.addresses}
+          address={this.getAddress(content)}
           selectedAddress={selectedAddress}
           onSubmit={() => (true)}
           toggleContent={() => (true)}

@@ -42,6 +42,7 @@ class ReviewWrapper extends Component {
           checkoutPayPal={() => (true)}
           checkoutSquare={() => (true)}
           confirmOrder={() => (true)}
+          checkoutReset={() => (true)}
           creditInfo={this.props.creditInfo}
         />
       </Checkout>

@@ -358,6 +358,11 @@
   color: #222222;
 }
 
+.cancelnewline {
+  display: block;
+  margin: 15px auto;
+}
+
 .cancel {
   background: #cccccc;
   color: #666666;
@@ -371,6 +376,13 @@
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
+}
+
+.edit_form,
+.edit_list {
+  display: none;
+  visibility: hidden;
+  overflow: hidden;
 }
 
 .login {

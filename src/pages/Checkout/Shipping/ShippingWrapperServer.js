@@ -65,11 +65,26 @@ class ShippingWrapper extends React.Component {
     return (content === 'form' && loggedIn && !addresses.isEmpty);
   };
 
+  getAddress = (content) => {
+    return {
+      firstname: '',
+      lastname: '',
+      company: '',
+      phone: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: 0,
+      zipcode: ''
+    };
+  };
+
   render() {
     const selectedAddress = this.getDefaultAddressId();
     const emailAddress = this.getEmailAddress();
     const showCancel = this.getShowCancel();
     const content = this.getShippingContent(this.props);
+    const address = this.getAddress(content);
     return (
       <Checkout
         state={this.props.cartItems.cart.state}
@@ -88,6 +103,7 @@ class ShippingWrapper extends React.Component {
           content={content}
           emailAddress={emailAddress}
           addresses={this.props.addresses.addresses}
+          address={address}
           selectedAddress={selectedAddress}
           onSubmit={() => (true)}
           toggleContent={() => (true)}

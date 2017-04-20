@@ -27,10 +27,10 @@ function checkCartState(props) {
       step = 'cart';
       break;
     case 'delivery':
-      step = isPayPal ? 'checkout/promo' : 'checkout/shipping';
+      step = isPayPal ? 'checkout/review' : 'checkout/shipping';
       break;
     case 'payment':
-      step = 'checkout/promo';
+      step = 'checkout/review';
       break;
     case 'confirm':
       step = 'checkout/review';
@@ -42,5 +42,15 @@ function checkCartState(props) {
   return step;
 }
 
-export { setNavigation, getOrderStatus, checkCartState };
+/**
+ * Helper method to determine if PayPal is used as payment method
+ * @param cart
+ * @returns {boolean}
+ */
+function checkIfPayPal(cart) {
+  const paypal = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name === 'Paypal'));
+  return Boolean(paypal);
+}
+
+export { setNavigation, getOrderStatus, checkCartState, checkIfPayPal };
 

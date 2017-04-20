@@ -14,7 +14,8 @@ class ReviewOrder extends PureComponent {
     creditInfo: PropTypes.object.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
     useCredits: PropTypes.bool.isRequired,
-    applyStoreCredit: PropTypes.func.isRequired
+    applyStoreCredit: PropTypes.func.isRequired,
+    checkoutReset: PropTypes.func.isRequired
   };
 
   listPayment = () => {
@@ -36,7 +37,7 @@ class ReviewOrder extends PureComponent {
               screen to appear. Do not click on back or any other buttons during this process.
             </p>
             <input className={s.submit} type="button" value="Place Order" onClick={this.props.confirmOrder} />
-            <input className={s.cancelorder} type="button" value="Cancel" />
+            <input className={s.cancelorder} onClick={this.props.checkoutReset} type="button" value="Cancel" />
           </div>
         </div>
       );
@@ -58,7 +59,7 @@ class ReviewOrder extends PureComponent {
               screen to appear. Do not click on back or any other buttons during this process.
             </p>
             <input className={s.submit} type="button" value="Place Order" onClick={this.props.checkoutPayPal} />
-            <input className={s.cancelorder} type="button" value="Cancel" />
+            <input className={s.cancelorder} onClick={this.props.checkoutReset} type="button" value="Cancel" />
           </div>
         </div>
       );
@@ -87,6 +88,7 @@ class ReviewOrder extends PureComponent {
             and click on the green button.
           </p>
           <input className={s.submit} type="button" value="Continue to Payment" onClick={this.props.checkoutSquare} />
+          <input className={cx(s.cancelorder, s.cancelnewline)} onClick={this.props.checkoutReset} type="button" value="Use a different payment method" />
         </div>
       </div>
     );
