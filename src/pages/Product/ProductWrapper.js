@@ -77,6 +77,7 @@ class ProductWrapper extends Component {
     const { isLoaded } = this.props.product;
     if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
       setTimeout(() => {
+        this.props.resetMessages();
         this.props.toggleLoader(false);
       }, 500);
     }
@@ -105,7 +106,6 @@ class ProductWrapper extends Component {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-    this.props.resetMessages();
   };
 
   getProperty = (properties, property) => properties.find(
