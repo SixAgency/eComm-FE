@@ -239,7 +239,7 @@ function applyPromoCode(data) {
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
         }, () => {
-          const messages = response.data.messages || 'Something went wrong.';
+          const messages = response.data.messages || ['Something went wrong.'];
           dispatch(setMessage({ isError: true, messages }));
         }))
         .catch((err) => {

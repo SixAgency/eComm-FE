@@ -215,7 +215,6 @@ function editOrderAddress(data, callback) {
 export {
   getPayPalToken,
   checkoutPayPal,
-  checkoutAddresses,
   checkoutNext,
   setCartState,
   setBilling,
