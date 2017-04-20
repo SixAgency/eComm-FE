@@ -61,37 +61,66 @@ function checkoutReset() {
   };
 }
 
+function placeOrderSuccessCallback(response, dispatch) {
+  const order = {
+    isEmpty: response.data.isEmpty,
+    order: response.data.cart
+  };
+  dispatch(setOrder(order));
+  const orderLink = `my-account/view-order/${response.data.cart.number}`;
+  forwardTo(orderLink);
+  dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
+  dispatch(getCart(true));
+}
+
+function placeOrderFailureCallback(response, dispatch) {
+  dispatch(setMessage({ isError: true, messages: response.data.messages }));
+  dispatch(setPending(false));
+  dispatch(toggleLoader(false));
+}
+
+function makePlaceOrderRequest(dispatch) {
+  axios.post('/api/checkout/confirm')
+    .then((response) => checkResponse(
+      response.data,
+      () => placeOrderSuccessCallback(response, dispatch),
+      () => placeOrderFailureCallback(response, dispatch)
+    ))
+    .catch((err) => {
+      dispatch(setPending(false));
+      dispatch(toggleLoader(false));
+      console.error('Error: ', err);
+    });
+}
+
+function makeApplyCreditRequest(dispatch) {
+  axios.post('/api/checkout/apply-credit', { apply_store_credit: true })
+    .then((response) => checkResponse(response.data, () => {
+      makePlaceOrderRequest(dispatch);
+    }, () => {
+      dispatch(setMessage({ isError: true, messages: response.data.messages }));
+    }))
+    .catch((err) => {
+      console.error('Error: ', err); // eslint-disable-line no-console
+      forwardTo('error');
+    });
+}
+
 /**
  * Finish order
  * @returns {function(*=)}
  */
-function confirmOrder() {
+function confirmOrder(useCredits = false) {
   return (dispatch) => {
     window.scrollTo(0, 0);
     dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
-    axios.post('/api/checkout/confirm')
-      .then((response) => checkResponse(response.data, () => {
-        const order = {
-          isEmpty: response.data.isEmpty,
-          order: response.data.cart
-        };
-        dispatch(setOrder(order));
-        const orderLink = `my-account/view-order/${response.data.cart.number}`;
-        forwardTo(orderLink);
-        dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
-        dispatch(getCart(true));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        dispatch(setPending(false));
-        dispatch(toggleLoader(false));
-      }))
-      .catch((err) => {
-        dispatch(setPending(false));
-        dispatch(toggleLoader(false));
-        console.error('Error: ', err);
-      });
+    if (useCredits) {
+      makeApplyCreditRequest(dispatch);
+    } else {
+      makePlaceOrderRequest(dispatch);
+    }
   };
 }
 

@@ -6,13 +6,17 @@ import accounting from 'accounting';
 
 import s from './Tables.css';
 import { STATES } from '../../constants/AppConsts';
+import {
+  calculateApplicableCredit,
+  calculateTotal,
+  calculateBalance
+} from '../../utils/utils';
 
 class ReviewOrderTbl extends PureComponent {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     isPayPal: PropTypes.bool.isRequired,
-    creditInfo: PropTypes.object.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
     useCredits: PropTypes.bool.isRequired
   };
@@ -48,15 +52,13 @@ class ReviewOrderTbl extends PureComponent {
         adjustments,
         line_items,
         item_total,
-        order_total_after_store_credit,
-        adjustment_total,
-        total_applicable_store_credit
+        display_total_available_store_credit,
+        total
       },
-      cartItems,
-      creditInfo
+      cartItems
     } = this.props;
 
-    const subTotal = parseFloat(item_total) + parseFloat(adjustment_total);
+    const itemTotal = Number(item_total);
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -82,10 +84,10 @@ class ReviewOrderTbl extends PureComponent {
           </tbody>
           <tfoot className={s.infocontainer}>
             <tr>
-              <td className={cx(s.td, s.tdbig, s.psubtotal)}>Subtotal</td>
+              <td className={cx(s.td, s.tdbig, s.psubtotal)}>Item Total</td>
               <td className={cx(s.td, s.tdsmall)}>
                 <span className={s.amount}>
-                  {accounting.formatMoney(subTotal)}
+                  {accounting.formatMoney(itemTotal)}
                 </span>
               </td>
             </tr>
@@ -114,12 +116,30 @@ class ReviewOrderTbl extends PureComponent {
               </tr>
               )
             )}
+            <tr>
+              <td className={cx(s.td, s.tdbig, s.ptotal2)}>Subtotal</td>
+              <td className={cx(s.td, s.tdsmall)}>
+                <span className={s.amount}>
+                  {accounting.formatMoney(total)}
+                </span>
+              </td>
+            </tr>
             {this.props.useCredits &&
               <tr>
                 <td className={cx(s.td, s.tdbig, s.psubtotal)}>Store Credit</td>
                 <td className={cx(s.td, s.tdsmall)}>
                   <span className={s.amount}>
-                    {accounting.formatMoney(total_applicable_store_credit)}
+                    -{accounting.formatMoney(calculateApplicableCredit(this.props))}
+                  </span>
+                </td>
+              </tr>
+            }
+            {this.props.useCredits &&
+              <tr>
+                <td className={cx(s.td, s.tdbig, s.psubtotal)}>Remaining Balance</td>
+                <td className={cx(s.td, s.tdsmall)}>
+                  <span className={s.amount}>
+                    {accounting.formatMoney(calculateBalance(this.props))}
                   </span>
                 </td>
               </tr>
@@ -128,17 +148,18 @@ class ReviewOrderTbl extends PureComponent {
               <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
               <td className={cx(s.td, s.tdsmall)}>
                 <span className={s.total}>
-                  {accounting.formatMoney(order_total_after_store_credit)}
+                  {accounting.formatMoney(calculateTotal(this.props))}
                 </span>
               </td>
             </tr>
             {
-              creditInfo.isLoaded && creditInfo.totalAmount !== 0 &&
+              Number(display_total_available_store_credit.slice(1)) > 0 &&
               <tr>
                 <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
                   <label htmlFor="use_credits">
-                    I have <em>{accounting.formatMoney(creditInfo.totalAmount)}</em> store credit,
-                    I want to use it on this purchase
+                    I have <em>{accounting.formatMoney(
+                      display_total_available_store_credit.slice(1)
+                    )}</em> store credit, I want to use it on this purchase
                   </label>
                   <input
                     type="checkbox"

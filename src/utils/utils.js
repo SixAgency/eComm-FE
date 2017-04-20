@@ -52,5 +52,46 @@ function checkIfPayPal(cart) {
   return Boolean(paypal);
 }
 
-export { setNavigation, getOrderStatus, checkCartState, checkIfPayPal };
+/* checkout utils */
+function calculateApplicableCredit(props) {
+  const {
+    cart: {
+      display_total_available_store_credit,
+      total,
+      covered_by_store_credit
+    }
+  } = props;
+  const totalCredit = Number(display_total_available_store_credit.slice(1));
+  return covered_by_store_credit ? total : totalCredit;
+}
+
+function calculateTotal(props) {
+  const {
+    cart: {
+      total
+    },
+    useCredits
+  } = props;
+  return useCredits ? total - calculateApplicableCredit(props) : total;
+}
+
+function calculateBalance(props) {
+  const {
+    cart: {
+      total
+    }
+  } = props;
+  return total - calculateApplicableCredit(props);
+}
+
+
+export {
+  checkIfPayPal,
+  setNavigation,
+  getOrderStatus,
+  checkCartState,
+  calculateApplicableCredit,
+  calculateBalance,
+  calculateTotal
+};
 

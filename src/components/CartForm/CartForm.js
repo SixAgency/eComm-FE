@@ -101,7 +101,7 @@ class CartForm extends Component {
                   <td className={cx(s.totalprice, s.data)}>
                     <strong>
                       <span className="amount">
-                        {accounting.formatMoney(cart.order_total_after_store_credit)}
+                        {accounting.formatMoney(cart.total)}
                       </span>
                     </strong>
                   </td>
