@@ -640,6 +640,12 @@
   .titlemobile { font-size: 24px; }
 }
 
+@media (max-width: 1024px) and (min-width: 767px) {
+  .cformcontent {
+    margin-top: 30px;
+  }
+}
+
 @media only screen and (min-width: 320px) and (max-width: 479px) {
   .label { font-size: 10px; }
 
