@@ -4,6 +4,8 @@
   margin-top: 0;
   color: rgb(34, 34, 34);
   padding: 0 5%;
+  max-width: 1300px;
+  margin: 0 auto;
   .gcrow {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 15px;

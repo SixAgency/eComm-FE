@@ -235,11 +235,11 @@ function applyPromoCode(data) {
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
-      axios.put('/api/applycode', { data })
+      axios.put('/api/applycode', { coupon_code: data })
         .then((response) => checkResponse(response, () => {
           dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
         }, () => {
-          const message = response.data.messages || 'Something went wrong.';
+          const message = response.data.messages[0] || 'Something went wrong.';
           dispatch(setMessage({ isError: true, messages: [message] }));
         }))
         .catch((err) => {
