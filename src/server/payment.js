@@ -11,6 +11,7 @@ import {
  * @returns {Promise.<T>|Promise<R>}
  */
 function checkoutSquare(request) {
+  let status;
   let endpoint = `/api/v1/checkouts/${request.session.order}`;
   if (!request.session.user_token) {
     endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
@@ -21,7 +22,11 @@ function checkoutSquare(request) {
       body: JSON.stringify(request.body.data)
     }, request.session
   )
-    .then((resp) => checkResponse(resp))
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
     .then((data) => setCartResponse(data))
     .catch((err) => setError(err));
 }
@@ -39,6 +44,7 @@ function checkoutPayPal(request) {
  * @param request
  */
 function checkoutConfirm(request) {
+  let status;
   let endpoint = `/api/v1/checkouts/${request.session.order}`;
   if (!request.session.user_token) {
     endpoint = `/api/v1/checkouts/${request.session.order}?order_token=${request.session.guest_token}`;
@@ -48,7 +54,11 @@ function checkoutConfirm(request) {
       method: 'PUT'
     }, request.session
   )
-    .then((resp) => checkResponse(resp))
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
     .then((data) => setCartResponse(data))
     .catch((err) => setError(err));
 }

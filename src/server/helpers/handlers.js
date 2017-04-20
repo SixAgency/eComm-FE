@@ -1,89 +1,78 @@
 import Promise from 'bluebird';
+import capitalize from 'lodash.capitalize';
 import { mannequinHeadsSlugs } from '../../config';
 import logger from '../logger';
 
-// Middleware function to check status codes
-function checkResponse(data) {
-  return new Promise((resolve, reject) => {
-    let resp;
-    if ((data.status === 400) ||
-        (data.status === 404) ||
-        (data.status === 500)) {
-      const error = new Error();
-      error.message = 'Server Error. Please contact your server administrator.';
-      error.status = 500;
-      reject(error);
-    }
-    if (data.status === 401) {
-      const error = new Error();
-      error.message = 'Your session expired. Please login.';
-      error.status = 401;
-      reject(error);
-    }
-    if (data.status === 422) {
-      if (data.error) {
-        resp = {
-          isError: true,
-          message: data.error,
-          status: 200
-        };
-      } else if (data.errors) {
-        resp = {
-          isError: true,
-          message: data.errors,
-          status: 200
-        };
-      } else {
-        resp = {
-          isError: true,
-          message: 'The data entered is invalid. Please fix and try again.',
-          status: 200
-        };
-      }
-      resolve(resp);
-    }
-    if (data.status === 409) {
-      if (data.error) {
-        resp = {
-          isError: true,
-          message: data.error,
-          status: 200
-        };
-      } else if (data.errors) {
-        resp = {
-          isError: true,
-          message: data.errors,
-          status: 200
-        };
-      } else {
-        resp = {
-          isError: true,
-          message: 'The email address entered is already in use.',
-          status: 200
-        };
-      }
-      resolve(resp);
-    }
-    try {
-      resp = data.json();
-      resolve(resp);
-    } catch (err) {
-      const error = new Error();
-      error.message = 'Server Error. Please contact your server administrator.';
-      error.status = 500;
-      reject(error);
-    }
+/**
+ * Helper function to extract the messages from
+ * errors object of the response
+ *
+ * @param errors
+ * @returns array
+ */
+function getErrors(errors) {
+  return Object.entries(errors).map(([key, value]) => {
+    // By default we return key + message
+    // for example: 'firstname + can not be blank.'
+    // if base error we want just the error
+    const message = (key === 'base') ? `${value[0]}.` : `${key} ${value[0]}.`;
+    // Return the error message
+    return capitalize(message);
   });
+}
+
+/**
+ * Extract errors from response
+ *
+ * @param data
+ * @returns array of errors
+ */
+function extractErrors(data) {
+  // failed requests should contain `error`, `errors` or `exception` keys
+  // see http://guides.spreecommerce.org/api/summary.html
+  const { error, errors, exception } = data;
+  // if there is a single error - return
+  if (error) {
+    return [error];
+  }
+  // if there are multiple errors
+  if (errors) {
+    return getErrors(errors);
+  }
+  // Send the exception in development mode
+  if (process.env.NODE_ENV !== 'production' && exception) {
+    return [exception];
+  }
+  // Send default message when no error returned from backend
+  return ['Something went wrong. Please try again later.'];
+}
+
+// Middleware function to check status codes
+function checkResponse(json, status) {
+  // Server Error
+  if (status > 499) {
+    return Promise.reject(new Error('Server Error'));
+  }
+  // Client Error
+  if (status < 500 && status > 399) {
+    return {
+      status,
+      isError: true,
+      messages: extractErrors(json)
+    };
+  }
+  // Success
+  return json;
 }
 
 // Error response
 function setError(data) {
   logger.error(data);
-  const message = data.message || 'Server Error. Please contact your server administrator.';
+  const { messages, status } = data;
   const resp = {
     isError: true,
-    messages: [message],
-    status: data.status || 500
+    messages: messages || ['Error.'],
+    status: status || 500
   };
   return resp;
 }
@@ -129,7 +118,6 @@ function setAddressResponse(data) {
 function setAuthResponse(data, request) {
   let resp;
   if (!data.isError && data.user) {
-    console.log('USER', data.user);
     const user = {
       loggedIn: true,
       profile: {
@@ -148,17 +136,11 @@ function setAuthResponse(data, request) {
       shipping: setAddressResponse(data.ship_address)
     };
   } else {
-    let message = 'Server Error. Please contact your server administrator.';
-    if (data.message && typeof data.message === 'object') {
-      message = data.message.email || 'Server Error. Please contact your server administrator.';
-    }
-    if (data.message && typeof data.message === 'string') {
-      message = data.message;
-    }
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   }
   return resp;
@@ -249,9 +231,11 @@ function setAddressesResponse(data, newAddress) {
       resp.newAddress = newAddress.address;
     }
   } else {
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [data.message],
+      messages: messages || ['Error.'],
+      status,
       billing: {
         isLoaded: true,
         isEmpty: true,
@@ -281,10 +265,11 @@ function setEditCreateAddressResponse(data) {
       shipping: setAddressResponse(data.default_addresses.ship_address)
     };
   } else {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message]
+      messages: messages || ['Error.'],
+      status
     };
   }
   return resp;
@@ -293,10 +278,11 @@ function setEditCreateAddressResponse(data) {
 function setCreateAddressResponse(data, request, callback) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message]
+      messages: messages || ['Error.'],
+      status
     };
     return resp;
   }
@@ -306,10 +292,11 @@ function setCreateAddressResponse(data, request, callback) {
 function setEditAddressResponse(data, request, callback) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message]
+      messages: messages || ['Error.'],
+      status
     };
     return resp;
   }
@@ -326,11 +313,11 @@ function setOrderResponse(data) {
       order: data
     };
   } else {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      isEmpty: true,
-      messages: [message],
+      messages: messages || ['Error.'],
+      status,
       order: {}
     };
   }
@@ -348,11 +335,11 @@ function setOrdersResponse(data) {
       orders: data.orders
     };
   } else {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      isEmpty: true,
-      messages: [message],
+      messages: messages || ['Error.'],
+      status,
       orders: []
     };
   }
@@ -362,12 +349,11 @@ function setOrdersResponse(data) {
 function setCartResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      isEmpty: true,
-      messages: [message],
-      status: data.status,
+      messages: messages || ['Error.'],
+      status,
       cart: {}
     };
   } else {
@@ -380,11 +366,11 @@ function setCartResponse(data) {
 function setAddRemoveCartResponse(data) {
   let resp;
   if (data.item.isError) {
-    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.item.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -399,11 +385,11 @@ function setAddRemoveCartResponse(data) {
 function setCouponResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -420,11 +406,11 @@ function setCouponResponse(data) {
 function setProductResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -440,11 +426,11 @@ function setProductResponse(data) {
 function setProductsResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -461,11 +447,11 @@ function setRecsResponse(data) {
   let resp;
 
   if (data.isError) {
-    const message = data.item.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status,
+      messages: messages || ['Error.'],
+      status,
       isLoaded: true,
       isEmpty: true,
       products: []
@@ -484,11 +470,11 @@ function setRecsResponse(data) {
 function setMannequinHeadsResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     const products = data.products
@@ -506,11 +492,11 @@ function setMannequinHeadsResponse(data) {
 function setContactResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -526,12 +512,12 @@ function setContactResponse(data) {
 function setBraintreeResponse(data) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
       isEmpty: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
   } else {
     resp = {
@@ -546,12 +532,12 @@ function setBraintreeResponse(data) {
 function setAddressCallBack(request, data, isPayPal, callback) {
   let resp;
   if (data.isError) {
-    const message = data.message || 'Server Error. Please contact your server administrator.';
+    const { messages, status } = data;
     resp = {
       isError: true,
       isEmpty: true,
-      messages: [message],
-      status: data.status
+      messages: messages || ['Error.'],
+      status
     };
     return resp;
   }
@@ -563,62 +549,105 @@ function setAddressCallBack(request, data, isPayPal, callback) {
 
 /* Parse profile */
 function parseProfile(data) {
-  let resp = {};
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
+  }
+  let resp = { isLoaded: true, profile: {} };
   if (Object.getOwnPropertyNames(data).length > 0) {
     resp = { isLoaded: true, profile: data.users[0] };
     return resp;
   }
-  resp = { isLoaded: true, profile: {} };
   return resp;
 }
 
 /* Parse profile on Update */
 function parseProfileUpdate(data) {
-  let resp = {};
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
+  }
+  let resp = { isLoaded: true, profile: {} };
   if (data) {
     resp = { isLoaded: true, profile: data };
     return resp;
   }
-  resp = { isLoaded: true, profile: {} };
   return resp;
 }
 
 /* Parse password Update */
 function parsePasswordUpdate(data) {
-  let resp = {};
-  if (data.passwords && (data.passwords.password === data.passwords.password_confirmation)) {
-    return resp;
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
   }
-  resp = {};
-  return resp;
+  return {
+    isError: false,
+    messages: [],
+    status: 200
+  };
 }
 
 /* Delete Address */
 function setDeleteAddressResponse(data) {
-  let resp = {};
-  if (data) {
-    return resp;
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
   }
-  resp = {};
-  return resp;
+  return {
+    isError: false,
+    messages: [],
+    status: 200
+  };
 }
 
 /* Reset password - parse the response from send reset email step */
 function parseResetResponse(data) {
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
+  }
+  if (data.errors) {
+    return {
+      isError: true,
+      messages: data.errors,
+      status: 422
+    };
+  }
   let resp = {};
   if (data) {
     resp = `${data.message} to ${data.user.email}`;
-    return resp;
   }
-  resp = {};
   return resp;
 }
 
 function parseNewPasswordResponse(data) {
-  if (typeof data.errors !== 'undefined') {
+  if (data.isError) {
+    const { messages, status } = data;
     return {
       isError: true,
-      data: data.errors
+      messages: messages || ['Error.'],
+      status
     };
   }
   return {
@@ -628,10 +657,12 @@ function parseNewPasswordResponse(data) {
 }
 
 function parseGiftRedeemResponse(data) {
-  if (data.status !== 201) {
+  if (data.isError) {
+    const { messages, status } = data;
     return {
       isError: true,
-      data: data.statusText
+      messages: messages || ['Error.'],
+      status
     };
   }
   return {
@@ -641,6 +672,14 @@ function parseGiftRedeemResponse(data) {
 }
 
 function parseStoreCredit(data) {
+  if (data.isError) {
+    const { messages, status } = data;
+    return {
+      isError: true,
+      messages: messages || ['Error.'],
+      status
+    };
+  }
   if (data.count > 0) {
     return {
       isLoaded: true,

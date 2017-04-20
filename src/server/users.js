@@ -22,6 +22,7 @@ const PROFILE = '/api/v1/users';
 
 // Login
 function userLogin(request) {
+  let status;
   const user = {
     spree_user: {
       email: request.body.email,
@@ -37,13 +38,18 @@ function userLogin(request) {
       method: 'POST',
       body: JSON.stringify(user)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setAuthResponse(data, request))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setAuthResponse(data, request))
+    .catch((err) => setError(err));
 }
 
 // Registration
 function userRegistration(request) {
+  let status;
   const user = {
     spree_user: {
       email: request.body.email,
@@ -59,17 +65,26 @@ function userRegistration(request) {
       method: 'POST',
       body: JSON.stringify(user)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setAuthResponse(data, request))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setAuthResponse(data, request))
+    .catch((err) => setError(err));
 }
 
 // Logout
 function userLogout(request) {
+  let status;
   return apiFetch(LOGOUT, {}, request.session)
-  .then((resp) => checkResponse(resp))
-  .then(() => setLogoutResponse(request))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then(() => setLogoutResponse(request))
+    .catch((err) => setError(err));
 }
 
 // User Check based on session
@@ -81,27 +96,38 @@ function checkLogin(request) {
 
 // Get User Profile
 function getProfile(request) {
+  let status;
   return apiFetch(PROFILE, {}, request.session)
-  .then((resp) => (checkResponse(resp)))
-  .then((resp) => (parseProfile(resp)))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parseProfile(resp)))
+    .catch((err) => setError(err));
 }
 
 // Update User Profile
 function updateProfile(request) {
+  let status;
   const profile = { ...request.body };
   return apiFetch(`${PROFILE}/${profile.id}`,
     {
       method: 'PATCH',
       body: JSON.stringify(profile)
     }, request.session)
-  .then((resp) => (checkResponse(resp)))
-  .then((resp) => (parseProfileUpdate(resp)))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parseProfileUpdate(resp)))
+    .catch((err) => setError(err));
 }
 
 // Update User Password
 function updatePassword(request) {
+  let status;
   const data = {
     user: request.body.passwords
   };
@@ -110,54 +136,79 @@ function updatePassword(request) {
       method: 'PATCH',
       body: JSON.stringify(data)
     }, request.session)
-  .then((resp) => (checkResponse(resp)))
-  .then((resp) => (parsePasswordUpdate(resp)))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parsePasswordUpdate(resp)))
+    .catch((err) => setError(err));
 }
 
 // Send instruction mail for reset password
 function resetPassword(request) {
+  let status;
   const data = { ...request.body };
   return apiFetch('/password/recover',
     {
       method: 'POST',
       body: JSON.stringify(data)
     }, request.session)
-  .then((resp) => (checkResponse(resp)))
-  .then((resp) => (parseResetResponse(resp)))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parseResetResponse(resp)))
+    .catch((err) => setError(err));
 }
 
 // Set new password after receiving the email instructions
 function setNewPassword(request) {
+  let status;
   const data = { ...request.body };
   return apiFetch('/user/spree_user/password',
     {
       method: 'PATCH',
       body: JSON.stringify(data)
     }, request.session)
-  .then((resp) => (checkResponse(resp)))
-  .then((resp) => (parseNewPasswordResponse(resp))) // TODO: add validation
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parseNewPasswordResponse(resp)))
+    .catch((err) => setError(err));
 }
 
 // Redeem gift card
 function redeemGiftCard(request) {
+  let status;
   const data = { ...request.body };
   return apiFetch('/api/v1/gift_cards/redeem',
     {
       method: 'POST',
       body: JSON.stringify(data)
     }, request.session)
-  .then((resp) => (parseGiftRedeemResponse(resp)))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
+    .then((resp) => (parseGiftRedeemResponse(resp)))
+    .catch((err) => setError(err));
 }
 
 
 // Get store credit value
 function getStoreCreditInfo(request) {
+  let status;
   return apiFetch('/api/v1/store_credit_events/mine', {}, request.session)
-    .then((resp) => (checkResponse(resp)))
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => (checkResponse(json, status)))
     .then((resp) => (parseStoreCredit(resp)))
     .catch((err) => setError(err));
 }
