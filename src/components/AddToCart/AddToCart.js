@@ -25,17 +25,6 @@ class CartCta extends Component {
     };
   }
 
-  componentWillMount = () => {
-    const { product, isLoaded } = this.props.product;
-    if (isLoaded) {
-      if (!product.has_variants) {
-        this.setState({
-          variant_id: product.master.id
-        });
-      }
-    }
-  };
-
   setVariant = (variant) => {
     this.setState({
       variant_id: variant
@@ -100,11 +89,9 @@ class CartCta extends Component {
     const variantId = this.state.variant_id;
     const quantity = this.state.quantity;
     const { cartItems } = this.props;
-    if (variantId === null) {
-      return;
-    }
+    const { product } = this.props.product;
     const data = {
-      id: variantId,
+      id: variantId || product.master.id,
       quantity
     };
     const flag = checkQuantities({
