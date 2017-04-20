@@ -22,6 +22,7 @@ class Billing extends React.Component {
     emailAddress: PropTypes.string.isRequired,
     selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
+    address: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     showCancel: PropTypes.bool.isRequired
   };
@@ -32,19 +33,30 @@ class Billing extends React.Component {
       selectedAddress,
       emailAddress
     } = props;
+    const {
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      zipcode
+    } = this.props.address;
     this.state = {
       addressId: selectedAddress,
-      firstname: '',
-      lastname: '',
-      company: '',
+      firstname,
+      lastname,
+      company,
       email: emailAddress,
-      phone: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state: 0,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
       country: 232,
-      zipcode: ''
+      zipcode
     };
   }
 
@@ -54,7 +66,6 @@ class Billing extends React.Component {
    */
   onSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
     this.props.onSubmit(this.state);
   };
 
@@ -76,6 +87,32 @@ class Billing extends React.Component {
   onSelect = (event) => {
     this.setState({
       addressId: parseInt(event.target.value, 10)
+    });
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    const {
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      zipcode
+    } = nextProps.address;
+    this.setState({
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      country: 232,
+      zipcode
     });
   };
 

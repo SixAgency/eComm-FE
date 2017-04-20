@@ -378,6 +378,13 @@
   -o-transition: all 0.2s linear;
 }
 
+.edit_form,
+.edit_list {
+  display: none;
+  visibility: hidden;
+  overflow: hidden;
+}
+
 .login {
   margin-bottom: 25px;
 }

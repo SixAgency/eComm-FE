@@ -129,7 +129,7 @@ const CHECKOUT_BILLING_FIELDS = [
     type: 'text',
     placeholder: '',
     disabled: false,
-    value: 'zip'
+    value: 'zipcode'
   }
 ];
 
@@ -250,7 +250,7 @@ const CHECKOUT_SHIPPING_FIELDS = [
     type: 'text',
     placeholder: '',
     disabled: false,
-    value: 'zip'
+    value: 'zipcode'
   }
 ];
 
