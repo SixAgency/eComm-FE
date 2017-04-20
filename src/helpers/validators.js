@@ -18,6 +18,22 @@ function validateAuth(data) {
   return resp;
 }
 
+function validatePasswordEmail(data) {
+  const email = data.spree_user.email;
+  const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
+  const messages = [];
+  if (!email) {
+    messages.push('Email is required');
+  } else if (!isValidEmail.test(email)) {
+    messages.push('You must enter a valid email address');
+  }
+  const resp = {
+    isError: (messages.length > 0),
+    messages
+  };
+  return resp;
+}
+
 // Validate add/remove cart data
 function validateProduct(data) {
   const messages = [];
@@ -239,5 +255,6 @@ export {
   validateAccountUpdate,
   validatePasswordUpdate,
   validateShippingCalculator,
-  validatePromoCode
+  validatePromoCode,
+  validatePasswordEmail
 };
