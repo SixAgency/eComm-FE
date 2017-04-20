@@ -14,7 +14,7 @@
     overflow: hidden;
     width: 600px;
     position: relative;
-    top: 25%;
+    top: 27%;
 
     .title {
       background: #29cbc8;
@@ -39,7 +39,7 @@
 
       .review {
         float: left;
-        margin: 20px 0;
+        margin: 17px 0;
         width: 100%;
 
         p {
@@ -148,4 +148,34 @@
 
   }
 
+}
+
+@media (max-width: 1030px) {
+  .reviewsbg {
+    .reviews {
+      top: 20%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .reviewsbg {
+    .reviews {
+      width: 100%;
+      .content {
+        padding: 10px 20px;
+        height: 250px;
+        .review {
+          p {
+            &.left {
+              width: 40%;
+            }
+            &.right {
+              width: 60%;
+            }
+          }
+        }
+      }
+    }
+  }
 }

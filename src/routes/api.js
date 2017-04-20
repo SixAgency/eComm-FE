@@ -154,7 +154,8 @@ apiRoutes.get('/products', (req, resp) => {
 apiRoutes.get('/product/:slug', (req, resp) => {
   getProduct(req).then((data) => (resp.json(data)));
 });
-apiRoutes.post('/product/:id/reviews', (req, resp) => {
+// Add product review
+apiRoutes.post('/products/:id/reviews', (req, resp) => {
   addProductReview(req).then((data) => (resp.json(data)));
 });
 

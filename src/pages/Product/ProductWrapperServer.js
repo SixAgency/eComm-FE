@@ -4,13 +4,16 @@ import Product from './Product';
 class ProductWrapper extends Component {
 
   static propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   };
-
 
   static defaultProps = {
     addToCart: () => (true),
-    getProduct: () => (true)
+    getProduct: () => (true),
+    isError: false,
+    messages: []
   };
 
   render() {
@@ -22,6 +25,8 @@ class ProductWrapper extends Component {
       <Product
         product={product}
         onAddToCart={() => (true)}
+        messages={this.props.messages}
+        isError={this.props.isError}
       />
     );
   }

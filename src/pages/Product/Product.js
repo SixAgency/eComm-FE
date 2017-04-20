@@ -23,7 +23,10 @@ class Product extends Component {
     properties: PropTypes.object.isRequired,
     cartItems: PropTypes.array.isRequired,
     setMessage: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
+    addProductReview: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired,
+    resetMessages: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -62,9 +65,15 @@ class Product extends Component {
   }
 
   toggleReviews = () => {
+    if (!this.state.showReviews) {
+      this.props.resetMessages();
+    }
     this.setState({ showReviews: !this.state.showReviews });
   }
 
+  addProductReview = (review) => {
+    this.props.addProductReview(this.props.product.product.id, review, this.toggleReviews);
+  }
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -84,10 +93,7 @@ class Product extends Component {
 
     return (
       <div className={s.page}>
-        <ErrorDisplay
-          messages={this.props.messages}
-          isError
-        />
+        <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <div className={s.left}>
           <div className={s.container}>
             <img
@@ -210,7 +216,12 @@ class Product extends Component {
                   onClick={this.toggleReviews}
                 />
                 {this.state.showReviews &&
-                  <ProductReviews toggleReviews={this.toggleReviews} reviews={reviews} />
+                  <ProductReviews
+                    toggleReviews={this.toggleReviews}
+                    addProductReview={this.addProductReview}
+                    reviews={reviews}
+                    resetMessages={this.props.resetMessages}
+                  />
                 }
               </div>
               <div className={s.summarybottom}>

@@ -106,7 +106,7 @@ function setProductReviews(data, request, callback) {
 // Get Product
 function getProduct(request) {
   let status;
-  const slug = request.params.slug;
+  const slug = request.params.slug ? request.params.slug : request.params.id;
   return apiFetch(`${PRODUCT}/${slug}`, {}, request.session)
     .then((resp) => {
       status = resp.status;
@@ -116,6 +116,29 @@ function getProduct(request) {
     .then((data) => setProductRecs(data, request))
     .then((data) => setProductReviews(data, request, setProductResponse))
     .catch((err) => setError(err));
+}
+
+// Add Product review
+function addProductReview(request) {
+  const review = {
+    review: {
+      rating: 5,
+      review: request.body.review,
+      name: request.body.name,
+      show_identifier: 1,
+      email: request.body.email
+    }
+  };
+  const productID = request.params.id;
+  const endpoint = `${PRODUCT}/${productID}/reviews`;
+  return apiFetch(endpoint,
+    {
+      method: 'POST',
+      body: JSON.stringify(review)
+    }, request.session)
+  .then((response) => checkResponse(response))
+  // .then(() => getProduct(request))
+  .catch((err) => setError(err));
 }
 
 // Get Mannequin heads
@@ -143,29 +166,6 @@ function getProductsInCategory(request) {
     .then((json) => checkResponse(json, status))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
-}
-
-// Add Product review
-function addProductReview(request) {
-  const review = {
-    review: {
-      rating: 5,
-      review: request.body.review,
-      name: request.body.name,
-      show_identifier: 1,
-      email: request.body.email
-    }
-  };
-  const productID = request.params.id;
-  const endpoint = `${PRODUCT}/${productID}/reviews`;
-  return apiFetch(endpoint,
-    {
-      method: 'POST',
-      body: JSON.stringify(review)
-    }, request.session)
-  .then((response) => checkResponse(response))
-  // .then((data) => setProductReviews(data, request, setProductResponse))
-  .catch((err) => setError(err));
 }
 
 export { getProducts, getProduct, getMannequinHeads, getProductsInCategory, addProductReview };
