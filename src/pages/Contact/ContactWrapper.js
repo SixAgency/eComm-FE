@@ -32,7 +32,7 @@ class ContactWrapper extends BasePageComponent {
     sendContact: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired
-  }
+  };
 
   componentWillMount = () => {
     const props = {
@@ -40,18 +40,18 @@ class ContactWrapper extends BasePageComponent {
       activeSlug: '/contact'
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     return (

@@ -9,7 +9,7 @@ class Category extends React.Component {
   static propTypes = {
     gridItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
-  }
+  };
   render() {
     const bottomText = { subtitle: 'Shop Now' };
     return (

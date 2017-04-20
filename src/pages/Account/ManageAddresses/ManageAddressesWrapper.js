@@ -102,7 +102,7 @@ class ManageAddressesWrapper extends BasePageComponent {
 
   handleDisplay = (content) => {
     this.setState({ display: content });
-  }
+  };
 
   onLogout = (event) => {
     event.preventDefault();

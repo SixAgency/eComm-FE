@@ -10,7 +10,7 @@ import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
-    categoryItems: state.catalog.categoryItems,
+    categoryItems: state.catalog.categoryItems
   }
 ));
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getProductsInCategory: (slug) => dispatch(getProductsInCategory(slug)),
     addToCart: (item) => dispatch(addToCart(item)),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 
@@ -33,8 +33,8 @@ class CategoryWrapper extends React.Component {
     setHeaderProps: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
-  }
+    route: PropTypes.object.isRequired
+  };
 
   componentWillMount = () => {
     const props = {
@@ -50,7 +50,7 @@ class CategoryWrapper extends React.Component {
     if (this.props.categoryItems.slug !== this.props.params.slug) {
       this.props.getProductsInCategory(this.props.params.slug);
     }
-  }
+  };
 
   componentDidMount = () => {
     const { isLoaded } = this.props.categoryItems;
@@ -59,7 +59,7 @@ class CategoryWrapper extends React.Component {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
     console.log('next');
@@ -75,11 +75,11 @@ class CategoryWrapper extends React.Component {
         }, 250);
       }
     }
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     document.title = `${capitalize(this.props.params.slug)} Archives - krissorbie`;

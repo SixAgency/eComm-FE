@@ -9,13 +9,13 @@ class Subnav extends React.Component {
     onLogout: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     resetMessages: PropTypes.func.isRequired
-  }
+  };
 
   static defaultProps = {
     onLogout: () => (true),
     resetMessages: () => (true),
     breadcrumbs: []
-  }
+  };
 
   getSubNavItems = () => {
     if (this.props.isLogged) {

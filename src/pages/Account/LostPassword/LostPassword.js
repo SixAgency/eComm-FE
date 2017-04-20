@@ -19,7 +19,6 @@ class LostPassword extends React.Component {
   }
 
   render() {
-    console.log('BREADCRUMBS', this.props.breadcrumbs);
     return (
       <section className={s.page}>
         <Subnav

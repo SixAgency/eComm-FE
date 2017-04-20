@@ -11,7 +11,7 @@ import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
-    products: state.catalog.mannequinHeads,
+    products: state.catalog.mannequinHeads
   }
 ));
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getMannequinHeads: () => dispatch(getMannequinHeads()),
-    addToCart: (item) => dispatch(addToCart(item)),
+    addToCart: (item) => dispatch(addToCart(item))
   }
 ));
 
@@ -29,8 +29,8 @@ class MannequinHeadsWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     products: PropTypes.object.isRequired,
     getMannequinHeads: PropTypes.func.isRequired,
-    addToCart: PropTypes.func.isRequired,
-  }
+    addToCart: PropTypes.func.isRequired
+  };
 
   componentWillMount = () => {
     if (!this.props.products.isLoaded) {
