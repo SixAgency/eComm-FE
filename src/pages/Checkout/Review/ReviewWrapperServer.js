@@ -11,14 +11,12 @@ class ReviewWrapper extends Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array,
-    creditInfo: PropTypes.object.isRequired
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
     isError: false,
-    messages: [],
-    creditInfo: {}
+    messages: []
   };
 
   render() {
@@ -43,7 +41,8 @@ class ReviewWrapper extends Component {
           checkoutSquare={() => (true)}
           confirmOrder={() => (true)}
           checkoutReset={() => (true)}
-          creditInfo={this.props.creditInfo}
+          toggleUseCredits={() => (true)}
+          useCredits={false}
         />
       </Checkout>
     );

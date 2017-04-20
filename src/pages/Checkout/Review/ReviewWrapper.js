@@ -8,7 +8,7 @@ import Review from './Review';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, toggleModal } from '../../../actions/page';
 import { applyPromoCode, getCart } from '../../../actions/order';
-import { onLogin, onLogout, getStoreCredit, applyStoreCredit } from '../../../actions/user';
+import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { confirmOrder, checkoutReset } from '../../../actions/payment/payment';
@@ -24,11 +24,9 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     completePayPal: () => dispatch(completePayPal()),
-    confirmOrder: () => (dispatch(confirmOrder())),
     checkoutReset: () => dispatch(checkoutReset()),
-    getStoreCredit: () => dispatch(getStoreCredit()),
-    applyStoreCredit: (data) => dispatch(applyStoreCredit(data)),
-    getCart: (data) => dispatch(getCart(data))
+    getCart: (data) => dispatch(getCart(data)),
+    confirmOrder: (useCredits) => (dispatch(confirmOrder(useCredits)))
   }
 ));
 
@@ -40,8 +38,7 @@ const mapStateToProps = ((state) => (
     messages: state.page.messages,
     isError: state.page.isError,
     isPayPal: state.checkout.isPayPal,
-    isPending: state.page.isPending,
-    creditInfo: state.user.creditInfo
+    isPending: state.page.isPending
   }
 ));
 
@@ -64,9 +61,6 @@ class ReviewWrapper extends BasePageComponent {
     isCartPending: PropTypes.bool.isRequired,
     getCart: PropTypes.func.isRequired,
     route: PropTypes.object,
-    getStoreCredit: PropTypes.func.isRequired,
-    creditInfo: PropTypes.object.isRequired,
-    applyStoreCredit: PropTypes.func.isRequired,
     checkoutReset: PropTypes.func.isRequired
   };
 
@@ -84,9 +78,6 @@ class ReviewWrapper extends BasePageComponent {
     // is already loaded
     if (!this.props.cartItems.isCartPending) {
       this.props.getCart(false);
-    }
-    if (!this.props.creditInfo.isLoaded) {
-      this.props.getStoreCredit();
     }
   };
 
@@ -134,14 +125,14 @@ class ReviewWrapper extends BasePageComponent {
 
   confirmOrder = (e) => {
     e.preventDefault();
-    this.props.confirmOrder();
+    this.props.confirmOrder(this.state.useCredits);
   };
 
   toggleUseCredits = () => {
     this.setState({ useCredits: !this.state.useCredits });
-    this.props.applyStoreCredit({
-      apply_store_credit: true
-    });
+    // this.props.applyStoreCredit({
+    //   apply_store_credit: true
+    // });
   };
 
   render() {
@@ -166,10 +157,8 @@ class ReviewWrapper extends BasePageComponent {
             checkoutPayPal={this.checkoutPayPal}
             checkoutSquare={this.checkoutSquare}
             confirmOrder={this.confirmOrder}
-            creditInfo={this.props.creditInfo}
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
-            applyStoreCredit={this.props.applyStoreCredit}
             checkoutReset={this.props.checkoutReset}
           />
         </Checkout>
