@@ -28,9 +28,9 @@ class ReviewOrder extends PureComponent {
       },
       useCredits
     } = this.props;
-
+    console.log('STATE', cart.state);
     if (cart.state === 'confirm') {
-      this.renderSubmitButton();
+      return this.renderSubmitButton();
     } else if (this.props.isPayPal) {
       return (
         <div className={s.paymentcontainer}>
