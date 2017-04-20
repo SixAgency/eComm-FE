@@ -4,13 +4,20 @@ import { connect } from 'react-redux';
 import Product from './Product';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader,
+  setMessage
+} from '../../actions/page';
 import { addToCart } from '../../actions/order';
 import { getProduct } from '../../actions/catalog';
 
 const mapStateToProps = ((state) => (
   {
     product: state.catalog.product,
+    cartItems: state.cart.cartItems,
+    messages: state.page.messages
   }
 ));
 
@@ -21,6 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     addToCart: (item) => dispatch(addToCart(item)),
     getProduct: (slug) => dispatch(getProduct(slug)),
     resetMessages: () => dispatch(resetMessages()),
+    setMessage: (message) => dispatch(setMessage(message))
   }
 ));
 
@@ -33,20 +41,24 @@ class ProductWrapper extends Component {
     getProduct: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-  }
+    cartItems: PropTypes.object.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    resetMessages: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       quantity: 1,
-      variant_id: null,
+      variant_id: null
     };
   }
 
   componentWillMount = () => {
     const props = {
       headerClass: 'colored',
-      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
+      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
     };
     this.props.setHeaderProps(props);
     if (!this.props.product.isLoaded) {
@@ -54,21 +66,19 @@ class ProductWrapper extends Component {
     } else if (this.props.product.product.slug !== this.props.params.slug) {
       this.props.getProduct(this.props.params.slug);
     }
-  }
+    this.props.resetMessages();
+  };
 
   componentDidMount = () => {
-    console.log('did');
     const { isLoaded } = this.props.product;
     if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
     }
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('next');
-    console.log(nextProps);
     if (this.props.params.slug !== nextProps.params.slug) {
       this.props.toggleLoader(true);
       this.props.getProduct(nextProps.params.slug);
@@ -79,7 +89,7 @@ class ProductWrapper extends Component {
       if (isLoaded && currentId !== nextId) {
         const props = {
           headerClass: 'colored',
-          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/',
+          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
         };
         this.props.setHeaderProps(props);
         setTimeout(() => {
@@ -87,14 +97,15 @@ class ProductWrapper extends Component {
         }, 250);
       }
     }
-  }
+  };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
-  getProperty = (properties, property) => properties.find((prop) => (prop.property_name === property));
+  getProperty = (properties, property) => properties.find(
+    (prop) => (prop.property_name === property)
+  );
 
   getPropertyFlag = (object) => typeof object !== 'undefined' && object.value !== '';
 
@@ -114,7 +125,7 @@ class ProductWrapper extends Component {
       titleNote: this.getPropertyFlag(titleNote) ? titleNote.value : '',
       video: this.getPropertyFlag(video) ? video.value : '',
       bulkPrices: [
-        this.getPropertyFlag(bulkPrice1) ? bulkPrice1.value : '',,
+        this.getPropertyFlag(bulkPrice1) ? bulkPrice1.value : '',
         this.getPropertyFlag(bulkPrice2) ? bulkPrice2.value : '',
         this.getPropertyFlag(bulkPrice3) ? bulkPrice3.value : '',
         this.getPropertyFlag(bulkPrice4) ? bulkPrice4.value : ''
@@ -125,20 +136,29 @@ class ProductWrapper extends Component {
       weight: this.getPropertyFlag(weight) ? weight.value : '',
       dimensions: this.getPropertyFlag(dimensions) ? dimensions.value : ''
     };
-  }
+  };
 
   render() {
-    if (!this.props.product.isLoaded) {
-      return null;
+    const {
+      product,
+      cartItems,
+      messages
+    } = this.props;
+    if (product.isLoaded && cartItems.isLoaded) {
+      document.title = `${product.product.name || 'Shop'} - krissorbie`;
+      return (
+        <Product
+          product={product}
+          onAddToCart={this.props.addToCart}
+          cartItems={cartItems.cart.line_items}
+          properties={this.getProperties()}
+          setMessage={this.props.setMessage}
+          messages={messages}
+          resetMessages={this.props.resetMessages}
+        />
+      );
     }
-    document.title = `${this.props.product.product.name || 'Shop'} - krissorbie`;
-    return (
-      <Product
-        product={this.props.product}
-        onAddToCart={this.props.addToCart}
-        properties={this.getProperties()}
-      />
-    );
+    return null;
   }
 }
 

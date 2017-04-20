@@ -7,6 +7,12 @@ class ProductWrapper extends Component {
     product: PropTypes.object.isRequired
   };
 
+
+  static defaultProps = {
+    addToCart: () => (true),
+    getProduct: () => (true)
+  }
+
   render() {
     const { isLoaded, product } = this.props.product;
     if (!isLoaded) {

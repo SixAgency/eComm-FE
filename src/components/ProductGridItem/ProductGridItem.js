@@ -5,18 +5,24 @@ import cx from 'classnames';
 import accounting from 'accounting';
 
 import s from './ProductGridItem.css';
+
+// Components
 import ProductAction from './ProductAction';
 import imagePlaceholder from './image_placeholder_large.png';
+// Helpers
+import checkQuantities from '../../helpers/quantity';
 
 class ProductGridItem extends Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
+    setMessage: PropTypes.func,
+    cartItems: PropTypes.array,
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
     buttonclass: PropTypes.string
-  }
+  };
 
   getPrice = (calcReduced = false) => {
     const { product } = this.props;
@@ -28,19 +34,32 @@ class ProductGridItem extends Component {
       return parseFloat(price) - (parseFloat(price) * (sale / 100));
     }
     return accounting.formatMoney(product.price);
-  }
+  };
 
 
   addToCart = (event) => {
     event.preventDefault();
-
     const data = {
       id: this.props.product.master.id,
       quantity: 1
     };
-
-    this.props.addToCart(data);
-  }
+    const flag = checkQuantities({
+      ...data,
+      items: this.props.cartItems
+    });
+    if (!flag) {
+      this.props.setMessage({
+        isError: true,
+        messages: [
+          `You may only purchase a maximum
+           ${this.props.product.max_quantity_allowed_in_cart}
+           ${this.props.product.name} at one time`
+        ]
+      });
+    } else {
+      this.props.addToCart(data);
+    }
+  };
 
   handleText = () => {
     const product = this.props.product;
@@ -56,7 +75,7 @@ class ProductGridItem extends Component {
       link: '/cart',
       action: this.addToCart
     };
-  }
+  };
 
   render() {
     const product = this.props.product;

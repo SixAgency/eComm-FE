@@ -9,11 +9,13 @@ class Grid extends Component {
     gridClass: PropTypes.string.isRequired,
     gridItems: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
+    setMessage: PropTypes.func,
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
+    cartItems: PropTypes.array,
     buttonclass: PropTypes.string
-  }
+  };
 
   render() {
     const { isLoaded, products } = this.props.gridItems;
@@ -32,6 +34,8 @@ class Grid extends Component {
                 catclass={this.props.catclass}
                 buttonclass={this.props.buttonclass}
                 addToCart={this.props.addToCart}
+                cartItems={this.props.cartItems}
+                setMessage={this.props.setMessage}
               />
             </li>
           ))}

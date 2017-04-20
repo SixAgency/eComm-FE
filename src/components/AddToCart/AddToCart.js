@@ -1,16 +1,21 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AddToCart.css';
+// Components
 import ProductQuantity from '../ProductQuantity';
 import SingleVariant from '../SingleVariant';
 import MultiVariant from '../MultiVariant';
 import GiftCardSelector from '../SingleVariant/GiftCardSelector';
+// Helpers
+import checkQuantities from '../../helpers/quantity';
 
 class CartCta extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired
-  }
+    product: PropTypes.object.isRequired,
+    cartItems: PropTypes.array.isRequired,
+    setMessage: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -29,13 +34,13 @@ class CartCta extends Component {
         });
       }
     }
-  }
+  };
 
   setVariant = (variant) => {
     this.setState({
       variant_id: variant
     });
-  }
+  };
 
   getVariant = () => {
     const { product } = this.props.product;
@@ -56,19 +61,18 @@ class CartCta extends Component {
               onAddToCart={this.props.onSubmit}
             />
           );
-        } else {
-          return (
-            <SingleVariant
-              variants={product.variants}
-              action={this.setVariant}
-              price={product.price}
-            />
-          );
         }
+        return (
+          <SingleVariant
+            variants={product.variants}
+            action={this.setVariant}
+            price={product.price}
+          />
+        );
       }
     }
     return null;
-  }
+  };
 
   subQuantity = () => {
     let value = this.state.quantity;
@@ -78,7 +82,7 @@ class CartCta extends Component {
         quantity: value
       });
     }
-  }
+  };
 
   addQuantity = () => {
     let value = this.state.quantity;
@@ -89,24 +93,45 @@ class CartCta extends Component {
     this.setState({
       quantity: value
     });
-  }
+  };
 
-  addToCart = (event) => {
-    event.preventDefault();
-    if (this.state.variant_id === null) {
+  addToCart = (e) => {
+    e.preventDefault();
+    const variantId = this.state.variant_id;
+    const quantity = this.state.quantity;
+    const { cartItems } = this.props;
+    if (variantId === null) {
       return;
     }
     const data = {
-      id: this.state.variant_id,
-      quantity: this.state.quantity
+      id: variantId,
+      quantity
     };
-    this.props.onSubmit(data);
-  }
+    const flag = checkQuantities({
+      ...data,
+      items: cartItems
+    });
+    if (!flag) {
+      this.props.setMessage({
+        isError: true,
+        messages: [
+          `You may only purchase a maximum
+           ${this.props.product.product.max_quantity_allowed_in_cart}
+           ${this.props.product.product.name} at one time`
+        ]
+      });
+    } else {
+      this.props.onSubmit(data);
+    }
+  };
 
   render() {
     const { product } = this.props.product;
     return (
-      <form className={s.cartform} onSubmit={this.addToCart}>
+      <form
+        className={s.cartform}
+        onSubmit={this.addToCart}
+      >
         { this.getVariant() }
         {
           product.classifications[0].taxon.name !== 'Gifts' &&

@@ -24,7 +24,7 @@ class ErrorDisplay extends React.Component {
   showContinueShoppingFunc = (props) => {
     if (typeof props.messages !== 'undefined') {
       const messages = props.messages[0] ? props.messages[0] : '';
-      if (messages.indexOf('has been added to your cart.') > -1 && !props.isError) {
+      if (!props.isError && messages.indexOf('been added to your cart.') > -1) {
         return true;
       }
     }

@@ -128,12 +128,15 @@ class CartWrapper extends BasePageComponent {
    */
   toggleGiftCardForm = (event) => {
     event.preventDefault();
-    this.setState({ showGiftCardForm: !this.state.showGiftCardForm });
+    this.setState({ showGiftCardForm: !this.state.showGiftCardForm }, () => {
+      document.getElementById('giftcard-code').focus();
+    });
   };
 
   updateQuantity = (updatedCartItems) => {
     const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
     this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
+    this.setState({ showGiftCardForm: false });
   };
 
   /**

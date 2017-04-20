@@ -142,7 +142,9 @@ function addToCart(data) {
     axios.post('/api/cart', data)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
-        const message = `"${response.data.name}" has been added to your cart.`;
+        const singleMessage = `"${response.data.name}" has been added to your cart.`;
+        const multipleMessage = `${data.quantity} x "${response.data.name}" have been added to your cart.`;
+        const message = data.quantity > 1 ? multipleMessage : singleMessage;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCartPending(false));
         forwardTo('cart');
