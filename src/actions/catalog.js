@@ -101,16 +101,19 @@ function addProductReview(id, data, callback) {
     dispatch(resetMessages());
     const valid = validateReview(data);
     if (valid.isError) {
+      window.scrollTo(0, 0);
       dispatch(setMessage({ isError: true, messages: valid.messages }));
       dispatch(setLoader(false));
     } else {
       axios.post(`/api/products/${id}/reviews`, data)
         .then((response) => checkResponse(response.data, () => {
           // dispatch(setProduct(response.data));
+          window.scrollTo(0, 0);
           dispatch(setMessage({ isError: false, messages: ['Your review has been submited and is pending approval'] }));
           dispatch(setLoader(false));
           callback();
         }, () => {
+          window.scrollTo(0, 0);
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
           dispatch(setLoader(false));
           callback();

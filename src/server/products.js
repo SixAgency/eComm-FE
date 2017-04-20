@@ -41,7 +41,7 @@ function getProductRecs(request, product) {
 }
 
 // Add product recs to the product feed
-function setProductRecs(data, request, callback) {
+function setProductRecs(data, request) {
   let response;
   return getProductRecs(request, data)
     .then((recs) => {
