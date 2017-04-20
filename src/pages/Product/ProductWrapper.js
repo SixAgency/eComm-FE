@@ -11,13 +11,14 @@ import {
   setMessage
 } from '../../actions/page';
 import { addToCart } from '../../actions/order';
-import { getProduct } from '../../actions/catalog';
+import { getProduct, addProductReview } from '../../actions/catalog';
 
 const mapStateToProps = ((state) => (
   {
     product: state.catalog.product,
     cartItems: state.cart.cartItems,
-    messages: state.page.messages
+    messages: state.page.messages,
+    isError: state.page.isError
   }
 ));
 
@@ -28,7 +29,8 @@ const mapDispatchToProps = ((dispatch) => (
     addToCart: (item) => dispatch(addToCart(item)),
     getProduct: (slug) => dispatch(getProduct(slug)),
     resetMessages: () => dispatch(resetMessages()),
-    setMessage: (message) => dispatch(setMessage(message))
+    setMessage: (message) => dispatch(setMessage(message)),
+    addProductReview: (id, review, callback) => dispatch(addProductReview(id, review, callback))
   }
 ));
 
@@ -39,12 +41,14 @@ class ProductWrapper extends Component {
     toggleLoader: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     getProduct: PropTypes.func.isRequired,
+    addProductReview: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    isError: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -73,6 +77,7 @@ class ProductWrapper extends Component {
     const { isLoaded } = this.props.product;
     if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
       setTimeout(() => {
+        this.props.resetMessages();
         this.props.toggleLoader(false);
       }, 500);
     }
@@ -148,12 +153,14 @@ class ProductWrapper extends Component {
       document.title = `${product.product.name || 'Shop'} - krissorbie`;
       return (
         <Product
-          product={product}
-          onAddToCart={this.props.addToCart}
           cartItems={cartItems.cart.line_items}
-          properties={this.getProperties()}
           setMessage={this.props.setMessage}
+          product={this.props.product}
+          onAddToCart={this.props.addToCart}
+          properties={this.getProperties()}
+          addProductReview={this.props.addProductReview}
           messages={messages}
+          isError={this.props.isError}
           resetMessages={this.props.resetMessages}
         />
       );

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage } from './page';
+import { setMessage, resetMessages, setLoader } from './page';
+import { validateReview } from '../helpers/validators';
 
 /**
  * Update products from Redux state
@@ -90,6 +91,42 @@ function getProduct(slug) {
 }
 
 /**
+ * Add Product Review
+ * @param id, data
+ * @returns {function(*=)}
+ */
+function addProductReview(id, data, callback) {
+  return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(resetMessages());
+    const valid = validateReview(data);
+    if (valid.isError) {
+      window.scrollTo(0, 0);
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+      dispatch(setLoader(false));
+    } else {
+      axios.post(`/api/products/${id}/reviews`, data)
+        .then((response) => checkResponse(response.data, () => {
+          // dispatch(setProduct(response.data));
+          window.scrollTo(0, 0);
+          dispatch(setMessage({ isError: false, messages: ['Your review has been submited and is pending approval'] }));
+          dispatch(setLoader(false));
+          callback();
+        }, () => {
+          window.scrollTo(0, 0);
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setLoader(false));
+          callback();
+        }))
+        .catch((err) => {
+          console.error('Error', err); // eslint-disable-line no-console
+          forwardTo('error');
+        });
+    }
+  };
+}
+
+/**
  * Get Mannequin heads
  * @returns {function(*=)}
  */
@@ -127,4 +164,4 @@ function getProductsInCategory(slug) {
   };
 }
 
-export { getProducts, getProduct, getMannequinHeads, getProductsInCategory };
+export { getProducts, getProduct, getMannequinHeads, getProductsInCategory, addProductReview };

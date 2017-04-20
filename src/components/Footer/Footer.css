@@ -1,5 +1,4 @@
 .footer {
-  position: relative;
   z-index: 2;
   min-height: 100px;
   background: rgb(255, 255, 255);
@@ -18,11 +17,5 @@
   .credits::selection {
     background-color: #29cbc8;
     color: #d0ff00;
-  }
-}
-@media all and (max-width: 950px){
-  .footer {
-    z-index: 0;
-    .credits { margin-top: 35px; }
   }
 }

@@ -238,6 +238,28 @@ function validatePromoCode(data) {
   return resp;
 }
 
+function validateReview(data) {
+  const messages = [];
+  const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
+  if (!data.review) {
+    messages.push('Review is required');
+  }
+  if (!data.name) {
+    messages.push('Name is required');
+  }
+  if (!data.email) {
+    messages.push('Email is required');
+  } else if (!isValidEmail.test(data.email)) {
+    messages.push('Invalid email address');
+  }
+
+  const resp = {
+    isError: (messages.length > 0),
+    messages
+  };
+  return resp;
+}
+
 export {
   validateAuth,
   validateProduct,
@@ -250,5 +272,6 @@ export {
   validatePasswordUpdate,
   validateShippingCalculator,
   validatePromoCode,
-  validatePasswordEmail
+  validatePasswordEmail,
+  validateReview
 };
