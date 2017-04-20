@@ -6,9 +6,9 @@ import ErrorDisplay from '../../components/ErrorDisplay';
 
 class Contact extends React.Component {
   static propTypes = {
-    sendContact: PropTypes.func.required,
-    messages: PropTypes.array.required,
-    isError: PropTypes.bool.required
+    sendContact: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   render() {

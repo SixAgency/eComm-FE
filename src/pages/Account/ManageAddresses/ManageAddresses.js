@@ -27,7 +27,7 @@ class ManageAddresses extends Component {
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -56,7 +56,7 @@ class ManageAddresses extends Component {
         <div> { this.getAddressToEdit(this.state.editId) }</div>
       );
     }
-  }
+  };
 
   getAddressToEdit = (id) => {
     const tolist = this.props.addresses.addresses.find((address) => (address.id === id));
@@ -71,13 +71,13 @@ class ManageAddresses extends Component {
         onCancel={() => { browserHistory.push('/my-account/dashboard'); }}
       />
     );
-  }
+  };
 
   handledisplayState = (content, id) => {
     this.setState({ editId: id });
     this.props.handleDisplay(content);
     this.props.resetMessages();
-  }
+  };
 
 
   render() {

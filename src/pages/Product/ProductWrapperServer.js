@@ -11,7 +11,7 @@ class ProductWrapper extends Component {
   static defaultProps = {
     addToCart: () => (true),
     getProduct: () => (true)
-  }
+  };
 
   render() {
     const { isLoaded, product } = this.props.product;

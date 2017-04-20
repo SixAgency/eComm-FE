@@ -9,7 +9,7 @@ class SingleVariant extends Component {
     variants: PropTypes.array.isRequired,
     action: PropTypes.func.isRequired,
     price: PropTypes.number.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -21,13 +21,13 @@ class SingleVariant extends Component {
   componentWillMount = () => {
     const variant = this.props.variants[0].id;
     this.props.action(variant);
-  }
+  };
 
   handleChange = (event) => {
     const variant = parseInt(event.target.value, 10);
     this.setState({ selectedVariant: variant });
     this.props.action(this.props.variants[variant].id);
-  }
+  };
 
   render() {
     const variants = this.props.variants;

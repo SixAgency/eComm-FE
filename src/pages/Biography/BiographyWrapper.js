@@ -20,7 +20,7 @@ class BiographyWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired
-  }
+  };
 
   componentWillMount = () => {
     const props = {
@@ -28,18 +28,18 @@ class BiographyWrapper extends BasePageComponent {
       activeSlug: '/biography'
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     return (

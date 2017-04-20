@@ -6,7 +6,7 @@ class MultiVariant extends React.Component {
   static propTypes = {
     variants: PropTypes.array.isRequired,
     action: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -21,18 +21,15 @@ class MultiVariant extends React.Component {
     const idTwo = this.props.variants[0].option_values[1].id;
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
-  }
+  };
 
   getVariant = (idOne, idTwo) => {
-    console.log(idOne);
-    console.log(idTwo);
-    console.log(this.props.variants);
     const item = this.props.variants.find((variant) => (
       variant.option_values[0].id === idOne &&
         variant.option_values[1].id === idTwo
     ));
     return item.id || null;
-  }
+  };
 
   changeVariantOne = (event) => {
     const idOne = parseInt(event.target.value, 10);
@@ -42,7 +39,7 @@ class MultiVariant extends React.Component {
     });
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
-  }
+  };
 
   changeVariantTwo = (event) => {
     const idOne = this.state.variantOne;
@@ -52,7 +49,7 @@ class MultiVariant extends React.Component {
     });
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
-  }
+  };
 
   formatVariants = () => {
     const arrayOne = [];
@@ -71,7 +68,7 @@ class MultiVariant extends React.Component {
       one: arrayOne,
       two: arrayTwo,
     };
-  }
+  };
 
   render() {
     const variants = this.formatVariants();

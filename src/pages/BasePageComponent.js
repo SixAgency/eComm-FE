@@ -4,7 +4,7 @@ class BasePageComponent extends Component {
 
   static propTypes = {
     route: PropTypes.object.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);

@@ -454,10 +454,8 @@ const BREADCRUMBS = {
     {
       label: 'Shop',
       url: '/'
-    }, {
-      label: 'Lost Password',
-      url: '/my-account/dashboard'
-    }, {
+    },
+    {
       label: 'Lost Password'
     }
   ],

@@ -19,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
+    applyPromoCode: (cart) => dispatch(applyPromoCode(cart))
   }
 ));
 

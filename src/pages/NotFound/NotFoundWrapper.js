@@ -11,15 +11,15 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    resetMessages: () => dispatch(resetMessages()),
+    resetMessages: () => dispatch(resetMessages())
   }
 ));
 class NotFoundWrapper extends BasePageComponent {
 
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired,
-  }
+    toggleLoader: PropTypes.func.isRequired
+  };
 
   componentWillMount = () => {
     const props = {
@@ -27,18 +27,18 @@ class NotFoundWrapper extends BasePageComponent {
       activeSlug: '/',
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     console.log('remove');
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     console.log('client');

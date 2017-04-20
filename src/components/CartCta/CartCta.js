@@ -8,8 +8,8 @@ class CartCta extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     toggleGiftcard: PropTypes.func.isRequired,
-    toggleLogin: PropTypes.func.isRequired,
-  }
+    toggleLogin: PropTypes.func.isRequired
+  };
 
   render() {
     return (

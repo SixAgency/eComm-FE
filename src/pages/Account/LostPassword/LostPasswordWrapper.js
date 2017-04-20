@@ -36,7 +36,7 @@ class LostPasswordWrapper extends BasePageComponent {
     resetMessages: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     route: PropTypes.object
-  }
+  };
 
   componentWillMount = () => {
     const props = {
@@ -44,19 +44,19 @@ class LostPasswordWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     console.log('remove');
     this.props.resetMessages();
     this.props.toggleLoader(true);
-  }
+  };
 
   onSubmit = (data) => {
     const user = {
@@ -65,7 +65,7 @@ class LostPasswordWrapper extends BasePageComponent {
       }
     };
     this.props.resetPassword(user);
-  }
+  };
 
   render() {
     if (this.props.loggedIn) {

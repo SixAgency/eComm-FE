@@ -10,33 +10,33 @@ import { setHeaderProps, toggleLoader } from '../../actions/page';
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle))
   }
 ));
 
 class ErrorPageWrapper extends BasePageComponent {
   static propTypes = {
     setHeaderProps: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired,
-  }
+    toggleLoader: PropTypes.func.isRequired
+  };
 
   componentWillMount = () => {
     const props = {
       headerClass: 'black',
-      activeSlug: '/',
+      activeSlug: '/'
     };
     this.props.setHeaderProps(props);
-  }
+  };
 
   componentDidMount = () => {
     setTimeout(() => {
       this.props.toggleLoader(false);
     }, 500);
-  }
+  };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-  }
+  };
 
   render() {
     return (
