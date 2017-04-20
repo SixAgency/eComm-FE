@@ -18,6 +18,7 @@ class ShippingWrapper extends React.Component {
     const messages = [];
     return (
       <Shipping
+        addressId={0}
         addresses={addresses.addresses.addresses}
         breadcrumbs={breadcrumbs}
         messages={messages}

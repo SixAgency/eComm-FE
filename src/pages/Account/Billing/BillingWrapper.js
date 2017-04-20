@@ -110,15 +110,13 @@ class BillingWrapper extends BasePageComponent {
   };
 
   render() {
-    if (this.props.billing.isLoaded &&
-      this.props.addresses.isLoaded &&
-      !this.props.billing.isEmpty &&
-      !this.props.addresses.isEmpty) {
+    if (this.props.billing.isLoaded && this.props.addresses.isLoaded) {
+      const addressId = this.props.billing.address.id || 0;
       return (
         <Billing
           loggedIn={this.props.loggedIn}
           onLogout={this.props.onLogout}
-          addressId={this.props.billing.address.id}
+          addressId={addressId}
           addresses={this.props.addresses.addresses}
           messages={this.props.messages}
           isError={this.props.isError}
