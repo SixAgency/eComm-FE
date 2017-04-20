@@ -32,11 +32,9 @@ class CartForm extends Component {
   componentWillUpdate(nextProps) {
     const updatedCart = nextProps.cart;
     if (updatedCart.shipments.length > 0) {
-      console.log('all good', updatedCart.shipments[0].selected_shipping_rate.name);
       shippingMethod = `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}): 
         ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
     } else {
-      console.log('CART', this.props.cart);
       shippingMethod = 'Shipping costs will be calculate once you have provided your address.';
     }
   }
@@ -84,6 +82,7 @@ class CartForm extends Component {
                     <h2 className={s.calctitle}>Calculate Shipping</h2>
                     <ShippingCalculator
                       calculateShipping={this.props.calculateShipping}
+                      toggleLoader={this.props.toggleLoader}
                     />
                   </td>
                 </tr>

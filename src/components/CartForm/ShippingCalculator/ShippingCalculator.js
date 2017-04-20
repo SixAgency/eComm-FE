@@ -5,7 +5,8 @@ import { STATES } from '../../../constants/AppConsts';
 
 class ShippingCalculator extends Component {
   static propTypes = {
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -24,6 +25,7 @@ class ShippingCalculator extends Component {
         country_id: '232'
       }
     });
+    this.props.toggleLoader(true);
   }
 
   updatePreviewState = (e) => {
