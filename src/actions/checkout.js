@@ -161,6 +161,11 @@ function setCheckoutAddress(data) {
   return (dispatch) => {
     dispatch(resetMessages());
     const valid = validateMandatoryFieldsAddress(data.address);
+    const validEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/.test(data.email);
+    if (!validEmail) {
+      valid.isError = true;
+      valid.messages.push('Please enter a valid email address.');
+    }
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
@@ -210,7 +215,6 @@ function editOrderAddress(data, callback) {
 export {
   getPayPalToken,
   checkoutPayPal,
-  checkoutAddresses,
   checkoutNext,
   setCartState,
   setBilling,

@@ -23,6 +23,7 @@ class Billing extends React.Component {
   };
 
   render() {
+    const showCancel = true;
     return (
       <section className={s.page}>
         <Subnav
@@ -40,6 +41,7 @@ class Billing extends React.Component {
             formSubtitle="Select one of the addresses"
             onSubmit={this.props.onSubmit}
             onCancel={this.props.onCancel}
+            showCancel={showCancel}
             onCreate={this.props.onCreate}
           />
         </ContentWrapper>

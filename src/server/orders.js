@@ -46,22 +46,32 @@ function setSessionParams(request, data) {
 
 // Get Order Details
 function getOrder(request) {
+  let status;
   let endpoint = `${ORDER}/${request.params.number}`;
   if (!request.session.user_token) {
     endpoint = `${ORDER}/${request.params.number}?order_token=${request.session.guest_token}`;
   }
   return apiFetch(endpoint, {}, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setOrderResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setOrderResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Get User Orders
 function getOrders(request) {
+  let status;
   return apiFetch(ORDERS, {}, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setOrdersResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setOrdersResponse(data))
+    .catch((err) => setError(err));
 }
 
 function createCart(request) {
@@ -70,11 +80,16 @@ function createCart(request) {
       line_items: []
     }
   };
+  let status;
   return apiFetch(ORDER, {
     method: 'POST',
     body: JSON.stringify(empty)
   }, request.session)
-    .then((resp) => checkResponse(resp))
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
     .catch((err) => setError(err));
 }
 
@@ -98,16 +113,21 @@ function createCartWrapper(request) {
 
 // Get Cart
 function getCart(request) {
+  let status;
   let endpoint = '/api/v1/orders/current';
   if (!request.session.user_token) {
     endpoint = `/api/v1/orders/${request.session.order}?order_token=${request.session.guest_token}`;
   }
   return apiFetch(endpoint, {}, request.session)
-  .then((response) => checkResponse(response))
-  .then((resp) => checkCartExistence(resp, request))
-  .then((resp) => setSessionParams(request, resp))
-  .then((data) => setCartResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((resp) => checkCartExistence(resp, request))
+    .then((resp) => setSessionParams(request, resp))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Get the Cart after interactions like add, remove or update
@@ -136,6 +156,7 @@ function addToCart(request) {
   }
 
   const orderNumber = request.session.order;
+  let status;
   let endpoint = `${ORDER}/${orderNumber}/line_items`;
   if (!request.session.user_token) {
     endpoint = `${ORDER}/${orderNumber}/line_items?order_token=${request.session.guest_token}`;
@@ -145,9 +166,13 @@ function addToCart(request) {
       method: 'POST',
       body: JSON.stringify(item)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => getCartCallback(data, request, setAddRemoveCartResponse))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => getCartCallback(data, request, setAddRemoveCartResponse))
+    .catch((err) => setError(err));
 }
 
 // Remove Item from Cart
@@ -155,6 +180,7 @@ function removeFromCart(request) {
   const { id, name } = request.body;
   const orderNumber = request.session.order;
   let endpoint = `${ORDER}/${orderNumber}/line_items/${id}`;
+  let status;
   if (!request.session.user_token) {
     endpoint = `${ORDER}/${orderNumber}/line_items/${id}?order_token=${request.session.guest_token}`;
   }
@@ -162,17 +188,22 @@ function removeFromCart(request) {
     {
       method: 'DELETE'
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => {
-    const item = data;
-    item.name = name;
-    return getCartCallback(data, request, setAddRemoveCartResponse);
-  })
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => {
+      const item = data;
+      item.name = name;
+      return getCartCallback(data, request, setAddRemoveCartResponse);
+    })
+    .catch((err) => setError(err));
 }
 
 // Update Cart
 function updateCart(request) {
+  let status;
   const postdata = request.body.data;
   const orderNumber = request.session.order;
   let endpoint = `${ORDER}/${orderNumber}`;
@@ -184,14 +215,19 @@ function updateCart(request) {
       method: 'PUT',
       body: JSON.stringify(postdata)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setCartResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Apply Coupon code
 function applyCouponCode(request) {
-  const postdata = request.body.data;
+  let status;
+  const postdata = request.body;
   let endpoint = `${ORDER}/${request.session.order}/apply_coupon_code`;
   if (!request.session.user_token) {
     endpoint = `${ORDER}/${request.session.order}/apply_coupon_code?order_token=${request.session.guest_token}`;
@@ -201,13 +237,18 @@ function applyCouponCode(request) {
       method: 'PUT',
       body: JSON.stringify(postdata)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setCouponResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setCouponResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Update Cart
 function calculateShipping(request) {
+  let status;
   const postdata = request.body.data;
   const orderNumber = request.session.order;
   let endpoint = `${ORDER}/${orderNumber}/calculate_shipping`;
@@ -219,13 +260,18 @@ function calculateShipping(request) {
       method: 'PATCH',
       body: JSON.stringify(postdata)
     }, request.session)
-  .then((response) => checkResponse(response))
-  .then((data) => setCartResponse(data))
-  .catch((err) => setError(err));
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
 }
 
 // Apply Store Credit
 function applyStoreCredit(request) {
+  let status;
   const postdata = request.body;
   const orderNumber = request.session.order;
   let endpoint = `/api/v1/checkouts/${orderNumber}?order_token=${request.session.user_token}`;
@@ -237,7 +283,11 @@ function applyStoreCredit(request) {
       method: 'PATCH',
       body: JSON.stringify(postdata)
     }, request.session)
-    .then((response) => checkResponse(response))
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
     .then((data) => setCartResponse(data))
     .catch((err) => setError(err));
 }

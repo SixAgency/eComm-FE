@@ -86,7 +86,7 @@ class DashboardWrapper extends BasePageComponent {
     if (profileLoaded && addressesLoaded && ordersLoaded) {
       setTimeout(() => {
         this.props.toggleLoader(false);
-      }, 250);
+      }, 500);
     }
   };
 

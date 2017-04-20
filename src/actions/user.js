@@ -300,7 +300,7 @@ function redeemGiftCard(code) {
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
       }, () => {
         window.scrollTo(0, 0);
-        dispatch(setMessage({ isError: true, messages: [response.data.data] }));
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console

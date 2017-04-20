@@ -111,11 +111,12 @@ class ShippingWrapper extends BasePageComponent {
 
   render() {
     if (this.props.shipping.isLoaded && this.props.addresses.isLoaded) {
+      const addressId = this.props.shipping.address.id || 0;
       return (
         <Shipping
           loggedIn={this.props.loggedIn}
           onLogout={this.props.onLogout}
-          addressId={this.props.shipping.address.id}
+          addressId={addressId}
           addresses={this.props.addresses.addresses}
           messages={this.props.messages}
           isError={this.props.isError}

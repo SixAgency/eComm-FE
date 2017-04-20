@@ -56,6 +56,13 @@ function validateProduct(data) {
   return resp;
 }
 
+function validPhone(number) {
+  const isPhoneOne = /^\d{10}$/;
+  const isPhoneTwo = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+  const isPhoneThree = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  return (number.match(isPhoneOne) || number.match(isPhoneTwo) || number.match(isPhoneThree));
+}
+
 // Validate Billing/Address Form
 function validateMandatoryFieldsAddress(data) {
   const messages = [];
@@ -67,6 +74,8 @@ function validateMandatoryFieldsAddress(data) {
   }
   if (!data.phone) {
     messages.push('Phone is a required field.');
+  } else if (!validPhone(data.phone)) {
+    messages.push('Please enter a valid phone number.');
   }
   if (!data.address1) {
     messages.push('Address is a required field.');
@@ -80,6 +89,8 @@ function validateMandatoryFieldsAddress(data) {
   if (!data.zipcode) {
     messages.push('ZIP is a required field.');
   } else if (data.zipcode.length < 5) {
+    messages.push('Please enter a valid postcode/ZIP.');
+  } else if (isNaN(Number(data.zipcode))) {
     messages.push('Please enter a valid postcode/ZIP.');
   }
   const resp = {

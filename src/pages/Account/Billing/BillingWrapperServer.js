@@ -17,6 +17,7 @@ class BillingWrapper extends React.Component {
     const messages = [];
     return (
       <Billing
+        addressId={0}
         addresses={addresses.addresses.addresses}
         breadcrumbs={breadcrumbs}
         messages={messages}

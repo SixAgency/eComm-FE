@@ -11,7 +11,7 @@ import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { setCheckoutAddress } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
-import { getAddress, createAddressNew } from '../../../actions/address';
+import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
 import { mapStateToFeed, mapFeedToState } from '../../../helpers/address';
 
@@ -24,12 +24,7 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     onSubmit: (data) => dispatch(setCheckoutAddress(data)),
-    getAddress: () => dispatch(getAddress()),
-    createAddress: (data, message, callback) => dispatch(createAddressNew(
-      data,
-      message,
-      callback
-    ))
+    getAddress: () => dispatch(getAddress())
   }
 ));
 
@@ -97,7 +92,7 @@ class BillingWrapper extends BasePageComponent {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
       if (expectedState === 'checkout/billing') {
-        if (!nextProps.isAddressesFetching) {
+        if (!nextProps.isAddressesFetching && !nextProps.isError) {
           this.setState({ content: this.getBillingContent(nextProps) });
           setTimeout(() => {
             this.props.toggleLoader(false);
