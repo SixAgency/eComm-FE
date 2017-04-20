@@ -2,6 +2,24 @@
   display: block;
 }
 
+@media (max-width: 1300px) {
+  .videocontainer {
+    iframe {
+      width: 200px;
+      height: 113px;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .videocontainer {
+    iframe {
+      width: 320px;
+      height: 180px;
+    }
+  }
+}
+
 @media (max-width: 767px) and (min-width: 320px) {
   .videocontainer {
     margin-left: -10px;
