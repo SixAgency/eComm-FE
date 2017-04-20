@@ -40,14 +40,24 @@ class Checkout extends React.Component {
    * @returns {boolean}
    */
   setDisabled = (button) => {
-    const { content, state, isPayPal } = this.props;
-    if (button.id !== content) {
-      if (['promo', 'review'].includes(button.id) && ['payment', 'confirm'].includes(state)) {
-        return false;
+    const { state, isPayPal } = this.props;
+    switch (button.id) {
+      case 'billing': {
+        return isPayPal;
       }
-      return !(['promo', 'review'].includes(button.id) && state === 'delivery' && isPayPal);
+      case 'shipping': {
+        return isPayPal || state === 'address';
+      }
+      case 'promo': {
+        return !isPayPal && ['address', 'delivery'].includes(state);
+      }
+      case 'review': {
+        return !isPayPal && ['address', 'delivery'].includes(state);
+      }
+      default: {
+        return true;
+      }
     }
-    return false;
   };
 
   /**

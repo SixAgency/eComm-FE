@@ -82,7 +82,7 @@ class BillingWrapper extends BasePageComponent {
     if (this.props.cartItems.isLoaded) {
       const expectedState = checkCartState(this.props);
       // Get Addresses and set content type
-      if (expectedState !== 'checkout/billing') {
+      if (expectedState === 'cart' && !this.props.isPayPal) {
         forwardTo(expectedState);
       }
     }
@@ -91,7 +91,7 @@ class BillingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState === 'checkout/billing') {
+      if (expectedState !== 'cart' && !nextProps.isPayPal) {
         if (!nextProps.isAddressesFetching && !nextProps.isError) {
           this.setState({ content: this.getBillingContent(nextProps) });
           setTimeout(() => {

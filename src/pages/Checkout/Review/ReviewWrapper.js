@@ -11,7 +11,7 @@ import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout, getStoreCredit, applyStoreCredit } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
-import { confirmOrder } from '../../../actions/payment/payment';
+import { confirmOrder, checkoutReset } from '../../../actions/payment/payment';
 import { checkCartState } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
@@ -25,6 +25,7 @@ const mapDispatchToProps = ((dispatch) => (
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     completePayPal: () => dispatch(completePayPal()),
     confirmOrder: () => (dispatch(confirmOrder())),
+    checkoutReset: () => dispatch(checkoutReset()),
     getStoreCredit: () => dispatch(getStoreCredit()),
     applyStoreCredit: (data) => dispatch(applyStoreCredit(data))
   }
@@ -63,7 +64,8 @@ class ReviewWrapper extends BasePageComponent {
     route: PropTypes.object,
     getStoreCredit: PropTypes.func.isRequired,
     creditInfo: PropTypes.object.isRequired,
-    applyStoreCredit: PropTypes.func.isRequired
+    applyStoreCredit: PropTypes.func.isRequired,
+    checkoutReset: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -172,6 +174,7 @@ class ReviewWrapper extends BasePageComponent {
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
             applyStoreCredit={this.props.applyStoreCredit}
+            checkoutReset={this.props.checkoutReset}
           />
         </Checkout>
       );

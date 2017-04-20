@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { resetMessages, setMessage, setPending, toggleLoader } from '../page';
 import { checkResponse, forwardTo } from '../handler';
-import { setCart, setOrder, getCart } from '../order';
+import { setCart, setOrder, getCart, setPayment } from '../order';
+import { checkIfPayPal } from '../../utils/utils';
 
 /**
  * Set square as payment method
@@ -31,12 +32,32 @@ function checkoutSquare(data) {
 }
 
 /**
- * @TODO - move PayPal here
- * @returns {function(*)}
+ * Reset the order to address state and invalidate payment methods
+ * @returns {function(*=)}
  */
-function checkoutPayPal() {
+function checkoutReset() {
   return (dispatch) => {
-    dispatch('TEST_PAYMENT', 'paypal');
+    window.scrollTo(0, 0);
+    dispatch(toggleLoader(true));
+    dispatch(setPending(true));
+    dispatch(resetMessages());
+    axios.post('/api/checkout/reset')
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setCart(response.data));
+        const isPayPal = checkIfPayPal(response.data.cart);
+        dispatch(setPayment(isPayPal));
+        forwardTo('cart');
+        dispatch(setPending(false));
+      }, () => {
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(toggleLoader(false));
+        dispatch(setPending(false));
+      }))
+      .catch((err) => {
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        console.error('Error: ', err);
+      });
   };
 }
 
@@ -74,4 +95,4 @@ function confirmOrder() {
   };
 }
 
-export { checkoutPayPal, checkoutSquare, confirmOrder };
+export { checkoutReset, checkoutSquare, confirmOrder };

@@ -10,8 +10,9 @@ import imagePlaceholder from './image_placeholder_small.png';
 class Minicart extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
-    cartClass: PropTypes.string.isRequired
-  }
+    cartClass: PropTypes.string.isRequired,
+    proceedToCheckout: PropTypes.func.isRequired
+  };
 
   getPrice = (item) => {
     const { variant } = item;
@@ -21,12 +22,12 @@ class Minicart extends React.Component {
       return parseFloat(price) - (parseFloat(price) * (sale / 100));
     }
     return variant.price;
-  }
+  };
 
   brokenImage = (event) => {
     const img = event.target;
     img.src = imagePlaceholder;
-  }
+  };
 
   render = () => {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;
@@ -84,7 +85,7 @@ class Minicart extends React.Component {
             </p>
             <p className={s.buttons}>
               <Link to="/cart" className={cx(s.button, s.view)}>View Cart</Link>
-              <Link to="/checkout" className={cx(s.button, s.checkout)}>Checkout</Link>
+              <a href="/" onClick={this.props.proceedToCheckout} className={cx(s.button, s.checkout)}>Checkout</a>
             </p>
           </div>
         </div>

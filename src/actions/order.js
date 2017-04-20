@@ -3,6 +3,7 @@ import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
 import { setPayment, setShipping, setBilling } from './checkout';
 import { getCartAddresses } from '../helpers/feed';
+import { checkIfPayPal } from '../utils/utils';
 import { validateShippingCalculator, validatePromoCode } from '../helpers/validators';
 
 
@@ -98,7 +99,7 @@ function getCart(isNew) {
         const addresses = getCartAddresses(response.data);
         dispatch(setBilling(addresses.billing));
         dispatch(setShipping(addresses.shipping));
-        const isPayPal = (response.data.cart.state !== 'cart' && response.data.cart.payments.length > 0);
+        const isPayPal = checkIfPayPal(response.data.cart);
         dispatch(setPayment(isPayPal));
         dispatch(setCartPending(false));
       }, () => {
@@ -302,5 +303,6 @@ export {
   setOrder,
   resetOrders,
   getAllOrders,
-  calculateShipping
+  calculateShipping,
+  setPayment
 };

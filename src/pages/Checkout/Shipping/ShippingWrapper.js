@@ -23,7 +23,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
-    onSubmit: () => dispatch(checkoutNext()),
+    onSubmit: (fn) => dispatch(checkoutNext(fn)),
     editAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
     getAddress: () => dispatch(getAddress())
   }
@@ -85,7 +85,7 @@ class ShippingWrapper extends BasePageComponent {
       // Check the cart state and redirect if needed
       const expectedState = checkCartState(this.props);
       // Get Addresses and set content type
-      if (expectedState !== 'checkout/shipping') {
+      if (expectedState === 'checkout/billing' || this.props.isPayPal) {
         forwardTo(expectedState);
       }
     }
@@ -94,7 +94,7 @@ class ShippingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState === 'checkout/shipping') {
+      if (expectedState !== 'checkout/billing' && expectedState !== 'cart' && !nextProps.isPayPal) {
         if (!nextProps.isAddressesFetching) {
           // this.setState({ content: this.getShippingContent(nextProps) });
           setTimeout(() => {
@@ -147,6 +147,10 @@ class ShippingWrapper extends BasePageComponent {
     return mapFeedToState(address, email);
   };
 
+  moveNext = () => {
+    this.props.onSubmit(() => forwardTo('checkout/promo'));
+  };
+
   /**
    * Select from existing addresses handler
    * @param fields
@@ -155,7 +159,7 @@ class ShippingWrapper extends BasePageComponent {
     const { content } = this.state;
     const { cartItems } = this.props;
     if (content === 'same') {
-      this.props.onSubmit();
+      this.moveNext();
     } else {
       let address = fields;
       if (content === 'list') {
@@ -164,7 +168,7 @@ class ShippingWrapper extends BasePageComponent {
       this.props.editAddress({
         address: mapStateToFeed(address),
         id: cartItems.cart.ship_address.id
-      }, this.props.onSubmit);
+      }, this.moveNext);
     }
   };
 
