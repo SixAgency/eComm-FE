@@ -70,9 +70,7 @@ class DashboardWrapper extends BasePageComponent {
     if (!this.props.addresses.addresses.isLoaded) {
       this.props.getAddress();
     }
-    if (!this.props.orders.isLoaded) {
-      this.props.getAllOrders();
-    }
+    this.props.getAllOrders();
     if (!this.props.profile.isLoaded) {
       this.props.getProfile();
     }
