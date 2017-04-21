@@ -21,6 +21,7 @@ class MobileNavigation extends Component {
           activeSlug={this.props.activeSlug}
           navClass={this.props.navClass}
           menuOpen={this.props.menuOpen}
+          isMobile
         />
         <Link to="#" className={s.closebtn} onClick={this.props.mobileNavClose} >
           <span className={s.hr} />
