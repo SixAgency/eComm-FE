@@ -67,6 +67,13 @@ class Product extends Component {
   toggleReviews = () => {
     if (!this.state.showReviews) {
       this.props.resetMessages();
+      document.body.style.overflow = 'hidden';
+      if (!navigator.userAgent.match(/Android|webOS|iP(hone|od|ad)|BlackBerry|Windows Phone/i)) {
+        document.body.style.paddingRight = '17px';
+      }
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     }
     this.setState({ showReviews: !this.state.showReviews });
   }
@@ -92,7 +99,7 @@ class Product extends Component {
     const reviews = product.reviews.reviews;
 
     return (
-      <div className={s.page}>
+      <div id="pdp" className={s.page}>
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <div className={s.left}>
           <div className={s.container}>
