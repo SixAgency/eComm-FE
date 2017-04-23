@@ -63,6 +63,7 @@ class ViewOrder extends PureComponent {
             <h2 className={s.title}>Customer Details</h2>
             <CustomerDetailsTbl order={this.props.order} />
             <div className={s.addressescontainer}>
+              <h2>Billing Address</h2>
               <address className={s.optiontext}>
                 <span className={s.block}>{billingAddress.full_name}</span>
                 <span className={s.block}>{billingAddress.address1}</span>
@@ -74,6 +75,7 @@ class ViewOrder extends PureComponent {
                 </span>
               </address>
               <address className={s.optiontext}>
+                <h2>Shipping Address</h2>
                 <span className={s.block}>{shippingAddress.full_name}</span>
                 <span className={s.block}>{shippingAddress.address1}</span>
                 {shippingAddress.address2 &&

@@ -11,7 +11,7 @@ import { applyPromoCode, getCart } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
-import { confirmOrder, checkoutReset } from '../../../actions/payment/payment';
+import { confirmOrder, checkoutReset, makeApplyCreditRequest } from '../../../actions/payment/payment';
 import { checkCartState } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
@@ -26,7 +26,8 @@ const mapDispatchToProps = ((dispatch) => (
     completePayPal: () => dispatch(completePayPal()),
     checkoutReset: () => dispatch(checkoutReset()),
     getCart: (data) => dispatch(getCart(data)),
-    confirmOrder: (useCredits) => (dispatch(confirmOrder(useCredits)))
+    confirmOrder: (useCredits, isCovered) => (dispatch(confirmOrder(useCredits, isCovered))),
+    makeApplyCreditRequest: () => dispatch(makeApplyCreditRequest())
   }
 ));
 
@@ -125,14 +126,17 @@ class ReviewWrapper extends BasePageComponent {
 
   confirmOrder = (e) => {
     e.preventDefault();
-    this.props.confirmOrder(this.state.useCredits);
+    const { covered_by_store_credit } = this.props.cartItems.cart;
+    this.props.confirmOrder(this.state.useCredits, covered_by_store_credit);
   };
 
   toggleUseCredits = () => {
-    this.setState({ useCredits: !this.state.useCredits });
-    // this.props.applyStoreCredit({
-    //   apply_store_credit: true
-    // });
+    this.setState({ useCredits: !this.state.useCredits }, () => {
+      const { covered_by_store_credit } = this.props.cartItems.cart;
+      if (this.state.useCredits && !covered_by_store_credit) {
+        this.props.makeApplyCreditRequest();
+      }
+    });
   };
 
   render() {
@@ -160,6 +164,7 @@ class ReviewWrapper extends BasePageComponent {
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
             checkoutReset={this.props.checkoutReset}
+            makeApplyCreditRequest={this.props.makeApplyCreditRequest}
           />
         </Checkout>
       );

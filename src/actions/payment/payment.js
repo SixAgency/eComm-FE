@@ -93,16 +93,41 @@ function makePlaceOrderRequest(dispatch) {
     });
 }
 
-function makeApplyCreditRequest(dispatch) {
+function makeApplyCreditRequest() {
+  return (dispatch) => {
+    dispatch(toggleLoader(true));
+    dispatch(setPending(true));
+    dispatch(resetMessages());
+    axios.post('/api/checkout/apply-credit', { apply_store_credit: true })
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        dispatch(setCart(response.data));
+      }, () => {
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        dispatch(setMessage({ isError: true, messages: response.data.messages }));
+      }))
+      .catch((err) => {
+        console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        forwardTo('error');
+      });
+  };
+}
+
+function confirmOrderWithCreditsOnly(dispatch) {
   axios.post('/api/checkout/apply-credit', { apply_store_credit: true })
-    .then((response) => checkResponse(response.data, () => {
-      makePlaceOrderRequest(dispatch);
-    }, () => {
-      dispatch(setMessage({ isError: true, messages: response.data.messages }));
-    }))
+    .then((response) => checkResponse(
+      response.data,
+      () => placeOrderSuccessCallback(response, dispatch),
+      () => placeOrderFailureCallback(response, dispatch)
+    ))
     .catch((err) => {
-      console.error('Error: ', err); // eslint-disable-line no-console
-      forwardTo('error');
+      dispatch(setPending(false));
+      dispatch(toggleLoader(false));
+      console.error('Error: ', err);
     });
 }
 
@@ -110,18 +135,22 @@ function makeApplyCreditRequest(dispatch) {
  * Finish order
  * @returns {function(*=)}
  */
-function confirmOrder(useCredits = false) {
+function confirmOrder(useCredits = false, fullyCoveredByCredits = false) {
   return (dispatch) => {
     window.scrollTo(0, 0);
     dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
     if (useCredits) {
-      makeApplyCreditRequest(dispatch);
+      if (fullyCoveredByCredits) {
+        confirmOrderWithCreditsOnly(dispatch);
+      } else {
+        makePlaceOrderRequest(dispatch);
+      }
     } else {
       makePlaceOrderRequest(dispatch);
     }
   };
 }
 
-export { checkoutReset, checkoutSquare, confirmOrder };
+export { checkoutReset, checkoutSquare, confirmOrder, makeApplyCreditRequest };

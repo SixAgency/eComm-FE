@@ -148,7 +148,11 @@ class ReviewOrder extends PureComponent {
           toggleUseCredits={this.props.toggleUseCredits}
           useCredits={useCredits}
         />
-        {(useCredits && covered_by_store_credit) ? this.renderSubmitButton(true) : this.listPayment()}
+        {
+          (useCredits && covered_by_store_credit) ?
+          this.renderSubmitButton(true) :
+          this.listPayment()
+        }
       </div>
     );
   }

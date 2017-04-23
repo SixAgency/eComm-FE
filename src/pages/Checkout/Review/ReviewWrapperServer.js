@@ -43,6 +43,7 @@ class ReviewWrapper extends Component {
           checkoutReset={() => (true)}
           toggleUseCredits={() => (true)}
           useCredits={false}
+          makeApplyCreditRequest={() => (true)}
         />
       </Checkout>
     );
