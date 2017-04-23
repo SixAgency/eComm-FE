@@ -2,7 +2,11 @@ import express from 'express';
 import { onGetSession } from '../server/controllers/api/session';
 import { onGetOrder, onGetOrders } from '../server/controllers/api/order';
 import { onGetProduct, onGetProducts, onGetProductByCategory } from '../server/controllers/api/product';
-import { checkCart, onGetCart, onCreateCart, onAddToCart, onRemoveFromCart, onUpdateCart } from '../server/controllers/api/cart';
+import { onGetCart, onCreateCart, onAddToCart, onRemoveFromCart, onUpdateCart } from '../server/controllers/api/cart';
+import onApplyPromo from '../server/controllers/api/promo';
+import { onGetStoreCredit, onRedeemStoreCredit, onApplyStoreCredit} from '../server/controllers/api/store_credit';
+// Middleware methods
+import { checkCart, checkPromoCode, checkStoreCreditCode, checkStoreCreditApply } from '../server/middleware';
 
 const apiRoutesV = express.Router();
 
@@ -28,5 +32,13 @@ apiRoutesV.get('/product/:slug', onGetProduct);
 apiRoutesV.get('/products', onGetProducts);
 // Get Products by Category
 apiRoutesV.get('/products/:category', onGetProductByCategory);
+// Apply Promo Code
+apiRoutesV.post('/promo', checkPromoCode, onApplyPromo);
+// Get Store credit
+apiRoutesV.get('/store_credit', onGetStoreCredit);
+// Redeem Store credit
+apiRoutesV.post('/store_credit', checkStoreCreditCode, onRedeemStoreCredit);
+// Use Store credit
+apiRoutesV.put('/store_credit', checkStoreCreditApply, onApplyStoreCredit);
 
 export default apiRoutesV;

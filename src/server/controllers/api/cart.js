@@ -1,6 +1,5 @@
-import { sendSuccessResponse, sendErrorResponse, setErrorResponse } from '../../proxy/response';
+import { sendSuccessResponse, sendErrorResponse } from '../../proxy/response';
 import { getCart, createCart, addToCart, removeFromCart, updateCart } from '../../proxy/cart';
-import { CART_ERROR } from '../../../constants/MessageConsts';
 
 /**
  * Get User/Guest cart handler
@@ -52,17 +51,8 @@ function onUpdateCart(req, resp) {
     .then(data => sendSuccessResponse(resp, data))
     .catch(err => sendErrorResponse(resp, err));
 }
-/**
- * Check if cart exists middleware
- */
-function checkCart(req, resp, next) {
-  if (req.session.order && (req.session.user_token || req.session.guest_token)) {
-    return next();
-  }
-  return sendSuccessResponse(resp, setErrorResponse({ status: 422, messages: [CART_ERROR] }));
-}
+
 export {
-  checkCart,
   onGetCart,
   onCreateCart,
   onAddToCart,

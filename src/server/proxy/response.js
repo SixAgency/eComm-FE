@@ -44,7 +44,8 @@ function setInternalErrorResponse(err) {
   return {
     status: 500,
     error: true,
-    messages: [SERVER_ERROR]
+    messages: [SERVER_ERROR],
+    exception: err.message
   };
 }
 

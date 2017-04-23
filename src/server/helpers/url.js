@@ -12,6 +12,11 @@ function asGuestUrl(args) {
 }
 
 const UrlUtils = {
+  getUserCart: () => ('/api/v1/orders/current'),
+  getGuestCart: (req) => asGuestUrl({
+    url: `/api/v1/orders/${req.session.order}`,
+    req
+  }),
   addToCart: (req) => asGuestUrl({
     url: `/api/v1/orders/${req.session.order}/line_items`,
     req
@@ -24,6 +29,7 @@ const UrlUtils = {
     url: `/api/v1/orders/${req.session.order}`,
     req
   }),
+  createCart: () => ('/api/v1/orders'),
   getProduct: (req) => (`/api/v1/products/${req.params.slug}`),
   getProducts: () => ('/api/v1/products'),
   getProductsByCategory: (req) => (`/api/v1/taxons/products?permalink=categories/${req.params.category}`),
@@ -31,7 +37,17 @@ const UrlUtils = {
     url: `/api/v1/orders/${req.params.number}`,
     req
   }),
-  getOrders: () => ('/api/v1/orders/mine?q[state_cont_any][]=complete&q[state_cont_any][]=canceled')
+  getOrders: () => ('/api/v1/orders/mine?q[state_cont_any][]=complete&q[state_cont_any][]=canceled'),
+  applyPromo: (req) => asGuestUrl({
+    url: `/api/v1/orders/${req.session.order}/apply_coupon_code`,
+    req
+  }),
+  getStoreCredit: () => ('/api/v1/store_credit_events/mine'),
+  redeemStoreCredit: () => ('/api/v1/gift_cards/redeem'),
+  applyStoreCredit: (req) => asGuestUrl({
+    url: `/api/v1/checkouts/${req.session.order}`,
+    req
+  })
 };
 
 export default UrlUtils;

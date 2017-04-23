@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import { fetch } from '../fetch';
 import { setSuccessResponse } from './response';
 import ProductUtils from '../helpers/product';
@@ -9,12 +10,16 @@ import UrlUtils from '../helpers/url';
  * @returns {Promise}
  */
 function getProduct(req) {
-  const args = {
-    url: UrlUtils.getProduct(req),
-    method: 'GET',
-    session: req.session
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.getProduct(req),
+      method: 'GET',
+      session: req.session
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 /**
@@ -23,25 +28,29 @@ function getProduct(req) {
  * @returns {Promise}
  */
 function getProducts(req) {
-  const args = {
-    url: UrlUtils.getProducts(),
-    method: 'GET',
-    session: req.session,
-    fn: (data) => {
-      // Check filters and returned filtered products
-      if (req.query.filter && req.query.value) {
-        const products = ProductUtils.filterProducts({
-          products: data.products,
-          filter: req.query.filter,
-          value: req.query.value
-        });
-        return setSuccessResponse(products);
+  try {
+    const args = {
+      url: UrlUtils.getProducts(),
+      method: 'GET',
+      session: req.session,
+      fn: (data) => {
+        // Check filters and returned filtered products
+        if (req.query.filter && req.query.value) {
+          const products = ProductUtils.filterProducts({
+            products: data.products,
+            filter: req.query.filter,
+            value: req.query.value
+          });
+          return setSuccessResponse(products);
+        }
+        // Return all the products
+        return setSuccessResponse(data.products);
       }
-      // Return all the products
-      return setSuccessResponse(data.products);
-    }
-  };
-  return fetch(args);
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 /**
@@ -50,13 +59,17 @@ function getProducts(req) {
  * @returns {Promise}
  */
 function getProductsByCategory(req) {
-  const args = {
-    url: UrlUtils.getProductsByCategory(req),
-    method: 'GET',
-    session: req.session,
-    fn: (data) => setSuccessResponse(data.products)
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.getProductsByCategory(req),
+      method: 'GET',
+      session: req.session,
+      fn: (data) => setSuccessResponse(data.products)
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 export {

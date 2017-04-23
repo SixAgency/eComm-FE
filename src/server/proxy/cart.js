@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import { fetch } from '../fetch';
 import { setSuccessResponse, setErrorResponse } from './response';
 import CartUtils from '../helpers/cart';
@@ -12,7 +13,7 @@ import { NOT_FOUND } from '../../constants/MessageConsts';
  */
 function getUserCart(req) {
   const args = {
-    url: '/api/v1/orders/current',
+    url: UrlUtils.getUserCart(),
     method: 'GET',
     session: req.session,
     fn: (cart) => {
@@ -33,7 +34,7 @@ function getUserCart(req) {
  */
 function getGuestCart(req) {
   const args = {
-    url: `/api/v1/orders/${req.session.order}?order_token=${req.session.guest_token}`,
+    url: UrlUtils.getGuestCart(req),
     method: 'GET',
     session: req.session,
     fn: (cart) => {
@@ -50,10 +51,14 @@ function getGuestCart(req) {
  * @returns {Promise}
  */
 function getCart(req) {
-  if (SessionUtils.isUser(req)) {
-    return getUserCart(req);
+  try {
+    if (SessionUtils.isUser(req)) {
+      return getUserCart(req);
+    }
+    return getGuestCart(req);
+  } catch (err) {
+    return Promise.reject(err);
   }
-  return getGuestCart(req);
 }
 
 /**
@@ -62,17 +67,21 @@ function getCart(req) {
  * @returns {Promise}
  */
 function createCart(req) {
-  const args = {
-    url: '/api/v1/orders',
-    method: 'POST',
-    body: CartUtils.createCartParams(),
-    session: req.session,
-    fn: (cart) => {
-      CartUtils.setCartSession(req, cart);
-      return setSuccessResponse(cart);
-    }
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.createCart(),
+      method: 'POST',
+      body: CartUtils.createCartParams(),
+      session: req.session,
+      fn: (cart) => {
+        CartUtils.setCartSession(req, cart);
+        return setSuccessResponse(cart);
+      }
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 /**
@@ -81,13 +90,17 @@ function createCart(req) {
  * @returns {Promise}
  */
 function addToCart(req) {
-  const args = {
-    url: UrlUtils.addToCart(req),
-    method: 'POST',
-    body: CartUtils.addToCartParams(req),
-    session: req.session
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.addToCart(req),
+      method: 'POST',
+      body: CartUtils.addToCartParams(req),
+      session: req.session
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 /**
@@ -96,12 +109,16 @@ function addToCart(req) {
  * @returns {Promise}
  */
 function removeFromCart(req) {
-  const args = {
-    url: UrlUtils.removeFromCart(req),
-    method: 'DELETE',
-    session: req.session
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.removeFromCart(req),
+      method: 'DELETE',
+      session: req.session
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 /**
@@ -110,13 +127,17 @@ function removeFromCart(req) {
  * @returns {Promise}
  */
 function updateCart(req) {
-  const args = {
-    url: UrlUtils.updateCart(req),
-    method: 'PUT',
-    body: CartUtils.updateCartParams(req),
-    session: req.session
-  };
-  return fetch(args);
+  try {
+    const args = {
+      url: UrlUtils.updateCart(req),
+      method: 'PUT',
+      body: CartUtils.updateCartParams(req),
+      session: req.session
+    };
+    return fetch(args);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
 export {
