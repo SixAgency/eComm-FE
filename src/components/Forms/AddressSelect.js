@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import cx from 'classnames';
 import s from './Forms.css';
 
 class AddressSelect extends React.Component {
@@ -25,7 +26,7 @@ class AddressSelect extends React.Component {
     return (
       <div className={s[this.props.selectClass]}>
         { this.props.addresses.map((value, key) => (
-          <div className={s.radiowrapper} key={key}>
+          <div className={cx(s.radiowrapper, s.selectwrapper)} key={key}>
             <input
               id={value.id}
               value={value.id}
@@ -35,7 +36,7 @@ class AddressSelect extends React.Component {
               checked={this.getActive(value.id)}
               onChange={this.props.onSelect}
             />
-            <label htmlFor={value.id} className={s.labelradio}>
+            <label htmlFor={value.id} className={s.labelselect}>
               {value.firstname} {value.lastname}<br />
               {value.address1} {value.address2}<br />
               {value.city}, {value.state_id}, {value.zipcode}<br />

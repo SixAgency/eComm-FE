@@ -156,10 +156,7 @@ class CartWrapper extends BasePageComponent {
    *  Allow giftcard visibility toggle through props
    *
     */
-  hideGiftCardForm = () => {
-    console.log('ajung aici');
-    this.setState({ showGiftCardForm: false });
-  };
+  hideGiftCardForm = () => { this.setState({ showGiftCardForm: false }); };
 
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;
