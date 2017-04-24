@@ -12,18 +12,21 @@ class Navigation extends React.Component {
     activeSlug: PropTypes.string.isRequired,
     navClass: PropTypes.string.isRequired,
     menuOpen: PropTypes.string,
+    isMobile: PropTypes.bool.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
       currentStyles: {},
+      currentUrl: '/'
     };
   }
 
   componentDidMount = () => {
+    console.log('MOUNT');
     this.setState({
-      currentStyles: this.getCurrentStyles(),
+      currentStyles: this.getCurrentStyles()
     });
   }
 
@@ -31,7 +34,7 @@ class Navigation extends React.Component {
     // Reset the green line position to active navitem
     if (this.props.activeSlug !== prevProps.activeSlug) {
       this.setState({
-        currentStyles: this.getCurrentStyles(),
+        currentStyles: this.getCurrentStyles()
       });
     }
   }
@@ -40,7 +43,7 @@ class Navigation extends React.Component {
     const currentStyles = {
       width: event.target.parentElement.offsetWidth,
       left: event.target.parentElement.offsetLeft,
-      display: 'block',
+      display: 'block'
     };
     this.setState({ currentStyles });
     event.preventDefault();
@@ -48,7 +51,7 @@ class Navigation extends React.Component {
 
   onHoverEnd = () => {
     this.setState({
-      currentStyles: this.getCurrentStyles(),
+      currentStyles: this.getCurrentStyles()
     });
   }
 
@@ -57,7 +60,7 @@ class Navigation extends React.Component {
     const elem = Array.from(this.node.childNodes).filter((el) => ((el.className.split(' ').length > 1)));
     currentStyles = {
       left: elem[0].offsetLeft,
-      width: elem[0].offsetWidth,
+      width: elem[0].offsetWidth
     };
     return currentStyles;
   }
@@ -65,6 +68,9 @@ class Navigation extends React.Component {
 
   getActive = (item) => {
     if ((this.props.activeSlug === item.slug)) {
+      return s.active;
+    }
+    if (this.props.isMobile && this.props.activeSlug === '/product/mentoring-program-day' && item.slug === '/') {
       return s.active;
     }
     return null;
