@@ -109,7 +109,7 @@ class GiftCardSelector extends Component {
     } = this.state;
 
     return (
-      <div className={s.variants}>
+      <div className={cx(s.variants, showForm ? s.formopen : '')}>
         <h3 className={s.vname}>Choose Amount</h3>
         <select className={s.vselect} name="sizes" onChange={this.handleChange} value={selectedVariant}>
           <option value={0} key="">Choose an amount</option>
