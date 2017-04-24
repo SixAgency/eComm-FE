@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import moment from 'moment';
 import s from './ProductReviews.css';
 
 class ProductReviews extends React.Component {
@@ -29,7 +30,7 @@ class ProductReviews extends React.Component {
   }
 
   hideReviews = (e) => {
-    if (e.target.id === 'reviews') {
+    if (e.target.id === 'reviews' || e.target.id === 'reivewscontainer') {
       this.props.resetMessages();
       this.props.toggleReviews();
     }
@@ -43,41 +44,43 @@ class ProductReviews extends React.Component {
   render() {
     return (
       <div id="reviews" className={s.reviewsbg} onClick={this.hideReviews}>
-        <div className={s.reviews}>
-          <div className={s.title}>
-            Reviews
+        <div id="reivewscontainer" className={s.reviewscontainer}>
+          <div className={s.reviews}>
+            <div className={s.title}>
+              Reviews
+            </div>
+            <div className={s.content}>
+              {this.props.reviews.map((rev, index) => (
+                <div className={s.review} key={index}>
+                  <p className={s.left}>
+                    {rev.name}<br />
+                    <span className={s.date}>{moment(rev.created_at).format('Do MMM YYYY')}</span>
+                  </p>
+                  <p className={s.right}>
+                    {rev.review}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <form onSubmit={this.submitReview}>
+              <textarea
+                id="review" name="review" cols="45" rows="8"
+                placeholder="Your Review"
+                onChange={this.onFieldsUpdate}
+              />
+              <input
+                id="name" name="name" type="text"
+                placeholder="Name *"
+                onChange={this.onFieldsUpdate}
+              />
+              <input
+                id="email" name="email" type="text"
+                placeholder="Email *"
+                onChange={this.onFieldsUpdate}
+              />
+              <input id="submit" name="submit" type="submit" value="Submit" />
+            </form>
           </div>
-          <div className={s.content}>
-            {this.props.reviews.map((rev, index) => (
-              <div className={s.review} key={index}>
-                <p className={s.left}>
-                  {rev.name}<br />
-                  <span className={s.date}>19th Apr 2017</span>
-                </p>
-                <p className={s.right}>
-                  {rev.review}
-                </p>
-              </div>
-            ))}
-          </div>
-          <form onSubmit={this.submitReview}>
-            <textarea
-              id="review" name="review" cols="45" rows="8"
-              placeholder="Your Review"
-              onChange={this.onFieldsUpdate}
-            />
-            <input
-              id="name" name="name" type="text"
-              placeholder="Name *"
-              onChange={this.onFieldsUpdate}
-            />
-            <input
-              id="email" name="email" type="text"
-              placeholder="Email *"
-              onChange={this.onFieldsUpdate}
-            />
-            <input id="submit" name="submit" type="submit" value="Submit" />
-          </form>
         </div>
       </div>
     );
