@@ -152,6 +152,15 @@ class CartWrapper extends BasePageComponent {
     }
   };
 
+  /**
+   *  Allow giftcard visibility toggle through props
+   *
+    */
+  hideGiftCardForm = () => {
+    console.log('ajung aici');
+    this.setState({ showGiftCardForm: false });
+  };
+
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;
     const { line_items } = cart;
@@ -169,6 +178,7 @@ class CartWrapper extends BasePageComponent {
       }
     };
     this.props.updateCart(data);
+    this.setState({ showGiftCardForm: false });
   };
 
   render() {
@@ -191,6 +201,7 @@ class CartWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
+        hideGiftCardForm={this.hideGiftCardForm}
       />
     );
   }

@@ -45,7 +45,7 @@ class ReviewOrderTbl extends PureComponent {
     );
   };
 
-  check = (arr) => {
+  checkCartContent = (arr) => {
     return arr.filter((item) => (item.variant.name !== 'E-Gift certificates'));
   };
 
@@ -179,7 +179,7 @@ class ReviewOrderTbl extends PureComponent {
                   s.td,
                   s.tdbig,
                   s.shipaddr,
-                  s[this.check(line_items).length === 0 ? 'hide' : 'show']
+                  s[this.checkCartContent(line_items).length === 0 ? 'hide' : 'show']
                 )}
               >
                 <span className={s.shippaddress}>Shipping address</span>

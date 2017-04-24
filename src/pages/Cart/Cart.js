@@ -30,7 +30,8 @@ class Cart extends Component {
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    hideGiftCardForm: PropTypes.func.isRequired
   };
 
   render() {
@@ -83,6 +84,7 @@ class Cart extends Component {
                   removeItem={this.props.removeItem}
                   updateQuantity={this.props.updateQuantity}
                   cartItems={this.props.cartItems}
+                  hideGiftCardForm={this.props.hideGiftCardForm}
                 />
                 <PromoCodeInput
                   updateCart={this.props.updateCart}
