@@ -18,6 +18,7 @@ import { setBilling } from '../../../actions/checkout';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
+    emailAddress: state.user.profile.email,
     addresses: state.address.addresses,
     billing: state.address.billing,
     shipping: state.address.shipping,
@@ -56,6 +57,7 @@ class ManageAddressesWrapper extends BasePageComponent {
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    emailAddress: PropTypes.string.isRequired,
     addresses: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
     deleteAddress: PropTypes.func.isRequired,
@@ -123,6 +125,7 @@ class ManageAddressesWrapper extends BasePageComponent {
     return (
       <ManageAddresses
         loggedIn={this.props.loggedIn}
+        emailAddress={this.props.emailAddress}
         addresses={this.props.addresses}
         onLogout={this.onLogout}
         billing={this.props.billing}

@@ -12,6 +12,7 @@ import ErrorDisplay from '../../../components/ErrorDisplay';
 class ManageAddresses extends Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
+    emailAddress: PropTypes.string.isRequired,
     onLogout: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
     shipping: PropTypes.object.isRequired,
@@ -64,6 +65,7 @@ class ManageAddresses extends Component {
       <AddressForm
         formTitle={'Edit Address'}
         formSubtitle={'Fulfill your details'}
+        emailAddress={this.props.emailAddress}
         address={tolist}
         buttonText={'save address'}
         selectClass={'checkoutselect'}
