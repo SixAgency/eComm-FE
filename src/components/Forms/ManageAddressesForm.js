@@ -17,7 +17,7 @@ class ManageAddressesForm extends Component {
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
     handleDisplayState: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -48,7 +48,7 @@ class ManageAddressesForm extends Component {
         this.props.deleteAddress(this.state.currentId);
       }
     });
-  }
+  };
 
   onEdit = (id) => {
     this.setState({
@@ -63,13 +63,13 @@ class ManageAddressesForm extends Component {
         this.props.handleDisplayState('edit', this.state.currentId);
       }
     });
-  }
+  };
 
   onCancelError = () => {
     this.setState({
       showError: false
     });
-  }
+  };
 
   onProceedError = () => {
     this.setState({
@@ -87,7 +87,7 @@ class ManageAddressesForm extends Component {
       }
       this.props.deleteAddress(this.state.currentId);
     }
-  }
+  };
 
   getAvailable = (addresses, type) => {
     if (type === 'billing') {
@@ -110,14 +110,14 @@ class ManageAddressesForm extends Component {
       return address;
     }
     return {};
-  }
+  };
 
   getStateName = (id) => {
     const selected = STATES.find((state) => (state.id === id));
     return selected.abbr || '';
   };
 
-  isActive = (id) => id === this.props.shipping.address.id || this.props.billing.address.id
+  isActive = (id) => id === this.props.shipping.address.id || this.props.billing.address.id;
 
 
   renderAddresses = (addresses) => (
