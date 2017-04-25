@@ -45,6 +45,10 @@ class ReviewOrderTbl extends PureComponent {
     );
   };
 
+  checkCartContent = (arr) => {
+    return arr.filter((item) => (item.variant.name !== 'E-Gift certificates'));
+  };
+
   render() {
     const {
       cart: {
@@ -57,7 +61,6 @@ class ReviewOrderTbl extends PureComponent {
       },
       cartItems
     } = this.props;
-
     const itemTotal = Number(item_total);
     return (
       <div className={s.tablewrpr}>
@@ -171,7 +174,14 @@ class ReviewOrderTbl extends PureComponent {
               </tr>
             }
             <tr>
-              <td className={cx(s.td, s.tdbig, s.shipaddr)}>
+              <td
+                className={cx(
+                  s.td,
+                  s.tdbig,
+                  s.shipaddr,
+                  s[this.checkCartContent(line_items).length === 0 ? 'hide' : 'show']
+                )}
+              >
                 <span className={s.shippaddress}>Shipping address</span>
                 {this.listAddress(cartItems.cart.ship_address)}
                 {!this.props.isPayPal && <Link

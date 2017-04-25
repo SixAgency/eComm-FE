@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import { browserHistory } from 'react-router';
 import s from './StickySection.css';
 
 let pageHeight = 0;
@@ -18,11 +18,11 @@ class StickySection extends React.Component {
   componentDidMount = () => {
     pageHeight = document.body.clientHeight;
     window.addEventListener('scroll', this.stickyScroll);
-  }
+  };
 
   componentWillUnmount = () => {
     window.removeEventListener('scroll', this.stickyScroll);
-  }
+  };
 
   stickyScroll = () => {
     const posCur = window.scrollY;
@@ -35,7 +35,7 @@ class StickySection extends React.Component {
         wrapperClass: 'hidesticky'
       });
     }
-  }
+  };
 
   scrollToTop = (duration) => {
     if (duration > 0) {
@@ -48,12 +48,16 @@ class StickySection extends React.Component {
         }
       }, 10);
     }
-  }
+  };
 
   goUp = (e) => {
     e.preventDefault();
     this.scrollToTop(800);
-  }
+  };
+
+  handleHomeLink = () => {
+    browserHistory.push('/');
+  };
 
   render() {
     return (
@@ -68,15 +72,16 @@ class StickySection extends React.Component {
               <i className={s.iconup} />
             </a>
           </div>
-          <h2 className={s.gohomewrpr}>
-            <Link
-              className={cx(s.actions, s.gohomelink)}
-              to="/"
-              onMouseOver={() => { window.status = ''; }}
-              onMouseOut={() => { window.status = ''; }}
+          <h2
+            className={s.gohomewrpr}
+          >
+            <button
+              className={cx(s.actions, s.gohomebutton)}
+              type="button"
+              onClick={this.handleHomeLink}
             >
-                Home
-            </Link>
+              Home
+            </button>
           </h2>
         </div>
       </div>

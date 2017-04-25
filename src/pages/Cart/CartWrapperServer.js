@@ -45,6 +45,7 @@ class CartWrapper extends Component {
         toggleGiftCardForm={() => (true)}
         calculateShipping={() => (true)}
         showGiftCardForm={showGiftCartForm}
+        hideGiftCardForm={() => (true)}
       />
     );
   }

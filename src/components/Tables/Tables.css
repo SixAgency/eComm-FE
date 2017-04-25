@@ -292,7 +292,10 @@ table.customerdetails {
   }
 }
 
-.creditinfo { 
+.hide { display: none; }
+.show { display: block; }
+
+.creditinfo {
   padding-left: 14px;
 }
 

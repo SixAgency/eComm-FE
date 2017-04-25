@@ -16,7 +16,7 @@ class OrderDetailsTbl extends PureComponent {
       return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
     }
     return item.price;
-  }
+  };
 
   render() {
     const { order } = this.props;

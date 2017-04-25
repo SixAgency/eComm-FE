@@ -81,7 +81,7 @@ function reset(req, resp, next) {
       if (user && user.user.loggedIn) {
         return resp.redirect('/my-account/dashboard');
       }
-      if (!req.query.reset_password_token) {
+      if (!req.params.param) {
         return resp.redirect('/my-account');
       }
       const params = {

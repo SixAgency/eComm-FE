@@ -12,8 +12,9 @@ class ProductRow extends React.Component {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired
-  }
+    cartItems: PropTypes.object.isRequired,
+    hideGiftCardForm: PropTypes.func.isRequired
+  };
 
   getPrice = () => {
     const { item: { variant } } = this.props;
@@ -23,7 +24,7 @@ class ProductRow extends React.Component {
       return parseFloat(price) - (parseFloat(price) * (sale / 100));
     }
     return variant.price;
-  }
+  };
 
   addQuantity = () => {
     if (this.props.item.quantity < this.props.item.variant.max_quantity_allowed_in_cart) {
@@ -32,7 +33,7 @@ class ProductRow extends React.Component {
       ));
       this.props.updateQuantity(updatedCartItems);
     }
-  }
+  };
 
   subQuantity = () => {
     let qty = this.props.item.quantity;
@@ -41,16 +42,17 @@ class ProductRow extends React.Component {
       item.id === this.props.item.id ? { ...item, quantity: qty } : item
     ));
     this.props.updateQuantity(updatedCartItems);
-  }
+  };
 
   removeItem = () => {
     this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });
-  }
+    this.props.hideGiftCardForm();
+  };
 
   brokenImage = (event) => {
     const img = event.target;
     img.src = imagePlaceholder;
-  }
+  };
 
   render() {
     const { item } = this.props;

@@ -47,6 +47,7 @@
       line-height: 18px;
       margin-top: 25px;
       height: auto;
+      word-wrap: break-word;
       .block { display: block; }
     }
   }
