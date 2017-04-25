@@ -57,7 +57,8 @@ class ReviewOrderTbl extends PureComponent {
         line_items,
         item_total,
         display_total_available_store_credit,
-        total
+        total,
+        state
       },
       cartItems
     } = this.props;
@@ -156,6 +157,7 @@ class ReviewOrderTbl extends PureComponent {
               </td>
             </tr>
             {
+              state !== 'confirm' &&
               Number(display_total_available_store_credit.slice(1)) > 0 &&
               <tr>
                 <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>

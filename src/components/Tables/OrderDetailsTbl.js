@@ -11,19 +11,23 @@ class OrderDetailsTbl extends PureComponent {
     order: PropTypes.object.isRequired
   };
 
-  getPrice = (item) => {
-    if (item.adjustments.length === 1) {
-      return parseFloat(item.price) + parseFloat(item.adjustments[0].amount);
+  getPaymentName = (payment) => {
+    if (payment.payment_method.name.toLowerCase() === 'square') {
+      return `${payment.source.cc_type} ${payment.source.last_digits}`;
     }
-    return item.price;
+    return payment.payment_method.name;
   };
 
   render() {
     const { order } = this.props;
     const products = order.line_items;
     const shipment = order.shipments[0];
-    const payment = order.payments[0];
-    const subTotal = parseFloat(order.item_total) + parseFloat(order.adjustment_total);
+    const {
+      item_total,
+      payments,
+      adjustments
+    } = order;
+    const itemTotal = parseFloat(item_total);
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -61,10 +65,10 @@ class OrderDetailsTbl extends PureComponent {
             })}
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Subtotal:
+                Item Total:
               </td>
               <td className={s.orderdetails}>
-                {accounting.formatMoney(subTotal)}
+                {accounting.formatMoney(itemTotal)}
               </td>
             </tr>
             {shipment &&
@@ -88,22 +92,41 @@ class OrderDetailsTbl extends PureComponent {
                 </td>
               </tr>
             ))}
-            {payment &&
-              <tr className={s.orderItem}>
-                <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                  Payment Method:
+            {adjustments.map((adjust, key) => (
+              <tr key={key} >
+                <td className={cx(s.td, s.tdbig, s.pshipping)}>
+                  {adjust.label}
                 </td>
-                <td className={s.orderdetails}>
-                  {payment.payment_method.name}
+                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
+                  {accounting.formatMoney(adjust.amount)}
                 </td>
               </tr>
-            }
+              )
+            )}
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Total:
               </td>
               <td className={s.orderdetails}>
                 {order.display_total}
+              </td>
+            </tr>
+            <tr className={s.orderItem}>
+              <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                Payment{payments.length > 1 ? 's' : ''}:
+              </td>
+              <td className={s.orderdetails}>
+                <table cellSpacing={0} cellPadding={0}>
+                  <tbody>
+                    {payments.map((payment, key) => (
+                      <tr key={key}>
+                        <td>
+                          {this.getPaymentName(payment)}: {accounting.formatMoney(payment.amount)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </td>
             </tr>
           </tbody>
