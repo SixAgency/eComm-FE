@@ -128,7 +128,6 @@ class CartCta extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { product } = this.props.product;
     return (
       <form
