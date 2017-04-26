@@ -25,6 +25,15 @@ class CartCta extends Component {
     };
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.product.isLoaded) {
+      this.setState({
+        quantity: 1,
+        variant_id: null
+      });
+    }
+  };
+
   setVariant = (variant) => {
     this.setState({
       variant_id: variant
@@ -119,6 +128,7 @@ class CartCta extends Component {
   };
 
   render() {
+    console.log(this.state);
     const { product } = this.props.product;
     return (
       <form

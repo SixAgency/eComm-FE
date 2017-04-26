@@ -6,8 +6,10 @@ import Grid from '../Grid';
 class RelatedProducts extends React.Component {
   static propTypes = {
     gridRecs: PropTypes.object.isRequired,
-    addToCart: PropTypes.func.isRequired
-  }
+    addToCart: PropTypes.func.isRequired,
+    cartItems: PropTypes.array.isRequired,
+    setMessage: PropTypes.func
+  };
 
   render() {
     if (!this.props.gridRecs.isLoaded || this.props.gridRecs.isEmpty) {
@@ -22,7 +24,9 @@ class RelatedProducts extends React.Component {
           priceclass="rprice"
           nameclass="rname"
           catclass="rcat"
+          cartItems={this.props.cartItems}
           addToCart={this.props.addToCart}
+          setMessage={this.props.setMessage}
           buttonclass="rbutton"
         />
       </div>

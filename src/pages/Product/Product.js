@@ -115,6 +115,8 @@ class Product extends Component {
               <RelatedProducts
                 gridRecs={product.recs}
                 addToCart={this.props.onAddToCart}
+                cartItems={this.props.cartItems}
+                setMessage={this.props.setMessage}
               />
             </span>
           </div>
