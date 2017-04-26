@@ -8,8 +8,6 @@ import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
 
-let shippingMethod = '';
-
 class CartForm extends Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
@@ -18,7 +16,8 @@ class CartForm extends Component {
     checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    shippingMethod: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -27,16 +26,6 @@ class CartForm extends Component {
       showCalculator: false,
       className: 'hide'
     };
-  }
-
-  componentWillUpdate(nextProps) {
-    const updatedCart = nextProps.cart;
-    if (updatedCart.shipments.length > 0) {
-      shippingMethod = `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}): 
-        ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
-    } else {
-      shippingMethod = 'Shipping costs will be calculate once you have provided your address.';
-    }
   }
 
   render() {
@@ -77,7 +66,7 @@ class CartForm extends Component {
                   <th className="table-heads">Shipping</th>
                   <td className="data">
                     <p>
-                      {shippingMethod}
+                      {this.props.shippingMethod}
                     </p>
                     <h2 className={s.calctitle}>Calculate Shipping</h2>
                     <ShippingCalculator

@@ -25,7 +25,6 @@ class ShippingCalculator extends Component {
         country_id: '232'
       }
     });
-    this.props.toggleLoader(true);
   }
 
   updatePreviewState = (e) => {

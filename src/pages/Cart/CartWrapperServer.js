@@ -46,6 +46,7 @@ class CartWrapper extends Component {
         calculateShipping={() => (true)}
         showGiftCardForm={showGiftCartForm}
         hideGiftCardForm={() => (true)}
+        shippingMethod="Shipping costs will be calculate once you have provided your address."
       />
     );
   }

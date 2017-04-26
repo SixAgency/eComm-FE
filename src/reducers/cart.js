@@ -2,7 +2,9 @@ export default function reducer(state = {
   cartItems: {
     isLoaded: false,
     isEmpty: true,
-    cart: {}
+    cart: {
+      shipments: []
+    }
   },
   message: '',
   isError: false,
@@ -14,6 +16,15 @@ export default function reducer(state = {
     }
     case 'CART_PENDING': {
       return { ...state, isCartPending: action.payload };
+    }
+    case 'SET_CART_SHIPMENTS': {
+      const newCart = { ...state.cartItems };
+      newCart.cart.shipments = action.payload.shipments;
+      newCart.cart.total = (parseFloat(newCart.cart.total) + action.payload.cost).toString();
+      return {
+        ...state,
+        cartItems: newCart,
+      };
     }
     default: // do nothing
   }

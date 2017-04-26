@@ -31,7 +31,8 @@ class Cart extends Component {
     toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     calculateShipping: PropTypes.func.isRequired,
-    hideGiftCardForm: PropTypes.func.isRequired
+    hideGiftCardForm: PropTypes.func.isRequired,
+    shippingMethod: PropTypes.string.isRequired
   };
 
   render() {
@@ -98,6 +99,7 @@ class Cart extends Component {
                   proceedToCheckout={this.props.proceedToCheckout}
                   toggleLoader={this.props.toggleLoader}
                   calculateShipping={this.props.calculateShipping}
+                  shippingMethod={this.props.shippingMethod}
                 />
               </div>
             </article>

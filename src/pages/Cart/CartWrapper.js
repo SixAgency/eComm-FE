@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import accounting from 'accounting';
 
 import BasePageComponent from '../BasePageComponent';
 import Cart from './Cart';
@@ -178,6 +179,15 @@ class CartWrapper extends BasePageComponent {
     this.setState({ showGiftCardForm: false });
   };
 
+  getShippingMethod = () => {
+    const updatedCart = this.props.cartItems.cart;
+    if (updatedCart.shipments.length > 0) {
+      return `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}):
+        ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
+    }
+    return 'Shipping costs will be calculate once you have provided your address.';
+  };
+
   render() {
     return (
       <Cart
@@ -198,6 +208,7 @@ class CartWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
+        shippingMethod={this.getShippingMethod()}
         hideGiftCardForm={this.hideGiftCardForm}
       />
     );
