@@ -43,6 +43,16 @@ function setCartPending(pending) {
 }
 
 /**
+ * Set Cart Shipments
+ */
+function setCartShipments(data) {
+  const shipments = [{
+    selected_shipping_rate: data[0]
+  }];
+  return { type: 'SET_CART_SHIPMENTS', payload: { shipments, cost: parseFloat(data[0].cost) } };
+}
+
+/**
  * Set line items quantity
  * @param data
  * @returns {function(*)}
@@ -272,15 +282,20 @@ function getAllOrders(data) {
 
 function calculateShipping(data) {
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(setCartPending(true));
     const valid = validateShippingCalculator(data);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
+      dispatch(setCartPending(false));
     } else {
       axios.post('/api/calculate_shipping', { data })
         .then((response) => checkResponse(response.data, () => {
-          dispatch(setCart(response.data));
+          dispatch(setCartShipments(response.data.shipping_rates));
+          dispatch(setCartPending(false));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setCartPending(false));
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
