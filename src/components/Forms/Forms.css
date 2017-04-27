@@ -169,6 +169,7 @@
   width: 50%;
   word-wrap: break-word;
   height: auto;
+  overflow: hidden;
 }
 
 
