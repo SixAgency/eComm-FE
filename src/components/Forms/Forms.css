@@ -46,6 +46,9 @@
   margin-bottom: 20px;
   width: 50%;
   height: 100px;
+  &:nth-child(2n) {
+    float: right;
+  }
 }
 
 .selectwrapper { height: auto; }
@@ -60,7 +63,6 @@
 
   label {
     width: 100%;
-    height: 90px;
   }
 }
 
@@ -163,13 +165,13 @@
   font-size: 16px;
   line-height: 18px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  word-wrap: break-word;
+  overflow: hidden;
+  // height: 90px;
 }
 
 .labelselect {
   width: 50%;
-  word-wrap: break-word;
-  height: auto;
-  overflow: hidden;
 }
 
 
@@ -582,6 +584,9 @@
       margin-bottom: 40px;
       overflow: hidden;
       width: 50%;
+      &:nth-child(2n) {
+        float: right;
+      }
       .addressesoption {
         border-bottom: 1px dotted #000000;
         display: inline-block;
