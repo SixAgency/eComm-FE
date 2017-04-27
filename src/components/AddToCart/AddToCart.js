@@ -99,13 +99,19 @@ class CartCta extends Component {
       items: cartItems
     });
     if (!flag) {
+      const messages = this.props.product.product.max_quantity_allowed_in_cart === 0 ?
+      [
+        "We're sorry but the product is not available at the moment."
+      ]
+      :
+      [
+        `You may only purchase a maximum
+         ${this.props.product.max_quantity_allowed_in_cart}
+         ${this.props.product.name} at one time`
+      ];
       this.props.setMessage({
         isError: true,
-        messages: [
-          `You may only purchase a maximum
-           ${this.props.product.product.max_quantity_allowed_in_cart}
-           ${this.props.product.product.name} at one time`
-        ]
+        messages
       });
     } else {
       this.props.onSubmit(data);

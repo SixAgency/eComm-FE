@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import accounting from 'accounting';
@@ -26,7 +26,6 @@ class ProductGridItem extends Component {
 
   getPrice = (calcReduced = false) => {
     const { product } = this.props;
-    console.log('EACH PRODUCT', product);
     if (product.classifications.length !== 0 && product.classifications[0].taxon.name === 'Gifts') {
       return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
     }
@@ -49,14 +48,21 @@ class ProductGridItem extends Component {
       items: this.props.cartItems
     });
     if (!flag) {
+      const messages = this.props.product.max_quantity_allowed_in_cart === 0 ?
+      [
+        "We're sorry but the product is not available at the moment."
+      ]
+      :
+      [
+        `You may only purchase a maximum
+         ${this.props.product.max_quantity_allowed_in_cart}
+         ${this.props.product.name} at one time`
+      ];
       this.props.setMessage({
         isError: true,
-        messages: [
-          `You may only purchase a maximum
-           ${this.props.product.max_quantity_allowed_in_cart}
-           ${this.props.product.name} at one time`
-        ]
+        messages
       });
+      window.scrollTo(0, 0);
     } else {
       this.props.addToCart(data);
     }
@@ -77,6 +83,18 @@ class ProductGridItem extends Component {
       action: this.addToCart
     };
   };
+
+  handleViewProduct = (product) => {
+    if (product.classifications.length === 0 && product.price === '0.0') {
+      this.props.setMessage({
+        isError: true,
+        messages: ["We're sorry but the product is not available at the moment."]
+      });
+      window.scrollTo(0, 0);
+    } else {
+      browserHistory.push(`/product/${product.slug}`);
+    }
+  }
 
   render() {
     const product = this.props.product;
@@ -117,7 +135,12 @@ class ProductGridItem extends Component {
               </h5>
             </Link>
             <div className={s.buttons}>
-              <Link className={cx(s.button, s.view, s[this.props.buttonclass])} to={`/product/${product.slug}`}>View</Link>
+              <Link
+                className={cx(s.button, s.view, s[this.props.buttonclass])}
+                onClick={() => { this.handleViewProduct(product); }}
+              >
+                View
+              </Link>
               <ProductAction
                 text={actionProperties.text}
                 link={actionProperties.link}
