@@ -26,7 +26,8 @@ class ProductGridItem extends Component {
 
   getPrice = (calcReduced = false) => {
     const { product } = this.props;
-    if (product.classifications[0].taxon.name === 'Gifts') {
+    console.log('EACH PRODUCT', product);
+    if (product.classifications.length !== 0 && product.classifications[0].taxon.name === 'Gifts') {
       return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
     }
     if (calcReduced) {
@@ -109,7 +110,10 @@ class ProductGridItem extends Component {
               }
               <h2 className={cx(s.pname, s[this.props.nameclass])}>{product.name}</h2>
               <h5 className={cx(s.pcat, s[this.props.catclass])}>
-                {this.props.product.classifications[0].taxon.name}
+                { this.props.product.classifications.length !== 0 ?
+                  this.props.product.classifications[0].taxon.name :
+                  'N/A'
+                }
               </h5>
             </Link>
             <div className={s.buttons}>
