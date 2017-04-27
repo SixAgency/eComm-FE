@@ -48,6 +48,7 @@ class Cart extends Component {
           isError={this.props.isError}
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.breadcrumbs}
+          onLogout={this.props.onLogout}
         />
       );
     }
