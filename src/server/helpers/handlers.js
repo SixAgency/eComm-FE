@@ -422,6 +422,18 @@ function setProductResponse(data) {
   return resp;
 }
 
+/* Remove unavailable products */
+function removeUnavailableProducts(data) {
+  const products = [];
+  const today = (new Date()).setUTCHours(0, 0, 0, 0);
+  data.products.forEach((prod) => {
+    if (prod.available_on && today > new Date(prod.available_on)) {
+      products.push(prod);
+    }
+  });
+  return { products };
+}
+
 /* Set Products Response */
 function setProductsResponse(data) {
   let resp;
@@ -732,6 +744,7 @@ export {
   setAddRemoveCartResponse,
   setCouponResponse,
   setProductResponse,
+  removeUnavailableProducts,
   setProductsResponse,
   setRecsResponse,
   setReviewsResponse,
