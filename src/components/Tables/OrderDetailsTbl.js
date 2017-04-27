@@ -93,11 +93,11 @@ class OrderDetailsTbl extends PureComponent {
               </tr>
             ))}
             {adjustments.map((adjust, key) => (
-              <tr key={key} >
-                <td className={cx(s.td, s.tdbig, s.pshipping)}>
+              <tr key={key} className={s.orderItem}>
+                <td className={cx(s.orderdetailstitle, s.tdbig)}>
                   {adjust.label}
                 </td>
-                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
+                <td className={s.orderdetails}>
                   {accounting.formatMoney(adjust.amount)}
                 </td>
               </tr>

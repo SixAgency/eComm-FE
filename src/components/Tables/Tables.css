@@ -373,9 +373,15 @@ table.customerdetails {
 }
 
 @media only screen and (max-width: 760px) {
-  .orderdetails,
-  .orderItem {
-    display: block;
+  .tableOrder {
+    .orderdetails,
+    .orderItem {
+      display: block;
+      width: 100%;
+      &:first-child {
+        margin-top: 40px;
+      }
+    }
   }
 
   .productname,
