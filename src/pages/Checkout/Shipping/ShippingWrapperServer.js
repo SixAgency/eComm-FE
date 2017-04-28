@@ -97,7 +97,6 @@ class ShippingWrapper extends React.Component {
         forwardTo={() => (true)}
         onLogout={() => (true)}
         onLogin={() => (true)}
-        applyPromoCode={() => (true)}
       >
         <Shipping
           content={content}

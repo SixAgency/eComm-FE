@@ -7,7 +7,6 @@ import Shipping from './Shipping';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
-import { applyPromoCode } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { editOrderAddress, checkoutNext } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
@@ -22,7 +21,6 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     onSubmit: (fn) => dispatch(checkoutNext(fn)),
     editAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
     getAddress: () => dispatch(getAddress()),
@@ -56,7 +54,6 @@ class ShippingWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     cartItems: PropTypes.object.isRequired,
-    applyPromoCode: PropTypes.func.isRequired,
     addresses: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
     isAddressesFetching: PropTypes.bool.isRequired,
@@ -289,7 +286,6 @@ class ShippingWrapper extends BasePageComponent {
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
           onLogin={this.props.onLogin}
-          applyPromoCode={this.props.applyPromoCode}
         >
           <Shipping
             content={this.state.content}

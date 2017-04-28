@@ -7,7 +7,7 @@ import Review from './Review';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, toggleModal } from '../../../actions/page';
-import { applyPromoCode, getCart } from '../../../actions/order';
+import { getCart } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
@@ -22,7 +22,6 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     completePayPal: () => dispatch(completePayPal()),
     checkoutReset: () => dispatch(checkoutReset()),
     getCart: (data) => dispatch(getCart(data)),
@@ -55,7 +54,6 @@ class ReviewWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    applyPromoCode: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     completePayPal: PropTypes.func.isRequired,
     isPending: PropTypes.bool.isRequired,
@@ -153,7 +151,6 @@ class ReviewWrapper extends BasePageComponent {
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
           onLogin={this.props.onLogin}
-          applyPromoCode={this.props.applyPromoCode}
         >
           <Review
             cartItems={this.props.cartItems}

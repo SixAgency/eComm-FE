@@ -42,10 +42,7 @@ class CartWrapper extends Component {
         proceedToCheckout={() => (true)}
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
-        toggleGiftCardForm={() => (true)}
         calculateShipping={() => (true)}
-        showGiftCardForm={showGiftCartForm}
-        hideGiftCardForm={() => (true)}
         shippingMethod="Shipping costs will be calculate once you have provided your address."
       />
     );

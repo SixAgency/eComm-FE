@@ -32,7 +32,6 @@ class ReviewWrapper extends Component {
         forwardTo={() => (true)}
         onLogout={() => (true)}
         onLogin={() => (true)}
-        applyPromoCode={() => (true)}
       >
         <Review
           cartItems={this.props.cartItems}

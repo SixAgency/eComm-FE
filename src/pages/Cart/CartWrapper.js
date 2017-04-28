@@ -16,7 +16,7 @@ import {
   calculateShipping
 } from '../../actions/order';
 import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
-import { onLogout, onLogin } from '../../actions/user';
+import { onLogout, onLogin, redeemGiftCard } from '../../actions/user';
 import { checkCartState } from '../../utils/utils';
 
 const mapStateToProps = ((state) => (
@@ -200,8 +200,6 @@ class CartWrapper extends BasePageComponent {
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}
-        showGiftCardForm={this.state.showGiftCardForm}
-        toggleGiftCardForm={this.toggleGiftCardForm}
         paypalObj={this.props.paypalObj}
         checkoutPayPal={this.props.checkoutPayPal}
         proceedToCheckout={this.proceedToCheckout}
@@ -209,7 +207,6 @@ class CartWrapper extends BasePageComponent {
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
         shippingMethod={this.getShippingMethod()}
-        hideGiftCardForm={this.hideGiftCardForm}
       />
     );
   }

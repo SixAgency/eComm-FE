@@ -121,7 +121,6 @@ class PromoWrapper extends BasePageComponent {
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
           onLogin={this.props.onLogin}
-          applyPromoCode={this.props.applyPromoCode}
         >
           <Promo
             applyPromoCode={this.props.applyPromoCode}

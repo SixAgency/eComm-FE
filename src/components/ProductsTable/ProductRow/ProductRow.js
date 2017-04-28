@@ -12,8 +12,7 @@ class ProductRow extends React.Component {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired,
-    hideGiftCardForm: PropTypes.func.isRequired
+    cartItems: PropTypes.object.isRequired
   };
 
   getPrice = () => {
@@ -46,7 +45,6 @@ class ProductRow extends React.Component {
 
   removeItem = () => {
     this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });
-    this.props.hideGiftCardForm();
   };
 
   brokenImage = (event) => {
