@@ -86,12 +86,12 @@ class CartCta extends Component {
 
   addToCart = (e) => {
     e.preventDefault();
-    const variantId = this.state.variant_id;
+    const { product } = this.props.product;
+    const variantId = product.has_variants ? this.state.variant_id : product.master.id;
     const quantity = this.state.quantity;
     const { cartItems } = this.props;
-    const { product } = this.props.product;
     const data = {
-      id: variantId || product.master.id,
+      id: variantId,
       quantity
     };
     const flag = checkQuantities({
