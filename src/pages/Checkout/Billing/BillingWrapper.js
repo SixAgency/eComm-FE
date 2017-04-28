@@ -18,7 +18,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    onLogin: (data) => dispatch(onLogin(data)),
+    onLogin: (data, checkout) => dispatch(onLogin(data, checkout)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     onSubmit: (data) => dispatch(setCheckoutAddress(data)),
@@ -94,10 +94,14 @@ class BillingWrapper extends BasePageComponent {
       const expectedState = checkCartState(nextProps);
       if (expectedState !== 'cart' && !nextProps.isPayPal) {
         if (!nextProps.isAddressesFetching && !nextProps.isError) {
-          this.setState({ content: this.getBillingContent(nextProps, expectedState) });
-          setTimeout(() => {
-            this.props.toggleLoader(false);
-          }, 500);
+          if (nextProps.addresses.isLoaded) {
+            this.setState({ content: this.getBillingContent(nextProps, expectedState) });
+            setTimeout(() => {
+              this.props.toggleLoader(false);
+            }, 500);
+          } else {
+            this.props.getAddress();
+          }
         }
       } else {
         forwardTo(expectedState);
@@ -252,6 +256,12 @@ class BillingWrapper extends BasePageComponent {
     };
   };
 
+  onLogin = (data) => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    this.props.onLogin(data, true);
+  }
+
   render() {
     if (this.props.cartItems.isLoaded && this.props.addresses.isLoaded) {
       const selectedAddress = this.getDefaultAddressId();
@@ -269,7 +279,8 @@ class BillingWrapper extends BasePageComponent {
           isError={this.props.isError}
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
-          onLogin={this.props.onLogin}
+          onLogin={this.onLogin}
+          applyPromoCode={this.props.applyPromoCode}
         >
           <Billing
             content={this.state.content}

@@ -19,7 +19,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     toggleModal: (toggle) => dispatch(toggleModal(toggle)),
-    onLogin: (data) => dispatch(onLogin(data)),
+    onLogin: (data, checkout) => dispatch(onLogin(data, checkout)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     completePayPal: () => dispatch(completePayPal()),
@@ -139,6 +139,12 @@ class ReviewWrapper extends BasePageComponent {
     });
   };
 
+  onLogin = (data) => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    this.props.onLogin(data, true);
+  }
+
   render() {
     if (this.props.cartItems.isLoaded) {
       return (
@@ -152,7 +158,8 @@ class ReviewWrapper extends BasePageComponent {
           isError={this.props.isError}
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
-          onLogin={this.props.onLogin}
+          onLogin={this.onLogin}
+          applyPromoCode={this.props.applyPromoCode}
         >
           <Review
             cartItems={this.props.cartItems}
