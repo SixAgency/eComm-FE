@@ -7,7 +7,7 @@ import Promo from './Promo';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
-import { applyPromoCode } from '../../../actions/order';
+import { applyPromoCode, getCart } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { forwardTo } from '../../../actions/handler';
 import { checkCartState } from '../../../utils/utils';
@@ -19,7 +19,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart))
+    applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
+    getCart: () => dispatch(getCart(false))
   }
 ));
 
@@ -125,6 +126,7 @@ class PromoWrapper extends BasePageComponent {
           <Promo
             applyPromoCode={this.props.applyPromoCode}
             onProceed={this.onSubmit}
+            getCart={this.props.getCart}
           />
         </Checkout>
       );

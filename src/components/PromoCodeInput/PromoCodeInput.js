@@ -6,7 +6,8 @@ import s from './PromoCodeInput.css';
 class PromoCodeInput extends Component {
   static propTypes = {
     updateCart: PropTypes.func.isRequired,
-    applyPromoCode: PropTypes.func.isRequired
+    applyPromoCode: PropTypes.func.isRequired,
+    getCart: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -18,7 +19,7 @@ class PromoCodeInput extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.applyPromoCode(this.state.coupon_code);
+    this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
   }
 
   handlePromoCode = (event) => {

@@ -17,7 +17,7 @@ import {
   getCart
 } from '../../actions/order';
 import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
-import { onLogout, onLogin, redeemGiftCard } from '../../actions/user';
+import { onLogout, onLogin } from '../../actions/user';
 import { checkCartState } from '../../utils/utils';
 
 const mapStateToProps = ((state) => (
@@ -42,12 +42,12 @@ const mapDispatchToProps = ((dispatch) => (
     resetMessages: () => dispatch(resetMessages()),
     updateCart: (cart, callback) => dispatch(updateCart(cart, callback)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
-    applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
+    applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
     calculateShipping: (data) => dispatch(calculateShipping(data)),
-    getCart: () => dispatch(getCart(false))
+    getCart: (data) => dispatch(getCart(data))
   }
 ));
 
@@ -200,6 +200,8 @@ class CartWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
+        shippingMethod={this.getShippingMethod()}
+        getCart={this.props.getCart}
       />
     );
   }

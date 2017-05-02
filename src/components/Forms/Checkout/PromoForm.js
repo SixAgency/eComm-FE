@@ -6,7 +6,8 @@ import s from './../Forms.css';
 class PromoCode extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    onProceed: PropTypes.func.isRequired
+    onProceed: PropTypes.func.isRequired,
+    getCart: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -18,7 +19,7 @@ class PromoCode extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.coupon_code);
+    this.props.onSubmit(this.state.coupon_code, this.props.getCart);
   };
 
   handlePromoCode = (event) => {

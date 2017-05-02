@@ -228,7 +228,7 @@ function updateCart(data, callback) {
  * @param data
  * @returns {function(*)}
  */
-function applyPromoCode(data) {
+function applyPromoCode(data, callback) {
   return (dispatch) => {
     dispatch(setLoader(true));
     window.scrollTo(0, 0);
@@ -240,6 +240,7 @@ function applyPromoCode(data) {
       axios.put('/api/applycode', { coupon_code: data })
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: ['Code has been applied.'] }));
+          callback(false);
         }, () => {
           const messages = response.data.messages || ['Something went wrong.'];
           dispatch(setMessage({ isError: true, messages }));
