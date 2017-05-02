@@ -93,12 +93,12 @@ function makePlaceOrderRequest(dispatch) {
     });
 }
 
-function makeApplyCreditRequest() {
+function makeToggleCreditRequest(value) {
   return (dispatch) => {
     dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
-    axios.post('/api/checkout/apply-credit', { apply_store_credit: true })
+    axios.post('/api/checkout/apply-credit', { apply_store_credit: value })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setPending(false));
         dispatch(toggleLoader(false));
@@ -153,4 +153,4 @@ function confirmOrder(useCredits = false, fullyCoveredByCredits = false) {
   };
 }
 
-export { checkoutReset, checkoutSquare, confirmOrder, makeApplyCreditRequest };
+export { checkoutReset, checkoutSquare, confirmOrder, makeToggleCreditRequest };
