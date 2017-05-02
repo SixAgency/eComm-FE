@@ -124,7 +124,7 @@ class ManageAddressesForm extends Component {
     addresses.map((value, key) => (
       <div className={cx(s.addresswrapper)} key={key}>
         <div className={cx(s.radiowrapper, s.accountradio)} key={key}>
-          <label htmlFor={value.id} className={s.labelradio}>
+          <label htmlFor={value.id} className={cx(s.labelradio, s.labelselect)}>
             {value.firstname} {value.lastname}<br />
             {value.address1} {value.address2}<br />
             {value.city}, {this.getStateName(value.state_id)}, {value.zipcode}<br />
