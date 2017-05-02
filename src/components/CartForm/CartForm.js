@@ -32,7 +32,9 @@ class CartForm extends Component {
     let total = parseFloat(cart.item_total) + parseFloat(cart.adjustment_total);
     total -= parseFloat(cart.additional_tax_total);
     cart.adjustments.forEach((adj) => {
-      total -= parseFloat(adj.amount);
+      if (adj.label.indexOf('Promotion') !== -1) {
+        total -= parseFloat(adj.amount);
+      }
     });
     return total;
   }
