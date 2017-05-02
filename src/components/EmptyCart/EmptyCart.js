@@ -13,7 +13,8 @@ class EmptyCart extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    breadcrumbs: PropTypes.array
+    breadcrumbs: PropTypes.array,
+    onLogout: PropTypes.func.isRequired
   };
 
   render() {
@@ -22,7 +23,7 @@ class EmptyCart extends React.Component {
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <Subnav
           isLogged={this.props.loggedIn}
-          onLogout={this.onLogout}
+          onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
         />
         <ContentWrapper contentClass={'emptycartwrpr'}>
