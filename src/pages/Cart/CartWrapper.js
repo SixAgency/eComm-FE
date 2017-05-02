@@ -13,7 +13,8 @@ import {
   updateCart,
   updateQuantity,
   applyPromoCode,
-  calculateShipping
+  calculateShipping,
+  getCart
 } from '../../actions/order';
 import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/checkout';
 import { onLogout, onLogin, redeemGiftCard } from '../../actions/user';
@@ -39,13 +40,14 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     onLogin: (data) => dispatch(onLogin(data)),
     resetMessages: () => dispatch(resetMessages()),
-    updateCart: (cart) => dispatch(updateCart(cart)),
+    updateCart: (cart, callback) => dispatch(updateCart(cart, callback)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
     applyPromoCode: (cart) => dispatch(applyPromoCode(cart)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
-    calculateShipping: (data) => dispatch(calculateShipping(data))
+    calculateShipping: (data) => dispatch(calculateShipping(data)),
+    getCart: () => dispatch(getCart(false))
   }
 ));
 
@@ -71,7 +73,8 @@ class CartWrapper extends BasePageComponent {
     checkoutNext: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     route: PropTypes.object,
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    getCart: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -175,7 +178,7 @@ class CartWrapper extends BasePageComponent {
         line_items: items
       }
     };
-    this.props.updateCart(data);
+    this.props.updateCart(data, this.props.getCart);
     this.setState({ showGiftCardForm: false });
   };
 
