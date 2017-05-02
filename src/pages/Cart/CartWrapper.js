@@ -182,8 +182,8 @@ class CartWrapper extends BasePageComponent {
   getShippingMethod = () => {
     const updatedCart = this.props.cartItems.cart;
     if (updatedCart.shipments.length > 0) {
-      return `Ground (${updatedCart.shipments[0].selected_shipping_rate.name}):
-        ${accounting.formatMoney(updatedCart.shipments[0].selected_shipping_rate.cost)}`;
+      return `${updatedCart.shipments[0].shipping_rates[0].name}:
+        ${accounting.formatMoney(updatedCart.shipments[0].shipping_rates[0].cost)}`;
     }
     return 'Shipping costs will be calculate once you have provided your address.';
   };

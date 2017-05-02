@@ -265,7 +265,7 @@ function calculateShipping(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => data)
+    .then((data) => setCartResponse(data))
     .catch((err) => setError(err));
 }
 

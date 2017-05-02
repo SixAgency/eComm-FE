@@ -75,16 +75,16 @@ class CartForm extends Component {
                     />
                   </td>
                 </tr>
-                <tr className={s.csubtotals}>
-                  <th className="table-heads">New York State Tax</th>
+                {cart.tax_total > 0 && <tr className={s.csubtotals}>
+                  <th className="table-heads">Tax</th>
                   <td className={cx(s.totalprice, s.data)}>
                     <strong>
                       <span className="amount">
-                        TBA {/* TODO: add correct value here and check visibility */}
+                        {accounting.formatMoney(cart.tax_total)}
                       </span>
                     </strong>
                   </td>
-                </tr>
+                </tr>}
                 <tr className={s.ordertotal}>
                   <th className="table-heads">Total</th>
                   <td className={cx(s.totalprice, s.data)}>
