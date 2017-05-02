@@ -43,16 +43,6 @@ function setCartPending(pending) {
 }
 
 /**
- * Set Cart Shipments
- */
-function setCartShipments(data) {
-  const shipments = [{
-    selected_shipping_rate: data[0]
-  }];
-  return { type: 'SET_CART_SHIPMENTS', payload: { shipments, cost: parseFloat(data[0].cost) } };
-}
-
-/**
  * Set line items quantity
  * @param data
  * @returns {function(*)}
@@ -291,7 +281,7 @@ function calculateShipping(data) {
     } else {
       axios.post('/api/calculate_shipping', { data })
         .then((response) => checkResponse(response.data, () => {
-          dispatch(setCartShipments(response.data.shipping_rates));
+          dispatch(setCart(response.data));
           dispatch(setCartPending(false));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
