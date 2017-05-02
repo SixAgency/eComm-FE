@@ -49,6 +49,32 @@ class ReviewOrderTbl extends PureComponent {
     return arr.filter((item) => (item.variant.name !== 'E-Gift certificates'));
   };
 
+  getPriceWithoutTax = (item) => {
+    const tax = item.adjustments.find((adj) => (adj.source_type.indexOf('TaxRate') !== -1));
+    if (tax) {
+      return item.total - tax.amount;
+    }
+    return item.total;
+  }
+
+  getBulkDiscount = (item) => {
+    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+    if (discount) {
+      return `(You save ${accounting.formatMoney(-discount.amount)})`;
+    }
+    return '';
+  }
+
+  getItemTotal = () => {
+    const cart = this.props.cart;
+    let total = parseFloat(cart.item_total) + parseFloat(cart.adjustment_total);
+    total -= parseFloat(cart.additional_tax_total);
+    cart.adjustments.forEach((adj) => {
+      total -= parseFloat(adj.amount);
+    });
+    return total;
+  }
+
   render() {
     const {
       cart: {
@@ -62,7 +88,6 @@ class ReviewOrderTbl extends PureComponent {
       },
       cartItems
     } = this.props;
-    const itemTotal = Number(item_total);
     return (
       <div className={s.tablewrpr}>
         <table className={s.table}>
@@ -80,7 +105,10 @@ class ReviewOrderTbl extends PureComponent {
                   <strong className={s.qty}>× {item.quantity}</strong>
                 </td>
                 <td className={cx(s.td, s.tdsmall, s.ptotal)}>
-                  {accounting.formatMoney(this.getPrice(item))}
+                  {accounting.formatMoney(this.getPriceWithoutTax(item))}
+                  <span className={s.save}>
+                    {this.getBulkDiscount(item)}
+                  </span>
                 </td>
               </tr>
               ),
@@ -88,13 +116,24 @@ class ReviewOrderTbl extends PureComponent {
           </tbody>
           <tfoot className={s.infocontainer}>
             <tr>
-              <td className={cx(s.td, s.tdbig, s.psubtotal)}>Item Total</td>
+              <td className={cx(s.td, s.tdbig, s.psubtotal)}>Subtotal</td>
               <td className={cx(s.td, s.tdsmall)}>
                 <span className={s.amount}>
-                  {accounting.formatMoney(itemTotal)}
+                  {accounting.formatMoney(this.getItemTotal())}
                 </span>
               </td>
             </tr>
+            {adjustments.map((adjust, key) => (
+              <tr key={key} >
+                <td className={cx(s.td, s.tdbig, s.pshipping)}>
+                  {adjust.label}
+                </td>
+                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
+                  -{accounting.formatMoney(-adjust.amount)}
+                </td>
+              </tr>
+              )
+            )}
             {shipments.map((ship, index) => (
               <tr key={index}>
                 <td className={cx(s.td, s.tdbig, s.pshipping)}>
@@ -109,22 +148,13 @@ class ReviewOrderTbl extends PureComponent {
               </tr>
               )
             )}
-            {adjustments.map((adjust, key) => (
-              <tr key={key} >
-                <td className={cx(s.td, s.tdbig, s.pshipping)}>
-                  {adjust.label}
-                </td>
-                <td className={cx(s.td, s.tdsmall, s.flatrate)}>
-                  {accounting.formatMoney(adjust.amount)}
-                </td>
-              </tr>
-              )
-            )}
             <tr>
-              <td className={cx(s.td, s.tdbig, s.ptotal2)}>Subtotal</td>
+              <td className={cx(s.td, s.tdbig, s.ptotal2)}>
+                Tax
+              </td>
               <td className={cx(s.td, s.tdsmall)}>
                 <span className={s.amount}>
-                  {accounting.formatMoney(total)}
+                  {accounting.formatMoney(cartItems.cart.tax_total)}
                 </span>
               </td>
             </tr>

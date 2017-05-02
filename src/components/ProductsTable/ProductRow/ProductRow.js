@@ -25,12 +25,21 @@ class ProductRow extends React.Component {
     return variant.price;
   };
 
-  getBulkDiscount = (item) => {
-    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+  getBulkDiscount = () => {
+    const discount = this.props.item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
     if (discount) {
       return -discount.amount;
     }
     return 0;
+  }
+
+  getPriceWithoutTax = () => {
+    const item = this.props.item;
+    const tax = item.adjustments.find((adj) => (adj.source_type.indexOf('TaxRate') !== -1));
+    if (tax) {
+      return item.total - tax.amount;
+    }
+    return item.total;
   }
 
   addQuantity = () => {
@@ -78,7 +87,7 @@ class ProductRow extends React.Component {
       image = productImages[0].small_url;
     }
     const slug = `/product/${item.variant.slug}`;
-    const discount = this.getBulkDiscount(item);
+    const discount = this.getBulkDiscount();
     return (
       <tr className={s.cartitem}>
         <td className={s.productname}>
@@ -117,7 +126,7 @@ class ProductRow extends React.Component {
         </td>
         <td className={s.prodsubtotal}>
           <span className={s.samount}>
-            {accounting.formatMoney(item.total)}
+            {accounting.formatMoney(this.getPriceWithoutTax())}
           </span>
           { discount > 0 &&
             <span className={s.save}>

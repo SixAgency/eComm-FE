@@ -182,15 +182,6 @@ class CartWrapper extends BasePageComponent {
     this.setState({ showGiftCardForm: false });
   };
 
-  getShippingMethod = () => {
-    const updatedCart = this.props.cartItems.cart;
-    if (updatedCart.shipments.length > 0) {
-      return `${updatedCart.shipments[0].shipping_rates[0].name}:
-        ${accounting.formatMoney(updatedCart.shipments[0].shipping_rates[0].cost)}`;
-    }
-    return 'Shipping costs will be calculate once you have provided your address.';
-  };
-
   render() {
     return (
       <Cart
@@ -209,7 +200,6 @@ class CartWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
-        shippingMethod={this.getShippingMethod()}
       />
     );
   }
