@@ -8,8 +8,7 @@ class ProductsTable extends React.Component {
     items: PropTypes.array.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired,
-    hideGiftCardForm: PropTypes.func.isRequired
+    cartItems: PropTypes.object.isRequired
   };
 
   render() {
@@ -49,7 +48,6 @@ class ProductsTable extends React.Component {
                 removeItem={this.props.removeItem}
                 updateQuantity={this.props.updateQuantity}
                 cartItems={this.props.cartItems}
-                hideGiftCardForm={this.props.hideGiftCardForm}
               />
               ),
             )}

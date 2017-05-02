@@ -96,7 +96,6 @@ class BillingWrapper extends React.Component {
         forwardTo={() => (true)}
         onLogout={() => (true)}
         onLogin={() => (true)}
-        applyPromoCode={() => (true)}
       >
         <Billing
           content={content}

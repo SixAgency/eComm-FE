@@ -5,8 +5,6 @@ import Title from '../../components/Text/Title';
 import ProductsTable from '../../components/ProductsTable';
 import PromoCodeInput from '../../components/PromoCodeInput';
 import CartForm from '../../components/CartForm/CartForm';
-import GiftCardInput from '../../components/GiftCardInput';
-import ToggleLink from '../../components/ToggleLink';
 import Subnav from '../../components/Subnav';
 import ContentWrapper from '../../components/ContentWrapper';
 import EmptyCart from '../../components/EmptyCart';
@@ -15,8 +13,6 @@ import ErrorDisplay from '../../components/ErrorDisplay';
 class Cart extends Component {
   static propTypes = {
     onLogout: PropTypes.func.isRequired,
-    showGiftCardForm: PropTypes.bool.isRequired,
-    toggleGiftCardForm: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
@@ -31,7 +27,6 @@ class Cart extends Component {
     toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     calculateShipping: PropTypes.func.isRequired,
-    hideGiftCardForm: PropTypes.func.isRequired,
     shippingMethod: PropTypes.string.isRequired
   };
 
@@ -59,19 +54,6 @@ class Cart extends Component {
           breadcrumbs={this.props.breadcrumbs}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
-        <section>
-          <ToggleLink
-            preText="Do you have a gift card?"
-            linkText="Click here to enter your code"
-            toggleForm={this.props.toggleGiftCardForm}
-          />
-        </section>
-        <section>
-          <GiftCardInput
-            showGiftCardForm={this.props.showGiftCardForm}
-            applyPromoCode={this.props.applyPromoCode}
-          />
-        </section>
         <ContentWrapper wrprClass="cartwrpr" contentClass="contentwrpr">
           <div className={s.cartcontentwrpr}>
             <article className={s.cartbody}>
@@ -85,7 +67,6 @@ class Cart extends Component {
                   removeItem={this.props.removeItem}
                   updateQuantity={this.props.updateQuantity}
                   cartItems={this.props.cartItems}
-                  hideGiftCardForm={this.props.hideGiftCardForm}
                 />
                 <PromoCodeInput
                   updateCart={this.props.updateCart}

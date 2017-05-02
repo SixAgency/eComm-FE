@@ -7,7 +7,7 @@ import s from './GiftCardInput.css';
 class GiftCardInput extends React.Component {
   static propTypes = {
     showGiftCardForm: PropTypes.bool.isRequired,
-    applyPromoCode: PropTypes.func.isRequired
+    redeemGiftCard: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -19,10 +19,10 @@ class GiftCardInput extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.applyPromoCode(this.state.coupon_code);
+    this.props.redeemGiftCard(this.state.coupon_code);
   };
 
-  handlePromoCode = (event) => {
+  handleGiftCard = (event) => {
     this.setState({
       coupon_code: event.target.value
     });
@@ -40,7 +40,7 @@ class GiftCardInput extends React.Component {
               className={s.couponinput}
               placeholder="Gift card code"
               id="giftcard-code"
-              onChange={this.handlePromoCode}
+              onChange={this.handleGiftCard}
             />
             <input
               type="submit"

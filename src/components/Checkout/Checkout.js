@@ -4,7 +4,6 @@ import s from './Checkout.css';
 import Subnav from '../Subnav';
 import ErrorDisplay from '../ErrorDisplay';
 import ToggleLink from '../ToggleLink';
-import GiftCardInput from '../GiftCardInput';
 import LoginInput from '../LoginInput';
 import ContentWrapper from '../ContentWrapper';
 import { CHECKOUT_TABS } from '../../constants/AppConsts';
@@ -22,14 +21,12 @@ class Checkout extends React.Component {
     isError: PropTypes.bool.isRequired,
     forwardTo: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    onLogin: PropTypes.func.isRequired,
-    applyPromoCode: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      showGiftCardForm: false,
       showLoginForm: false
     };
   }
@@ -72,15 +69,6 @@ class Checkout extends React.Component {
   };
 
   /**
-   * Gift cart handler
-   * @param event
-   */
-  toggleGiftCardForm = (event) => {
-    event.preventDefault();
-    this.setState({ showGiftCardForm: !this.state.showGiftCardForm });
-  };
-
-  /**
    * Login cart handler
    * @param event
    */
@@ -96,7 +84,6 @@ class Checkout extends React.Component {
       loggedIn,
       onLogout,
       onLogin,
-      applyPromoCode,
       breadcrumbs,
       messages,
       isError
@@ -120,17 +107,8 @@ class Checkout extends React.Component {
             linkText="Click here to login"
             toggleForm={this.toggleLoginForm}
           />}
-          <ToggleLink
-            preText="Do you have a gift card?"
-            linkText="Click here to enter your code"
-            toggleForm={this.toggleGiftCardForm}
-          />
         </section>
         <section>
-          <GiftCardInput
-            showGiftCardForm={this.state.showGiftCardForm}
-            applyPromoCode={applyPromoCode}
-          />
           {!loggedIn && <LoginInput
             onLogin={onLogin}
             showLoginForm={this.state.showLoginForm}
