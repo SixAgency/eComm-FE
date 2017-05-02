@@ -23,7 +23,6 @@ class CartWrapper extends Component {
 
 
   render() {
-    const showGiftCartForm = false;
     return (
       <Cart
         removeItem={() => (true)}

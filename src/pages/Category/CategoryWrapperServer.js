@@ -8,10 +8,20 @@ class CategoryWrapper extends React.Component {
   };
 
   render() {
+    const isError = false;
+    const cartItems = {
+      cart: {
+        line_items: []
+      }
+    };
     return (
       <Category
         gridItems={this.props.categoryItems}
         addToCart={() => (true)}
+        setMessage={() => (true)}
+        isError={isError}
+        messages={[]}
+        cartItems={cartItems}
       />
     );
   }
