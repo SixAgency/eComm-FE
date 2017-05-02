@@ -14,9 +14,18 @@ class MobileNavigation extends Component {
     navClass: PropTypes.string.isRequired
   }
 
+  componentDidMount = () => {
+    window.addEventListener('resize', () => { this.setHeight(); });
+  }
+
+  setHeight = () => {
+    const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    document.getElementById('mobilenav').style.height = `${vh}px`;
+  }
+
   render() {
     return (
-      <div className={cx(s.mobilenav, s[this.props.menuOpen])}>
+      <div id="mobilenav" className={cx(s.mobilenav, s[this.props.menuOpen])}>
         <Navigation
           activeSlug={this.props.activeSlug}
           navClass={this.props.navClass}
