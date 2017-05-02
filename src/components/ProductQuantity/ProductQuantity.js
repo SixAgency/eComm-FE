@@ -14,21 +14,9 @@ class ProductQuantity extends React.Component {
     updateQuantity: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      quantity: this.props.quantity || 1
-    };
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({ quantity: nextProps.quantity });
-  }
-
   updateQuantity = (e) => {
     const qty = e.target.value <= this.props.maxQuantity ? e.target.value : this.props.maxQuantity;
     this.props.updateQuantity(qty);
-    this.setState({ quantity: qty });
   }
 
   render() {
@@ -49,7 +37,7 @@ class ProductQuantity extends React.Component {
           max={this.props.maxQuantity}
           name="quantity"
           onChange={this.updateQuantity}
-          value={this.state.quantity}
+          value={this.props.quantity}
           title="Qty"
           size="4"
         />

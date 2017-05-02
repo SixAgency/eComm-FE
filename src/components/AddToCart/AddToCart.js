@@ -119,8 +119,8 @@ class CartCta extends Component {
       :
       [
         `You may only purchase a maximum
-         ${this.props.product.product.max_quantity_allowed_in_cart}
-         ${this.props.product.product.name} at one time`
+         ${product.max_quantity_allowed_in_cart}
+         ${product.name} at one time`
       ];
       this.props.setMessage({
         isError: true,
