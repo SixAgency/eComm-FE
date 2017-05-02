@@ -148,3 +148,20 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .variants {
+    .giftcardform {
+      .giftcardform_details {
+        button {
+          &.giftcardform_details_addtocart {
+            margin-right: 0;
+          }
+          &:last-of-type {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}
