@@ -72,6 +72,10 @@ class CartCta extends Component {
     return null;
   };
 
+  updateQuantity = (value) => {
+    this.setState({ quantity: parseInt(value) });
+  }
+
   subQuantity = () => {
     let value = this.state.quantity;
     if (value >= 2) {
@@ -115,8 +119,8 @@ class CartCta extends Component {
       :
       [
         `You may only purchase a maximum
-         ${this.props.product.max_quantity_allowed_in_cart}
-         ${this.props.product.name} at one time`
+         ${this.props.product.product.max_quantity_allowed_in_cart}
+         ${this.props.product.product.name} at one time`
       ];
       this.props.setMessage({
         isError: true,
@@ -144,6 +148,8 @@ class CartCta extends Component {
                 quantity={this.state.quantity}
                 addQuantity={this.addQuantity}
                 subQuantity={this.subQuantity}
+                maxQuantity={product.max_quantity_allowed_in_cart}
+                updateQuantity={this.updateQuantity}
               />,
               <button type="submit" className={s.addtocart} key="button1">Add to cart</button>
             ]

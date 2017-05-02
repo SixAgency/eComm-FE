@@ -9,8 +9,27 @@ class ProductQuantity extends React.Component {
     sizingClass: PropTypes.string,
     addQuantity: PropTypes.func.isRequired,
     subQuantity: PropTypes.func.isRequired,
-    quantity: PropTypes.number.isRequired
+    quantity: PropTypes.number.isRequired,
+    maxQuantity: PropTypes.number.isRequired,
+    updateQuantity: PropTypes.func.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      quantity: this.props.quantity || 1
+    };
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({ quantity: nextProps.quantity });
+  }
+
+  updateQuantity = (e) => {
+    const qty = e.target.value <= this.props.maxQuantity ? e.target.value : this.props.maxQuantity;
+    this.props.updateQuantity(qty);
+    this.setState({ quantity: qty });
+  }
 
   render() {
     return (
@@ -27,10 +46,10 @@ class ProductQuantity extends React.Component {
           type="number"
           step="1"
           min="1"
-          max="99"
+          max={this.props.maxQuantity}
           name="quantity"
-          value={this.props.quantity}
-          onChange={() => {}}
+          onChange={this.updateQuantity}
+          value={this.state.quantity}
           title="Qty"
           size="4"
         />
