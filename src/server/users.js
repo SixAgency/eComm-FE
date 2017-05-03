@@ -20,16 +20,9 @@ const LOGOUT = '/logout';
 const REGISTER = '/signup';
 const PROFILE = '/api/v1/users';
 
-// Login
-function userLogin(request) {
+/* Do login (helper) */
+function doLogin(request, user, callback) {
   let status;
-  const user = {
-    spree_user: {
-      email: request.body.email,
-      password: request.body.password,
-      remember_me: request.body.remember || 0
-    }
-  };
   if (!request.session.user_token) {
     user.guest_token = request.session.guest_token;
   }
@@ -43,8 +36,26 @@ function userLogin(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => setAuthResponse(data, request))
+    .then((data) => {
+      if (callback) {
+        setAuthResponse(data, request);
+        return callback();
+      }
+      return setAuthResponse(data, request);
+    })
     .catch((err) => setError(err));
+}
+
+// Login
+function userLogin(request) {
+  const user = {
+    spree_user: {
+      email: request.body.email,
+      password: request.body.password,
+      remember_me: request.body.remember || 0
+    }
+  };
+  return doLogin(request, user);
 }
 
 // Registration
@@ -177,7 +188,16 @@ function setNewPassword(request) {
       return resp.json();
     })
     .then((json) => (checkResponse(json, status)))
-    .then((resp) => (parseNewPasswordResponse(resp)))
+    .then((resp) => {
+      const user = {
+        spree_user: {
+          email: resp.user.email,
+          password: data.spree_user.password,
+          remember_me: 0
+        }
+      };
+      return doLogin(request, user, () => parseNewPasswordResponse(resp));
+    })
     .catch((err) => setError(err));
 }
 

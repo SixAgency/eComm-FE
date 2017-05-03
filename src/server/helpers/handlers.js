@@ -114,7 +114,7 @@ function setAddressResponse(data) {
   return resp;
 }
 
-// Modidify login/register response
+// Modify login/register response
 function setAuthResponse(data, request) {
   let resp;
   if (!data.isError && data.user) {
