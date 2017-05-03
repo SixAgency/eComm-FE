@@ -75,7 +75,7 @@ function deleteAddr(id, type) {
  * Get user billing & shipping address
  * @returns {function(*=)}
  */
-function getAddress() {
+function getAddress(callback) {
   return (dispatch) => {
     dispatch({ type: 'SET_ADDRESS_FETCHING', payload: true });
     axios.get('/api/addresses')
@@ -85,6 +85,9 @@ function getAddress() {
           response.data.shipping,
           response.data.addresses,
         ));
+        if (callback) {
+          callback();
+        }
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))

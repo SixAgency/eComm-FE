@@ -260,6 +260,22 @@ function validateReview(data) {
   return resp;
 }
 
+function validateRegisterCheckout(data) {
+  const validAuth = validateAuth(data);
+  if (validAuth.isError) {
+    return validAuth;
+  }
+  const validAddress = validateMandatoryFieldsAddress(data);
+  if (validAddress.isError) {
+    return validAddress;
+  }
+  const resp = {
+    isError: false,
+    messages: []
+  };
+  return resp;
+}
+
 export {
   validateAuth,
   validateProduct,
@@ -273,5 +289,6 @@ export {
   validateShippingCalculator,
   validatePromoCode,
   validatePasswordEmail,
-  validateReview
+  validateReview,
+  validateRegisterCheckout
 };

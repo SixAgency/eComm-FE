@@ -123,7 +123,7 @@ function onLogin(data) {
  * @param data
  * @returns {function(*=)}
  */
-function onRegister(data) {
+function onRegister(data, checkout, callback) {
   return (dispatch) => {
     const valid = validateAuth(data);
     if (valid.isError) {
@@ -135,15 +135,19 @@ function onRegister(data) {
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
+          // Set billing and shipping addresses
           const addresses = {
             isLoaded: false,
             isEmpty: true,
             addresses: []
           };
-          // Set billing and shipping addresses
           dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
-          // Redirect to dashboard
-          forwardTo('my-account/dashboard');
+          if (!checkout) {
+            // Redirect to dashboard
+            forwardTo('my-account/dashboard');
+          } else {
+            callback();
+          }
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))

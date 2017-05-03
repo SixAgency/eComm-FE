@@ -11,6 +11,7 @@ class Form extends React.Component {
     formTitle: PropTypes.string,
     formSubtitle: PropTypes.string,
     buttonText: PropTypes.string,
+    buttonDisabled: PropTypes.bool,
     onCancel: PropTypes.func,
     showCancel: PropTypes.bool
   };
@@ -29,6 +30,7 @@ class Form extends React.Component {
       onSubmit,
       onCancel,
       buttonText,
+      buttonDisabled,
       showCancel
     } = this.props;
 
@@ -43,6 +45,7 @@ class Form extends React.Component {
               className={s.submit}
               type="submit"
               value={buttonText}
+              disabled={buttonDisabled}
             />
             { showCancel && <input
               className={cx(s.submit, s.cancel)}

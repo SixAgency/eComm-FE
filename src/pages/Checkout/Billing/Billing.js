@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import cx from 'classnames';
+import { testPasswordStrength } from '../../../helpers/validators';
 import s from './Billing.css';
 
 // Constants
@@ -19,6 +21,7 @@ class Billing extends React.Component {
   static propTypes = {
     content: PropTypes.string.isRequired,
     toggleContent: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
     emailAddress: PropTypes.string.isRequired,
     selectedAddress: PropTypes.number.isRequired,
     addresses: PropTypes.array.isRequired,
@@ -56,9 +59,38 @@ class Billing extends React.Component {
       city,
       state,
       country: 232,
-      zipcode
+      zipcode,
+      register: false,
+      password: '',
+      passwordValid: true
     };
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      zipcode
+    } = nextProps.address;
+    this.setState({
+      firstname,
+      lastname,
+      company,
+      phone,
+      address1,
+      address2,
+      city,
+      state,
+      country: 232,
+      zipcode
+    });
+  };
 
   /**
    * Form submit handler
@@ -90,31 +122,21 @@ class Billing extends React.Component {
     });
   };
 
-  componentWillReceiveProps = (nextProps) => {
-    const {
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      zipcode
-    } = nextProps.address;
+  onRegisterCheck = () => {
+    if (!this.state.register) {
+      this.setState({ password: '', passwordValid: false });
+    } else {
+      this.setState({ passwordValid: true });
+    }
+    this.setState({ register: !this.state.register });
+  }
+
+  onPasswordChange = (key, value) => {
     this.setState({
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      country: 232,
-      zipcode
+      password: value,
+      passwordValid: !testPasswordStrength(value).isError
     });
-  };
+  }
 
   render() {
     const {
@@ -129,11 +151,20 @@ class Billing extends React.Component {
       toggleContent,
       showCancel
     } = this.props;
+    const passField = {
+      name: 'password',
+      label: 'Account Password *',
+      className: '',
+      isInput: true,
+      type: 'password',
+      placeholder: 'Password'
+    };
     return (
       <Form
         formTitle={formTitle}
         formSubtitle={formSubtitle}
         buttonText={buttonText}
+        buttonDisabled={!this.state.passwordValid}
         onSubmit={this.onSubmit}
         showCancel={showCancel}
         onCancel={toggleContent}
@@ -160,6 +191,31 @@ class Billing extends React.Component {
                 options={STATES}
               />
             ))}
+            {!this.props.loggedIn &&
+              <div className={s.register}>
+                <input
+                  id="register" name="register" type="checkbox"
+                  onChange={this.onRegisterCheck} checked={this.state.register}
+                />
+                <label htmlFor="register">Create an account?</label>
+              </div>
+            }
+            <div className={cx(s.registerform, this.state.register ? '' : s.hidden)}>
+              <div className={s.info}>
+                Create an account by entering the information below. If you are a returning
+                customer please login at the top of the page.
+              </div>
+              <FormFields
+                elem={passField}
+                value={this.state.password}
+                onChange={this.onPasswordChange}
+              />
+              {this.state.password.length > 0 && !this.state.passwordValid &&
+                <div className={s.error}>
+                  Your password needs to be at least 8 characters long.
+                </div>
+              }
+            </div>
           </div>
         </div>
       </Form>
