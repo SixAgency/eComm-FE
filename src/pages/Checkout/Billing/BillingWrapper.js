@@ -8,11 +8,12 @@ import Billing from './Billing';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
 import { onLogin, onLogout } from '../../../actions/user';
-import { setCheckoutAddress, editOrderAddress } from '../../../actions/checkout';
+import { setCheckoutAddress, editOrderAddress, checkoutNext, registerAndSetAddress } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
 import { mapStateToFeed, mapFeedToState } from '../../../helpers/address';
+import { validateRegisterCheckout } from '../../../helpers/validators';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -20,6 +21,8 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
+    checkoutNext: (fn) => dispatch(checkoutNext(fn)),
+    onRegister: (data) => dispatch(registerAndSetAddress(data)),
     resetMessages: () => dispatch(resetMessages()),
     onSubmit: (data) => dispatch(setCheckoutAddress(data)),
     editOrderAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
@@ -50,12 +53,14 @@ class BillingWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    onRegister: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     cartItems: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
     getAddress: PropTypes.func.isRequired,
+    checkoutNext: PropTypes.func.isRequired,
     isAddressesFetching: PropTypes.bool.isRequired,
     route: PropTypes.object.isRequired,
     isCartPending: PropTypes.bool.isRequired,
@@ -165,7 +170,12 @@ class BillingWrapper extends BasePageComponent {
         address: mapStateToFeed(address),
         id: cartItems.cart.bill_address.id
       }, () => { this.props.setPending(false); forwardTo(expectedState); });
+    } else if (fields.register) {
+      const checkoutAddressFields = { address: mapStateToFeed(address), email: fields.email };
+      const registrationFields = { email: fields.email, password: fields.password };
+      this.props.onRegister({ registrationFields, checkoutAddressFields });
     } else {
+      console.log('NO REGISTER');
       onSubmit({
         address: mapStateToFeed(address),
         email: fields.email
@@ -273,6 +283,7 @@ class BillingWrapper extends BasePageComponent {
         >
           <Billing
             content={this.state.content}
+            loggedIn={this.props.loggedIn}
             emailAddress={emailAddress}
             addresses={this.props.addresses.addresses}
             address={address}
@@ -280,6 +291,7 @@ class BillingWrapper extends BasePageComponent {
             onSubmit={this.onSubmit}
             toggleContent={this.toggleContent}
             showCancel={showCancel}
+            onRegister={this.onRegister}
           />
         </Checkout>
       );

@@ -4,8 +4,7 @@ function validateAuth(data) {
   const messages = [];
   if (!data.email) {
     messages.push('Email Address is required');
-  }
-  if (!isValidEmail.test(data.email)) {
+  } else if (!isValidEmail.test(data.email)) {
     messages.push('You must enter a valid email address');
   }
   if (!data.password) {
@@ -260,6 +259,49 @@ function validateReview(data) {
   return resp;
 }
 
+function validateRegisterCheckout(data) {
+  const messages = [];
+  const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
+  const address = data.address;
+  if (!address.firstname) {
+    messages.push('First Name is a required field.');
+  }
+  if (!address.lastname) {
+    messages.push('Last Name is a required field.');
+  }
+  if (!data.email) {
+    messages.push('Email is a required field.');
+  } else if (!isValidEmail.test(data.email)) {
+    messages.push('You must enter a valid email address.');
+  }
+  if (!address.phone) {
+    messages.push('Phone is a required field.');
+  } else if (!validPhone(address.phone)) {
+    messages.push('Please enter a valid phone number.');
+  }
+  if (!address.address1) {
+    messages.push('Address is a required field.');
+  }
+  if (!address.city) {
+    messages.push('City is a required field.');
+  }
+  if (address.state_id === 0) {
+    messages.push('State is a required field.');
+  }
+  if (!address.zipcode) {
+    messages.push('ZIP is a required field.');
+  } else if (address.zipcode.length < 5) {
+    messages.push('Please enter a valid postcode/ZIP.');
+  } else if (isNaN(Number(address.zipcode))) {
+    messages.push('Please enter a valid postcode/ZIP.');
+  }
+  const resp = {
+    isError: (messages.length > 0),
+    messages
+  };
+  return resp;
+}
+
 export {
   validateAuth,
   validateProduct,
@@ -273,5 +315,6 @@ export {
   validateShippingCalculator,
   validatePromoCode,
   validatePasswordEmail,
-  validateReview
+  validateReview,
+  validateRegisterCheckout
 };

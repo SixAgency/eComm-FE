@@ -90,7 +90,7 @@ function resetOrders() {
  * Get the user cart
  * @returns {function(*=)}
  */
-function getCart(isNew) {
+function getCart(isNew, fn) {
   return (dispatch) => {
     dispatch(setCartPending(true));
     axios.get(`/api/cart/${isNew}`)
@@ -102,6 +102,9 @@ function getCart(isNew) {
         const isPayPal = checkIfPayPal(response.data.cart);
         dispatch(setPayment(isPayPal));
         dispatch(setCartPending(false));
+        if (fn) {
+          fn();
+        }
       }, () => {
         dispatch(setCartPending(false));
         dispatch(setMessage({ isError: true, messages: response.data.messages }));

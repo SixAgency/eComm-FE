@@ -135,12 +135,12 @@ function onRegister(data) {
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
+          // Set billing and shipping addresses
           const addresses = {
             isLoaded: false,
             isEmpty: true,
             addresses: []
           };
-          // Set billing and shipping addresses
           dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
           // Redirect to dashboard
           forwardTo('my-account/dashboard');
@@ -337,5 +337,6 @@ export {
   setNewPassword,
   redeemGiftCard,
   getStoreCredit,
-  applyStoreCredit
+  applyStoreCredit,
+  setUser
 };

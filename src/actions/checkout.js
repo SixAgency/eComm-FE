@@ -2,8 +2,10 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setCart, setOrder, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
+import { setUser } from './user';
+import { setAddresses } from './address';
 import { setCheckoutAddressFeed, setCheckoutAddressesFeed } from '../helpers/feed';
-import { validateMandatoryFieldsAddress } from '../helpers/validators';
+import { validateRegisterCheckout, validateMandatoryFieldsAddress } from '../helpers/validators';
 
 function setPayPal(data) {
   return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } };
@@ -68,7 +70,7 @@ function getPayPalToken() {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
       .catch((err) => {
-        dispatch(setPayPal({ isLoaded: true, isEmpty: true, tokens: {}}));
+        dispatch(setPayPal({ isLoaded: true, isEmpty: true, tokens: {} }));
         console.error('Error: ', err); // eslint-disable-line no-console
       });
   };
@@ -213,6 +215,48 @@ function editOrderAddress(data, callback) {
   };
 }
 
+function registerAndSetAddress(data) {
+  return (dispatch) => {
+    const valid = validateRegisterCheckout(data.checkoutAddressFields);
+    let registerError = false;
+    if (valid.isError) {
+      window.scrollTo(0, 0);
+      dispatch(setMessage({ isError: true, messages: valid.messages }));
+    } else {
+      dispatch(setPending(true));
+      axios.post('/api/register', data.registrationFields)
+        .then((response) => checkResponse(response.data, () => {
+          // Set the user
+          dispatch(setUser(response.data.user));
+          // Set billing and shipping addresses
+          const addresses = {
+            isLoaded: false,
+            isEmpty: true,
+            addresses: []
+          };
+          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
+          return response;
+        }, () => {
+          registerError = true;
+          window.scrollTo(0, 0);
+          dispatch(setPending(false));
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .then(() => {
+          if (!registerError) {
+            dispatch(getCart(false, () => {
+              dispatch(setCheckoutAddress(data.checkoutAddressFields));
+            }));
+          }
+        })
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
+        });
+    }
+  };
+}
+
 export {
   getPayPalToken,
   checkoutPayPal,
@@ -223,5 +267,6 @@ export {
   completePayPal,
   setPayment,
   setCheckoutAddress,
-  editOrderAddress
+  editOrderAddress,
+  registerAndSetAddress
 };

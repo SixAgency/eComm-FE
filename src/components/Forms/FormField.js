@@ -24,13 +24,14 @@ class FormField extends React.Component {
         </label>}
         {elem.isInput && <input
           id={elem.name}
-          type={elem.type}
+          type={elem.type === 'password' ? 'text' : elem.type}
           name={elem.name}
           value={value}
           className={s.input}
           disabled={elem.disabled}
           placeholder={elem.placeholder}
           onChange={(event) => onChange(elem.name, event.target.value)}
+          onFocus={elem.type === 'password' ? (e) => { e.target.type = 'password'; } : ''}
         />}
         {elem.isSelect && <select
           name={elem.name}
