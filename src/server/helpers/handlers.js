@@ -427,7 +427,8 @@ function setProductResponse(data) {
 function removeUnavailableProducts(data) {
   const today = moment().utc().startOf('day');
   const products = data.products.filter((prod) => (
-    prod.available_on && today.diff(moment(prod.available_on)) >= 0
+    prod.available_on && today.diff(moment(prod.available_on)) >= 0 &&
+    prod.max_quantity_allowed_in_cart > 0
   ));
   return { products };
 }

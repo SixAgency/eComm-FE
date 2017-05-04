@@ -85,15 +85,7 @@ class ProductGridItem extends Component {
   };
 
   handleViewProduct = (product) => {
-    if (product.classifications.length === 0 && product.price === '0.0') {
-      this.props.setMessage({
-        isError: true,
-        messages: ["We're sorry but the product is not available at the moment."]
-      });
-      window.scrollTo(0, 0);
-    } else {
-      browserHistory.push(`/product/${product.slug}`);
-    }
+    browserHistory.push(`/product/${product.slug}`);
   }
 
   render() {
