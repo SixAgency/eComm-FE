@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage } from './page';
+import { setMessage, resetMessages } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { resetAddresses, setAddresses } from './address';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
@@ -86,7 +86,7 @@ function onLogout() {
  * @param data
  * @returns {function(*=)}
  */
-function onLogin(data) {
+function onLogin(data, checkout) {
   return (dispatch) => {
     const valid = validateAuth(data);
     if (valid.isError) {
@@ -98,15 +98,11 @@ function onLogin(data) {
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
-          const addresses = {
-            isLoaded: false,
-            isEmpty: true,
-            addresses: []
-          };
-          // Set billing and shipping addresses
-          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
+          dispatch(resetAddresses());
           // Redirect to dashboard
-          forwardTo('my-account/dashboard');
+          if (!checkout) {
+            forwardTo('my-account/dashboard');
+          }
         }, () => {
           dispatch(setMessage({ isError: true, messages: ['ERROR: Incorrect username or password.'] }));
         }))

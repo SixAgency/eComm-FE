@@ -16,7 +16,7 @@ const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    onLogin: (data) => dispatch(onLogin(data)),
+    onLogin: (data, checkout) => dispatch(onLogin(data, checkout)),
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
@@ -108,6 +108,12 @@ class PromoWrapper extends BasePageComponent {
     forwardTo('checkout/review');
   };
 
+  onLogin = (data) => {
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
+    this.props.onLogin(data, true);
+  }
+
   render() {
     if (this.props.cartItems.isLoaded) {
       return (
@@ -121,7 +127,8 @@ class PromoWrapper extends BasePageComponent {
           isError={this.props.isError}
           forwardTo={forwardTo}
           onLogout={this.props.onLogout}
-          onLogin={this.props.onLogin}
+          onLogin={this.onLogin}
+          applyPromoCode={this.props.applyPromoCode}
         >
           <Promo
             applyPromoCode={this.props.applyPromoCode}
