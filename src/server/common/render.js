@@ -30,7 +30,7 @@ function render(req, resp, next, params) {
 
     const data = { ...params };
     // Cart will be loaded async
-    const cart = { isLoaded: false, isEmpty: true, cart: {} };
+    const cart = params.cartItems || { isLoaded: false, isEmpty: true, cart: {} };
     const headerProps = {
       headerClass: data.header,
       activeSlug: data.active
@@ -46,6 +46,7 @@ function render(req, resp, next, params) {
       assets.vendor.js,
       assets.client.js
     ];
+    data.st = params.st;
     if (assets[params.chunk]) {
       data.scripts.push(assets[params.chunk].js);
     }

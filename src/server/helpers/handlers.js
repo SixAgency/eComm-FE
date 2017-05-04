@@ -359,7 +359,11 @@ function setCartResponse(data) {
     };
   } else {
     const isEmpty = data.total_quantity < 1;
-    resp = { isEmpty, cart: data };
+    resp = {
+      isEmpty,
+      isLoaded: true,
+      cart: data
+    };
   }
   return resp;
 }
@@ -447,6 +451,7 @@ function setProductsResponse(data) {
     resp = {
       isError: false,
       isEmpty: data.products.length === 0,
+      isLoaded: true,
       products: data.products
     };
   }

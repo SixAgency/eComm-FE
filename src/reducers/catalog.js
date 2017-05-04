@@ -1,21 +1,21 @@
 export default function reducer(state = {
   gridItems: {
     isLoaded: false,
-    products: [],
+    products: []
   },
   mannequinHeads: {
     isLoaded: false,
-    products: [],
+    products: []
   },
   product: {
     isLoaded: false,
-    product: {},
+    product: {}
   },
   categoryItems: {
     isLoaded: false,
     slug: '',
-    products: [],
-  },
+    products: []
+  }
 }, action) {
   switch (action.type) {
     case 'SET_PRODUCTS': {

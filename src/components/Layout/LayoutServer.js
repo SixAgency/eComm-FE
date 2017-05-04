@@ -19,7 +19,7 @@ class Layout extends React.Component {
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;
     const showLoader = true;
-    const showModal = true;
+    const showModal = false;
     const modalContent = '';
     return (
       <LayoutContent
@@ -32,7 +32,7 @@ class Layout extends React.Component {
         showModal={showModal}
         modalContent={modalContent}
         showLoader={showLoader}
-        layoutStyles={{ opacity: 0 }}
+        layoutStyles={{ opacity: 1 }}
         menuOpen={''}
       >{this.props.children}</LayoutContent>
     );

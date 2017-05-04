@@ -21,6 +21,7 @@ class HomeWrapper extends React.Component {
         messages={messages}
         isError={isError}
         cartItems={[]}
+        isCartPending={isError}
       />
     );
   }
