@@ -25,14 +25,14 @@ class CartCta extends Component {
     };
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.product.isLoaded) {
-      this.setState({
-        quantity: 1,
-        variant_id: null
-      });
-    }
-  };
+  // componentWillReceiveProps = (nextProps) => {
+  //   if (nextProps.product.isLoaded) {
+  //     this.setState({
+  //       quantity: 1,
+  //       variant_id: null
+  //     });
+  //   }
+  // };
 
   setVariant = (variant) => {
     this.setState({
@@ -73,7 +73,7 @@ class CartCta extends Component {
   };
 
   updateQuantity = (value) => {
-    this.setState({ quantity: parseInt(value) });
+    this.setState({ quantity: parseInt(value, 10) });
   }
 
   subQuantity = () => {

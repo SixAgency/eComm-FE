@@ -5,14 +5,14 @@ import s from './MultiVariant.css';
 class MultiVariant extends React.Component {
   static propTypes = {
     variants: PropTypes.array.isRequired,
-    action: PropTypes.func.isRequired,
+    action: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
       variantOne: this.props.variants[0].option_values[0].id,
-      variantTwo: this.props.variants[0].option_values[1].id,
+      variantTwo: this.props.variants[0].option_values[1].id
     };
   }
 
@@ -22,6 +22,13 @@ class MultiVariant extends React.Component {
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
   };
+
+  componentDidMount = () => {
+    const idOne = this.props.variants[0].option_values[0].id;
+    const idTwo = this.props.variants[0].option_values[1].id;
+    const variant = this.getVariant(idOne, idTwo);
+    this.props.action(variant);
+  }
 
   getVariant = (idOne, idTwo) => {
     const item = this.props.variants.find((variant) => (
@@ -35,7 +42,7 @@ class MultiVariant extends React.Component {
     const idOne = parseInt(event.target.value, 10);
     const idTwo = this.state.variantTwo;
     this.setState({
-      variantOne: idOne,
+      variantOne: idOne
     });
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
@@ -45,7 +52,7 @@ class MultiVariant extends React.Component {
     const idOne = this.state.variantOne;
     const idTwo = parseInt(event.target.value, 10);
     this.setState({
-      variantTwo: idTwo,
+      variantTwo: idTwo
     });
     const variant = this.getVariant(idOne, idTwo);
     this.props.action(variant);
@@ -66,7 +73,7 @@ class MultiVariant extends React.Component {
     });
     return {
       one: arrayOne,
-      two: arrayTwo,
+      two: arrayTwo
     };
   };
 

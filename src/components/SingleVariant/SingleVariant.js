@@ -23,6 +23,11 @@ class SingleVariant extends Component {
     this.props.action(variant);
   };
 
+  componentDidMount = () => {
+    const variant = this.props.variants[0].id;
+    this.props.action(variant);
+  }
+
   handleChange = (event) => {
     const variant = parseInt(event.target.value, 10);
     this.setState({ selectedVariant: variant });
