@@ -78,18 +78,20 @@ class Billing extends React.Component {
       state,
       zipcode
     } = nextProps.address;
-    this.setState({
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      country: 232,
-      zipcode
-    });
+    if (firstname && lastname && phone && address1 && city && state && zipcode) {
+      this.setState({
+        firstname,
+        lastname,
+        company,
+        phone,
+        address1,
+        address2,
+        city,
+        state,
+        country: 232,
+        zipcode
+      });
+    }
   };
 
   /**
@@ -192,30 +194,32 @@ class Billing extends React.Component {
               />
             ))}
             {!this.props.loggedIn &&
-              <div className={s.register}>
-                <input
-                  id="register" name="register" type="checkbox"
-                  onChange={this.onRegisterCheck} checked={this.state.register}
-                />
-                <label htmlFor="register">Create an account?</label>
+              <div>
+                <div className={s.register}>
+                  <input
+                    id="register" name="register" type="checkbox"
+                    onChange={this.onRegisterCheck} checked={this.state.register}
+                  />
+                  <label htmlFor="register">Create an account?</label>
+                </div>
+                <div className={cx(s.registerform, this.state.register ? '' : s.hidden)}>
+                  <div className={s.info}>
+                    Create an account by entering the information below. If you are a returning
+                    customer please login at the top of the page.
+                  </div>
+                  <FormFields
+                    elem={passField}
+                    value={this.state.password}
+                    onChange={this.onPasswordChange}
+                  />
+                  {this.state.password.length > 0 && !this.state.passwordValid &&
+                    <div className={s.error}>
+                      Your password needs to be at least 8 characters long.
+                    </div>
+                  }
+                </div>
               </div>
             }
-            <div className={cx(s.registerform, this.state.register ? '' : s.hidden)}>
-              <div className={s.info}>
-                Create an account by entering the information below. If you are a returning
-                customer please login at the top of the page.
-              </div>
-              <FormFields
-                elem={passField}
-                value={this.state.password}
-                onChange={this.onPasswordChange}
-              />
-              {this.state.password.length > 0 && !this.state.passwordValid &&
-                <div className={s.error}>
-                  Your password needs to be at least 8 characters long.
-                </div>
-              }
-            </div>
           </div>
         </div>
       </Form>

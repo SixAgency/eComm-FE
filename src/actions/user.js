@@ -123,7 +123,7 @@ function onLogin(data) {
  * @param data
  * @returns {function(*=)}
  */
-function onRegister(data, checkout, callback) {
+function onRegister(data) {
   return (dispatch) => {
     const valid = validateAuth(data);
     if (valid.isError) {
@@ -142,12 +142,8 @@ function onRegister(data, checkout, callback) {
             addresses: []
           };
           dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
-          if (!checkout) {
-            // Redirect to dashboard
-            forwardTo('my-account/dashboard');
-          } else {
-            callback();
-          }
+          // Redirect to dashboard
+          forwardTo('my-account/dashboard');
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))
@@ -341,5 +337,6 @@ export {
   setNewPassword,
   redeemGiftCard,
   getStoreCredit,
-  applyStoreCredit
+  applyStoreCredit,
+  setUser
 };

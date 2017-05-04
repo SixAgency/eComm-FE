@@ -7,12 +7,13 @@ import Billing from './Billing';
 
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
-import { onLogin, onLogout, onRegister, getProfile } from '../../../actions/user';
-import { setCheckoutAddress, editOrderAddress, checkoutNext } from '../../../actions/checkout';
+import { onLogin, onLogout } from '../../../actions/user';
+import { setCheckoutAddress, editOrderAddress, checkoutNext, registerAndSetAddress } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
 import { mapStateToFeed, mapFeedToState } from '../../../helpers/address';
+import { validateRegisterCheckout } from '../../../helpers/validators';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -21,11 +22,11 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onLogout: () => dispatch(onLogout()),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
-    onRegister: (data, checkout, callback) => dispatch(onRegister(data, checkout, callback)),
+    onRegister: (data) => dispatch(registerAndSetAddress(data)),
     resetMessages: () => dispatch(resetMessages()),
     onSubmit: (data) => dispatch(setCheckoutAddress(data)),
     editOrderAddress: (data, fn) => dispatch(editOrderAddress(data, fn)),
-    getAddress: (callback) => dispatch(getAddress(callback)),
+    getAddress: () => dispatch(getAddress()),
     setPending: (toggle) => dispatch(setPending(toggle))
   }
 ));
@@ -170,13 +171,11 @@ class BillingWrapper extends BasePageComponent {
         id: cartItems.cart.bill_address.id
       }, () => { this.props.setPending(false); forwardTo(expectedState); });
     } else if (fields.register) {
-      this.props.onRegister(fields, true, () => {
-        console.log('FUCK KRISSORBIE');
-        this.props.getAddress(() => {
-          onSubmit({ address: mapStateToFeed(address), email: fields.email });
-        });
-      });
+      const checkoutAddressFields = { address: mapStateToFeed(address), email: fields.email };
+      const registrationFields = { email: fields.email, password: fields.password };
+      this.props.onRegister({ registrationFields, checkoutAddressFields });
     } else {
+      console.log('NO REGISTER');
       onSubmit({
         address: mapStateToFeed(address),
         email: fields.email
