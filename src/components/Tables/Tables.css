@@ -73,6 +73,15 @@
   padding: 0 14px 65px;
 }
 
+.ptotal {
+  padding-right: 0 !important;
+  .save {
+    color: #29cbc8;
+    font-weight: bold;
+    margin-left: 5px;
+  }
+}
+
 .psubtotal, .pshipping, .ptotal, .ptotal2 {
   font-size: 17px;
   line-height: 16px;

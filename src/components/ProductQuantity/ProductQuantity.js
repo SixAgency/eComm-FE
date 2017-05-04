@@ -9,8 +9,15 @@ class ProductQuantity extends React.Component {
     sizingClass: PropTypes.string,
     addQuantity: PropTypes.func.isRequired,
     subQuantity: PropTypes.func.isRequired,
-    quantity: PropTypes.number.isRequired
+    quantity: PropTypes.number.isRequired,
+    maxQuantity: PropTypes.number.isRequired,
+    updateQuantity: PropTypes.func.isRequired
   };
+
+  updateQuantity = (e) => {
+    const qty = e.target.value <= this.props.maxQuantity ? e.target.value : this.props.maxQuantity;
+    this.props.updateQuantity(qty);
+  }
 
   render() {
     return (
@@ -27,10 +34,10 @@ class ProductQuantity extends React.Component {
           type="number"
           step="1"
           min="1"
-          max="99"
+          max={this.props.maxQuantity}
           name="quantity"
+          onChange={this.updateQuantity}
           value={this.props.quantity}
-          onChange={() => {}}
           title="Qty"
           size="4"
         />

@@ -16,8 +16,7 @@ class CartForm extends Component {
     checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    calculateShipping: PropTypes.func.isRequired,
-    shippingMethod: PropTypes.string.isRequired
+    calculateShipping: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -26,6 +25,18 @@ class CartForm extends Component {
       showCalculator: false,
       className: 'hide'
     };
+  }
+
+  getItemTotal = () => {
+    const cart = this.props.cart;
+    let total = parseFloat(cart.item_total) + parseFloat(cart.adjustment_total);
+    total -= parseFloat(cart.additional_tax_total);
+    cart.adjustments.forEach((adj) => {
+      if (adj.label.indexOf('Promotion') !== -1) {
+        total -= parseFloat(adj.amount);
+      }
+    });
+    return total;
   }
 
   render() {
@@ -48,11 +59,17 @@ class CartForm extends Component {
                 <tr className={s.csubtotals}>
                   <th className="table-heads">Subtotal</th>
                   <td className={cx(s.ammout, s.data)}>
-                    {accounting.formatMoney(
-                      parseFloat(cart.item_total) + parseFloat(cart.adjustment_total)
-                    )}
+                    {accounting.formatMoney(this.getItemTotal())}
                   </td>
                 </tr>
+                {cart.adjustments.map((adjust, key) => (
+                  <tr key={key} className={s.csubtotals}>
+                    <th className="table-heads">{adjust.label}</th>
+                    <td className={cx(s.ammout, s.data)}>
+                      -{accounting.formatMoney(-adjust.amount)}
+                    </td>
+                  </tr>
+                ))}
                 <tr className={s.csubtotals}>
                   <th className="table-heads" />
                   <td className={cx(s.ammout, s.data)}>
@@ -62,12 +79,22 @@ class CartForm extends Component {
                     </small>
                   </td>
                 </tr>
-                <tr className={s.shipping}>
-                  <th className="table-heads">Shipping</th>
+                {cart.shipments.map((ship, index) => (
+                  <tr className={s.shipping} key={index}>
+                    <th className="table-heads">
+                      Shipping {index > 0 && index + 1}
+                    </th>
+                    <td className="data">
+                      <p>
+                        {ship.selected_shipping_rate.name}
+                        : {accounting.formatMoney(ship.selected_shipping_rate.cost)}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+                <tr className={s.shippingcalculator}>
+                  <th className="table-heads" />
                   <td className="data">
-                    <p>
-                      {this.props.shippingMethod}
-                    </p>
                     <h2 className={s.calctitle}>Calculate Shipping</h2>
                     <ShippingCalculator
                       calculateShipping={this.props.calculateShipping}

@@ -198,7 +198,7 @@ function removeItem(data) {
  * @param data
  * @returns {function(*=)}
  */
-function updateCart(data) {
+function updateCart(data, callback) {
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
@@ -210,6 +210,7 @@ function updateCart(data) {
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data));
         dispatch(setCartPending(false));
+        callback();
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setCartPending(false));

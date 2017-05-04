@@ -47,13 +47,13 @@
         }
       }
       .shipping p {
-        font-size: 15px;
-        font-weight: normal;
-        line-height: 25px;
-        color: #565656;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 16px;
+        color: #3C3C3C;
         margin: 0;
       }
-      .shipping {
+      .shipping, .shippingcalculator {
         th {vertical-align: top;}
         td {
           .calctitle {
@@ -80,6 +80,11 @@
               color: rgb(25, 122, 117);
             }
           }
+        }
+      }
+      .shippingcalculator {
+        td {
+          padding-top: 0;
         }
       }
       .ordertotal {

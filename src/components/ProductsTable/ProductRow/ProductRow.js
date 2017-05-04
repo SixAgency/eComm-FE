@@ -25,23 +25,49 @@ class ProductRow extends React.Component {
     return variant.price;
   };
 
+  getBulkDiscount = () => {
+    const discount = this.props.item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+    if (discount) {
+      return -discount.amount;
+    }
+    return 0;
+  }
+
+  getPriceWithoutTax = () => {
+    const item = this.props.item;
+    const tax = item.adjustments.find((adj) => (adj.source_type.indexOf('TaxRate') !== -1));
+    if (tax) {
+      return item.total - tax.amount;
+    }
+    return item.total;
+  }
+
   addQuantity = () => {
     if (this.props.item.quantity < this.props.item.variant.max_quantity_allowed_in_cart) {
       const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
-        item.id === this.props.item.id ? { ...item, quantity: this.props.item.quantity + 1 } : item
+        item.id === this.props.item.id ?
+          { ...item, quantity: parseInt(this.props.item.quantity, 10) + 1 }
+          : item
       ));
       this.props.updateQuantity(updatedCartItems);
     }
   };
 
   subQuantity = () => {
-    let qty = this.props.item.quantity;
+    let qty = parseInt(this.props.item.quantity, 10);
     qty = qty > 1 ? qty - 1 : 1;
     const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
       item.id === this.props.item.id ? { ...item, quantity: qty } : item
     ));
     this.props.updateQuantity(updatedCartItems);
   };
+
+  updateQuantity = (qty) => {
+    const updatedCartItems = this.props.cartItems.cart.line_items.map((item) => (
+      item.id === this.props.item.id ? { ...item, quantity: qty } : item
+    ));
+    this.props.updateQuantity(updatedCartItems);
+  }
 
   removeItem = () => {
     this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });
@@ -52,6 +78,7 @@ class ProductRow extends React.Component {
     img.src = imagePlaceholder;
   };
 
+
   render() {
     const { item } = this.props;
     let image = imagePlaceholder;
@@ -60,6 +87,7 @@ class ProductRow extends React.Component {
       image = productImages[0].small_url;
     }
     const slug = `/product/${item.variant.slug}`;
+    const discount = this.getBulkDiscount();
     return (
       <tr className={s.cartitem}>
         <td className={s.productname}>
@@ -91,13 +119,20 @@ class ProductRow extends React.Component {
             sizingClass={'quantitysmall'}
             addQuantity={this.addQuantity}
             subQuantity={this.subQuantity}
-            quantity={item.quantity}
+            quantity={parseInt(item.quantity, 10)}
+            maxQuantity={item.variant.max_quantity_allowed_in_cart}
+            updateQuantity={this.updateQuantity}
           />
         </td>
         <td className={s.prodsubtotal}>
           <span className={s.samount}>
-            {accounting.formatMoney(item.total)}
+            {accounting.formatMoney(this.getPriceWithoutTax())}
           </span>
+          { discount > 0 &&
+            <span className={s.save}>
+              (You save {accounting.formatMoney(discount)})
+            </span>
+          }
         </td>
         <td className={s.prodremove}>
           <Link
