@@ -9,13 +9,16 @@ function isPayPal(cart) {
 }
 
 /**
- * Helper method - please keep here
+ * Check if user or guest
+ *
+ * @param req
+ * @returns {boolean}
  */
-function check() {
-  console.log('test');
+function isUser(req) {
+  return Boolean(req.session.user_token);
 }
 
 export {
   isPayPal,
-  check
+  isUser
 };

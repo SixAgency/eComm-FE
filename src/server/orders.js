@@ -1,4 +1,4 @@
-import { apiFetch } from './fetch';
+import { apiFetch } from './fetch/fetch.server';
 // Helpers
 import {
   checkResponse,
