@@ -23,6 +23,7 @@ function getProducts(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
+    .then((data) => removeUnavailableProducts(data))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
 }

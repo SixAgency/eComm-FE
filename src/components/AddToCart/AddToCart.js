@@ -133,6 +133,7 @@ class CartCta extends Component {
 
   render() {
     const { product } = this.props.product;
+    const category = product.classifications.length > 0 ? product.classifications[0].taxon.name : '';
     return (
       <form
         className={s.cartform}
@@ -140,7 +141,7 @@ class CartCta extends Component {
       >
         { this.getVariant() }
         {
-          product.classifications[0].taxon.name !== 'Gifts' &&
+          category !== 'Gifts' &&
             [
               <ProductQuantity
                 key="quantity1"

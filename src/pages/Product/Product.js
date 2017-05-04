@@ -44,8 +44,10 @@ class Product extends Component {
 
   getPrice = (calcReduced = false) => {
     const { product } = this.props.product;
-    if (product.classifications[0].taxon.name === 'Gifts') {
-      return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
+    if (product.classifications.length > 0) {
+      if (product.classifications[0].taxon.name === 'Gifts') {
+        return `${accounting.formatMoney(product.price)} - ${accounting.formatMoney(product.variants.slice(-1)[0].price)}`;
+      }
     }
     if (calcReduced) {
       const { sale, price } = product;
@@ -92,8 +94,9 @@ class Product extends Component {
     if (productImages.length > 0 && productImages[0].large_url) {
       image = productImages[0].large_url;
     }
-    const categorySlug = product.classifications[0].taxon.permalink.split('/').pop();
-    const categoryName = product.classifications[0].taxon.name;
+    const hasCategory = product.classifications.length > 0;
+    const categorySlug = hasCategory ? product.classifications[0].taxon.permalink.split('/').pop() : '';
+    const categoryName = hasCategory ? product.classifications[0].taxon.name : '';
     const properties = this.props.properties;
     const variants = this.props.product.product.variants;
     const reviews = product.reviews.reviews;
