@@ -189,14 +189,8 @@ function setNewPassword(request) {
     })
     .then((json) => (checkResponse(json, status)))
     .then((resp) => {
-      const user = {
-        spree_user: {
-          email: resp.user.email,
-          password: data.spree_user.password,
-          remember_me: 0
-        }
-      };
-      return doLogin(request, user, () => parseNewPasswordResponse(resp));
+      setAuthResponse(resp, request);
+      return parseNewPasswordResponse(resp);
     })
     .catch((err) => setError(err));
 }
