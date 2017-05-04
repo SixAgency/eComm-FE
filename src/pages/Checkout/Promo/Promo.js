@@ -9,11 +9,17 @@ class Promo extends React.Component {
 
   static propTypes = {
     applyPromoCode: PropTypes.func.isRequired,
-    onProceed: PropTypes.func.isRequired
+    onProceed: PropTypes.func.isRequired,
+    getCart: PropTypes.func.isRequired
   };
 
   render() {
-    return (<PromoForm onSubmit={this.props.applyPromoCode} onProceed={this.props.onProceed} />);
+    return (<PromoForm
+      onSubmit={this.props.applyPromoCode}
+      onProceed={this.props.onProceed}
+      getCart={this.props.getCart}
+    />
+    );
   }
 }
 
