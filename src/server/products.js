@@ -5,6 +5,7 @@ import {
   setError,
   setProductResponse,
   setProductsResponse,
+  removeUnavailableProducts,
   setRecsResponse,
   setReviewsResponse,
   setMannequinHeadsResponse
@@ -150,6 +151,7 @@ function getMannequinHeads(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
+    .then((data) => removeUnavailableProducts(data))
     .then((data) => setMannequinHeadsResponse(data))
     .catch((err) => setError(err));
 }
@@ -164,6 +166,7 @@ function getProductsInCategory(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
+    .then((data) => removeUnavailableProducts(data))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
 }

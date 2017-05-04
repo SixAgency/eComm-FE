@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import capitalize from 'lodash.capitalize';
+import moment from 'moment';
 import { mannequinHeadsSlugs } from '../../config';
 import logger from '../logger';
 
@@ -422,6 +423,15 @@ function setProductResponse(data) {
   return resp;
 }
 
+/* Remove unavailable products */
+function removeUnavailableProducts(data) {
+  const today = moment().utc().startOf('day');
+  const products = data.products.filter((prod) => (
+    prod.available_on && today.diff(moment(prod.available_on)) >= 0
+  ));
+  return { products };
+}
+
 /* Set Products Response */
 function setProductsResponse(data) {
   let resp;
@@ -732,6 +742,7 @@ export {
   setAddRemoveCartResponse,
   setCouponResponse,
   setProductResponse,
+  removeUnavailableProducts,
   setProductsResponse,
   setRecsResponse,
   setReviewsResponse,
