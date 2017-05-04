@@ -45,9 +45,9 @@ class ReviewOrderTbl extends PureComponent {
     );
   };
 
-  checkCartContent = (arr) => {
-    return arr.filter((item) => (item.variant.name !== 'E-Gift certificates'));
-  };
+  checkCartContent = (arr) => (
+    arr.filter((item) => (item.variant.name !== 'E-Gift certificates'))
+  );
 
   render() {
     const {

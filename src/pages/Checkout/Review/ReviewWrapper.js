@@ -11,7 +11,7 @@ import { getCart } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
-import { confirmOrder, checkoutReset, makeApplyCreditRequest } from '../../../actions/payment/payment';
+import { confirmOrder, checkoutReset, makeToggleCreditRequest } from '../../../actions/payment/payment';
 import { checkCartState } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
@@ -26,7 +26,7 @@ const mapDispatchToProps = ((dispatch) => (
     checkoutReset: () => dispatch(checkoutReset()),
     getCart: (data) => dispatch(getCart(data)),
     confirmOrder: (useCredits, isCovered) => (dispatch(confirmOrder(useCredits, isCovered))),
-    makeApplyCreditRequest: () => dispatch(makeApplyCreditRequest())
+    makeToggleCreditRequest: (value) => dispatch(makeToggleCreditRequest(value))
   }
 ));
 
@@ -85,6 +85,8 @@ class ReviewWrapper extends BasePageComponent {
     if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
+        const useCredits = nextProps.cartItems.cart.payments.filter((payment) => payment.state === 'checkout').length > 0;
+        this.setState({ useCredits });
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 500);
@@ -131,8 +133,8 @@ class ReviewWrapper extends BasePageComponent {
   toggleUseCredits = () => {
     this.setState({ useCredits: !this.state.useCredits }, () => {
       const { covered_by_store_credit } = this.props.cartItems.cart;
-      if (this.state.useCredits && !covered_by_store_credit) {
-        this.props.makeApplyCreditRequest();
+      if (!covered_by_store_credit) {
+        this.props.makeToggleCreditRequest(this.state.useCredits);
       }
     });
   };
@@ -161,7 +163,7 @@ class ReviewWrapper extends BasePageComponent {
             toggleUseCredits={this.toggleUseCredits}
             useCredits={this.state.useCredits}
             checkoutReset={this.props.checkoutReset}
-            makeApplyCreditRequest={this.props.makeApplyCreditRequest}
+            makeToggleCreditRequest={this.props.makeToggleCreditRequest}
           />
         </Checkout>
       );

@@ -21,13 +21,15 @@ class OrderDetailsTbl extends PureComponent {
   render() {
     const { order } = this.props;
     const products = order.line_items;
-    const shipment = order.shipments[0];
+    // const shipment = order.shipments[0];
     const {
       item_total,
       payments,
-      adjustments
+      adjustments,
+      shipments
     } = order;
     const itemTotal = parseFloat(item_total);
+    const completedPayments = payments.filter((payment) => payment.state === 'completed');
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
@@ -71,18 +73,28 @@ class OrderDetailsTbl extends PureComponent {
                 {accounting.formatMoney(itemTotal)}
               </td>
             </tr>
-            {shipment &&
+            {shipments.length &&
               <tr className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
                   Shipping:
                 </td>
                 <td className={s.orderdetails}>
-                  {accounting.formatMoney(shipment.selected_shipping_rate.cost)}&nbsp;
-                  via {shipment.selected_shipping_rate.name}
+                  <table cellSpacing={0} cellPadding={0}>
+                    <tbody>
+                      {shipments.map((shipment, key) => (
+                        <tr key={key}>
+                          <td>
+                            {accounting.formatMoney(shipment.selected_shipping_rate.cost)}&nbsp;
+                            via {shipment.selected_shipping_rate.name}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </td>
               </tr>
             }
-            {shipment && shipment.adjustments && shipment.adjustments.map((adjust) => (
+            {/*shipment && shipment.adjustments && shipment.adjustments.map((adjust) => (
               <tr className={s.orderItems}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
                   {adjust.label}
@@ -91,7 +103,7 @@ class OrderDetailsTbl extends PureComponent {
                   {adjust.amount}
                 </td>
               </tr>
-            ))}
+            ))*/}
             {adjustments.map((adjust, key) => (
               <tr key={key} className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
@@ -113,12 +125,12 @@ class OrderDetailsTbl extends PureComponent {
             </tr>
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                Payment{payments.length > 1 ? 's' : ''}:
+                Payment{completedPayments.length > 1 ? 's' : ''}:
               </td>
               <td className={s.orderdetails}>
                 <table cellSpacing={0} cellPadding={0}>
                   <tbody>
-                    {payments.map((payment, key) => (
+                    {completedPayments.map((payment, key) => (
                       <tr key={key}>
                         <td>
                           {this.getPaymentName(payment)}: {accounting.formatMoney(payment.amount)}
