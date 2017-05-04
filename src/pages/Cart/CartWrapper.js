@@ -200,7 +200,6 @@ class CartWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
-        shippingMethod={this.getShippingMethod()}
         getCart={this.props.getCart}
       />
     );

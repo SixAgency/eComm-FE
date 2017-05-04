@@ -27,7 +27,6 @@ class Cart extends Component {
     toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
     calculateShipping: PropTypes.func.isRequired,
-    shippingMethod: PropTypes.string.isRequired,
     getCart: PropTypes.func.isRequired
   };
 
