@@ -261,6 +261,9 @@ function setNewPassword(data) {
       axios.post('/api/my-account/set-new-password', userInfo)
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: [response.data.data] }));
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }, () => {
           dispatch(setMessage({ isError: true, messages: [response.data.data] }));
         }))
