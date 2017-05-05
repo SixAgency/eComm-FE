@@ -34,7 +34,7 @@ class CreateAddress extends React.Component {
         <ContentWrapper tabsClass={'hide'}>
           <AddressForm
             formTitle={'Create Address'}
-            formSubtitle={'Fulfill your details'}
+            formSubtitle={'Enter your details'}
             showEmailPhone={showEmailPhone}
             buttonText={'save address'}
             selectClass={'checkoutselect'}
