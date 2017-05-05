@@ -1,11 +1,15 @@
 import React from 'react';
 import Promise from 'bluebird';
+import { AES } from 'crypto-js';
+import { setStore, getInitialStore } from '../../helpers/state';
 import HomeWrapper from '../../pages/Home';
 import BiographyWrapper from '../../pages/Biography';
 import ContactWrapper from '../../pages/Contact';
 
 import { render, error } from '../common/render';
+import { checkLogin } from '../users';
 import { getProducts } from '../products';
+import { getSession } from '../session';
 
 
 /**
@@ -14,15 +18,30 @@ import { getProducts } from '../products';
  * @param resp
  * @param next
  */
+
+const initialStore = getInitialStore();
+
 function home(req, resp, next) {
   Promise.all([
-    getProducts(req)
-  ]).then(([products]) => {
+    checkLogin(req),
+    getProducts(req),
+    getSession(req)
+  ]).then(([user, products, cart]) => {
+    initialStore.user = user.user;
+    initialStore.catalog.gridItems = products;
+    initialStore.cart.cartItems = cart;
+    initialStore.page.headerProps = {
+      headerClass: 'default',
+      activeSlug: '/'
+    };
+    const store = setStore(initialStore);
     const params = {
       title: 'Shop',
       description: '',
       header: 'default',
       active: '/',
+      st: AES.encrypt(JSON.stringify(store), 'secret key 123').toString(),
+      cartItems: cart,
       content: <HomeWrapper gridItems={products} />
     };
     return render(req, resp, next, params);

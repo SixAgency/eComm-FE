@@ -19,7 +19,8 @@ const mapStateToProps = ((state) => (
   {
     gridItems: state.catalog.gridItems,
     cartItems: state.cart.cartItems,
-    messages: state.page.messages
+    messages: state.page.messages,
+    isCartPending: state.cart.isCartPending
   }
 ));
 
@@ -44,11 +45,8 @@ class HomeWrapper extends BasePageComponent {
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
-  };
-
-  static defaultProps = {
-    gridItems: { isLoaded: false, products: [] }
+    messages: PropTypes.array.isRequired,
+    isCartPending: PropTypes.bool.isRequired
   };
 
   componentWillMount = () => {
@@ -57,9 +55,7 @@ class HomeWrapper extends BasePageComponent {
       activeSlug: '/'
     };
     this.props.setHeaderProps(props);
-    if (this.props.gridItems.isLoaded) {
-      console.log(this.props.gridItems);
-    } else {
+    if (!this.props.gridItems.isLoaded) {
       this.props.getProducts();
     }
     this.props.resetMessages();
@@ -76,19 +72,23 @@ class HomeWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
-    if (isLoaded) {
+    const { isCartPending } = nextProps;
+    console.log(nextProps);
+    if (isLoaded && !isCartPending) {
+      console.log('HERERER');
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
-      // this.props.toggleLoader(false);
     }
   };
 
   componentWillUnmount = () => {
+    console.log('here');
     this.props.toggleLoader(true);
   };
 
   render() {
+    console.log(this.props);
     if (this.props.cartItems.isLoaded) {
       return (
         <Home

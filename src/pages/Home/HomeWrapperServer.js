@@ -11,10 +11,17 @@ class HomeWrapper extends React.Component {
     const {
       gridItems
     } = this.props;
+    const messages = [];
+    const isError = false;
     return (
       <Home
         gridItems={gridItems}
         addToCart={() => (true)}
+        setMessage={() => (true)}
+        messages={messages}
+        isError={isError}
+        cartItems={[]}
+        isCartPending={isError}
       />
     );
   }

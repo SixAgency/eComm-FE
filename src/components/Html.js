@@ -8,11 +8,12 @@ class Html extends Component {
     ogImage: PropTypes.string,
     style: PropTypes.string,
     scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
-    children: PropTypes.string
+    children: PropTypes.string,
+    st: PropTypes.string
   };
 
   render() {
-    const { title, description, ogImage, style, scripts, children } = this.props;
+    const { title, description, ogImage, style, scripts, children, st } = this.props;
     return (
       <html className="no-js" lang="en">
         <head>
@@ -41,6 +42,7 @@ class Html extends Component {
         </head>
         <body>
           <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
+          <div id="st">{st}</div>
           <script type="text/javascript" src="https://js.squareup.com/v2/paymentform" />
           {scripts && scripts.map(script => <script key={script} src={script} />)}
           {analytics.google.trackingId &&
