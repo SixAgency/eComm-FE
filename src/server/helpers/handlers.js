@@ -433,6 +433,21 @@ function removeUnavailableProducts(data) {
   return { products };
 }
 
+/* Get product display_oder */
+function getProductOrder(product, productsCount) {
+  const order = product.product_properties.find((p) => (p.property_name === 'display_order'));
+  return order ? order.value : productsCount - 1;
+}
+
+/* Sort products based on display_order field */
+function sortProducts(data) {
+  const products = data.products;
+  products.sort((prod1, prod2) => (
+    getProductOrder(prod1, products.length) - getProductOrder(prod2, products.length)
+  ));
+  return { products };
+}
+
 /* Set Products Response */
 function setProductsResponse(data) {
   let resp;
@@ -744,6 +759,7 @@ export {
   setCouponResponse,
   setProductResponse,
   removeUnavailableProducts,
+  sortProducts,
   setProductsResponse,
   setRecsResponse,
   setReviewsResponse,

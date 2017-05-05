@@ -6,6 +6,7 @@ import {
   setProductResponse,
   setProductsResponse,
   removeUnavailableProducts,
+  sortProducts,
   setRecsResponse,
   setReviewsResponse,
   setMannequinHeadsResponse
@@ -24,6 +25,7 @@ function getProducts(request) {
     })
     .then((json) => checkResponse(json, status))
     .then((data) => removeUnavailableProducts(data))
+    .then((data) => sortProducts(data))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
 }
