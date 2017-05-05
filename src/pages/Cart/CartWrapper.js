@@ -40,7 +40,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     onLogin: (data) => dispatch(onLogin(data)),
     resetMessages: () => dispatch(resetMessages()),
-    updateCart: (cart, callback) => dispatch(updateCart(cart, callback)),
+    updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
     applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
