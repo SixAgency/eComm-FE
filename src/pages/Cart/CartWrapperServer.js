@@ -5,9 +5,6 @@ class CartWrapper extends Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired,
-    paypalObj: PropTypes.object.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -23,6 +20,7 @@ class CartWrapper extends Component {
 
 
   render() {
+    const paypalObj = {};
     return (
       <Cart
         removeItem={() => (true)}
@@ -31,13 +29,14 @@ class CartWrapper extends Component {
         cartItems={this.props.cartItems}
         loggedIn={this.props.loggedIn}
         onLogout={() => (true)}
-        messages={this.props.messages}
-        isError={this.props.isError}
+        messages={[]}
+        isError={false}
         applyPromoCode={() => (true)}
         updateCart={() => (true)}
         updateQuantity={() => (true)}
-        paypalObj={this.props.paypalObj}
+        paypalObj={paypalObj}
         checkoutPayPal={() => (true)}
+        getCart={() => (true)}
         proceedToCheckout={() => (true)}
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
