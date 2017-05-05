@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import accounting from 'accounting';
 
 import BasePageComponent from '../BasePageComponent';
 import Cart from './Cart';
@@ -77,10 +76,6 @@ class CartWrapper extends BasePageComponent {
     getCart: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    paypalObj: {}
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -126,17 +121,6 @@ class CartWrapper extends BasePageComponent {
     this.props.resetMessages();
   };
 
-  /**
-   * Gift cart handler
-   * @param event
-   */
-  toggleGiftCardForm = (event) => {
-    event.preventDefault();
-    this.setState({ showGiftCardForm: !this.state.showGiftCardForm }, () => {
-      document.getElementById('giftcard-code').focus();
-    });
-  };
-
   updateQuantity = (updatedCartItems) => {
     const updatedCart = { ...this.props.cartItems.cart, line_items: updatedCartItems };
     this.props.updateQuantity({ ...this.props.cartItems, cart: updatedCart });
@@ -155,12 +139,6 @@ class CartWrapper extends BasePageComponent {
       this.props.checkoutNext(() => (forwardTo('checkout/billing')));
     }
   };
-
-  /**
-   *  Allow giftcard visibility toggle through props
-   *
-    */
-  hideGiftCardForm = () => { this.setState({ showGiftCardForm: false }); };
 
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;

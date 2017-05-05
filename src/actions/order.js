@@ -96,9 +96,6 @@ function getCart(isNew, fn) {
     axios.get(`/api/cart/${isNew}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
-        const addresses = getCartAddresses(response.data);
-        dispatch(setBilling(addresses.billing));
-        dispatch(setShipping(addresses.shipping));
         const isPayPal = checkIfPayPal(response.data.cart);
         dispatch(setPayment(isPayPal));
         dispatch(setCartPending(false));

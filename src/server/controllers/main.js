@@ -56,14 +56,28 @@ function home(req, resp, next) {
  * @returns {*}
  */
 function biography(req, resp, next) {
-  const params = {
-    title: 'Biography',
-    description: '',
-    header: 'default',
-    active: '/biography',
-    content: <BiographyWrapper />
-  };
-  return render(req, resp, next, params);
+  Promise.all([
+    checkLogin(req),
+    getSession(req)
+  ]).then(([user, cart]) => {
+    initialStore.user = user.user;
+    initialStore.cart.cartItems = cart;
+    initialStore.page.headerProps = {
+      headerClass: 'default',
+      activeSlug: '/biography'
+    };
+    const store = setStore(initialStore);
+    const params = {
+      title: 'Biography',
+      description: '',
+      header: 'default',
+      active: '/biography',
+      st: AES.encrypt(JSON.stringify(store), 'secret key 123').toString(),
+      cartItems: cart,
+      content: <BiographyWrapper />
+    };
+    return render(req, resp, next, params);
+  }).catch((err) => error(req, resp, next, err));
 }
 
 /**
@@ -74,14 +88,28 @@ function biography(req, resp, next) {
  * @returns {*}
  */
 function contact(req, resp, next) {
-  const params = {
-    title: 'Contact',
-    description: '',
-    header: 'colored',
-    active: '/contact',
-    content: <ContactWrapper />
-  };
-  return render(req, resp, next, params);
+  Promise.all([
+    checkLogin(req),
+    getSession(req)
+  ]).then(([user, cart]) => {
+    initialStore.user = user.user;
+    initialStore.cart.cartItems = cart;
+    initialStore.page.headerProps = {
+      headerClass: 'colored',
+      activeSlug: '/contact'
+    };
+    const store = setStore(initialStore);
+    const params = {
+      title: 'Contact',
+      description: '',
+      header: 'colored',
+      active: '/contact',
+      st: AES.encrypt(JSON.stringify(store), 'secret key 123').toString(),
+      cartItems: cart,
+      content: <ContactWrapper />
+    };
+    return render(req, resp, next, params);
+  }).catch((err) => error(req, resp, next, err));
 }
 
 export { home, biography, contact };

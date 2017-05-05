@@ -73,9 +73,7 @@ class HomeWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
     const { isCartPending } = nextProps;
-    console.log(nextProps);
     if (isLoaded && !isCartPending) {
-      console.log('HERERER');
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -83,7 +81,6 @@ class HomeWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    console.log('here');
     this.props.toggleLoader(true);
   };
 

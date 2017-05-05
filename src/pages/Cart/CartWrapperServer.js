@@ -4,10 +4,10 @@ import Cart from './Cart';
 class CartWrapper extends Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
+    paypalObj: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    paypalObj: PropTypes.object.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -16,7 +16,6 @@ class CartWrapper extends Component {
     * All the actions comes from Redux, client side.
   */
   static defaultProps = {
-    paypalObj: {},
     isError: false,
     messages: []
   };
@@ -37,6 +36,7 @@ class CartWrapper extends Component {
         updateCart={() => (true)}
         updateQuantity={() => (true)}
         paypalObj={this.props.paypalObj}
+        getCart={() => (true)}
         checkoutPayPal={() => (true)}
         proceedToCheckout={() => (true)}
         breadcrumbs={this.props.breadcrumbs}

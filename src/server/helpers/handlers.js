@@ -562,6 +562,7 @@ function setBraintreeResponse(data) {
     resp = {
       isError: false,
       isEmpty: (Object.getOwnPropertyNames(data).length < 1),
+      isLoaded: true,
       tokens: data
     };
   }

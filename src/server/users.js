@@ -23,9 +23,6 @@ const PROFILE = '/api/v1/users';
 /* Do login (helper) */
 function doLogin(request, user, callback) {
   let status;
-  if (!request.session.user_token) {
-    user.guest_token = request.session.guest_token;
-  }
   return apiFetch(LOGIN,
     {
       method: 'POST',
@@ -55,6 +52,9 @@ function userLogin(request) {
       remember_me: request.body.remember || 0
     }
   };
+  if (!request.session.user_token) {
+    user.guest_token = request.session.guest_token;
+  }
   return doLogin(request, user);
 }
 

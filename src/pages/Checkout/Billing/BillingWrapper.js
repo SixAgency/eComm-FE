@@ -13,7 +13,6 @@ import { forwardTo } from '../../../actions/handler';
 import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
 import { mapStateToFeed, mapFeedToState } from '../../../helpers/address';
-import { validateRegisterCheckout } from '../../../helpers/validators';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -98,15 +97,13 @@ class BillingWrapper extends BasePageComponent {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
       if (expectedState !== 'cart' && !nextProps.isPayPal) {
-        if (!nextProps.isAddressesFetching && !nextProps.isError) {
-          if (nextProps.addresses.isLoaded) {
+        if (!nextProps.isAddressesFetching && nextProps.addresses.isLoaded) {
+          if (!nextProps.isError) {
             this.setState({ content: this.getBillingContent(nextProps, expectedState) });
-            setTimeout(() => {
-              this.props.toggleLoader(false);
-            }, 500);
-          } else {
-            this.props.getAddress();
           }
+          this.props.toggleLoader(false);
+        } else {
+          this.props.getAddress();
         }
       } else {
         forwardTo(expectedState);
