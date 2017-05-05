@@ -19,15 +19,15 @@ class LayoutContent extends Component {
     mobileNavClose: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     menuOpen: PropTypes.string.isRequired,
-    showLoader: PropTypes.bool.isRequired,
+    showLoader: PropTypes.object.isRequired,
     layoutStyles: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
     modalContent: PropTypes.string.isRequired
   };
 
   showLoader = () => {
-    if (this.props.showLoader) {
-      return (<Loader />);
+    if (this.props.showLoader.toggle) {
+      return (<Loader image={this.props.showLoader.image} />);
     }
     return null;
   };

@@ -80,7 +80,6 @@ class HomeWrapper extends BasePageComponent {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
-      // this.props.toggleLoader(false);
     }
   };
 

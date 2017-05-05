@@ -18,7 +18,8 @@ const mapStateToProps = ((state) => (
     product: state.catalog.product,
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    showLoader: state.page.showLoader
   }
 ));
 
@@ -48,7 +49,8 @@ class ProductWrapper extends Component {
     setMessage: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    showLoader: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -105,7 +107,9 @@ class ProductWrapper extends Component {
   };
 
   componentWillUnmount = () => {
-    this.props.toggleLoader(true);
+    if (!this.props.showLoader.toggle) {
+      this.props.toggleLoader(true);
+    }
   };
 
   getProperty = (properties, property) => properties.find(

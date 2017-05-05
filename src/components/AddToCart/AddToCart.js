@@ -103,9 +103,11 @@ class CartCta extends Component {
     const variantId = product.has_variants ? this.state.variant_id : product.master.id;
     const quantity = this.state.quantity;
     const { cartItems } = this.props;
+    const productImages = product.master.images;
     const data = {
       id: variantId,
-      quantity
+      quantity,
+      image: productImages.length ? productImages[0].large_url : null
     };
     const flag = checkQuantities({
       ...data,

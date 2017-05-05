@@ -3,7 +3,7 @@ export default function reducer(state = {
     headerClass: 'colored',
     activeSlug: '/'
   },
-  showLoader: true,
+  showLoader: { toggle: true, image: null },
   isPending: false,
   isError: false,
   messages: [],

@@ -39,9 +39,11 @@ class ProductGridItem extends Component {
 
   addToCart = (event) => {
     event.preventDefault();
+    const productImages = this.props.product.master.images;
     const data = {
       id: this.props.product.master.id,
-      quantity: 1
+      quantity: 1,
+      image: productImages.length ? productImages[0].large_url : null
     };
     const flag = checkQuantities({
       ...data,
