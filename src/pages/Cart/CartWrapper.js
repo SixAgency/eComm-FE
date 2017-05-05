@@ -178,7 +178,7 @@ class CartWrapper extends BasePageComponent {
         line_items: items
       }
     };
-    this.props.updateCart(data, this.props.getCart);
+    this.props.updateCart(data);
     this.setState({ showGiftCardForm: false });
   };
 
