@@ -28,7 +28,6 @@ class ReviewOrder extends PureComponent {
       },
       useCredits
     } = this.props;
-    console.log('STATE', cart.state);
     if (cart.state === 'confirm') {
       return this.renderSubmitButton();
     } else if (this.props.isPayPal) {
@@ -37,7 +36,7 @@ class ReviewOrder extends PureComponent {
           {useCredits && calculateBalance(this.props.cartItems) > 0 &&
             <p className={s.paymessage}>
               The remaining balance of
-              <strong>accounting.formatMoney(calculateBalance(this.props.cartItems))</strong>
+              <strong>{accounting.formatMoney(calculateBalance(this.props.cartItems))}</strong>
               will be charged to your selected payment method.
             </p>
           }
@@ -122,7 +121,7 @@ class ReviewOrder extends PureComponent {
         </div>
       </div>
     )
-  )
+  );
 
   render() {
     const {
