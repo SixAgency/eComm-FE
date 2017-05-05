@@ -64,7 +64,7 @@ class ManageAddresses extends Component {
     return (
       <AddressForm
         formTitle={'Edit Address'}
-        formSubtitle={'Fulfill your details'}
+        formSubtitle={'Enter your details'}
         emailAddress={this.props.emailAddress}
         address={tolist}
         buttonText={'save address'}
