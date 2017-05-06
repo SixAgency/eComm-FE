@@ -77,8 +77,6 @@ class StaticGrid extends Component {
               <p className={s.text}>
                 2001 NAHA<br />
                 <b>Master Hairstylist of the Year – Nominee</b><br />
-                2000 HairColor USA<br />
-                <b>Most Inspirational Educator – Winner</b><br />
                 1998 HairColor USA<br />
                 <b>Best Educator of the Year – Winner</b>
               </p>
