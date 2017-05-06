@@ -98,15 +98,15 @@ class BillingWrapper extends BasePageComponent {
     if (!nextProps.isCartPending && !nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
       if (expectedState !== 'cart' && !nextProps.isPayPal) {
-        if (!nextProps.isAddressesFetching && !nextProps.isError) {
-          if (nextProps.addresses.isLoaded) {
+        if (!nextProps.isAddressesFetching && nextProps.addresses.isLoaded) {
+          if (!nextProps.isError) {
             this.setState({ content: this.getBillingContent(nextProps, expectedState) });
-            setTimeout(() => {
-              this.props.toggleLoader(false);
-            }, 500);
-          } else {
-            this.props.getAddress();
           }
+          setTimeout(() => {
+            this.props.toggleLoader(false);
+          }, 500);
+        } else {
+          this.props.getAddress();
         }
       } else {
         forwardTo(expectedState);

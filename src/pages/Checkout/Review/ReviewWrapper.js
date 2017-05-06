@@ -12,7 +12,7 @@ import { onLogin, onLogout } from '../../../actions/user';
 import { completePayPal } from '../../../actions/checkout';
 import { forwardTo } from '../../../actions/handler';
 import { confirmOrder, checkoutReset, makeToggleCreditRequest } from '../../../actions/payment/payment';
-import { checkCartState } from '../../../utils/utils';
+import { checkCartState, useStoreCredits } from '../../../utils/utils';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -81,11 +81,15 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('NEXT', nextProps);
     if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
       const expectedState = checkCartState(nextProps);
+      console.log(expectedState);
+      console.log(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
-        const useCredits = nextProps.cartItems.cart.payments.filter((payment) => payment.state === 'checkout').length > 0;
+        const useCredits = useStoreCredits({
+          payments: nextProps.cartItems.cart.payments,
+          isPayPal: nextProps.isPayPal
+        });
         this.setState({ useCredits });
         setTimeout(() => {
           this.props.toggleLoader(false);
@@ -143,7 +147,7 @@ class ReviewWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
     this.props.resetMessages();
     this.props.onLogin(data, true);
-  }
+  };
 
   render() {
     if (this.props.cartItems.isLoaded) {

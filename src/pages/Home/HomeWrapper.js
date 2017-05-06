@@ -19,7 +19,8 @@ const mapStateToProps = ((state) => (
   {
     gridItems: state.catalog.gridItems,
     cartItems: state.cart.cartItems,
-    messages: state.page.messages
+    messages: state.page.messages,
+    isCartPending: state.cart.isCartPending
   }
 ));
 
@@ -44,7 +45,8 @@ class HomeWrapper extends BasePageComponent {
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.array.isRequired,
+    isCartPending: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -76,11 +78,11 @@ class HomeWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
-    if (isLoaded) {
+    const { isCartPending } = nextProps;
+    if (isLoaded && !isCartPending) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
-      // this.props.toggleLoader(false);
     }
   };
 

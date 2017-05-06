@@ -33,6 +33,38 @@ class ReviewOrderTbl extends PureComponent {
     return item.price;
   };
 
+  getPriceWithoutTax = (item) => {
+    const tax = item.adjustments.find((adj) => (adj.source_type.indexOf('TaxRate') !== -1));
+    if (tax) {
+      return item.total - tax.amount;
+    }
+    return item.total;
+  };
+
+  getBulkDiscount = (item) => {
+    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+    if (discount) {
+      return `(You save ${accounting.formatMoney(-discount.amount)})`;
+    }
+    return '';
+  };
+
+  getItemTotal = () => {
+    const cart = this.props.cart;
+    let total = parseFloat(cart.item_total) + parseFloat(cart.adjustment_total);
+    total -= parseFloat(cart.additional_tax_total);
+    cart.adjustments.forEach((adj) => {
+      if (adj.label.indexOf('Promotion') !== -1) {
+        total -= parseFloat(adj.amount);
+      }
+    });
+    return total;
+  };
+
+  checkCartContent = (arr) => (
+    arr.filter((item) => (item.variant.name !== 'E-Gift certificates'))
+  );
+
   listAddress = (data) => {
     const stateName = this.getStateName(data.state_id);
     return (
@@ -45,38 +77,6 @@ class ReviewOrderTbl extends PureComponent {
     );
   };
 
-  checkCartContent = (arr) => (
-    arr.filter((item) => (item.variant.name !== 'E-Gift certificates'))
-  );
-
-  getPriceWithoutTax = (item) => {
-    const tax = item.adjustments.find((adj) => (adj.source_type.indexOf('TaxRate') !== -1));
-    if (tax) {
-      return item.total - tax.amount;
-    }
-    return item.total;
-  }
-
-  getBulkDiscount = (item) => {
-    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
-    if (discount) {
-      return `(You save ${accounting.formatMoney(-discount.amount)})`;
-    }
-    return '';
-  }
-
-  getItemTotal = () => {
-    const cart = this.props.cart;
-    let total = parseFloat(cart.item_total) + parseFloat(cart.adjustment_total);
-    total -= parseFloat(cart.additional_tax_total);
-    cart.adjustments.forEach((adj) => {
-      if (adj.label.indexOf('Promotion') !== -1) {
-        total -= parseFloat(adj.amount);
-      }
-    });
-    return total;
-  }
-
   render() {
     const {
       cart: {
@@ -86,9 +86,10 @@ class ReviewOrderTbl extends PureComponent {
         item_total,
         display_total_available_store_credit,
         total,
-        state
+        state,
       },
-      cartItems
+      cartItems,
+      isPayPal
     } = this.props;
     return (
       <div className={s.tablewrpr}>
@@ -189,14 +190,14 @@ class ReviewOrderTbl extends PureComponent {
               </td>
             </tr>
             {
-              state !== 'confirm' &&
-              Number(display_total_available_store_credit.slice(1)) > 0 &&
+              (!isPayPal && state !== 'confirm' &&
+              Number(display_total_available_store_credit.slice(1)) > 0) &&
               <tr>
                 <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
                   <label htmlFor="use_credits">
                     I have <em>{accounting.formatMoney(
-                      display_total_available_store_credit.slice(1)
-                    )}</em> store credit, I want to use it on this purchase
+                    display_total_available_store_credit.slice(1)
+                  )}</em> store credit, I want to use it on this purchase
                   </label>
                   <input
                     type="checkbox"

@@ -20,12 +20,19 @@ const LOGOUT = '/logout';
 const REGISTER = '/signup';
 const PROFILE = '/api/v1/users';
 
-/* Do login (helper) */
-function doLogin(request, user, callback) {
-  let status;
+// Login
+function userLogin(request) {
+  const user = {
+    spree_user: {
+      email: request.body.email,
+      password: request.body.password,
+      remember_me: request.body.remember || 0
+    }
+  };
   if (!request.session.user_token) {
     user.guest_token = request.session.guest_token;
   }
+  let status;
   return apiFetch(LOGIN,
     {
       method: 'POST',
@@ -36,26 +43,8 @@ function doLogin(request, user, callback) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => {
-      if (callback) {
-        setAuthResponse(data, request);
-        return callback();
-      }
-      return setAuthResponse(data, request);
-    })
+    .then((data) => setAuthResponse(data, request))
     .catch((err) => setError(err));
-}
-
-// Login
-function userLogin(request) {
-  const user = {
-    spree_user: {
-      email: request.body.email,
-      password: request.body.password,
-      remember_me: request.body.remember || 0
-    }
-  };
-  return doLogin(request, user);
 }
 
 // Registration

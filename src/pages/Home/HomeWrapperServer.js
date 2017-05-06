@@ -14,6 +14,10 @@ class HomeWrapper extends React.Component {
     return (
       <Home
         gridItems={gridItems}
+        cartItems={[]}
+        setMessage={() => (true)}
+        messages={[]}
+        isError={false}
         addToCart={() => (true)}
       />
     );

@@ -84,6 +84,14 @@ function calculateBalance(props) {
   return total - calculateApplicableCredit(props);
 }
 
+function useStoreCredits(args) {
+  const { isPayPal, payments } = args;
+  if (isPayPal) {
+    return false;
+  }
+  return payments.filter((payment) => ((payment.state === 'checkout') && (payment.source_type !== 'Spree::StoreCredit'))).length === 0;
+}
+
 
 export {
   checkIfPayPal,
@@ -92,6 +100,7 @@ export {
   checkCartState,
   calculateApplicableCredit,
   calculateBalance,
-  calculateTotal
+  calculateTotal,
+  useStoreCredits
 };
 

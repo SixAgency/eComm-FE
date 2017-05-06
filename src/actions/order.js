@@ -39,7 +39,7 @@ function setCart(cart) {
  * @returns {{type: string, payload: *}}
  */
 function setCartPending(pending) {
-  return { type: 'SET_CART_PENDING', payload: pending };
+  return { type: 'CART_PENDING', payload: pending };
 }
 
 /**
