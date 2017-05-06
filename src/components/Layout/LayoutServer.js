@@ -18,7 +18,7 @@ class Layout extends React.Component {
 
   render() {
     const { headerClass, activeSlug } = this.props.headerProps;
-    const showLoader = true;
+    const showLoader = { toggle: true, image: null };
     const showModal = true;
     const modalContent = '';
     return (

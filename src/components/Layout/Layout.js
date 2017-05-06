@@ -38,7 +38,7 @@ class Layout extends Component {
     isCartPending: PropTypes.bool.isRequired,
     checkLogin: PropTypes.func.isRequired,
     checkoutNext: PropTypes.func.isRequired,
-    showLoader: PropTypes.bool.isRequired,
+    showLoader: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
     modalContent: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,

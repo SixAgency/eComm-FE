@@ -33,8 +33,8 @@ function resetMessages() {
  * Helper - Set redux loading state
  * @param toggle - boolen
  */
-function setLoader(toggle) {
-  return { type: 'TOGGLE_LOADER', payload: toggle };
+function setLoader(toggle, image) {
+  return { type: 'TOGGLE_LOADER', payload: { toggle, image } };
 }
 
 /**
@@ -58,9 +58,9 @@ function setPending(toggle) {
  * @param toggle - boolean
  * @returns {function(*)}
  */
-function toggleLoader(toggle) {
+function toggleLoader(toggle, image) {
   return (dispatch) => {
-    dispatch(setLoader(toggle));
+    dispatch(setLoader(toggle, image));
   };
 }
 
