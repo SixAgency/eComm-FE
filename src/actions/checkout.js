@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setCart, setOrder, getCart } from './order';
+import { setCart, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
 import { setUser } from './user';
 import { setAddresses } from './address';
@@ -9,52 +9,6 @@ import { validateRegisterCheckout, validateMandatoryFieldsAddress } from '../hel
 
 function setPayPal(data) {
   return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } };
-}
-
-/**
- * Set Cart State
- * @param cart
- * @returns {{type: string, payload: *}}
- */
-function setCartState(state) {
-  return { type: 'SET_CART_STATE', payload: state };
-}
-
-/**
- * Set isPayPal flag
- * @param cart
- * @returns {{type: string, payload: *}}
- */
-function setPayment(isPayPal) {
-  return { type: 'SET_PAYMENT', payload: isPayPal };
-}
-
-/**
- * Set Checkout Billing State
- * @param cart
- * @returns {{type: string, payload: *}}
- */
-function setBilling(id) {
-  const address = {
-    isLoaded: true,
-    isSet: id !== null,
-    addressId: id
-  };
-  return { type: 'SET_CHECKOUT_BILLING', payload: address };
-}
-
-/**
- * Set Checkout Shipping State
- * @param cart
- * @returns {{type: string, payload: *}}
- */
-function setShipping(id) {
-  const address = {
-    isLoaded: true,
-    isSet: id !== null,
-    addressId: id
-  };
-  return { type: 'SET_CHECKOUT_SHIPPING', payload: address };
 }
 
 /**
@@ -84,13 +38,17 @@ function getPayPalToken() {
 function checkoutPayPal(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(setPending(true));
+    dispatch(resetMessages());
     axios.post('/api/checkout/paypal', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
-        dispatch(setPayment(true));
+        dispatch(setPending(false));
         forwardTo('checkout/review');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setPending(false));
       }))
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
@@ -120,38 +78,6 @@ function checkoutNext(callback) {
         dispatch(setPending(false));
       }))
       .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
-  };
-}
-
-/**
- * The same as above - just with paypal - we are using to finalize an order
- * @param state
- * @returns {function(*=)}
- */
-function completePayPal() {
-  return (dispatch) => {
-    window.scrollTo(0, 0);
-    dispatch(setPending(true));
-    dispatch(resetMessages());
-    axios.post('/api/checkout/next')
-      .then((response) => checkResponse(response.data, () => {
-        const order = {
-          isEmpty: response.data.isEmpty,
-          order: response.data.cart
-        };
-        dispatch(setOrder(order));
-        const orderLink = `my-account/view-order/${response.data.cart.number}`;
-        dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
-        forwardTo(orderLink);
-        dispatch(getCart(true));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        dispatch(setPending(false));
-      }))
-      .catch((err) => {
-        dispatch(setPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
       });
   };
@@ -261,11 +187,6 @@ export {
   getPayPalToken,
   checkoutPayPal,
   checkoutNext,
-  setCartState,
-  setBilling,
-  setShipping,
-  completePayPal,
-  setPayment,
   setCheckoutAddress,
   editOrderAddress,
   registerAndSetAddress

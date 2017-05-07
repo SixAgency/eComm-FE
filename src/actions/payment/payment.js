@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { resetMessages, setMessage, setPending, toggleLoader } from '../page';
 import { checkResponse, forwardTo } from '../handler';
-import { setCart, setOrder, getCart, setPayment } from '../order';
-import { checkIfPayPal } from '../../utils/utils';
+import { setCart, setOrder, getCart } from '../order';
 
 /**
  * Set square as payment method
@@ -44,8 +43,6 @@ function checkoutReset() {
     axios.post('/api/checkout/reset')
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
-        const isPayPal = checkIfPayPal(response.data.cart);
-        dispatch(setPayment(isPayPal));
         forwardTo('cart');
         dispatch(setPending(false));
       }, () => {
@@ -79,18 +76,52 @@ function placeOrderFailureCallback(response, dispatch) {
   dispatch(toggleLoader(false));
 }
 
-function makePlaceOrderRequest(dispatch) {
-  axios.post('/api/checkout/confirm')
-    .then((response) => checkResponse(
-      response.data,
-      () => placeOrderSuccessCallback(response, dispatch),
-      () => placeOrderFailureCallback(response, dispatch)
-    ))
-    .catch((err) => {
-      dispatch(setPending(false));
-      dispatch(toggleLoader(false));
-      console.error('Error: ', err);
-    });
+/**
+ * Finish order
+ * @returns {function(*=)}
+ */
+function confirmOrder() {
+  return (dispatch) => {
+    window.scrollTo(0, 0);
+    dispatch(toggleLoader(true));
+    dispatch(setPending(true));
+    dispatch(resetMessages());
+    axios.post('/api/checkout/confirm')
+      .then((response) => checkResponse(
+        response.data,
+        () => placeOrderSuccessCallback(response, dispatch),
+        () => placeOrderFailureCallback(response, dispatch)
+      ))
+      .catch((err) => {
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        console.error('Error: ', err);
+      });
+  };
+}
+
+/**
+ * Finish order
+ * @returns {function(*=)}
+ */
+function confirmOrderNext() {
+  return (dispatch) => {
+    window.scrollTo(0, 0);
+    dispatch(toggleLoader(true));
+    dispatch(setPending(true));
+    dispatch(resetMessages());
+    axios.post('/api/checkout/next')
+      .then((response) => checkResponse(
+        response.data,
+        () => placeOrderSuccessCallback(response, dispatch),
+        () => placeOrderFailureCallback(response, dispatch)
+      ))
+      .catch((err) => {
+        dispatch(setPending(false));
+        dispatch(toggleLoader(false));
+        console.error('Error: ', err);
+      });
+  };
 }
 
 function makeToggleCreditRequest(value) {
@@ -117,40 +148,10 @@ function makeToggleCreditRequest(value) {
   };
 }
 
-function confirmOrderWithCreditsOnly(dispatch) {
-  axios.post('/api/checkout/apply-credit', { apply_store_credit: true })
-    .then((response) => checkResponse(
-      response.data,
-      () => placeOrderSuccessCallback(response, dispatch),
-      () => placeOrderFailureCallback(response, dispatch)
-    ))
-    .catch((err) => {
-      dispatch(setPending(false));
-      dispatch(toggleLoader(false));
-      console.error('Error: ', err);
-    });
-}
-
-/**
- * Finish order
- * @returns {function(*=)}
- */
-function confirmOrder(useCredits = false, fullyCoveredByCredits = false) {
-  return (dispatch) => {
-    window.scrollTo(0, 0);
-    dispatch(toggleLoader(true));
-    dispatch(setPending(true));
-    dispatch(resetMessages());
-    if (useCredits) {
-      if (fullyCoveredByCredits) {
-        confirmOrderWithCreditsOnly(dispatch);
-      } else {
-        makePlaceOrderRequest(dispatch);
-      }
-    } else {
-      makePlaceOrderRequest(dispatch);
-    }
-  };
-}
-
-export { checkoutReset, checkoutSquare, confirmOrder, makeToggleCreditRequest };
+export {
+  checkoutReset,
+  checkoutSquare,
+  confirmOrder,
+  confirmOrderNext,
+  makeToggleCreditRequest
+};

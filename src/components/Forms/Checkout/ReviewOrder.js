@@ -12,12 +12,12 @@ import {
 class ReviewOrder extends PureComponent {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
-    checkoutPayPal: PropTypes.func.isRequired,
     checkoutSquare: PropTypes.func.isRequired,
     confirmOrder: PropTypes.func.isRequired,
     isPayPal: PropTypes.bool.isRequired,
+    isStoreCredit: PropTypes.bool.isRequired,
+    canUseStoreCredit: PropTypes.bool.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
-    useCredits: PropTypes.bool.isRequired,
     checkoutReset: PropTypes.func.isRequired
   };
 
@@ -26,20 +26,12 @@ class ReviewOrder extends PureComponent {
       cartItems: {
         cart
       },
-      useCredits
+      isStoreCredit
     } = this.props;
-    if (cart.state === 'confirm') {
-      return this.renderSubmitButton();
-    } else if (this.props.isPayPal) {
+    const coveredByStoreCredit = (isStoreCredit && cart.covered_by_store_credit);
+    if (this.props.isPayPal) {
       return (
         <div className={s.paymentcontainer}>
-          {useCredits && calculateBalance(this.props.cartItems) > 0 &&
-            <p className={s.paymessage}>
-              The remaining balance of
-              <strong>{accounting.formatMoney(calculateBalance(this.props.cartItems))}</strong>
-              will be charged to your selected payment method.
-            </p>
-          }
           <ul>
             <li className={s.paymentmethod}>
               <span
@@ -54,15 +46,18 @@ class ReviewOrder extends PureComponent {
               After clicking on Place Order wait for the confirmation
               screen to appear. Do not click on back or any other buttons during this process.
             </p>
-            <input className={s.submit} type="button" value="Place Order" onClick={this.props.checkoutPayPal} />
+            <input className={s.submit} type="button" value="Place Order" onClick={this.props.confirmOrder} />
             <input className={s.cancelorder} onClick={this.props.checkoutReset} type="button" value="Cancel" />
           </div>
         </div>
       );
     }
+    if ((cart.state === 'confirm') || coveredByStoreCredit) {
+      return this.renderSubmitButton(coveredByStoreCredit);
+    }
     return (
       <div className={s.paymentcontainer}>
-        {useCredits && calculateBalance(this.props.cartItems) > 0 &&
+        {isStoreCredit && calculateBalance(this.props.cartItems) > 0 &&
           <p className={s.paymessage}>
             The remaining balance of&nbsp;
             <strong>{accounting.formatMoney(calculateBalance(this.props.cartItems))}</strong>
@@ -106,7 +101,7 @@ class ReviewOrder extends PureComponent {
               <span
                 className={cx(s.paytitle, s.active)}
               >
-                Credit Cart via Square
+                Credit Card via Square
               </span>
             </li>
           </ul>
@@ -117,7 +112,7 @@ class ReviewOrder extends PureComponent {
             screen to appear. Do not click on back or any other buttons during this process.
           </p>
           <input className={s.submit} type="button" value="Place Order" onClick={this.props.confirmOrder} />
-          <input className={s.cancelorder} type="button" value="Cancel" />
+          <input className={s.cancelorder} onClick={this.props.checkoutReset} type="button" value="Cancel" />
         </div>
       </div>
     )
@@ -130,9 +125,8 @@ class ReviewOrder extends PureComponent {
         isLoaded,
         isEmpty
       },
-      useCredits
+      isStoreCredit
     } = this.props;
-    const { covered_by_store_credit } = cart;
     if (!isLoaded && isEmpty) {
       return null;
     }
@@ -144,14 +138,11 @@ class ReviewOrder extends PureComponent {
           cart={cart}
           cartItems={this.props.cartItems}
           isPayPal={this.props.isPayPal}
+          isStoreCredit={isStoreCredit}
+          canUseStoreCredit={this.props.canUseStoreCredit}
           toggleUseCredits={this.props.toggleUseCredits}
-          useCredits={useCredits}
         />
-        {
-          (useCredits && covered_by_store_credit) ?
-          this.renderSubmitButton(true) :
-          this.listPayment()
-        }
+        { this.listPayment() }
       </div>
     );
   }

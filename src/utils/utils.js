@@ -1,3 +1,4 @@
+import accounting from 'accounting';
 import { NAV, ORDER_STATES } from '../constants/AppConsts';
 
 function setNavigation(slug) {
@@ -48,8 +49,19 @@ function checkCartState(props) {
  * @returns {boolean}
  */
 function checkIfPayPal(cart) {
+  if (Object.keys(cart).length === 0) {
+    return false;
+  }
   const paypal = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name === 'Paypal'));
   return Boolean(paypal);
+}
+
+function checkPayment(cart, method) {
+  if (Object.keys(cart).length === 0) {
+    return false;
+  }
+  const result = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name.toLowerCase() === method));
+  return Boolean(result);
 }
 
 /* checkout utils */
@@ -92,6 +104,17 @@ function useStoreCredits(args) {
   return payments.filter((payment) => ((payment.state === 'checkout') && (payment.source_type !== 'Spree::StoreCredit'))).length === 0;
 }
 
+function checkIfCanUseStoreCredit(args) {
+  const { cart } = args;
+  if (Object.keys(cart).length === 0) {
+    return false;
+  }
+  const isPayPal = checkPayment(cart, 'paypal');
+  if (isPayPal) {
+    return false;
+  }
+  return accounting.unformat(cart.display_total_available_store_credit) > 0;
+}
 
 export {
   checkIfPayPal,
@@ -101,6 +124,8 @@ export {
   calculateApplicableCredit,
   calculateBalance,
   calculateTotal,
-  useStoreCredits
+  useStoreCredits,
+  checkIfCanUseStoreCredit,
+  checkPayment
 };
 
