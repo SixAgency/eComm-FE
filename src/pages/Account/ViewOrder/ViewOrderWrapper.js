@@ -35,19 +35,29 @@ class ViewOrderWrapper extends BasePageComponent {
     order: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     route: PropTypes.object
   };
 
   componentWillMount = () => {
+    const { guest_token } = this.props.location.query;
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
     if (!this.props.order.isLoaded) {
-      this.props.getOrder(this.props.params.number);
+      this.props.getOrder(
+        {
+          number: this.props.params.number,
+          guest_token
+        }
+      );
     } else if (this.props.order.order.number !== this.props.params.number) {
-      this.props.getOrder(this.props.params.number);
+      this.props.getOrder({
+        number: this.props.params.number,
+        guest_token
+      });
     }
   };
 

@@ -109,9 +109,14 @@ function getCart(isNew, fn) {
   };
 }
 
-function getOrder(number) {
+function getOrder(args) {
+  const { number, guest_token } = args;
+  let url = `/api/order/${number}`;
+  if (guest_token) {
+    url = `${url}?guest_token=${guest_token}`;
+  }
   return (dispatch) => {
-    axios.get(`/api/order/${number}`)
+    axios.get(url)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setOrder(response.data));
       }, () => {
