@@ -51,7 +51,7 @@ siteRoutes.get('/my-account/address/billing', checkUser, editBilling);
 // My Account - Manage Addresses
 siteRoutes.get('/my-account/address/manage', checkUser, manageAddresses);
 // My Account - View Order
-siteRoutes.get('/my-account/view-order/:number', checkUser, viewOrder);
+siteRoutes.get('/my-account/view-order/:number', viewOrder);
 // Checkout - Billing
 siteRoutes.get('/checkout/billing', checkoutBilling);
 // Checkout - Shipping

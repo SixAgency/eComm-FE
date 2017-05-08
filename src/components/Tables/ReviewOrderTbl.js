@@ -18,7 +18,8 @@ class ReviewOrderTbl extends PureComponent {
     cartItems: PropTypes.object.isRequired,
     isPayPal: PropTypes.bool.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
-    useCredits: PropTypes.bool.isRequired
+    isStoreCredit: PropTypes.bool.isRequired,
+    canUseStoreCredit: PropTypes.bool.isRequired
   };
 
   getStateName = (id) => {
@@ -83,13 +84,12 @@ class ReviewOrderTbl extends PureComponent {
         shipments,
         adjustments,
         line_items,
-        item_total,
-        display_total_available_store_credit,
-        total,
         state,
+        display_total_available_store_credit
       },
       cartItems,
-      isPayPal
+      isStoreCredit,
+      canUseStoreCredit
     } = this.props;
     return (
       <div className={s.tablewrpr}>
@@ -161,7 +161,7 @@ class ReviewOrderTbl extends PureComponent {
                 </span>
               </td>
             </tr>
-            {this.props.useCredits &&
+            {isStoreCredit &&
               <tr>
                 <td className={cx(s.td, s.tdbig, s.psubtotal)}>Store Credit</td>
                 <td className={cx(s.td, s.tdsmall)}>
@@ -171,7 +171,7 @@ class ReviewOrderTbl extends PureComponent {
                 </td>
               </tr>
             }
-            {this.props.useCredits &&
+            {isStoreCredit &&
               <tr>
                 <td className={cx(s.td, s.tdbig, s.psubtotal)}>Remaining Balance</td>
                 <td className={cx(s.td, s.tdsmall)}>
@@ -189,25 +189,6 @@ class ReviewOrderTbl extends PureComponent {
                 </span>
               </td>
             </tr>
-            {
-              (!isPayPal && state !== 'confirm' &&
-              Number(display_total_available_store_credit.slice(1)) > 0) &&
-              <tr>
-                <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
-                  <label htmlFor="use_credits">
-                    I have <em>{accounting.formatMoney(
-                    display_total_available_store_credit.slice(1)
-                  )}</em> store credit, I want to use it on this purchase
-                  </label>
-                  <input
-                    type="checkbox"
-                    id="use_credits"
-                    checked={this.props.useCredits}
-                    onChange={this.props.toggleUseCredits}
-                  />
-                </td>
-              </tr>
-            }
             <tr>
               <td
                 className={cx(
@@ -237,6 +218,23 @@ class ReviewOrderTbl extends PureComponent {
                 </Link>}
               </td>
             </tr>
+            {state !== 'confirm' && canUseStoreCredit &&
+              (<tr>
+                <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
+                  <label htmlFor="use_credits">
+                    I have <em>{accounting.formatMoney(
+                    display_total_available_store_credit.slice(1)
+                  )}</em> store credit, I want to use it on this purchase
+                  </label>
+                  <input
+                    type="checkbox"
+                    id="use_credits"
+                    checked={isStoreCredit}
+                    onChange={this.props.toggleUseCredits}
+                  />
+                </td>
+              </tr>)
+            }
           </tfoot>
         </table>
       </div>

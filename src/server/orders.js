@@ -44,13 +44,20 @@ function setSessionParams(request, data) {
   return data;
 }
 
+function getOrderUrl(request) {
+  if (request.query.guest_token) {
+    return `${ORDER}/${request.params.number}?order_token=${request.query.guest_token}`;
+  }
+  if (request.session.guest_token) {
+    return `${ORDER}/${request.params.number}?order_token=${request.session.guest_token}`;
+  }
+  return `${ORDER}/${request.params.number}`;
+}
+
 // Get Order Details
 function getOrder(request) {
   let status;
-  let endpoint = `${ORDER}/${request.params.number}`;
-  if (!request.session.user_token) {
-    endpoint = `${ORDER}/${request.params.number}?order_token=${request.session.guest_token}`;
-  }
+  const endpoint = getOrderUrl(request);
   return apiFetch(endpoint, {}, request.session)
     .then((resp) => {
       status = resp.status;

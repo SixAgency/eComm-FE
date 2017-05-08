@@ -11,6 +11,8 @@ class ReviewWrapper extends Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
+    isStoreCredit: PropTypes.bool.isRequired,
+    canUseStoreCredit: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -36,12 +38,13 @@ class ReviewWrapper extends Component {
         <Review
           cartItems={this.props.cartItems}
           isPayPal={this.props.isPayPal}
+          isStoreCredit={this.props.isStoreCredit}
+          canUseStoreCredit={this.props.canUseStoreCredit}
           checkoutPayPal={() => (true)}
           checkoutSquare={() => (true)}
           confirmOrder={() => (true)}
           checkoutReset={() => (true)}
           toggleUseCredits={() => (true)}
-          useCredits={false}
           makeToggleCreditRequest={() => (true)}
         />
       </Checkout>

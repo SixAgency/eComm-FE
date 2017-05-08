@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage, setLoader, resetMessages } from './page';
-import { setPayment, setShipping, setBilling } from './checkout';
-import { getCartAddresses } from '../helpers/feed';
-import { checkIfPayPal } from '../utils/utils';
 import { validateShippingCalculator, validatePromoCode } from '../helpers/validators';
 
 
@@ -96,11 +93,6 @@ function getCart(isNew, fn) {
     axios.get(`/api/cart/${isNew}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
-        const addresses = getCartAddresses(response.data);
-        dispatch(setBilling(addresses.billing));
-        dispatch(setShipping(addresses.shipping));
-        const isPayPal = checkIfPayPal(response.data.cart);
-        dispatch(setPayment(isPayPal));
         dispatch(setCartPending(false));
         if (fn) {
           fn();
@@ -117,9 +109,14 @@ function getCart(isNew, fn) {
   };
 }
 
-function getOrder(number) {
+function getOrder(args) {
+  const { number, guest_token } = args;
+  let url = `/api/order/${number}`;
+  if (guest_token) {
+    url = `${url}?guest_token=${guest_token}`;
+  }
   return (dispatch) => {
-    axios.get(`/api/order/${number}`)
+    axios.get(url)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setOrder(response.data));
       }, () => {
@@ -313,6 +310,5 @@ export {
   setOrder,
   resetOrders,
   getAllOrders,
-  calculateShipping,
-  setPayment
+  calculateShipping
 };

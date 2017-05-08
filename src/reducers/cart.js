@@ -2,9 +2,7 @@ export default function reducer(state = {
   cartItems: {
     isLoaded: false,
     isEmpty: true,
-    cart: {
-      shipments: []
-    }
+    cart: {}
   },
   message: '',
   isError: false,

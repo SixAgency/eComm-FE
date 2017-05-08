@@ -11,7 +11,7 @@ import ViewOrderWrapper from '../../pages/Account/ViewOrder';
 import { BREADCRUMBS } from '../../constants/AppConsts';
 
 import { render, error } from '../common/render';
-import { getProfile, getStoreCreditInfo } from '../users';
+import { getProfile, getStoreCreditInfo, checkLogin } from '../users';
 import { getAddresses } from '../addresses';
 import { getOrders, getOrder } from '../orders';
 
@@ -198,9 +198,10 @@ function manageAddresses(req, resp, next) {
  */
 function viewOrder(req, resp, next) {
   Promise.all([
-    getOrder(req)
+    getOrder(req),
+    checkLogin(req)
   ])
-    .then(([order]) => {
+    .then(([order, user]) => {
       const params = {
         title: 'My Account',
         description: '',
@@ -208,6 +209,7 @@ function viewOrder(req, resp, next) {
         active: '/my-account',
         content: <ViewOrderWrapper
           order={order}
+          loggedIn={user.user.loggedIn}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };

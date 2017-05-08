@@ -13,16 +13,7 @@ import { render, error } from '../common/render';
 import { checkLogin } from '../users';
 import { getAddresses } from '../addresses';
 import { getSession } from '../session';
-
-/**
- * Helper method to determine if PayPal is used as payment method
- * @param cart
- * @returns {boolean}
- */
-function isPayPal(cart) {
-  const paypal = cart.payments.filter(({ payment_method, state }) => (state !== 'invalid' && payment_method.name === 'Paypal'));
-  return (paypal.length > 0);
-}
+import { checkPayment, checkIfCanUseStoreCredit } from '../../utils/utils';
 
 /**
  * Checkout Billing handler
@@ -46,7 +37,7 @@ function checkoutBilling(req, resp, next) {
           loggedIn={user.user.loggedIn}
           addresses={addresses.addresses}
           cartItems={cart}
-          isPayPal={isPayPal(cart.cart)}
+          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -77,7 +68,7 @@ function checkoutShipping(req, resp, next) {
           loggedIn={user.user.loggedIn}
           addresses={addresses.addresses}
           cartItems={cart}
-          isPayPal={isPayPal(cart.cart)}
+          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -106,7 +97,7 @@ function checkoutPromo(req, resp, next) {
         content: <PromoWrapper
           loggedIn={user.user.loggedIn}
           cartItems={cart}
-          isPayPal={isPayPal(cart.cart)}
+          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -135,7 +126,9 @@ function checkoutReview(req, resp, next) {
         content: <ReviewWrapper
           loggedIn={user.user.loggedIn}
           cartItems={cart}
-          isPayPal={isPayPal(cart.cart)}
+          isPayPal={checkPayment(cart.cart, 'paypal')}
+          isStoreCredit={checkPayment(cart.cart, 'store credit')}
+          canUseStoreCredit={checkIfCanUseStoreCredit(cart)}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };

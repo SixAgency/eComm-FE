@@ -13,7 +13,6 @@ import { getAddress,
   setDefaultBilling,
   editAddress,
   createAddressNew } from '../../../actions/address';
-import { setBilling } from '../../../actions/checkout';
 
 const mapStateToProps = ((state) => (
   {
@@ -46,8 +45,7 @@ const mapDispatchToProps = ((dispatch) => (
       data,
       message,
       callback
-    )),
-    setBilling: (id) => dispatch(setBilling(id))
+    ))
   }
 ));
 
@@ -64,7 +62,6 @@ class ManageAddressesWrapper extends BasePageComponent {
     setDefaultShipping: PropTypes.func.isRequired,
     setDefaultBilling: PropTypes.func.isRequired,
     editAddress: PropTypes.func.isRequired,
-    setBilling: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
