@@ -67,6 +67,7 @@ function placeOrderSuccessCallback(response, dispatch) {
   const orderLink = `my-account/view-order/${response.data.cart.number}`;
   forwardTo(orderLink);
   dispatch(setMessage({ isError: false, messages: ['Your purchase completed successfully.'] }));
+  dispatch(setPending(false));
   dispatch(getCart(true));
 }
 
