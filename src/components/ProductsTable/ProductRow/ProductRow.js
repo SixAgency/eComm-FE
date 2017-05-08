@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import accounting from 'accounting';
 
@@ -12,7 +12,8 @@ class ProductRow extends React.Component {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired
+    cartItems: PropTypes.object.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   };
 
   getPrice = () => {
@@ -78,6 +79,13 @@ class ProductRow extends React.Component {
     img.src = imagePlaceholder;
   };
 
+  viewProduct = (product) => {
+    const image = product.variant.images.length ? product.variant.images[0].small_url : null;
+    this.props.toggleLoader(true, image);
+    setTimeout(() => {
+      browserHistory.push(`/product/${product.variant.slug}`);
+    }, 250);
+  }
 
   render() {
     const { item } = this.props;
@@ -86,7 +94,6 @@ class ProductRow extends React.Component {
     if (productImages.length > 0 && productImages[0].small_url) {
       image = productImages[0].small_url;
     }
-    const slug = `/product/${item.variant.slug}`;
     const discount = this.getBulkDiscount();
     return (
       <tr className={s.cartitem}>
@@ -98,7 +105,7 @@ class ProductRow extends React.Component {
             alt="product"
             onError={this.brokenImage}
           />
-          <Link to={slug}>
+          <Link onClick={() => { this.viewProduct(item); }}>
             {item.variant.name}
           </Link>
           {item.variant.option_values &&

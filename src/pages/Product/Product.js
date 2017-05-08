@@ -26,7 +26,8 @@ class Product extends Component {
     addProductReview: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -120,6 +121,7 @@ class Product extends Component {
                 addToCart={this.props.onAddToCart}
                 cartItems={this.props.cartItems}
                 setMessage={this.props.setMessage}
+                toggleLoader={this.props.toggleLoader}
               />
             </span>
           </div>

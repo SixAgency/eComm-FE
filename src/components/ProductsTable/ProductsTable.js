@@ -8,7 +8,8 @@ class ProductsTable extends React.Component {
     items: PropTypes.array.isRequired,
     removeItem: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
-    cartItems: PropTypes.object.isRequired
+    cartItems: PropTypes.object.isRequired,
+    toggleLoader: PropTypes.func.isRequired
   };
 
   render() {
@@ -48,6 +49,7 @@ class ProductsTable extends React.Component {
                 removeItem={this.props.removeItem}
                 updateQuantity={this.props.updateQuantity}
                 cartItems={this.props.cartItems}
+                toggleLoader={this.props.toggleLoader}
               />
               ),
             )}

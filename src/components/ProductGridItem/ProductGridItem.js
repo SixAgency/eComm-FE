@@ -21,7 +21,8 @@ class ProductGridItem extends Component {
     priceclass: PropTypes.string,
     nameclass: PropTypes.string,
     catclass: PropTypes.string,
-    buttonclass: PropTypes.string
+    buttonclass: PropTypes.string,
+    toggleLoader: PropTypes.func.isRequired
   };
 
   getPrice = (calcReduced = false) => {
@@ -87,7 +88,11 @@ class ProductGridItem extends Component {
   };
 
   handleViewProduct = (product) => {
-    browserHistory.push(`/product/${product.slug}`);
+    const image = product.master.images.length ? product.master.images[0].large_url : null;
+    this.props.toggleLoader(true, image);
+    setTimeout(() => {
+      browserHistory.push(`/product/${product.slug}`);
+    }, 250);
   }
 
   render() {
