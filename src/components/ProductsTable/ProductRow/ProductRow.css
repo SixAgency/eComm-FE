@@ -15,6 +15,7 @@
     border: 0;
   }
   .productname > a {
+    cursor: pointer;
     position: relative;
     font-size: 13px;
     line-height: 17px;

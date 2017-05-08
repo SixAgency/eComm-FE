@@ -20,6 +20,7 @@ const mapStateToProps = ((state) => (
     gridItems: state.catalog.gridItems,
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
+    showLoader: state.page.showLoader,
     isCartPending: state.cart.isCartPending
   }
 ));
@@ -27,7 +28,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    toggleLoader: (toggle, image) => dispatch(toggleLoader(toggle, image)),
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
@@ -46,6 +47,7 @@ class HomeWrapper extends BasePageComponent {
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
+    showLoader: PropTypes.object.isRequired,
     isCartPending: PropTypes.bool.isRequired
   };
 
@@ -79,7 +81,7 @@ class HomeWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
     const { isCartPending } = nextProps;
-    if (isLoaded && !isCartPending) {
+    if (isLoaded && !isCartPending && this.props.showLoader.toggle) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -87,7 +89,9 @@ class HomeWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    this.props.toggleLoader(true);
+    if (!this.props.showLoader.toggle) {
+      this.props.toggleLoader(true);
+    }
   };
 
   render() {
@@ -99,6 +103,7 @@ class HomeWrapper extends BasePageComponent {
           cartItems={this.props.cartItems.cart.line_items}
           messages={this.props.messages}
           setMessage={this.props.setMessage}
+          toggleLoader={this.props.toggleLoader}
         />
       );
     }

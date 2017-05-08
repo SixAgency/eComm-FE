@@ -26,7 +26,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (props) => dispatch(toggleLoader(props)),
+    toggleLoader: (toggle, image) => dispatch(toggleLoader(toggle, image)),
     addToCart: (item) => dispatch(addToCart(item)),
     getProduct: (slug) => dispatch(getProduct(slug)),
     resetMessages: () => dispatch(resetMessages()),
@@ -87,7 +87,9 @@ class ProductWrapper extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.params.slug !== nextProps.params.slug) {
-      this.props.toggleLoader(true);
+      if (!this.props.showLoader.toggle) {
+        this.props.toggleLoader(true);
+      }
       this.props.getProduct(nextProps.params.slug);
     } else {
       const { isLoaded } = nextProps.product;
@@ -166,6 +168,7 @@ class ProductWrapper extends Component {
           messages={messages}
           isError={this.props.isError}
           resetMessages={this.props.resetMessages}
+          toggleLoader={this.props.toggleLoader}
         />
       );
     }

@@ -69,6 +69,7 @@ class Cart extends Component {
                   removeItem={this.props.removeItem}
                   updateQuantity={this.props.updateQuantity}
                   cartItems={this.props.cartItems}
+                  toggleLoader={this.props.toggleLoader}
                 />
                 <PromoCodeInput
                   updateCart={this.props.updateCart}

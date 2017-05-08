@@ -33,14 +33,15 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    showLoader: state.page.showLoader
   }
 ));
 
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    toggleLoader: (toggle, image) => dispatch(toggleLoader(toggle, image)),
     removeItem: (item) => dispatch(removeItem(item)),
     onLogout: () => dispatch(onLogout()),
     onLogin: (data) => dispatch(onLogin(data)),
@@ -62,6 +63,7 @@ class CartWrapper extends BasePageComponent {
     removeItem: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
+    showLoader: PropTypes.object.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     isPayPal: PropTypes.bool.isRequired,
@@ -121,7 +123,7 @@ class CartWrapper extends BasePageComponent {
     const isCartPending = nextProps.isCartPending;
     const cartLoaded = nextProps.cartItems.isLoaded;
     const payPalLoaded = nextProps.paypalObj.isLoaded;
-    if (!isCartPending && cartLoaded && payPalLoaded) {
+    if (!isCartPending && cartLoaded && payPalLoaded && this.props.showLoader.toggle) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -129,7 +131,9 @@ class CartWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    this.props.toggleLoader(true);
+    if (!this.props.showLoader.toggle) {
+      this.props.toggleLoader(true);
+    }
     this.props.resetMessages();
   };
 
