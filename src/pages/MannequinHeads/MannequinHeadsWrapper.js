@@ -6,7 +6,7 @@ import MannequinHeads from './MannequinHeads';
 
 // Actions
 import { toggleLoader, setMessage } from '../../actions/page';
-import { getMannequinHeads } from '../../actions/catalog';
+import { getMannequinHeads, getProduct } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
@@ -14,7 +14,9 @@ const mapStateToProps = ((state) => (
     products: state.catalog.mannequinHeads,
     messages: state.page.messages,
     isError: state.page.isError,
-    cartItems: state.cart.cartItems
+    showLoader: state.page.showLoader,
+    cartItems: state.cart.cartItems,
+    isPending: state.page.isPending
   }
 ));
 
@@ -23,7 +25,8 @@ const mapDispatchToProps = ((dispatch) => (
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     getMannequinHeads: () => dispatch(getMannequinHeads()),
     addToCart: (item) => dispatch(addToCart(item)),
-    setMessage: (message) => dispatch(setMessage(message))
+    setMessage: (message) => dispatch(setMessage(message)),
+    getProduct: (slug) => dispatch(getProduct(slug))
   }
 ));
 
@@ -34,7 +37,10 @@ class MannequinHeadsWrapper extends BasePageComponent {
     products: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     getMannequinHeads: PropTypes.func.isRequired,
-    addToCart: PropTypes.func.isRequired
+    showLoader: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
@@ -44,13 +50,26 @@ class MannequinHeadsWrapper extends BasePageComponent {
   };
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
+    if (this.props.products.isLoaded && !this.props.isPending) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    const { isLoaded } = nextProps.products;
+    if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
+    }
   };
 
   componentWillUnmount = () => {
-    this.props.toggleLoader(true);
+    if (!this.props.showLoader.toggle) {
+      this.props.toggleLoader(true);
+    }
   };
 
   render() {
@@ -61,7 +80,9 @@ class MannequinHeadsWrapper extends BasePageComponent {
         cartItems={this.props.cartItems}
         setMessage={this.props.setMessage}
         messages={this.props.messages}
+        toggleLoader={this.props.toggleLoader}
         isError={this.props.isError}
+        getProduct={this.props.getProduct}
       />
     );
   }

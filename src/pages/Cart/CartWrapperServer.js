@@ -38,6 +38,7 @@ class CartWrapper extends Component {
         checkoutPayPal={() => (true)}
         getCart={() => (true)}
         proceedToCheckout={() => (true)}
+        setMessage={() => (true)}
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
         calculateShipping={() => (true)}

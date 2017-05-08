@@ -19,9 +19,11 @@ class CategoryWrapper extends React.Component {
         gridItems={this.props.categoryItems}
         addToCart={() => (true)}
         setMessage={() => (true)}
+        toggleLoader={() => (true)}
         isError={isError}
         messages={[]}
         cartItems={cartItems}
+        getProduct={() => (true)}
       />
     );
   }

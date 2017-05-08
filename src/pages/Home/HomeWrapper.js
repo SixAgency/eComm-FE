@@ -12,7 +12,7 @@ import {
   toggleLoader,
   setMessage
 } from '../../actions/page';
-import { getProducts } from '../../actions/catalog';
+import { getProducts, getProduct } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
@@ -21,7 +21,8 @@ const mapStateToProps = ((state) => (
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
     showLoader: state.page.showLoader,
-    isCartPending: state.cart.isCartPending
+    isCartPending: state.cart.isCartPending,
+    isPending: state.page.isPending
   }
 ));
 
@@ -32,7 +33,8 @@ const mapDispatchToProps = ((dispatch) => (
     getProducts: () => dispatch(getProducts()),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
-    setMessage: (message) => dispatch(setMessage(message))
+    setMessage: (message) => dispatch(setMessage(message)),
+    getProduct: (slug) => dispatch(getProduct(slug))
   }
 ));
 
@@ -48,7 +50,9 @@ class HomeWrapper extends BasePageComponent {
     setMessage: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     showLoader: PropTypes.object.isRequired,
-    isCartPending: PropTypes.bool.isRequired
+    isCartPending: PropTypes.bool.isRequired,
+    isPending: PropTypes.bool.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -61,9 +65,7 @@ class HomeWrapper extends BasePageComponent {
       activeSlug: '/'
     };
     this.props.setHeaderProps(props);
-    if (this.props.gridItems.isLoaded) {
-      console.log(this.props.gridItems);
-    } else {
+    if (!this.props.gridItems.isLoaded) {
       this.props.getProducts();
     }
     this.props.resetMessages();
@@ -71,20 +73,21 @@ class HomeWrapper extends BasePageComponent {
 
   componentDidMount = () => {
     const { isLoaded } = this.props.gridItems;
-    if (isLoaded) {
+    if (isLoaded && !this.props.isPending) {
       setTimeout(() => {
         this.props.toggleLoader(false);
-      }, 500);
+      }, 750);
     }
   };
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
-    const { isCartPending } = nextProps;
-    if (isLoaded && !isCartPending && this.props.showLoader.toggle) {
+    const { isCartPending, isPending } = nextProps;
+    if (isLoaded && !isCartPending && !isPending && nextProps.showLoader.toggle) {
       setTimeout(() => {
         this.props.toggleLoader(false);
-      }, 250);
+        console.log('HERE123');
+      }, 500);
     }
   };
 
@@ -104,6 +107,7 @@ class HomeWrapper extends BasePageComponent {
           messages={this.props.messages}
           setMessage={this.props.setMessage}
           toggleLoader={this.props.toggleLoader}
+          getProduct={this.props.getProduct}
         />
       );
     }

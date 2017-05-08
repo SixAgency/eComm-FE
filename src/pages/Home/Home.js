@@ -15,7 +15,8 @@ class Home extends Component {
     cartItems: PropTypes.array.isRequired,
     setMessage: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    toggleLoader: PropTypes.func.isRequired
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -48,6 +49,7 @@ class Home extends Component {
           cartItems={this.props.cartItems}
           setMessage={this.props.setMessage}
           toggleLoader={this.props.toggleLoader}
+          getProduct={this.props.getProduct}
         />
       </section>
     );

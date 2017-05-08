@@ -8,6 +8,7 @@ class RelatedProducts extends React.Component {
     gridRecs: PropTypes.object.isRequired,
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.array.isRequired,
+    getProduct: PropTypes.func.isRequired,
     setMessage: PropTypes.func,
     toggleLoader: PropTypes.func.isRequired
   };
@@ -30,6 +31,7 @@ class RelatedProducts extends React.Component {
           setMessage={this.props.setMessage}
           buttonclass="rbutton"
           toggleLoader={this.props.toggleLoader}
+          getProduct={this.props.getProduct}
         />
       </div>
     );

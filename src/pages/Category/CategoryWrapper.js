@@ -5,7 +5,7 @@ import capitalize from 'lodash.capitalize';
 import Category from './Category';
 // Actions
 import { setHeaderProps, resetMessages, toggleLoader, setMessage } from '../../actions/page';
-import { getProductsInCategory } from '../../actions/catalog';
+import { getProductsInCategory, getProduct } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
 const mapStateToProps = ((state) => (
@@ -13,7 +13,9 @@ const mapStateToProps = ((state) => (
     categoryItems: state.catalog.categoryItems,
     messages: state.page.messages,
     isError: state.page.isError,
-    cartItems: state.cart.cartItems
+    showLoader: state.page.showLoader,
+    cartItems: state.cart.cartItems,
+    isPending: state.page.isPending
   }
 ));
 
@@ -24,7 +26,8 @@ const mapDispatchToProps = ((dispatch) => (
     getProductsInCategory: (slug) => dispatch(getProductsInCategory(slug)),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
-    setMessage: (message) => dispatch(setMessage(message))
+    setMessage: (message) => dispatch(setMessage(message)),
+    getProduct: (slug) => dispatch(getProduct(slug))
   }
 ));
 
@@ -40,13 +43,16 @@ class CategoryWrapper extends React.Component {
     params: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    setMessage: PropTypes.func.isRequired
+    isPending: PropTypes.bool.isRequired,
+    showLoader: PropTypes.object.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
     const props = {
       headerClass: 'default',
-      activeSlug: '/',
+      activeSlug: '/'
     };
     this.props.setHeaderProps(props);
     if (this.props.categoryItems.isLoaded) {
@@ -61,7 +67,7 @@ class CategoryWrapper extends React.Component {
 
   componentDidMount = () => {
     const { isLoaded } = this.props.categoryItems;
-    if (isLoaded) {
+    if (isLoaded && !this.props.isPending) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -74,7 +80,7 @@ class CategoryWrapper extends React.Component {
       this.props.getProductsInCategory(this.props.params.slug);
     } else {
       const { isLoaded } = nextProps.categoryItems;
-      if (isLoaded) {
+      if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 250);
@@ -83,7 +89,9 @@ class CategoryWrapper extends React.Component {
   };
 
   componentWillUnmount = () => {
-    this.props.toggleLoader(true);
+    if (!this.props.showLoader.toggle) {
+      this.props.toggleLoader(true);
+    }
   };
 
   render() {
@@ -96,7 +104,9 @@ class CategoryWrapper extends React.Component {
           addToCart={this.props.addToCart}
           messages={this.props.messages}
           isError={this.props.isError}
+          toggleLoader={this.props.toggleLoader}
           setMessage={this.props.setMessage}
+          getProduct={this.props.getProduct}
         />
       );
     }

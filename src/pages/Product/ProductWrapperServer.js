@@ -27,6 +27,7 @@ class ProductWrapper extends Component {
         onAddToCart={() => (true)}
         messages={this.props.messages}
         isError={this.props.isError}
+        getProduct={() => (true)}
       />
     );
   }
