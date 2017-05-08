@@ -276,6 +276,7 @@ function calculateShipping(data) {
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
+    window.scrollTo(0, 0);
     const valid = validateShippingCalculator(data);
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
@@ -285,6 +286,7 @@ function calculateShipping(data) {
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
           dispatch(setCartPending(false));
+          dispatch(setMessage({ isError: false, messages: ['Shipping costs updated'] }));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
           dispatch(setCartPending(false));
