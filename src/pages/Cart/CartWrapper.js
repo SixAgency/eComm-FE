@@ -6,7 +6,12 @@ import BasePageComponent from '../BasePageComponent';
 import Cart from './Cart';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader,
+  setMessage
+} from '../../actions/page';
 import { forwardTo } from '../../actions/handler';
 import {
   removeItem,
@@ -47,7 +52,8 @@ const mapDispatchToProps = ((dispatch) => (
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
     calculateShipping: (data) => dispatch(calculateShipping(data)),
-    getCart: (data) => dispatch(getCart(data))
+    getCart: (data) => dispatch(getCart(data)),
+    setMessage: (message) => dispatch(setMessage(message))
   }
 ));
 
@@ -74,7 +80,8 @@ class CartWrapper extends BasePageComponent {
     resetMessages: PropTypes.func.isRequired,
     route: PropTypes.object,
     calculateShipping: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired
+    getCart: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -201,6 +208,7 @@ class CartWrapper extends BasePageComponent {
         toggleLoader={this.props.toggleLoader}
         calculateShipping={this.props.calculateShipping}
         getCart={this.props.getCart}
+        setMessage={this.props.setMessage}
       />
     );
   }
