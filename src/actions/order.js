@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, setLoader, resetMessages } from './page';
+import { setMessage, setLoader, resetMessages, setPending } from './page';
 import { validateShippingCalculator, validatePromoCode } from '../helpers/validators';
 
 
@@ -138,6 +138,7 @@ function addToCart(data) {
   return (dispatch) => {
     dispatch(setLoader(true, data.image));
     dispatch(setCartPending(true));
+    dispatch(setPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.post('/api/cart', { id: data.id, quantity: data.quantity })
@@ -148,10 +149,12 @@ function addToCart(data) {
         const message = data.quantity > 1 ? multipleMessage : singleMessage;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCartPending(false));
+        dispatch(setPending(false));
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setCartPending(false));
+        dispatch(setPending(false));
         forwardTo('cart');
       }))
       .catch((err) => {

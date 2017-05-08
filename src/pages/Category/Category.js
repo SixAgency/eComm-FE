@@ -12,8 +12,10 @@ class Category extends React.Component {
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     isError: PropTypes.bool.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    setMessage: PropTypes.func.isRequired
+    setMessage: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
   render() {
     const bottomText = { subtitle: 'Shop Now' };
@@ -33,6 +35,8 @@ class Category extends React.Component {
           isError={this.props.isError}
           messages={this.props.messages}
           setMessage={this.props.setMessage}
+          toggleLoader={this.props.toggleLoader}
+          getProduct={this.props.getProduct}
         />
       </section>
     );

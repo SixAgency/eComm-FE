@@ -11,8 +11,10 @@ class MannequinHeads extends Component {
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   render() {
@@ -26,9 +28,11 @@ class MannequinHeads extends Component {
               gridClass="mannequingrid"
               gridItems={this.props.products}
               addToCart={this.props.addToCart}
+              toggleLoader={this.props.toggleLoader}
               cartItems={this.props.cartItems.cart.line_items}
               setMessage={this.props.setMessage}
               isError={this.props.isError}
+              getProduct={this.props.getProduct}
             />
           </div>
         </div>

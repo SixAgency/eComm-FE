@@ -21,10 +21,12 @@ class MannequinHeadsWrapper extends React.Component {
       <MannequinHeads
         products={products}
         cartItems={cartItems}
+        toggleLoader={() => (true)}
         messages={[]}
         isError={isError}
         setMessage={() => (true)}
         addToCart={() => (true)}
+        getProduct={() => (true)}
       />
     );
   }

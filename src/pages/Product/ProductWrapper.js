@@ -19,7 +19,8 @@ const mapStateToProps = ((state) => (
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
     isError: state.page.isError,
-    showLoader: state.page.showLoader
+    showLoader: state.page.showLoader,
+    isPending: state.page.isPending
   }
 ));
 
@@ -50,7 +51,8 @@ class ProductWrapper extends Component {
     resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    showLoader: PropTypes.object.isRequired
+    showLoader: PropTypes.object.isRequired,
+    isPending: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -67,17 +69,19 @@ class ProductWrapper extends Component {
       activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.product.isLoaded) {
-      this.props.getProduct(this.props.params.slug);
-    } else if (this.props.product.product.slug !== this.props.params.slug) {
-      this.props.getProduct(this.props.params.slug);
+    if (!this.props.isPending) {
+      if (!this.props.product.isLoaded) {
+        this.props.getProduct(this.props.params.slug);
+      } else if (this.props.product.product.slug !== this.props.params.slug) {
+        this.props.getProduct(this.props.params.slug);
+      }
     }
     this.props.resetMessages();
   };
 
   componentDidMount = () => {
-    const { isLoaded } = this.props.product;
-    if (isLoaded && this.props.product.product.slug === this.props.params.slug) {
+    const { isLoaded, product } = this.props.product;
+    if (!this.props.isPending && isLoaded && product.slug === this.props.params.slug) {
       setTimeout(() => {
         this.props.resetMessages();
         this.props.toggleLoader(false);
@@ -86,25 +90,16 @@ class ProductWrapper extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.params.slug !== nextProps.params.slug) {
-      if (!this.props.showLoader.toggle) {
-        this.props.toggleLoader(true);
-      }
-      this.props.getProduct(nextProps.params.slug);
-    } else {
-      const { isLoaded } = nextProps.product;
-      const currentId = this.props.product.product.id;
-      const nextId = nextProps.product.product.id;
-      if (isLoaded && currentId !== nextId) {
-        const props = {
-          headerClass: 'colored',
-          activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
-        };
-        this.props.setHeaderProps(props);
-        setTimeout(() => {
-          this.props.toggleLoader(false);
-        }, 250);
-      }
+    const { isLoaded } = nextProps.product;
+    if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+      const props = {
+        headerClass: 'colored',
+        activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
+      };
+      this.props.setHeaderProps(props);
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
     }
   };
 
@@ -169,6 +164,7 @@ class ProductWrapper extends Component {
           isError={this.props.isError}
           resetMessages={this.props.resetMessages}
           toggleLoader={this.props.toggleLoader}
+          getProduct={this.props.getProduct}
         />
       );
     }

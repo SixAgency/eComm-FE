@@ -15,7 +15,8 @@ class Grid extends Component {
     catclass: PropTypes.string,
     cartItems: PropTypes.array,
     buttonclass: PropTypes.string,
-    toggleLoader: PropTypes.func.isRequired
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   render() {
@@ -38,6 +39,7 @@ class Grid extends Component {
                 cartItems={this.props.cartItems}
                 setMessage={this.props.setMessage}
                 toggleLoader={this.props.toggleLoader}
+                getProduct={this.props.getProduct}
               />
             </li>
           ))}

@@ -19,6 +19,8 @@ class HomeWrapper extends React.Component {
         messages={[]}
         isError={false}
         addToCart={() => (true)}
+        toggleLoader={() => (true)}
+        getProduct={() => (true)}
       />
     );
   }

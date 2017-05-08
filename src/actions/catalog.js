@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, resetMessages, setLoader } from './page';
+import { setMessage, resetMessages, setLoader, setPending } from './page';
 import { validateReview } from '../helpers/validators';
 
 /**
@@ -77,11 +77,14 @@ function getProducts() {
  */
 function getProduct(slug) {
   return (dispatch) => {
+    dispatch(setPending(true));
     axios.get(`/api/product/${slug}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setProduct(response.data));
+        dispatch(setPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch(setPending(false));
       }))
       .catch((err) => {
         console.error('Error', err); // eslint-disable-line no-console
