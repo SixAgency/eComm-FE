@@ -7,7 +7,9 @@ class PromoCodeInput extends Component {
   static propTypes = {
     updateCart: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired
+    getCart: PropTypes.func.isRequired,
+    cartItems: PropTypes.object.isRequired,
+    setMessage: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -18,8 +20,19 @@ class PromoCodeInput extends Component {
   }
 
   onSubmit = (event) => {
+    const paranthesesReg = /\((.*)\)/;
     event.preventDefault();
-    this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
+    if (this.props.cartItems.cart.adjustments.length !== 0) {
+      const messages = [`Sorry, promotional code "${this.props.cartItems.cart.adjustments[0].label.match(paranthesesReg)[1]}" has
+        already been applied and cannot be used in conjunction with other promotional codes`];
+      this.props.setMessage({
+        isError: true,
+        messages
+      });
+      window.scrollTo(0, 0);
+    } else {
+      this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
+    }
   }
 
   handlePromoCode = (event) => {
