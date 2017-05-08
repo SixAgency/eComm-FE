@@ -67,9 +67,7 @@ class DashboardWrapper extends BasePageComponent {
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.addresses.addresses.isLoaded) {
-      this.props.getAddress();
-    }
+    this.props.getAddress();
     this.props.getAllOrders();
     if (!this.props.profile.isLoaded) {
       this.props.getProfile();

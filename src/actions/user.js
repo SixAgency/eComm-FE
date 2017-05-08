@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, resetMessages } from './page';
+import { setMessage } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { resetAddresses, setAddresses } from './address';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
@@ -98,6 +98,7 @@ function onLogin(data, checkout) {
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
+          // Reset user addresses
           dispatch(resetAddresses());
           // Redirect to dashboard
           if (!checkout) {
