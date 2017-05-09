@@ -44,6 +44,9 @@
         td {
           text-align: left;
           small { font-size: 80%; }
+          .savetext {
+            color: rgb(77, 211, 218);
+          }
         }
       }
       .shipping p {

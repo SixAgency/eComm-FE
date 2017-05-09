@@ -66,7 +66,7 @@ class CartForm extends Component {
                   <tr key={key} className={s.csubtotals}>
                     <th className="table-heads">{adjust.label}</th>
                     <td className={cx(s.ammout, s.data)}>
-                      -{accounting.formatMoney(-adjust.amount)}
+                      -{accounting.formatMoney(-adjust.amount)} <span className={s.savetext}>You Save</span>
                     </td>
                   </tr>
                 ))}
