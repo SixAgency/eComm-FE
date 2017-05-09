@@ -25,14 +25,15 @@ class CartCta extends Component {
     };
   }
 
-  // componentWillReceiveProps = (nextProps) => {
-  //   if (nextProps.product.isLoaded) {
-  //     this.setState({
-  //       quantity: 1,
-  //       variant_id: null
-  //     });
-  //   }
-  // };
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.product.isLoaded) {
+      const { product } = nextProps.product;
+      this.setState({
+        quantity: 1,
+        variant_id: product.has_variants ? product.variants[0].id : product.master.id
+      });
+    }
+  };
 
   setVariant = (variant) => {
     this.setState({
