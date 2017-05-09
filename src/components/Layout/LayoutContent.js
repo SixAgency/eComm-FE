@@ -22,7 +22,9 @@ class LayoutContent extends Component {
     showLoader: PropTypes.object.isRequired,
     layoutStyles: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
-    modalContent: PropTypes.string.isRequired
+    modalContent: PropTypes.string.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   showLoader = () => {
@@ -44,6 +46,8 @@ class LayoutContent extends Component {
               menuOpen={this.props.menuOpen}
               proceedToCheckout={this.props.proceedToCheckout}
               mobileNavOpen={this.props.mobileNavOpen}
+              toggleLoader={this.props.toggleLoader}
+              getProduct={this.props.getProduct}
             />
             {this.props.children}
             <Footer />

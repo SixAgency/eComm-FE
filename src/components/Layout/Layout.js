@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import LayoutContent from './LayoutContent';
 import { getCart } from '../../actions/order';
 import { checkLogin } from '../../actions/user';
-import { toggleMobileNavigation } from '../../actions/page';
+import { toggleMobileNavigation, toggleLoader } from '../../actions/page';
 import { checkoutNext } from '../../actions/checkout';
+import { getProduct } from '../../actions/catalog';
 import { forwardTo } from '../../actions/handler';
 import { checkCartState } from '../../utils/utils';
 
@@ -25,7 +26,9 @@ const mapDispatchToProps = ((dispatch) => (
     getCart: (isNew) => dispatch(getCart(isNew)),
     checkLogin: () => dispatch(checkLogin()),
     toggleMobileNavigation: (value) => dispatch(toggleMobileNavigation(value)),
-    checkoutNext: (fn) => dispatch(checkoutNext(fn))
+    checkoutNext: (fn) => dispatch(checkoutNext(fn)),
+    toggleLoader: (toggle, image) => dispatch(toggleLoader(toggle, image)),
+    getProduct: (slug) => dispatch(getProduct(slug))
   }
 ));
 
@@ -44,7 +47,9 @@ class Layout extends Component {
     children: PropTypes.node.isRequired,
     showMobileNav: PropTypes.bool.isRequired,
     toggleMobileNavigation: PropTypes.func.isRequired,
-    location: PropTypes.object
+    location: PropTypes.object,
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
@@ -99,6 +104,8 @@ class Layout extends Component {
         showLoader={this.props.showLoader}
         showModal={this.props.showModal}
         modalContent={this.props.modalContent}
+        toggleLoader={this.props.toggleLoader}
+        getProduct={this.props.getProduct}
       >{this.props.children}</LayoutContent>
     );
   }
