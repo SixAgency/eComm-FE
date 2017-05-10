@@ -48,6 +48,7 @@ class CartCta extends Component {
         return (
           <MultiVariant
             variants={product.variants}
+            selected={this.state.variant_id}
             action={this.setVariant}
           />
         );
@@ -66,6 +67,7 @@ class CartCta extends Component {
             variants={product.variants}
             action={this.setVariant}
             price={Number(product.price)}
+            selected={this.state.variant_id}
           />
         );
       }
@@ -111,9 +113,14 @@ class CartCta extends Component {
       image: productImages.length ? productImages[0].large_url : null
     };
     const flag = checkQuantities({
-      ...data,
+      id: product.master.id,
+      quantity,
       items: cartItems
     });
+    // const flag = checkQuantities({
+    //   ...data,
+    //   items: cartItems
+    // });
     if (!flag) {
       const messages = this.props.product.product.max_quantity_allowed_in_cart === 0 ?
       [
