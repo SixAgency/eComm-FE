@@ -81,16 +81,28 @@ class ViewOrderWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
+  onLogout = (event) => {
+    event.preventDefault();
+    this.props.onLogout();
+  };
+
   render() {
-    if (!this.props.order.isLoaded) {
+    const {
+      loggedIn,
+      order,
+      route
+    } = this.props;
+    if (!order.isLoaded) {
       return null;
     }
+    const breadcrumbs = route.breadcrumbs;
+    breadcrumbs[1].label = `${breadcrumbs[1].label}${order.order.id}`;
     return (
       <ViewOrder
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        order={this.props.order.order}
-        breadcrumbs={this.props.route.breadcrumbs}
+        loggedIn={loggedIn}
+        onLogout={this.onLogout}
+        order={order.order}
+        breadcrumbs={breadcrumbs}
       />
     );
   }
