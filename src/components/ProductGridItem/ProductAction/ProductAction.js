@@ -9,13 +9,13 @@ class ProductAction extends React.Component {
     text: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     action: PropTypes.func.isRequired,
-    buttonclass: PropTypes.string,
-  }
+    buttonclass: PropTypes.string
+  };
 
   static defaultProps = {
     link: '/',
-    action: () => (true),
-  }
+    action: () => (true)
+  };
 
   render() {
     return (

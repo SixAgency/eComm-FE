@@ -78,7 +78,11 @@ class ProductGridItem extends Component {
     if (product.has_variants) {
       return {
         text: (product.classifications[0].taxon.name === 'Gifts' ? 'Select Amount' : 'Select Options'),
-        link: `/product/${product.slug}`
+        link: `/product/${product.slug}`,
+        action: (event) => {
+          event.preventDefault();
+          this.handleViewProduct(product);
+        }
       };
     }
     return {
