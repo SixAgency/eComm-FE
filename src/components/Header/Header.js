@@ -13,7 +13,9 @@ class Header extends React.Component {
     cartItems: PropTypes.object.isRequired,
     menuOpen: PropTypes.string.isRequired,
     mobileNavOpen: PropTypes.func.isRequired,
-    proceedToCheckout: PropTypes.func.isRequired
+    proceedToCheckout: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -122,6 +124,8 @@ class Header extends React.Component {
               cartItems={this.props.cartItems}
               cartClass={this.state.cartClass}
               proceedToCheckout={this.props.proceedToCheckout}
+              toggleLoader={this.props.toggleLoader}
+              getProduct={this.props.getProduct}
             />
           </div>
           <span className={s.cartdivider}>|</span>

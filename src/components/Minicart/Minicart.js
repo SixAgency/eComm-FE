@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import accounting from 'accounting';
@@ -11,7 +11,9 @@ class Minicart extends React.Component {
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     cartClass: PropTypes.string.isRequired,
-    proceedToCheckout: PropTypes.func.isRequired
+    proceedToCheckout: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
+    getProduct: PropTypes.func.isRequired
   };
 
   getPrice = (item) => {
@@ -28,6 +30,15 @@ class Minicart extends React.Component {
     const img = event.target;
     img.src = imagePlaceholder;
   };
+
+  viewProduct = (product) => {
+    const image = product.variant.images.length ? product.variant.images[0].small_url : null;
+    this.props.getProduct(product.variant.slug);
+    this.props.toggleLoader(true, image);
+    setTimeout(() => {
+      browserHistory.push(`/product/${product.variant.slug}`);
+    }, 250);
+  }
 
   render = () => {
     const { isLoaded, isEmpty, cart } = this.props.cartItems;
@@ -62,7 +73,7 @@ class Minicart extends React.Component {
                 }
                 return (
                   <li className={s.cartitem} key={item.id}>
-                    <Link className={s.plink} to={`product/${item.variant.slug}`}>
+                    <Link className={s.plink} onClick={() => this.viewProduct(item)}>
                       <img
                         className={s.pimage}
                         src={image}
