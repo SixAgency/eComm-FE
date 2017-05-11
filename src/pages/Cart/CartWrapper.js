@@ -25,6 +25,8 @@ import { getPayPalToken, checkoutPayPal, checkoutNext } from '../../actions/chec
 import { onLogout, onLogin } from '../../actions/user';
 import { checkCartState } from '../../utils/utils';
 
+import { checkQuantitiesCart } from '../../helpers/quantity';
+
 const mapStateToProps = ((state) => (
   {
     cartItems: state.cart.cartItems,
@@ -176,21 +178,28 @@ class CartWrapper extends BasePageComponent {
   onUpdateCart = () => {
     const { cart } = this.props.cartItems;
     const { line_items } = cart;
-    const items = {};
-    line_items.forEach((item, index) => {
-      items[index] = {
-        id: item.id,
-        quantity: item.quantity
+    const messages = checkQuantitiesCart(line_items);
+    if (messages.length > 0) {
+      this.props.resetMessages();
+      window.scrollTo(0, 0);
+      this.props.setMessage({ isError: true, messages });
+    } else {
+      const items = {};
+      line_items.forEach((item, index) => {
+        items[index] = {
+          id: item.id,
+          quantity: item.quantity
+        };
+      });
+      const data = {
+        id: cart.id,
+        order: {
+          line_items: items
+        }
       };
-    });
-    const data = {
-      id: cart.id,
-      order: {
-        line_items: items
-      }
-    };
-    this.props.updateCart(data);
-    this.setState({ showGiftCardForm: false });
+      this.props.updateCart(data);
+      this.setState({ showGiftCardForm: false });
+    }
   };
 
   render() {

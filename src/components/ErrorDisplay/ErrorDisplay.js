@@ -16,7 +16,7 @@ class ErrorDisplay extends React.Component {
     showContinueShopping = this.showContinueShoppingFunc(this.props);
   }
 
-  componentDidUpdate = (nextProps) => {
+  componentWillReceiveProps = (nextProps) => {
     showContinueShopping = this.showContinueShoppingFunc(nextProps);
   }
 

@@ -7,7 +7,7 @@ import SingleVariant from '../SingleVariant';
 import MultiVariant from '../MultiVariant';
 import GiftCardSelector from '../SingleVariant/GiftCardSelector';
 // Helpers
-import checkQuantities from '../../helpers/quantity';
+import { checkQuantities } from '../../helpers/quantity';
 
 class CartCta extends Component {
   static propTypes = {
@@ -113,14 +113,10 @@ class CartCta extends Component {
       image: productImages.length ? productImages[0].large_url : null
     };
     const flag = checkQuantities({
-      id: product.master.id,
+      id: product.id,
       quantity,
       items: cartItems
     });
-    // const flag = checkQuantities({
-    //   ...data,
-    //   items: cartItems
-    // });
     if (!flag) {
       const messages = this.props.product.product.max_quantity_allowed_in_cart === 0 ?
       [
