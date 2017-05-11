@@ -170,6 +170,7 @@ function getProductsInCategory(request) {
     })
     .then((json) => checkResponse(json, status))
     .then((data) => removeUnavailableProducts(data))
+    .then((data) => sortProducts(data))
     .then((data) => setProductsResponse(data))
     .catch((err) => setError(err));
 }
