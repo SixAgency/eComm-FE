@@ -245,7 +245,7 @@ const CHECKOUT_BILLING_FIELDS = [
     options: 'options'
   },
   {
-    name: 'zipcode',
+    name: 'zip',
     label: 'Zip',
     required: true,
     className: 'inputright',
@@ -253,7 +253,7 @@ const CHECKOUT_BILLING_FIELDS = [
     type: 'text',
     placeholder: '',
     disabled: false,
-    value: 'zipcode'
+    value: 'zip'
   }
 ];
 

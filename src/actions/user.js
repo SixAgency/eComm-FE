@@ -99,6 +99,17 @@ function onLogout() {
         forwardTo('my-account');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        dispatch({
+          type: `${ACTION_TYPES.address}_FULFILLED`,
+          payload: {
+            data: {
+              data: {
+                billing: DEFAULT_VALUES.address,
+                shipping: DEFAULT_VALUES.address
+              }
+            }
+          }
+        });
       }))
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
@@ -140,6 +151,17 @@ function onLogin(data, checkout) {
           }
         }, () => {
           dispatch(setMessage({ isError: true, messages: ['ERROR: Incorrect username or password.'] }));
+          dispatch({
+            type: `${ACTION_TYPES.address}_FULFILLED`,
+            payload: {
+              data: {
+                data: {
+                  billing: DEFAULT_VALUES.address,
+                  shipping: DEFAULT_VALUES.address
+                }
+              }
+            }
+          });
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
@@ -182,6 +204,17 @@ function onRegister(data) {
           forwardTo('my-account/dashboard');
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch({
+            type: `${ACTION_TYPES.address}_FULFILLED`,
+            payload: {
+              data: {
+                data: {
+                  billing: DEFAULT_VALUES.address,
+                  shipping: DEFAULT_VALUES.address
+                }
+              }
+            }
+          });
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console

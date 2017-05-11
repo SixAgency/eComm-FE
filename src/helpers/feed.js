@@ -54,37 +54,20 @@ function getCheckoutAddresses(data) {
   return response;
 }
 
-function setCheckoutAddressesFeed(data) {
-  return {
-    order: {
-      email: data.email,
-      bill_address_attributes: data.address,
-      ship_address_attributes: data.address
-    }
-  };
-}
-
-function setCheckoutAddressFeed(data) {
-  return {
-    id: data.id,
-    address: data.address
-  };
-}
-
 function mapAddressFeedToState(address) {
   if (address) {
     return {
       id: address.id,
-      firstname: address.firstname,
-      lastname: address.lastname,
-      company: address.company,
-      phone: address.phone,
-      address1: address.address1,
-      address2: address.address2,
-      city: address.city,
-      state: address.state_id,
-      country: address.country_id,
-      zip: address.zipcode
+      firstname: address.firstname || '',
+      lastname: address.lastname || '',
+      company: address.company || '',
+      phone: address.phone || '',
+      address1: address.address1 || '',
+      address2: address.address2 || '',
+      city: address.city || '',
+      state: address.state_id || 0,
+      country: address.country_id || 232,
+      zip: address.zipcode || ''
     };
   }
   return DEFAULT_VALUES.address;
@@ -102,6 +85,23 @@ function mapAddressStateToFeed(address) {
     state_id: address.state,
     country_id: address.country,
     zipcode: address.zip
+  };
+}
+
+function setCheckoutAddressFeed(data) {
+  return {
+    id: data.id,
+    address: mapAddressStateToFeed(data.address)
+  };
+}
+
+function setCheckoutAddressesFeed(data) {
+  return {
+    order: {
+      email: data.email,
+      bill_address_attributes: mapAddressStateToFeed(data.billing),
+      ship_address_attributes: mapAddressStateToFeed(data.shipping)
+    }
   };
 }
 

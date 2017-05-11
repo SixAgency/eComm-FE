@@ -98,7 +98,17 @@ function checkoutAddress(request) {
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => setAddressResponse(data))
+    .then((data) => {
+      if (data.isError) {
+        return {
+          isError: true,
+          messages: data.messages || ['Error.'],
+          status: data.status,
+          address: {}
+        };
+      }
+      return setAddressResponse(data);
+    })
     .catch((err) => setError(err));
 }
 

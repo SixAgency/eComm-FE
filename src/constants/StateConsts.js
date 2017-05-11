@@ -3,7 +3,8 @@
  * @type {{address: string}}
  */
 const ACTION_TYPES = {
-  address: 'ADDRESS'
+  address: 'ADDRESS',
+  checkoutAddress: 'CHECKOUT_ADDRESS'
 };
 
 /**

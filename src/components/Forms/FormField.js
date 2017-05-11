@@ -7,8 +7,13 @@ class FormField extends React.Component {
   static propTypes = {
     elem: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired,
     value: PropTypes.any,
     options: PropTypes.array
+  };
+
+  static defaultProps = {
+    disabled: false
   };
 
   render() {
@@ -28,7 +33,7 @@ class FormField extends React.Component {
           name={elem.name}
           value={value}
           className={s.input}
-          disabled={elem.disabled}
+          disabled={this.props.disabled}
           placeholder={elem.placeholder}
           onChange={(event) => onChange(elem.name, event.target.value)}
           onFocus={elem.type === 'password' ? (e) => { e.target.type = 'password'; } : ''}
