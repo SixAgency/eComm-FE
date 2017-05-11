@@ -22,7 +22,7 @@ const mapStateToProps = ((state) => (
 const mapDispatchToProps = ((dispatch) => (
   {
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    toggleLoader: (toggle, image) => dispatch(toggleLoader(toggle, image)),
     getProductsInCategory: (slug) => dispatch(getProductsInCategory(slug)),
     addToCart: (item) => dispatch(addToCart(item)),
     resetMessages: () => dispatch(resetMessages()),
