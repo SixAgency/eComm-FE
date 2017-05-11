@@ -1,4 +1,5 @@
 import accounting from 'accounting';
+import isEmpty from 'lodash.isempty';
 import { NAV, ORDER_STATES } from '../constants/AppConsts';
 
 function setNavigation(slug) {
@@ -49,7 +50,7 @@ function checkCartState(props) {
  * @returns {boolean}
  */
 function checkIfPayPal(cart) {
-  if (Object.keys(cart).length === 0) {
+  if (isEmpty(cart)) {
     return false;
   }
   const paypal = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name === 'Paypal'));
@@ -57,7 +58,7 @@ function checkIfPayPal(cart) {
 }
 
 function checkPayment(cart, method) {
-  if (Object.keys(cart).length === 0) {
+  if (isEmpty(cart)) {
     return false;
   }
   const result = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name.toLowerCase() === method));
@@ -106,7 +107,7 @@ function useStoreCredits(args) {
 
 function checkIfCanUseStoreCredit(args) {
   const { cart } = args;
-  if (Object.keys(cart).length === 0) {
+  if (isEmpty(cart)) {
     return false;
   }
   const isPayPal = checkPayment(cart, 'paypal');

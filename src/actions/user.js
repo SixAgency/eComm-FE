@@ -1,9 +1,10 @@
 import axios from 'axios';
+import pick from 'lodash.pick';
 import { checkResponse, forwardTo } from './handler';
 import { setMessage } from './page';
 import { getCart, resetCart, resetOrders } from './order';
-import { resetAddresses, setAddresses } from './address';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
+import { ACTION_TYPES, DEFAULT_VALUES } from '../constants/StateConsts';
 
 /**
  * Set User - helper
@@ -75,6 +76,7 @@ function checkLogin() {
  */
 function onLogout() {
   return (dispatch) => {
+    dispatch({ type: `${ACTION_TYPES.address}_PENDING` });
     axios.post('/api/logout', {})
       .then((response) => checkResponse(response.data, () => {
         // Set the current user
@@ -82,7 +84,17 @@ function onLogout() {
         // Reset the cart
         dispatch(resetCart());
         dispatch(resetOrders());
-        dispatch(resetAddresses());
+        dispatch({
+          type: `${ACTION_TYPES.address}_FULFILLED`,
+          payload: {
+            data: {
+              data: {
+                billing: DEFAULT_VALUES.address,
+                shipping: DEFAULT_VALUES.address
+              }
+            }
+          }
+        });
         dispatch(getCart(false));
         forwardTo('my-account');
       }, () => {
@@ -106,14 +118,22 @@ function onLogin(data, checkout) {
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
+      dispatch({ type: `${ACTION_TYPES.address}_PENDING` });
       axios.post('/api/login', data)
         .then((response) => checkResponse(response.data, () => {
           // Reset the cart
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
-          // Reset user addresses
-          dispatch(resetAddresses());
+          // Set user addresses
+          dispatch({
+            type: `${ACTION_TYPES.address}_FULFILLED`,
+            payload: {
+              data: {
+                data: pick(response.data, ['billing', 'shipping'])
+              }
+            }
+          });
           // Redirect to dashboard
           if (!checkout) {
             forwardTo('my-account/dashboard');
@@ -140,19 +160,24 @@ function onRegister(data) {
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
+      dispatch({ type: `${ACTION_TYPES.address}_PENDING` });
       axios.post('/api/register', data)
         .then((response) => checkResponse(response.data, () => {
           // Reset the cart
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
-          // Set billing and shipping addresses
-          const addresses = {
-            isLoaded: false,
-            isEmpty: true,
-            addresses: []
-          };
-          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
+          dispatch({
+            type: `${ACTION_TYPES.address}_FULFILLED`,
+            payload: {
+              data: {
+                data: {
+                  billing: DEFAULT_VALUES.address,
+                  shipping: DEFAULT_VALUES.address
+                }
+              }
+            }
+          });
           // Redirect to dashboard
           forwardTo('my-account/dashboard');
         }, () => {

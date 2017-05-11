@@ -3,6 +3,7 @@ import capitalize from 'lodash.capitalize';
 import moment from 'moment';
 import { mannequinHeadsSlugs } from '../../config';
 import logger from '../logger';
+import { mapAddressFeedToState } from '../../helpers/feed';
 
 /**
  * Helper function to extract the messages from
@@ -127,27 +128,27 @@ function setAddressResponse(data) {
 function setAuthResponse(data, request) {
   let resp;
   if (!data.isError && data.user) {
-    const user = {
-      loggedIn: true,
-      profile: {
-        isLoaded: false,
-        email: '',
-        f_name: '',
-        l_name: ''
-      }
-    };
     const token = data.user.spree_api_key;
     setUserSession(token, request);
     resp = {
       isError: false,
-      user,
-      billing: setAddressResponse(data.bill_address),
-      shipping: setAddressResponse(data.ship_address)
+      user: {
+        loggedIn: true
+      }
     };
+    if (data.bill_address) {
+      resp.billing = mapAddressFeedToState(data.bill_address);
+    }
+    if (data.ship_address) {
+      resp.shipping = mapAddressFeedToState(data.ship_address);
+    }
   } else {
     const { messages, status } = data;
     resp = {
       isError: true,
+      user: {
+        loggedIn: false
+      },
       messages: messages || ['Error.'],
       status
     };
@@ -161,13 +162,7 @@ function setLogoutResponse(request) {
   const resp = {
     isError: false,
     user: {
-      loggedIn: false,
-      profile: {
-        isLoaded: true,
-        email: '',
-        f_name: '',
-        l_name: ''
-      }
+      loggedIn: false
     }
   };
   return resp;
@@ -182,26 +177,14 @@ function setUserResponse(request) {
         resp = {
           isError: false,
           user: {
-            loggedIn: true,
-            profile: {
-              isLoaded: false,
-              email: '',
-              f_name: '',
-              l_name: ''
-            }
+            loggedIn: true
           }
         };
       } else {
         resp = {
           isError: false,
           user: {
-            loggedIn: false,
-            profile: {
-              isLoaded: true,
-              email: '',
-              f_name: '',
-              l_name: ''
-            }
+            loggedIn: false
           }
         };
       }

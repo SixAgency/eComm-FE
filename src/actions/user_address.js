@@ -26,7 +26,12 @@ const set = (data) => ({
  */
 
 function getAddresses() {
-  return (dispatch) => dispatch(fetch());
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!state.user_address.isFetching) {
+      dispatch(fetch());
+    }
+  };
 }
 
 function setAddresses(args) {
