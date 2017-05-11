@@ -1,3 +1,17 @@
+const ACCOUNT_BILLING = {
+  formTitle: 'Billing Address',
+  formSubtitle: 'Enter your details',
+  buttonText: 'Save',
+  showCancel: true
+};
+
+const ACCOUNT_SHIPPING = {
+  formTitle: 'Shipping Address',
+  formSubtitle: 'Enter your details',
+  buttonText: 'Save',
+  showCancel: true
+};
+
 const CHECKOUT_BILLING = {
   formTitle: 'Billing Address',
   formSubtitle: 'Set the billing address',
@@ -11,6 +25,116 @@ const CHECKOUT_SHIPPING = {
   buttonText: 'Proceed',
   bottomButtonText: 'Use a different address'
 };
+
+const ACCOUNT_ADDRESS_FIELDS = [
+  {
+    name: 'firstname',
+    label: 'First Name',
+    required: true,
+    className: 'inputleft',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'firstname'
+  },
+  {
+    name: 'lastname',
+    label: 'Last Name',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'lastname'
+  },
+  {
+    name: 'company',
+    label: 'Company Name',
+    required: false,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'company'
+  },
+  {
+    name: 'phone',
+    label: 'Phone Number',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'tel',
+    placeholder: '',
+    disabled: false,
+    value: 'phone'
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    required: true,
+    className: '',
+    isStatic: true,
+    value: ' United States (US)'
+  },
+  {
+    name: 'address1',
+    label: 'Address',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Street address',
+    disabled: false,
+    value: 'address1'
+  },
+  {
+    name: 'address2',
+    label: '',
+    required: false,
+    className: 'inputmtneg15',
+    isInput: true,
+    type: 'text',
+    placeholder: 'Apartment, suite, unit etc. (optional)',
+    disabled: false,
+    value: 'address2'
+  },
+  {
+    name: 'city',
+    label: 'Town / City',
+    required: true,
+    className: '',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'city'
+  },
+  {
+    name: 'state',
+    label: 'state',
+    required: true,
+    className: 'inputleft',
+    selectClass: 'checkoutselect',
+    isSelect: true,
+    type: 'text',
+    value: 'state',
+    options: 'options'
+  },
+  {
+    name: 'zip',
+    label: 'Zip',
+    required: true,
+    className: 'inputright',
+    isInput: true,
+    type: 'text',
+    placeholder: '',
+    disabled: false,
+    value: 'zip'
+  }
+];
 
 const CHECKOUT_BILLING_FIELDS = [
   {
@@ -618,9 +742,12 @@ const STATES = [
 ];
 
 export {
+  ACCOUNT_ADDRESS_FIELDS,
   CHECKOUT_BILLING_FIELDS,
   CHECKOUT_SHIPPING_FIELDS,
   CHECKOUT_BILLING,
   CHECKOUT_SHIPPING,
+  ACCOUNT_BILLING,
+  ACCOUNT_SHIPPING,
   STATES
 };

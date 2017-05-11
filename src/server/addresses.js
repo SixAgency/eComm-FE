@@ -1,102 +1,79 @@
 import { apiFetch } from './fetch';
 import {
   setError,
-  checkResponse,
-  setAddressesResponse,
-  setEditCreateAddressResponse,
-  setEditAddressResponse,
-  setCreateAddressResponse,
-  setDeleteAddressResponse
+  checkResponse
 } from './helpers/handlers';
+import { mapAddressFeedToState, mapAddressStateToFeed } from '../helpers/feed';
 
-const ADDRESSES = '/api/v1/addresses';
-
-// Get Addresses
-function getAddresses(request, isNew) {
+// Get Addresses @TODO - refactor it
+function getAddresses(request) {
   let status;
-  return apiFetch(ADDRESSES, {}, request.session)
+  return apiFetch('/api/v1/addresses', {}, request.session)
     .then((resp) => {
       status = resp.status;
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => setAddressesResponse(data, isNew))
+    .then((data) => {
+      if (data.isError) {
+        return {
+          isError: true,
+          messages: data.messages,
+          status: data.status
+        };
+      }
+      return {
+        status: 200,
+        data: {
+          billing: mapAddressFeedToState(data.bill_address),
+          shipping: mapAddressFeedToState(data.ship_address)
+        }
+      };
+    })
     .catch((err) => setError(err));
 }
 
-// Create Address
-function createAddress(request) {
+// Create Address @TODO - refactor it
+function setAddresses(request) {
   let status;
-  return apiFetch(ADDRESSES,
+  const body = {
+    address: mapAddressStateToFeed(request.body.address),
+    default_address_types: request.body.addressTypes
+  };
+  return apiFetch('/api/v1/addresses',
     {
       method: 'POST',
-      body: JSON.stringify(request.body.data)
+      body: JSON.stringify(body)
     }, request.session)
     .then((resp) => {
       status = resp.status;
       return resp.json();
     })
     .then((json) => checkResponse(json, status))
-    .then((data) => setCreateAddressResponse(data, request, getAddresses))
-    .catch((err) => setError(err));
-}
-
-// Edit Address
-function updateAddress(request) {
-  let status;
-  const id = request.body.address.id;
-  const address = { address: request.body.address };
-  return apiFetch(`${ADDRESSES}/${id}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(address)
-    }, request.session)
-    .then((resp) => {
-      status = resp.status;
-      return resp.json();
+    .then((data) => {
+      if (data.isError) {
+        return {
+          isError: true,
+          messages: data.messages,
+          status: data.status
+        };
+      }
+      const response = {
+        status: 200,
+        data: {}
+      };
+      if (request.body.addressTypes.includes('bill_address')) {
+        response.data.billing = mapAddressFeedToState(data.address);
+      }
+      if (request.body.addressTypes.includes('ship_address')) {
+        response.data.shipping = mapAddressFeedToState(data.address);
+      }
+      return response;
     })
-    .then((json) => checkResponse(json, status))
-    .then((data) => setEditAddressResponse(data, request, getAddresses))
-    .catch((err) => setError(err));
-}
-
-// Edit Address
-function setDefaultAddress(request) {
-  let status;
-  return apiFetch(`${ADDRESSES}/default`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(request.body.data)
-    }, request.session)
-    .then((resp) => {
-      status = resp.status;
-      return resp.json();
-    })
-    .then((json) => checkResponse(json, status))
-    .then((data) => setEditCreateAddressResponse(data))
-    .catch((err) => setError(err));
-}
-
-// Delete Address
-function deleteAddress(request) {
-  let status;
-  return apiFetch(`${ADDRESSES}/${request.params.id}`,
-    {
-      method: 'DELETE'
-    }, request.session)
-    .then((resp) => {
-      status = resp.status;
-      return resp.json();
-    })
-    .then((json) => checkResponse(json, status))
-    .then((data) => setDeleteAddressResponse(data))
     .catch((err) => setError(err));
 }
 
 export {
   getAddresses,
-  createAddress,
-  updateAddress,
-  setDefaultAddress,
-  deleteAddress
+  setAddresses
 };

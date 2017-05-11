@@ -1,3 +1,5 @@
+import { DEFAULT_VALUES } from '../constants/StateConsts';
+
 function getCartAddresses(cart) {
   const addresses = {
     billing: null,
@@ -69,9 +71,45 @@ function setCheckoutAddressFeed(data) {
   };
 }
 
+function mapAddressFeedToState(address) {
+  if (address) {
+    return {
+      id: address.id,
+      firstname: address.firstname,
+      lastname: address.lastname,
+      company: address.company,
+      phone: address.phone,
+      address1: address.address1,
+      address2: address.address2,
+      city: address.city,
+      state: address.state_id,
+      country: address.country_id,
+      zip: address.zipcode
+    };
+  }
+  return DEFAULT_VALUES.address;
+}
+
+function mapAddressStateToFeed(address) {
+  return {
+    firstname: address.firstname,
+    lastname: address.lastname,
+    company: address.company,
+    phone: address.phone,
+    address1: address.address1,
+    address2: address.address2,
+    city: address.city,
+    state_id: address.state,
+    country_id: address.country,
+    zipcode: address.zip
+  };
+}
+
 export {
   getCartAddresses,
   getCheckoutAddresses,
   setCheckoutAddressesFeed,
-  setCheckoutAddressFeed
+  setCheckoutAddressFeed,
+  mapAddressFeedToState,
+  mapAddressStateToFeed
 };

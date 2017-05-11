@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "ManageAddressesWrapper",
-  "main": "./ManageAddressesWrapperServer.js",
-  "browser": "./ManageAddressesWrapper.js"
-}

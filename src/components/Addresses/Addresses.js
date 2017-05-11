@@ -18,15 +18,14 @@ class Addresses extends React.Component {
   };
 
   listAddress = (data, type) => {
-    const { isLoaded, isEmpty, address } = data;
-    if (isLoaded && !isEmpty) {
-      const stateName = this.getStateName(address.state_id);
+    if (data.id !== 0) {
+      const stateName = this.getStateName(data.state);
       return (
         <address className={s.optiontext}>
-          <span className={s.block}>{address.firstname} {address.lastname}</span>
-          <span className={s.block}>{address.company}</span>
-          <span className={s.block}>{address.address1} {address.address2}</span>
-          <span className={s.block}>{address.city}, {stateName}, {address.zipcode}</span>
+          <span className={s.block}>{data.firstname} {data.lastname}</span>
+          <span className={s.block}>{data.company}</span>
+          <span className={s.block}>{data.address1} {data.address2}</span>
+          <span className={s.block}>{data.city}, {stateName}, {data.zip}</span>
         </address>
       );
     }
@@ -37,17 +36,6 @@ class Addresses extends React.Component {
     return (
       <section className={s.addresses}>
         <h1 className={s.title}>MY ADDRESSES</h1>
-        <p className={s.info}>Below you can manage your addresses.</p>
-        <div className={s.addressescont}>
-          <div className={s.addresseswrpr}>
-            <Link
-              className={s.options}
-              to="/my-account/address/manage"
-            >
-              Manage Addresses
-            </Link>
-          </div>
-        </div>
         <p className={s.info}>The following addresses will be used on the checkout page.</p>
         <div className={s.addressescont}>
           <div className={s.addresseswrpr}>

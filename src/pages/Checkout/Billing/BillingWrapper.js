@@ -13,7 +13,6 @@ import { forwardTo } from '../../../actions/handler';
 import { getAddress } from '../../../actions/address';
 import { checkCartState } from '../../../utils/utils';
 import { mapStateToFeed, mapFeedToState } from '../../../helpers/address';
-import { validateRegisterCheckout } from '../../../helpers/validators';
 
 const mapDispatchToProps = ((dispatch) => (
   {
@@ -179,7 +178,6 @@ class BillingWrapper extends BasePageComponent {
       const registrationFields = { email: fields.email, password: fields.password };
       this.props.onRegister({ registrationFields, checkoutAddressFields });
     } else {
-      console.log('NO REGISTER');
       onSubmit({
         address: mapStateToFeed(address),
         email: fields.email

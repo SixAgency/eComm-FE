@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "CreateAddress",
-  "main": "./CreateWrapperServer.js",
-  "browser": "./CreateWrapper.js"
-}

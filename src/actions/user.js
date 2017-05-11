@@ -36,6 +36,19 @@ function applyCredit(data) {
   return { type: 'APPLY_STORE_CREDIT', payload: { data } };
 }
 
+function checkUser(callback, redirect) {
+  return (dispatch) => {
+    axios.get('/api/check').then((response) => {
+      const { user } = response.data;
+      if (user && user.loggedIn) {
+        return callback();
+      }
+      dispatch(setMessage({ isError: true, messages: ['Your session expired. Please login.'] }));
+      return forwardTo(redirect);
+    });
+  };
+}
+
 /**
  * Checks if the user is logged in or not
  * @returns {function(*)}
@@ -44,7 +57,8 @@ function checkLogin() {
   return (dispatch) => {
     axios.get('/api/check')
       .then((response) => checkResponse(response.data, () => {
-        dispatch(setUser(response.data.user));
+        const { user } = response.data;
+        dispatch(setUser(user));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -338,5 +352,6 @@ export {
   redeemGiftCard,
   getStoreCredit,
   applyStoreCredit,
-  setUser
+  setUser,
+  checkUser
 };

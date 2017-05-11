@@ -37,11 +37,9 @@ import {
   checkoutConfirm,
   resetOrder
 } from '../server/payment';
-import { getAddresses,
-  createAddress,
-  updateAddress,
-  setDefaultAddress,
-  deleteAddress
+import {
+  getAddresses,
+  setAddresses
 } from '../server/addresses';
 import { getBraintreeTokens,
   checkoutPayPal,
@@ -54,7 +52,6 @@ import sendContact from '../server/contact';
 // Helpers
 import {
   validateAuth,
-  validateMandatoryFieldsAddress,
   validateContactForm,
   validatePasswordUpdate,
   validateAccountUpdate,
@@ -197,26 +194,10 @@ apiRoutes.put('/applycode', (req, resp) => {
 // ADDRESS ROUTES - GET, CREATE and UPDATE
 apiRoutes
   .get('/addresses', (req, resp) => {
-    getAddresses(req, { isNew: false }).then((data) => (resp.json(data)));
+    getAddresses(req).then((data) => (resp.status(data.status).json(data)));
   })
   .post('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body.data.address);
-    if (valid.isError) {
-      resp.json(valid);
-    } else {
-      createAddress(req).then((data) => (resp.json(data)));
-    }
-  })
-  .put('/addresses', (req, resp) => {
-    const valid = validateMandatoryFieldsAddress(req.body.address);
-    if (valid.isError) {
-      resp.json(valid);
-    } else {
-      updateAddress(req).then((data) => (resp.json(data)));
-    }
-  })
-  .post('/addresses/default', (req, resp) => {
-    setDefaultAddress(req).then((data) => (resp.json(data)));
+    setAddresses(req).then((data) => (resp.status(data.status).json(data)));
   });
 
 // Contact
@@ -284,11 +265,6 @@ apiRoutes.post('/calculate_shipping', (req, resp) => {
   } else {
     calculateShipping(req).then((data) => (resp.json(data)));
   }
-});
-
-// Delete addres
-apiRoutes.delete('/addressdelete/:id', (req, resp) => {
-  deleteAddress(req).then((data) => (resp.json(data)));
 });
 
 export default apiRoutes;

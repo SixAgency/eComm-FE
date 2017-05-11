@@ -82,14 +82,14 @@ function validateMandatoryFieldsAddress(data) {
   if (!data.city) {
     messages.push('City is a required field.');
   }
-  if (data.state_id === 0) {
+  if (data.state === 0) {
     messages.push('State is a required field.');
   }
-  if (!data.zipcode) {
+  if (!data.zip) {
     messages.push('ZIP is a required field.');
-  } else if (data.zipcode.length < 5) {
+  } else if (data.zip.length < 5) {
     messages.push('Please enter a valid postcode/ZIP.');
-  } else if (isNaN(Number(data.zipcode))) {
+  } else if (isNaN(Number(data.zip))) {
     messages.push('Please enter a valid postcode/ZIP.');
   }
   const resp = {

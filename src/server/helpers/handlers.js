@@ -32,13 +32,18 @@ function extractErrors(data) {
   // failed requests should contain `error`, `errors` or `exception` keys
   // see http://guides.spreecommerce.org/api/summary.html
   const { error, errors, exception } = data;
+  let messages = [];
   // if there is a single error - return
   if (error) {
-    return [error];
+    messages.push(error);
   }
   // if there are multiple errors
   if (errors) {
-    return getErrors(errors);
+    messages = [...messages, ...getErrors(errors)];
+  }
+  // return if we have any errors
+  if (messages.length) {
+    return messages;
   }
   // Send the exception in development mode
   if (process.env.NODE_ENV !== 'production' && exception) {
@@ -90,7 +95,10 @@ function setUserSession(token, request) {
 // Clear session params
 function clearSession(request) {
   request.session.destroy((err) => {
-    console.error(err);
+    logger.debug('Destroying session...');
+    if (err) {
+      logger.error(err);
+    }
   });
   return true;
 }
