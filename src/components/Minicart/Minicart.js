@@ -85,6 +85,13 @@ class Minicart extends React.Component {
                         Price: <span>{accounting.formatMoney(this.getPrice(item))}</span>
                       </span>
                       <span className={s.pquantity}>Quantity: {item.quantity}</span>
+                      <p className={s.pvariants}>
+                        {item.variant.option_values.map((opt, index) => (
+                          <span key={index}>
+                            {opt.option_type_presentation}: {opt.presentation}&nbsp;
+                          </span>
+                        ))}
+                      </p>
                     </Link>
                   </li>
                 );

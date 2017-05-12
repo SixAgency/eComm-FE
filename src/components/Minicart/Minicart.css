@@ -49,6 +49,7 @@
   float: none;
   min-height: 77px;
   margin-bottom: 23px;
+  overflow: hidden;
 }
 .plink {
   font-family: Georgia, serif;
@@ -72,6 +73,7 @@
 .pquantity {
     display: inline-block;
     width: 130px;
+    float: right;
 }
 .pname {
     margin-bottom: 15px;
@@ -81,6 +83,17 @@
 .pquantity {
     color: #565656;
     font-weight: 400;
+}
+.pvariants {
+  float: left;
+  color: #222222;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  line-height: 18px;
+  text-transform: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 .total {
   text-transform: uppercase;
