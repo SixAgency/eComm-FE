@@ -292,17 +292,6 @@ const CHECKOUT_SHIPPING_FIELDS = [
     value: 'company'
   },
   {
-    name: 'email',
-    label: 'Email Address',
-    required: true,
-    className: '',
-    isInput: true,
-    type: 'text',
-    placeholder: '',
-    disabled: true,
-    value: 'email'
-  },
-  {
     name: 'phone',
     label: 'Phone Number',
     required: true,
@@ -366,7 +355,7 @@ const CHECKOUT_SHIPPING_FIELDS = [
     options: 'options'
   },
   {
-    name: 'zipcode',
+    name: 'zip',
     label: 'Zip',
     required: true,
     className: 'inputright',
@@ -374,7 +363,7 @@ const CHECKOUT_SHIPPING_FIELDS = [
     type: 'text',
     placeholder: '',
     disabled: false,
-    value: 'zipcode'
+    value: 'zip'
   }
 ];
 

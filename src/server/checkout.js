@@ -84,10 +84,7 @@ function checkoutAddresses(request) {
 
 function checkoutAddress(request) {
   let status;
-  let endpoint = `/api/v1/checkouts/${request.session.order}/addresses/${request.body.id}`;
-  if (!request.session.user_token) {
-    endpoint = `/api/v1/checkouts/${request.session.order}/addresses/${request.body.id}?order_token=${request.session.guest_token}`;
-  }
+  const endpoint = `/api/v1/checkouts/${request.session.order}/addresses/${request.body.id}?order_token=${request.session.guest_token}`;
   return apiFetch(endpoint,
     {
       method: 'PATCH',
