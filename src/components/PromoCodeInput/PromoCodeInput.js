@@ -10,7 +10,7 @@ class PromoCodeInput extends Component {
     getCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -33,7 +33,7 @@ class PromoCodeInput extends Component {
     } else {
       this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
     }
-  }
+  };
 
   handlePromoCode = (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ class PromoCodeInput extends Component {
     this.setState({
       coupon_code: event.target.value
     });
-  }
+  };
 
   render() {
     return (

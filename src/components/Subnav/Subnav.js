@@ -17,23 +17,28 @@ class Subnav extends React.Component {
     breadcrumbs: []
   };
 
+  onLogout = (event) => {
+    event.preventDefault();
+    this.props.onLogout();
+  };
+
   getSubNavItems = () => {
     if (this.props.isLogged) {
       return [
         {
           title: 'My Account',
           link: '/my-account/dashboard',
-          action: this.props.resetMessages
+          action: this.resetMessages
         },
         {
           title: 'Edit Account',
           link: '/my-account/edit-account',
-          action: this.props.resetMessages
+          action: this.resetMessages
         },
         {
           title: 'Logout',
           link: '/my-account',
-          action: this.props.onLogout
+          action: this.onLogout
         }
       ];
     }
@@ -44,6 +49,11 @@ class Subnav extends React.Component {
         action: () => (true)
       }
     ];
+  };
+
+  resetMessages = (event) => {
+    event.preventDefault();
+    this.props.resetMessages();
   };
 
   render() {

@@ -36,6 +36,9 @@ class PromoWrapper extends React.Component {
         <Promo
           applyPromoCode={() => (true)}
           onProceed={() => (true)}
+          setMessage={() => (true)}
+          cartItems={this.props.cartItems}
+          getCart={() => (true)}
         />
       </Checkout>
     );
