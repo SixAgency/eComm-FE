@@ -18,6 +18,11 @@ class CartWrapper extends Component {
     messages: []
   };
 
+  showShippingCalculator = () => {
+    const { cartItems } = this.props;
+    return (['cart', 'address'].includes(cartItems.cart.state));
+  };
+
 
   render() {
     const paypalObj = {};
@@ -42,6 +47,7 @@ class CartWrapper extends Component {
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
         calculateShipping={() => (true)}
+        showShippingCalculator={this.showShippingCalculator()}
         shippingMethod="Shipping costs will be calculate once you have provided your address."
       />
     );

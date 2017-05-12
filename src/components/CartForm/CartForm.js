@@ -16,16 +16,9 @@ class CartForm extends Component {
     checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    showShippingCalculator: PropTypes.bool.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showCalculator: false,
-      className: 'hide'
-    };
-  }
 
   getItemTotal = () => {
     const cart = this.props.cart;
@@ -37,7 +30,7 @@ class CartForm extends Component {
       }
     });
     return total;
-  }
+  };
 
   render() {
     if (!this.props.paypalObj.isLoaded) {
@@ -65,8 +58,8 @@ class CartForm extends Component {
                 {cart.adjustments.map((adjust, key) => (
                   <tr key={key} className={s.csubtotals}>
                     <th className="table-heads">{adjust.label}</th>
-                    <td className={cx(s.ammout, s.data)}>
-                      -{accounting.formatMoney(-adjust.amount)} <span className={s.savetext}>You Save</span>
+                    <td className={cx(s.ammout, s.data)}>-{accounting.formatMoney(-adjust.amount)}
+                      <span className={s.savetext}> You Save</span>
                     </td>
                   </tr>
                 ))}
@@ -80,7 +73,7 @@ class CartForm extends Component {
                   </td>
                 </tr>
                 {cart.shipments.map((ship, index) => (
-                  <tr className={s.shipping} key={index}>
+                  ship.selected_shipping_rate && <tr className={s.shipping} key={index}>
                     <th className="table-heads">
                       Shipping {index > 0 && index + 1}
                     </th>
@@ -95,11 +88,13 @@ class CartForm extends Component {
                 <tr className={s.shippingcalculator}>
                   <th className="table-heads" />
                   <td className="data">
-                    <h2 className={s.calctitle}>Calculate Shipping</h2>
-                    <ShippingCalculator
-                      calculateShipping={this.props.calculateShipping}
-                      toggleLoader={this.props.toggleLoader}
-                    />
+                    {this.props.showShippingCalculator && <div>
+                      <h2 className={s.calctitle}>Calculate Shipping</h2>
+                      <ShippingCalculator
+                        calculateShipping={this.props.calculateShipping}
+                        toggleLoader={this.props.toggleLoader}
+                      />
+                    </div>}
                   </td>
                 </tr>
                 {cart.tax_total > 0 && <tr className={s.csubtotals}>

@@ -5,9 +5,8 @@ import { STATES } from '../../../constants/AppConsts';
 
 class ShippingCalculator extends Component {
   static propTypes = {
-    calculateShipping: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired
-  }
+    calculateShipping: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -25,19 +24,19 @@ class ShippingCalculator extends Component {
         country_id: '232'
       }
     });
-  }
+  };
 
   updatePreviewState = (e) => {
     this.setState({
       previewState: e.target.value
     });
-  }
+  };
 
   updatePreviewZip = (e) => {
     this.setState({
       previewZip: e.target.value
     });
-  }
+  };
 
 
   render() {
