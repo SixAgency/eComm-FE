@@ -162,7 +162,7 @@ class ProductWrapper extends Component {
       pdpTabs[key] = key === tabName;
     });
     this.setState({ pdpTabs });
-  }
+  };
 
   render() {
     const {

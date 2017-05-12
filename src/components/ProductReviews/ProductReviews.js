@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import moment from 'moment';
 import s from './ProductReviews.css';
@@ -27,23 +28,23 @@ class ProductReviews extends React.Component {
       case 'email' : this.setState({ email: e.target.value }); break;
       default: // do nothing
     }
-  }
+  };
 
   hideReviews = (e) => {
     if (e.target.id === 'reviews' || e.target.id === 'reivewscontainer') {
       this.props.resetMessages();
       this.props.toggleReviews();
     }
-  }
+  };
 
   submitReview = (e) => {
     e.preventDefault();
     this.props.addProductReview(this.state);
-  }
+  };
 
   render() {
     return (
-      <div id="reviews" className={s.reviewsbg} onClick={this.hideReviews}>
+      <Link id="reviews" className={s.reviewsbg} onClick={this.hideReviews}>
         <div id="reivewscontainer" className={s.reviewscontainer}>
           <div className={s.reviews}>
             <div className={s.title}>
@@ -82,7 +83,7 @@ class ProductReviews extends React.Component {
             </form>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }
