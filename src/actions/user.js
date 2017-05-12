@@ -305,7 +305,7 @@ function resetPassword(data) {
         .then((response) => checkResponse(response.data, () => {
           dispatch(setMessage({ isError: false, messages: [response.data] }));
         }, () => {
-          dispatch(setMessage({ isError: true, messages: [response.data] }));
+          dispatch(setMessage({ isError: true, messages: [response.data.messages] }));
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
