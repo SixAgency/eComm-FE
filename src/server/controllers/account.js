@@ -210,7 +210,7 @@ function viewOrder(req, resp, next) {
         content: <ViewOrderWrapper
           order={order}
           loggedIn={user.user.loggedIn}
-          breadcrumbs={BREADCRUMBS.checkout}
+          breadcrumbs={BREADCRUMBS.viewOrder}
         />
       };
       return render(req, resp, next, params);

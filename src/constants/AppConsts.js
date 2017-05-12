@@ -477,6 +477,14 @@ const BREADCRUMBS = {
     }, {
       label: 'Checkout'
     }
+  ],
+  viewOrder: [
+    {
+      label: 'Shop',
+      url: '/'
+    }, {
+      label: 'Order #'
+    }
   ]
 };
 

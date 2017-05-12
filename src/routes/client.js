@@ -52,7 +52,7 @@ const routes = (
       </Route>
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" breadcrumbs={BREADCRUMBS.lostPassword} />
       <Route path="lost-password/:param" component={ResetPasswordWrapper} title="My Account" />
-      <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" />
+      <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" breadcrumbs={BREADCRUMBS.viewOrder} />
     </Route>
     <Route path="product/:slug" component={ProductWrapper} title="Category" />
     <Route path="product-category/:slug" component={CategoryWrapper} />
