@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../../BasePageComponent';
 import Password from './Password';
 
+// Utils
+import { scrollToTop } from '../../../../utils/utils';
+
 // Action
-import { onLogout, getProfile, updatePassword } from '../../../../actions/user';
+import { onLogout, getProfile, updatePassword, checkUser } from '../../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
 
 const mapStateToProps = ((state) => (
@@ -25,7 +27,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     getProfile: () => dispatch(getProfile()),
-    updatePassword: (data) => dispatch(updatePassword(data))
+    updatePassword: (data) => dispatch(updatePassword(data)),
+    checkUser: (callback, redirect) => dispatch(checkUser(callback, redirect))
   }
 ));
 
@@ -41,32 +44,36 @@ class PasswordWrapper extends BasePageComponent {
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    checkUser: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
-    if (!this.props.loggedIn) {
-      browserHistory.push('/my-account');
-    }
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (!this.props.profile.isLoaded) {
-      this.props.getProfile();
-    }
   };
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
+    scrollToTop(500);
+    this.props.checkUser(() => {
+      this.props.getProfile();
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }, 'my-account');
   };
 
   componentWillUnmount = () => {
     this.props.resetMessages();
     this.props.toggleLoader(true);
+  };
+
+  onUpdatePassword = (data) => {
+    scrollToTop(500);
+    this.props.updatePassword(data);
   };
 
   render() {
@@ -75,7 +82,7 @@ class PasswordWrapper extends BasePageComponent {
         profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        onUpdatePassword={this.props.updatePassword}
+        onUpdatePassword={this.onUpdatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
         resetMessages={this.props.resetMessages}

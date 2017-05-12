@@ -28,7 +28,8 @@ class Cart extends Component {
     breadcrumbs: PropTypes.array,
     calculateShipping: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
-    setMessage: PropTypes.func.isRequired
+    setMessage: PropTypes.func.isRequired,
+    showShippingCalculator: PropTypes.bool.isRequired
   };
 
   render() {
@@ -86,6 +87,7 @@ class Cart extends Component {
                   proceedToCheckout={this.props.proceedToCheckout}
                   toggleLoader={this.props.toggleLoader}
                   calculateShipping={this.props.calculateShipping}
+                  showShippingCalculator={this.props.showShippingCalculator}
                 />
               </div>
             </article>

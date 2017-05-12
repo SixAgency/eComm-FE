@@ -17,7 +17,7 @@ function getErrors(errors) {
     // By default we return key + message
     // for example: 'firstname + can not be blank.'
     // if base error we want just the error
-    const message = (key === 'base') ? `${value[0]}.` : `${key} ${value[0]}.`;
+    const message = (key === 'base') ? `${value[0]}` : `${key} ${value[0]}`;
     // Return the error message
     return capitalize(message);
   });
@@ -32,6 +32,7 @@ function getErrors(errors) {
 function extractErrors(data) {
   // failed requests should contain `error`, `errors` or `exception` keys
   // see http://guides.spreecommerce.org/api/summary.html
+  logger.debug('ERROR Response: ', data);
   const { error, errors, exception } = data;
   let messages = [];
   // if there is a single error - return

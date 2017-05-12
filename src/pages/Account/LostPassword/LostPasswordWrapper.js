@@ -5,6 +5,9 @@ import { browserHistory } from 'react-router';
 import BasePageComponent from '../../BasePageComponent';
 import LostPassword from './LostPassword';
 
+// Utils
+import { scrollToTop } from '../../../utils/utils';
+
 // Action
 import { onLogout, resetPassword } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
@@ -65,6 +68,7 @@ class LostPasswordWrapper extends BasePageComponent {
       }
     };
     this.props.resetPassword(user);
+    scrollToTop(500);
   };
 
   render() {

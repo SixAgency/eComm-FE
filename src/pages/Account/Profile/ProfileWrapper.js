@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash.isempty';
-import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../BasePageComponent';
 import Profile from './Profile';
 
+// Utils
+import { scrollToTop } from '../../../utils/utils';
+
 // Action
-import { onLogout, getProfile, updateProfile } from '../../../actions/user';
+import { onLogout, getProfile, updateProfile, checkUser } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
@@ -26,7 +27,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     getProfile: () => dispatch(getProfile()),
-    updateProfile: (data) => dispatch(updateProfile(data))
+    updateProfile: (data) => dispatch(updateProfile(data)),
+    checkUser: (callback, redirect) => dispatch(checkUser(callback, redirect))
   }
 ));
 
@@ -43,31 +45,35 @@ class ProfileWrapper extends BasePageComponent {
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    resetMessages: PropTypes.func.isRequired,
+    checkUser: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
-    if (!this.props.loggedIn) {
-      browserHistory.push('/my-account');
-    }
     const props = {
       headerClass: 'colored',
       activeSlug: '/my-account'
     };
     this.props.setHeaderProps(props);
-    if (isEmpty(this.props.profile)) {
-      this.props.getProfile();
-    }
   };
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
+    scrollToTop(500);
+    this.props.checkUser(() => {
+      this.props.getProfile();
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }, 'my-account');
   };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+  };
+
+  onUpdateProfile = (data) => {
+    scrollToTop(500);
+    this.props.updateProfile(data);
   };
 
   render() {
@@ -76,7 +82,7 @@ class ProfileWrapper extends BasePageComponent {
         profile={this.props.profile}
         loggedIn={this.props.loggedIn}
         onLogout={this.props.onLogout}
-        onUpdateProfile={this.props.updateProfile}
+        onUpdateProfile={this.onUpdateProfile}
         breadcrumbs={this.props.route.breadcrumbs}
         messages={this.props.messages}
         isError={this.props.isError}

@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import { NAV } from '../../constants/AppConsts';
-// import { setNavigation } from '../../utils/utils';
 
 class Navigation extends React.Component {
 
@@ -12,8 +11,10 @@ class Navigation extends React.Component {
     activeSlug: PropTypes.string.isRequired,
     navClass: PropTypes.string.isRequired,
     menuOpen: PropTypes.string,
-    isMobile: PropTypes.bool.isRequired
-  }
+    isMobile: PropTypes.bool.isRequired,
+    getProduct: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -28,7 +29,7 @@ class Navigation extends React.Component {
     this.setState({
       currentStyles: this.getCurrentStyles()
     });
-  }
+  };
 
   componentDidUpdate = (prevProps) => {
     // Reset the green line position to active navitem
@@ -37,7 +38,7 @@ class Navigation extends React.Component {
         currentStyles: this.getCurrentStyles()
       });
     }
-  }
+  };
 
   onNavHover = (event) => {
     const currentStyles = {
@@ -47,13 +48,13 @@ class Navigation extends React.Component {
     };
     this.setState({ currentStyles });
     event.preventDefault();
-  }
+  };
 
   onHoverEnd = () => {
     this.setState({
       currentStyles: this.getCurrentStyles()
     });
-  }
+  };
 
   getCurrentStyles = () => {
     let currentStyles = {};
@@ -63,7 +64,7 @@ class Navigation extends React.Component {
       width: elem[0].offsetWidth
     };
     return currentStyles;
-  }
+  };
 
 
   getActive = (item) => {
@@ -74,7 +75,19 @@ class Navigation extends React.Component {
       return s.active;
     }
     return null;
-  }
+  };
+
+  handleClick = (slug) => {
+    if (slug === '/product/mentoring-program-day') {
+      this.props.getProduct('mentoring-program-day');
+      this.props.toggleLoader(true);
+      setTimeout(() => {
+        browserHistory.push('/product/mentoring-program-day');
+      }, 250);
+    } else {
+      browserHistory.push(slug);
+    }
+  };
 
   render() {
     const navItems = [...NAV];
@@ -87,7 +100,11 @@ class Navigation extends React.Component {
             onMouseEnter={this.onNavHover}
             onMouseLeave={this.onHoverEnd}
           >
-            <Link className={s.navlink} to={val.slug}>{val.title}</Link>
+            <Link
+              className={s.navlink}
+              onClick={() => this.handleClick(val.slug)}
+              to={val.slug}
+            >{val.title}</Link>
             <div className={s.topline} />
           </li>
         ))}

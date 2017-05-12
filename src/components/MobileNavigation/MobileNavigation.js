@@ -11,17 +11,19 @@ class MobileNavigation extends Component {
     activeSlug: PropTypes.string.isRequired,
     menuOpen: PropTypes.string.isRequired,
     mobileNavClose: PropTypes.func.isRequired,
-    navClass: PropTypes.string.isRequired
-  }
+    navClass: PropTypes.string.isRequired,
+    getProduct: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired
+  };
 
   componentDidMount = () => {
     window.addEventListener('resize', () => { this.setHeight(); });
-  }
+  };
 
   setHeight = () => {
     const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     document.getElementById('mobilenav').style.height = `${vh}px`;
-  }
+  };
 
   render() {
     return (
@@ -30,6 +32,8 @@ class MobileNavigation extends Component {
           activeSlug={this.props.activeSlug}
           navClass={this.props.navClass}
           menuOpen={this.props.menuOpen}
+          getProduct={this.props.getProduct}
+          toggleLoader={this.props.toggleLoader}
           isMobile
         />
         <Link to="#" className={s.closebtn} onClick={this.props.mobileNavClose} >

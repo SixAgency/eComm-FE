@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import BasePageComponent from '../../BasePageComponent';
 import Account from './Account';
 
+// Utils
+import { scrollToTop } from '../../../utils/utils';
+
 // Action
-import { onLogin, onRegister, onLogout } from '../../../actions/user';
+import { onLogin, onRegister, onLogout, checkGuest } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
 const mapStateToProps = ((state) => (
@@ -24,7 +26,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data) => dispatch(onLogin(data)),
     onRegister: (data) => dispatch(onRegister(data)),
     resetMessages: () => dispatch(resetMessages()),
-    onLogout: (data) => dispatch(onLogout(data))
+    onLogout: (data) => dispatch(onLogout(data)),
+    checkGuest: (callback) => dispatch(checkGuest(callback))
   }
 ));
 
@@ -39,6 +42,7 @@ class AccountWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
+    checkGuest: PropTypes.func.isRequired,
     route: PropTypes.object
   };
 
@@ -50,27 +54,23 @@ class AccountWrapper extends BasePageComponent {
   }
 
   componentWillMount = () => {
-    if (this.props.loggedIn) {
-      browserHistory.push('/my-account/dashboard');
-    } else {
-      const props = {
-        headerClass: 'colored',
-        activeSlug: '/my-account'
-      };
-      this.props.setHeaderProps(props);
-    }
+    const props = {
+      headerClass: 'colored',
+      activeSlug: '/my-account'
+    };
+    this.props.setHeaderProps(props);
   };
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
+    scrollToTop(500);
+    this.props.checkGuest(() => {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    });
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.loggedIn) {
-      browserHistory.push('/my-account/dashboard');
-    }
     if (nextProps.isError) {
       setTimeout(() => {
         this.props.toggleLoader(false);
@@ -94,7 +94,7 @@ class AccountWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
     this.props.resetMessages();
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      scrollToTop(500);
       this.props.onLogin(data);
     }, 250);
   };
@@ -103,7 +103,7 @@ class AccountWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
     this.props.resetMessages();
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      scrollToTop(500);
       this.props.onLogout();
     }, 500);
   };
@@ -112,7 +112,7 @@ class AccountWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
     this.props.resetMessages();
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      scrollToTop(500);
       this.props.onRegister(data);
     }, 250);
   };
