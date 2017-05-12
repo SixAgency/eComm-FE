@@ -28,18 +28,14 @@ class Product extends Component {
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    getProduct: PropTypes.func.isRequired
+    getProduct: PropTypes.func.isRequired,
+    tabs: PropTypes.object.isRequired,
+    openTab: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      tabs: {
-        description: true,
-        details: false,
-        info: false,
-        reviews: false
-      },
       showReviews: false
     };
   }
@@ -58,15 +54,7 @@ class Product extends Component {
     return accounting.formatMoney(product.price);
   }
 
-  isTabOpen = (tabName) => this.state.tabs[tabName];
-
-  openTab = (tabName) => {
-    const { tabs } = this.state;
-    Object.keys(tabs).forEach((key) => {
-      tabs[key] = key === tabName;
-    });
-    this.setState({ tabs });
-  }
+  isTabOpen = (tabName) => this.props.tabs[tabName];
 
   toggleReviews = () => {
     if (!this.state.showReviews) {
@@ -170,14 +158,14 @@ class Product extends Component {
               <div className={s.summarymiddle}>
                 <ProductTab
                   title="Description" open={this.isTabOpen('description')}
-                  onClick={() => this.openTab('description')}
+                  onClick={() => this.props.openTab('description')}
                 >
                   <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
                 </ProductTab>
                 {properties.details &&
                   <ProductTab
                     title="Details" open={this.isTabOpen('details')}
-                    onClick={() => this.openTab('details')}
+                    onClick={() => this.props.openTab('details')}
                   >
                     <p className={s.summaryparagraph}><b>{renderHTML(properties.details)}</b></p>
                   </ProductTab>
@@ -185,7 +173,7 @@ class Product extends Component {
                 {properties.additionalInfo &&
                   <ProductTab
                     title="Additional Information" open={this.isTabOpen('info')}
-                    onClick={() => this.openTab('info')}
+                    onClick={() => this.props.openTab('info')}
                   >
                     <table className={s.summarytable}>
                       <tbody>
@@ -228,7 +216,7 @@ class Product extends Component {
                   </ProductTab>
                 }
                 <ProductTab
-                  title={`Reviews (${reviews.length})`} open={this.isTabOpen('reviews')}
+                  title={`Reviews (${reviews.length})`} open={false}
                   onClick={this.toggleReviews}
                 />
                 {this.state.showReviews &&

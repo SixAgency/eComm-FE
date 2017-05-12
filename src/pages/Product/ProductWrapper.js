@@ -59,7 +59,12 @@ class ProductWrapper extends Component {
     super(props);
     this.state = {
       quantity: 1,
-      variant_id: null
+      variant_id: null,
+      pdpTabs: {
+        description: true,
+        details: false,
+        info: false
+      }
     };
   }
 
@@ -92,6 +97,13 @@ class ProductWrapper extends Component {
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.product;
     if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+      this.setState({
+        pdpTabs: {
+          description: true,
+          details: false,
+          info: false
+        }
+      });
       const props = {
         headerClass: 'colored',
         activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
@@ -144,6 +156,14 @@ class ProductWrapper extends Component {
     };
   };
 
+  openTab = (tabName) => {
+    const { pdpTabs } = this.state;
+    Object.keys(pdpTabs).forEach((key) => {
+      pdpTabs[key] = key === tabName;
+    });
+    this.setState({ pdpTabs });
+  }
+
   render() {
     const {
       product,
@@ -165,6 +185,8 @@ class ProductWrapper extends Component {
           resetMessages={this.props.resetMessages}
           toggleLoader={this.props.toggleLoader}
           getProduct={this.props.getProduct}
+          tabs={this.state.pdpTabs}
+          openTab={this.openTab}
         />
       );
     }
