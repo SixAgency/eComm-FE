@@ -15,7 +15,7 @@ class ProductsTable extends React.Component {
   render() {
     return (
       <form
-        method="post"
+        onSubmit={(e) => { e.preventDefault(); }}
         className={s.prodtablewrpr}
       >
         <table
