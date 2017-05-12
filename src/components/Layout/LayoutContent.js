@@ -57,6 +57,8 @@ class LayoutContent extends Component {
             mobileNavClose={this.props.mobileNavClose}
             activeSlug={this.props.activeSlug}
             navClass="mobilenavigation"
+            getProduct={this.props.getProduct}
+            toggleLoader={this.props.toggleLoader}
           />
         </div>
         <CustomModal

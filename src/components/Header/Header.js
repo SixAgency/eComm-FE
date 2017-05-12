@@ -109,7 +109,13 @@ class Header extends React.Component {
         <Link className={s.logocontainer} to="/">
           <div className={s.logo} />
         </Link>
-        <Navigation activeSlug={this.props.activeSlug} navClass={'navigation'} isMobile={false} />
+        <Navigation
+          activeSlug={this.props.activeSlug}
+          navClass={'navigation'}
+          isMobile={false}
+          getProduct={this.props.getProduct}
+          toggleLoader={this.props.toggleLoader}
+        />
         <Link
           className={cx(s.openbtn, s[this.props.menuOpen])}
           onClick={this.props.mobileNavOpen}
