@@ -3,7 +3,6 @@ import { checkResponse, forwardTo } from './handler';
 import { setCart, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
 import { setUser } from './user';
-import { setAddresses } from './address';
 import { setCheckoutAddressFeed, setCheckoutAddressesFeed } from '../helpers/feed';
 import { validateRegisterCheckout, validateMandatoryFieldsAddress } from '../helpers/validators';
 
@@ -88,7 +87,7 @@ function setCheckoutAddress(data) {
   window.scrollTo(0, 0);
   return (dispatch) => {
     dispatch(resetMessages());
-    const valid = validateMandatoryFieldsAddress(data.address);
+    const valid = validateMandatoryFieldsAddress(data.billing);
     const validEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/.test(data.email);
     if (!validEmail) {
       valid.isError = true;
@@ -97,8 +96,8 @@ function setCheckoutAddress(data) {
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
-      dispatch(setLoader(true));
       dispatch(setPending(true));
+      dispatch(setLoader(true));
       axios.post('/api/checkout/addresses', setCheckoutAddressesFeed(data))
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
@@ -154,19 +153,12 @@ function registerAndSetAddress(data) {
         .then((response) => checkResponse(response.data, () => {
           // Set the user
           dispatch(setUser(response.data.user));
-          // Set billing and shipping addresses
-          const addresses = {
-            isLoaded: false,
-            isEmpty: true,
-            addresses: []
-          };
-          dispatch(setAddresses(response.data.billing, response.data.shipping, addresses));
           return response;
         }, () => {
           registerError = true;
           window.scrollTo(0, 0);
-          dispatch(setPending(false));
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
+          dispatch(setPending(false));
         }))
         .then(() => {
           if (!registerError) {

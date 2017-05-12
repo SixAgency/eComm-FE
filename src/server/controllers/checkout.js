@@ -8,6 +8,7 @@ import PromoWrapper from '../../pages/Checkout/Promo';
 import ReviewWrapper from '../../pages/Checkout/Review';
 
 import { BREADCRUMBS } from '../../constants/AppConsts';
+import { DEFAULT_VALUES } from '../../constants/StateConsts';
 
 import { render, error } from '../common/render';
 import { checkLogin } from '../users';
@@ -28,6 +29,13 @@ function checkoutBilling(req, resp, next) {
     getSession(req)
   ])
     .then(([user, addresses, cart]) => {
+      let addr = addresses.data;
+      if (addresses.data.isError) {
+        addr = {
+          billing: DEFAULT_VALUES.address,
+          shipping: DEFAULT_VALUES.address
+        };
+      }
       const params = {
         title: 'Checkout Billing',
         description: '',
@@ -35,7 +43,7 @@ function checkoutBilling(req, resp, next) {
         active: '/my-account',
         content: <BillingWrapper
           loggedIn={user.user.loggedIn}
-          addresses={addresses.addresses}
+          addresses={addr}
           cartItems={cart}
           isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
@@ -59,6 +67,13 @@ function checkoutShipping(req, resp, next) {
     getSession(req)
   ])
     .then(([user, addresses, cart]) => {
+      let addr = addresses.data;
+      if (addresses.data.isError) {
+        addr = {
+          billing: DEFAULT_VALUES.address,
+          shipping: DEFAULT_VALUES.address
+        };
+      }
       const params = {
         title: 'Checkout Shipping',
         description: '',
@@ -66,7 +81,7 @@ function checkoutShipping(req, resp, next) {
         active: '/my-account',
         content: <ShippingWrapper
           loggedIn={user.user.loggedIn}
-          addresses={addresses.addresses}
+          addresses={addr}
           cartItems={cart}
           isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}

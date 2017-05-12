@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Checkout from '../../../components/Checkout';
 import Billing from './Billing';
+import { checkCartState } from '../../../utils/utils';
 
 class BillingWrapper extends React.Component {
 
@@ -20,33 +21,6 @@ class BillingWrapper extends React.Component {
   };
 
   /**
-   * Helper method to identify
-   * the content type shown
-   * @param props
-   * @returns {*}
-   */
-  getBillingContent = (props) => {
-    const { loggedIn, addresses } = props;
-    return (addresses.isEmpty || !loggedIn) ? 'form' : 'list';
-  };
-
-  /**
-   * Get selected address from user addresses
-   * @param id
-   * @param email
-   * @returns object
-   */
-  /**
-   * Returns the customer default address
-   * @returns {number}
-   */
-  getDefaultAddressId = () => {
-    const { addresses } = this.props;
-    const address = addresses.addresses.find((elem) => elem.isBilling);
-    return address ? address.id : 0;
-  };
-
-  /**
    * Returns the customer email address used in order
    * @returns {string}
    */
@@ -55,33 +29,10 @@ class BillingWrapper extends React.Component {
     return cartItems.cart.email || '';
   };
 
-  /**
-   * Get when the cancel button should be show
-   * @returns {boolean}
-   */
-  getShowCancel = () => {
-    const { addresses, loggedIn } = this.props;
-    const content = this.getBillingContent(this.props);
-    return (content === 'form' && loggedIn && !addresses.isEmpty);
-  };
-
-  getAddress = () => ({
-    firstname: '',
-    lastname: '',
-    company: '',
-    phone: '',
-    address1: '',
-    address2: '',
-    city: '',
-    state: 0,
-    zipcode: ''
-  });
-
   render() {
-    const selectedAddress = this.getDefaultAddressId();
-    const emailAddress = this.getEmailAddress();
-    const showCancel = this.getShowCancel();
-    const content = this.getBillingContent(this.props);
+    const expectedState = checkCartState(this.props);
+    const mockTrue = true;
+    const mockFalse = false;
     return (
       <Checkout
         state={this.props.cartItems.cart.state}
@@ -96,15 +47,19 @@ class BillingWrapper extends React.Component {
         onLogin={() => (true)}
       >
         <Billing
-          content={content}
-          emailAddress={emailAddress}
-          addresses={this.props.addresses.addresses}
           loggedIn={this.props.loggedIn}
-          address={this.getAddress()}
-          selectedAddress={selectedAddress}
+          address={this.props.addresses.billing}
+          email={this.getEmailAddress()}
+          editMode={expectedState !== 'checkout/billing'}
+          showCancel={expectedState !== 'checkout/billing'}
+          password={''}
+          passwordValid={mockTrue}
+          showRegister={mockFalse}
+          onFieldChange={() => (true)}
           onSubmit={() => (true)}
-          toggleContent={() => (true)}
-          showCancel={showCancel}
+          onPassChange={() => (true)}
+          onRegisterCheck={() => (true)}
+          onCancel={() => (true)}
         />
       </Checkout>
     );

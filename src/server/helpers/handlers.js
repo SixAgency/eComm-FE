@@ -3,6 +3,7 @@ import capitalize from 'lodash.capitalize';
 import moment from 'moment';
 import { mannequinHeadsSlugs } from '../../config';
 import logger from '../logger';
+import { mapAddressFeedToState } from '../../helpers/feed';
 
 /**
  * Helper function to extract the messages from
@@ -32,13 +33,18 @@ function extractErrors(data) {
   // failed requests should contain `error`, `errors` or `exception` keys
   // see http://guides.spreecommerce.org/api/summary.html
   const { error, errors, exception } = data;
+  let messages = [];
   // if there is a single error - return
   if (error) {
-    return [error];
+    messages.push(error);
   }
   // if there are multiple errors
   if (errors) {
-    return getErrors(errors);
+    messages = [...messages, ...getErrors(errors)];
+  }
+  // return if we have any errors
+  if (messages.length) {
+    return messages;
   }
   // Send the exception in development mode
   if (process.env.NODE_ENV !== 'production' && exception) {
@@ -90,7 +96,10 @@ function setUserSession(token, request) {
 // Clear session params
 function clearSession(request) {
   request.session.destroy((err) => {
-    console.error(err);
+    logger.debug('Destroying session...');
+    if (err) {
+      logger.error(err);
+    }
   });
   return true;
 }
@@ -119,27 +128,27 @@ function setAddressResponse(data) {
 function setAuthResponse(data, request) {
   let resp;
   if (!data.isError && data.user) {
-    const user = {
-      loggedIn: true,
-      profile: {
-        isLoaded: false,
-        email: '',
-        f_name: '',
-        l_name: ''
-      }
-    };
     const token = data.user.spree_api_key;
     setUserSession(token, request);
     resp = {
       isError: false,
-      user,
-      billing: setAddressResponse(data.bill_address),
-      shipping: setAddressResponse(data.ship_address)
+      user: {
+        loggedIn: true
+      }
     };
+    if (data.bill_address) {
+      resp.billing = mapAddressFeedToState(data.bill_address);
+    }
+    if (data.ship_address) {
+      resp.shipping = mapAddressFeedToState(data.ship_address);
+    }
   } else {
     const { messages, status } = data;
     resp = {
       isError: true,
+      user: {
+        loggedIn: false
+      },
       messages: messages || ['Error.'],
       status
     };
@@ -153,13 +162,7 @@ function setLogoutResponse(request) {
   const resp = {
     isError: false,
     user: {
-      loggedIn: false,
-      profile: {
-        isLoaded: true,
-        email: '',
-        f_name: '',
-        l_name: ''
-      }
+      loggedIn: false
     }
   };
   return resp;
@@ -174,26 +177,14 @@ function setUserResponse(request) {
         resp = {
           isError: false,
           user: {
-            loggedIn: true,
-            profile: {
-              isLoaded: false,
-              email: '',
-              f_name: '',
-              l_name: ''
-            }
+            loggedIn: true
           }
         };
       } else {
         resp = {
           isError: false,
           user: {
-            loggedIn: false,
-            profile: {
-              isLoaded: true,
-              email: '',
-              f_name: '',
-              l_name: ''
-            }
+            loggedIn: false
           }
         };
       }

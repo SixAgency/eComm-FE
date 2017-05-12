@@ -8,26 +8,20 @@ class BillingWrapper extends React.Component {
   };
 
   render() {
-    const {
-      addresses,
-      breadcrumbs
-    } = this.props;
-    const loggedIn = true;
-    const isError = true;
-    const messages = [];
+    const mockTrue = true;
+    const mockFalse = false;
+    const mockFunc = () => (true);
     return (
       <Billing
-        addressId={0}
-        addresses={addresses.addresses.addresses}
-        breadcrumbs={breadcrumbs}
-        messages={messages}
-        isError={isError}
-        loggedIn={loggedIn}
-        onLogout={() => (true)}
-        onSubmit={() => (true)}
-        onCancel={() => (true)}
-        onSelect={() => (true)}
-        onCreate={() => (true)}
+        address={this.props.addresses.billing}
+        loggedIn={mockTrue}
+        onLogout={mockFunc}
+        messages={[]}
+        isError={mockFalse}
+        breadcrumbs={this.props.breadcrumbs}
+        onSubmit={mockFunc}
+        onCancel={mockFunc}
+        onFieldChange={mockFunc}
       />
     );
   }

@@ -14,135 +14,45 @@ import {
 // Forms and inputs
 import Form from '../../../components/Forms/Form';
 import FormFields from '../../../components/Forms/FormField';
-import AddressSelect from '../../../components/Forms/AddressSelect';
 
 class Shipping extends React.Component {
 
   static propTypes = {
-    content: PropTypes.string.isRequired,
+    showForm: PropTypes.bool.isRequired,
+    editMode: PropTypes.bool.isRequired,
     toggleContent: PropTypes.func.isRequired,
-    emailAddress: PropTypes.string.isRequired,
-    selectedAddress: PropTypes.number.isRequired,
-    addresses: PropTypes.array.isRequired,
     address: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    showCancel: PropTypes.bool.isRequired
+    onCancel: PropTypes.func.isRequired,
+    showCancel: PropTypes.bool.isRequired,
+    onFieldChange: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    const {
-      selectedAddress,
-      emailAddress
-    } = props;
-    const {
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      zipcode
-    } = this.props.address;
-    this.state = {
-      addressId: selectedAddress,
-      firstname,
-      lastname,
-      company,
-      email: emailAddress,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      country: 232,
-      zipcode
-    };
-  }
-
-  /**
-   * Form submit handler
-   * @param event
-   */
-  onSubmit = (event) => {
-    event.preventDefault();
-    console.log(this.state);
-    this.props.onSubmit(this.state);
-  };
-
-  /**
-   * (Input, Select) field change handler
-   * @param key
-   * @param value
-   */
-  onFieldChange = (key, value) => {
-    const obj = {};
-    obj[key] = value;
-    this.setState(obj);
-  };
-
-  /**
-   * Address list select handler
-   * @param event
-   */
-  onSelect = (event) => {
-    this.setState({
-      addressId: parseInt(event.target.value, 10)
-    });
-  };
-
-  componentWillReceiveProps = (nextProps) => {
-    const {
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      zipcode
-    } = nextProps.address;
-    this.setState({
-      firstname,
-      lastname,
-      company,
-      phone,
-      address1,
-      address2,
-      city,
-      state,
-      country: 232,
-      zipcode
-    });
+  getContent = () => {
+    const { showForm, editMode } = this.props;
+    if (editMode || showForm) {
+      return 'form';
+    }
+    return 'same';
   };
 
   render() {
     const {
       formTitle,
       formSubtitle,
-      buttonText,
-      bottomButtonText
+      buttonText
     } = CHECKOUT_SHIPPING;
-    const {
-      addresses,
-      content,
-      toggleContent,
-      showCancel
-    } = this.props;
     return (
       <Form
         formTitle={formTitle}
         formSubtitle={formSubtitle}
         buttonText={buttonText}
-        onSubmit={this.onSubmit}
-        showCancel={showCancel}
-        onCancel={toggleContent}
+        onSubmit={this.props.onSubmit}
+        showCancel={this.props.showCancel}
+        onCancel={this.props.onCancel}
       >
         <div>
-          <div className={cx(f.inputwrapper, f[content])}>
+          {!this.props.editMode && <div className={cx(f.inputwrapper, f[this.getContent()])}>
             <label className={f.label} htmlFor="changeaddress">
               &nbsp;Ship to a different address?&nbsp;&nbsp;&nbsp;
               <input
@@ -150,28 +60,17 @@ class Shipping extends React.Component {
                 className={f.checkbox}
                 name="sameas"
                 type="checkbox"
-                onChange={toggleContent}
+                onChange={this.props.toggleContent}
               />
             </label>
-          </div>
-          <div className={s[`addresslist_${content}`]}>
-            <AddressSelect
-              addresses={addresses}
-              addressId={this.state.addressId}
-              onSelect={this.onSelect}
-              onBottomButtonClick={toggleContent}
-              showBottomButton={content === 'list'}
-              bottomButtonText={bottomButtonText}
-              selectClass="mt20"
-            />
-          </div>
-          <div className={s[`addressform_${content}`]}>
+          </div>}
+          <div className={s[`addressform_${this.getContent()}`]}>
             {CHECKOUT_SHIPPING_FIELDS.map((v, k) => (
               <FormFields
                 key={k}
                 elem={v}
-                value={this.state[v.value]}
-                onChange={this.onFieldChange}
+                value={this.props.address[v.value]}
+                onChange={this.props.onFieldChange}
                 options={STATES}
               />
             ))}
@@ -186,7 +85,7 @@ class Shipping extends React.Component {
               cols="5"
               className={f.textarea}
               placeholder="Notes about your order, e.g. special notes for delivery."
-              onChange={(event) => this.onFieldChange('notes', event.target.value)}
+              onChange={(event) => this.props.onFieldChange('notes', event.target.value)}
             />
           </div>
         </div>

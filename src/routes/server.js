@@ -11,7 +11,6 @@ import {
   editPassword,
   editShipping,
   editBilling,
-  manageAddresses,
   viewOrder
 } from '../server/controllers/account';
 import { error, notFound } from '../server/common/render';
@@ -37,7 +36,6 @@ siteRoutes.get('/my-account', auth);
 siteRoutes.get('/my-account/lost-password', password);
 // My Account - Reset Password
 siteRoutes.get('/my-account/lost-password/:param', reset);
-siteRoutes.get('/user/spree_user/password/edit', reset);
 // My Account - Dashboard
 siteRoutes.get('/my-account/dashboard', checkUser, dashboard);
 // My Account - Edit Profile
@@ -48,8 +46,6 @@ siteRoutes.get('/my-account/edit-password', checkUser, editPassword);
 siteRoutes.get('/my-account/address/shipping', checkUser, editShipping);
 // My Account - Billing
 siteRoutes.get('/my-account/address/billing', checkUser, editBilling);
-// My Account - Manage Addresses
-siteRoutes.get('/my-account/address/manage', checkUser, manageAddresses);
 // My Account - View Order
 siteRoutes.get('/my-account/view-order/:number', viewOrder);
 // Checkout - Billing

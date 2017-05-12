@@ -1,3 +1,11 @@
+const setErrors = (errors) => ({
+  type: 'SET_MESSAGES',
+  payload: {
+    isError: true,
+    messages: errors
+  }
+});
+
 /**
  * Set error/success messages - helper
  * @param message: object
@@ -93,5 +101,6 @@ export {
   setMessage,
   setLoader,
   setPending,
-  toggleMobileNavigation
+  toggleMobileNavigation,
+  setErrors
 };

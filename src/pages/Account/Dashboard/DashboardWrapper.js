@@ -1,20 +1,20 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { forwardTo } from '../../../actions/handler';
 
 import BasePageComponent from '../../BasePageComponent';
 import Dashboard from './Dashboard';
 
 // Action
 import { onLogout, getProfile, redeemGiftCard, getStoreCredit } from '../../../actions/user';
-import { getAddress } from '../../../actions/address';
+import { getAddresses } from '../../../actions/user_address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    addresses: state.address,
+    addresses: state.user_address,
     orders: state.orders.orders,
     messages: state.page.messages,
     isError: state.page.isError,
@@ -28,7 +28,7 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (props) => dispatch(toggleLoader(props)),
     onLogout: () => dispatch(onLogout()),
-    getAddress: () => dispatch(getAddress()),
+    getAddresses: () => dispatch(getAddresses()),
     resetMessages: () => dispatch(resetMessages()),
     getAllOrders: () => dispatch(getAllOrders()),
     getProfile: () => dispatch(getProfile()),
@@ -43,7 +43,7 @@ class DashboardWrapper extends BasePageComponent {
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    getAddress: PropTypes.func.isRequired,
+    getAddresses: PropTypes.func.isRequired,
     getAllOrders: PropTypes.func.isRequired,
     orders: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
@@ -59,27 +59,19 @@ class DashboardWrapper extends BasePageComponent {
 
   componentWillMount = () => {
     window.scrollTo(0, 0);
-    if (!this.props.loggedIn) {
-      browserHistory.push('/my-account');
-    }
-    const props = {
-      headerClass: 'colored',
-      activeSlug: '/my-account'
-    };
-    this.props.setHeaderProps(props);
-    this.props.getAddress();
-    this.props.getAllOrders();
-    if (!this.props.profile.isLoaded) {
-      this.props.getProfile();
-    }
-    this.props.getStoreCredit();
+    // Check if the user is logged in
+    // set the header styles and fetch page data
+    this.checkLoggedIn(this.props, () => {
+      this.setHeaderStyles();
+      this.fetchPageData();
+    });
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const addressesLoaded = nextProps.addresses.addresses.isLoaded;
+    const addresses = nextProps.addresses;
     const profileLoaded = nextProps.profile.isLoaded;
     const ordersLoaded = nextProps.orders.isLoaded;
-    if (profileLoaded && addressesLoaded && ordersLoaded) {
+    if (profileLoaded && ordersLoaded && !addresses.isFetching) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -89,6 +81,29 @@ class DashboardWrapper extends BasePageComponent {
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
+  };
+
+  checkLoggedIn = (props, fn) => {
+    const { loggedIn } = props;
+    if (loggedIn) {
+      return fn();
+    }
+    return forwardTo('my-account');
+  };
+
+  setHeaderStyles = () => {
+    const headerStyles = {
+      headerClass: 'colored',
+      activeSlug: '/my-account'
+    };
+    this.props.setHeaderProps(headerStyles);
+  };
+
+  fetchPageData = () => {
+    this.props.getProfile();
+    this.props.getAddresses();
+    this.props.getStoreCredit();
+    this.props.getAllOrders();
   };
 
   onLogout = (event) => {
@@ -108,7 +123,7 @@ class DashboardWrapper extends BasePageComponent {
       onRedeemGiftCard,
       loggedIn
     } = this.props;
-    if (profile.isLoaded && orders.isLoaded && addresses.addresses.isLoaded) {
+    if (profile.isLoaded && orders.isLoaded && !addresses.isFetching) {
       return (
         <Dashboard
           loggedIn={loggedIn}
@@ -122,7 +137,6 @@ class DashboardWrapper extends BasePageComponent {
           resetMessages={this.props.resetMessages}
           onRedeemGiftCard={onRedeemGiftCard}
           creditInfo={creditInfo}
-          getStoreCredit={this.props.getStoreCredit}
         />
       );
     }

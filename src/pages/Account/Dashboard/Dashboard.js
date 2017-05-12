@@ -23,8 +23,7 @@ class Dashboard extends React.Component {
     profile: PropTypes.object.isRequired,
     resetMessages: PropTypes.func.isRequired,
     onRedeemGiftCard: PropTypes.func.isRequired,
-    creditInfo: PropTypes.object.isRequired,
-    getStoreCredit: PropTypes.func.isRequired
+    creditInfo: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -73,10 +72,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const addresses = {
-      shippAddress: this.props.addresses.shipping,
-      billAddress: this.props.addresses.billing
-    };
+    const { addresses } = this.props;
     return (
       <section className={s.page}>
         <Subnav
@@ -98,7 +94,7 @@ class Dashboard extends React.Component {
               <Link className={s.actions} to="/my-account/edit-account" > edit your password and account details </Link>.
             </p>
             {this.renderOrders()}
-            <Addresses {...addresses} />
+            <Addresses shippAddress={addresses.shipping} billAddress={addresses.billing} />
             <h1 className={s.title}>MY STORE CREDIT</h1>
             {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>

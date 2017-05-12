@@ -4,131 +4,140 @@ import { connect } from 'react-redux';
 import BasePageComponent from '../../BasePageComponent';
 import Billing from './Billing';
 
+// Utils
+import { scrollToTop } from '../../../utils/utils';
+
 // Action
-import { onLogout } from '../../../actions/user';
-import { getAddress, setDefaultAddress } from '../../../actions/address';
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { checkUser, onLogout } from '../../../actions/user';
+import { getAddresses, setAddresses } from '../../../actions/user_address';
+import { setHeaderProps, setMessage, resetMessages, toggleLoader } from '../../../actions/page';
 import { forwardTo } from '../../../actions/handler';
-
-const mapStateToProps = ((state) => (
-  {
-    loggedIn: state.user.loggedIn,
-    billing: state.address.billing,
-    addresses: state.address.addresses,
-    messages: state.page.messages,
-    isError: state.page.isError
-  }
-));
-
-const mapDispatchToProps = ((dispatch) => (
-  {
-    setHeaderProps: (props) => dispatch(setHeaderProps(props)),
-    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    onLogout: () => dispatch(onLogout()),
-    setDefaultAddress: (data, message) => dispatch(setDefaultAddress(data, message)),
-    getAddress: () => dispatch(getAddress()),
-    resetMessages: () => dispatch(resetMessages())
-  }
-));
 
 class BillingWrapper extends BasePageComponent {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
-    billing: PropTypes.object.isRequired,
     addresses: PropTypes.object.isRequired,
-    getAddress: PropTypes.func.isRequired,
-    setHeaderProps: PropTypes.func.isRequired,
-    toggleLoader: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    setDefaultAddress: PropTypes.func.isRequired,
+    messages: PropTypes.array.isRequired,
+    errors: PropTypes.array.isRequired,
+    getInitialData: PropTypes.func.isRequired,
+    setAddresses: PropTypes.func.isRequired,
+    setHeaderProps: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    toggleLoader: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
     route: PropTypes.object
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { ...props.addresses.billing };
+  }
+
   componentWillMount = () => {
-    if (!this.props.loggedIn) {
-      forwardTo('my-account');
-    }
-    const props = {
+    scrollToTop(500);
+    const headerProps = {
       headerClass: 'colored',
       activeSlug: '/my-account'
     };
-    this.props.setHeaderProps(props);
-    if (!this.props.billing.isLoaded || !this.props.addresses.isLoaded) {
-      this.props.getAddress();
-    }
-    if (this.props.billing.isLoaded &&
-      this.props.billing.isEmpty &&
-      this.props.addresses.isLoaded &&
-      this.props.addresses.isEmpty) {
-      forwardTo('my-account/address/create/billing');
-    }
+    this.props.setHeaderProps(headerProps);
   };
 
   componentDidMount = () => {
-    const billingLoaded = this.props.billing.isLoaded;
-    const addressesLoaded = this.props.addresses.isLoaded;
-    if (billingLoaded && addressesLoaded) {
-      setTimeout(() => {
-        this.props.toggleLoader(false);
-      }, 500);
-    }
+    this.props.getInitialData();
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.billing.isLoaded && nextProps.addresses.isLoaded) {
-      if (nextProps.billing.isEmpty && nextProps.addresses.isEmpty) {
-        forwardTo('my-account/address/create/billing');
-      } else {
-        setTimeout(() => {
-          this.props.toggleLoader(false);
-        }, 250);
+    if (nextProps.addresses.isFetching) {
+      this.props.toggleLoader(true);
+    } else if (nextProps.addresses.isFetched) {
+      if (!nextProps.isError) {
+        this.setState(nextProps.addresses.billing);
       }
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 250);
     }
   };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-    this.props.resetMessages();
   };
 
-  onSubmit = (id) => {
-    const address = {
-      default_bill_address: { id }
-    };
-    const message = 'Billing Address updated successfully.';
-    this.props.setDefaultAddress(address, message);
+  onSubmit = (event) => {
+    event.preventDefault();
+    scrollToTop(500);
+    const { shipping } = this.props.addresses;
+    const addressTypes = ['bill_address'];
+    if (shipping.id === 0) {
+      addressTypes.push('ship_address');
+    }
+    this.props.resetMessages();
+    this.props.setAddresses({
+      address: this.state,
+      addressTypes,
+      messages: ['Billing address updated.']
+    });
   };
 
   onCancel = () => {
+    this.props.resetMessages();
     forwardTo('my-account/dashboard');
   };
 
-  onCreate = () => {
-    forwardTo('my-account/address/create/billing');
+  onFieldChange = (key, value) => {
+    const obj = {};
+    if (key === 'state') {
+      obj[key] = parseInt(value, 10);
+    } else {
+      obj[key] = value;
+    }
+    this.setState(obj);
+  };
+
+  getErrorMessage = (props) => {
+    const { messages, errors } = props;
+    return [...messages, ...errors];
   };
 
   render() {
-    if (this.props.billing.isLoaded && this.props.addresses.isLoaded) {
-      const addressId = this.props.billing.address.id || 0;
-      return (
-        <Billing
-          loggedIn={this.props.loggedIn}
-          onLogout={this.props.onLogout}
-          addressId={addressId}
-          addresses={this.props.addresses.addresses}
-          messages={this.props.messages}
-          isError={this.props.isError}
-          onSubmit={this.onSubmit}
-          onCancel={this.onCancel}
-          onCreate={this.onCreate}
-          breadcrumbs={this.props.route.breadcrumbs}
-        />
-      );
-    }
-    return null;
+    return (
+      <Billing
+        address={this.state}
+        loggedIn={this.props.loggedIn}
+        onLogout={this.props.onLogout}
+        messages={this.getErrorMessage(this.props)}
+        isError={this.props.isError}
+        breadcrumbs={this.props.route.breadcrumbs}
+        onSubmit={this.onSubmit}
+        onCancel={this.onCancel}
+        onFieldChange={this.onFieldChange}
+      />
+    );
   }
 }
+const mapStateToProps = ((state) => (
+  {
+    loggedIn: state.user.loggedIn,
+    addresses: state.user_address,
+    messages: state.page.messages,
+    errors: state.user_address.messages,
+    isError: (state.page.isError || state.user_address.isError)
+  }
+));
 
+const mapDispatchToProps = ((dispatch) => (
+  {
+    onLogout: () => dispatch(onLogout()),
+    setHeaderProps: (props) => dispatch(setHeaderProps(props)),
+    toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
+    resetMessages: () => dispatch(resetMessages()),
+    setMessage: (props) => dispatch(setMessage(props)),
+    setAddresses: (props) => dispatch(setAddresses(props)),
+    getInitialData: () => {
+      dispatch(checkUser(() => dispatch(getAddresses()), 'my-account'));
+    }
+  }
+));
 export default connect(mapStateToProps, mapDispatchToProps)(BillingWrapper);

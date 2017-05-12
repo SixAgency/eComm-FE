@@ -5,9 +5,9 @@ import ProfileWrapper from '../../pages/Account/Profile/Profile';
 import PasswordWrapper from '../../pages/Account/Profile/Password';
 import ShippingWrapper from '../../pages/Account/Shipping';
 import BillingWrapper from '../../pages/Account/Billing';
-import ManageAddressesWrapper from '../../pages/Account/ManageAddresses';
 import ViewOrderWrapper from '../../pages/Account/ViewOrder';
 
+import { DEFAULT_VALUES } from '../../constants/StateConsts';
 import { BREADCRUMBS } from '../../constants/AppConsts';
 
 import { render, error } from '../common/render';
@@ -42,6 +42,13 @@ function dashboard(req, resp, next) {
     getStoreCreditInfo(req)
   ])
     .then(([user, addresses, orders, credit]) => {
+      let addr = addresses.data;
+      if (addresses.data.isError) {
+        addr = {
+          billing: DEFAULT_VALUES.address,
+          shipping: DEFAULT_VALUES.address
+        };
+      }
       const params = {
         title: 'My Account',
         description: '',
@@ -49,7 +56,7 @@ function dashboard(req, resp, next) {
         active: '/my-account',
         content: <DashboardWrapper
           profile={user}
-          addresses={addresses}
+          addresses={addr}
           orders={orders}
           creditInfo={credit}
           breadcrumbs={BREADCRUMBS.dashboard}
@@ -123,13 +130,20 @@ function editShipping(req, resp, next) {
     getAddresses(req)
   ])
     .then(([addresses]) => {
+      let addr = addresses.data;
+      if (addresses.data.isError) {
+        addr = {
+          billing: DEFAULT_VALUES.address,
+          shipping: DEFAULT_VALUES.address
+        };
+      }
       const params = {
         title: 'Edit Shipping Address',
         description: '',
         header: 'colored',
         active: '/my-account',
         content: <ShippingWrapper
-          addresses={addresses}
+          addresses={addr}
           breadcrumbs={BREADCRUMBS.addresses}
         />
       };
@@ -149,39 +163,20 @@ function editBilling(req, resp, next) {
     getAddresses(req)
   ])
     .then(([addresses]) => {
+      let addr = addresses.data;
+      if (addresses.data.isError) {
+        addr = {
+          billing: DEFAULT_VALUES.address,
+          shipping: DEFAULT_VALUES.address
+        };
+      }
       const params = {
         title: 'Edit Billing Address',
         description: '',
         header: 'colored',
         active: '/my-account',
         content: <BillingWrapper
-          addresses={addresses}
-          breadcrumbs={BREADCRUMBS.addresses}
-        />
-      };
-      return render(req, resp, next, params);
-    })
-    .catch((err) => error(req, resp, next, err));
-}
-
-/**
- * Manage Addresses handler
- * @param req
- * @param resp
- * @param next
- */
-function manageAddresses(req, resp, next) {
-  Promise.all([
-    getAddresses(req)
-  ])
-    .then(([addresses]) => {
-      const params = {
-        title: 'Manage Addresses',
-        description: '',
-        header: 'colored',
-        active: '/my-account',
-        content: <ManageAddressesWrapper
-          addresses={addresses}
+          addresses={addr}
           breadcrumbs={BREADCRUMBS.addresses}
         />
       };
@@ -225,6 +220,5 @@ export {
   editPassword,
   editShipping,
   editBilling,
-  manageAddresses,
   viewOrder
 };

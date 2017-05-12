@@ -82,14 +82,14 @@ function validateMandatoryFieldsAddress(data) {
   if (!data.city) {
     messages.push('City is a required field.');
   }
-  if (data.state_id === 0) {
+  if (data.state === 0) {
     messages.push('State is a required field.');
   }
-  if (!data.zipcode) {
+  if (!data.zip) {
     messages.push('ZIP is a required field.');
-  } else if (data.zipcode.length < 5) {
+  } else if (data.zip.length < 5) {
     messages.push('Please enter a valid postcode/ZIP.');
-  } else if (isNaN(Number(data.zipcode))) {
+  } else if (isNaN(Number(data.zip))) {
     messages.push('Please enter a valid postcode/ZIP.');
   }
   const resp = {
@@ -262,7 +262,7 @@ function validateReview(data) {
 function validateRegisterCheckout(data) {
   const messages = [];
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
-  const address = data.address;
+  const address = data.billing;
   if (!address.firstname) {
     messages.push('First Name is a required field.');
   }
@@ -285,14 +285,14 @@ function validateRegisterCheckout(data) {
   if (!address.city) {
     messages.push('City is a required field.');
   }
-  if (address.state_id === 0) {
+  if (address.state === 0) {
     messages.push('State is a required field.');
   }
-  if (!address.zipcode) {
+  if (!address.zip) {
     messages.push('ZIP is a required field.');
-  } else if (address.zipcode.length < 5) {
+  } else if (address.zip.length < 5) {
     messages.push('Please enter a valid postcode/ZIP.');
-  } else if (isNaN(Number(address.zipcode))) {
+  } else if (isNaN(Number(address.zip))) {
     messages.push('Please enter a valid postcode/ZIP.');
   }
   const resp = {

@@ -1,3 +1,5 @@
+import { DEFAULT_VALUES } from '../constants/StateConsts';
+
 function getCartAddresses(cart) {
   const addresses = {
     billing: null,
@@ -52,20 +54,54 @@ function getCheckoutAddresses(data) {
   return response;
 }
 
-function setCheckoutAddressesFeed(data) {
+function mapAddressFeedToState(address) {
+  if (address) {
+    return {
+      id: address.id,
+      firstname: address.firstname || '',
+      lastname: address.lastname || '',
+      company: address.company || '',
+      phone: address.phone || '',
+      address1: address.address1 || '',
+      address2: address.address2 || '',
+      city: address.city || '',
+      state: address.state_id || 0,
+      country: address.country_id || 232,
+      zip: address.zipcode || ''
+    };
+  }
+  return DEFAULT_VALUES.address;
+}
+
+function mapAddressStateToFeed(address) {
   return {
-    order: {
-      email: data.email,
-      bill_address_attributes: data.address,
-      ship_address_attributes: data.address
-    }
+    firstname: address.firstname,
+    lastname: address.lastname,
+    company: address.company,
+    phone: address.phone,
+    address1: address.address1,
+    address2: address.address2,
+    city: address.city,
+    state_id: address.state,
+    country_id: address.country,
+    zipcode: address.zip
   };
 }
 
 function setCheckoutAddressFeed(data) {
   return {
     id: data.id,
-    address: data.address
+    address: mapAddressStateToFeed(data.address)
+  };
+}
+
+function setCheckoutAddressesFeed(data) {
+  return {
+    order: {
+      email: data.email,
+      bill_address_attributes: mapAddressStateToFeed(data.billing),
+      ship_address_attributes: mapAddressStateToFeed(data.shipping)
+    }
   };
 }
 
@@ -73,5 +109,7 @@ export {
   getCartAddresses,
   getCheckoutAddresses,
   setCheckoutAddressesFeed,
-  setCheckoutAddressFeed
+  setCheckoutAddressFeed,
+  mapAddressFeedToState,
+  mapAddressStateToFeed
 };

@@ -88,24 +88,27 @@ function resetOrders() {
  * @returns {function(*=)}
  */
 function getCart(isNew, fn) {
-  return (dispatch) => {
-    dispatch(setCartPending(true));
-    axios.get(`/api/cart/${isNew}`)
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setCart(response.data));
-        dispatch(setCartPending(false));
-        if (fn) {
-          fn();
-        }
-      }, () => {
-        dispatch(setCartPending(false));
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-        dispatch(resetCart());
-        dispatch(setCartPending(false));
-      });
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!state.cart.isCartPending) {
+      dispatch(setCartPending(true));
+      axios.get(`/api/cart/${isNew}`)
+        .then((response) => checkResponse(response.data, () => {
+          dispatch(setCart(response.data));
+          dispatch(setCartPending(false));
+          if (fn) {
+            fn();
+          }
+        }, () => {
+          dispatch(setCartPending(false));
+          dispatch(setMessage({ isError: true, messages: response.data.messages }));
+        }))
+        .catch((err) => {
+          console.error('Error: ', err); // eslint-disable-line no-console
+          dispatch(resetCart());
+          dispatch(setCartPending(false));
+        });
+    }
   };
 }
 

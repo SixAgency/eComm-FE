@@ -29,6 +29,8 @@ class Layout extends React.Component {
         mobileNavOpen={this.mobileNavOpen}
         mobileNavClose={this.mobileNavClose}
         proceedToCheckout={() => (true)}
+        toggleLoader={() => (true)}
+        getProduct={() => (true)}
         showModal={showModal}
         modalContent={modalContent}
         showLoader={showLoader}

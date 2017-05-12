@@ -86,7 +86,6 @@ class HomeWrapper extends BasePageComponent {
     if (isLoaded && !isCartPending && !isPending && nextProps.showLoader.toggle) {
       setTimeout(() => {
         this.props.toggleLoader(false);
-        console.log('HERE123');
       }, 500);
     }
   };
