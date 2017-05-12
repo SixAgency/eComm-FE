@@ -1,7 +1,7 @@
 import axios from 'axios';
 import pick from 'lodash.pick';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage } from './page';
+import { setMessage, resetMessages } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
 import { ACTION_TYPES, DEFAULT_VALUES } from '../constants/StateConsts';
@@ -46,6 +46,19 @@ function checkUser(callback, redirect) {
       }
       dispatch(setMessage({ isError: true, messages: ['Your session expired. Please login.'] }));
       return forwardTo(redirect);
+    });
+  };
+}
+
+function checkGuest(callback) {
+  return (dispatch) => {
+    axios.get('/api/check').then((response) => {
+      const { user } = response.data;
+      if (user && user.loggedIn) {
+        dispatch(resetMessages());
+        return forwardTo('my-account/dashboard');
+      }
+      return callback();
     });
   };
 }
@@ -411,5 +424,6 @@ export {
   getStoreCredit,
   applyStoreCredit,
   setUser,
-  checkUser
+  checkUser,
+  checkGuest
 };
