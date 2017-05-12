@@ -63,7 +63,7 @@ class SingleVariant extends Component {
             </option>),
           )}
         </select>
-        {selectedVariant.price !== this.props.price &&
+        {parseFloat(selectedVariant.price) !== parseFloat(this.props.price) &&
           <div className={s.addons}>
             <span>Grand<br />total:</span>
             <span>{accounting.formatMoney(selectedVariant.price)}</span>
