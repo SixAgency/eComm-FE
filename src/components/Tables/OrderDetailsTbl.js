@@ -84,8 +84,10 @@ class OrderDetailsTbl extends PureComponent {
                       {shipments.map((shipment, key) => (
                         <tr key={key}>
                           <td>
-                            {accounting.formatMoney(shipment.selected_shipping_rate.cost)}&nbsp;
-                            via {shipment.selected_shipping_rate.name}
+                            {shipment.selected_shipping_rate &&
+                              `${accounting.formatMoney(shipment.selected_shipping_rate.cost)}
+                               via ${shipment.selected_shipping_rate.name}`
+                            }
                           </td>
                         </tr>
                       ))}
@@ -94,16 +96,6 @@ class OrderDetailsTbl extends PureComponent {
                 </td>
               </tr>
             }
-            {/*shipment && shipment.adjustments && shipment.adjustments.map((adjust) => (
-              <tr className={s.orderItems}>
-                <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                  {adjust.label}
-                </td>
-                <td className={s.orderdetails}>
-                  {adjust.amount}
-                </td>
-              </tr>
-            ))*/}
             {adjustments.map((adjust, key) => (
               <tr key={key} className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
