@@ -1,9 +1,39 @@
 // Restricts the quantity of products that can be added to cart
-function checkQuantities(args) {
+function checkQuantities(args, cart) {
   const { id, quantity, items } = args;
-  const product = items.filter((item) => (id === item.variant_id));
+  console.log('QTY ID', id);
+  const product = items.filter((item) => (id === item.variant.product_id));
+  let cartQuantity = 0;
+  product.forEach((item) => {
+    cartQuantity += parseInt(item.quantity, 10);
+  });
+  if (cart) {
+    return !(product.length &&
+      (product[0].variant.max_quantity_allowed_in_cart < cartQuantity)
+    );
+  }
   return !(product.length &&
-    (product[0].variant.max_quantity_allowed_in_cart < (product[0].quantity + quantity))
-  );
+      (product[0].variant.max_quantity_allowed_in_cart < cartQuantity + quantity)
+    );
 }
-export default checkQuantities;
+
+function checkQuantitiesCart(items) {
+  const messages = [];
+  items.forEach((item) => {
+    const data = {
+      id: item.variant.product_id,
+      quantity: item.quantity,
+      items
+    };
+    if (!checkQuantities(data, true)) {
+      const message =
+        `You may only purchase a maximum ${item.variant.max_quantity_allowed_in_cart} ${item.variant.name} at one time`;
+      if (!messages.find((msg) => (msg === message))) {
+        messages.push(message);
+      }
+    }
+  });
+  return messages;
+}
+
+export { checkQuantities, checkQuantitiesCart };

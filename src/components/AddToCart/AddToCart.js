@@ -7,7 +7,7 @@ import SingleVariant from '../SingleVariant';
 import MultiVariant from '../MultiVariant';
 import GiftCardSelector from '../SingleVariant/GiftCardSelector';
 // Helpers
-import checkQuantities from '../../helpers/quantity';
+import { checkQuantities } from '../../helpers/quantity';
 
 class CartCta extends Component {
   static propTypes = {
@@ -48,6 +48,7 @@ class CartCta extends Component {
         return (
           <MultiVariant
             variants={product.variants}
+            selected={this.state.variant_id}
             action={this.setVariant}
           />
         );
@@ -66,6 +67,7 @@ class CartCta extends Component {
             variants={product.variants}
             action={this.setVariant}
             price={Number(product.price)}
+            selected={this.state.variant_id}
           />
         );
       }
@@ -111,7 +113,8 @@ class CartCta extends Component {
       image: productImages.length ? productImages[0].large_url : null
     };
     const flag = checkQuantities({
-      ...data,
+      id: product.id,
+      quantity,
       items: cartItems
     });
     if (!flag) {

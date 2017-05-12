@@ -10,7 +10,7 @@ import s from './ProductGridItem.css';
 import ProductAction from './ProductAction';
 import imagePlaceholder from './image_placeholder_large.png';
 // Helpers
-import checkQuantities from '../../helpers/quantity';
+import { checkQuantities } from '../../helpers/quantity';
 
 class ProductGridItem extends Component {
   static propTypes = {

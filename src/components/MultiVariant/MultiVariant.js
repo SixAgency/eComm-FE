@@ -5,7 +5,8 @@ import s from './MultiVariant.css';
 class MultiVariant extends React.Component {
   static propTypes = {
     variants: PropTypes.array.isRequired,
-    action: PropTypes.func.isRequired
+    action: PropTypes.func.isRequired,
+    selected: PropTypes.number
   };
 
   constructor(props) {
@@ -30,6 +31,16 @@ class MultiVariant extends React.Component {
     this.props.action(variant);
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const variant = this.getVariantById(nextProps);
+    if (variant) {
+      this.setState({
+        variantOne: variant.option_values[0].id,
+        variantTwo: variant.option_values[1].id
+      });
+    }
+  }
+
   getVariant = (idOne, idTwo) => {
     const item = this.props.variants.find((variant) => (
       variant.option_values[0].id === idOne &&
@@ -37,6 +48,11 @@ class MultiVariant extends React.Component {
     ));
     return item.id || null;
   };
+
+  getVariantById = (props) => {
+    const { variants, selected } = props;
+    return variants.find((variant) => variant.id === selected);
+  }
 
   changeVariantOne = (event) => {
     const idOne = parseInt(event.target.value, 10);
@@ -85,7 +101,7 @@ class MultiVariant extends React.Component {
           {variants.one[0].option_type_presentation}
           <abbr className={s.required} title="required">*</abbr>
         </h3>
-        <select className={s.vselect} name="size" onChange={this.changeVariantOne}>
+        <select className={s.vselect} name="size" onChange={this.changeVariantOne} value={this.state.variantOne}>
           { variants.one.map((item) =>
             (<option value={item.id} key={item.id}>
               {item.presentation}
@@ -96,7 +112,7 @@ class MultiVariant extends React.Component {
           {variants.two[0].option_type_presentation}
           <abbr className={s.required} title="required">*</abbr>
         </h3>
-        <select className={s.vselect} name="color" onChange={this.changeVariantTwo}>
+        <select className={s.vselect} name="color" onChange={this.changeVariantTwo} value={this.state.variantTwo}>
           { variants.two.map((item) =>
             (<option value={item.id} key={item.id}>
               {item.presentation}
