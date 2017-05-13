@@ -15,8 +15,9 @@ class LostPassword extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    forwardTo: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array
-  }
+  };
 
   render() {
     return (
@@ -25,6 +26,7 @@ class LostPassword extends React.Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay
           messages={this.props.messages}

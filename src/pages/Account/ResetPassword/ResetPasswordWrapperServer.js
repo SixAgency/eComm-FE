@@ -22,6 +22,7 @@ class ResetPasswordWrapper extends React.Component {
         messages={messages}
         isError={isError}
         resetMessages={() => (true)}
+        forwardTo={() => (true)}
         breadcrumbs={breadcrumbs}
       />
     );

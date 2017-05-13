@@ -17,7 +17,7 @@ class Edit extends Component {
     onUpdateProfile: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired
+    forwardTo: PropTypes.func.isRequired
   };
 
   render() {
@@ -27,7 +27,7 @@ class Edit extends Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
-          resetMessages={this.props.resetMessages}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper tabsClass="hide">

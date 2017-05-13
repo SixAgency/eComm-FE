@@ -110,6 +110,7 @@ class BillingWrapper extends BasePageComponent {
         messages={this.getErrorMessage(this.props)}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        forwardTo={forwardTo}
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
         onFieldChange={this.onFieldChange}

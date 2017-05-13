@@ -29,7 +29,8 @@ class Cart extends Component {
     calculateShipping: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
-    showShippingCalculator: PropTypes.bool.isRequired
+    showShippingCalculator: PropTypes.bool.isRequired,
+    forwardTo: PropTypes.func.isRequired
   };
 
   render() {
@@ -46,6 +47,7 @@ class Cart extends Component {
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.breadcrumbs}
           onLogout={this.props.onLogout}
+          forwardTo={this.props.forwardTo}
         />
       );
     }
@@ -55,6 +57,7 @@ class Cart extends Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper wrprClass="cartwrpr" contentClass="contentwrpr">

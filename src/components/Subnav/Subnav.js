@@ -7,19 +7,12 @@ class Subnav extends React.Component {
   static propTypes = {
     isLogged: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
-    breadcrumbs: PropTypes.array,
-    resetMessages: PropTypes.func.isRequired
+    forwardTo: PropTypes.func.isRequired,
+    breadcrumbs: PropTypes.array
   };
 
   static defaultProps = {
-    onLogout: () => (true),
-    resetMessages: () => (true),
     breadcrumbs: []
-  };
-
-  onLogout = (event) => {
-    event.preventDefault();
-    this.props.onLogout();
   };
 
   getSubNavItems = () => {
@@ -27,33 +20,24 @@ class Subnav extends React.Component {
       return [
         {
           title: 'My Account',
-          link: '/my-account/dashboard',
-          action: this.resetMessages
+          action: () => this.props.forwardTo('my-account/dashboard')
         },
         {
           title: 'Edit Account',
-          link: '/my-account/edit-account',
-          action: this.resetMessages
+          action: () => this.props.forwardTo('my-account/edit-account')
         },
         {
           title: 'Logout',
-          link: '/my-account',
-          action: this.onLogout
+          action: this.props.onLogout
         }
       ];
     }
     return [
       {
         title: 'Login / Register',
-        link: '/my-account',
-        action: () => (true)
+        action: () => this.props.forwardTo('my-account')
       }
     ];
-  };
-
-  resetMessages = (event) => {
-    event.preventDefault();
-    this.props.resetMessages();
   };
 
   render() {
@@ -80,7 +64,7 @@ class Subnav extends React.Component {
         <ul className={s.subnavlist}>
           {subNavItem.map((v, k) => (
             <li key={k} className={s.subnavitem}>
-              <Link to={v.link} onClick={v.action} className={s.innerlink}>{v.title}</Link>
+              <Link onClick={v.action} className={s.innerlink}>{v.title}</Link>
             </li>
           ))}
         </ul>

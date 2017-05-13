@@ -21,7 +21,7 @@ class Dashboard extends React.Component {
     isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
     profile: PropTypes.object.isRequired,
-    resetMessages: PropTypes.func.isRequired,
+    forwardTo: PropTypes.func.isRequired,
     onRedeemGiftCard: PropTypes.func.isRequired,
     creditInfo: PropTypes.object.isRequired
   };
@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
-          resetMessages={this.props.resetMessages}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper>

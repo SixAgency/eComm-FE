@@ -210,6 +210,7 @@ class CartWrapper extends BasePageComponent {
         getCart={this.props.getCart}
         setMessage={this.props.setMessage}
         showShippingCalculator={this.showShippingCalculator()}
+        forwardTo={forwardTo}
       />
     );
   }

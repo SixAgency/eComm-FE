@@ -10,6 +10,7 @@ import { scrollToTop } from '../../../../utils/utils';
 // Action
 import { onLogout, getProfile, updatePassword, checkUser } from '../../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
+import { forwardTo } from '../../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -85,7 +86,7 @@ class PasswordWrapper extends BasePageComponent {
         onUpdatePassword={this.onUpdatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
-        resetMessages={this.props.resetMessages}
+        forwardTo={forwardTo}
       />
     );
   }

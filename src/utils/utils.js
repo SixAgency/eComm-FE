@@ -24,6 +24,9 @@ function checkCartState(props) {
   const { cartItems, isPayPal } = props;
   const state = cartItems.cart.state;
   let step;
+  if (isEmpty(state)) {
+    return 'my-account';
+  }
   switch (state) {
     case 'cart':
       step = 'cart';

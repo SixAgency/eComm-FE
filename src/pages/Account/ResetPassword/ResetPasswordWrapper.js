@@ -12,9 +12,8 @@ import {
   resetMessages,
   toggleLoader
 } from '../../../actions/page';
-import {
-  setNewPassword
-} from '../../../actions/user';
+import { setNewPassword } from '../../../actions/user';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -86,6 +85,7 @@ class ResetPasswordWrapper extends BasePageComponent {
         onSubmit={this.onSubmit}
         params={this.props.params}
         resetMessages={this.props.resetMessages}
+        forwardTo={forwardTo}
       />
     );
   }

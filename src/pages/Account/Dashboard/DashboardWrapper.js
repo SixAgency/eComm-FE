@@ -12,6 +12,7 @@ import { onLogout, getProfile, redeemGiftCard, getStoreCredit, checkUser } from 
 import { getAddresses } from '../../../actions/user_address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -92,11 +93,6 @@ class DashboardWrapper extends BasePageComponent {
     this.props.resetMessages();
   };
 
-  onLogout = (event) => {
-    event.preventDefault();
-    this.props.onLogout();
-  };
-
   render() {
     const {
       profile,
@@ -113,14 +109,14 @@ class DashboardWrapper extends BasePageComponent {
       return (
         <Dashboard
           loggedIn={loggedIn}
-          onLogout={this.onLogout}
+          onLogout={this.props.onLogout}
           addresses={addresses}
           orders={orders}
           messages={messages}
           isError={isError}
           breadcrumbs={route.breadcrumbs}
           profile={profile}
-          resetMessages={this.props.resetMessages}
+          forwardTo={forwardTo}
           onRedeemGiftCard={onRedeemGiftCard}
           creditInfo={creditInfo}
         />

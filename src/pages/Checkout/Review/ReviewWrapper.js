@@ -80,11 +80,6 @@ class ReviewWrapper extends BasePageComponent {
     if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
-        // const useCredits = useStoreCredits({
-        //   payments: nextProps.cartItems.cart.payments,
-        //   isPayPal: nextProps.isPayPal
-        // });
-        // this.setState({ useCredits });
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 500);
@@ -128,7 +123,6 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   toggleUseCredits = (event) => {
-    console.log(event.target.checked);
     this.props.makeToggleCreditRequest(event.target.checked);
   };
 
@@ -139,7 +133,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   render() {
-    if (this.props.cartItems.isLoaded) {
+    if (this.props.cartItems.isLoaded && !this.props.cartItems.isEmpty) {
       return (
         <Checkout
           state={this.props.cartItems.cart.state}

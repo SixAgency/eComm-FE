@@ -14,7 +14,8 @@ class EmptyCart extends React.Component {
     isError: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
-    onLogout: PropTypes.func.isRequired
+    onLogout: PropTypes.func.isRequired,
+    forwardTo: PropTypes.func.isRequired
   };
 
   render() {
@@ -25,6 +26,7 @@ class EmptyCart extends React.Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ContentWrapper contentClass={'emptycartwrpr'}>
           <div>

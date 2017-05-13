@@ -96,6 +96,7 @@ class Checkout extends React.Component {
           isLogged={loggedIn}
           onLogout={onLogout}
           breadcrumbs={breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay
           messages={messages}

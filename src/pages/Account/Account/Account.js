@@ -21,7 +21,7 @@ class Account extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array,
-    resetMessages: PropTypes.func.isRequired
+    forwardTo: PropTypes.func.isRequired
   };
 
   getChildren = () => {
@@ -37,7 +37,7 @@ class Account extends React.Component {
       loggedIn,
       onLogout,
       breadcrumbs,
-      resetMessages,
+      forwardTo,
       messages,
       isError,
       clickTab,
@@ -50,7 +50,7 @@ class Account extends React.Component {
           isLogged={loggedIn}
           onLogout={onLogout}
           breadcrumbs={breadcrumbs}
-          resetMessages={resetMessages}
+          forwardTo={forwardTo}
         />
         <ErrorDisplay
           messages={messages}

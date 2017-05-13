@@ -7,6 +7,7 @@ import ViewOrder from './ViewOrder';
 import { onLogout } from '../../../actions/user';
 import { setHeaderProps, toggleLoader, resetMessages } from '../../../actions/page';
 import { getOrder } from '../../../actions/order';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -81,11 +82,6 @@ class ViewOrderWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
   };
 
-  onLogout = (event) => {
-    event.preventDefault();
-    this.props.onLogout();
-  };
-
   render() {
     const {
       loggedIn,
@@ -100,9 +96,10 @@ class ViewOrderWrapper extends BasePageComponent {
     return (
       <ViewOrder
         loggedIn={loggedIn}
-        onLogout={this.onLogout}
+        onLogout={this.props.onLogout}
         order={order.order}
         breadcrumbs={breadcrumbs}
+        forwardTo={forwardTo}
       />
     );
   }

@@ -113,6 +113,7 @@ class ShippingWrapper extends BasePageComponent {
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
         onFieldChange={this.onFieldChange}
+        forwardTo={forwardTo}
       />
     );
   }

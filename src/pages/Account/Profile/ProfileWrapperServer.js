@@ -25,7 +25,7 @@ class ProfileWrapper extends React.Component {
         isError={isError}
         onLogout={() => (true)}
         onUpdateProfile={() => (true)}
-        resetMessages={() => (true)}
+        forwardTo={() => (true)}
       />
     );
   }

@@ -25,7 +25,7 @@ class PasswordWrapper extends React.Component {
         loggedIn={loggedIn}
         onLogout={() => (true)}
         onUpdatePassword={() => (true)}
-        resetMessages={() => (true)}
+        forwardTo={() => (true)}
       />
     );
   }

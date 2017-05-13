@@ -21,7 +21,7 @@ class LostPasswordWrapper extends React.Component {
         onSubmit={() => (true)}
         messages={messages}
         isError={isError}
-        resetMessages={() => (true)}
+        forwardTo={() => (true)}
         breadcrumbs={breadcrumbs}
       />
     );

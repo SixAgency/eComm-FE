@@ -22,7 +22,7 @@ class AccountWrapper extends React.Component {
         onLogin={() => (true)}
         onRegister={() => (true)}
         onLogout={() => (true)}
-        resetMessages={() => (true)}
+        forwardTo={() => (true)}
         isError={isError}
         messages={messages}
         breadcrumbs={breadcrumbs}
