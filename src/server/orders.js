@@ -253,6 +253,22 @@ function applyCouponCode(request) {
     .catch((err) => setError(err));
 }
 
+function removeCouponCode(request) {
+  let status;
+  let endpoint = `${ORDER}/${request.session.order}/remove_promotions`;
+  if (!request.session.user_token) {
+    endpoint = `${ORDER}/${request.session.order}/remove_promotions?order_token=${request.session.guest_token}`;
+  }
+  return apiFetch(endpoint, { method: 'PUT' }, request.session)
+    .then((resp) => {
+      status = resp.status;
+      return resp.json();
+    })
+    .then((json) => checkResponse(json, status))
+    .then((data) => setCartResponse(data))
+    .catch((err) => setError(err));
+}
+
 // Update Cart
 function calculateShipping(request) {
   let status;
@@ -308,6 +324,7 @@ export {
   removeFromCart,
   updateCart,
   applyCouponCode,
+  removeCouponCode,
   calculateShipping,
   applyStoreCredit
 };

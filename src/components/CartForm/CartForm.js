@@ -17,7 +17,8 @@ class CartForm extends Component {
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     calculateShipping: PropTypes.func.isRequired,
-    showShippingCalculator: PropTypes.bool.isRequired
+    showShippingCalculator: PropTypes.bool.isRequired,
+    removePromoCode: PropTypes.func.isRequired
   };
 
   getItemTotal = () => {
@@ -59,7 +60,10 @@ class CartForm extends Component {
                   <tr key={key} className={s.csubtotals}>
                     <th className="table-heads">{adjust.label}</th>
                     <td className={cx(s.ammout, s.data)}>-{accounting.formatMoney(-adjust.amount)}
-                      <span className={s.savetext}> You Save</span>
+                      <Link
+                        className={s.removetext}
+                        onClick={this.props.removePromoCode}
+                      > [Remove]</Link>
                     </td>
                   </tr>
                 ))}

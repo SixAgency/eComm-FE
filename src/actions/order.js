@@ -259,6 +259,29 @@ function applyPromoCode(data, callback) {
   };
 }
 
+function removePromoCode() {
+  return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(setCartPending(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
+    axios.put('/api/removecode')
+      .then((response) => checkResponse(response.data, () => {
+        dispatch(setMessage({ isError: false, messages: ['Promotion has been removed.'] }));
+        dispatch(setCart(response.data));
+        dispatch(setCartPending(false));
+      }, () => {
+        const messages = response.data.messages || ['Something went wrong.'];
+        dispatch(setMessage({ isError: true, messages }));
+        dispatch(setCartPending(false));
+      }))
+      .catch((err) => {
+        console.error('Error', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 /** Get all orders
 * @param data
 * @returns {function(*)}
@@ -314,6 +337,7 @@ export {
   resetCart,
   setCart,
   applyPromoCode,
+  removePromoCode,
   getOrder,
   setOrder,
   resetOrders,

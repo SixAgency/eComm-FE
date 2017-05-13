@@ -29,6 +29,7 @@ import {
   getOrder,
   getOrders,
   applyCouponCode,
+  removeCouponCode,
   calculateShipping,
   applyStoreCredit
 } from '../server/orders';
@@ -187,6 +188,13 @@ apiRoutes.get('/orders', (req, resp) => {
 // Apply coupon code
 apiRoutes.put('/applycode', (req, resp) => {
   applyCouponCode(req).then((data) => {
+    resp.json(data);
+  });
+});
+
+// Remove coupon code
+apiRoutes.put('/removecode', (req, resp) => {
+  removeCouponCode(req).then((data) => {
     resp.json(data);
   });
 });

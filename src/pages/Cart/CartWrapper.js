@@ -17,6 +17,7 @@ import {
   updateCart,
   updateQuantity,
   applyPromoCode,
+  removePromoCode,
   calculateShipping,
   getCart
 } from '../../actions/order';
@@ -50,6 +51,7 @@ const mapDispatchToProps = ((dispatch) => (
     updateCart: (cart) => dispatch(updateCart(cart)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
     applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
+    removePromoCode: () => dispatch(removePromoCode()),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
@@ -75,6 +77,7 @@ class CartWrapper extends BasePageComponent {
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    removePromoCode: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     getPayPalToken: PropTypes.func.isRequired,
@@ -201,6 +204,7 @@ class CartWrapper extends BasePageComponent {
         isError={this.props.isError}
         updateCart={this.onUpdateCart}
         applyPromoCode={this.props.applyPromoCode}
+        removePromoCode={this.props.removePromoCode}
         paypalObj={this.props.paypalObj}
         checkoutPayPal={this.props.checkoutPayPal}
         proceedToCheckout={this.proceedToCheckout}

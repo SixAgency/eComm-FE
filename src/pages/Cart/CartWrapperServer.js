@@ -37,6 +37,7 @@ class CartWrapper extends Component {
         messages={[]}
         isError={false}
         applyPromoCode={() => (true)}
+        removePromoCode={() => (true)}
         updateCart={() => (true)}
         updateQuantity={() => (true)}
         paypalObj={paypalObj}

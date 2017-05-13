@@ -47,6 +47,11 @@
           .savetext {
             color: rgb(77, 211, 218);
           }
+          .removetext {
+            font-weight: bold;
+            color: #3C3C3C;
+            cursor: pointer;
+          }
         }
       }
       .shipping p {
