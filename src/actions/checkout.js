@@ -101,7 +101,7 @@ function setCheckoutAddress(data) {
       axios.post('/api/checkout/addresses', setCheckoutAddressesFeed(data))
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
-          forwardTo('checkout/shipping');
+          forwardTo('checkout/billing');
           dispatch(setPending(false));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -126,7 +126,6 @@ function editOrderAddress(data, callback) {
       dispatch(setPending(true));
       axios.post('/api/checkout/address', setCheckoutAddressFeed(data))
         .then((response) => checkResponse(response.data, () => {
-          // dispatch(setCart(response.data));
           /* Callback after edit success */
           callback();
         }, () => {

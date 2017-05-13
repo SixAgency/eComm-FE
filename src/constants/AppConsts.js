@@ -490,16 +490,16 @@ const BREADCRUMBS = {
 
 const CHECKOUT_TABS = [
   {
-    name: 'Billing Address',
-    title: 'Billing Address',
-    cname: 'billing',
-    id: 'billing'
-  },
-  {
     name: 'Shipping Address',
     title: 'Shipping Address',
     cname: 'shipping',
     id: 'shipping'
+  },
+  {
+    name: 'Billing Address',
+    title: 'Billing Address',
+    cname: 'billing',
+    id: 'billing'
   },
   {
     name: 'Apply Promotional Code',

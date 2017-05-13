@@ -32,7 +32,7 @@ function checkCartState(props) {
       step = 'cart';
       break;
     case 'delivery':
-      step = isPayPal ? 'checkout/review' : 'checkout/shipping';
+      step = isPayPal ? 'checkout/review' : 'checkout/billing';
       break;
     case 'payment':
       step = 'checkout/review';
@@ -41,7 +41,7 @@ function checkCartState(props) {
       step = 'checkout/review';
       break;
     default:
-      step = 'checkout/billing';
+      step = 'checkout/shipping';
       break;
   }
   return step;

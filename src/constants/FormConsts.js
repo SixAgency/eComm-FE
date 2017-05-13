@@ -136,7 +136,7 @@ const ACCOUNT_ADDRESS_FIELDS = [
   }
 ];
 
-const CHECKOUT_BILLING_FIELDS = [
+const CHECKOUT_SHIPPING_FIELDS = [
   {
     name: 'firstname',
     label: 'First Name',
@@ -257,7 +257,7 @@ const CHECKOUT_BILLING_FIELDS = [
   }
 ];
 
-const CHECKOUT_SHIPPING_FIELDS = [
+const CHECKOUT_BILLING_FIELDS = [
   {
     name: 'firstname',
     label: 'First Name',

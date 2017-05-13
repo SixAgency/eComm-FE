@@ -20,8 +20,19 @@ class ShippingWrapper extends React.Component {
     isError: false
   };
 
+  /**
+   * Returns the customer email address used in order
+   * @returns {string}
+   */
+  getEmailAddress = () => {
+    const { cartItems } = this.props;
+    return cartItems.cart.email || '';
+  };
+
   render() {
     const expectedState = checkCartState(this.props);
+    const mockTrue = true;
+    const mockFalse = false;
     return (
       <Checkout
         state={this.props.cartItems.cart.state}
@@ -36,14 +47,19 @@ class ShippingWrapper extends React.Component {
         onLogin={() => (true)}
       >
         <Shipping
-          editMode={expectedState !== 'checkout/shipping'}
-          showForm={expectedState !== 'checkout/shipping'}
+          loggedIn={this.props.loggedIn}
           address={this.props.addresses.shipping}
-          onSubmit={() => (true)}
-          onFieldChange={() => (true)}
-          onCancel={() => (true)}
-          toggleContent={() => (true)}
+          email={this.getEmailAddress()}
+          editMode={expectedState !== 'checkout/shipping'}
           showCancel={expectedState !== 'checkout/shipping'}
+          password={''}
+          passwordValid={mockTrue}
+          showRegister={mockFalse}
+          onFieldChange={() => (true)}
+          onSubmit={() => (true)}
+          onPassChange={() => (true)}
+          onRegisterCheck={() => (true)}
+          onCancel={() => (true)}
         />
       </Checkout>
     );

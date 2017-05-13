@@ -57,8 +57,8 @@ const routes = (
     <Route path="cart" component={CartWrapper} title="Cart" breadcrumbs={BREADCRUMBS.cart} />
     <Route path="checkout">
       <IndexRedirect to="/checkout/billing" />
-      <Route path="billing" component={BillingCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
       <Route path="shipping" component={ShippingCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
+      <Route path="billing" component={BillingCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
       <Route path="promo" component={PromoCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
       <Route path="review" component={ReviewCheckout} title="Checkout" breadcrumbs={BREADCRUMBS.checkout} />
     </Route>

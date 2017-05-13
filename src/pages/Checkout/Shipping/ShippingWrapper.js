@@ -13,7 +13,8 @@ import { checkCartState } from '../../../utils/utils';
 import { getAddresses } from '../../../actions/user_address';
 import { getCart } from '../../../actions/order';
 import { mapAddressFeedToState } from '../../../helpers/feed';
-import { editOrderAddress, checkoutNext } from '../../../actions/checkout';
+import { testPasswordStrength } from '../../../helpers/validators';
+import { setCheckoutAddress, editOrderAddress, registerAndSetAddress } from '../../../actions/checkout';
 
 class ShippingWrapper extends BasePageComponent {
 
@@ -32,16 +33,20 @@ class ShippingWrapper extends BasePageComponent {
     isPayPal: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
     setPending: PropTypes.func.isRequired,
+    setCheckoutAddress: PropTypes.func.isRequired,
     editOrderAddress: PropTypes.func.isRequired,
-    checkoutNext: PropTypes.func.isRequired
+    registerAndSetAddress: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
       editMode: false,
+      email: '',
       address: props.addresses.shipping,
-      showForm: false
+      password: '',
+      passwordValid: true,
+      showRegister: false
     };
   }
 
@@ -59,9 +64,10 @@ class ShippingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    console.log('itt', nextProps);
     if (!nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState !== 'cart' && expectedState !== 'checkout/billing' && !nextProps.isPayPal) {
+      if (expectedState !== 'cart' && !nextProps.isPayPal) {
         if (!nextProps.isError) {
           this.setState(this.updateState(nextProps, expectedState));
         }
@@ -69,6 +75,7 @@ class ShippingWrapper extends BasePageComponent {
           this.props.toggleLoader(false);
         }, 500);
       } else {
+        console.log('here', nextProps);
         forwardTo(expectedState);
       }
     }
@@ -79,53 +86,84 @@ class ShippingWrapper extends BasePageComponent {
     this.props.resetMessages();
   };
 
-  getShippingAddress = () => {
-    const { shipping } = this.props.addresses;
-    if (shipping.id) {
-      return shipping;
-    }
-    return mapAddressFeedToState(this.props.cartItems.cart.ship_address);
+  getEmailAddress = (props) => {
+    const { cartItems } = props;
+    return cartItems.cart.email || '';
   };
 
   updateState = (props, expextedState) => {
     if (expextedState !== 'checkout/shipping') {
       return {
         editMode: true,
+        email: this.getEmailAddress(props),
         address: mapAddressFeedToState(props.cartItems.cart.ship_address),
-        showForm: true
+        password: '',
+        passwordValid: true,
+        showRegister: false
       };
     }
     return {
       editMode: false,
-      address: this.getShippingAddress(),
-      showForm: false
+      email: this.getEmailAddress(props),
+      address: props.addresses.shipping,
+      password: '',
+      passwordValid: true,
+      showRegister: false
     };
   };
 
-  moveNext = () => {
-    this.props.checkoutNext(() => forwardTo('checkout/promo'));
+  onRegisterCheck = () => {
+    if (!this.state.showRegister) {
+      this.setState({ password: '', passwordValid: false });
+    } else {
+      this.setState({ passwordValid: true });
+    }
+    this.setState({ showRegister: !this.state.showRegister });
+  };
+
+  onPasswordChange = (key, value) => {
+    this.setState({
+      password: value,
+      passwordValid: !testPasswordStrength(value).isError
+    });
+  };
+
+  getBillingAddress = (address) => {
+    const { billing } = this.props.addresses;
+    if (billing.id) {
+      return billing;
+    }
+    return address;
   };
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { showForm, editMode } = this.state;
-    // // not editing
-    if (editMode) {
+    const { showRegister, editMode } = this.state;
+    // not editing
+    if (!editMode) {
+      // not with register
+      if (this.props.loggedIn || !showRegister) {
+        this.props.setCheckoutAddress({
+          email: this.state.email,
+          shipping: this.state.address,
+          billing: this.getBillingAddress(this.state.address)
+        });
+      } else {
+        // with registration
+        const checkoutAddressFields = {
+          email: this.state.email,
+          shipping: this.state.address,
+          billing: this.getBillingAddress(this.state.address)
+        };
+        const registrationFields = { email: this.state.email, password: this.state.password };
+        this.props.registerAndSetAddress({ registrationFields, checkoutAddressFields });
+      }
+    } else {
       const expectedState = checkCartState(this.props);
       this.props.editOrderAddress({
         id: this.state.address.id,
         address: this.state.address
       }, () => { this.props.setPending(false); forwardTo(expectedState); });
-    } else {
-      console.log(this.props.cartItems.cart.ship_address.id);
-      let address = mapAddressFeedToState(this.props.cartItems.cart.bill_address);
-      if (showForm) {
-        address = this.state.address;
-      }
-      this.props.editOrderAddress({
-        id: this.props.cartItems.cart.ship_address.id,
-        address
-      }, this.moveNext);
     }
   };
 
@@ -142,16 +180,11 @@ class ShippingWrapper extends BasePageComponent {
     } else {
       obj[key] = value;
     }
-    const address = { ...this.state.address, ...obj };
-    this.setState({ address });
-  };
-
-  toggleContent = (event) => {
-    const { editMode } = this.state;
-    if (!editMode) {
-      this.setState({
-        showForm: Boolean(event.target.checked)
-      });
+    if (key === 'email') {
+      this.setState(obj);
+    } else {
+      const address = { ...this.state.address, ...obj };
+      this.setState({ address });
     }
   };
 
@@ -182,8 +215,10 @@ class ShippingWrapper extends BasePageComponent {
             onSubmit={this.onSubmit}
             onCancel={this.onCancel}
             onFieldChange={this.onFieldChange}
+            onPassChange={this.onPasswordChange}
+            onRegisterCheck={this.onRegisterCheck}
             showCancel={expectedState !== 'checkout/shipping'}
-            toggleContent={this.toggleContent}
+            loggedIn={this.props.loggedIn}
           />
         </Checkout>
       );
@@ -205,7 +240,8 @@ const mapDispatchToProps = ((dispatch) => (
       dispatch(getCart(false));
       dispatch(getAddresses());
     },
-    checkoutNext: (fn) => dispatch(checkoutNext(fn)),
+    registerAndSetAddress: (data) => dispatch(registerAndSetAddress(data)),
+    setCheckoutAddress: (data) => dispatch(setCheckoutAddress(data)),
     editOrderAddress: (data, fn) => dispatch(editOrderAddress(data, fn))
   }
 ));
