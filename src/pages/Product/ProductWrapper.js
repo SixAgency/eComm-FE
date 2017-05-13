@@ -96,6 +96,11 @@ class ProductWrapper extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.product;
+    if (this.props.params.slug !== nextProps.params.slug && !this.props.showLoader.toggle) {
+      console.log('HERE HERE');
+      this.props.toggleLoader(true);
+      this.props.getProduct(nextProps.params.slug);
+    }
     if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
       this.setState({
         pdpTabs: {
