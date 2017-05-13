@@ -6,6 +6,7 @@ import ContactWrapper from '../../pages/Contact';
 
 import { render, error } from '../common/render';
 import { getProducts } from '../products';
+import { getSession } from '../session';
 
 
 /**
@@ -16,14 +17,16 @@ import { getProducts } from '../products';
  */
 function home(req, resp, next) {
   Promise.all([
+    getSession(req),
     getProducts(req)
-  ]).then(([products]) => {
+  ]).then(([cart, products]) => {
+    const gridItems = { ...products, isLoaded: !products.isError };
     const params = {
       title: 'Shop',
       description: '',
       header: 'default',
       active: '/',
-      content: <HomeWrapper gridItems={products} />
+      content: <HomeWrapper gridItems={gridItems} cartItems={cart} />
     };
     return render(req, resp, next, params);
   }).catch((err) => error(req, resp, next, err));
