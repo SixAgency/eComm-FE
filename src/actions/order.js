@@ -168,6 +168,30 @@ function addToCart(data) {
   };
 }
 
+function removePromoCode(message) {
+  return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(setCartPending(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
+    axios.put('/api/removecode')
+      .then((response) => checkResponse(response.data, () => {
+        const messages = message ? [message] : ['Promotion has been removed.'];
+        dispatch(setMessage({ isError: false, messages }));
+        dispatch(setCart(response.data));
+        dispatch(setCartPending(false));
+      }, () => {
+        const messages = response.data.messages || ['Something went wrong.'];
+        dispatch(setMessage({ isError: true, messages }));
+        dispatch(setCartPending(false));
+      }))
+      .catch((err) => {
+        console.error('Error', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
 /**
  * Remove item from the cart
  * @param data
@@ -183,8 +207,12 @@ function removeItem(data) {
       .then((response) => checkResponse(response.data, () => {
         const message = `${response.data.name} removed.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
-        dispatch(setCart(response.data.cart));
-        dispatch(setCartPending(false));
+        if (response.data.cart.cart.line_items.length) {
+          dispatch(setCart(response.data.cart));
+          dispatch(setCartPending(false));
+        } else {
+          dispatch(removePromoCode(message));
+        }
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -256,29 +284,6 @@ function applyPromoCode(data, callback) {
           forwardTo('error');
         });
     }
-  };
-}
-
-function removePromoCode() {
-  return (dispatch) => {
-    dispatch(setLoader(true));
-    dispatch(setCartPending(true));
-    window.scrollTo(0, 0);
-    dispatch(resetMessages());
-    axios.put('/api/removecode')
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setMessage({ isError: false, messages: ['Promotion has been removed.'] }));
-        dispatch(setCart(response.data));
-        dispatch(setCartPending(false));
-      }, () => {
-        const messages = response.data.messages || ['Something went wrong.'];
-        dispatch(setMessage({ isError: true, messages }));
-        dispatch(setCartPending(false));
-      }))
-      .catch((err) => {
-        console.error('Error', err); // eslint-disable-line no-console
-        forwardTo('error');
-      });
   };
 }
 
