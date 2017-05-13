@@ -98,7 +98,7 @@ class BillingWrapper extends BasePageComponent {
     return {
       editMode: false,
       address: this.getBillingAddress(),
-      showForm: false
+      showForm: true
     };
   };
 
@@ -149,7 +149,7 @@ class BillingWrapper extends BasePageComponent {
     const { editMode } = this.state;
     if (!editMode) {
       this.setState({
-        showForm: Boolean(event.target.checked)
+        showForm: Boolean(!event.target.checked)
       });
     }
   };

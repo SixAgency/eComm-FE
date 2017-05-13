@@ -54,7 +54,7 @@ class Billing extends React.Component {
         <div>
           {!this.props.editMode && <div className={cx(f.inputwrapper, f[this.getContent()])}>
             <label className={f.label} htmlFor="changeaddress">
-              &nbsp;Use a different billing address?&nbsp;&nbsp;&nbsp;
+              &nbsp;Use the same as shipping&nbsp;&nbsp;&nbsp;
               <input
                 id="sameas"
                 className={f.checkbox}
@@ -74,19 +74,6 @@ class Billing extends React.Component {
                 options={STATES}
               />
             ))}
-          </div>
-          {/* Keep here until we figure the functionality */}
-          <div className={f.inputwrapper}>
-            <label className={f.label} htmlFor="notes">Order Notes</label>
-            <textarea
-              id="notes"
-              name="notes"
-              rows="2"
-              cols="5"
-              className={f.textarea}
-              placeholder="Notes about your order, e.g. special notes for delivery."
-              onChange={(event) => this.props.onFieldChange('notes', event.target.value)}
-            />
           </div>
         </div>
       </Form>

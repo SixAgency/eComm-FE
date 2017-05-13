@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './Shipping.css';
+import f from '../../../components/Forms/Forms.css';
 
 // Constants
 import {
@@ -19,6 +20,7 @@ class Shipping extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     address: PropTypes.object.isRequired,
     email: PropTypes.string.isRequired,
+    note: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onFieldChange: PropTypes.func.isRequired,
@@ -83,6 +85,19 @@ class Shipping extends React.Component {
                 options={STATES}
               />
             ))}
+            {!this.props.editMode && <div className={f.inputwrapper}>
+              <label className={f.label} htmlFor="notes">Order Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="2"
+                cols="5"
+                value={this.props.note}
+                className={f.textarea}
+                placeholder="Notes about your order, e.g. special notes for delivery."
+                onChange={(event) => this.props.onFieldChange('note', event.target.value)}
+              />
+            </div>}
             {!this.props.loggedIn &&
               <div>
                 <div className={s.register}>
@@ -117,4 +132,4 @@ class Shipping extends React.Component {
   }
 }
 
-export default withStyles(s)(Shipping);
+export default withStyles(s, f)(Shipping);

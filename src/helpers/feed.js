@@ -99,6 +99,7 @@ function setCheckoutAddressesFeed(data) {
   return {
     order: {
       email: data.email,
+      note: data.note,
       bill_address_attributes: mapAddressStateToFeed(data.billing),
       ship_address_attributes: mapAddressStateToFeed(data.shipping)
     }

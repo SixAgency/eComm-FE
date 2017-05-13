@@ -43,6 +43,7 @@ class ShippingWrapper extends BasePageComponent {
     this.state = {
       editMode: false,
       email: '',
+      note: '',
       address: props.addresses.shipping,
       password: '',
       passwordValid: true,
@@ -64,7 +65,6 @@ class ShippingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('itt', nextProps);
     if (!nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
       if (expectedState !== 'cart' && !nextProps.isPayPal) {
@@ -75,7 +75,6 @@ class ShippingWrapper extends BasePageComponent {
           this.props.toggleLoader(false);
         }, 500);
       } else {
-        console.log('here', nextProps);
         forwardTo(expectedState);
       }
     }
@@ -145,6 +144,7 @@ class ShippingWrapper extends BasePageComponent {
       if (this.props.loggedIn || !showRegister) {
         this.props.setCheckoutAddress({
           email: this.state.email,
+          note: this.state.note,
           shipping: this.state.address,
           billing: this.getBillingAddress(this.state.address)
         });
@@ -152,6 +152,7 @@ class ShippingWrapper extends BasePageComponent {
         // with registration
         const checkoutAddressFields = {
           email: this.state.email,
+          note: this.state.note,
           shipping: this.state.address,
           billing: this.getBillingAddress(this.state.address)
         };
@@ -180,7 +181,7 @@ class ShippingWrapper extends BasePageComponent {
     } else {
       obj[key] = value;
     }
-    if (key === 'email') {
+    if (['note', 'email'].includes(key)) {
       this.setState(obj);
     } else {
       const address = { ...this.state.address, ...obj };
