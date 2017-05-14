@@ -36,6 +36,7 @@ const mapStateToProps = ((state) => (
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
     isError: state.page.isError,
+    isPagePending: state.page.isPending,
     isFetched: (
       !state.page.isPending &&
       !state.cart.isCartPending &&
@@ -128,7 +129,6 @@ class CartWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.isFetched) {
       setTimeout(() => {
-        console.log('HERE - CART', nextProps);
         this.props.toggleLoader(false);
       }, 250);
     } else {
