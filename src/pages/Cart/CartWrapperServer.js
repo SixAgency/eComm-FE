@@ -37,6 +37,7 @@ class CartWrapper extends Component {
         messages={[]}
         isError={false}
         applyPromoCode={() => (true)}
+        removePromoCode={() => (true)}
         updateCart={() => (true)}
         updateQuantity={() => (true)}
         paypalObj={paypalObj}
@@ -47,6 +48,7 @@ class CartWrapper extends Component {
         breadcrumbs={this.props.breadcrumbs}
         toggleLoader={() => (true)}
         calculateShipping={() => (true)}
+        forwardTo={() => (true)}
         showShippingCalculator={this.showShippingCalculator()}
         shippingMethod="Shipping costs will be calculate once you have provided your address."
       />

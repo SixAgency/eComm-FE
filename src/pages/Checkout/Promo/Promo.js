@@ -10,7 +10,9 @@ class Promo extends React.Component {
   static propTypes = {
     applyPromoCode: PropTypes.func.isRequired,
     onProceed: PropTypes.func.isRequired,
-    getCart: PropTypes.func.isRequired
+    getCart: PropTypes.func.isRequired,
+    cartItems: PropTypes.object.isRequired,
+    setMessage: PropTypes.func.isRequired
   };
 
   render() {
@@ -18,6 +20,8 @@ class Promo extends React.Component {
       onSubmit={this.props.applyPromoCode}
       onProceed={this.props.onProceed}
       getCart={this.props.getCart}
+      cartItems={this.props.cartItems}
+      setMessage={this.props.setMessage}
     />
     );
   }

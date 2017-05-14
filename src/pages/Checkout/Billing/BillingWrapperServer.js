@@ -20,19 +20,8 @@ class BillingWrapper extends React.Component {
     isError: false
   };
 
-  /**
-   * Returns the customer email address used in order
-   * @returns {string}
-   */
-  getEmailAddress = () => {
-    const { cartItems } = this.props;
-    return cartItems.cart.email || '';
-  };
-
   render() {
     const expectedState = checkCartState(this.props);
-    const mockTrue = true;
-    const mockFalse = false;
     return (
       <Checkout
         state={this.props.cartItems.cart.state}
@@ -47,19 +36,14 @@ class BillingWrapper extends React.Component {
         onLogin={() => (true)}
       >
         <Billing
-          loggedIn={this.props.loggedIn}
-          address={this.props.addresses.billing}
-          email={this.getEmailAddress()}
           editMode={expectedState !== 'checkout/billing'}
-          showCancel={expectedState !== 'checkout/billing'}
-          password={''}
-          passwordValid={mockTrue}
-          showRegister={mockFalse}
-          onFieldChange={() => (true)}
+          showForm={expectedState !== 'checkout/billing'}
+          address={this.props.addresses.billing}
           onSubmit={() => (true)}
-          onPassChange={() => (true)}
-          onRegisterCheck={() => (true)}
+          onFieldChange={() => (true)}
           onCancel={() => (true)}
+          toggleContent={() => (true)}
+          showCancel={expectedState !== 'checkout/billing'}
         />
       </Checkout>
     );

@@ -1,4 +1,7 @@
-.addressform_form {
+.addressform_form,
+.addresslist_list,
+.addressform_edit_form,
+.addressform_edit_list {
   -moz-transition-duration: 0.2s;
   -webkit-transition-duration: 0.2s;
   -o-transition-duration: 0.2s;
@@ -7,55 +10,27 @@
   -webkit-transition-timing-function: ease-in;
   -o-transition-timing-function: ease-in;
   transition-timing-function: ease-in;
-  max-height: 1100px;
+  max-height: 800px;
   overflow: hidden;
 }
-
-.register {
-  float: left;
-  margin: 15px 0 25px;
-  width: 100%;
-  input[type="checkbox"] {
-    float: left;
-    outline: none;
-  }
-  label {
-    float: left;
-    color: #000000;
-    font-family: Georgia, serif;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 12px;
-    text-transform: uppercase;
-    margin-left: 10px;
-  }
-}
-
-.registerform {
-  float: left;
-  width: 100%;
-  max-height: 220px;
-  transition: all 0.2s;
-  &.hidden {
-    max-height: 0;
-    transition: all 0.2s;
-  }
-  .info {
-    float: left;
-    color: #565656;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 25px;
-    text-align: left;
-    margin: 15px 0 25px;
-    width: 100%;
-  }
-  .error {
-    float: left;
-    color: #565656;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    text-align: left;
-    width: 100%;
-  }
+.addressform_same,
+.addresslist_same,
+.addresslist_form,
+.addressform_list,
+.addresslist_edit_form,
+.addressform_edit_list {
+  overflow: hidden;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }

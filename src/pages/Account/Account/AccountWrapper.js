@@ -8,6 +8,7 @@ import Account from './Account';
 import { scrollToTop } from '../../../utils/utils';
 
 // Action
+import { forwardTo } from '../../../actions/handler';
 import { onLogin, onRegister, onLogout, checkGuest } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 
@@ -129,6 +130,7 @@ class AccountWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        forwardTo={forwardTo}
         resetMessages={this.props.resetMessages}
       />
     );

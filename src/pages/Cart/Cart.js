@@ -21,6 +21,7 @@ class Cart extends Component {
     updateCart: PropTypes.func.isRequired,
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
+    removePromoCode: PropTypes.func.isRequired,
     paypalObj: PropTypes.object.isRequired,
     checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
@@ -29,7 +30,8 @@ class Cart extends Component {
     calculateShipping: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
-    showShippingCalculator: PropTypes.bool.isRequired
+    showShippingCalculator: PropTypes.bool.isRequired,
+    forwardTo: PropTypes.func.isRequired
   };
 
   render() {
@@ -46,6 +48,7 @@ class Cart extends Component {
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.breadcrumbs}
           onLogout={this.props.onLogout}
+          forwardTo={this.props.forwardTo}
         />
       );
     }
@@ -55,6 +58,7 @@ class Cart extends Component {
           isLogged={this.props.loggedIn}
           onLogout={this.props.onLogout}
           breadcrumbs={this.props.breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay messages={this.props.messages} isError={this.props.isError} />
         <ContentWrapper wrprClass="cartwrpr" contentClass="contentwrpr">
@@ -86,6 +90,7 @@ class Cart extends Component {
                   checkoutPayPal={this.props.checkoutPayPal}
                   proceedToCheckout={this.props.proceedToCheckout}
                   toggleLoader={this.props.toggleLoader}
+                  removePromoCode={this.props.removePromoCode}
                   calculateShipping={this.props.calculateShipping}
                   showShippingCalculator={this.props.showShippingCalculator}
                 />

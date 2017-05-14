@@ -7,11 +7,13 @@ import ViewOrder from './ViewOrder';
 import { onLogout } from '../../../actions/user';
 import { setHeaderProps, toggleLoader, resetMessages } from '../../../actions/page';
 import { getOrder } from '../../../actions/order';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    order: state.orders.order
+    order: state.orders.order,
+    isPending: (state.page.isPending || !state.orders.order.isLoaded)
   }
 ));
 
@@ -68,22 +70,19 @@ class ViewOrderWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.order.isLoaded &&
+    if (!nextProps.isPending &&
       (this.props.params.number === nextProps.order.order.number)) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
   componentWillUnmount = () => {
     this.props.resetMessages();
     this.props.toggleLoader(true);
-  };
-
-  onLogout = (event) => {
-    event.preventDefault();
-    this.props.onLogout();
   };
 
   render() {
@@ -100,9 +99,10 @@ class ViewOrderWrapper extends BasePageComponent {
     return (
       <ViewOrder
         loggedIn={loggedIn}
-        onLogout={this.onLogout}
+        onLogout={this.props.onLogout}
         order={order.order}
         breadcrumbs={breadcrumbs}
+        forwardTo={forwardTo}
       />
     );
   }

@@ -11,6 +11,7 @@ import { scrollToTop } from '../../../utils/utils';
 // Action
 import { onLogout, resetPassword } from '../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -83,6 +84,7 @@ class LostPasswordWrapper extends BasePageComponent {
         messages={this.props.messages}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        forwardTo={forwardTo}
       />
     );
   }

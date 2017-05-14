@@ -5,7 +5,7 @@ import BasePageComponent from '../BasePageComponent';
 import MannequinHeads from './MannequinHeads';
 
 // Actions
-import { toggleLoader, setMessage } from '../../actions/page';
+import { toggleLoader, setMessage, resetMessages } from '../../actions/page';
 import { getMannequinHeads, getProduct } from '../../actions/catalog';
 import { addToCart } from '../../actions/order';
 
@@ -14,7 +14,6 @@ const mapStateToProps = ((state) => (
     products: state.catalog.mannequinHeads,
     messages: state.page.messages,
     isError: state.page.isError,
-    showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
     isPending: state.page.isPending
   }
@@ -26,6 +25,7 @@ const mapDispatchToProps = ((dispatch) => (
     getMannequinHeads: () => dispatch(getMannequinHeads()),
     addToCart: (item) => dispatch(addToCart(item)),
     setMessage: (message) => dispatch(setMessage(message)),
+    resetMessages: () => dispatch(resetMessages()),
     getProduct: (slug) => dispatch(getProduct(slug))
   }
 ));
@@ -37,7 +37,7 @@ class MannequinHeadsWrapper extends BasePageComponent {
     products: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
     getMannequinHeads: PropTypes.func.isRequired,
-    showLoader: PropTypes.object.isRequired,
+    resetMessages: PropTypes.func.isRequired,
     addToCart: PropTypes.func.isRequired,
     isPending: PropTypes.bool.isRequired,
     getProduct: PropTypes.func.isRequired
@@ -59,7 +59,7 @@ class MannequinHeadsWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.products;
-    if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+    if (isLoaded && !nextProps.isPending) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
@@ -67,9 +67,8 @@ class MannequinHeadsWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    if (!this.props.showLoader.toggle) {
-      this.props.toggleLoader(true);
-    }
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   render() {

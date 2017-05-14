@@ -92,21 +92,25 @@ function getCart(isNew, fn) {
     const state = getState();
     if (!state.cart.isCartPending) {
       dispatch(setCartPending(true));
+      dispatch(setPending(true));
       axios.get(`/api/cart/${isNew}`)
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
           dispatch(setCartPending(false));
+          dispatch(setPending(false));
           if (fn) {
             fn();
           }
         }, () => {
           dispatch(setCartPending(false));
+          dispatch(setPending(false));
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
           dispatch(resetCart());
           dispatch(setCartPending(false));
+          dispatch(setPending(false));
         });
     }
   };
@@ -141,7 +145,6 @@ function addToCart(data) {
   return (dispatch) => {
     dispatch(setLoader(true, data.image));
     dispatch(setCartPending(true));
-    dispatch(setPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.post('/api/cart', { id: data.id, quantity: data.quantity })
@@ -152,17 +155,39 @@ function addToCart(data) {
         const message = data.quantity > 1 ? multipleMessage : singleMessage;
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCartPending(false));
-        dispatch(setPending(false));
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setCartPending(false));
-        dispatch(setPending(false));
         forwardTo('cart');
       }))
       .catch((err) => {
         dispatch(setCartPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
+        forwardTo('error');
+      });
+  };
+}
+
+function removePromoCode(message) {
+  return (dispatch) => {
+    dispatch(setLoader(true));
+    dispatch(setCartPending(true));
+    window.scrollTo(0, 0);
+    dispatch(resetMessages());
+    axios.put('/api/removecode')
+      .then((response) => checkResponse(response.data, () => {
+        const messages = message ? [message] : ['Promotion has been removed.'];
+        dispatch(setMessage({ isError: false, messages }));
+        dispatch(setCart(response.data));
+        dispatch(setCartPending(false));
+      }, () => {
+        const messages = response.data.messages || ['Something went wrong.'];
+        dispatch(setMessage({ isError: true, messages }));
+        dispatch(setCartPending(false));
+      }))
+      .catch((err) => {
+        console.error('Error', err); // eslint-disable-line no-console
         forwardTo('error');
       });
   };
@@ -183,8 +208,12 @@ function removeItem(data) {
       .then((response) => checkResponse(response.data, () => {
         const message = `${response.data.name} removed.`;
         dispatch(setMessage({ isError: false, messages: [message] }));
-        dispatch(setCart(response.data.cart));
-        dispatch(setCartPending(false));
+        if (response.data.cart.cart.line_items.length) {
+          dispatch(setCart(response.data.cart));
+          dispatch(setCartPending(false));
+        } else {
+          dispatch(removePromoCode(message));
+        }
         forwardTo('cart');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -208,6 +237,7 @@ function updateCart(data) {
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
+    dispatch(setPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     axios.put('/api/cart', { data })
@@ -217,12 +247,15 @@ function updateCart(data) {
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data));
         dispatch(setCartPending(false));
+        dispatch(setPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setCartPending(false));
+        dispatch(setPending(false));
       }))
       .catch((err) => {
         dispatch(setCartPending(false));
+        dispatch(setPending(false));
         console.error('Error: ', err); // eslint-disable-line no-console
         forwardTo('error');
       });
@@ -236,7 +269,7 @@ function updateCart(data) {
  */
 function applyPromoCode(data, callback) {
   return (dispatch) => {
-    dispatch(setLoader(true));
+    dispatch(setPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
     const valid = validatePromoCode(data);
@@ -250,6 +283,7 @@ function applyPromoCode(data, callback) {
         }, () => {
           const messages = response.data.messages || ['Something went wrong.'];
           dispatch(setMessage({ isError: true, messages }));
+          dispatch(setPending(true));
         }))
         .catch((err) => {
           console.error('Error', err); // eslint-disable-line no-console
@@ -314,6 +348,7 @@ export {
   resetCart,
   setCart,
   applyPromoCode,
+  removePromoCode,
   getOrder,
   setOrder,
   resetOrders,

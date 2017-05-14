@@ -27,6 +27,7 @@ class BillingWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired,
     route: PropTypes.object
   };
 
@@ -49,7 +50,7 @@ class BillingWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.addresses.isFetching) {
+    if (nextProps.isPending) {
       this.props.toggleLoader(true);
     } else if (nextProps.addresses.isFetched) {
       if (!nextProps.isError) {
@@ -110,6 +111,7 @@ class BillingWrapper extends BasePageComponent {
         messages={this.getErrorMessage(this.props)}
         isError={this.props.isError}
         breadcrumbs={this.props.route.breadcrumbs}
+        forwardTo={forwardTo}
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
         onFieldChange={this.onFieldChange}
@@ -121,6 +123,7 @@ const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
     addresses: state.user_address,
+    isPending: (state.user_address.isFetching || state.page.isPending),
     messages: state.page.messages,
     errors: state.user_address.messages,
     isError: (state.page.isError || state.user_address.isError)

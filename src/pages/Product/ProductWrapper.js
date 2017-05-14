@@ -19,8 +19,16 @@ const mapStateToProps = ((state) => (
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
     isError: state.page.isError,
-    showLoader: state.page.showLoader,
-    isPending: state.page.isPending
+    isCartPending: state.cart.isCartPending,
+    isPending: state.page.isPending,
+    isFetching: state.catalog.isFetching,
+    isFetched: (
+      !state.catalog.isFetching &&
+      !state.page.isPending &&
+      !state.cart.isCartPending &&
+      state.catalog.product.isLoaded &&
+      state.cart.cartItems.isLoaded
+    )
   }
 ));
 
@@ -51,8 +59,7 @@ class ProductWrapper extends Component {
     resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    showLoader: PropTypes.object.isRequired,
-    isPending: PropTypes.bool.isRequired
+    isFetched: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -69,24 +76,14 @@ class ProductWrapper extends Component {
   }
 
   componentWillMount = () => {
-    const props = {
-      headerClass: 'colored',
-      activeSlug: this.props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
-    };
-    this.props.setHeaderProps(props);
-    if (!this.props.isPending) {
-      if (!this.props.product.isLoaded) {
-        this.props.getProduct(this.props.params.slug);
-      } else if (this.props.product.product.slug !== this.props.params.slug) {
-        this.props.getProduct(this.props.params.slug);
-      }
-    }
-    this.props.resetMessages();
+    this.setHeaderProps(this.props);
   };
 
   componentDidMount = () => {
-    const { isLoaded, product } = this.props.product;
-    if (!this.props.isPending && isLoaded && product.slug === this.props.params.slug) {
+    const { product } = this.props.product;
+    if (product.slug !== this.props.params.slug) {
+      this.props.getProduct(this.props.params.slug);
+    } else if (this.props.isFetched) {
       setTimeout(() => {
         this.props.resetMessages();
         this.props.toggleLoader(false);
@@ -95,30 +92,32 @@ class ProductWrapper extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { isLoaded } = nextProps.product;
-    if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+    const { product } = nextProps.product;
+    if (nextProps.isFetched && product.slug === nextProps.params.slug) {
       this.setState({
         pdpTabs: {
           description: true,
           details: false,
           info: false
         }
-      });
-      const props = {
-        headerClass: 'colored',
-        activeSlug: nextProps.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
-      };
-      this.props.setHeaderProps(props);
-      setTimeout(() => {
+      }, () => setTimeout(() => {
         this.props.toggleLoader(false);
-      }, 250);
+      }, 250));
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
   componentWillUnmount = () => {
-    if (!this.props.showLoader.toggle) {
-      this.props.toggleLoader(true);
-    }
+    this.props.toggleLoader(true);
+  };
+
+  setHeaderProps = (props) => {
+    const headerProps = {
+      headerClass: 'colored',
+      activeSlug: props.params.slug.indexOf('mentoring') >= 0 ? '/product/mentoring-program-day' : '/'
+    };
+    this.props.setHeaderProps(headerProps);
   };
 
   getProperty = (properties, property) => properties.find(
@@ -162,7 +161,7 @@ class ProductWrapper extends Component {
       pdpTabs[key] = key === tabName;
     });
     this.setState({ pdpTabs });
-  }
+  };
 
   render() {
     const {
@@ -170,7 +169,7 @@ class ProductWrapper extends Component {
       cartItems,
       messages
     } = this.props;
-    if (product.isLoaded && cartItems.isLoaded) {
+    if (this.props.isFetched) {
       document.title = `${product.product.name || 'Shop'} - krissorbie`;
       return (
         <Product

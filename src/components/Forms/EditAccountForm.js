@@ -41,6 +41,7 @@ class EditAccountForm extends Component {
     this.props.onUpdateProfile({
       f_name: this.state.f_name,
       l_name: this.state.l_name,
+      email: this.state.email,
       id: this.state.id
     });
   };

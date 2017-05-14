@@ -67,8 +67,12 @@ function setPending(toggle) {
  * @returns {function(*)}
  */
 function toggleLoader(toggle, image) {
-  return (dispatch) => {
-    dispatch(setLoader(toggle, image));
+  return (dispatch, getState) => {
+    const state = getState();
+    console.log('Loader', state.page.showLoader);
+    if (toggle !== state.page.showLoader.toggle) {
+      dispatch(setLoader(toggle, image));
+    }
   };
 }
 

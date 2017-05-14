@@ -10,12 +10,14 @@ import { scrollToTop } from '../../../../utils/utils';
 // Action
 import { onLogout, getProfile, updatePassword, checkUser } from '../../../../actions/user';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../../actions/page';
+import { forwardTo } from '../../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
     profile: state.user.profile,
     messages: state.page.messages,
+    isPending: state.page.isPending,
     isError: state.page.isError
   }
 ));
@@ -45,7 +47,8 @@ class PasswordWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    checkUser: PropTypes.func.isRequired
+    checkUser: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired
   };
 
   componentWillMount = () => {
@@ -64,6 +67,16 @@ class PasswordWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 500);
     }, 'my-account');
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.isPending) {
+      this.props.toggleLoader(true);
+    } else {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
   };
 
   componentWillUnmount = () => {
@@ -85,7 +98,7 @@ class PasswordWrapper extends BasePageComponent {
         onUpdatePassword={this.onUpdatePassword}
         messages={this.props.messages}
         isError={this.props.isError}
-        resetMessages={this.props.resetMessages}
+        forwardTo={forwardTo}
       />
     );
   }

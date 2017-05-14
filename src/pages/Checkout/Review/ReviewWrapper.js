@@ -39,7 +39,11 @@ const mapStateToProps = ((state) => (
     isPayPal: state.checkout.isPayPal,
     isStoreCredit: state.checkout.isStoreCredit,
     canUseStoreCredit: state.checkout.canUseStoreCredit,
-    isPending: state.page.isPending
+    isFetched: (
+      !state.page.isPending &&
+      !state.cart.isCartPending &&
+      state.cart.cartItems.isLoaded
+    )
   }
 ));
 
@@ -59,7 +63,7 @@ class ReviewWrapper extends BasePageComponent {
     isStoreCredit: PropTypes.bool.isRequired,
     canUseStoreCredit: PropTypes.bool.isRequired,
     confirmOrderNext: PropTypes.func.isRequired,
-    isPending: PropTypes.bool.isRequired,
+    isFetched: PropTypes.bool.isRequired,
     isCartPending: PropTypes.bool.isRequired,
     getCart: PropTypes.func.isRequired,
     route: PropTypes.object,
@@ -77,20 +81,17 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
+    if (nextProps.isFetched) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
-        // const useCredits = useStoreCredits({
-        //   payments: nextProps.cartItems.cart.payments,
-        //   isPayPal: nextProps.isPayPal
-        // });
-        // this.setState({ useCredits });
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 500);
       } else {
         forwardTo(expectedState);
       }
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
@@ -128,7 +129,6 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   toggleUseCredits = (event) => {
-    console.log(event.target.checked);
     this.props.makeToggleCreditRequest(event.target.checked);
   };
 
@@ -139,7 +139,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   render() {
-    if (this.props.cartItems.isLoaded) {
+    if (this.props.isFetched && !this.props.cartItems.isEmpty) {
       return (
         <Checkout
           state={this.props.cartItems.cart.state}

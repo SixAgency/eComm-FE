@@ -12,6 +12,7 @@ import { onLogout, getProfile, redeemGiftCard, getStoreCredit, checkUser } from 
 import { getAddresses } from '../../../actions/user_address';
 import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
 import { getAllOrders } from '../../../actions/order';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
@@ -21,10 +22,13 @@ const mapStateToProps = ((state) => (
     messages: state.page.messages,
     isError: state.page.isError,
     profile: state.user.profile,
-    isFetched: (state.user_address.isFetched &&
+    isFetched: (
+      !state.page.isPending &&
+      state.user_address.isFetched &&
       state.orders.orders.isLoaded &&
       state.user.profile.isLoaded &&
-      state.user.creditInfo.isLoaded),
+      state.user.creditInfo.isLoaded
+    ),
     creditInfo: state.user.creditInfo
   }
 ));
@@ -79,22 +83,18 @@ class DashboardWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps);
     if (nextProps.isFetched) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
     this.props.resetMessages();
-  };
-
-  onLogout = (event) => {
-    event.preventDefault();
-    this.props.onLogout();
   };
 
   render() {
@@ -113,14 +113,14 @@ class DashboardWrapper extends BasePageComponent {
       return (
         <Dashboard
           loggedIn={loggedIn}
-          onLogout={this.onLogout}
+          onLogout={this.props.onLogout}
           addresses={addresses}
           orders={orders}
           messages={messages}
           isError={isError}
           breadcrumbs={route.breadcrumbs}
           profile={profile}
-          resetMessages={this.props.resetMessages}
+          forwardTo={forwardTo}
           onRedeemGiftCard={onRedeemGiftCard}
           creditInfo={creditInfo}
         />

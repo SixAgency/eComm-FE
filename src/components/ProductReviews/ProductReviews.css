@@ -9,7 +9,7 @@
 
   .reviewscontainer {
     position: absolute;
-    top: 180px;
+    top: 130px;
     padding-bottom: 50px;
     width: 100%;
 
@@ -40,7 +40,7 @@
         padding: 20px 105px;
         overflow-y: auto;
         width: 100%;
-        height: 340px;
+        height: 280px;
 
         .review {
           float: left;
@@ -99,7 +99,7 @@
           outline: none;
           resize: none;
           width: 100%;
-          height: 130px;
+          height: 80px;
         }
 
         input {
@@ -168,7 +168,7 @@
 @media (max-width: 767px) {
   .reviewsbg {
     .reviewscontainer {
-      top: 100px;
+      top: 80px;
       .reviews {
         width: 90%;
         .content {

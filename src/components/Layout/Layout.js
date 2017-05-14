@@ -75,7 +75,7 @@ class Layout extends Component {
     if (state !== 'cart') {
       forwardTo(state);
     } else {
-      this.props.checkoutNext(() => (forwardTo('checkout/billing')));
+      this.props.checkoutNext(() => (forwardTo('checkout/shipping')));
     }
   };
 

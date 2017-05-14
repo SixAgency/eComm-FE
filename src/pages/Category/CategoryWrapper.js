@@ -13,7 +13,6 @@ const mapStateToProps = ((state) => (
     categoryItems: state.catalog.categoryItems,
     messages: state.page.messages,
     isError: state.page.isError,
-    showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
     isPending: state.page.isPending
   }
@@ -42,9 +41,9 @@ class CategoryWrapper extends React.Component {
     addToCart: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
+    resetMessages: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
-    showLoader: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
     getProduct: PropTypes.func.isRequired
   };
@@ -80,7 +79,7 @@ class CategoryWrapper extends React.Component {
       this.props.getProductsInCategory(this.props.params.slug);
     } else {
       const { isLoaded } = nextProps.categoryItems;
-      if (isLoaded && nextProps.showLoader.toggle && !nextProps.isPending) {
+      if (isLoaded && !nextProps.isPending) {
         setTimeout(() => {
           this.props.toggleLoader(false);
         }, 250);
@@ -89,9 +88,8 @@ class CategoryWrapper extends React.Component {
   };
 
   componentWillUnmount = () => {
-    if (!this.props.showLoader.toggle) {
-      this.props.toggleLoader(true);
-    }
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   render() {

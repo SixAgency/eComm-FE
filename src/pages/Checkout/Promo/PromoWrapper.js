@@ -6,7 +6,7 @@ import Checkout from '../../../components/Checkout';
 import Promo from './Promo';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, resetMessages, toggleLoader, setMessage } from '../../../actions/page';
 import { applyPromoCode, getCart } from '../../../actions/order';
 import { onLogin, onLogout } from '../../../actions/user';
 import { forwardTo } from '../../../actions/handler';
@@ -20,7 +20,8 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     resetMessages: () => dispatch(resetMessages()),
     applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
-    getCart: () => dispatch(getCart(false))
+    getCart: () => dispatch(getCart(false)),
+    setMessage: (props) => dispatch(setMessage(props))
   }
 ));
 
@@ -31,8 +32,12 @@ const mapStateToProps = ((state) => (
     isError: state.page.isError,
     cartItems: state.cart.cartItems,
     isCartPending: state.cart.isCartPending,
-    isPayPal: state.checkout.isPayPal,
-    isPending: state.page.isPending
+    isFetched: (
+      !state.page.isPending &&
+      !state.cart.isCartPending &&
+      state.cart.cartItems.isLoaded
+    ),
+    isPayPal: state.checkout.isPayPal
   }
 ));
 
@@ -51,7 +56,8 @@ class PromoWrapper extends BasePageComponent {
     route: PropTypes.object.isRequired,
     isCartPending: PropTypes.bool.isRequired,
     isPayPal: PropTypes.bool.isRequired,
-    isPending: PropTypes.bool.isRequired
+    setMessage: PropTypes.func.isRequired,
+    isFetched: PropTypes.bool.isRequired
   };
 
   componentWillMount = () => {
@@ -72,7 +78,7 @@ class PromoWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (!nextProps.isCartPending && nextProps.cartItems.isLoaded) {
+    if (nextProps.isFetched) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
         setTimeout(() => {
@@ -81,6 +87,8 @@ class PromoWrapper extends BasePageComponent {
       } else {
         forwardTo(expectedState);
       }
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
@@ -112,10 +120,10 @@ class PromoWrapper extends BasePageComponent {
     this.props.toggleLoader(true);
     this.props.resetMessages();
     this.props.onLogin(data, true);
-  }
+  };
 
   render() {
-    if (this.props.cartItems.isLoaded) {
+    if (this.props.isFetched) {
       return (
         <Checkout
           state={this.props.cartItems.cart.state}
@@ -134,6 +142,8 @@ class PromoWrapper extends BasePageComponent {
             applyPromoCode={this.props.applyPromoCode}
             onProceed={this.onSubmit}
             getCart={this.props.getCart}
+            setMessage={this.props.setMessage}
+            cartItems={this.props.cartItems}
           />
         </Checkout>
       );

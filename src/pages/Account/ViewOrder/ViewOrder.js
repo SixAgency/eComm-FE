@@ -16,6 +16,7 @@ class ViewOrder extends PureComponent {
     loggedIn: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
     order: PropTypes.object.isRequired,
+    forwardTo: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -46,6 +47,7 @@ class ViewOrder extends PureComponent {
           isLogged={this.props.loggedIn}
           breadcrumbs={this.props.breadcrumbs}
           onLogout={this.props.onLogout}
+          forwardTo={this.props.forwardTo}
         />
         <ContentWrapper tabsClass={'hide'}>
           <div>

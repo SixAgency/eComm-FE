@@ -39,10 +39,10 @@ class Checkout extends React.Component {
   setDisabled = (button) => {
     const { state, isPayPal } = this.props;
     switch (button.id) {
-      case 'billing': {
+      case 'shipping': {
         return isPayPal;
       }
-      case 'shipping': {
+      case 'billing': {
         return isPayPal || state === 'address';
       }
       case 'promo': {
@@ -96,6 +96,7 @@ class Checkout extends React.Component {
           isLogged={loggedIn}
           onLogout={onLogout}
           breadcrumbs={breadcrumbs}
+          forwardTo={this.props.forwardTo}
         />
         <ErrorDisplay
           messages={messages}

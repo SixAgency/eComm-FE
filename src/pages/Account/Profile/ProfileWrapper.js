@@ -9,13 +9,15 @@ import { scrollToTop } from '../../../utils/utils';
 
 // Action
 import { onLogout, getProfile, updateProfile, checkUser } from '../../../actions/user';
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { setHeaderProps, toggleLoader } from '../../../actions/page';
+import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
     profile: state.user.profile,
     messages: state.page.messages,
+    isPending: state.page.isPending,
     isError: state.page.isError
   }
 ));
@@ -25,7 +27,6 @@ const mapDispatchToProps = ((dispatch) => (
     setHeaderProps: (props) => dispatch(setHeaderProps(props)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
     onLogout: () => dispatch(onLogout()),
-    resetMessages: () => dispatch(resetMessages()),
     getProfile: () => dispatch(getProfile()),
     updateProfile: (data) => dispatch(updateProfile(data)),
     checkUser: (callback, redirect) => dispatch(checkUser(callback, redirect))
@@ -45,8 +46,8 @@ class ProfileWrapper extends BasePageComponent {
     profile: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    resetMessages: PropTypes.func.isRequired,
-    checkUser: PropTypes.func.isRequired
+    checkUser: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired
   };
 
   componentWillMount = () => {
@@ -65,6 +66,16 @@ class ProfileWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 500);
     }, 'my-account');
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.isPending) {
+      this.props.toggleLoader(true);
+    } else {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
   };
 
   componentWillUnmount = () => {
@@ -86,7 +97,7 @@ class ProfileWrapper extends BasePageComponent {
         breadcrumbs={this.props.route.breadcrumbs}
         messages={this.props.messages}
         isError={this.props.isError}
-        resetMessages={this.props.resetMessages}
+        forwardTo={forwardTo}
       />
     );
   }

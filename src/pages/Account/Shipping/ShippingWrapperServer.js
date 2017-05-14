@@ -22,6 +22,7 @@ class ShippingWrapper extends React.Component {
         onSubmit={mockFunc}
         onCancel={mockFunc}
         onFieldChange={mockFunc}
+        forwardTo={mockFunc}
       />
     );
   }

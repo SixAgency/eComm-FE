@@ -7,6 +7,7 @@ import MannequinHeadsWrapper from '../../pages/MannequinHeads';
 
 import { render, error } from '../common/render';
 import { getProduct, getProducts } from '../products';
+import { getSession } from '../session';
 
 
 /**
@@ -17,9 +18,10 @@ import { getProduct, getProducts } from '../products';
  */
 function product(req, resp, next) {
   Promise.all([
+    getSession(req),
     getProduct(req)
   ])
-    .then(([prod]) => {
+    .then(([cart, prod]) => {
       const prodParams = {
         slug: req.params.slug
       };
@@ -28,13 +30,14 @@ function product(req, resp, next) {
       if (images.length > 0 && images[0].large_url) {
         ogImage = `https:${images[0].large_url}`;
       }
+      const prodFeed = { ...prod, isLoaded: !prod.isError };
       const params = {
         title: prod.product.name || 'Shop',
         description: prod.product.description || '',
         ogImage,
         header: 'colored',
         active: '/',
-        content: <ProductWrapper product={prod} params={prodParams} />
+        content: <ProductWrapper product={prodFeed} params={prodParams} cartItems={cart} />
       };
       return render(req, resp, next, params);
     })
@@ -55,12 +58,13 @@ function category(req, resp, next) {
       const prodParams = {
         slug: req.params.slug
       };
+      const gridItems = { ...products, isLoaded: !products.isError };
       const params = {
         title: `${capitalize(prodParams.slug)} Archives`,
         description: '',
         header: 'default',
         active: '/',
-        content: <CategoryWrapper categoryItems={products} params={prodParams} />
+        content: <CategoryWrapper categoryItems={gridItems} params={prodParams} />
       };
       return render(req, resp, next, params);
     })

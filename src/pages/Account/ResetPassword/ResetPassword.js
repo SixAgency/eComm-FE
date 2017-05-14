@@ -13,13 +13,17 @@ class ResetPassword extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
+    forwardTo: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired
   };
 
   render() {
     return (
       <section className={s.page}>
-        <Subnav isLogged={this.props.loggedIn} />
+        <Subnav
+          isLogged={this.props.loggedIn}
+          forwardTo={this.props.forwardTo}
+        />
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}

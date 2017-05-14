@@ -19,6 +19,7 @@ class BillingWrapper extends React.Component {
         messages={[]}
         isError={mockFalse}
         breadcrumbs={this.props.breadcrumbs}
+        forwardTo={mockFunc}
         onSubmit={mockFunc}
         onCancel={mockFunc}
         onFieldChange={mockFunc}

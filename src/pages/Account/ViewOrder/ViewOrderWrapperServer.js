@@ -20,6 +20,7 @@ class ViewOrderWrapper extends React.Component {
         breadcrumbs={breadcrumbs}
         loggedIn={loggedIn}
         onLogout={() => (true)}
+        forwardTo={() => (true)}
       />
     );
   }

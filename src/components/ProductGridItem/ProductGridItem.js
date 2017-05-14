@@ -112,7 +112,11 @@ class ProductGridItem extends Component {
     }
     return (
       <div className={s.productgrid}>
-        <Link className={s.plink} to={`/product/${product.slug}`}>
+        <Link
+          className={s.plink}
+          to={`/product/${product.slug}`}
+          onClick={() => { this.handleViewProduct(product); }}
+        >
           <img className={s.pimage} src={image} alt={product.name} />
           {product.is_sale &&
             <div className={s.salebadge}>SALE!</div>
@@ -120,7 +124,11 @@ class ProductGridItem extends Component {
         </Link>
         <div className={s.itemhover}>
           <div className={s.itemmeta}>
-            <Link className={s.plink} to={`/product/${product.slug}`}>
+            <Link
+              className={s.plink}
+              to={`/product/${product.slug}`}
+              onClick={() => { this.handleViewProduct(product); }}
+            >
               <span className={cx(s.pprice, s[this.props.priceclass], product.is_sale ? s.poriginalprice : '')}>
                 {price}
               </span>

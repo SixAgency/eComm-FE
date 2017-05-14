@@ -33,7 +33,7 @@ class DashboardWrapper extends React.Component {
         messages={messages}
         isError={isError}
         onLogout={() => (true)}
-        resetMessages={() => (true)}
+        forwardTo={() => (true)}
         onRedeemGiftCard={() => (true)}
         getStoreCredits={() => (true)}
       />
