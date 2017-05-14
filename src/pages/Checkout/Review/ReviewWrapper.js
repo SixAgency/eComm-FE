@@ -39,6 +39,7 @@ const mapStateToProps = ((state) => (
     isPayPal: state.checkout.isPayPal,
     isStoreCredit: state.checkout.isStoreCredit,
     canUseStoreCredit: state.checkout.canUseStoreCredit,
+    pagePending: state.page.isPending,
     isFetched: (
       !state.page.isPending &&
       !state.cart.isCartPending &&

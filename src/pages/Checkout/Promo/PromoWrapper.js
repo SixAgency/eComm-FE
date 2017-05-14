@@ -32,6 +32,7 @@ const mapStateToProps = ((state) => (
     isError: state.page.isError,
     cartItems: state.cart.cartItems,
     isCartPending: state.cart.isCartPending,
+    pagePending: state.page.isPending,
     isFetched: (
       !state.page.isPending &&
       !state.cart.isCartPending &&

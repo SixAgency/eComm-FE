@@ -217,6 +217,8 @@ const mapStateToProps = ((state) => (
     messages: state.page.messages,
     isError: state.page.isError,
     isPayPal: state.checkout.isPayPal,
+    pagePending: state.page.isPending,
+    isCartPending: state.cart.isCartPending,
     isPending: (
       state.page.isPending ||
       state.cart.isCartPending ||
