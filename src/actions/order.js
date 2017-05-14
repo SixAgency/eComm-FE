@@ -283,7 +283,7 @@ function applyPromoCode(data, callback) {
         }, () => {
           const messages = response.data.messages || ['Something went wrong.'];
           dispatch(setMessage({ isError: true, messages }));
-          dispatch(setPending(true));
+          dispatch(setPending(false));
         }))
         .catch((err) => {
           console.error('Error', err); // eslint-disable-line no-console
