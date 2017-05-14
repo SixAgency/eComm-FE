@@ -17,6 +17,7 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     profile: state.user.profile,
     messages: state.page.messages,
+    isPending: state.page.isPending,
     isError: state.page.isError
   }
 ));
@@ -46,7 +47,8 @@ class PasswordWrapper extends BasePageComponent {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     resetMessages: PropTypes.func.isRequired,
-    checkUser: PropTypes.func.isRequired
+    checkUser: PropTypes.func.isRequired,
+    isPending: PropTypes.bool.isRequired
   };
 
   componentWillMount = () => {
@@ -65,6 +67,16 @@ class PasswordWrapper extends BasePageComponent {
         this.props.toggleLoader(false);
       }, 500);
     }, 'my-account');
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.isPending) {
+      this.props.toggleLoader(true);
+    } else {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
   };
 
   componentWillUnmount = () => {

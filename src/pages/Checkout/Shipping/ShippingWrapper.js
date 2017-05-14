@@ -77,6 +77,8 @@ class ShippingWrapper extends BasePageComponent {
       } else {
         forwardTo(expectedState);
       }
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 

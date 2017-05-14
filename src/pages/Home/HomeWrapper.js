@@ -20,7 +20,6 @@ const mapStateToProps = ((state) => (
     gridItems: state.catalog.gridItems,
     cartItems: state.cart.cartItems,
     messages: state.page.messages,
-    showLoader: state.page.showLoader,
     isCartPending: state.cart.isCartPending,
     isPending: state.page.isPending
   }
@@ -48,8 +47,8 @@ class HomeWrapper extends BasePageComponent {
     addToCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     setMessage: PropTypes.func.isRequired,
+    resetMessages: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    showLoader: PropTypes.object.isRequired,
     isCartPending: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
     getProduct: PropTypes.func.isRequired
@@ -83,7 +82,7 @@ class HomeWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     const { isLoaded } = nextProps.gridItems;
     const { isCartPending, isPending } = nextProps;
-    if (isLoaded && !isCartPending && !isPending && nextProps.showLoader.toggle) {
+    if (isLoaded && !isCartPending && !isPending) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
@@ -91,9 +90,8 @@ class HomeWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    if (!this.props.showLoader.toggle) {
-      this.props.toggleLoader(true);
-    }
+    this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   render() {

@@ -39,7 +39,11 @@ const mapStateToProps = ((state) => (
     isPayPal: state.checkout.isPayPal,
     isStoreCredit: state.checkout.isStoreCredit,
     canUseStoreCredit: state.checkout.canUseStoreCredit,
-    isPending: state.page.isPending
+    isFetched: (
+      !state.page.isPending &&
+      !state.cart.isCartPending &&
+      state.cart.cartItems.isLoaded
+    )
   }
 ));
 
@@ -59,7 +63,7 @@ class ReviewWrapper extends BasePageComponent {
     isStoreCredit: PropTypes.bool.isRequired,
     canUseStoreCredit: PropTypes.bool.isRequired,
     confirmOrderNext: PropTypes.func.isRequired,
-    isPending: PropTypes.bool.isRequired,
+    isFetched: PropTypes.bool.isRequired,
     isCartPending: PropTypes.bool.isRequired,
     getCart: PropTypes.func.isRequired,
     route: PropTypes.object,
@@ -77,7 +81,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (!nextProps.isCartPending && !nextProps.isPending && nextProps.cartItems.isLoaded) {
+    if (nextProps.isFetched) {
       const expectedState = checkCartState(nextProps);
       if (['checkout/promo', 'checkout/review'].includes(expectedState)) {
         setTimeout(() => {
@@ -86,6 +90,8 @@ class ReviewWrapper extends BasePageComponent {
       } else {
         forwardTo(expectedState);
       }
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
@@ -133,7 +139,7 @@ class ReviewWrapper extends BasePageComponent {
   };
 
   render() {
-    if (this.props.cartItems.isLoaded && !this.props.cartItems.isEmpty) {
+    if (this.props.isFetched && !this.props.cartItems.isEmpty) {
       return (
         <Checkout
           state={this.props.cartItems.cart.state}

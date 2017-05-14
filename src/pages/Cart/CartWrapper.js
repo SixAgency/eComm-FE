@@ -36,7 +36,12 @@ const mapStateToProps = ((state) => (
     paypalObj: state.checkout.paypal,
     messages: state.page.messages,
     isError: state.page.isError,
-    showLoader: state.page.showLoader
+    isFetched: (
+      !state.page.isPending &&
+      !state.cart.isCartPending &&
+      state.checkout.paypal.isLoaded &&
+      state.cart.cartItems.isLoaded
+    )
   }
 ));
 
@@ -66,7 +71,6 @@ class CartWrapper extends BasePageComponent {
     removeItem: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     setHeaderProps: PropTypes.func.isRequired,
-    showLoader: PropTypes.object.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
     isPayPal: PropTypes.bool.isRequired,
@@ -87,7 +91,8 @@ class CartWrapper extends BasePageComponent {
     route: PropTypes.object,
     calculateShipping: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
-    setMessage: PropTypes.func.isRequired
+    setMessage: PropTypes.func.isRequired,
+    isFetched: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -107,37 +112,32 @@ class CartWrapper extends BasePageComponent {
       activeSlug: '/'
     };
     this.props.setHeaderProps(props);
+  };
+
+  componentDidMount = () => {
+    if (this.props.isFetched) {
+      setTimeout(() => {
+        this.props.toggleLoader(false);
+      }, 500);
+    }
     if (!this.props.paypalObj.isLoaded) {
       this.props.getPayPalToken();
     }
   };
 
-  componentDidMount = () => {
-    const isCartPending = this.props.isCartPending;
-    const cartLoaded = this.props.cartItems.isLoaded;
-    const payPalLoaded = this.props.paypalObj.isLoaded;
-    if (!isCartPending && cartLoaded && payPalLoaded) {
-      setTimeout(() => {
-        this.props.toggleLoader(false);
-      }, 500);
-    }
-  };
-
   componentWillReceiveProps = (nextProps) => {
-    const isCartPending = nextProps.isCartPending;
-    const cartLoaded = nextProps.cartItems.isLoaded;
-    const payPalLoaded = nextProps.paypalObj.isLoaded;
-    if (!isCartPending && cartLoaded && payPalLoaded && this.props.showLoader.toggle) {
+    if (nextProps.isFetched) {
       setTimeout(() => {
+        console.log('HERE - CART', nextProps);
         this.props.toggleLoader(false);
       }, 250);
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 
   componentWillUnmount = () => {
-    if (!this.props.showLoader.toggle) {
-      this.props.toggleLoader(true);
-    }
+    this.props.toggleLoader(true);
     this.props.resetMessages();
   };
 
@@ -193,30 +193,33 @@ class CartWrapper extends BasePageComponent {
   };
 
   render() {
-    return (
-      <Cart
-        removeItem={this.props.removeItem}
-        updateQuantity={this.updateQuantity}
-        cartItems={this.props.cartItems}
-        loggedIn={this.props.loggedIn}
-        onLogout={this.props.onLogout}
-        messages={this.props.messages}
-        isError={this.props.isError}
-        updateCart={this.onUpdateCart}
-        applyPromoCode={this.props.applyPromoCode}
-        removePromoCode={this.props.removePromoCode}
-        paypalObj={this.props.paypalObj}
-        checkoutPayPal={this.props.checkoutPayPal}
-        proceedToCheckout={this.proceedToCheckout}
-        breadcrumbs={this.props.route.breadcrumbs}
-        toggleLoader={this.props.toggleLoader}
-        calculateShipping={this.props.calculateShipping}
-        getCart={this.props.getCart}
-        setMessage={this.props.setMessage}
-        showShippingCalculator={this.showShippingCalculator()}
-        forwardTo={forwardTo}
-      />
-    );
+    if (this.props.isFetched) {
+      return (
+        <Cart
+          removeItem={this.props.removeItem}
+          updateQuantity={this.updateQuantity}
+          cartItems={this.props.cartItems}
+          loggedIn={this.props.loggedIn}
+          onLogout={this.props.onLogout}
+          messages={this.props.messages}
+          isError={this.props.isError}
+          updateCart={this.onUpdateCart}
+          applyPromoCode={this.props.applyPromoCode}
+          removePromoCode={this.props.removePromoCode}
+          paypalObj={this.props.paypalObj}
+          checkoutPayPal={this.props.checkoutPayPal}
+          proceedToCheckout={this.proceedToCheckout}
+          breadcrumbs={this.props.route.breadcrumbs}
+          toggleLoader={this.props.toggleLoader}
+          calculateShipping={this.props.calculateShipping}
+          getCart={this.props.getCart}
+          setMessage={this.props.setMessage}
+          showShippingCalculator={this.showShippingCalculator()}
+          forwardTo={forwardTo}
+        />
+      );
+    }
+    return null;
   }
 }
 

@@ -12,7 +12,8 @@ import { forwardTo } from '../../../actions/handler';
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
-    order: state.orders.order
+    order: state.orders.order,
+    isPending: (state.page.isPending || !state.orders.order.isLoaded)
   }
 ));
 
@@ -69,11 +70,13 @@ class ViewOrderWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.order.isLoaded &&
+    if (!nextProps.isPending &&
       (this.props.params.number === nextProps.order.order.number)) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 

@@ -22,10 +22,13 @@ const mapStateToProps = ((state) => (
     messages: state.page.messages,
     isError: state.page.isError,
     profile: state.user.profile,
-    isFetched: (state.user_address.isFetched &&
+    isFetched: (
+      !state.page.isPending &&
+      state.user_address.isFetched &&
       state.orders.orders.isLoaded &&
       state.user.profile.isLoaded &&
-      state.user.creditInfo.isLoaded),
+      state.user.creditInfo.isLoaded
+    ),
     creditInfo: state.user.creditInfo
   }
 ));
@@ -80,11 +83,12 @@ class DashboardWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps);
     if (nextProps.isFetched) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 500);
+    } else {
+      this.props.toggleLoader(true);
     }
   };
 

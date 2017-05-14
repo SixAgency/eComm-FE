@@ -1,21 +1,22 @@
 export default function reducer(state = {
   gridItems: {
     isLoaded: false,
-    products: [],
+    products: []
   },
   mannequinHeads: {
     isLoaded: false,
-    products: [],
+    products: []
   },
   product: {
     isLoaded: false,
-    product: {},
+    product: {}
   },
   categoryItems: {
     isLoaded: false,
     slug: '',
-    products: [],
+    products: []
   },
+  isFetching: true
 }, action) {
   switch (action.type) {
     case 'SET_PRODUCTS': {
@@ -25,7 +26,10 @@ export default function reducer(state = {
       return { ...state, mannequinHeads: action.payload };
     }
     case 'SET_PRODUCT': {
-      return { ...state, product: action.payload };
+      return { ...state, product: action.payload, isFetching: false };
+    }
+    case 'SET_PRODUCT_PENDING': {
+      return { ...state, isFetching: action.payload };
     }
     case 'SET_CATEGORY': {
       return { ...state, categoryItems: action.payload };

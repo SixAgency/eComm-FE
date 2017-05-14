@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, resetMessages, setLoader, setPending } from './page';
+import { setMessage, resetMessages, setLoader } from './page';
 import { validateReview } from '../helpers/validators';
 
 /**
@@ -27,6 +27,10 @@ function setProduct(product) {
     ...product
   };
   return { type: 'SET_PRODUCT', payload: data };
+}
+
+function setProductPending(payload) {
+  return { type: 'SET_PRODUCT_PENDING', payload };
 }
 
 /**
@@ -60,6 +64,7 @@ function getProducts() {
     axios.get('/api/products')
       .then((response) => checkResponse(response.data, () => {
         dispatch(setProducts(response.data));
+        dispatch(resetMessages());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
       }))
@@ -77,14 +82,13 @@ function getProducts() {
  */
 function getProduct(slug) {
   return (dispatch) => {
-    dispatch(setPending(true));
+    dispatch(setProductPending(true));
     axios.get(`/api/product/${slug}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setProduct(response.data));
-        dispatch(setPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        dispatch(setPending(false));
+        dispatch(setProductPending(false));
       }))
       .catch((err) => {
         console.error('Error', err); // eslint-disable-line no-console

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import pick from 'lodash.pick';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, resetMessages } from './page';
+import { setMessage, resetMessages, setPending } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
 import { ACTION_TYPES, DEFAULT_VALUES } from '../constants/StateConsts';
@@ -90,6 +90,7 @@ function checkLogin() {
 function onLogout() {
   return (dispatch) => {
     dispatch({ type: `${ACTION_TYPES.address}_PENDING` });
+    dispatch(setPending(true));
     axios.post('/api/logout', {})
       .then((response) => checkResponse(response.data, () => {
         // Set the current user
@@ -109,6 +110,7 @@ function onLogout() {
           }
         });
         dispatch(getCart(false));
+        dispatch(setPending(false));
         forwardTo('my-account');
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -123,9 +125,11 @@ function onLogout() {
             }
           }
         });
+        dispatch(setPending(false));
       }))
       .catch((err) => {
         console.error('Error: ', err); // eslint-disable-line no-console
+        dispatch(setPending(false));
         dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
       });
   };
