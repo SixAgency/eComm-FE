@@ -86,6 +86,7 @@ function getProduct(slug) {
     axios.get(`/api/product/${slug}`)
       .then((response) => checkResponse(response.data, () => {
         dispatch(setProduct(response.data));
+        dispatch(resetMessages());
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
         dispatch(setProductPending(false));
