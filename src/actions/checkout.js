@@ -2,7 +2,7 @@ import axios from 'axios';
 import { checkResponse, forwardTo } from './handler';
 import { setCart, getCart } from './order';
 import { setMessage, resetMessages, setLoader, setPending } from './page';
-import { setUser } from './user';
+import { setUser, setProfile } from './user';
 import { setCheckoutAddressFeed, setCheckoutAddressesFeed } from '../helpers/feed';
 import { validateRegisterCheckout, validateMandatoryFieldsAddress } from '../helpers/validators';
 
@@ -96,16 +96,15 @@ function setCheckoutAddress(data) {
     if (valid.isError) {
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
-      dispatch(setPending(true));
-      dispatch(setLoader(true));
+      dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: true });
       axios.post('/api/checkout/addresses', setCheckoutAddressesFeed(data))
         .then((response) => checkResponse(response.data, () => {
-          dispatch(setCart(response.data));
           forwardTo('checkout/billing');
-          dispatch(setPending(false));
+          dispatch(setCart(response.data));
+          dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: false });
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
-          dispatch(setPending(false));
+          dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: false });
         }))
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
@@ -147,17 +146,23 @@ function registerAndSetAddress(data) {
       window.scrollTo(0, 0);
       dispatch(setMessage({ isError: true, messages: valid.messages }));
     } else {
-      dispatch(setPending(true));
+      dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: true });
       axios.post('/api/register', data.registrationFields)
         .then((response) => checkResponse(response.data, () => {
           // Set the user
           dispatch(setUser(response.data.user));
+          dispatch(setProfile({
+            isLoaded: false,
+            email: data.registrationFields.email,
+            f_name: '',
+            l_name: ''
+          }));
           return response;
         }, () => {
           registerError = true;
           window.scrollTo(0, 0);
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
-          dispatch(setPending(false));
+          dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: false });
         }))
         .then(() => {
           if (!registerError) {
@@ -168,6 +173,7 @@ function registerAndSetAddress(data) {
         })
         .catch((err) => {
           console.error('Error: ', err); // eslint-disable-line no-console
+          dispatch({ type: 'SET_CHECKOUT_ADDRESS', payload: false });
           dispatch(setMessage({ isError: true, messages: ['Something went wrong. Please try again'] }));
         });
     }

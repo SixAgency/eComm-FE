@@ -35,7 +35,7 @@ class LostPassword extends React.Component {
         <ContentWrapper tabsClass={'hide'}>
           <LostPasswordInputs
             formTitle={'lost password'}
-            formSubtitle={'Lost your password? Please enter your username or email address to receive a reset password link via email.'}
+            formSubtitle={'Lost your password? Please enter your email address to receive a reset password link via email.'}
             buttonText={'Reset Password'}
             onSubmit={this.props.onSubmit}
           />

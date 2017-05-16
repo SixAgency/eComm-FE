@@ -94,8 +94,10 @@ class ViewOrderWrapper extends BasePageComponent {
     if (!order.isLoaded) {
       return null;
     }
-    const breadcrumbs = route.breadcrumbs;
-    breadcrumbs[1].label = `${breadcrumbs[1].label}${order.order.id}`;
+    const breadcrumbs = [route.breadcrumbs[0], {
+      label: `${route.breadcrumbs[1].label}${order.order.id}`,
+      url: route.breadcrumbs[1].label
+    }];
     return (
       <ViewOrder
         loggedIn={loggedIn}
