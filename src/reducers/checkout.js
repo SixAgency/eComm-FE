@@ -4,6 +4,7 @@ export default function reducer(state = {
   isPayPal: false,
   isStoreCredit: false,
   canUseStoreCredit: false,
+  setCheckoutAddressPending: false,
   paypal: {
     isLoaded: false,
     isEmpty: true,
@@ -21,6 +22,9 @@ export default function reducer(state = {
         isStoreCredit: checkPayment(action.payload.cart, 'store credit'),
         canUseStoreCredit: checkIfCanUseStoreCredit(action.payload)
       };
+    }
+    case 'SET_CHECKOUT_ADDRESS': {
+      return { ...state, setCheckoutAddressPending: action.payload };
     }
     default: // do nothing
   }

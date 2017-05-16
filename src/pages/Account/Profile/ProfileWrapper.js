@@ -17,7 +17,11 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     profile: state.user.profile,
     messages: state.page.messages,
-    isPending: state.page.isPending,
+    pagePending: state.page.isPending,
+    isPending: (
+      !state.page.isPending &&
+      !state.user.profile.isLoaded
+    ),
     isError: state.page.isError
   }
 ));

@@ -95,6 +95,13 @@ function onLogout() {
       .then((response) => checkResponse(response.data, () => {
         // Set the current user
         dispatch(setUser(response.data.user));
+        dispatch(setProfile({
+          isLoaded: false,
+          id: 0,
+          email: '',
+          f_name: '',
+          l_name: ''
+        }));
         // Reset the cart
         dispatch(resetCart());
         dispatch(resetOrders());
@@ -206,6 +213,13 @@ function onRegister(data) {
           dispatch(getCart(false));
           // Set the user
           dispatch(setUser(response.data.user));
+          dispatch(setProfile({
+            isLoaded: false,
+            email: data.email,
+            id: 0,
+            f_name: '',
+            l_name: ''
+          }));
           dispatch({
             type: `${ACTION_TYPES.address}_FULFILLED`,
             payload: {
@@ -247,8 +261,8 @@ function getProfile() {
       .then((response) => checkResponse(response.data, () => {
         const profile = {
           id: response.data.profile.id,
-          f_name: response.data.profile.f_name,
-          l_name: response.data.profile.l_name,
+          f_name: response.data.profile.f_name || '',
+          l_name: response.data.profile.l_name || '',
           email: response.data.profile.email,
           isLoaded: true
         };
@@ -428,6 +442,7 @@ export {
   getStoreCredit,
   applyStoreCredit,
   setUser,
+  setProfile,
   checkUser,
   checkGuest
 };

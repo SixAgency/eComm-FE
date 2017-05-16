@@ -41,7 +41,7 @@ class LostPasswordInputs extends React.Component {
               className={s.label}
               htmlFor="password"
             >
-              Username or email
+              *Email Address
             </label>
             <input
               id="password"

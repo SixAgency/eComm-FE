@@ -257,7 +257,9 @@ const mapStateToProps = ((state) => (
     isPayPal: state.checkout.isPayPal,
     pagePending: state.page.isPending,
     isCartPending: state.cart.isCartPending,
+    setCheckoutAddressPending: state.checkout.setCheckoutAddressPending,
     isPending: (
+      state.checkout.setCheckoutAddressPending ||
       state.page.isPending ||
       state.cart.isCartPending ||
       state.user_address.isFetching
