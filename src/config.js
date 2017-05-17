@@ -9,12 +9,12 @@ export const analytics = {
 
   // https://analytics.google.com/
   google: {
-    trackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
-  },
+    trackingId: process.env.GOOGLE_TRACKING_ID // UA-XXXXX-X
+  }
 
 };
 
-export const api = process.env.API_URL || 'http://api.krissorbie.com';
+export const api = process.env.API_URL || 'https://api.krissorbie.com';
 // export const api = process.env.API_URL || 'http://localhost:8888';
 
 export const mannequinHeadsSlugs = ['ks-long-head', 'ks-color-head', 'ks-schoolboy-and-ks-schoolgirl-mannequin-heads'];
