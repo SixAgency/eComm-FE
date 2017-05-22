@@ -14,25 +14,25 @@ class CartCta extends Component {
     onSubmit: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired,
     cartItems: PropTypes.array.isRequired,
-    setMessage: PropTypes.func.isRequired
+    setMessage: PropTypes.func.isRequired,
+    quantity: PropTypes.number.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    addQuantity: PropTypes.func.isRequired,
+    subQuantity: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1,
       variant_id: null
     };
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.product.isLoaded) {
-      const { product } = nextProps.product;
-      this.setState({
-        quantity: 1,
-        variant_id: product.has_variants ? product.variants[0].id : product.master.id
-      });
-    }
+  componentDidMount = () => {
+    const { product } = this.props.product;
+    this.setState({
+      variant_id: product.has_variants ? product.variants[0].id : product.master.id
+    });
   };
 
   setVariant = (variant) => {
@@ -76,35 +76,14 @@ class CartCta extends Component {
   };
 
   updateQuantity = (value) => {
-    this.setState({ quantity: parseInt(value, 10) });
+    this.props.updateQuantity(value);
   }
-
-  subQuantity = () => {
-    let value = this.state.quantity;
-    if (value >= 2) {
-      value -= 1;
-      this.setState({
-        quantity: value
-      });
-    }
-  };
-
-  addQuantity = () => {
-    let value = this.state.quantity;
-    const maxValue = this.props.product.product.max_quantity_allowed_in_cart;
-    if (value < maxValue) {
-      value += 1;
-    }
-    this.setState({
-      quantity: value
-    });
-  };
 
   addToCart = (e) => {
     e.preventDefault();
     const { product } = this.props.product;
     const variantId = product.has_variants ? this.state.variant_id : product.master.id;
-    const quantity = this.state.quantity;
+    const quantity = this.props.quantity;
     const { cartItems } = this.props;
     const productImages = product.master.images;
     const data = {
@@ -152,9 +131,9 @@ class CartCta extends Component {
               <ProductQuantity
                 key="quantity1"
                 sizingClass="quantitybig"
-                quantity={this.state.quantity}
-                addQuantity={this.addQuantity}
-                subQuantity={this.subQuantity}
+                quantity={this.props.quantity}
+                addQuantity={this.props.addQuantity}
+                subQuantity={this.props.subQuantity}
                 maxQuantity={product.max_quantity_allowed_in_cart}
                 updateQuantity={this.updateQuantity}
               />,

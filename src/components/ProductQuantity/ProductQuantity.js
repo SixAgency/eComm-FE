@@ -16,7 +16,7 @@ class ProductQuantity extends React.Component {
 
   updateQuantity = (e) => {
     let qty = e.target.value <= this.props.maxQuantity ? e.target.value : this.props.maxQuantity;
-    if (qty === '') {
+    if (qty === '' || qty === '0') {
       qty = 1;
     }
     this.props.updateQuantity(qty);
