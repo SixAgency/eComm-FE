@@ -91,7 +91,6 @@ class HomeWrapper extends BasePageComponent {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
-    this.props.resetMessages();
   };
 
   render() {
