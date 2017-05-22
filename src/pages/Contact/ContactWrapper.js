@@ -5,7 +5,11 @@ import BasePageComponent from '../BasePageComponent';
 import Contact from './Contact';
 
 // Actions
-import { setHeaderProps, resetMessages, toggleLoader } from '../../actions/page';
+import {
+  setHeaderProps,
+  resetMessages,
+  toggleLoader
+} from '../../actions/page';
 import sendContact from '../../actions/contact';
 
 const mapStateToProps = ((state) => (
@@ -31,7 +35,8 @@ class ContactWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     sendContact: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
-    messages: PropTypes.array.isRequired
+    messages: PropTypes.array.isRequired,
+    resetMessages: PropTypes.func.isRequired
   };
 
   componentWillMount = () => {
@@ -49,8 +54,8 @@ class ContactWrapper extends BasePageComponent {
   };
 
   componentWillUnmount = () => {
-    console.log('remove');
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   render() {
