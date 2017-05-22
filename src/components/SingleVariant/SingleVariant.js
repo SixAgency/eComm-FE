@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import accounting from 'accounting';
+import renderHTML from 'react-render-html';
 import s from './SingleVariant.css';
 
 class SingleVariant extends Component {
@@ -51,7 +52,7 @@ class SingleVariant extends Component {
     return (
       <div className={s.variants}>
         <h3 className={s.vname}>
-          {this.props.variants[0].option_values[0].option_type_presentation}
+          {renderHTML(this.props.variants[0].option_values[0].option_type_presentation)}
         </h3>
         <select
           className={s.vselect} name="sizes" onChange={this.handleChange}
