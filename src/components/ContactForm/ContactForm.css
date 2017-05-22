@@ -60,7 +60,6 @@
     line-height: 22px;
     border: none;
     cursor: pointer;
-    margin: 0 auto;
     color: #222222;
     border-radius: 0;
   }
@@ -76,8 +75,8 @@
   }
 }
 
-.hide {display: none;}
-.show {display: block;}
+.hide { display: none; }
+.show { display: block; }
 
 @media all and (min-width: 320px) and (max-width: 767px) {
   .cform {
@@ -85,8 +84,8 @@
   }
   .fieldnames,
   .errorContainer {
-    font-size: 13px ;
-    line-height: 21px ;
+    font-size: 13px;
+    line-height: 21px;
   }
   .cform .submitbutton {
     font-size: 15px;

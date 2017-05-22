@@ -6,7 +6,8 @@ import s from './ContactForm.css';
 class ContactForm extends Component {
 
   static propTypes = {
-    sendContact: PropTypes.func.isRequired
+    sendContact: PropTypes.func.isRequired,
+    handleValidationError: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -28,6 +29,7 @@ class ContactForm extends Component {
       if (this.state.hasErrors === true) {
         console.log('Form has errors');
       } else {
+        this.props.handleValidationError(false);
         const data = {
           contact: {
             name: this.state.name,
@@ -55,16 +57,24 @@ class ContactForm extends Component {
         emailError: 'show',
         hasErrors: true
       }, err);
+      this.props.handleValidationError(true, 'borderYellow');
     } else if (this.state.name === '') {
       this.setState({
         nameError: 'show',
         hasErrors: true
       }, err);
+      this.props.handleValidationError(true, 'borderYellow');
     } else if (this.state.email === '') {
       this.setState({
         emailError: 'show',
         hasErrors: true
       }, err);
+      this.props.handleValidationError(true, 'borderYellow');
+    } else if (this.state.subject === '' || this.state.message === '') {
+      this.setState({
+        hasErrors: true
+      });
+      this.props.handleValidationError(true, 'borderRed');
     } else {
       this.setState({
         nameError: 'hide',

@@ -144,6 +144,7 @@ function validateAccountUpdate(data) {
 // Validate Contact Form
 function validateContactForm(data) {
   const messages = [];
+  console.log('VALIDATE CONTACT FORM DATA', data);
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
   if (!isValidEmail.test(data.email)) {
     messages.push('Invalid email field');
