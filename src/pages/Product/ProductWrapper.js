@@ -110,6 +110,7 @@ class ProductWrapper extends Component {
 
   componentWillUnmount = () => {
     this.props.toggleLoader(true);
+    this.props.resetMessages();
   };
 
   setHeaderProps = (props) => {
