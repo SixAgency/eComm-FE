@@ -10,7 +10,10 @@ function setNavigation(slug) {
 
 // Helper function - used to set order state
 function getOrderStatus(state, refunded, shipment) {
-  if (refunded || state === 'canceled') {
+  if (refunded) {
+    return 'Refunded';
+  }
+  if (state === 'canceled') {
     return 'Canceled';
   }
   return ORDER_STATES[shipment] || '';
