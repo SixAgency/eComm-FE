@@ -27,7 +27,7 @@ function checkQuantitiesCart(items) {
     };
     if (!checkQuantities(data, true)) {
       const message =
-        `You may only purchase a maximum ${item.variant.max_quantity_allowed_in_cart} ${item.variant.name} at one time`;
+        `You may only purchase a maximum of ${item.variant.max_quantity_allowed_in_cart} ${item.variant.name} at one time.`;
       if (!messages.find((msg) => (msg === message))) {
         messages.push(message);
       }
