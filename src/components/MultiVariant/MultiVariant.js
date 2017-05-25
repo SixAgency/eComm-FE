@@ -39,7 +39,7 @@ class MultiVariant extends React.Component {
         variantTwo: variant.option_values[1].id
       });
     }
-  }
+  };
 
   getVariant = (idOne, idTwo) => {
     const item = this.props.variants.find((variant) => (
@@ -52,7 +52,7 @@ class MultiVariant extends React.Component {
   getVariantById = (props) => {
     const { variants, selected } = props;
     return variants.find((variant) => variant.id === selected);
-  }
+  };
 
   changeVariantOne = (event) => {
     const idOne = parseInt(event.target.value, 10);
