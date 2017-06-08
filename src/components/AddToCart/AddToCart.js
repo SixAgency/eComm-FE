@@ -77,7 +77,7 @@ class CartCta extends Component {
 
   updateQuantity = (value) => {
     this.setState({ quantity: parseInt(value, 10) });
-  }
+  };
 
   subQuantity = () => {
     let value = this.state.quantity;
@@ -124,9 +124,9 @@ class CartCta extends Component {
       ]
       :
       [
-        `You may only purchase a maximum
+        `You may only purchase a maximum of
          ${product.max_quantity_allowed_in_cart}
-         ${product.name} at one time`
+         ${product.name}s at one time.`
       ];
       this.props.setMessage({
         isError: true,
