@@ -147,7 +147,7 @@ function addToCart(data) {
     dispatch(setCartPending(true));
     window.scrollTo(0, 0);
     dispatch(resetMessages());
-    axios.post('/api/cart', { id: data.id, quantity: data.quantity })
+    axios.post('/api/cart', { id: data.id, quantity: data.quantity, options: data.options })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data.cart));
         const singleMessage = `"${response.data.name}" has been added to your cart.`;

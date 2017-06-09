@@ -155,7 +155,8 @@ function addToCart(request) {
   const item = {
     line_item: {
       variant_id: request.body.id,
-      quantity: request.body.quantity
+      quantity: request.body.quantity,
+      options: request.body.options
     }
   };
   if (typeof request.body.options !== 'undefined') {
