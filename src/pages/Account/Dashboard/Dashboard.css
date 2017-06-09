@@ -4,15 +4,22 @@
   z-index: 1;
   padding-top: 127px;
 }
-.title {
+.title,
+.title_small {
   font-family: Georgia, Times, serif;
-  font-size: 33px;
-  line-height: 38px;
   font-weight: 700;
   color: #222222;
   margin: 0;
   text-transform: uppercase;
   text-align: center;
+}
+.title {
+  font-size: 33px;
+  line-height: 38px;
+}
+.title_small {
+  font-size: 26px;
+  line-height: 30px;
 }
 .intro {
   display: block;
