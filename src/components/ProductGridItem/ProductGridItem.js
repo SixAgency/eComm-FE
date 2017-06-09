@@ -58,9 +58,9 @@ class ProductGridItem extends Component {
       ]
       :
       [
-        `You may only purchase a maximum
+        `You may only purchase a maximum of
          ${this.props.product.max_quantity_allowed_in_cart}
-         ${this.props.product.name} at one time`
+         ${this.props.product.name}s at one time.`
       ];
       this.props.setMessage({
         isError: true,
