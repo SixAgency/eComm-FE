@@ -29,12 +29,12 @@ class SingleVariant extends Component {
         selectedVariant: variant
       });
     }
-  }
+  };
 
   getVariantById = (props) => {
     const { variants, selected } = props;
     return variants.find((variant) => variant.id === selected);
-  }
+  };
 
   handleChange = (event) => {
     const variantId = parseInt(event.target.value, 10);
@@ -49,10 +49,11 @@ class SingleVariant extends Component {
   render() {
     const variants = this.props.variants;
     const selectedVariant = this.state.selectedVariant;
+    const existingLabel = this.props.variants[0].option_values[0].option_type_presentation;
     return (
       <div className={s.variants}>
         <h3 className={s.vname}>
-          {renderHTML(this.props.variants[0].option_values[0].option_type_presentation)}
+          {renderHTML(existingLabel.replace(/\s/, '<br />'))}
         </h3>
         <select
           className={s.vselect} name="sizes" onChange={this.handleChange}
