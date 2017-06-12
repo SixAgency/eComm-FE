@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { Link } from 'react-router';
 import cx from 'classnames';
 import accounting from 'accounting';
 
@@ -66,27 +67,25 @@ class ReviewOrder extends PureComponent {
         }
         <ul>
           <li className={s.paymentmethod}>
-            <span
-              className={cx(s.paytitle, s.active)}
-            >
-              Credit Card
-            </span>
             <span className={s.active}>
               <fieldset className={s.paymentfields}>
-                <p>Pay with your credit card via Square.</p>
+                <Link
+                  className={s.paymentLink}
+                  onClick={this.props.checkoutSquare}
+                >
+                  Pay with your credit card via Square.
+                </Link>
               </fieldset>
             </span>
           </li>
         </ul>
         <div className={cx(s.buttonwrapper, s.buttonwrapper3)}>
-          <p className={s.paymessage}>
-            After clicking on Continue to Payment
-            you will see a pop up from our payment
-            processor. Enter your credit card here
-            and click on the green button.
-          </p>
-          <input className={s.submit} type="button" value="Continue to Payment" onClick={this.props.checkoutSquare} />
-          <input className={cx(s.cancelorder, s.cancelnewline)} onClick={this.props.checkoutReset} type="button" value="Use a different payment method" />
+          <input
+            className={cx(s.cancelorder, s.cancelnewline, s.paymentLink)}
+            onClick={this.props.checkoutReset}
+            type="button"
+            value="Use PayPal Account"
+          />
         </div>
       </div>
     );
