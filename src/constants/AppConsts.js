@@ -30,7 +30,7 @@ const SOCIAL_NAV = [
   {
     name: 'Facebook',
     title: 'Join us on Facebook',
-    url: 'https://www.facebook.com/krissorbieLLC/',
+    url: 'https://www.facebook.com/krissorbieinc',
     icon: 'facebook'
   },
   {
