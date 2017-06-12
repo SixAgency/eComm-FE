@@ -19,7 +19,7 @@ class GiftCardSelector extends Component {
       selectedVariant: 0,
       details: {
         recipient_email: '',
-        purchaser_name: '',
+        recipient_name: '',
         gift_message: ''
       },
       invalidFields: []
@@ -42,7 +42,7 @@ class GiftCardSelector extends Component {
       selectedVariant: 0,
       details: {
         recipient_email: '',
-        purchaser_name: '',
+        recipient_name: '',
         gift_message: ''
       },
       invalidFields: []
@@ -61,15 +61,15 @@ class GiftCardSelector extends Component {
     const {
       details: {
         recipient_email,
-        purchaser_name
+        recipient_name
       }
     } = this.state;
     const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z0-9]{2,5}$/i;
     let isValid = true;
     const invalidFields = [];
-    if (purchaser_name.length === 0) {
+    if (recipient_name.length === 0) {
       isValid = false;
-      invalidFields.push('purchaser_name');
+      invalidFields.push('recipient_name');
     }
     if (recipient_email.length === 0 || !emailRegex.test(recipient_email)) {
       isValid = false;
@@ -101,7 +101,7 @@ class GiftCardSelector extends Component {
       showForm,
       details: {
         recipient_email,
-        purchaser_name,
+        recipient_name,
         gift_message
       },
       isFormValid,
@@ -137,16 +137,16 @@ class GiftCardSelector extends Component {
             {!isFormValid && invalidFields.includes('recipient_email') &&
               <p className={s.validationerror}>Please enter a valid email address</p>
             }
-            <label htmlFor="purchaser_name">Your name*</label>
+            <label htmlFor="recipient_name">Your name*</label>
             <input
               type="text"
-              id="purchaser_name"
-              value={purchaser_name}
+              id="recipient_name"
+              value={recipient_name}
               onChange={(event) => {
-                this.updateDetails('purchaser_name', event);
+                this.updateDetails('recipient_name', event);
               }}
             />
-            {!isFormValid && invalidFields.includes('purchaser_name') &&
+            {!isFormValid && invalidFields.includes('recipient_name') &&
               <p className={s.validationerror}>Please enter your name</p>
             }
             <label htmlFor="gift_message">Message</label>
