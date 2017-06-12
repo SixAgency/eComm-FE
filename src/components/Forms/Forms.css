@@ -575,6 +575,12 @@
   text-decoration: underline;
 }
 
+.paymentLink {
+  cursor: pointer;
+  color: #0000FF;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 /* Account addresses */
 
 .addresses {

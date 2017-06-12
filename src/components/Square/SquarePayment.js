@@ -110,7 +110,7 @@ class SquarePayment extends Component {
             <input
               type="submit"
               id="submit"
-              value="Set Payment"
+              value="Continue"
               className={s.submit}
               onClick={this.handleSubmit}
               disabled={this.state.is_processing}
