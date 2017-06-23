@@ -21,7 +21,8 @@ class Checkout extends React.Component {
     isError: PropTypes.bool.isRequired,
     forwardTo: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    onLogin: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired,
+    coveredByStoreCredit: PropTypes.bool
   };
 
   constructor(props) {
@@ -121,6 +122,9 @@ class Checkout extends React.Component {
           activeTab={content}
           clickTab={this.clickTab}
           setDisabled={this.setDisabled}
+          cartState={this.props.state}
+          isPayPal={this.props.isPayPal}
+          coveredByStoreCredit={this.props.coveredByStoreCredit}
         >
           {children}
         </ContentWrapper>

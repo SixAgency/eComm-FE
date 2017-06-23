@@ -8,7 +8,10 @@ class ContentTabs extends React.Component {
     tabs: PropTypes.array.isRequired,
     activeTab: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    setDisabled: PropTypes.func
+    setDisabled: PropTypes.func,
+    cartState: PropTypes.string,
+    isPayPal: PropTypes.bool,
+    coveredByStoreCredit: PropTypes.bool
   };
 
   /**
@@ -31,6 +34,16 @@ class ContentTabs extends React.Component {
    */
   getActive = (id) => (this.props.activeTab === id ? 'active' : '');
 
+  getTitle = (tab) => {
+    if (tab.id === 'review') {
+      if (this.props.cartState !== 'confirm' && !this.props.isPayPal && !this.props.coveredByStoreCredit) {
+        return 'select payment';
+      }
+      return 'place order';
+    }
+    return tab.name;
+  }
+
   render() {
     const {
       tabs,
@@ -47,7 +60,7 @@ class ContentTabs extends React.Component {
               id={v.id}
               disabled={this.setDisabled(v)}
             >
-              {v.name}
+              {this.getTitle(v)}
             </button>
           </li>
         ))}
