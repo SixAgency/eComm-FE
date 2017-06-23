@@ -44,7 +44,7 @@ app.use(morgan('dev'));
 app.set('trust proxy', 1);
 app.use(session({
   store: new RedisStore({
-    host: 'red001.4swfkm.0001.usw2.cache.amazonaws.com',
+    host: '127.0.0.1',
     port: '6379'
   }),
   secret: 'hAeeahGsdzKdMSjRpseRiX2Iyrix3WFm',
