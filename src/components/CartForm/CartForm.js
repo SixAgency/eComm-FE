@@ -33,39 +33,11 @@ class CartForm extends Component {
     return total;
   };
 
-  parseShippingTaxes = () => {
-    const { cart } = this.props;
-    const ups = [];
-    const flatRate = [];
-    cart.shipments.forEach((a) => {
-      const shippingRate = a.selected_shipping_rate;
-      if (shippingRate !== null && shippingRate.name === 'Flate rate') {
-        flatRate.push(shippingRate.cost);
-      } else if (shippingRate !== null && shippingRate.name === 'Ground (UPS)') {
-        ups.push(shippingRate.cost);
-      }
-    });
-    return { ups, flatRate };
-  };
-
   render() {
     if (!this.props.paypalObj.isLoaded) {
       return null;
     }
     const { cart } = this.props;
-    const taxes = this.parseShippingTaxes();
-    let flatRate = 0;
-    let ups = 0;
-    let showIndexes = false;
-    if (taxes && taxes.flatRate.length !== 0) {
-      flatRate = taxes.flatRate[0];
-    }
-    if (taxes && taxes.ups.length !== 0) {
-      ups = taxes.ups[0];
-    }
-    if (ups !== 0 && flatRate !== 0) {
-      showIndexes = true;
-    }
     return (
       <div className={s.cformwrpr}>
         <div className={s.cformcontents}>
@@ -104,28 +76,19 @@ class CartForm extends Component {
                     </small>
                   </td>
                 </tr>
-                {flatRate !== 0 &&  <tr className={s.shipping}>
-                  <th className="table-heads">
-                    Shipping
-                  </th>
-                  <td className="data">
-                    <p>
-                      Flat Rate
-                      : {accounting.formatMoney(flatRate)}
-                    </p>
-                  </td>
-                </tr>}
-                {ups !== 0 &&  <tr className={s.shipping}>
-                  <th className="table-heads">
-                    Shipping {showIndexes ? '2' : ''}
-                  </th>
-                  <td className="data">
-                    <p>
-                      Ground (UPS)
-                      : {accounting.formatMoney(ups)}
-                    </p>
-                  </td>
-                </tr>}
+                {cart.shipments.map((ship, index) => (
+                  ship.selected_shipping_rate && <tr className={s.shipping} key={index}>
+                    <th className="table-heads">
+                      Shipping {index > 0 && index + 1}
+                    </th>
+                    <td className="data">
+                      <p>
+                        {ship.selected_shipping_rate.name}
+                        : {accounting.formatMoney(ship.selected_shipping_rate.cost)}
+                      </p>
+                    </td>
+                  </tr>
+                ))}
                 <tr className={s.shippingcalculator}>
                   <th className="table-heads" />
                   <td className="data">
