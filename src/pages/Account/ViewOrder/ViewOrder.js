@@ -52,13 +52,10 @@ class ViewOrder extends PureComponent {
         <ContentWrapper tabsClass={'hide'}>
           <div>
             <p className={s.orderInfo}>
-              Order <mark className="order-number">{order.number}</mark> was placed on&nbsp;
-              <mark className="order-date">
-                {moment(order.created_at).format('MMMM DD YYYY')}
-              </mark>
-              &nbsp;and is currently <mark className={s.orderstatus}>
-                {getOrderStatus(order.state, order.has_refunds, order.shipment_state) || 'Processing'}
-              </mark>.
+              Thank you for shopping with us. Your Order&nbsp;
+              <mark className="order-number">{order.number}</mark> was placed on&nbsp;
+              <mark className="order-date">{moment(order.created_at).format('MMMM DD YYYY')}</mark>.
+              <br />We'll send a confirmation when your order ships.
             </p>
             <h2 className={s.title}>Order Details</h2>
             <OrderDetailsTbl order={this.props.order} />
