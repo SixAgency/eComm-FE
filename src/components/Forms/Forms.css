@@ -364,6 +364,21 @@
   -o-transition: all 0.2s linear;
 }
 
+.paymenttop {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 40px;
+  text-align: center;
+  .paymentbuttons {
+    text-align: center;
+    .submit {
+      padding-left: 0;
+      padding-right: 0;
+      width: 190px;
+    }
+  }
+}
+
 .cancelorder {
   cursor: pointer;
   background: transparent;
