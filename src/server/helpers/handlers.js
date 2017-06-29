@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import capitalize from 'lodash.capitalize';
 import moment from 'moment';
-import { mannequinHeadsSlugs } from '../../config';
+import constants from '../../constants';
 import logger from '../logger';
 import { mapAddressFeedToState } from '../../helpers/feed';
 
@@ -519,7 +519,7 @@ function setMannequinHeadsResponse(data) {
     };
   } else {
     const products = data.products
-      .filter((product) => (mannequinHeadsSlugs.includes(product.slug)));
+      .filter((product) => (constants.mannequinHeadsSlugs.includes(product.slug)));
     resp = {
       isError: false,
       isEmpty: products.length < 1,

@@ -1,13 +1,13 @@
 import Promise from 'bluebird';
 import fetch, { Request, Headers, Response } from 'node-fetch';
 import logger from '../logger';
-import { api } from '../../config';
+import config from '../../config';
 
 fetch.Promise = Promise;
 Response.Promise = Promise;
 
 function apiUrl(slug) {
-  return `${api}${slug}`;
+  return `${config[process.env.NODE_ENV].api}${slug}`;
 }
 
 function checkToken(session) {

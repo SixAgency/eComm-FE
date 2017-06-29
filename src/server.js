@@ -13,7 +13,7 @@ import { ErrorPageWithoutStyle } from './pages/Error/ErrorPage';
 import errorPageStyle from './pages/Error/ErrorPage.css';
 import apiRoutes from './routes/api';
 import siteRoutes from './routes/server';
-import { port } from './config';
+import config from './config';
 import logger from './server/logger';
 
 const RedisStore = require('connect-redis')(session);
@@ -44,10 +44,10 @@ app.use(morgan('dev'));
 app.set('trust proxy', 1);
 app.use(session({
   store: new RedisStore({
-    host: 'red001.4swfkm.0001.usw2.cache.amazonaws.com',
-    port: '6379'
+    host: config[process.env.NODE_ENV].redis.host,
+    port: config[process.env.NODE_ENV].redis.port
   }),
-  secret: 'hAeeahGsdzKdMSjRpseRiX2Iyrix3WFm',
+  secret: config[process.env.NODE_ENV].redis.secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -94,7 +94,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 // Launch the server
 // -----------------------------------------------------------------------------
 /* eslint-disable no-console */
-app.listen(port, () => {
-  console.log(`The server is running at http://localhost:${port}/`);
+app.listen(config[process.env.NODE_ENV].port, () => {
+  console.log(`The server is running at http://localhost:${config[process.env.NODE_ENV].port}/`);
 });
 /* eslint-enable no-console */
