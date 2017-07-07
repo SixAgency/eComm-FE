@@ -45,17 +45,6 @@ class PromoCodeInput extends Component {
     });
   };
 
-  containsGiftCard = () => {
-    const giftCard = this.props.cartItems.cart.line_items.find((item) => (
-      item.variant.slug === 'e-gift-certificates'
-    ));
-    console.log('GIFT CARD', giftCard);
-    if (giftCard) {
-      return true;
-    }
-    return false;
-  }
-
   render() {
     return (
       <div className={s.pcodecontainer}>
