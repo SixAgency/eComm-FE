@@ -33,6 +33,16 @@
   overflow: hidden;
 }
 
+.giftcardmsg {
+  float: left;
+  color: #ff0000;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 15px 0;
+}
+
 .form.addresses {
   margin-top: 80px;
 }

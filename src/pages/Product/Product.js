@@ -161,6 +161,12 @@ class Product extends Component {
                   onClick={() => this.props.openTab('description')}
                 >
                   <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
+                  {product.slug === 'e-gift-certificates' &&
+                    <span className={s.giftcardmsg}>
+                      If you have a promo code be sure to purchase your E-gift card separately from
+                      other items as discounts do not apply to E-gift card.
+                    </span>
+                  }
                 </ProductTab>
                 {properties.details &&
                   <ProductTab
