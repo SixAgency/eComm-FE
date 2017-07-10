@@ -136,6 +136,16 @@ function scrollToTop(duration) {
   }
 }
 
+function containsGiftCard(cart) {
+  const giftCard = cart.line_items.find((item) => (
+    item.variant.slug === 'e-gift-certificates'
+  ));
+  if (giftCard) {
+    return true;
+  }
+  return false;
+}
+
 export {
   checkIfPayPal,
   setNavigation,
@@ -147,6 +157,7 @@ export {
   useStoreCredits,
   checkIfCanUseStoreCredit,
   checkPayment,
-  scrollToTop
+  scrollToTop,
+  containsGiftCard
 };
 

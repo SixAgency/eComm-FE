@@ -3,6 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './../Forms.css';
 
+import { containsGiftCard } from '../../../utils/utils';
+
 class PromoCode extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -56,6 +58,12 @@ class PromoCode extends React.Component {
               onChange={this.handlePromoCode}
               placeholder="Promotional Code"
             />
+            {containsGiftCard(this.props.cartItems.cart) &&
+              <span className={s.giftcardmsg}>
+                If you have a promo code be sure to purchase your E-gift card separately from other
+                items as discounts do not apply to E-gift card.
+              </span>
+            }
           </div>
           <div className={s.buttonwrapper}>
             <input
