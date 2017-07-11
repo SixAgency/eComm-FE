@@ -87,6 +87,9 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     </Html>,
   );
   res.status(err.status || 500);
+  if (process.env.NODE_ENV === 'production') {
+    res.redirect('/error');
+  }
   res.send(`<!doctype html>${html}`);
 });
 
