@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { analytics } from '../config';
 
 class Html extends Component {
   static propTypes = {
@@ -43,16 +42,6 @@ class Html extends Component {
           <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
           <script type="text/javascript" src="https://js.squareup.com/v2/paymentform" />
           {scripts && scripts.map(script => <script key={script} src={script} />)}
-          {analytics.google.trackingId &&
-            <script
-              dangerouslySetInnerHTML={{ __html:
-              'window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;' +
-              `ga('create','${analytics.google.trackingId}','auto');ga('send','pageview')` }}
-            />
-          }
-          {analytics.google.trackingId &&
-            <script src="https://www.google-analytics.com/analytics.js" async defer />
-          }
         </body>
       </html>
     );
