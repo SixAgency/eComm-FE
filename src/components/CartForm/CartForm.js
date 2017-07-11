@@ -77,7 +77,8 @@ class CartForm extends Component {
                   </td>
                 </tr>
                 {cart.shipments.map((ship, index) => (
-                  ship.selected_shipping_rate && <tr className={s.shipping} key={index}>
+                  ship.selected_shipping_rate &&
+                  ship.selected_shipping_rate.name !== 'Gift Card' && <tr className={s.shipping} key={index}>
                     <th className="table-heads">
                       Shipping {index > 0 && index + 1}
                     </th>
