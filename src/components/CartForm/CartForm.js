@@ -38,7 +38,6 @@ class CartForm extends Component {
       return null;
     }
     const { cart } = this.props;
-    console.log('SHIPMENTS', cart.shipments);
     return (
       <div className={s.cformwrpr}>
         <div className={s.cformcontents}>
