@@ -12,6 +12,8 @@ import {
 
 import { updateSession } from './session';
 
+import logger from './logger';
+
 const ORDER = '/api/v1/orders';
 const ORDERS = '/api/v1/orders/mine?q[state_cont_any][]=complete&q[state_cont_any][]=canceled';
 
@@ -102,6 +104,7 @@ function createCart(request) {
 
 function checkCartExistence(data, request) {
   if (data.isError) {
+    logger.debug('SESSION ERROR', data);
     return data;
   }
   if (Object.getOwnPropertyNames(data).length === 0) {

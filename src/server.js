@@ -73,24 +73,26 @@ pe.skipPackage('express');
 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   console.log(pe.render(err)); // eslint-disable-line no-console
-  const headerProps = {
-    headerClass: 'colored',
-    activeSlug: '/'
-  };
-  const html = ReactDOM.renderToStaticMarkup(
-    <Html
-      title="Internal Server Error"
-      description={err.message}
-      style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
-    >
-      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} headerProps={headerProps} />)}
-    </Html>,
-  );
   res.status(err.status || 500);
   if (process.env.NODE_ENV === 'production') {
     res.redirect('/error');
+  } else {
+    const headerProps = {
+      headerClass: 'colored',
+      activeSlug: '/'
+    };
+    const html = ReactDOM.renderToStaticMarkup(
+      <Html
+        title="Internal Server Error"
+        description={err.message}
+        style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
+      >
+      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} headerProps={headerProps} />)}
+      </Html>,
+    );
+
+    res.send(`<!doctype html>${html}`);
   }
-  res.send(`<!doctype html>${html}`);
 });
 
 //
