@@ -22,7 +22,6 @@ class SingleVariant extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    console.log('HHHHHH', nextProps);
     const variant = this.getVariantById(nextProps);
     if (variant) {
       this.setState({
