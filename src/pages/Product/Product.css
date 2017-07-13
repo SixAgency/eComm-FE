@@ -123,6 +123,15 @@
             margin: 0;
             margin-bottom: 15px;
           }
+          .giftcardmsg {
+            float: left;
+            color: #ff0000;
+            font-family: Georgia, serif;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 20px;
+            margin-bottom: 15px;
+          }
           .summaryparagraph > a, .summaryparagraph b > a {
             color: rgb(41, 203, 200);
             text-decoration: none;

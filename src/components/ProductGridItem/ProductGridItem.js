@@ -58,9 +58,9 @@ class ProductGridItem extends Component {
       ]
       :
       [
-        `You may only purchase a maximum
+        `You may only purchase a maximum of
          ${this.props.product.max_quantity_allowed_in_cart}
-         ${this.props.product.name} at one time`
+         ${this.props.product.name}s at one time.`
       ];
       this.props.setMessage({
         isError: true,
@@ -117,7 +117,12 @@ class ProductGridItem extends Component {
           to={`/product/${product.slug}`}
           onClick={() => { this.handleViewProduct(product); }}
         >
-          <img className={s.pimage} src={image} alt={product.name} />
+          <img
+            className={s.pimage}
+            ref={c => (this.node = c)}
+            src={image} alt={product.name}
+            onError={() => (this.node.src = imagePlaceholder)}
+          />
           {product.is_sale &&
             <div className={s.salebadge}>SALE!</div>
           }

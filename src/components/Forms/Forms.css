@@ -33,6 +33,16 @@
   overflow: hidden;
 }
 
+.giftcardmsg {
+  float: left;
+  color: #ff0000;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 15px 0;
+}
+
 .form.addresses {
   margin-top: 80px;
 }
@@ -364,6 +374,21 @@
   -o-transition: all 0.2s linear;
 }
 
+.paymenttop {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 40px;
+  text-align: center;
+  .paymentbuttons {
+    text-align: center;
+    .submit {
+      padding-left: 0;
+      padding-right: 0;
+      width: 190px;
+    }
+  }
+}
+
 .cancelorder {
   cursor: pointer;
   background: transparent;
@@ -573,6 +598,12 @@
 .passwordlink {
   color: #000000;
   text-decoration: underline;
+}
+
+.paymentLink {
+  cursor: pointer;
+  color: #0000FF;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* Account addresses */

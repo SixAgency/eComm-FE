@@ -10,7 +10,10 @@ function setNavigation(slug) {
 
 // Helper function - used to set order state
 function getOrderStatus(state, refunded, shipment) {
-  if (refunded || state === 'canceled') {
+  if (refunded) {
+    return 'Refunded';
+  }
+  if (state === 'canceled') {
     return 'Canceled';
   }
   return ORDER_STATES[shipment] || '';
@@ -133,6 +136,16 @@ function scrollToTop(duration) {
   }
 }
 
+function containsGiftCard(cart) {
+  const giftCard = cart.line_items.find((item) => (
+    item.variant.slug === 'e-gift-certificates'
+  ));
+  if (giftCard) {
+    return true;
+  }
+  return false;
+}
+
 export {
   checkIfPayPal,
   setNavigation,
@@ -144,6 +157,7 @@ export {
   useStoreCredits,
   checkIfCanUseStoreCredit,
   checkPayment,
-  scrollToTop
+  scrollToTop,
+  containsGiftCard
 };
 

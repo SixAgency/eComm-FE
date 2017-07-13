@@ -3,6 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from '../Forms/Forms.css';
 
+import config from '../../client_config';
+
 const { SqPaymentForm } = global;
 
 class SquarePayment extends Component {
@@ -23,7 +25,7 @@ class SquarePayment extends Component {
 
   componentDidMount = () => {
     this.paymentForm = new SqPaymentForm({
-      applicationId: 'sandbox-sq0idp-zZJC4qFxIk0LYgwAKygtWQ',
+      applicationId: config[process.env.NODE_ENV].square.applicationId,
       inputClass: 'sq-input',
       inputStyles: [
         {
@@ -110,7 +112,7 @@ class SquarePayment extends Component {
             <input
               type="submit"
               id="submit"
-              value="Set Payment"
+              value="Continue"
               className={s.submit}
               onClick={this.handleSubmit}
               disabled={this.state.is_processing}

@@ -3,6 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './PromoCodeInput.css';
 
+import { containsGiftCard } from '../../utils/utils';
+
 class PromoCodeInput extends Component {
   static propTypes = {
     updateCart: PropTypes.func.isRequired,
@@ -70,6 +72,12 @@ class PromoCodeInput extends Component {
             onClick={this.props.updateCart}
           />
         </div>
+        {containsGiftCard(this.props.cartItems.cart) &&
+          <span className={s.giftcardmsg}>
+            If you have a promo code be sure to purchase your E-gift card separately from other
+            items as discounts do not apply to E-gift card.
+          </span>
+        }
       </div>
     );
   }

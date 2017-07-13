@@ -61,12 +61,12 @@ class Dashboard extends React.Component {
     const { creditInfo } = this.props;
     if (!creditInfo.isLoaded || creditInfo.totalAmount === 0) {
       return (
-        <h2 className={s.storecreditamount}>{"You don't have any store credit"}</h2>
+        <h2 className={s.storecreditamount}>{"You don't have any gift cards available"}</h2>
       );
     }
     return (
       <h2 className={s.storecreditamount}>
-        Your total store credit amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
+        Your total gift card amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
       </h2>
     );
   };
@@ -95,11 +95,11 @@ class Dashboard extends React.Component {
             </p>
             {this.renderOrders()}
             <Addresses shippAddress={addresses.shipping} billAddress={addresses.billing} />
-            <h1 className={s.title}>MY STORE CREDIT</h1>
+            <h1 className={s.title_small}>MY GIFT CARD BALANCE</h1>
             {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>
               <h2 className={s.giftcardform_title}>
-                Do you have a gift card? Redeem it here for store credit.
+                Do you have a gift card? Redeem it here:
               </h2>
               <input
                 type="text"

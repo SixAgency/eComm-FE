@@ -14,22 +14,26 @@ class ErrorDisplay extends React.Component {
 
   componentWillMount = () => {
     showContinueShopping = this.showContinueShoppingFunc(this.props);
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
     showContinueShopping = this.showContinueShoppingFunc(nextProps);
-  }
+  };
 
   // helper - show continue shopping button
   showContinueShoppingFunc = (props) => {
     if (typeof props.messages !== 'undefined') {
       const messages = props.messages[0] ? props.messages[0] : '';
-      if (!props.isError && messages.indexOf('been added to your cart.') > -1) {
+      if (!props.isError &&
+        (
+          (messages.indexOf('been added to your cart.') > -1) ||
+          (messages.indexOf('removed') > -1))
+        ) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   render() {
     const { isError, messages } = this.props;

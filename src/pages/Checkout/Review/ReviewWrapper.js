@@ -141,6 +141,10 @@ class ReviewWrapper extends BasePageComponent {
 
   render() {
     if (this.props.isFetched && !this.props.cartItems.isEmpty) {
+      const coveredByStoreCredit = (
+        this.props.isStoreCredit &&
+        this.props.cartItems.cart.covered_by_store_credit
+      );
       return (
         <Checkout
           state={this.props.cartItems.cart.state}
@@ -154,6 +158,7 @@ class ReviewWrapper extends BasePageComponent {
           onLogout={this.props.onLogout}
           onLogin={this.onLogin}
           applyPromoCode={this.props.applyPromoCode}
+          coveredByStoreCredit={coveredByStoreCredit}
         >
           <Review
             cartItems={this.props.cartItems}

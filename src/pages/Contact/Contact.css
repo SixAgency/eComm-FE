@@ -15,6 +15,19 @@
       height: 100%;
       padding: 6% 5% 5% 5%;
       margin: 0 auto;
+      .validationError {
+        font-family: Georgia, serif;
+        box-sizing: border-box;
+        border: 2px solid red;
+        margin: 0 auto;
+        width: 535px;
+        margin-top: 38px;
+        padding: 3px 16px;
+      }
+      .show { display: block; }
+      .hide { display: none; }
+      .borderRed { border: 2px solid rgb(255, 0, 0); }
+      .borderYellow { border: 2px solid rgb(247, 231, 0); }
     }
   }
 }

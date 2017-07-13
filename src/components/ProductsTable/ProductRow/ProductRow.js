@@ -32,7 +32,7 @@ class ProductRow extends React.Component {
       return -discount.amount;
     }
     return 0;
-  }
+  };
 
   getPriceWithoutTax = () => {
     const item = this.props.item;
@@ -41,7 +41,7 @@ class ProductRow extends React.Component {
       return item.total - tax.amount;
     }
     return item.total;
-  }
+  };
 
   addQuantity = () => {
     if (this.props.item.quantity < this.props.item.variant.max_quantity_allowed_in_cart) {
@@ -68,7 +68,7 @@ class ProductRow extends React.Component {
       item.id === this.props.item.id ? { ...item, quantity: qty } : item
     ));
     this.props.updateQuantity(updatedCartItems);
-  }
+  };
 
   removeItem = () => {
     this.props.removeItem({ id: this.props.item.id, name: this.props.item.variant.name });

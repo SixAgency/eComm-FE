@@ -67,9 +67,16 @@ function validateMandatoryFieldsAddress(data) {
   const messages = [];
   if (!data.firstname) {
     messages.push('First Name is a required field.');
+  } else if (data.firstname.length >= 240) {
+    messages.push('Please enter a valid first name.');
   }
   if (!data.lastname) {
     messages.push('Last Name is a required field.');
+  } else if (data.lastname.length >= 240) {
+    messages.push('Please enter a valid last name.');
+  }
+  if (data.company.length >= 250) {
+    messages.push('Please enter a valid company name.')
   }
   if (!data.phone) {
     messages.push('Phone is a required field.');
@@ -78,16 +85,20 @@ function validateMandatoryFieldsAddress(data) {
   }
   if (!data.address1) {
     messages.push('Address is a required field.');
+  } else if (data.address1.length >= 240) {
+    messages.push('Please enter a valid address.');
   }
   if (!data.city) {
     messages.push('City is a required field.');
+  } else if (data.city.length >= 240) {
+    messages.push('Please provide a valid city.');
   }
   if (data.state === 0) {
     messages.push('State is a required field.');
   }
   if (!data.zip) {
     messages.push('ZIP is a required field.');
-  } else if (data.zip.length < 5) {
+  } else if (data.zip.length < 5 || data.zip.length >= 240) {
     messages.push('Please enter a valid postcode/ZIP.');
   } else if (isNaN(Number(data.zip))) {
     messages.push('Please enter a valid postcode/ZIP.');
@@ -144,6 +155,7 @@ function validateAccountUpdate(data) {
 // Validate Contact Form
 function validateContactForm(data) {
   const messages = [];
+  console.log('VALIDATE CONTACT FORM DATA', data);
   const isValidEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,5}$/;
   if (!isValidEmail.test(data.email)) {
     messages.push('Invalid email field');

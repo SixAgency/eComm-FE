@@ -1,20 +1,29 @@
 /* eslint-disable max-len */
-
-export const port = process.env.PORT || 3000;
-export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
-
-// export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
-
-export const analytics = {
-
-  // https://analytics.google.com/
-  google: {
-    trackingId: process.env.GOOGLE_TRACKING_ID // UA-XXXXX-X
+/**
+ *
+ * DON'T IMPORT THIS CONFIG ON CLIENT SIDE.
+ * THIS SHOULD BE USED ONLY ON SERVER SIDE.
+ *
+ */
+const config = {
+  development: {
+    port: 3000,
+    api: 'https://api.krissorbie.com',
+    redis: {
+      host: 'localhost',
+      port: 6379,
+      secret: 'secret key'
+    }
+  },
+  production: {
+    port: 3000,
+    api: 'https://api.krissorbie.com',
+    redis: {
+      host: 'red001.4swfkm.0001.usw2.cache.amazonaws.com',
+      port: 6379,
+      secret: 'hAeeahGsdzKdMSjRpseRiX2Iyrix3WFm'
+    }
   }
-
 };
 
-export const api = process.env.API_URL || 'https://api.krissorbie.com';
-// export const api = process.env.API_URL || 'http://localhost:8888';
-
-export const mannequinHeadsSlugs = ['ks-long-head', 'ks-color-head', 'ks-schoolboy-and-ks-schoolgirl-mannequin-heads'];
+export default config;
