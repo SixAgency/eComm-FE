@@ -12,6 +12,8 @@ import {
   calculateBalance
 } from '../../utils/utils';
 
+import getShipmentsWithoutGiftcard from '../../helpers/shipping';
+
 class ReviewOrderTbl extends PureComponent {
   static propTypes = {
     cart: PropTypes.object.isRequired,
@@ -137,7 +139,7 @@ class ReviewOrderTbl extends PureComponent {
               </tr>
               )
             )}
-            {shipments.map((ship, index) => (
+            {getShipmentsWithoutGiftcard(shipments).map((ship, index) => (
               <tr key={index}>
                 <td className={cx(s.td, s.tdbig, s.pshipping)}>
                   Shipping {index > 0 ? index + 1 : ''}
