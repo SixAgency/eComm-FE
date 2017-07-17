@@ -163,8 +163,8 @@ class Product extends Component {
                   <div className={s.summaryparagraph}>{renderHTML(product.description)}</div>
                   {product.slug === 'e-gift-certificates' &&
                     <span className={s.giftcardmsg}>
-                      If you have a promo code be sure to purchase your E-gift card separately from
-                      other items as discounts do not apply to E-gift card.
+                      If you have a promo code be sure to purchase your E-gift cards separately from other
+                      items as discounts will not apply when E-gift cards are in the cart.
                     </span>
                   }
                 </ProductTab>
