@@ -57,9 +57,20 @@ function extractErrors(data) {
 
 // Middleware function to check status codes
 function checkResponse(json, status) {
+  if (status === 404) {
+    return {
+      status: 404,
+      isError: true,
+      messages: ['The resource you are looking for could not be found.']
+    };
+  }
   // Server Error
   if (status > 499) {
-    return Promise.reject(new Error('Server Error'));
+    return {
+      status: 500,
+      isError: true,
+      messages: ['Something went wrong. Please try again later.']
+    };
   }
   // Client Error
   if (status < 500 && status > 399) {

@@ -41,6 +41,10 @@ function checkResponse(data, success, error) {
     if (data.status === 401) {
       forwardTo('my-account');
     }
+    // Not found
+    if (data.status === 404) {
+      forwardTo('404');
+    }
     // Other error - display on the page
     error();
   } else {
