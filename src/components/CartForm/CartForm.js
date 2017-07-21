@@ -8,7 +8,7 @@ import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
 import PayPalButton from '../PayPalButton';
 
-import getShipmentsWithoutGiftcard from '../../helpers/shipping';
+import filterShipments from '../../helpers/shipping';
 
 class CartForm extends Component {
   static propTypes = {
@@ -78,12 +78,11 @@ class CartForm extends Component {
                     </small>
                   </td>
                 </tr>
-                {getShipmentsWithoutGiftcard(cart.shipments).map((ship, index) => (
+                {filterShipments(cart.shipments).map((ship, index) => (
                   ship.selected_shipping_rate &&
-                  ship.selected_shipping_rate.name !== 'Gift Card' &&
                   <tr className={s.shipping} key={index}>
                     <th className="table-heads">
-                      Shipping {index > 0 && index + 1}
+                      Shipping {index > 0 && index}
                     </th>
                     <td className="data">
                       <p>
