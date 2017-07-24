@@ -643,6 +643,8 @@
   background-color: #ffffff;
   border-radius: 5px;
   padding: 20px;
+
+  ul li { list-style: none; }
 }
 
 .hidden {

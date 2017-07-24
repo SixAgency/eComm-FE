@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import accounting from 'accounting';
 import cx from 'classnames';
+import filterShipments from '../../helpers/shipping';
 
 import s from './Tables.css';
 
@@ -76,12 +77,12 @@ class OrderDetailsTbl extends PureComponent {
             {shipments.length &&
               <tr className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
-                  Shipping:
+                  {filterShipments(shipments).length !== 0 && 'Shipping:'}
                 </td>
                 <td className={s.orderdetails}>
                   <table cellSpacing={0} cellPadding={0}>
                     <tbody>
-                      {shipments.map((shipment, key) => (
+                      {filterShipments(shipments).map((shipment, key) => (
                         <tr key={key}>
                           <td>
                             {shipment.selected_shipping_rate &&
