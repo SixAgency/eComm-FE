@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
     }
     return (
       <h2 className={s.storecreditamount}>
-        Your total gift card amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
+        Your total E-Gift card amount: <em>{ accounting.formatMoney(creditInfo.totalAmount) }</em>
       </h2>
     );
   };
@@ -99,7 +99,7 @@ class Dashboard extends React.Component {
             {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>
               <h2 className={s.giftcardform_title}>
-                Do you have a gift card? Redeem it here:
+                Do you have a E-Gift card? Redeem it here:
               </h2>
               <input
                 type="text"
