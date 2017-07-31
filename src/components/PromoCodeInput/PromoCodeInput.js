@@ -34,6 +34,7 @@ class PromoCodeInput extends Component {
       window.scrollTo(0, 0);
     } else {
       this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
+      this.props.updateCart();
     }
   };
 
