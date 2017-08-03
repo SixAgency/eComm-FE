@@ -83,7 +83,6 @@ class ProductRow extends React.Component {
     const image = product.variant.images.length ? product.variant.images[0].small_url : null;
     this.props.toggleLoader(true, image);
     setTimeout(() => {
-      console.log('REDIRECT');
       browserHistory.push(`/product/${product.variant.slug}`);
     }, 250);
   };

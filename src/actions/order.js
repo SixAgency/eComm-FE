@@ -242,7 +242,6 @@ function updateCart(data) {
     dispatch(resetMessages());
     axios.put('/api/cart', { data })
       .then((response) => checkResponse(response.data, () => {
-        console.log('RESPONSE', response.data);
         const message = 'Cart updated.';
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data));
