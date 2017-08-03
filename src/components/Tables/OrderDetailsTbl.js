@@ -6,7 +6,6 @@ import cx from 'classnames';
 import filterShipments from '../../helpers/shipping';
 
 import s from './Tables.css';
-import filterShipments from '../../helpers/shipping';
 
 class OrderDetailsTbl extends PureComponent {
   static propTypes = {
