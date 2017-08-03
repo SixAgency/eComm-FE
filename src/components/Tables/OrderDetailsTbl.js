@@ -5,6 +5,7 @@ import accounting from 'accounting';
 import cx from 'classnames';
 
 import s from './Tables.css';
+import filterShipments from '../../helpers/shipping';
 
 class OrderDetailsTbl extends PureComponent {
   static propTypes = {
@@ -81,7 +82,7 @@ class OrderDetailsTbl extends PureComponent {
                 <td className={s.orderdetails}>
                   <table cellSpacing={0} cellPadding={0}>
                     <tbody>
-                      {shipments.map((shipment, key) => (
+                      {filterShipments(shipments).map((shipment, key) => (
                         <tr key={key}>
                           <td>
                             {shipment.selected_shipping_rate &&
