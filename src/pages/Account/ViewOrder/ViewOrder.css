@@ -35,7 +35,10 @@
       line-height: 18px;
       margin-top: 25px;
       height: auto;
-      .block { display: block; }
+      .block {
+        display: block;
+        word-break: break-word;
+      }
     }
   }
   ::selection {

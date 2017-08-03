@@ -1,12 +1,12 @@
 function filterShipments(shipments) {
   const newShipments = [];
   shipments.forEach((ship) => {
-    if (ship.selected_shipping_rate.name !== 'E-Gift Card' &&
-        ship.selected_shipping_rate.name !== 'Free Shipping') {
+    if (ship.selected_shipping_rate.name !== 'Gift Card' &&
+        ship.selected_shipping_rate.name !== 'Free Shipping' &&
+        ship.selected_shipping_rate.name !== 'Appointment Required') {
       newShipments.push(ship);
     }
   });
-  console.log('SHIPMENTS', newShipments);
   return newShipments;
 }
 
