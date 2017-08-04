@@ -95,7 +95,7 @@ class Dashboard extends React.Component {
             </p>
             {this.renderOrders()}
             <Addresses shippAddress={addresses.shipping} billAddress={addresses.billing} />
-            <h1 className={s.title_small}>MY GIFT CARD BALANCE</h1>
+            <h1 className={s.title_small}>MY E-GIFT CARD BALANCE</h1>
             {this.renderStoreCreditAmount()}
             <div className={s.giftcardform}>
               <h2 className={s.giftcardform_title}>
