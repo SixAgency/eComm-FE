@@ -82,6 +82,7 @@ class Cart extends Component {
                   getCart={this.props.getCart}
                   cartItems={this.props.cartItems}
                   setMessage={this.props.setMessage}
+                  isError={this.props.isError}
                 />
                 <CartForm
                   cart={cart}
