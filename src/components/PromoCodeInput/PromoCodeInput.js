@@ -11,7 +11,8 @@ class PromoCodeInput extends Component {
     applyPromoCode: PropTypes.func.isRequired,
     getCart: PropTypes.func.isRequired,
     cartItems: PropTypes.object.isRequired,
-    setMessage: PropTypes.func.isRequired
+    setMessage: PropTypes.func.isRequired,
+    isError: PropTypes.bool
   };
 
   constructor(props) {
@@ -33,8 +34,13 @@ class PromoCodeInput extends Component {
       });
       window.scrollTo(0, 0);
     } else {
-      this.props.applyPromoCode(this.state.coupon_code, this.props.getCart);
-      this.props.updateCart();
+      this.props.applyPromoCode(this.state.coupon_code, () => {
+        this.props.getCart(false, () => {
+          if (!this.props.isError) {
+            this.props.updateCart();
+          }
+        });
+      });
     }
   };
 
