@@ -459,6 +459,15 @@ const BREADCRUMBS = {
       label: 'Lost Password'
     }
   ],
+  giftCard: [
+    {
+      label: 'Shop',
+      url: '/'
+    },
+    {
+      label: 'Gift Card'
+    }
+  ],
   addresses: [
     {
       label: 'Shop',

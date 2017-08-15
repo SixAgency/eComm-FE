@@ -6,6 +6,7 @@ import PasswordWrapper from '../../pages/Account/Profile/Password';
 import ShippingWrapper from '../../pages/Account/Shipping';
 import BillingWrapper from '../../pages/Account/Billing';
 import ViewOrderWrapper from '../../pages/Account/ViewOrder';
+import GiftCardWrapper from '../../pages/Account/GiftCard';
 
 import { DEFAULT_VALUES } from '../../constants/StateConsts';
 import { BREADCRUMBS } from '../../constants/AppConsts';
@@ -213,11 +214,40 @@ function viewOrder(req, resp, next) {
     .catch((err) => error(req, resp, next, err));
 }
 
+/**
+ * Redeem Gift Card handler
+ * @param req
+ * @param resp
+ * @param next
+ */
+function giftCard(req, resp, next) {
+  Promise.all([
+    checkLogin(req),
+    getProfile(req)
+  ])
+    .then(([user]) => {
+      const params = {
+        title: 'My Account',
+        description: '',
+        header: 'colored',
+        active: '/my-account',
+        content: <GiftCardWrapper
+          profile={user}
+          loggedIn={user.user.loggedIn}
+          breadcrumbs={BREADCRUMBS.giftCard}
+        />
+      };
+      return render(req, resp, next, params);
+    })
+    .catch((err) => error(req, resp, next, err));
+}
+
 export {
   checkUser,
   dashboard,
   editAccount,
   editPassword,
+  giftCard,
   editShipping,
   editBilling,
   viewOrder

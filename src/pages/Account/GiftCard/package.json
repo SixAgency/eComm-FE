@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "name": "GiftCardWrapper",
+  "main": "./GiftCardWrapperServer.js",
+  "browser": "./GiftCardWrapper.js"
+}

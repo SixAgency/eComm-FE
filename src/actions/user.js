@@ -1,7 +1,7 @@
 import axios from 'axios';
 import pick from 'lodash.pick';
 import { checkResponse, forwardTo } from './handler';
-import { setMessage, resetMessages, setPending } from './page';
+import { setMessage, resetMessages, setPending, toggleLoader } from './page';
 import { getCart, resetCart, resetOrders } from './order';
 import { validateAuth, validatePasswordEmail, testPasswordStrength, validateAccountUpdate } from '../helpers/validators';
 import { ACTION_TYPES, DEFAULT_VALUES } from '../constants/StateConsts';
@@ -200,7 +200,7 @@ function onLogin(data, checkout) {
  * @param data
  * @returns {function(*=)}
  */
-function onRegister(data) {
+function onRegister(data, redirect = false) {
   return (dispatch) => {
     const valid = validateAuth(data);
     if (valid.isError) {
@@ -232,7 +232,9 @@ function onRegister(data) {
             }
           });
           // Redirect to dashboard
-          forwardTo('my-account/dashboard');
+          if (!redirect) {
+            forwardTo('my-account/dashboard');
+          }
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
           dispatch({
@@ -401,6 +403,7 @@ function redeemGiftCard(code) {
         window.scrollTo(0, 0);
         dispatch(getStoreCredit());
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
+        dispatch(toggleLoader(false));
       }, () => {
         window.scrollTo(0, 0);
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
