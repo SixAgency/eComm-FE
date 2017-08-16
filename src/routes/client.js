@@ -23,6 +23,7 @@ import ShippingWrapper from '../pages/Account/Shipping';
 import LostPasswordWrapper from '../pages/Account/LostPassword';
 import ResetPasswordWrapper from '../pages/Account/ResetPassword';
 import ViewOrderWrapper from '../pages/Account/ViewOrder';
+import GiftCardWrapper from '../pages/Account/GiftCard';
 // Checkout
 import BillingCheckout from '../pages/Checkout/Billing';
 import ShippingCheckout from '../pages/Checkout/Shipping';
@@ -49,6 +50,7 @@ const routes = (
       <Route path="lost-password" component={LostPasswordWrapper} title="My Account" breadcrumbs={BREADCRUMBS.lostPassword} />
       <Route path="lost-password/:param" component={ResetPasswordWrapper} title="My Account" />
       <Route path="view-order/:number" component={ViewOrderWrapper} title="My Account" breadcrumbs={BREADCRUMBS.viewOrder} />
+      <Route path="giftcard" component={GiftCardWrapper} title="My Account" breadcrumbs={BREADCRUMBS.giftCard} />
     </Route>
     <Route path="product/:slug" component={ProductWrapper} title="Category" />
     <Route path="product-category/:slug" component={CategoryWrapper} />

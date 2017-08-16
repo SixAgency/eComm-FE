@@ -43,6 +43,62 @@
   margin: 15px 0;
 }
 
+.giftcardform {
+  margin-top: 80px;
+  margin-bottom: 120px;
+}
+
+.giftcardform_input {
+  font-family: Georgia, Times, serif;
+  background: #ffffff;
+  border: 1px solid #cfcfcf;
+  font-size: 12px;
+  height: 42px;
+  line-height: 42px;
+  font-weight: 500;
+  padding: 0 12px;
+  color: #2D2D2D;
+  display: inline-block;
+  max-width: 380px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.giftcardform_submit {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 42px;
+  font-weight: 800;
+  color: #000;
+  height: 42px;
+  padding: 0 60px;
+  text-transform: uppercase;
+  margin: 0 3px;
+  border: none;
+  outline: none;
+  display: inline;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  -ms-appearance: button;
+  appearance: button;
+  box-sizing: border-box;
+  background-color: #29cbc8;
+  width: auto;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+}
+
 .form.addresses {
   margin-top: 80px;
 }
@@ -153,6 +209,11 @@
 
 .buttonwrapper3 {
   float: none;
+}
+
+.buttonwrapper4 {
+  text-align: center;
+  margin: 30px 0 75px;
 }
 
 .label {

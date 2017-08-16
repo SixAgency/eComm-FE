@@ -11,7 +11,8 @@ import {
   editPassword,
   editShipping,
   editBilling,
-  viewOrder
+  viewOrder,
+  giftCard
 } from '../server/controllers/account';
 import { error, notFound } from '../server/common/render';
 
@@ -48,6 +49,8 @@ siteRoutes.get('/my-account/address/shipping', checkUser, editShipping);
 siteRoutes.get('/my-account/address/billing', checkUser, editBilling);
 // My Account - View Order
 siteRoutes.get('/my-account/view-order/:number', viewOrder);
+// My Account - Redeem Gift Card
+siteRoutes.get('/my-account/giftcard', giftCard);
 // Checkout - Billing
 siteRoutes.get('/checkout/billing', checkoutBilling);
 // Checkout - Shipping

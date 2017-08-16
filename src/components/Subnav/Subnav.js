@@ -27,6 +27,10 @@ class Subnav extends React.Component {
           action: () => this.props.forwardTo('my-account/edit-account')
         },
         {
+          title: 'Gift Card',
+          action: () => this.props.forwardTo('my-account/giftcard')
+        },
+        {
           title: 'Logout',
           action: this.props.onLogout
         }
