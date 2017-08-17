@@ -4,12 +4,14 @@ import GiftCard from './GiftCard';
 class GiftCardWrapper extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
+    creditInfo: PropTypes.object.isRequired,
     breadcrumbs: PropTypes.array
   };
 
   render() {
     const {
       loggedIn,
+      creditInfo,
       breadcrumbs
     } = this.props;
     const isError = true;
@@ -25,7 +27,10 @@ class GiftCardWrapper extends React.Component {
         messages={messages}
         isError={isError}
         forwardTo={() => (true)}
+        getStoreCredit={() => (true)}
         redeemGiftCard={() => (true)}
+        setPending={() => (true)}
+        creditInfo={creditInfo}
         breadcrumbs={breadcrumbs}
       />
     );

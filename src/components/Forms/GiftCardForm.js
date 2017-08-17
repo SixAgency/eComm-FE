@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
+import accounting from 'accounting';
+
 import s from './Forms.css';
 
 import LoginForm from './LoginForm';
@@ -15,6 +17,7 @@ class GiftCardForm extends React.Component {
 
   static propTypes = {
     loggedIn: PropTypes.bool,
+    creditInfo: PropTypes.object.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
     onRedeemGiftCard: PropTypes.func.isRequired
@@ -42,7 +45,7 @@ class GiftCardForm extends React.Component {
 
   render() {
     const subtitle = this.props.loggedIn ?
-      'Do you have an E-Gift card? Redeem it here:'
+      'Enter your E-Gift card number here:'
       : 'New user or existing user?';
     const { activeForm } = this.state;
     const FormComponent = activeFormComponent[activeForm];
@@ -65,6 +68,13 @@ class GiftCardForm extends React.Component {
             >
               Redeem
             </button>
+            <div className={s.giftcardform_balance}>
+              MY E-GIFT CARD BALANCE
+            </div>
+            <div className={s.giftcardform_amount}>
+              Your E-Gift amount:
+              <em> { accounting.formatMoney(this.props.creditInfo.totalAmount) }</em>
+            </div>
           </div>
         :
           <div>

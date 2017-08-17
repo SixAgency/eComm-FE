@@ -11,6 +11,7 @@ class GiftCard extends React.Component {
 
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
+    creditInfo: PropTypes.object.isRequired,
     onLogout: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired,
@@ -22,7 +23,7 @@ class GiftCard extends React.Component {
   };
 
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, creditInfo } = this.props;
     return (
       <section className={s.page}>
         <Subnav
@@ -38,6 +39,7 @@ class GiftCard extends React.Component {
         <ContentWrapper tabsClass={loggedIn ? '' : 'hide'}>
           <GiftCardForm
             loggedIn={loggedIn}
+            creditInfo={creditInfo}
             onLogin={this.props.onLogin}
             onRegister={this.props.onRegister}
             onRedeemGiftCard={this.props.redeemGiftCard}

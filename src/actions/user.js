@@ -403,7 +403,6 @@ function redeemGiftCard(code) {
         window.scrollTo(0, 0);
         dispatch(getStoreCredit());
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
-        dispatch(toggleLoader(false));
       }, () => {
         window.scrollTo(0, 0);
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
