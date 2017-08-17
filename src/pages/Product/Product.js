@@ -36,7 +36,8 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showReviews: false
+      showReviews: false,
+      quantity: 1
     };
   }
 
@@ -73,6 +74,31 @@ class Product extends Component {
   addProductReview = (review) => {
     this.props.addProductReview(this.props.product.product.id, review, this.toggleReviews);
   }
+
+  updateQuantity = (value) => {
+    this.setState({ quantity: parseInt(value, 10) });
+  }
+
+  subQuantity = () => {
+    let value = this.state.quantity;
+    if (value >= 2) {
+      value -= 1;
+      this.setState({
+        quantity: value
+      });
+    }
+  };
+
+  addQuantity = () => {
+    let value = this.state.quantity;
+    const maxValue = this.props.product.product.max_quantity_allowed_in_cart;
+    if (value < maxValue) {
+      value += 1;
+    }
+    this.setState({
+      quantity: value
+    });
+  };
 
   render() {
     const { isLoaded, product } = this.props.product;
@@ -154,6 +180,10 @@ class Product extends Component {
                 product={this.props.product}
                 cartItems={this.props.cartItems}
                 setMessage={this.props.setMessage}
+                quantity={this.state.quantity}
+                updateQuantity={this.updateQuantity}
+                subQuantity={this.subQuantity}
+                addQuantity={this.addQuantity}
               />
               <div className={s.summarymiddle}>
                 <ProductTab
