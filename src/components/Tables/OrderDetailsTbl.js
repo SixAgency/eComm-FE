@@ -19,17 +19,36 @@ class OrderDetailsTbl extends PureComponent {
     return payment.payment_method.name;
   };
 
+  getBulkDiscount = (item) => {
+    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+    if (discount) {
+      return `(You save ${accounting.formatMoney(-discount.amount)})`;
+    }
+    return '';
+  };
+
+  getPriceWithDiscount = (item) => {
+    const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
+    if (discount) {
+      return (item.price * item.quantity) + parseFloat(discount.amount);
+    }
+    return item.price * item.quantity;
+  }
+
+  getItemTotal = () => {
+    const { order } = this.props;
+    const total = parseFloat(order.item_total) - parseFloat(order.additional_tax_total);
+    return total + parseFloat(order.adjustment_total);
+  };
+
   render() {
     const { order } = this.props;
     const products = order.line_items;
-    // const shipment = order.shipments[0];
     const {
-      item_total,
       payments,
       adjustments,
       shipments
     } = order;
-    const itemTotal = parseFloat(item_total);
     const completedPayments = payments.filter((payment) => payment.state === 'completed');
     return (
       <div className={s.tablewrprOrder}>
@@ -59,8 +78,9 @@ class OrderDetailsTbl extends PureComponent {
                     <strong className={s.productqty}>× {item.quantity}</strong>
                   </td>
                   <td className={s.producttotal}>
-                    <span className={s.amount}>
-                      {accounting.formatMoney(item.total)}
+                    {accounting.formatMoney(this.getPriceWithDiscount(item))}
+                    <span className={s.save}>
+                      {this.getBulkDiscount(item)}
                     </span>
                   </td>
                 </tr>
@@ -71,7 +91,7 @@ class OrderDetailsTbl extends PureComponent {
                 Item Total:
               </td>
               <td className={s.orderdetails}>
-                {accounting.formatMoney(itemTotal)}
+                {accounting.formatMoney(this.getItemTotal())}
               </td>
             </tr>
             {shipments.length &&
@@ -97,7 +117,15 @@ class OrderDetailsTbl extends PureComponent {
                 </td>
               </tr>
             }
-            {adjustments.map((adjust, key) => (
+            <tr className={s.orderItem}>
+              <td className={cx(s.orderdetailstitle, s.tdbig)}>
+                Tax:
+              </td>
+              <td className={s.orderdetails}>
+                {accounting.formatMoney(order.tax_total)}
+              </td>
+            </tr>
+            {/* adjustments.map((adjust, key) => (
               <tr key={key} className={s.orderItem}>
                 <td className={cx(s.orderdetailstitle, s.tdbig)}>
                   {adjust.label}
@@ -107,7 +135,7 @@ class OrderDetailsTbl extends PureComponent {
                 </td>
               </tr>
               )
-            )}
+            ) */}
             <tr className={s.orderItem}>
               <td className={cx(s.orderdetailstitle, s.tdbig)}>
                 Total:
