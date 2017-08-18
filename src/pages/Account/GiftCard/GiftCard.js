@@ -35,6 +35,7 @@ class GiftCard extends React.Component {
         <ErrorDisplay
           messages={this.props.messages}
           isError={this.props.isError}
+          className={this.props.isError ? '' : s.redeemed}
         />
         <ContentWrapper tabsClass={loggedIn ? '' : 'hide'}>
           <GiftCardForm

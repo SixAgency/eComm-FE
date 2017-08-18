@@ -45,7 +45,7 @@
 
 .giftcardform {
   margin-top: 80px;
-  margin-bottom: 120px;
+  margin-bottom: 50px;
 }
 
 .giftcardform_input {
@@ -97,6 +97,16 @@
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
+}
+
+.giftcardform_details {
+  color: #565656;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 24px;
+  text-align: center;
+  margin-bottom: 70px;
+  width: 100%;
 }
 
 .giftcardform_balance {
@@ -233,7 +243,7 @@
 
 .buttonwrapper4 {
   text-align: center;
-  margin: 30px 0 75px;
+  margin: 30px 0 45px;
 }
 
 .label {

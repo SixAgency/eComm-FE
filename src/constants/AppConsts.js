@@ -465,7 +465,7 @@ const BREADCRUMBS = {
       url: '/'
     },
     {
-      label: 'Gift Card'
+      label: 'E-Gift Card'
     }
   ],
   addresses: [

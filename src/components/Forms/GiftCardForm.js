@@ -40,40 +40,56 @@ class GiftCardForm extends React.Component {
   }
 
   redeemGiftCard = () => {
-    this.props.onRedeemGiftCard(this.state.giftCard);
+    this.props.onRedeemGiftCard(this.state.giftCard, () => {
+      this.setState({ giftCard: '' });
+    });
   }
 
   render() {
-    const subtitle = this.props.loggedIn ?
-      'Enter your E-Gift card number here:'
-      : 'New user or existing user?';
     const { activeForm } = this.state;
     const FormComponent = activeFormComponent[activeForm];
     return (
       <div className={s.formcontent}>
-        <h1 className={s.title}>Gift Card</h1>
-        <h2 className={s.subtitle}>{subtitle}</h2>
+        <h1 className={s.title}>Redeem your E-Gift card</h1>
         {this.props.loggedIn ?
-          <div className={cx(s.form, s.giftcardform)}>
-            <input
-              type="text"
-              placeholder="Enter gift card code"
-              className={s.giftcardform_input}
-              value={this.state.giftCard}
-              onChange={this.updateGiftCard}
-            />
-            <button
-              className={s.giftcardform_submit}
-              onClick={this.redeemGiftCard}
-            >
-              Redeem
-            </button>
-            <div className={s.giftcardform_balance}>
-              MY E-GIFT CARD BALANCE
+          <h2 className={s.subtitle}>
+            Redeeming your E-Gift card is easy. Simply enter your E-Gift card number from the email
+            you have received into the box below:
+          </h2>
+          :
+          <h2 className={s.subtitle}>
+            Redeeming your E-Gift card is easy. You need to have a Krissorbie.com account.<br />
+            Login or sign-up below.
+          </h2>
+        }
+        {this.props.loggedIn ?
+          <div>
+            <div className={cx(s.form, s.giftcardform)}>
+              <input
+                type="text"
+                placeholder="Enter gift card code"
+                className={s.giftcardform_input}
+                value={this.state.giftCard}
+                onChange={this.updateGiftCard}
+              />
+              <button
+                className={s.giftcardform_submit}
+                onClick={this.redeemGiftCard}
+              >
+                Redeem
+              </button>
+              <div className={s.giftcardform_balance}>
+                MY E-GIFT CARD BALANCE
+              </div>
+              <div className={s.giftcardform_amount}>
+                Your total E-Gift card amount:
+                <em> { accounting.formatMoney(this.props.creditInfo.totalAmount) }</em>
+              </div>
             </div>
-            <div className={s.giftcardform_amount}>
-              Your E-Gift amount:
-              <em> { accounting.formatMoney(this.props.creditInfo.totalAmount) }</em>
+            <div className={s.giftcardform_details}>
+              Once redeemed, the entire E-gift card amount will be stored in your account's E-gift
+              card balance, which doesn't expire. Your e-gift card balance can't be transferred to
+              other accounts or used to buy E-gift cards.
             </div>
           </div>
         :
@@ -93,6 +109,11 @@ class GiftCardForm extends React.Component {
                 value="Existing User"
                 onClick={() => this.showForm('login')}
               />
+            </div>
+            <div className={s.giftcardform_details}>
+              Once redeemed, the entire E-gift card amount will be stored in your account's E-gift
+              card balance, which doesn't expire. Your E-gift card balance can't be transferred to
+              other accounts or used to buy E-gift cards.
             </div>
             {activeForm !== '' &&
               <FormComponent

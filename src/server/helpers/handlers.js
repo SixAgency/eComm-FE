@@ -719,7 +719,7 @@ function parseGiftRedeemResponse(data) {
   }
   return {
     isError: false,
-    data: 'Gift card redeemed'
+    data: 'E-Gift card successfully redeemed'
   };
 }
 

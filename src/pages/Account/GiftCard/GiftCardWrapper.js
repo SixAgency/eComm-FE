@@ -31,7 +31,7 @@ const mapDispatchToProps = ((dispatch) => (
     onLogin: (data, redirect) => dispatch(onLogin(data, redirect)),
     onRegister: (data, redirect) => dispatch(onRegister(data, redirect)),
     getStoreCredit: () => dispatch(getStoreCredit()),
-    redeemGiftCard: (code) => dispatch(redeemGiftCard(code)),
+    redeemGiftCard: (code, callback) => dispatch(redeemGiftCard(code, callback)),
     setPending: (status) => dispatch(setPending(status))
   }
 ));
@@ -104,11 +104,11 @@ class GiftCardWrapper extends BasePageComponent {
     }, 250);
   };
 
-  onRedeemGiftCard = (code) => {
+  onRedeemGiftCard = (code, callback) => {
     this.props.toggleLoader(true);
     setTimeout(() => {
       window.scrollTo(0, 0);
-      this.props.redeemGiftCard(code);
+      this.props.redeemGiftCard(code, callback);
     }, 250);
   }
 
