@@ -46,7 +46,7 @@ class ReviewOrderTbl extends PureComponent {
 
   getBulkDiscount = (item) => {
     const discount = item.adjustments.find((adj) => (adj.label.indexOf('BULK') !== -1));
-    if (discount && accounting.unformat(discount.amount) > 0) {
+    if (discount) {
       return `(You save ${accounting.formatMoney(-discount.amount)})`;
     }
     return '';

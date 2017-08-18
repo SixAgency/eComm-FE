@@ -75,11 +75,15 @@
 
 .ptotal {
   padding-right: 0 !important;
-  .save {
-    color: #29cbc8;
-    font-weight: bold;
-    margin-left: 5px;
-  }
+}
+
+.save {
+  float: right;
+  color: #29cbc8;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: visible;
+  width: 90px;
 }
 
 .psubtotal, .pshipping, .ptotal, .ptotal2 {
@@ -364,6 +368,10 @@ table.customerdetails {
     }
   }
 
+  .productname {
+    vertical-align: top;
+  }
+
   .productqty {
     margin-right: 0px !important;
   }
@@ -379,6 +387,12 @@ table.customerdetails {
   .customerdetails {
     padding-top: 0px;
     padding-bottom: 20px;
+  }
+
+  .save {
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
   }
 }
 
@@ -400,4 +414,5 @@ table.customerdetails {
     width: 88% !important;
     padding-bottom: 0px !important;
   }
+
 }
