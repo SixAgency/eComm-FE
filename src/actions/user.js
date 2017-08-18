@@ -396,14 +396,16 @@ function getStoreCredit() {
 }
 
 // Redeem gift card
-function redeemGiftCard(code) {
+function redeemGiftCard(code, callback) {
   return (dispatch) => {
     axios.post('/api/my-account/redeem-giftcard', { redemption_code: code })
       .then((response) => checkResponse(response.data, () => {
         window.scrollTo(0, 0);
         dispatch(getStoreCredit());
         dispatch(setMessage({ isError: false, messages: [response.data.data] }));
-        dispatch(toggleLoader(false));
+        if (callback) {
+          callback();
+        }
       }, () => {
         window.scrollTo(0, 0);
         dispatch(setMessage({ isError: true, messages: response.data.messages }));

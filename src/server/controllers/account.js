@@ -223,9 +223,10 @@ function viewOrder(req, resp, next) {
 function giftCard(req, resp, next) {
   Promise.all([
     checkLogin(req),
-    getProfile(req)
+    getProfile(req),
+    getStoreCreditInfo(req)
   ])
-    .then(([user]) => {
+    .then(([user, credit]) => {
       const params = {
         title: 'My Account',
         description: '',
@@ -234,6 +235,7 @@ function giftCard(req, resp, next) {
         content: <GiftCardWrapper
           profile={user}
           loggedIn={user.user.loggedIn}
+          creditInfo={credit}
           breadcrumbs={BREADCRUMBS.giftCard}
         />
       };

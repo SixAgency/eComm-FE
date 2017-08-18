@@ -9,7 +9,8 @@ let showContinueShopping = false;
 class ErrorDisplay extends React.Component {
   static propTypes = {
     messages: PropTypes.array.isRequired,
-    isError: PropTypes.bool.isRequired
+    isError: PropTypes.bool.isRequired,
+    className: PropTypes.string
   };
 
   componentWillMount = () => {
@@ -44,7 +45,7 @@ class ErrorDisplay extends React.Component {
     return (
       <ul className={cx(s.errorwrpr, s[bg])}>
         {messages.map((v, k) => (
-          <li className={s.message} key={k}>
+          <li className={cx(s.message, this.props.className)} key={k}>
             {showContinueShopping &&
               <Link
                 to="/"

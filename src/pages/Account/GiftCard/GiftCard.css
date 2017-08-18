@@ -3,4 +3,10 @@
   width: 100%;
   z-index: 1;
   padding-top: 127px;
+
+  .redeemed {
+    font-size: 18px !important;
+    text-transform: uppercase;
+  }
+
 }

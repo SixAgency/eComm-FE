@@ -45,7 +45,7 @@
 
 .giftcardform {
   margin-top: 80px;
-  margin-bottom: 120px;
+  margin-bottom: 50px;
 }
 
 .giftcardform_input {
@@ -97,6 +97,36 @@
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
+}
+
+.giftcardform_details {
+  color: #565656;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 24px;
+  text-align: center;
+  margin-bottom: 70px;
+  width: 100%;
+}
+
+.giftcardform_balance {
+  float: left;
+  color: #222222;
+  font-family: Georgia, Times, serif;
+  font-weight: 700;
+  font-size: 26px;
+  text-align: center;
+  margin-top: 75px;
+  width: 100%;
+}
+
+.giftcardform_amount {
+  float: left;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 15px;
+  text-align: center;
+  width: 100%;
 }
 
 .form.addresses {
@@ -213,7 +243,7 @@
 
 .buttonwrapper4 {
   text-align: center;
-  margin: 30px 0 75px;
+  margin: 30px 0 45px;
 }
 
 .label {

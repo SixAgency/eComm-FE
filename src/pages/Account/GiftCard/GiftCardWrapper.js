@@ -5,15 +5,20 @@ import BasePageComponent from '../../BasePageComponent';
 import GiftCard from './GiftCard';
 
 // Action
-import { onLogout, onLogin, onRegister, redeemGiftCard } from '../../../actions/user';
-import { setHeaderProps, resetMessages, toggleLoader } from '../../../actions/page';
+import { onLogout, onLogin, onRegister, redeemGiftCard, getStoreCredit } from '../../../actions/user';
+import { setHeaderProps, resetMessages, toggleLoader, setPending } from '../../../actions/page';
 import { forwardTo } from '../../../actions/handler';
 
 const mapStateToProps = ((state) => (
   {
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
-    isError: state.page.isError
+    isError: state.page.isError,
+    creditInfo: state.user.creditInfo,
+    isFetched: (
+      !state.page.isPending &&
+      state.user.creditInfo.isLoaded
+    )
   }
 ));
 
@@ -25,7 +30,9 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: (data) => dispatch(onLogout(data)),
     onLogin: (data, redirect) => dispatch(onLogin(data, redirect)),
     onRegister: (data, redirect) => dispatch(onRegister(data, redirect)),
-    redeemGiftCard: (code) => dispatch(redeemGiftCard(code))
+    getStoreCredit: () => dispatch(getStoreCredit()),
+    redeemGiftCard: (code, callback) => dispatch(redeemGiftCard(code, callback)),
+    setPending: (status) => dispatch(setPending(status))
   }
 ));
 
@@ -39,7 +46,10 @@ class GiftCardWrapper extends BasePageComponent {
     toggleLoader: PropTypes.func.isRequired,
     resetMessages: PropTypes.func.isRequired,
     redeemGiftCard: PropTypes.func.isRequired,
+    setPending: PropTypes.func.isRequired,
+    creditInfo: PropTypes.object.isRequired,
     isError: PropTypes.bool.isRequired,
+    isFetched: PropTypes.bool.isRequired,
     route: PropTypes.object
   };
 
@@ -53,9 +63,7 @@ class GiftCardWrapper extends BasePageComponent {
 
   componentDidMount = () => {
     window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.props.toggleLoader(false);
-    }, 500);
+    this.props.getStoreCredit();
   };
 
   componentWillUnmount = () => {
@@ -65,16 +73,21 @@ class GiftCardWrapper extends BasePageComponent {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { loggedIn, creditInfoLoaded } = this.props;
-    if (nextProps.isError || loggedIn !== nextProps.loggedIn) {
+    const { loggedIn } = this.props;
+    if (nextProps.isFetched) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
+    } else {
+      if (loggedIn !== nextProps.loggedIn) {
+        this.props.getStoreCredit();
+      }
+      this.props.toggleLoader(true);
     }
   };
 
   onLogin = (data) => {
-    this.props.toggleLoader(true);
+    this.props.setPending(true);
     this.props.resetMessages();
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -83,7 +96,7 @@ class GiftCardWrapper extends BasePageComponent {
   };
 
   onRegister = (data) => {
-    this.props.toggleLoader(true);
+    this.props.setPending(true);
     this.props.resetMessages();
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -91,11 +104,11 @@ class GiftCardWrapper extends BasePageComponent {
     }, 250);
   };
 
-  onRedeemGiftCard = (code) => {
+  onRedeemGiftCard = (code, callback) => {
     this.props.toggleLoader(true);
     setTimeout(() => {
       window.scrollTo(0, 0);
-      this.props.redeemGiftCard(code);
+      this.props.redeemGiftCard(code, callback);
     }, 250);
   }
 
@@ -103,6 +116,7 @@ class GiftCardWrapper extends BasePageComponent {
     return (
       <GiftCard
         loggedIn={this.props.loggedIn}
+        creditInfo={this.props.creditInfo}
         onLogout={this.props.onLogout}
         onLogin={this.onLogin}
         onRegister={this.onRegister}
