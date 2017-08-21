@@ -54,14 +54,14 @@ const mapDispatchToProps = ((dispatch) => (
     onLogout: () => dispatch(onLogout()),
     onLogin: (data) => dispatch(onLogin(data)),
     resetMessages: () => dispatch(resetMessages()),
-    updateCart: (cart) => dispatch(updateCart(cart)),
+    updateCart: (cart, callback) => dispatch(updateCart(cart, callback)),
     updateQuantity: (cart) => dispatch(updateQuantity(cart)),
     applyPromoCode: (cart, callback) => dispatch(applyPromoCode(cart, callback)),
     removePromoCode: () => dispatch(removePromoCode()),
     getPayPalToken: (cart) => dispatch(getPayPalToken(cart)),
     checkoutPayPal: (data) => dispatch(checkoutPayPal(data)),
     checkoutNext: (fn) => dispatch(checkoutNext(fn)),
-    calculateShipping: (data) => dispatch(calculateShipping(data)),
+    calculateShipping: (data, cartUpdate) => dispatch(calculateShipping(data, cartUpdate)),
     getCart: (data) => dispatch(getCart(data)),
     setMessage: (message) => dispatch(setMessage(message))
   }
@@ -103,7 +103,9 @@ class CartWrapper extends BasePageComponent {
   constructor(props) {
     super(props);
     this.state = {
-      showGiftCardForm: false
+      showGiftCardForm: false,
+      shippingState: '',
+      shippingZip: ''
     };
   }
 
@@ -147,6 +149,27 @@ class CartWrapper extends BasePageComponent {
     this.setState({ showGiftCardForm: false });
   };
 
+  updateShippingState = (val) => {
+    this.setState({ shippingState: val });
+  }
+
+  updateShippingZip = (val) => {
+    this.setState({ shippingZip: val });
+  }
+
+  calculateShipping = (cartUpdate) => {
+    const { shippingZip, shippingState } = this.state;
+    if (shippingZip && shippingState) {
+      this.props.calculateShipping({
+        shipments_attributes: {
+          zipcode: shippingZip,
+          state_id: shippingState,
+          country_id: '232'
+        }
+      }, cartUpdate);
+    }
+  }
+
   /**
    * Send next request if the order is in cart state
    * else we are good - redirecting to correct step
@@ -182,7 +205,9 @@ class CartWrapper extends BasePageComponent {
           line_items: items
         }
       };
-      this.props.updateCart(data);
+      this.props.updateCart(data, () => {
+        this.calculateShipping(true);
+      });
       this.setState({ showGiftCardForm: false });
     }
   };
@@ -211,10 +236,14 @@ class CartWrapper extends BasePageComponent {
           proceedToCheckout={this.proceedToCheckout}
           breadcrumbs={this.props.route.breadcrumbs}
           toggleLoader={this.props.toggleLoader}
-          calculateShipping={this.props.calculateShipping}
+          calculateShipping={this.calculateShipping}
           getCart={this.props.getCart}
           setMessage={this.props.setMessage}
           showShippingCalculator={this.showShippingCalculator()}
+          shippingState={this.state.shippingState}
+          shippingZip={this.state.shippingZip}
+          updateShippingState={this.updateShippingState}
+          updateShippingZip={this.updateShippingZip}
           forwardTo={forwardTo}
         />
       );

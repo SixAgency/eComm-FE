@@ -233,7 +233,7 @@ function removeItem(data) {
  * @param data
  * @returns {function(*=)}
  */
-function updateCart(data) {
+function updateCart(data, callback) {
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
@@ -246,6 +246,9 @@ function updateCart(data) {
         dispatch(setMessage({ isError: false, messages: [message] }));
         dispatch(setCart(response.data));
         dispatch(setCartPending(false));
+        if (callback) {
+          callback();
+        }
         dispatch(setPending(false));
       }, () => {
         dispatch(setMessage({ isError: true, messages: response.data.messages }));
@@ -311,7 +314,7 @@ function getAllOrders(data) {
   };
 }
 
-function calculateShipping(data) {
+function calculateShipping(data, cartUpdate = false) {
   return (dispatch) => {
     dispatch(setLoader(true));
     dispatch(setCartPending(true));
@@ -325,7 +328,8 @@ function calculateShipping(data) {
         .then((response) => checkResponse(response.data, () => {
           dispatch(setCart(response.data));
           dispatch(setCartPending(false));
-          dispatch(setMessage({ isError: false, messages: ['Shipping costs updated'] }));
+          const message = cartUpdate ? 'Cart updated.' : 'Shipping costs updated';
+          dispatch(setMessage({ isError: false, messages: [message] }));
         }, () => {
           dispatch(setMessage({ isError: true, messages: response.data.messages }));
           dispatch(setCartPending(false));
