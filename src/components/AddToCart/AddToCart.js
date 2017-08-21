@@ -68,6 +68,7 @@ class CartCta extends Component {
             action={this.setVariant}
             price={Number(product.price)}
             selected={this.state.variant_id}
+            quantity={this.props.quantity}
           />
         );
       }

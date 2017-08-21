@@ -10,7 +10,8 @@ class SingleVariant extends Component {
     variants: PropTypes.array.isRequired,
     action: PropTypes.func.isRequired,
     price: PropTypes.number.isRequired,
-    selected: PropTypes.number
+    selected: PropTypes.number,
+    quantity: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -47,9 +48,9 @@ class SingleVariant extends Component {
   };
 
   render() {
-    const variants = this.props.variants;
+    const { quantity, variants } = this.props;
     const selectedVariant = this.state.selectedVariant;
-    const existingLabel = this.props.variants[0].option_values[0].option_type_presentation;
+    const existingLabel = variants[0].option_values[0].option_type_presentation;
     return (
       <div className={s.variants}>
         <h3 className={s.vname}>
@@ -68,7 +69,7 @@ class SingleVariant extends Component {
         {parseFloat(selectedVariant.price) !== parseFloat(this.props.price) &&
           <div className={s.addons}>
             <span>Grand<br />total:</span>
-            <span>{accounting.formatMoney(selectedVariant.price)}</span>
+            <span>{accounting.formatMoney(quantity * selectedVariant.price)}</span>
           </div>
         }
       </div>
