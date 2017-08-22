@@ -51,6 +51,10 @@ class CartWrapper extends Component {
         forwardTo={() => (true)}
         showShippingCalculator={this.showShippingCalculator()}
         shippingMethod="Shipping costs will be calculate once you have provided your address."
+        shippingState=""
+        shippingZip=""
+        updateShippingState={() => (true)}
+        updateShippingZip={() => (true)}
       />
     );
   }

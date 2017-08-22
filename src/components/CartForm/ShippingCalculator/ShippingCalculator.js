@@ -5,42 +5,28 @@ import { STATES } from '../../../constants/AppConsts';
 
 class ShippingCalculator extends Component {
   static propTypes = {
-    calculateShipping: PropTypes.func.isRequired
+    calculateShipping: PropTypes.func.isRequired,
+    previewState: PropTypes.string.isRequired,
+    previewZip: PropTypes.string.isRequired,
+    updateShippingState: PropTypes.func.isRequired,
+    updateShippingZip: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      previewState: '',
-      previewZip: ''
-    };
-  }
-
   onCalculateShipping = () => {
-    this.props.calculateShipping({
-      shipments_attributes: {
-        zipcode: this.state.previewZip,
-        state_id: this.state.previewState,
-        country_id: '232'
-      }
-    });
+    this.props.calculateShipping(false);
   };
 
   updatePreviewState = (e) => {
-    this.setState({
-      previewState: e.target.value
-    });
+    this.props.updateShippingState(e.target.value);
   };
 
   updatePreviewZip = (e) => {
-    this.setState({
-      previewZip: e.target.value
-    });
+    this.props.updateShippingZip(e.target.value);
   };
 
 
   render() {
-    const { previewState, previewZip } = this.state;
+    const { previewState, previewZip } = this.props;
     return (
       <section
         className={s.calcform}

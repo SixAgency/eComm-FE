@@ -20,7 +20,11 @@ class CartForm extends Component {
     toggleLoader: PropTypes.func.isRequired,
     calculateShipping: PropTypes.func.isRequired,
     showShippingCalculator: PropTypes.bool.isRequired,
-    removePromoCode: PropTypes.func.isRequired
+    removePromoCode: PropTypes.func.isRequired,
+    shippingState: PropTypes.string.isRequired,
+    shippingZip: PropTypes.string.isRequired,
+    updateShippingState: PropTypes.func.isRequired,
+    updateShippingZip: PropTypes.func.isRequired
   };
 
   getItemTotal = () => {
@@ -100,6 +104,10 @@ class CartForm extends Component {
                       <ShippingCalculator
                         calculateShipping={this.props.calculateShipping}
                         toggleLoader={this.props.toggleLoader}
+                        previewState={this.props.shippingState}
+                        previewZip={this.props.shippingZip}
+                        updateShippingState={this.props.updateShippingState}
+                        updateShippingZip={this.props.updateShippingZip}
                       />
                     </div>}
                   </td>

@@ -31,7 +31,11 @@ class Cart extends Component {
     getCart: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
     showShippingCalculator: PropTypes.bool.isRequired,
-    forwardTo: PropTypes.func.isRequired
+    forwardTo: PropTypes.func.isRequired,
+    shippingState: PropTypes.string.isRequired,
+    shippingZip: PropTypes.string.isRequired,
+    updateShippingState: PropTypes.func.isRequired,
+    updateShippingZip: PropTypes.func.isRequired
   };
 
   render() {
@@ -94,6 +98,10 @@ class Cart extends Component {
                   removePromoCode={this.props.removePromoCode}
                   calculateShipping={this.props.calculateShipping}
                   showShippingCalculator={this.props.showShippingCalculator}
+                  shippingState={this.props.shippingState}
+                  shippingZip={this.props.shippingZip}
+                  updateShippingState={this.props.updateShippingState}
+                  updateShippingZip={this.props.updateShippingZip}
                 />
               </div>
             </article>
