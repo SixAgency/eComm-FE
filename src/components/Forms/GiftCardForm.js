@@ -67,7 +67,7 @@ class GiftCardForm extends React.Component {
             <div className={cx(s.form, s.giftcardform)}>
               <input
                 type="text"
-                placeholder="Enter gift card code"
+                placeholder="Enter E-Gift card number"
                 className={s.giftcardform_input}
                 value={this.state.giftCard}
                 onChange={this.updateGiftCard}
@@ -87,9 +87,9 @@ class GiftCardForm extends React.Component {
               </div>
             </div>
             <div className={s.giftcardform_details}>
-              Once redeemed, the entire E-gift card amount will be stored in your account's E-gift
-              card balance, which doesn't expire. Your e-gift card balance can't be transferred to
-              other accounts or used to buy E-gift cards.
+              Once redeemed, the entire E-Gift card amount will be stored in your account's E-Gift
+              card balance, which doesn't expire. Your E-Gift card balance can't be transferred to
+              other accounts or used to buy E-Gift cards.
             </div>
           </div>
         :
@@ -111,9 +111,9 @@ class GiftCardForm extends React.Component {
               />
             </div>
             <div className={s.giftcardform_details}>
-              Once redeemed, the entire E-gift card amount will be stored in your account's E-gift
-              card balance, which doesn't expire. Your E-gift card balance can't be transferred to
-              other accounts or used to buy E-gift cards.
+              Once redeemed, the entire E-Gift card amount will be stored in your account's E-Gift
+              card balance, which doesn't expire. Your E-Gift card balance can't be transferred to
+              other accounts or used to buy E-Gift cards.
             </div>
             {activeForm !== '' &&
               <FormComponent

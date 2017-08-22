@@ -74,7 +74,7 @@ class GiftCardWrapper extends BasePageComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { loggedIn } = this.props;
-    if (nextProps.isFetched) {
+    if (nextProps.isFetched || nextProps.isError) {
       setTimeout(() => {
         this.props.toggleLoader(false);
       }, 250);
