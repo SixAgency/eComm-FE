@@ -103,7 +103,7 @@ class Dashboard extends React.Component {
               </h2>
               <input
                 type="text"
-                placeholder="Enter E-Gift card number"
+                placeholder="Enter E-Gift card code"
                 className={s.giftcardform_input}
                 value={this.state.giftCode}
                 onChange={(event) => {
