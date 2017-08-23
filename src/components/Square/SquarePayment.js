@@ -19,7 +19,8 @@ class SquarePayment extends Component {
     super(props);
     this.state = {
       is_processing: false, // for disabling payment button
-      card_errors: []
+      card_errors: [],
+      nonce_received: false
     };
   }
 
@@ -53,21 +54,25 @@ class SquarePayment extends Component {
       },
       callbacks: {
         cardNonceResponseReceived: (errors, nonce, cardData) => {
-          if (errors) {
-            this.setState({
-              is_processing: false,
-              card_errors: errors
+          if (!this.state.nonce_received) {
+            this.setState({ nonce_received: true }, () => {
+              if (errors) {
+                this.setState({
+                  is_processing: false,
+                  card_errors: errors
+                });
+              } else {
+                this.setState({
+                  is_processing: false,
+                  card_errors: []
+                });
+                const data = {
+                  nonce,
+                  cardData
+                };
+                this.props.onNonceReceived(data);
+              }
             });
-          } else {
-            this.setState({
-              is_processing: false,
-              card_errors: []
-            });
-            const data = {
-              nonce,
-              cardData
-            };
-            this.props.onNonceReceived(data);
           }
         }
       }
@@ -76,7 +81,7 @@ class SquarePayment extends Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state);
+    console.log('HHHHHHHHHHH');
     this.setState({
       is_processing: true
     });
@@ -85,6 +90,7 @@ class SquarePayment extends Component {
   };
 
   render() {
+    console.log('SSSSSSSSSSSSSSSSSSSSSS', this.state.is_processing);
     return (
       <div className={s.squaremodal}>
         <ul id="card-errors">{
