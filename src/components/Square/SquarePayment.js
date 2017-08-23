@@ -81,7 +81,6 @@ class SquarePayment extends Component {
   };
 
   handleSubmit = () => {
-    console.log('HHHHHHHHHHH');
     this.setState({
       is_processing: true
     });
@@ -90,7 +89,6 @@ class SquarePayment extends Component {
   };
 
   render() {
-    console.log('SSSSSSSSSSSSSSSSSSSSSS', this.state.is_processing);
     return (
       <div className={s.squaremodal}>
         <ul id="card-errors">{
