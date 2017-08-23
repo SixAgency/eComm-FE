@@ -29,7 +29,7 @@ class Account extends React.Component {
     if (activeTab === 'bregister') {
       return <RegForm onRegister={this.props.onRegister} />;
     }
-    return <LoginForm onLogin={this.props.onLogin} />;
+    return <LoginForm onLogin={this.props.onLogin} isError={this.props.isError} />;
   };
 
   render() {

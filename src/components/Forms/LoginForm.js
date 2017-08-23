@@ -7,7 +7,8 @@ import s from './Forms.css';
 class LoginForm extends React.Component {
 
   static propTypes = {
-    onLogin: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired,
+    isError: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -56,6 +57,12 @@ class LoginForm extends React.Component {
             <label className={s.label} htmlFor="password">Password <abbr>*</abbr></label>
             <input id="password" type="password" name="password" className={s.input} onChange={this.onPassChange} />
           </div>
+          {this.props.isError &&
+            <div className={s.loginmsg}>
+              Having trouble? Please note if you have created your Krissorbie.com account prior to
+              August 24th, 2017, you will need to re-create it again. Thank you.
+            </div>
+          }
           <div className={s.buttonwrapper}>
             <input className={cx(s.submit, s.login)} type="submit" value="Login" />
             <label htmlFor="rememberme" className={cx(s.label, s.remember)}>

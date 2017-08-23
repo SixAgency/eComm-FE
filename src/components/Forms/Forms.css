@@ -542,6 +542,18 @@
   }
 }
 
+.loginmsg {
+  float: left;
+  color: #ff0000;
+  font-family: Georgia, serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: left;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
 /* TODO: Refactor */
 /* Checkout Form */
 .cformcontent {
