@@ -12,7 +12,7 @@ const config = {
   },
   production: {
     square: {
-      applicationId: 'sandbox-sq0idp-zZJC4qFxIk0LYgwAKygtWQ'
+      applicationId: 'sq0idp-zZJC4qFxIk0LYgwAKygtWQ'
     }
   }
 };
