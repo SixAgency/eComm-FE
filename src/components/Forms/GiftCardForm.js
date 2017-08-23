@@ -53,13 +53,12 @@ class GiftCardForm extends React.Component {
         <h1 className={s.title}>Redeem your E-Gift card</h1>
         {this.props.loggedIn ?
           <h2 className={s.subtitle}>
-            Redeeming your E-Gift card is easy. Simply enter your E-Gift card number from the email
-            you have received into the box below:
+            Enter your E-Gift card number from the email you received into the box below:
           </h2>
           :
           <h2 className={s.subtitle}>
-            Redeeming your E-Gift card is easy. You need to have a Krissorbie.com account.<br />
-            Login or sign-up below.
+            To redeem your E-Gift card and have the amount credited to your Krissorbie account
+            just log in or sign up below:
           </h2>
         }
         {this.props.loggedIn ?
@@ -67,7 +66,7 @@ class GiftCardForm extends React.Component {
             <div className={cx(s.form, s.giftcardform)}>
               <input
                 type="text"
-                placeholder="Enter E-Gift card number"
+                placeholder="Enter E-Gift card code"
                 className={s.giftcardform_input}
                 value={this.state.giftCard}
                 onChange={this.updateGiftCard}
@@ -87,9 +86,9 @@ class GiftCardForm extends React.Component {
               </div>
             </div>
             <div className={s.giftcardform_details}>
-              Once redeemed, the entire E-Gift card amount will be stored in your account's E-Gift
-              card balance, which doesn't expire. Your E-Gift card balance can't be transferred to
-              other accounts or used to buy E-Gift cards.
+              E-Gift card amounts are stored in your account for use at checkout.<br />
+              E-Gift cards do not expire, are non-transferable, are not, unless required by law,
+              redeemable for cash and may not be used to purchase other E-Gift cards.
             </div>
           </div>
         :
@@ -111,9 +110,8 @@ class GiftCardForm extends React.Component {
               />
             </div>
             <div className={s.giftcardform_details}>
-              Once redeemed, the entire E-Gift card amount will be stored in your account's E-Gift
-              card balance, which doesn't expire. Your E-Gift card balance can't be transferred to
-              other accounts or used to buy E-Gift cards.
+              E-Gift cards do not expire, are non-transferable, are not, unless required by law,
+              redeemable for cash and may not be used to purchase other E-Gift cards.
             </div>
             {activeForm !== '' &&
               <FormComponent
