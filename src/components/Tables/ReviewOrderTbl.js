@@ -163,9 +163,17 @@ class ReviewOrderTbl extends PureComponent {
                 </span>
               </td>
             </tr>
+            <tr>
+              <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
+              <td className={cx(s.td, s.tdsmall)}>
+                <span className={s.total}>
+                  {accounting.formatMoney(calculateTotal(this.props))}
+                </span>
+              </td>
+            </tr>
             {isStoreCredit &&
               <tr>
-                <td className={cx(s.td, s.tdbig, s.psubtotal)}>Store Credit</td>
+                <td className={cx(s.td, s.tdbig, s.psubtotal)}>E-Gift Card</td>
                 <td className={cx(s.td, s.tdsmall)}>
                   <span className={s.amount}>
                     -{accounting.formatMoney(calculateApplicableCredit(this.props))}
@@ -183,14 +191,6 @@ class ReviewOrderTbl extends PureComponent {
                 </td>
               </tr>
             }
-            <tr>
-              <td className={cx(s.td, s.tdbig, s.ptotal2)}>Total</td>
-              <td className={cx(s.td, s.tdsmall)}>
-                <span className={s.total}>
-                  {accounting.formatMoney(calculateTotal(this.props))}
-                </span>
-              </td>
-            </tr>
             <tr>
               <td
                 className={cx(
@@ -224,9 +224,9 @@ class ReviewOrderTbl extends PureComponent {
               (<tr>
                 <td colSpan={2} className={cx(s.td, s.tdsmall, s.creditinfo)}>
                   <label htmlFor="use_credits">
-                    I have <em>{accounting.formatMoney(
+                    Please use my E-gift card balance of <em>{accounting.formatMoney(
                     display_total_available_store_credit.slice(1)
-                  )}</em> gift card balance, I want to use it on this purchase
+                  )}</em> for this purchase
                   </label>
                   <input
                     type="checkbox"
