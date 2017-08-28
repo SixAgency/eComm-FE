@@ -226,7 +226,7 @@ class ReviewOrderTbl extends PureComponent {
                   <label htmlFor="use_credits">
                     Please use my E-gift card balance of <em>{accounting.formatMoney(
                     display_total_available_store_credit.slice(1)
-                  )}</em> for this purchase
+                  )}</em> for this<br />purchase
                   </label>
                   <input
                     type="checkbox"
