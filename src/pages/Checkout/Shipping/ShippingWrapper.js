@@ -30,7 +30,6 @@ class ShippingWrapper extends BasePageComponent {
     addresses: PropTypes.object.isRequired,
     fetchData: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
     setPending: PropTypes.func.isRequired,
     setCheckoutAddress: PropTypes.func.isRequired,
@@ -67,7 +66,7 @@ class ShippingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState !== 'cart' && !nextProps.isPayPal) {
+      if (expectedState !== 'cart') {
         if (!nextProps.isError) {
           this.setState(this.updateState(nextProps, expectedState));
         }
@@ -204,7 +203,6 @@ class ShippingWrapper extends BasePageComponent {
         <Checkout
           state={this.props.cartItems.cart.state}
           content="shipping"
-          isPayPal={this.props.isPayPal}
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.route.breadcrumbs}
           messages={this.props.messages}
@@ -254,7 +252,6 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError,
-    isPayPal: state.checkout.isPayPal,
     pagePending: state.page.isPending,
     isCartPending: state.cart.isCartPending,
     setCheckoutAddressPending: state.checkout.setCheckoutAddressPending,

@@ -6,55 +6,6 @@ import { setUser, setProfile } from './user';
 import { setCheckoutAddressFeed, setCheckoutAddressesFeed } from '../helpers/feed';
 import { validateRegisterCheckout, validateMandatoryFieldsAddress } from '../helpers/validators';
 
-function setPayPal(data) {
-  return { type: 'SET_PAYPAL', payload: { ...data, isLoaded: true } };
-}
-
-/**
- * Get braintree token to initialize PayPal
- */
-function getPayPalToken() {
-  window.scrollTo(0, 0);
-  return (dispatch) => {
-    axios.get('/api/checkout/braintree')
-      .then((response) => checkResponse(response.data, () => {
-        dispatch(setPayPal(response.data));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-      }))
-      .catch((err) => {
-        dispatch(setPayPal({ isLoaded: true, isEmpty: true, tokens: {} }));
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
-  };
-}
-
-/**
- * Set paypal as payment source
- * @param data
- * @returns {function(*=)}
- */
-function checkoutPayPal(data) {
-  window.scrollTo(0, 0);
-  return (dispatch) => {
-    dispatch(setLoader(true));
-    dispatch(setPending(true));
-    dispatch(resetMessages());
-    axios.post('/api/checkout/paypal', { data })
-      .then((response) => checkResponse(response.data, () => {
-        forwardTo('checkout/review');
-        dispatch(setCart(response.data));
-        dispatch(setPending(false));
-      }, () => {
-        dispatch(setMessage({ isError: true, messages: response.data.messages }));
-        dispatch(setPending(false));
-      }))
-      .catch((err) => {
-        console.error('Error: ', err); // eslint-disable-line no-console
-      });
-  };
-}
-
 /**
  * Next step - we are using for ort state transition
  * @returns {function(*=)}
@@ -181,8 +132,6 @@ function registerAndSetAddress(data) {
 }
 
 export {
-  getPayPalToken,
-  checkoutPayPal,
   checkoutNext,
   setCheckoutAddress,
   editOrderAddress,

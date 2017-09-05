@@ -3,7 +3,6 @@ import Promise from 'bluebird';
 import CartWrapper from '../../pages/Cart';
 import { BREADCRUMBS } from '../../constants/AppConsts';
 
-import { isPayPal } from '../common/helpers';
 import { render, error } from '../common/render';
 import { getSession } from '../session';
 import { checkLogin } from '../users';
@@ -30,7 +29,6 @@ function cart(req, resp, next) {
           cartItems={order}
           loggedIn={user.user.loggedIn}
           breadcrumbs={BREADCRUMBS.cart}
-          isPayPal={isPayPal(order.cart)}
         />
       };
       return render(req, resp, next, params);

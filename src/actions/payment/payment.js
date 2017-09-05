@@ -7,13 +7,13 @@ import { setCart, setOrder, getCart } from '../order';
  * Set square as payment method
  * @returns {function(*=)}
  */
-function checkoutSquare(data) {
+function checkoutStripe(data) {
   return (dispatch) => {
     window.scrollTo(0, 0);
     dispatch(toggleLoader(true));
     dispatch(setPending(true));
     dispatch(resetMessages());
-    axios.post('/api/checkout/square', { data })
+    axios.post('/api/checkout/stripe', { data })
       .then((response) => checkResponse(response.data, () => {
         dispatch(setCart(response.data));
         dispatch(setPending(false));
@@ -151,7 +151,7 @@ function makeToggleCreditRequest(value) {
 
 export {
   checkoutReset,
-  checkoutSquare,
+  checkoutStripe,
   confirmOrder,
   confirmOrderNext,
   makeToggleCreditRequest

@@ -17,7 +17,6 @@ const mapStateToProps = ((state) => (
     showLoader: state.page.showLoader,
     cartItems: state.cart.cartItems,
     isCartPending: state.cart.isCartPending,
-    isPayPal: state.checkout.isPayPal,
     showMobileNav: state.page.showMobileNav
   })
 );

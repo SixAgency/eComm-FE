@@ -14,7 +14,6 @@ class Checkout extends React.Component {
     children: PropTypes.element.isRequired,
     state: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array.isRequired,
     messages: PropTypes.array.isRequired,
@@ -38,19 +37,19 @@ class Checkout extends React.Component {
    * @returns {boolean}
    */
   setDisabled = (button) => {
-    const { state, isPayPal } = this.props;
+    const { state } = this.props;
     switch (button.id) {
       case 'shipping': {
-        return isPayPal;
+        return false;
       }
       case 'billing': {
-        return isPayPal || state === 'address';
+        return state === 'address';
       }
       case 'promo': {
-        return !isPayPal && ['address', 'delivery'].includes(state);
+        return ['address', 'delivery'].includes(state);
       }
       case 'review': {
-        return !isPayPal && ['address', 'delivery'].includes(state);
+        return ['address', 'delivery'].includes(state);
       }
       default: {
         return true;
@@ -123,7 +122,6 @@ class Checkout extends React.Component {
           clickTab={this.clickTab}
           setDisabled={this.setDisabled}
           cartState={this.props.state}
-          isPayPal={this.props.isPayPal}
           coveredByStoreCredit={this.props.coveredByStoreCredit}
         >
           {children}

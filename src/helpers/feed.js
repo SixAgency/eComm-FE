@@ -47,8 +47,7 @@ function getCheckoutAddresses(data) {
       order: {
         bill_address_attributes: billing,
         ship_address_attributes: shipping
-      },
-      isPayPal: data.isPayPal
+      }
     };
   }
   return response;

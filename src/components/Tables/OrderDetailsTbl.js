@@ -13,7 +13,7 @@ class OrderDetailsTbl extends PureComponent {
   };
 
   getPaymentName = (payment) => {
-    if (payment.payment_method.name.toLowerCase() === 'square') {
+    if (payment.source_type === 'Spree::CreditCard') {
       return `${payment.source.cc_type} ${payment.source.last_digits}`;
     }
     return payment.payment_method.name;
@@ -46,7 +46,6 @@ class OrderDetailsTbl extends PureComponent {
     const products = order.line_items;
     const {
       payments,
-      adjustments,
       shipments
     } = order;
     const completedPayments = payments.filter((payment) => payment.state === 'completed');

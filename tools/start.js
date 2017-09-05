@@ -33,7 +33,7 @@ async function start() {
       config.entry.client = [...new Set([
         'babel-polyfill',
         'react-hot-loader/patch',
-        'webpack-hot-middleware/client',
+        'webpack-hot-middleware/client'
       ].concat(config.entry.client))];
       config.output.filename = config.output.filename.replace('[chunkhash', '[hash');
       config.output.chunkFilename = config.output.chunkFilename.replace('[chunkhash', '[hash');
@@ -65,7 +65,7 @@ async function start() {
 
       bs.init({
         ...isDebug ? {} : { notify: false, ui: false },
-
+        https: true,
         proxy: {
           target: server.host,
           middleware: [wpMiddleware, hotMiddleware],

@@ -1,12 +1,6 @@
 import accounting from 'accounting';
 import isEmpty from 'lodash.isempty';
-import { NAV, ORDER_STATES } from '../constants/AppConsts';
-
-function setNavigation(slug) {
-  const navItems = [...NAV];
-  Array.from(navItems).map((item) => (item.isActive = (slug === item.slug)));
-  return navItems;
-}
+import { ORDER_STATES } from '../constants/AppConsts';
 
 // Helper function - used to set order state
 function getOrderStatus(state, refunded, shipment) {
@@ -24,7 +18,7 @@ function getOrderStatus(state, refunded, shipment) {
  * based on cart state and payment method
  */
 function checkCartState(props) {
-  const { cartItems, isPayPal } = props;
+  const { cartItems } = props;
   const state = cartItems.cart.state;
   let step;
   if (isEmpty(state)) {
@@ -35,7 +29,7 @@ function checkCartState(props) {
       step = 'cart';
       break;
     case 'delivery':
-      step = isPayPal ? 'checkout/review' : 'checkout/billing';
+      step = 'checkout/billing';
       break;
     case 'payment':
       step = 'checkout/review';
@@ -50,24 +44,11 @@ function checkCartState(props) {
   return step;
 }
 
-/**
- * Helper method to determine if PayPal is used as payment method
- * @param cart
- * @returns {boolean}
- */
-function checkIfPayPal(cart) {
-  if (isEmpty(cart)) {
-    return false;
-  }
-  const paypal = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name === 'Paypal'));
-  return Boolean(paypal);
-}
-
 function checkPayment(cart, method) {
   if (isEmpty(cart)) {
     return false;
   }
-  const result = cart.payments.find(({ payment_method, state }) => (state !== 'invalid' && payment_method.name.toLowerCase() === method));
+  const result = cart.payments.find(({ source_type, state }) => (state !== 'invalid' && source_type === method));
   return Boolean(result);
 }
 
@@ -103,21 +84,9 @@ function calculateBalance(props) {
   return total - calculateApplicableCredit(props);
 }
 
-function useStoreCredits(args) {
-  const { isPayPal, payments } = args;
-  if (isPayPal) {
-    return false;
-  }
-  return payments.filter((payment) => ((payment.state === 'checkout') && (payment.source_type !== 'Spree::StoreCredit'))).length === 0;
-}
-
 function checkIfCanUseStoreCredit(args) {
   const { cart } = args;
   if (isEmpty(cart)) {
-    return false;
-  }
-  const isPayPal = checkPayment(cart, 'paypal');
-  if (isPayPal) {
     return false;
   }
   return accounting.unformat(cart.display_total_available_store_credit) > 0;
@@ -147,14 +116,11 @@ function containsGiftCard(cart) {
 }
 
 export {
-  checkIfPayPal,
-  setNavigation,
   getOrderStatus,
   checkCartState,
   calculateApplicableCredit,
   calculateBalance,
   calculateTotal,
-  useStoreCredits,
   checkIfCanUseStoreCredit,
   checkPayment,
   scrollToTop,

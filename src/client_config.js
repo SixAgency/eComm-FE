@@ -6,13 +6,14 @@
  */
 const config = {
   development: {
-    square: {
-      applicationId: 'sandbox-sq0idp-zZJC4qFxIk0LYgwAKygtWQ'
+    stripe: {
+      key: 'pk_test_HB2T48nyvNDUBoO4EhPZkIJ4'
     }
   },
   production: {
-    square: {
-      applicationId: 'sandbox-sq0idp-zZJC4qFxIk0LYgwAKygtWQ'
+    stripe: {
+      // key: 'pk_live_ee44R6bbIGr0JCFC9KXOjoP0',
+      key: 'pk_test_HB2T48nyvNDUBoO4EhPZkIJ4'
     }
   }
 };

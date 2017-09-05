@@ -36,7 +36,6 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError,
-    isPayPal: state.checkout.isPayPal,
     isStoreCredit: state.checkout.isStoreCredit,
     canUseStoreCredit: state.checkout.canUseStoreCredit,
     pagePending: state.page.isPending,
@@ -60,7 +59,6 @@ class ReviewWrapper extends BasePageComponent {
     loggedIn: PropTypes.bool.isRequired,
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     isStoreCredit: PropTypes.bool.isRequired,
     canUseStoreCredit: PropTypes.bool.isRequired,
     confirmOrderNext: PropTypes.func.isRequired,
@@ -121,9 +119,9 @@ class ReviewWrapper extends BasePageComponent {
   confirmOrder = (e) => {
     e.preventDefault();
     const { covered_by_store_credit } = this.props.cartItems.cart;
-    const { isStoredCredit, isPayPal } = this.props;
+    const { isStoredCredit } = this.props;
     const coveredByCredit = isStoredCredit && covered_by_store_credit;
-    if (coveredByCredit || isPayPal) {
+    if (coveredByCredit) {
       return this.props.confirmOrderNext();
     }
     return this.props.confirmOrder();
@@ -149,7 +147,6 @@ class ReviewWrapper extends BasePageComponent {
         <Checkout
           state={this.props.cartItems.cart.state}
           content="review"
-          isPayPal={this.props.isPayPal}
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.route.breadcrumbs}
           messages={this.props.messages}
@@ -162,7 +159,6 @@ class ReviewWrapper extends BasePageComponent {
         >
           <Review
             cartItems={this.props.cartItems}
-            isPayPal={this.props.isPayPal}
             checkoutSquare={this.checkoutSquare}
             confirmOrder={this.confirmOrder}
             toggleUseCredits={this.toggleUseCredits}

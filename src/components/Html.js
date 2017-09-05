@@ -40,7 +40,7 @@ class Html extends Component {
         </head>
         <body>
           <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
-          <script type="text/javascript" src="https://js.squareup.com/v2/paymentform" />
+          <script type="text/javascript" src="https://js.stripe.com/v3/" />
           {scripts && scripts.map(script => <script key={script} src={script} />)}
         </body>
       </html>

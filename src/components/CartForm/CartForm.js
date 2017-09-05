@@ -6,7 +6,6 @@ import accounting from 'accounting';
 
 import s from './CartForm.css';
 import ShippingCalculator from './ShippingCalculator';
-import PayPalButton from '../PayPalButton';
 
 import filterShipments from '../../helpers/shipping';
 
@@ -14,8 +13,6 @@ class CartForm extends Component {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired,
-    paypalObj: PropTypes.object.isRequired,
-    checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     calculateShipping: PropTypes.func.isRequired,
@@ -40,9 +37,6 @@ class CartForm extends Component {
   };
 
   render() {
-    if (!this.props.paypalObj.isLoaded) {
-      return null;
-    }
     const { cart } = this.props;
     return (
       <div className={s.cformwrpr}>
@@ -138,16 +132,6 @@ class CartForm extends Component {
           <p className={s.message}>
             Note: Shipping and taxes are estimated and will be updated during
             checkout based on your billing and shipping information.
-          </p>
-          <PayPalButton
-            paypalObj={this.props.paypalObj}
-            cart={this.props.cart}
-            checkoutPayPal={this.props.checkoutPayPal}
-            toggleLoader={this.props.toggleLoader}
-          />
-          <p className={s.message}>
-            Please note that you will be re-directed to the Paypal website to complete
-            your purchase.
           </p>
           <p className={s.gotocheckout}>
             <button className={s.checkoutbtn} onClick={this.props.proceedToCheckout}>

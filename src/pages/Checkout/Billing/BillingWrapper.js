@@ -29,7 +29,6 @@ class BillingWrapper extends BasePageComponent {
     addresses: PropTypes.object.isRequired,
     fetchData: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     isPending: PropTypes.bool.isRequired,
     setPending: PropTypes.func.isRequired,
     editOrderAddress: PropTypes.func.isRequired,
@@ -61,7 +60,7 @@ class BillingWrapper extends BasePageComponent {
   componentWillReceiveProps = (nextProps) => {
     if (!nextProps.isPending) {
       const expectedState = checkCartState(nextProps);
-      if (expectedState !== 'cart' && expectedState !== 'checkout/shipping' && !nextProps.isPayPal) {
+      if (expectedState !== 'cart' && expectedState !== 'checkout/shipping') {
         if (!nextProps.isError) {
           this.setState(this.updateState(nextProps, expectedState));
         }
@@ -169,7 +168,6 @@ class BillingWrapper extends BasePageComponent {
         <Checkout
           state={this.props.cartItems.cart.state}
           content="billing"
-          isPayPal={this.props.isPayPal}
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.route.breadcrumbs}
           messages={this.props.messages}
@@ -216,7 +214,6 @@ const mapStateToProps = ((state) => (
     loggedIn: state.user.loggedIn,
     messages: state.page.messages,
     isError: state.page.isError,
-    isPayPal: state.checkout.isPayPal,
     pagePending: state.page.isPending,
     isCartPending: state.cart.isCartPending,
     isPending: (
