@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import SquarePayment from './SquarePayment';
+import ModalContent from './ModalContent';
 import { toggleModal, toggleLoader } from '../../actions/page';
-import { checkoutSquare } from '../../actions/payment/payment';
+import { checkoutStripe } from '../../actions/payment/payment';
 
 const mapStateToProps = ((state) => (
   { cartItems: state.cart.cartItems }
@@ -11,17 +11,17 @@ const mapDispatchToProps = ((dispatch) => (
   {
     toggleModal: (toggle) => dispatch(toggleModal(toggle)),
     toggleLoader: (toggle) => dispatch(toggleLoader(toggle)),
-    checkoutSquare: (data) => dispatch(checkoutSquare(data))
+    checkoutStripe: (data) => dispatch(checkoutStripe(data))
   }
 ));
 
-class SquareWrapper extends React.Component {
+class PaymentModal extends React.Component {
 
   static propTypes = {
     cartItems: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
-    checkoutSquare: PropTypes.func.isRequired
+    checkoutStripe: PropTypes.func.isRequired
   };
 
   onCancel = () => {
@@ -36,11 +36,11 @@ class SquareWrapper extends React.Component {
     // Get the request data
     const data = this.getPaymentParams(params);
     // Call set payment actions
-    this.props.checkoutSquare(data);
+    this.props.checkoutStripe(data);
   };
 
   getPaymentParams = (params) => {
-    const paymentMethodId = this.getPaymentMethodSquareId();
+    const paymentMethodId = this.getPaymentMethodStripeId();
     const response = {
       order: {
         payments_attributes: [
@@ -55,29 +55,28 @@ class SquareWrapper extends React.Component {
     return response;
   };
 
-  getPaymentMethodSquareId = () => {
-    const cart = this.props.cartItems.cart;
-    const selectedMethod = cart.payment_methods.find(method => method.method_type === 'square_up');
+  getPaymentMethodStripeId = () => {
+    const { cart } = this.props.cartItems;
+    const selectedMethod = cart.payment_methods.find(method => method.method_type === 'stripe');
     return selectedMethod.id;
   };
 
   getPaymentSource = (params) => ({
-    name: this.props.cartItems.cart.bill_address.full_name,
-    number: `111111111111${params.cardData.last_4}`,
-    expiry: `${params.cardData.exp_month}/${(params.cardData.exp_year % 100)}`,
-    verification_value: '',
-    cc_type: params.cardData.card_brand,
-    run_validations: '0',
-    encrypted_data: params.nonce
+    gateway_payment_profile_id: params.id,
+    last_digits: params.card.last4,
+    month: params.card.exp_month,
+    year: params.card.exp_year,
+    cc_type: params.card.brand,
+    name: params.card.name
   });
 
   render() {
     if (this.props.cartItems.isLoaded && this.props.cartItems.cart.state === 'payment') {
       return (
-        <SquarePayment
+        <ModalContent
           onCancel={this.onCancel}
           onNonceReceived={this.onNonceReceived}
-          zipCode={this.props.cartItems.cart.bill_address.zipcode}
+          bill_address={this.props.cartItems.cart.bill_address}
         />
       );
     }
@@ -85,4 +84,4 @@ class SquareWrapper extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SquareWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentModal);

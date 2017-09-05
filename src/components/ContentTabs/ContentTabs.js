@@ -10,7 +10,6 @@ class ContentTabs extends React.Component {
     onClick: PropTypes.func.isRequired,
     setDisabled: PropTypes.func,
     cartState: PropTypes.string,
-    isPayPal: PropTypes.bool,
     coveredByStoreCredit: PropTypes.bool
   };
 
@@ -36,7 +35,7 @@ class ContentTabs extends React.Component {
 
   getTitle = (tab) => {
     if (tab.id === 'review') {
-      if (this.props.cartState !== 'confirm' && !this.props.isPayPal && !this.props.coveredByStoreCredit) {
+      if (this.props.cartState !== 'confirm' && !this.props.coveredByStoreCredit) {
         return 'select payment';
       }
       return 'place order';

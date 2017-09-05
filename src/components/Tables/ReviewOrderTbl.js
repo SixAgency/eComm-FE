@@ -18,7 +18,6 @@ class ReviewOrderTbl extends PureComponent {
   static propTypes = {
     cart: PropTypes.object.isRequired,
     cartItems: PropTypes.object.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     toggleUseCredits: PropTypes.func.isRequired,
     isStoreCredit: PropTypes.bool.isRequired,
     canUseStoreCredit: PropTypes.bool.isRequired
@@ -202,22 +201,22 @@ class ReviewOrderTbl extends PureComponent {
               >
                 <span className={s.shippaddress}>Shipping address</span>
                 {this.listAddress(cartItems.cart.ship_address)}
-                {!this.props.isPayPal && <Link
+                <Link
                   className={s.changeshipping}
                   to="/checkout/shipping"
                 >
                   Change
-                </Link>}
+                </Link>
               </td>
               <td className={cx(s.td, s.tdsmall, s.billaddr)}>
                 <span className={s.billaddress}>Billing address</span>
                 {this.listAddress(cartItems.cart.bill_address)}
-                {!this.props.isPayPal && <Link
+                <Link
                   className={s.changebilling}
                   to="/checkout/billing"
                 >
                   Change
-                </Link>}
+                </Link>
               </td>
             </tr>
             {state !== 'confirm' && canUseStoreCredit &&

@@ -1,0 +1,7 @@
+{
+  "name": "PaymentModal",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PaymentModalServer.js",
+  "browser": "./PaymentModal.js"
+}

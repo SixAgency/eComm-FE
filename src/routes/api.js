@@ -34,7 +34,7 @@ import {
   applyStoreCredit
 } from '../server/orders';
 import {
-  checkoutSquare,
+  checkoutStripe,
   checkoutConfirm,
   resetOrder
 } from '../server/payment';
@@ -42,8 +42,7 @@ import {
   getAddresses,
   setAddresses
 } from '../server/addresses';
-import { getBraintreeTokens,
-  checkoutPayPal,
+import {
   checkoutNext,
   checkoutAddress,
   checkoutAddresses
@@ -224,12 +223,6 @@ apiRoutes.get('/mannequin', (req, resp) => {
 });
 
 apiRoutes
-  .get('/checkout/braintree', (req, resp) => {
-    getBraintreeTokens(req).then((data) => (resp.json(data)));
-  })
-  .post('/checkout/paypal', (req, resp) => {
-    checkoutPayPal(req).then((data) => (resp.json(data)));
-  })
   .post('/checkout/next', (req, resp) => {
     checkoutNext(req).then((data) => (resp.json(data)));
   })
@@ -246,8 +239,8 @@ apiRoutes
         console.error(err);
       });
   })
-  .post('/checkout/square', (req, resp) => {
-    checkoutSquare(req)
+  .post('/checkout/stripe', (req, resp) => {
+    checkoutStripe(req)
       .then((data) => resp.json(data))
       .catch((err) => {
         console.error(err);

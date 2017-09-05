@@ -2,16 +2,15 @@ import React, { PropTypes, Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import cx from 'classnames';
 import s from './CustomModal.css';
-import SquareWrapper from '../Square';
+import PaymentModal from '../PaymentModal';
 
 class CustomModal extends Component {
 
   static propTypes = {
-    modalContent: PropTypes.string.isRequired,
     showModal: PropTypes.bool.isRequired
   };
 
-  getContent = () => (<SquareWrapper />);
+  getContent = () => (<PaymentModal />);
 
   render() {
     const visibility = this.props.showModal ? 'show' : 'hide';

@@ -22,8 +22,6 @@ class Cart extends Component {
     updateQuantity: PropTypes.func.isRequired,
     applyPromoCode: PropTypes.func.isRequired,
     removePromoCode: PropTypes.func.isRequired,
-    paypalObj: PropTypes.object.isRequired,
-    checkoutPayPal: PropTypes.func.isRequired,
     proceedToCheckout: PropTypes.func.isRequired,
     toggleLoader: PropTypes.func.isRequired,
     breadcrumbs: PropTypes.array,
@@ -91,8 +89,6 @@ class Cart extends Component {
                 <CartForm
                   cart={cart}
                   loggedIn={this.props.loggedIn}
-                  paypalObj={this.props.paypalObj}
-                  checkoutPayPal={this.props.checkoutPayPal}
                   proceedToCheckout={this.props.proceedToCheckout}
                   toggleLoader={this.props.toggleLoader}
                   removePromoCode={this.props.removePromoCode}

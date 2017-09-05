@@ -6,11 +6,11 @@ import {
 } from './helpers/handlers';
 
 /**
- * Set square as payment method
+ * Set stripe as payment method
  * @param request
  * @returns {Promise.<T>|Promise<R>}
  */
-function checkoutSquare(request) {
+function checkoutStripe(request) {
   let status;
   let endpoint = `/api/v1/checkouts/${request.session.order}`;
   if (!request.session.user_token) {
@@ -76,7 +76,7 @@ function checkoutConfirm(request) {
 }
 
 export {
-  checkoutSquare,
+  checkoutStripe,
   resetOrder,
   checkoutConfirm
 };

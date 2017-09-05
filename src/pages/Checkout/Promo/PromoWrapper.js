@@ -37,8 +37,7 @@ const mapStateToProps = ((state) => (
       !state.page.isPending &&
       !state.cart.isCartPending &&
       state.cart.cartItems.isLoaded
-    ),
-    isPayPal: state.checkout.isPayPal
+    )
   }
 ));
 
@@ -56,7 +55,6 @@ class PromoWrapper extends BasePageComponent {
     applyPromoCode: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
     isCartPending: PropTypes.bool.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     setMessage: PropTypes.func.isRequired,
     isFetched: PropTypes.bool.isRequired
   };
@@ -129,7 +127,6 @@ class PromoWrapper extends BasePageComponent {
         <Checkout
           state={this.props.cartItems.cart.state}
           content="promo"
-          isPayPal={this.props.isPayPal}
           loggedIn={this.props.loggedIn}
           breadcrumbs={this.props.route.breadcrumbs}
           messages={this.props.messages}

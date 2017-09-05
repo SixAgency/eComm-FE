@@ -45,7 +45,6 @@ function checkoutBilling(req, resp, next) {
           loggedIn={user.user.loggedIn}
           addresses={addr}
           cartItems={cart}
-          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -83,7 +82,6 @@ function checkoutShipping(req, resp, next) {
           loggedIn={user.user.loggedIn}
           addresses={addr}
           cartItems={cart}
-          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -112,7 +110,6 @@ function checkoutPromo(req, resp, next) {
         content: <PromoWrapper
           loggedIn={user.user.loggedIn}
           cartItems={cart}
-          isPayPal={checkPayment(cart.cart, 'paypal')}
           breadcrumbs={BREADCRUMBS.checkout}
         />
       };
@@ -141,8 +138,7 @@ function checkoutReview(req, resp, next) {
         content: <ReviewWrapper
           loggedIn={user.user.loggedIn}
           cartItems={cart}
-          isPayPal={checkPayment(cart.cart, 'paypal')}
-          isStoreCredit={checkPayment(cart.cart, 'store credit')}
+          isStoreCredit={checkPayment(cart.cart, 'Spree::StoreCredit')}
           canUseStoreCredit={checkIfCanUseStoreCredit(cart)}
           breadcrumbs={BREADCRUMBS.checkout}
         />

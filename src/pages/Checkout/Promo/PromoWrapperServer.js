@@ -9,7 +9,6 @@ class PromoWrapper extends React.Component {
     messages: PropTypes.array.isRequired,
     isError: PropTypes.bool.isRequired,
     cartItems: PropTypes.object.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     breadcrumbs: PropTypes.array
   };
 
@@ -23,7 +22,6 @@ class PromoWrapper extends React.Component {
       <Checkout
         state={this.props.cartItems.cart.state}
         content="promo"
-        isPayPal={this.props.isPayPal}
         loggedIn={this.props.loggedIn}
         breadcrumbs={this.props.breadcrumbs}
         messages={this.props.messages}

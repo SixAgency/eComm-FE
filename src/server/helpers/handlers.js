@@ -581,7 +581,7 @@ function setBraintreeResponse(data) {
   return resp;
 }
 
-function setAddressCallBack(request, data, isPayPal, callback) {
+function setAddressCallBack(request, data, callback) {
   let resp;
   if (data.isError) {
     const { messages, status } = data;
@@ -592,9 +592,6 @@ function setAddressCallBack(request, data, isPayPal, callback) {
       status
     };
     return resp;
-  }
-  if (isPayPal) {
-    return setCartResponse(data, request, () => (true));
   }
   return callback(request);
 }

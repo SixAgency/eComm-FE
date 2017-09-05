@@ -1,6 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { Link } from 'react-router';
 import cx from 'classnames';
 import accounting from 'accounting';
 
@@ -15,11 +14,9 @@ class ReviewOrder extends PureComponent {
     cartItems: PropTypes.object.isRequired,
     checkoutSquare: PropTypes.func.isRequired,
     confirmOrder: PropTypes.func.isRequired,
-    isPayPal: PropTypes.bool.isRequired,
     isStoreCredit: PropTypes.bool.isRequired,
     canUseStoreCredit: PropTypes.bool.isRequired,
-    toggleUseCredits: PropTypes.func.isRequired,
-    checkoutReset: PropTypes.func.isRequired
+    toggleUseCredits: PropTypes.func.isRequired
   };
 
   listPayment = () => {
@@ -30,7 +27,7 @@ class ReviewOrder extends PureComponent {
       isStoreCredit
     } = this.props;
     const coveredByStoreCredit = (isStoreCredit && cart.covered_by_store_credit);
-    if ((cart.state === 'confirm') || coveredByStoreCredit || this.props.isPayPal) {
+    if ((cart.state === 'confirm') || coveredByStoreCredit) {
       return this.renderSubmitButton();
     }
     return (
@@ -48,11 +45,6 @@ class ReviewOrder extends PureComponent {
             type="button" value="Credit Card"
             onClick={this.props.checkoutSquare}
           />
-          <input
-            className={s.submit}
-            type="button" value="Paypal"
-            onClick={this.props.checkoutReset}
-          />
         </div>
       </div>
     );
@@ -66,7 +58,7 @@ class ReviewOrder extends PureComponent {
       isStoreCredit
     } = this.props;
     const coveredByStoreCredit = (isStoreCredit && cart.covered_by_store_credit);
-    if (cart.state === 'confirm' || coveredByStoreCredit || this.props.isPayPal) {
+    if (cart.state === 'confirm' || coveredByStoreCredit) {
       return this.renderSubmitButton();
     }
     return (
@@ -75,11 +67,6 @@ class ReviewOrder extends PureComponent {
           className={s.submit}
           type="button" value="Credit Card"
           onClick={this.props.checkoutSquare}
-        />
-        <input
-          className={s.submit}
-          type="button" value="Paypal"
-          onClick={this.props.checkoutReset}
         />
       </div>
     );
@@ -122,7 +109,6 @@ class ReviewOrder extends PureComponent {
         <ReviewOrderTbl
           cart={cart}
           cartItems={this.props.cartItems}
-          isPayPal={this.props.isPayPal}
           isStoreCredit={isStoreCredit}
           canUseStoreCredit={this.props.canUseStoreCredit}
           toggleUseCredits={this.props.toggleUseCredits}

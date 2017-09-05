@@ -1,7 +1,7 @@
 import React from 'react';
 // import SquarePayment from './SquarePayment';
 
-class SquareWrapper extends React.Component {
+class PaymentModal extends React.Component {
 
   onCancel = () => (true);
   onNonceReceived = () => (true);
@@ -19,4 +19,4 @@ class SquareWrapper extends React.Component {
   }
 }
 
-export default SquareWrapper;
+export default PaymentModal;

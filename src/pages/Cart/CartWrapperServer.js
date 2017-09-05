@@ -13,7 +13,6 @@ class CartWrapper extends Component {
     * All the actions comes from Redux, client side.
   */
   static defaultProps = {
-    paypalObj: {},
     isError: false,
     messages: []
   };
@@ -25,7 +24,6 @@ class CartWrapper extends Component {
 
 
   render() {
-    const paypalObj = {};
     return (
       <Cart
         removeItem={() => (true)}
@@ -40,8 +38,6 @@ class CartWrapper extends Component {
         removePromoCode={() => (true)}
         updateCart={() => (true)}
         updateQuantity={() => (true)}
-        paypalObj={paypalObj}
-        checkoutPayPal={() => (true)}
         getCart={() => (true)}
         proceedToCheckout={() => (true)}
         setMessage={() => (true)}

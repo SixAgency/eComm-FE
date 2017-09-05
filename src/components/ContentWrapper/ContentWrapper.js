@@ -16,7 +16,6 @@ class ContentWrapper extends React.Component {
     clickTab: PropTypes.func,
     setDisabled: PropTypes.func,
     cartState: PropTypes.string,
-    isPayPal: PropTypes.bool,
     coveredByStoreCredit: PropTypes.bool
   };
 
@@ -41,7 +40,6 @@ class ContentWrapper extends React.Component {
             onClick={clickTab}
             setDisabled={setDisabled}
             cartState={this.props.cartState}
-            isPayPal={this.props.isPayPal}
             coveredByStoreCredit={this.props.coveredByStoreCredit}
           />}
           <div className={cx(s.formwrapper, s[contentClass])}>{children}</div>
