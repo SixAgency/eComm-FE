@@ -14,7 +14,12 @@ class OrderDetailsTbl extends PureComponent {
 
   getPaymentName = (payment) => {
     if (payment.source_type === 'Spree::CreditCard') {
-      return `${payment.source.cc_type === 'visa' ? 'Visa' : 'American Express'} ${payment.source.last_digits}`;
+      if (payment.source.cc_type === 'visa') {
+        return `Visa ${payment.source.last_digits}`;
+      } else if (payment.source.cc_type === 'american_express') {
+        return `American Express ${payment.source.last_digits}`;
+      }
+      return `${payment.source.cc_type} ${payment.source.last_digits}`;
     }
     return payment.payment_method.name;
   };
