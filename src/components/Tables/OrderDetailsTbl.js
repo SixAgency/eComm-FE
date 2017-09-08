@@ -14,6 +14,11 @@ class OrderDetailsTbl extends PureComponent {
 
   getPaymentName = (payment) => {
     if (payment.source_type === 'Spree::CreditCard') {
+      if (payment.source.cc_type === 'visa') {
+        return `Visa ${payment.source.last_digits}`;
+      } else if (payment.source.cc_type === 'american_express') {
+        return `American Express ${payment.source.last_digits}`;
+      }
       return `${payment.source.cc_type} ${payment.source.last_digits}`;
     }
     return payment.payment_method.name;
@@ -33,7 +38,7 @@ class OrderDetailsTbl extends PureComponent {
       return (item.price * item.quantity) + parseFloat(discount.amount);
     }
     return item.price * item.quantity;
-  }
+  };
 
   getItemTotal = () => {
     const { order } = this.props;
