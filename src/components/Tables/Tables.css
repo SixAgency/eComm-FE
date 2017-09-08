@@ -57,6 +57,10 @@
   padding-left: 14px;
 }
 
+.remainingbalance {
+  color: #F1430E;
+}
+
 .pname {
   min-height: 41px;
   font-size: 13px;
