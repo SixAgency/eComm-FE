@@ -31,9 +31,9 @@ class ReviewOrder extends PureComponent {
       return this.renderSubmitButton();
     }
     return (
-      <div className={s.paymentcontainer}>
+      <div className={s.paymentcontainerbig}>
         {isStoreCredit && calculateBalance(this.props.cartItems) > 0 &&
-          <p className={s.paymessage}>
+          <p className={s.paymessagered}>
             The remaining balance of&nbsp;
             <strong>{accounting.formatMoney(calculateBalance(this.props.cartItems))}</strong>
             &nbsp;will be charged to your selected payment method.

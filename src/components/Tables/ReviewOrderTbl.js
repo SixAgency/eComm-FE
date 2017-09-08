@@ -184,7 +184,7 @@ class ReviewOrderTbl extends PureComponent {
               <tr>
                 <td className={cx(s.td, s.tdbig, s.psubtotal)}>Remaining Balance</td>
                 <td className={cx(s.td, s.tdsmall)}>
-                  <span className={s.amount}>
+                  <span className={cx(s.amount, s.remainingbalance)}>
                     {accounting.formatMoney(calculateBalance(this.props))}
                   </span>
                 </td>

@@ -225,11 +225,19 @@
   width: 100%;
 }
 
-.paymessage {
-  color: #565656;
+.paymessage,
+.paymessagered {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 25px;
+}
+
+.paymessage {
+  color: #565656;
+}
+
+.paymessagered {
+  color: #f1430e;
 }
 
 .buttonwrapper2 {
@@ -634,14 +642,23 @@
 }
 
 /* Review Order */
-.paymentcontainer {
-  max-width: 500px;
+.paymentcontainer,
+.paymentcontainerbig {
   margin: 60px auto 30px;
   text-align: center;
   ul {
     padding: 0;
     margin-bottom: 50px;
   }
+}
+
+.paymentcontainer {
+  max-width: 500px;
+}
+
+.paymentcontainerbig {
+  max-width: 600px;
+
 }
 
 .paymentmethod {
