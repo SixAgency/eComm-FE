@@ -46,14 +46,43 @@ class OrderDetailsTbl extends PureComponent {
     return total + parseFloat(order.adjustment_total);
   };
 
+  getGroupedPayments = () => {
+    const { payments } = this.props.order;
+    const giftCardPayments = [];
+    const otherPayments = [];
+    const groupedPayments = [];
+    payments.forEach((payment) => {
+      if (payment.state === 'completed') {
+        if (payment.source_type === 'Spree::StoreCredit') {
+          giftCardPayments.push(payment);
+        } else {
+          otherPayments.push(payment);
+        }
+      }
+    });
+    if (giftCardPayments.length > 0) {
+      const giftCardTotal = giftCardPayments.reduce((total, payment) => (
+        {
+          source_type: 'Spree::StoreCredit',
+          amount: parseFloat(total.amount, 10) + parseFloat(payment.amount, 10),
+          payment_method: {
+            name: 'E-Gift Card'
+          }
+        }
+      ));
+      groupedPayments.push(giftCardTotal);
+    }
+    return groupedPayments.concat(otherPayments);
+  }
+
   render() {
     const { order } = this.props;
     const products = order.line_items;
     const {
-      payments,
       shipments
     } = order;
-    const completedPayments = payments.filter((payment) => payment.state === 'completed');
+    const completedPayments = this.getGroupedPayments();
+
     return (
       <div className={s.tablewrprOrder}>
         <table className={cx(s.table, s.tableOrder)}>
