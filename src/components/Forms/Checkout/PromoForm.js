@@ -22,11 +22,9 @@ class PromoCode extends React.Component {
   }
 
   onSubmit = (event) => {
-    const paranthesesReg = /\((.*)\)/;
     event.preventDefault();
     if (this.props.cartItems.cart.adjustments.length !== 0) {
-      const messages = [`Sorry, promotional code "${this.props.cartItems.cart.adjustments[0].label.match(paranthesesReg)[1]}" has
-        already been applied and cannot be used in conjunction with other promotional codes`];
+      const messages = ['Only one promotional code can be used on this order.'];
       this.props.setMessage({
         isError: true,
         messages
