@@ -48,20 +48,30 @@ class OrderDetailsTbl extends PureComponent {
 
   getGroupedPayments = () => {
     const { payments } = this.props.order;
+    const giftCardPayments = [];
+    const otherPayments = [];
     const groupedPayments = [];
-    const giftCardPayments = payments.filter((payment) =>
-      payment.state === 'completed' && payment.source_type === 'Spree::StoreCredit'
-    );
-    const giftCardTotal = giftCardPayments[0];
-    giftCardPayments.forEach((payment, index) => {
-      if (index > 0) {
-        giftCardTotal.amount = parseFloat(giftCardTotal.amount, 10) + parseFloat(payment.amount);
+    payments.forEach((payment) => {
+      if (payment.state === 'completed') {
+        if (payment.source_type === 'Spree::StoreCredit') {
+          giftCardPayments.push(payment);
+        } else {
+          otherPayments.push(payment);
+        }
       }
     });
-    groupedPayments.push(giftCardTotal);
-    const otherPayments = payments.filter((payment) =>
-      payment.state === 'completed' && payment.source_type !== 'Spree::StoreCredit'
-    );
+    if (giftCardPayments.length > 0) {
+      const giftCardTotal = giftCardPayments.reduce((total, payment) => (
+        {
+          source_type: 'Spree::StoreCredit',
+          amount: parseFloat(total.amount, 10) + parseFloat(payment.amount, 10),
+          payment_method: {
+            name: 'E-Gift Card'
+          }
+        }
+      ));
+      groupedPayments.push(giftCardTotal);
+    }
     return groupedPayments.concat(otherPayments);
   }
 
