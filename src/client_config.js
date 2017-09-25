@@ -12,8 +12,8 @@ const config = {
   },
   production: {
     stripe: {
-      // key: 'pk_live_ee44R6bbIGr0JCFC9KXOjoP0',
-      key: 'pk_test_HB2T48nyvNDUBoO4EhPZkIJ4'
+      key: 'pk_live_ee44R6bbIGr0JCFC9KXOjoP0'
+      // key: 'pk_test_HB2T48nyvNDUBoO4EhPZkIJ4'
     }
   }
 };
