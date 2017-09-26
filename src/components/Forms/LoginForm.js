@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
           {this.props.isError &&
             <div className={s.loginmsg}>
               Having trouble? Please note if you have created your Krissorbie.com account prior to
-              August 24th, 2017, you will need to re-create it again. Thank you.
+              September 26th, 2017, you will need to re-create it again. Thank you.
             </div>
           }
           <div className={s.buttonwrapper}>
