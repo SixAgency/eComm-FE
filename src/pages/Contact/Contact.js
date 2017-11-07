@@ -52,6 +52,9 @@ class Contact extends React.Component {
               There was an error trying to send your message. Please try again later.
             </div>
           </div>
+          <div className={s.phone}>
+            Questions? Contact Client Services 212 807 0810
+          </div>
         </div>
       </div>
     );
