@@ -45,6 +45,12 @@
       .formwrapper {
         padding: 8%;
       }
+      .phone {
+        span {
+          float: left;
+          width: 100%;
+        }
+      }
     }
   }
 }

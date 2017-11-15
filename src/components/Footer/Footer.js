@@ -9,7 +9,7 @@ class Footer extends React.Component {
     return (
       <footer className={s.footer}>
         <SocialMedia socialClass={'socialfooter'} />
-        <p className={s.credits}>© Kris Sorbie Inc. All rights reserved. 2016</p>
+        <p className={s.credits}>© Kris Sorbie Inc. All rights reserved. 2017</p>
         <StickySection />
       </footer>
     );
