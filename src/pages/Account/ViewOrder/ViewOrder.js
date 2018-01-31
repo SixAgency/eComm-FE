@@ -65,6 +65,7 @@ class ViewOrder extends PureComponent {
               <h2>Billing Address</h2>
               <address className={s.optiontext}>
                 <span className={s.block}>{billingAddress.full_name}</span>
+                <span className={s.block}>{billingAddress.company}</span>
                 <span className={s.block}>{billingAddress.address1}</span>
                 {billingAddress.address2 &&
                   <span className={s.block}>{billingAddress.address2}</span>
@@ -76,6 +77,7 @@ class ViewOrder extends PureComponent {
               <address className={s.optiontext}>
                 <h2>Shipping Address</h2>
                 <span className={s.block}>{shippingAddress.full_name}</span>
+                <span className={s.block}>{shippingAddress.company}</span>
                 <span className={s.block}>{shippingAddress.address1}</span>
                 {shippingAddress.address2 &&
                   <span className={s.block}>{shippingAddress.address2}</span>
